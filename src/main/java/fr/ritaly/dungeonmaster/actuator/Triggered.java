@@ -19,18 +19,18 @@
 package fr.ritaly.dungeonmaster.actuator;
 
 /**
- * Un objet que l'on peut déclencher.
+ * An object that can be triggered.
  * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public interface Triggered {
 
 	/**
-	 * Déclenche l'action donnée sur l'objet.
+	 * Triggers the object by using the given triggering action.
 	 * 
 	 * @param action
-	 *            une instance de {@link TriggerAction} représentant l'action
-	 *            à déclencher.
+	 *            a {@link TriggerAction} representing the action used to
+	 *            trigger the {@link Triggered} object.
 	 */
 	public void trigger(TriggerAction action);
 }

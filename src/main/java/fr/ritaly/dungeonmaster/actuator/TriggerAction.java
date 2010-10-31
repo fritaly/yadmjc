@@ -19,8 +19,12 @@
 package fr.ritaly.dungeonmaster.actuator;
 
 /**
+ * Enumeration of possible triggering actions.
+ * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public enum TriggerAction {
-	ENABLE, DISABLE, TOGGLE;
+	ENABLE,
+	DISABLE,
+	TOGGLE;
 }

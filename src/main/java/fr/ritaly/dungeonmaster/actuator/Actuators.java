@@ -19,10 +19,23 @@
 package fr.ritaly.dungeonmaster.actuator;
 
 /**
+ * Utility class surrounding the use of actuators.
+ * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public class Actuators {
 
+	/**
+	 * Combines the two given {@link Actuator}s and returned the composed
+	 * {@link Actuator}.
+	 * 
+	 * @param actuator1
+	 *            an {@link Actuator} to be composed. Can be null.
+	 * @param actuator2
+	 *            another {@link Actuator} to be composed. Can be null.
+	 * @return an {@link Actuator} representing the composed {@link Actuator} or
+	 *         null.
+	 */
 	public static Actuator combine(Actuator actuator1, Actuator actuator2) {
 		if ((actuator1 == null) && (actuator2 == null)) {
 			return null;

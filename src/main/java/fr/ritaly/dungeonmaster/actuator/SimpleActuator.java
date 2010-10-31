@@ -27,42 +27,48 @@ import org.apache.commons.lang.Validate;
 import fr.ritaly.dungeonmaster.Temporizer;
 
 /**
- * Un {@link SimpleActuator} gère le déclenchement d'un {@link Triggered}.
+ * A simple {@link Actuator} used to trigger a {@link Triggered}.
  * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public class SimpleActuator implements Actuator {
 
+	/**
+	 * A {@link Temporizer} used to delay the triggering of a {@link Triggered}.
+	 */
 	private final Temporizer temporizer;
 
 	/**
-	 * L'action à déclencher.
+	 * The triggering action to be triggered.
 	 */
 	private final TriggerAction action;
 
 	/**
-	 * La cible du déclenchement.
+	 * The list of {@link Triggered} to be triggered.
 	 */
 	private final List<Triggered> targets;
 
 	/**
-	 * Le libellé de l'actuator.
+	 * The actuator's label.
 	 */
 	private final String label;
 
+	/**
+	 * The maximal number of clock ticks before triggering the {@link Triggered}
+	 * .
+	 */
 	private final int max;
 
-	public SimpleActuator(int count, TriggerAction action,
-			Triggered... targets) {
+	public SimpleActuator(int count, TriggerAction action, Triggered... targets) {
 
 		Validate.isTrue(count > 0, "The given tick count <" + count
 				+ "> must be positive");
 		Validate.notNull(action, "The given trigger action is null");
 		Validate.notNull(targets, "The given array is null");
 		Validate.isTrue(targets.length > 0, "The given array is empty");
-		
+
 		final StringBuilder builder = new StringBuilder(512);
-		
+
 		boolean first = true;
 		for (Triggered triggered : targets) {
 			if (!first) {
@@ -70,7 +76,7 @@ public class SimpleActuator implements Actuator {
 			} else {
 				first = false;
 			}
-			
+
 			builder.append(triggered);
 		}
 
@@ -114,7 +120,7 @@ public class SimpleActuator implements Actuator {
 	public Object clone() {
 		return new SimpleActuator(this);
 	}
-	
+
 	@Override
 	public String toString() {
 		return getLabel();

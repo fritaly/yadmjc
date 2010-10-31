@@ -21,20 +21,36 @@ package fr.ritaly.dungeonmaster.actuator;
 import org.apache.commons.lang.Validate;
 
 /**
+ * Implementation of {@link Actuator} used to repeatedly trigger a
+ * {@link Triggered} up to a given number of times.
+ * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public class LoopingActuator implements Actuator {
 
+	/**
+	 * An {@link Actuator} used as a prototype to clone the {@link Actuator}s to
+	 * be triggered.
+	 */
 	private final Actuator prototype;
 
+	/**
+	 * The {@link Actuator} being triggered.
+	 */
 	private Actuator actuator;
 
+	/**
+	 * The maximal number of times the {@link Actuator} has to be triggered.
+	 */
 	private final int max;
 
+	/**
+	 * The actual number of times the {@link Actuator} has been triggered.
+	 */
 	private int current = 0;
 
 	/**
-	 * Le libellé de l'actuator.
+	 * The actuator's label.
 	 */
 	private final String label;
 

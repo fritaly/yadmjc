@@ -31,7 +31,7 @@ public class CompositeActuator implements Actuator {
 	private final LinkedList<Actuator> actuators = new LinkedList<Actuator>();
 
 	/**
-	 * Le libellé de l'actuator.
+	 * The actuator's label.
 	 */
 	private final String label;
 	

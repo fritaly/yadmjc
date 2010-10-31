@@ -21,15 +21,33 @@ package fr.ritaly.dungeonmaster.actuator;
 import fr.ritaly.dungeonmaster.map.EventType;
 
 /**
+ * An object which handles an {@link Actuator} per event type.
+ * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public interface HasActuators {
 
+	/**
+	 * Returnt the {@link Actuator} mapped to the given event type.
+	 * 
+	 * @param eventType
+	 *            an {@link EventType}. Can't be null.
+	 * @return an {@link Actuator} or null if none is mapped to the given event
+	 *         type.
+	 */
 	public Actuator getActuator(EventType eventType);
-	
+
+	/**
+	 * Sets the {@link Actuator} mapped to the given event type.
+	 * 
+	 * @param eventType
+	 *            an {@link EventType}.
+	 * @param actuator
+	 *            an {@link Actuator}.
+	 */
 	public void setActuator(EventType eventType, Actuator actuator);
-	
+
 	public void addActuator(EventType eventType, Actuator actuator);
-	
+
 	public void clearActuator(EventType eventType);
 }
