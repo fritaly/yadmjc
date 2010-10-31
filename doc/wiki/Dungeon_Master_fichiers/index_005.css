@@ -1,0 +1,132 @@
+/* Le CSS placé ici affectera les impressions */
+
+/* Ne pas imprimer les informations d'homonymie qui ne servent qu'à la navigation */
+.homonymie {
+  display: none;
+}
+
+/* Ne pas imprimer les bandeaux qui encombrent */
+.bandeau {
+  display: none;
+}
+
+/* Ne pas imprimer les "article détaillé" qui servent à la navigation */
+.detail {
+  display: none;
+}
+
+/* Ne pas imprimer les portails qui servent à la navigation */
+.bandeau-portail {
+  display: none;
+}
+.navigation-only {
+  display: none;
+}
+
+/* Ne pas imprimer les bandeaux d'information de traduction en cours */
+.bandeau-traduction {
+  display: none ! important;
+}
+
+/* Ne pas imprimer la boîte notifiant l'article de qualité */
+#article_de_qualite {
+  display: none;
+}
+
+/* Ne pas afficher "Un article de Wikipédia, l'encyclopédie libre" */
+/* C'est horrible et l'origine est déjà indiquée en bas */
+#siteSub {
+  display: none;
+}
+
+/* Ne pas imprimer les icones de titres en haut à droite */
+.icone_de_titre {
+  display: none !important;
+}
+
+/* Dérouler les boîtes déroulantes */
+.NavContent {
+  display: block !important;
+}
+
+/* Ne pas imprimer le lien pour enrouler/dérouler */
+.NavToggle {
+  display: none !important;
+}
+
+/* Ne pas imprimer la liste des catégories de l'article */
+.catlinks {
+  display: none;
+}
+
+/* Ne pas imprimer de ligne noire au-dessus du pied de page */
+#footer {
+  border: none;
+}
+
+/* Ajouter un espace avant les informations de pied de page */
+.printfooter {
+  margin-top: 3.5em;
+}
+
+/* Ne pas afficher les puces dans le pied de page */
+/* Pas de marge supplémentaire */
+#footer li {
+  list-style-type: none;
+  padding-left: 0;
+}
+#footer ul {
+  padding-left: 0;
+}
+
+/* Pas de bordure dans le sommaire */
+.toc {
+  border: none !important;
+}
+
+/* Pas de puces dans le sommaire */
+.toc li {
+  list-style-type: none;
+}
+
+/* Marges normales pour les puces */
+ul {
+  padding-left: 0.8em;
+}
+
+/* Évite les césures dans le sommaire */
+.toc {
+  page-break-inside : avoid; /* Ignoré sur les navigateurs actuels :( (excepté opera) */
+}
+
+/* Évite les lignes solitaires */
+.content p {
+  orphans: 4;
+  widows: 4;
+}
+
+/* Ne pas sauter de page après un titre */
+h2, h3, h4, h5 {
+  page-break-after: avoid; /* Ignoré sur la plupart des navigateurs (excepté opera) */
+}
+h2:first-child, h3:first-child, h4:first-child, h5:first-child {
+  page-break-before: avoid;
+}
+
+/* Cacher "Redirigé vers" */
+#contentSub {
+  display: none;
+}
+
+/* Ne pas imprimer le [archive] après les liens */
+.cachelinks {
+  display: none;
+}
+
+/* Forcer l'impression quand un .noprint a été utilisé à cause d'un défaut d'impression PDF */
+.printcss {
+display: block !important;
+}
+table.printcss {
+display: table !important;
+}

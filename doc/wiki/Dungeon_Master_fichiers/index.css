@@ -1,0 +1,1684 @@
+/* FEUILLE DE STYLE GLOBALE */
+/*
+Cette page contrôle l'apparence pour toutes les skins.
+Les modifications devant s'appliquer à l'apparence Monobook seulement
+doivent aller dans [[MediaWiki:Monobook.css]].
+
+Après chaque modification, prière de vérifier cette feuille de style
+avec le valideur CSS du W3C :
+http://jigsaw.w3.org/css-validator/validator?uri=http://fr.wikipedia.org/w/index.php?title=MediaWiki:Common.css%26action=raw%26ctype=text/css&usermedium=all&warning=2
+*/
+
+/** CHANGEMENT DE L'INTERFACE PAR DÉFAUT **/
+
+/* MODIFICATIONS RÉCENTES */
+
+/* Nombre de caractères modifiés dans les modifications récentes et la liste de suivi. */
+.mw-plusminus-pos { color:#00B000 }
+.mw-plusminus-neg { color:#FF2050 }
+.mw-plusminus-null { color:#999 }
+
+/* Symbole de modification non vérifiée dans les modifications récentes
+   et la liste de suivi. */
+span.unpatrolled { color:#999 }
+
+/* REDIRECTIONS */
+
+/* Redirections sur [[Special:Allpages]] et [[Special:Watchlist/edit]]. */
+.allpagesredirect a, .watchlistredir a {
+ color:#0B0;
+ font-style:italic;
+}
+
+/* HISTORIQUE ET PAGES LIÉES */
+
+/* Révisions dans l'historique et "(← liens)" dans les pages liées. */
+.history-size, .mw-whatlinkshere-tools { font-size:80% }
+
+/* DIFFS */
+
+/* Mise en évidence des diffs par du gras et de la couleur. */
+table.diff {
+ padding:.5em;
+}
+table.diff td { 
+ vertical-align:top;
+}
+td.diff-addedline { 
+ background:#D8E4F6; 
+}
+td.diff-addedline .diffchange {
+ background:#B0C0F0;
+ color:#001040;
+ font-weight:bold;
+}
+td.diff-deletedline {
+ background:#E4F6D8;
+}
+td.diff-deletedline .diffchange {
+ background:#B0E897;
+ color:#104000;
+ font-weight:bold;
+}
+td.diff-context {
+ background:#FEFEFE;
+}
+
+/* Couleur de fond transparente pour les diffs */
+table.diff, td.diff-otitle, td.diff-ntitle, td.diff-context {
+    background-color: transparent;
+}
+
+/* TITRES */
+
+/* affichage des coordonnées géo à côté du titre, pour tous les skins */
+#coordinates-title {
+font-size: 90%;
+margin-right: 1em;
+margin-top: 1em;
+float: right;
+}
+#coordinates-title img {
+vertical-align: middle;
+}
+
+/* Interligne suffisant si le titre prend plusieurs lignes. */
+.firstHeading { line-height:1.2em } /* monobookocentré */
+
+/* Décoration des titres de sous-chapitre. */
+h1, h2 {padding-top:0.65em;} /* monobookocentré */
+h3 {padding-top:0.6em; border-bottom:dotted 1px #AAA } /* monobookocentré */
+h4, h5, h6 {padding-top:0.55em; border-bottom:dotted 1px #DDD } /* monobookocentré */
+
+/* Sous-titre ([[Modèle:Sous-titre]]) */
+h1 #sous_titre_h1 {
+display:block;
+font-size: 0.7em;
+margin: -0.1em 0 0 0.5em;
+}
+
+/* */
+
+/* BALISES SOURCE, PRE, CODE */
+
+code { background:transparent } /* monobookocentré */
+
+/* PLACEMENT DU LIEN PATROLLINK */
+
+/* Pour les admins, être sur que le lien de validation soit immédiatement
+   visible même en cas d'élément flottant à droite. */
+.patrollink { clear:both }
+
+/* SITENOTICE */
+
+/* Apparence du message en haut, [[MediaWiki:Sitenotice]]. */
+#siteNotice table { 
+ background:transparent;
+ font-size:90%;
+} /* monobookocentré */
+
+/* OPTIONS RC */
+.rcoptions, #mw-history-search {
+ clear: both;
+ margin: 0 0 2px 0;
+ padding:.5em;
+ border:1px solid #DDDDF7;
+ border-left:10px solid #DDDDF7;
+ background-color: #FFFFFF;
+} /* monobookocentré */
+
+/* Apparence de [[MediaWiki:Noarticletext]] */
+div.noarticletext {
+  background: #F9F9F9;
+  margin-top:1em;
+  width:auto;
+  padding: 5px;
+  border: 1px solid #aaa;
+  border-right: 2px solid #aaa;
+  border-bottom: 2px solid #aaa;
+}
+
+/* DAMIER SUR LES IMAGES */
+
+/* Place un damier de vérification en arrière-plan dans la page de description
+   de l'image, visible seulement en cas d'image transparente ou semi-transparente. */
+#file img { background:url("http://upload.wikimedia.org/wikipedia/commons/5/5d/Checker-16x16.png") }
+
+/* VERSION IMPRIMABLE */
+
+/* Ne pas afficher le lien complet des URL externes sur la version imprimable
+   (à faire manuellement, grâce à class="plainlinksneverexpand"). */
+.plainlinksneverexpand a.external.text:after {
+ display:none !important;
+}
+.plainlinksneverexpand a.external.autonumber:after {
+ display:none !important;
+}
+
+/* Supprimer la flèche de lien externe pour ces liens. */
+.plainlinksneverexpand a {
+ background:none !important;
+ padding:0 !important;
+}
+
+/* La class hiddenStructure est utilisée à de nombreux endroits
+   mais pour une raison inconnue n'est définie que pour le media=screen
+   via le /skins-1.5/monobook/main.css?179. */
+/* Ici il est étendu à tous les media, notamment le media=print */
+.hiddenStructure {
+   display: none;
+}
+/* Classe temporaire destinée à montrer les défauts des modèles basés sur .hiddenStructure */
+.nohiddenStructure .hiddenStructure {
+   display: table-row;
+}
+
+/* TALKPAGEHEADER : message-système des sous-pages de discussion */
+
+#talkpageheader {
+text-align: center;
+border: 1px solid #aaa;
+margin: 1em 0;
+padding: 0 0 0.4em 0;
+color: #707070;
+}
+#talkpageheader #talkpageheadertitle {
+margin-top: -0.8em;
+}
+#talkpageheader #talkpageheadertitletext {
+padding: 0 8px;
+background: #ffffee;
+}
+#talkpageheader ul {
+list-style-type: none;
+margin: 0;
+}
+#talkpageheader li {
+display: inline;
+}
+
+/** MODÈLES ET PERSONNALISATION **/
+
+/* HOMONYMIE */
+
+/* Classe servant à personnaliser l'apparence des liens vers les pages d'homonymie. */
+.homonymie {
+ padding-left:2em;
+ padding-bottom:.5em;
+ margin-bottom:.5em;
+ font-style:italic;
+ border-bottom:1px #AAA solid;
+} /* monobookocentré */
+
+
+/* ARTICLE DÉTAILLÉ */
+
+/* Classes pour les modèles basés sur [[modèle:Article détaillé]] ainsi que [[Modèle:Article principal]],
+   [[Modèle:Commonscat simple]], [[Modèle:Galerie détaillée]] et [[Modèle:...]] ;
+   style décidé dans [[Wikipédia:Prise de décision/Unification des modèles : article détaillé et Loupe]]. */
+.detail, .details {
+margin:0 0 .7em 2em;
+border:solid #E7E7E7;
+border-width:1px 0;
+text-align:left;
+font-size:95%;
+background:#FDFDFD url(http://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Searchtool.svg/15px-Searchtool.svg.png) no-repeat left center;
+padding:1px 4px 1px 24px;
+}
+.detail.commons {
+background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Commons-logo.svg/15px-Commons-logo.svg.png);
+background-repeat:no-repeat;
+}
+.detail.principal {
+background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Nuvola_apps_download_manager2-70%25.svg/15px-Nuvola_apps_download_manager2-70%25.svg.png);
+background-repeat:no-repeat;
+}
+.detail.section {
+background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Fairytale_waring.png/15px-Fairytale_waring.png);
+background-repeat:no-repeat;
+}
+
+/* ICÔNES */
+
+/* Icônes en tête de pages pour les AdQ, les BA, etc. */
+.portlet li, li.IW {
+ list-style-image:url("http://upload.wikimedia.org/wikipedia/en/1/18/Monobook-bullet.png")
+}
+li.AdQ { list-style-image:url("http://upload.wikimedia.org/wikipedia/commons/4/4c/Icone_AdQ.png") }
+li.BA { list-style-image:url("http://upload.wikimedia.org/wikipedia/fr/8/86/Icone_BA.png") }
+
+/* Pour permettre l'affichage des images générées par l'extension ImageMap en inline.
+   Il n'existe pour l'instant pas de paramètre dans l'extension pour le faire. Copié depuis WP:de */
+.imagemap-inline div {
+ display: inline;
+}
+
+/* Classe pour afficher un icône de haut-parleur à gauche des liens audio. Utilisé par [[Modèle:Audio]], importé de WP:en */
+.audio a {
+    background: url("http://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Loudspeaker.svg/11px-Loudspeaker.svg.png") center left no-repeat !important;
+    padding-left: 16px !important;
+    padding-right: 0 !important;
+}
+
+/* ÉCRITURES NON LATINES */
+
+/* Taille et famille des polices pour les écritures non-latines ; voir aussi [[modèle:Lang]]. */
+
+/* Écriture grecque, pour les langues : grec moderne (monotonique), grec ancien (polytonique) */
+:lang(grc), :lang(el) {
+ font-family:"Arial Unicode MS", "DejaVu Sans", Athena, Gentium, "Palatino Linotype", "Lucida Sans Unicode", "Lucida Grande", Code2000, sans-serif;
+}
+
+/* écriture thaïe, pour la langue : thaï */
+:lang(th) {
+ font-family:"Segoe UI", Tahoma, sans-serif; 
+}
+
+/* CHIFFRES ROMAINS */
+
+/* Affichage des chiffres romains, voir [[modèle:Rom]] ou [[modèle:Romain]]. */
+.romain {
+ text-transform:lowercase;
+ font-variant:small-caps;
+}
+
+/* TAILLE DES FORMULES DE MATHS */
+
+.texhtml {
+  font-size:120%;
+}
+
+/* RETRAIT DES LIENS MODIFIER */
+
+/* Pour supprimer le lien "modifier" à côté d'une section donnée, utiliser
+   <div class="noeditsection"></div> (voir notamment [[Portail:Biologie/Les articles]]). */
+.noeditsection span.editsection { display:none }
+
+/* COULEUR DES LIENS */
+
+/* Pour changer la couleur d'un lien, par exemple sur un fond coloré sombre ou clair, utiliser :
+   - <div class="lienNoir"></div>
+   - <div class="lienBlanc"></div>
+   - <div class="lienClair"></div>
+   Voir notamment [[Portail:Biologie/Les articles]] */
+
+/* Lien noir */
+.lienNoir a {
+ color:#000;
+} /* et la charte graphique ? */
+.lienNoir a:visited {
+ color:#707070;
+}
+
+/* Lien clair */
+.lienClair a {
+ color:#A0A0A0;
+} /* et la charte graphique ? */
+.lienClair a:hover {
+ color:#A0A0A0;
+ text-decoration:underline;
+} 
+.lienClair a:visited {
+ color:#B9B9B9;
+}
+
+/* Lien vers une ébauche */
+a.stub {
+ color:#339900;
+}
+a.stub:visited {
+ color:#336600;
+}
+
+/** NOTES, RÉFÉRENCES, BIBLIOGRAPHIE **/
+
+/* CROCHETS */
+
+/* Par défaut, cacher les crochets autour des notes. */
+.cite_crochet { display:none }
+
+/* Interligne */
+
+/* Éviter d'obtenir un interlignage de taille variable. */
+.reference, .exposant { 
+ vertical-align:text-top;
+ position:relative;
+ font-size:.8em;
+ top:-5px;
+}
+.reference {
+ padding-left:1px;
+}
+
+ol.references > li{
+text-align:left;
+}
+
+/* https://bugs.webkit.org/show_bug.cgi?id=14691 */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  ol.references sup.exposant { position: static; vertical-align: super; }
+}
+
+/* MISE EN ÉVIDENCE */
+
+/* Mise en surbrillance de la note ou de l'ouvrage de référence cliqué
+   pour faciliter la navigation (de en.wikipedia). */
+
+/* Contenu de la note */
+ol.references > li:target, .ouvrage:target { background:#DEF }
+
+/* Renvoi */
+sup.reference:target { background:#DEF }
+/*
+
+/* RÉFÉRENCE NÉCESSAIRE */
+
+/* Style des modèles [[modèle:Référence nécessaire]] et [[modèle:Citation nécessaire]]. */
+span.need_ref { border-bottom:1px solid #AAA }
+
+div.need_ref {
+ border:1px solid #AAA;
+ padding:.5em;
+}
+
+/* Référence présente */
+span.ref:hover { border-bottom:1px solid #AAA }
+
+/* NORMES BIBLIOGRAPHIQUES */
+
+/* Mode d'affichage par défaut des données dans l'espace référence. */
+.BibList { display:block }
+.WikiNorme, .BibTeX, .ISBD, .ISO690, .specialBib { display:none }
+
+/* STYLE DE { , } ENTRE LES RÉFÉRENCES */
+.cite_virgule { padding-left:0; padding-right:1px; }
+
+/** BOÎTES ET MESSAGES **/
+
+/* BANDEAUX D'AVERTISSEMENT */
+/* style par défaut des bandeaux d'avertissement décidés sur
+   Wikipédia:Prise de décision/Changement de style des messages d'avertissement
+   Utilisé dans Modèle:Méta bandeau d'avertissement
+*/
+.bandeau { /* monobookocentré */
+  text-align: left;
+  margin: 8px 10% 12px;
+  border-style: solid;
+  border-width: 1px 1px 1px 10px;
+  padding: 2px 10px;
+}
+.bandeau table { background-color: transparent }
+
+.bandeau-niveau-grave       { border-color: #aa0044; background-color: #ffcccc }
+.bandeau-niveau-modere      { border-color: #ff8822; background-color: #ffeedd }
+.bandeau-niveau-ebauche     { border-color: #ff8822; background-color: #ffeedd }
+.bandeau-niveau-information { border-color: #77ccff; background-color: #fbfbfb }
+
+.bandeau-icone { vertical-align: middle; text-align: center; min-width: 45px; padding-right: 10px }
+
+.bandeau-titre { font-size: 1em;   line-height: 1.4em; margin-bottom: 0.5em }
+.bandeau-texte { font-size: 0.9em; line-height: 1.2em }
+
+
+/* MESSAGES D'ALERTE */
+
+/* Styles par défaut pour les bandeaux en haut des articles. Syntaxe :
+   Styles décidés suite à [[Projet:Charte graphique/Harmonisation des messages d'avertissement]]
+   et [[Wikipédia:Prise de décision/Harmonisation des messages d'avertissement]]. */
+/* Classe pour toutes les alertes. */
+.alerte { /* monobookocentré */
+ padding:.11em;
+ background:#FFD;
+ margin-bottom:.4em;
+ font-style:italic;
+}
+
+/* Classe supplémentaire pour les alertes graves. */
+.grave { border:1px solid #F96 } /* monobookocentré */
+
+/* MESSAGEBOX */
+
+/* Styles des « messagebox » standard. Utilisation : 
+* class="messagebox" : voir [[modèle:Messagebox]].
+* class="messagebox merge" : inutilisé ?
+* class="messagebox cleanup" pour certains bandeaux de maintenance (exemple sur [[modèle:Résumé introductif]])
+* class="messagebox standard-talk" pour les bandeaux en page de discussion des aricles (exemple : [[modèle:Traduit de]])
+*/
+.messagebox { /* monobookocentré */
+ border:1px solid #AAA;
+ background:#F9F9F9;
+ width:80%;
+ margin:0 auto 1em auto;
+ padding:.2em;
+ text-align:justify;
+}
+
+.messagebox.merge { /* monobookocentré */
+ border:1px solid #CF9FFF;
+ background:#F5EDF5;
+ text-align:center;
+}
+
+.messagebox.cleanup { /* monobookocentré */
+ border:1px solid #9F9FFF;
+ background:#EFEFFF;
+ text-align:center;
+}
+
+.messagebox.standard-talk { /* monobookocentré */
+ border:1px solid #C0C090;
+ background:#F8EABA;
+}
+
+/* BANDEAUX DE PORTAIL */
+/* style par défaut des bandeaux de portail décidés sur
+   Wikipédia:Prise de décision/Bandeaux de portails
+   Utilisé dans Modèle:Méta lien vers portails et Modèle:Portail
+*/
+#bandeau-portail {
+  border: solid #AAAAAA 1px;
+  padding: 4px;
+  background-color: #F9F9F9;
+  text-align: center;
+  margin-top: 1em;
+  margin-left: 0;
+  clear: both;
+}
+
+#bandeau-portail li {display: inline}
+.bandeau-portail-element {white-space: nowrap; margin: auto 1.5em}
+.bandeau-portail-icone {margin-right: 0.5em}
+.bandeau-portail-texte {font-weight: bold}
+
+/* BOÎTES POUR EXEMPLES */
+
+/* Boîtes utiles sur les pages d'aide. Voir par exemple [[Aide:Note#Notes à appel unique]]. */
+.exemple { 
+ margin:.5em;
+ padding:.5em;
+ border:dashed 1px #ADD8E6;
+ background:#FFF;
+}
+
+/* BOÎTES D'AVANCEMENT */
+
+/* Pour les boites d'avancement, voir [[modèle:Avancement]]. */
+.avance_boite {
+ position:relative;
+ margin:0;
+ padding:0;
+ width:100px;
+ height:16px;
+ background:#D3D3D3;
+ border:solid 1px gray;
+}
+
+.avance_barre {
+ position:relative;
+ margin:0;
+ padding:0;
+ height:100%;
+ background:#A0A0FF;
+ border:0;
+ vertical-align:middle;
+}
+
+.avance_texte {
+ position:absolute;
+ top:50%;
+ left:0;
+ width:100px;
+ height:100%;
+ padding:0;
+ border:0;
+ margin:0;
+ margin-top:-0.5em;
+ text-align:center;
+ font-size:14px;
+ line-height:1em;
+}
+
+/* MESSAGES SYSTÈME */
+
+/* Standardisation de quelques messages systèmes :
+ * class="mw-alerte" : bandeaux d'alerte comme [[MediaWiki:Editinginterface]].
+ * class="mw-toolbox" : boîtes à outils comme sur [[MediaWiki:Sp-contributions-footer]].
+ */
+
+/* Bandeau jaune / rouge en cas de retard de la base de données. */
+div.mw-lag-warn-normal, div.mw-lag-warn-high {
+ text-align:left !important;
+ width:50% !important;
+}
+
+/* suppression du message avertissant du lag de 1 seconde dans la liste de suivi*/
+.mw-lag-warn-normal {
+ display:none;
+}
+
+/* Messages d'alerte */
+.mw-alerte {
+ width:100%;
+ clear:both;
+ background:#FAEBD7;
+ border:2px solid #FF8C00;
+}
+
+/* Boîtes à outils */
+.mw-toolbox { /* monobookocentré */
+ font-size:90%;
+ background:#F8F8F8;
+ border:1px solid #B8B8B8;
+ padding:.25em 1em .25em 1em;
+ clear:both;
+}
+/*  METADATA */
+
+/* Tableau des métadonnées d'image (EXIF). */
+table.metadata {
+ border:1px solid #AAA;
+ display:none;
+ speak:none;
+}
+.metadata-label {
+ color:#AAA;
+}
+
+/* Template:Creator */
+
+/* Répare le style du tableau [[commons:Template:Creator|Creator]] utilisé sur Commons. */
+table.creator {
+ text-align:left;
+ border-collapse:collapse;
+ background:#F0F0FF;
+} /* monobookocentré */
+
+table.creator th {
+ background:#E0E0EE;
+ vertical-align:top;
+} /* monobookocentré */
+
+table.creator td {
+ background:#F0F0FF;
+ vertical-align:top;
+} /* monobookocentré */
+
+table.creator td.creator-name {
+ font-weight:bold;
+} /* monobookocentré */
+
+/* En phase de test */
+/* Quand est-ce qu'il finit ? */
+/* DÉBUT DES SCHÉMAS DE COULEUR DE "CADRE À ONGLETS"
+    Fonctionnement du [[Modèle:Cadre à onglets]]
+    Modèle implanté par User:Peleguer de http://ca.wikipedia.org
+    Actualisé par User:Joanjoc de http://ca.wikipedia.org
+    Traduction et adaptation User:Antaya de http://fr.wikipedia.org 
+    Couleurs pour le [[Modèle:Cadre à onglets]] 
+
+Configuration des couleurs par défaut 
+Couleurs utilisées; 1; 8080ff 2; 9f9fff 3; c4c4ff 4; ddddff 5; eaeaff */
+ 
+.mbBouton {
+  background-color: #ddddff; 
+  border: 0.15em solid #000000;
+  border-color: #eaeaff #c4c4ff #9f9fff #eaeaff;
+  -moz-border-radius: .5em .5em 0em 0em; /* NE VALIDE PAS AU w3c VALIDATOR */
+  cursor:pointer;
+  display: inline;
+  margin-right: 0.1em;
+  padding: 0.2em 0.3em 0.2em 0.3em;
+  position: relative;}
+ 
+.mbBouton a,
+.mbBouton strong {
+  background: none !important;
+  color:#8080ff !important;  /* 1 */
+  font-size: 90%;
+  font-weight: bold;
+  padding: 0 !important;
+  text-decoration: none !important;}
+ 
+.mbBouton a:hover,
+.mbBouton strong:hover {
+  color: black !important;
+  text-decoration: underline !important;}
+ 
+.mbBoutonSel {
+  background-color: #9f9fff; /* 2 */
+  border: 0.15em solid #000000;
+  border-color: #c4c4ff #8080ff #9f9fff #c4c4ff;  /* 3 1 2 3 */
+  -moz-border-radius: .5em .5em 0em 0em;
+  cursor: default;
+  display: inline;
+  margin-right: 0.1em;
+  padding: 0.2em 0.3em 0.2em 0.3em;
+  position: relative;
+  color:white;}
+ 
+.mbBoutonSel a {
+  background: none !important;
+  color:white !important;
+  cursor: default;
+  font-size: 90%;
+  font-weight: bold;
+  padding: 0 !important;
+  text-decoration: none !important;}
+ 
+.mbContenu {
+  background-color: #f8f8ff;
+  border: 0.2em solid #9f9fff; /* 2 */
+  border-color: #9f9fff #8080ff #8080ff #9f9fff ; /* 2 1 1 2 */
+  -moz-border-radius: 0em .5em .5em 0em;
+  padding: 1em;
+  position: static;  }
+ 
+.mbOnglet {
+  background-color: #f8f8ff;
+  border-color: #8080ff #c4c4ff #c4c4ff #8080ff; /* 1 3 3 1 */  width: 100%;
+}
+ 
+/* Configuration du Lilas 1;7050a0 2;9070c0 3;b090e0 4;d0b0ff 5;f0d0ff */
+ 
+.mbLilas .mbBouton {
+ background-color: #d0b0ff; /* 4 */
+ border-color: #f0d0ff #b090e0 #9070c0 #f0d0ff;  /* 5 3 2 5 */}
+ 
+.mbLilas .mbBouton a,
+.mbLilas .mbBouton strong {
+  color:#8080ff !important;  /* 1 */
+  font-size:90%}
+ 
+.mbLilas .mbBouton a:hover,
+.mbLilas .mbBouton strong:hover {
+  color: black !important;
+  text-decoration: underline;}
+ 
+.mbLilas .mbBoutonSel {
+  background-color: #9070c0; /* 2 */
+  border-color: #b090e0 #7050a0 #9070c0 #b090e0;  /* 3 1 2 3 */}
+ 
+.mbLilas .mbContenu {
+  background-color: #f5fffa;
+  border-color: #9070c0 #7050a0 #7050a0 #9070c0 ; /* 2 1 1 2 */}
+ 
+.mbLilas .mbOnglet {
+  background-color: #f5fffa;
+  border-color: #7050a0 #b090e0 #b090e0 #7050a0; /* 1 3 3 1 */}
+ 
+ 
+/* Configuration du Vert 1;60b030 2;75c045 3;90d060 4;a5e085 5;c0f090 */
+ 
+.mbVert .mbBouton {
+ background-color: #a5e085; /* 4 */
+ border-color: #c0f090 #90d060 #75c045 #c0f090;  /* 5 3 2 5 */}
+ 
+.mbVert .mbBouton a,
+.mbVert .mbBouton strong {
+  color:#60b030 !important;  /* 1 */
+  font-size:90%}
+ 
+.mbVert .mbBouton a:hover,
+.mbVert .mbBouton strong:hover {
+  color: black !important;
+  text-decoration: underline;}
+ 
+.mbVert .mbBoutonSel {
+  background-color: #75c045; /* 2 */
+  border-color: #90d060 #60b030 #75c045 #90d060;  /* 3 1 2 3 */}
+ 
+.mbVert .mbContenu {
+  background-color: #f5fffa;
+  border-color: #75c045 #60b030 #60b030 #75c045 ; /* 2 1 1 2 */}
+ 
+.mbVert .mbOnglet {
+  background-color: #f5fffa;
+  border-color: #60b030 #90d060 #90d060 #60b030; /* 1 3 3 1 */}
+ 
+ 
+/* Configuration du Bleu 1;3379de 2;5b8dd6 3;88abde 4;a7c1e6 5;c8d6e9 */
+ 
+.mbBleu .mbBouton {
+ background-color: #a7c1e6; /* 4 */
+ border-color: #c8d6e9 #88abde #5b8dd6 #c8d6e9;  /* 5 3 2 5 */}
+ 
+.mbBleu .mbBouton a,
+.mbBleu .mbBouton strong {
+  color:#3379de !important;  /* 1 */
+  font-size:90%}
+ 
+.mbBleu .mbBouton a:hover 
+.mbBleu .mbBouton strong:hover {
+  color: black !important;
+  text-decoration: underline;}
+ 
+.mbBleu .mbBoutonSel {
+  background-color: #5b8dd6; /* 2 */
+  border-color: #88abde #3379de #5b8dd6 #88abde;  /* 3 1 2 3 */}
+ 
+.mbBleu .mbContenu {
+  background-color: #f0f8ff;
+  border-color: #5b8dd6 #3379de #3379de #5b8dd6; /* 2 1 1 2 */}
+ 
+.mbBleu .mbOnglet {
+  background-color: #f0f8ff;
+  border-color: #3379de #88abde #88abde #3379de; /* 1 3 3 1 */}
+ 
+ 
+/* Configuration du Orange 1;ff820e 2;ff9d42 3;ffac5d 4;ffbd7f 5;ffd0a4 6;ffeedd */
+ 
+.mbOrange .mbBouton {
+ background-color: #ffbd7f; /* 4 */
+ border-color: #ffd0a4 #ffac5d #ff9d42 #ffd0a4;  /* 5 3 2 5 */}
+ 
+.mbOrange .mbBouton a,
+.mbOrange .mbBouton strong {
+  color:#ff820e !important;  /* 1 */
+  font-size:90%}
+ 
+.mbOrange .mbBouton a:hover 
+.mbOrange .mbBouton strong:hover {
+  color: black !important;
+  text-decoration: underline;}
+ 
+.mbOrange .mbBoutonSel {
+  background-color: #ff9d42; /* 2 */
+  border-color: #ffac5d #ff820e #ff9d42 #ffac5d;  /* 3 1 2 3 */}
+ 
+.mbOrange .mbContenu {
+  background-color: #ffeedd; /* 6 */
+  border-color: #ff9d42 #ff820e #ff820e #ff9d42; /* 2 1 1 2 */}
+ 
+.mbOrange .mbOnglet {
+  background-color: #ffeedd; /* 6 */
+  border-color: #ff820e #ffac5d #ffac5d #ff820e; /* 1 3 3 1 */}
+ 
+/* Configuration du Gris 1;666666 2;868686 3;9f9f9f 4;b9b9b9 5;cfcfcf */
+ 
+.mbGris .mbBouton {
+ background-color: #b9b9b9; /* 4 */
+ border-color: #cfcfcf #9f9f9f #868686 #cfcfcf;  /* 5 3 2 5 */}
+ 
+.mbGris .mbBouton a,
+.mbGris .mbBouton strong {
+  color:#666666 !important;  /* 1 */
+  font-size:90%}
+ 
+.mbGris .mbBouton a:hover 
+.mbGris .mbBouton strong:hover {
+  color: black !important;
+  text-decoration: underline;}
+ 
+.mbGris .mbBoutonSel {
+  background-color: #868686; /* 2 */
+  border-color: #9f9f9f #666666 #868686 #9f9f9f;  /* 3 1 2 3 */}
+ 
+.mbGris .mbContenu {
+  background-color: #fffce8;
+  border-color: #868686 #666666 #666666 #868686; /* 2 1 1 2 */}
+ 
+.mbGris .mbOnglet {
+  background-color: #fffce8;
+  border-color: #666666 #9f9f9f #9f9f9f #666666; /* 1 3 3 1 */}
+ 
+ 
+/* Configuration du Jaune 1;aa8800 2;eabb00 3;ffd52b 4;ffe16a 5;ffeeaa */
+ 
+.mbJaune .mbBouton {
+ background-color: #ffe16a; /* 4 */
+ border-color: #ffeeaa #ffd52b #eabb00 #ffeeaa;  /* 5 3 2 5 */}
+ 
+.mbJaune .mbBouton a,
+.mbJaune .mbBouton strong {
+  color:#aa8800!important;  /* 1 */
+  font-size:90%}
+ 
+.mbJaune .mbBouton a:hover 
+.mbJaune .mbBouton strong:hover {
+  color: black !important;
+  text-decoration: underline;}
+ 
+.mbJaune .mbBoutonSel {
+  background-color: #eabb00; /* 2 */
+  border-color: #ffd52b #aa8800 #eabb00 #ffd52b;  /* 3 1 2 3 */}
+ 
+.mbJaune .mbContenu {
+  background-color: #fffce8;
+  border-color: #eabb00 #aa8800 #aa8800 #eabb00; /* 2 1 1 2 */}
+ 
+.mbJaune .mbOnglet {
+  background-color: #fffce8;
+  border-color: #aa8800 #ffd52b #ffd52b #aa8800; /* 1 3 3 1 */}
+ 
+ 
+/* Configuration du Rouge 1;993300 2;ca4200 3;ff6215 4;ff9b6a 5;ffc6aa */
+ 
+.mbRouge .mbBouton {
+ background-color: #ff9b6a; /* 4 */
+ border-color: #ffc6aa #ff6215 #ca4200 #ffc6aa;  /* 5 3 2 5 */}
+ 
+.mbRouge .mbBouton a,
+.mbRouge .mbBouton strong {
+  color:#993300!important;  /* 1 */
+  font-size:90%}
+ 
+.mbRouge .mbBouton a:hover 
+.mbRouge .mbBouton strong:hover {
+  color: black !important;
+  text-decoration: underline;}
+ 
+.mbRouge .mbBoutonSel {
+  background-color: #ca4200; /* 2 */
+  border-color: #ff6215 #993300 #ca4200 #ff6215;  /* 3 1 2 3 */}
+ 
+.mbRouge .mbContenu {
+  background-color: #fffce8;
+  border-color: #ca4200 #993300 #993300 #ca4200; /* 2 1 1 2 */}
+ 
+.mbRouge .mbOnglet {
+  background-color: #fffce8;
+  border-color: #993300 #ff6215 #ff6215 #993300; /* 1 3 3 1 */} 
+/* ^^^ plus de 50 classes pour quelque chose d'inutile ^^^ */
+ 
+/*FIN DES SCHÉMAS DE COULEUR DE "CADRE À ONGLETS"*/
+
+/* BOÎTES DÉROULANTES */
+
+/* Styles des boîtes déroulantes, voir [[Modèle:Boîte déroulante/Documentation]]. */
+div.NavFrame {
+ margin:0;
+ padding:2px;
+ border:1px #AAA;
+ text-align:center;
+ border-collapse:collapse;
+ font-size:95%;
+} /* monobookocentré début */
+
+div.NavFrame + div.NavFrame {
+ border-top-style:hidden;
+}
+
+div.NavPic {
+ background:#FFF;
+ margin:0;
+ padding:2px;
+ float:left;
+}
+
+div.NavFrame div.NavHead {
+ height:1.6em;
+ font-weight:bold;
+ font-size:100%;
+ background:#EFEFEF;
+}
+
+div.NavFrame p,
+div.NavFrame div.NavContent,
+div.NavFrame div.NavContent p { font-size:100% }
+
+div.NavEnd {
+ margin:0;
+ padding:0;
+ line-height:1px;
+ clear:both;
+}
+
+.NavToggle {
+ font-size:x-small;
+ float:right;
+} /* monobookocentré fin */
+
+/* Styles de [[Modèle:Méta palette de navigation]] */
+table.navbox { 
+ background:#F9F9F9;
+ border:1px solid #AAA;
+ clear:both;
+ font-size:90%;
+ margin:1em 0 0;
+ padding:2px;
+ text-align:center;
+ width:100%;
+}
+ 
+table.navbox th { 
+ background:#CCF;
+ padding-left:1em;
+ padding-right:1em;
+}
+ 
+table.navbox td.group { 
+ background:#DDF;
+ vertical-align:middle;
+ width:150px;
+ padding-left:1em;
+ padding-right:1em;
+ font-weight: bold;
+}
+ 
+table.navbox td.list { 
+ text-align:left
+}
+ 
+table.navbox td.even { 
+ background:#EEF
+}
+ 
+table.navbox td.below { 
+ background:#CCF;
+ vertical-align:middle;
+ padding-left:1em;
+ padding-right:1em;
+}
+ 
+/* Fin styles de [[Modèle:Méta palette de navigation]] */
+
+/** TABLEAUX ET INFOBOX **/
+
+/* WIKITABLE */
+
+/* Classe pour tableaux standards, légèrement grisés. Syntaxe : {| class="wikitable" */
+
+/* Tableaux selon la charte graphique. Ils sont centrés par défaut. */
+table.wikitable { /* monobookocentré debut */
+ margin-top:1em;
+ margin-bottom:1em;
+ background:#F9F9F9;
+ border:1px #AAA solid;
+ border-collapse:collapse;
+}
+
+table.wikitable th, table.wikitable td {
+ border:1px #AAA solid;
+ padding:.3em;
+}
+
+table.wikitable th, .wikitable_header {
+ background:#F2F2F2;
+ text-align:center;
+}
+
+table.wikitable caption {
+ margin-left:inherit;
+ margin-right:inherit;
+} /* monobookocentré fin */
+
+/* Alignement du tableau : flottant à droite ou à gauche, ou centré. On peut aligner à droite ou à gauche
+   sans flottement en ajoutant le [[modèle:clr]] en bas du tableau, ou en précisant style="float:none"
+   dans l'en-tête du tableau. */
+table.gauche, table.left {
+ float:left;
+ margin:0 1em 1em 0;
+}
+
+table.droite, table.right {
+ float:right;
+ margin:0 0 1em 1em;
+}
+
+table.centre, table.center {
+ margin:1em auto;
+}
+
+/* SPORTTABLE */
+
+/* Tableau préformaté permettant lignes blanches et lignes grises. Syntaxe : class="sporttable"
+   Exemple sur [[Équipe d'Angleterre de rugby à XV#Statistiques sur les matchs|cet article]]. */
+table.sporttable { /* monobookocentré debut */
+ margin:1em 1em 1em 0;
+ background:#F9F9F9;
+ border:1px #AAA solid;
+ border-collapse:collapse;
+}
+
+table.sporttable th, table.sporttable td {
+ border:1px #AAA solid;
+ padding:.2em;
+}
+
+table.sporttable th {
+ font-weight:bold;
+} /* monobookocentré fin */
+
+table.wikitable caption {
+ margin-left:inherit;
+ margin-right:inherit;
+}
+
+/* INFOBOX */
+
+/* Style commun aux infobox ; utiliser : 
+   * class="infobox" dans l'en-tête.
+   * class="infoboximage" pour l'image et sa description
+   * class="infoboxsoustitre" pour le sous-titre.
+   Voir [[Aide:Infobox]] et [[Projet:InfoBox]]. */
+.infobox {
+ background:#EEE; /* couleur correspondant aux titres / colonne de gauche, th */
+ color:#000;
+ float:right;
+ clear:right;
+ font-size:95%;
+ border-collapse:collapse;
+ margin:0 0 .5em 1em;
+ width:250px;
+} /* monobookocentré debut */
+
+.infobox caption {
+ background:#C0C0C0;
+ border-left:1px solid #AAA;
+ border-top:1px solid #AAA;
+ border-right:1px solid #AAA;
+ padding:.2em;
+ margin-left:.57em;
+ font-weight:bolder;
+ text-align:center;
+ color:#FFF;
+ font-size:160%;
+}
+
+.infobox th, .infobox td {
+ vertical-align:middle;
+ border:1px solid #AAA;
+ padding:.2em .2em .2em .5em;
+}
+
+.infobox td {
+ text-align:center;
+ background:#F9F9F9;
+}
+
+.infobox th {
+ font-weight:normal;
+ text-align:left;
+}
+
+.infobox .infoboximage { /* emplacement pour les photos et une description */
+ background:#FFF;
+ padding:0;
+ margin-top:0;
+ color:#000;
+ text-align:center;
+}
+
+.infobox .infoboxsoustitre { /* sous-titre */
+ color:#000;
+ font-weight:bold;
+ font-size:115%;
+ line-height:2;
+ text-align:center;
+}
+
+.infobox dl { clear:both }
+.infobox dt {
+ float:left;
+ clear:left;
+ width:35%;
+}
+.infobox dd { margin-left:40% } /* monobookocentré fin */
+
+/** PROJETS ET PORTAILS **/
+
+/* PORTAILS MODULAIRES */
+
+/* Styles pour les portails en « modules », voir [[Aide:Créer un portail]]. */
+
+/* une case typique pour portail modulaire */
+.portailCase {
+ border:1px solid #AAA;
+ display:block;
+ margin:5px 0;
+ padding:0;
+ padding-bottom:1px;
+ vertical-align:top;
+ width:100%;
+} /* monobookocentré debut */
+
+/* le titre de cette case, apparaissant sur un fond différent */
+.portailCase h2 {
+ font-weight:bold;
+ font-size:100%;
+ margin:0 0;
+ margin-bottom:5px;
+ padding:4px;
+ text-align:center;
+} 
+
+/* le lien editer (en bas) tout à droite */
+.portailLienEdition {
+ display:block;
+ font-size:x-small;
+ text-align:right;
+ clear:both;
+} /* suffgisamment générique ? */
+
+/* classe destinée à remplacer la classe portailCase */
+.portailCase_v2 {
+ border:1px solid #AAA;
+ color:#000;
+ font-size:100%;
+}
+
+h2.portailCase_v2 {
+ font-weight:bold;
+ margin:0;
+ padding:3px;
+ text-align:center;
+}
+
+div.portailCase_v2 {
+ border-top:0 solid white;
+ margin-bottom:1ex;
+ padding:5px 5px 0 5px;
+} /* monobookocentré fin */
+
+/* ÉGYPTOPÉDIA */
+
+/* Cadre du calendrier */
+div.egy_calendrier#cadre {
+ border:1px solid #CC9;
+ background:#FFF;
+ text-align:center;
+ font-size:smaller;
+} /* monobookocentré */
+
+/* Style du lien du calendrier */
+div.egy_calendrier#lien {
+ background:#CC9;
+ padding:.2em;
+}
+
+/* Style du jour du calendrier */
+div.egy_calendrier#jour {
+ font-size:medium; 
+}
+
+/* Style des tableaux de navigation */
+table.egyleft, .egybox {
+ float:right;
+ margin:.5em .5em 1em 1em;
+ border:1px solid #AAAA80;
+ background:#EFEFDD;
+ text-align:center;
+ width:170px;
+}
+
+table.egyptopedia {
+ float:right;
+ margin:.5em .5em 1em 1em;
+ border:1px solid #AAAA80;
+ border-collapse:collapse;
+ background:#EFEFDD;
+ text-align:center;
+ width:170px;
+}
+
+table.egyptopedia th, table.egyptopedia td {
+ border-width:1px;
+ border-style:solid;
+ border-color:#AAAA80;
+ border-collapse:collapse;
+} /* monobookocentré fin */
+
+/** PAGES PARTICULIÈRES **/
+
+/* Boîte Special:Userlogin */
+form#userlogin {
+ padding:1em 1em .7em 1em;
+ background:#FFFFE6;
+ border:2px solid #FC6;
+ color:#000;
+ margin-right:2em;
+} /* monobookocentré */
+
+form#userlogin table {
+ background:#ffffe6;
+ color:#000;
+} /* monobookocentré */
+
+/* ACCUEIL */
+
+ /* Fond blanc de l'accueil */
+ body.page-Wikipédia_Accueil_principal #content {
+       background-color: white;
+ }
+
+ /* Retire le nom de la page d'accueil */
+ body.page-Wikipédia_Accueil_principal #firstHeading {
+      display:none;
+ }
+
+
+/* bandeau accueil */
+
+
+.page-Accueil .firstHeading {
+ display:none;
+}
+#interwiki-listecomplete {
+ font-weight: bold;
+}
+
+#accueil_titre {
+ margin-top:1.5em;
+} /* monobookocentré */
+
+.globegris {
+background:
+    url(http://upload.wikimedia.org/wikipedia/commons/b/b4/Wikipedia-logo-transparent-200px.png)
+} /* monobookocentré */
+
+.headergris { /* monobookocentré */
+ background:#F0F0F0 url("http://upload.wikimedia.org/wikipedia/commons/1/1b/Wikibar2.png") no-repeat right;
+ margin:0;
+ font-size:120%;
+ font-weight:bold;
+ border:1px solid #a3b0bf; 
+ text-align:left;
+ color:#000;
+ padding:.15em .4em;
+} 
+
+.cadregris { /* monobookocentré */
+ border:1px solid #AAA;
+ background:#fcfcfc;
+ vertical-align:top;
+ padding:7px;
+ margin-bottom:.6em;
+}
+
+.accueil_cadre_lien { /* monobookocentré */
+ text-align:right;
+ margin-right:.5em;
+ font-size:xx-small;
+}
+
+/* [[Special:Statistics]] */
+
+/* Suppression du group "boardvote" */
+.statistics-group-boardvote {
+ display: none;
+}
+
+/* MODÈLES DE COORDONNÉES */
+
+/* Voir [[Modèle:Coord]] pour l'utilité de ces classes. 
+   Notez que les classes "geo", "longitude", et "latitude" ne sont pas simplement des styles 
+   mais servent aussi à l'export au Geo microformat, il ne faut pas les renommer. */
+.geo-default { display:inline }
+.geo-nondefault { display:none }
+.geo-dms { display:inline }
+.geo-dec { display:inline }
+.geo-multi-punct { display:none }
+
+.longitude .latitude { white-space:nowrap }
+
+/* This is used for the Geo microformat, but no style is needed for now other than .geo-dec. */
+.geo {}
+
+#portallinks {
+   border-width: 1px;
+   border-style: solid;
+   border-color: #aaaaaa;
+   background-color: #f9f9f9;
+   padding: 5px;
+   margin-top: 1em;
+   clear: both;
+}
+
+/************************************************
+ ***     Infobox V2 - En phase de test        ***
+ *** Voir : [[Utilisateur:Antaya/Infobox V2]] ***
+ ************************************************/
+ 
+.infobox_v2 { /* monobookocentré debut */
+ background: #f9f9f9;
+ color: #000;
+ font-size:90%;
+ line-height:1.1em; 
+ float:right;
+ clear:right;
+ margin:0 0 .5em 1em; /* haut droite bas gauche */
+ width:300px;
+ border: 1px solid #aaa;
+ padding: 0.1em;
+}
+ 
+.infobox_v2 th {
+ vertical-align:top;
+ text-align:left;
+}
+ 
+/* Option désactivée : empêche les liens internes d'apparaître en bleu
+.infobox_v2 th a {
+ color:black;  * désactive la couleur des liens à gauche *
+}
+*/ 
+
+.infobox_v2 .entete {
+ height:45px;
+ vertical-align:middle;
+ text-align:center;
+ font-size:150%; 
+ font-weight:bolder;
+ line-height:1.2em;
+ color:#000
+}
+
+.infobox_v2 .media { /* css V2 pour [[Modèle:Son]], etc. */
+height:35px;
+vertical-align:middle;
+text-align:center;
+font-weight:bolder;
+color:#000
+}
+
+/* graphiques transparents d'entêtes des infobox V2 */
+.entete.defaut       {}
+ 
+.entete.auteur          {background: url("http://upload.wikimedia.org/wikipedia/commons/1/1e/Picto_infobox_auteur.png")        no-repeat top right;} 
+.entete.bd              {background: url("http://upload.wikimedia.org/wikipedia/commons/2/2c/Picto_infobox_comicballoon.png")  no-repeat top right;}
+.entete.biere           {background: url("http://upload.wikimedia.org/wikipedia/commons/0/04/Picto_infobox_beer.png")          no-repeat top right;}
+.entete.canada          {background: url("http://upload.wikimedia.org/wikipedia/commons/6/6a/Picto_infobox_Canada.png")        no-repeat top right;}
+.entete.cinema          {background: url("http://upload.wikimedia.org/wikipedia/commons/e/ea/Picto_infobox_cinema.png")        no-repeat top right;}
+.entete.communication   {background: url("http://upload.wikimedia.org/wikipedia/commons/a/a2/Picto_infobox_antenna.png")       no-repeat top right;}
+.entete.humain          {background: url("http://upload.wikimedia.org/wikipedia/commons/8/82/Picto_infobox_manwoman.png")      no-repeat top right;}
+.entete.informatique    {background: url("http://upload.wikimedia.org/wikipedia/commons/b/b8/Picto_infobox_informatique_souris.png")  no-repeat top right;}
+.entete.jeu             {background: url("http://upload.wikimedia.org/wikipedia/commons/9/90/Picto_infobox_Game.png")          no-repeat top right;}
+.entete.jeu-role        {background: url("http://upload.wikimedia.org/wikipedia/commons/d/d8/Picto_infobox_Jeu_de_rôle.png")   no-repeat top right;}
+.entete.jeuvideo        {background: url("http://upload.wikimedia.org/wikipedia/commons/2/2d/Picto_infobox_gamepad.png")       no-repeat bottom right;}
+.entete.map             {background: url("http://upload.wikimedia.org/wikipedia/commons/7/7a/Picto_infobox_map.png")           no-repeat top right;}
+.entete.montreal-metro  {background: url("http://upload.wikimedia.org/wikipedia/fr/b/ba/Picto_infobox_Mtl_metro.png")          no-repeat top right;}
+.entete.montreal-train  {background: url("http://upload.wikimedia.org/wikipedia/fr/9/99/Picto_infobox_Mtl_train.png")          no-repeat top right;}
+.entete.musique         {background: url("http://upload.wikimedia.org/wikipedia/commons/6/60/Picto_infobox_music.png")         no-repeat top right;}
+.entete.persofiction    {background: url("http://upload.wikimedia.org/wikipedia/commons/3/37/Picto_infobox_masks.png")         no-repeat top right;}
+.entete.presse          {background: url("http://upload.wikimedia.org/wikipedia/commons/2/23/Picto_infobox_journal.png")              no-repeat top right;}
+.entete.projet          {background: url("http://upload.wikimedia.org/wikipedia/commons/c/cb/Picto_infobox_tools.png")         no-repeat top right;}
+.entete.quebec          {background: url("http://upload.wikimedia.org/wikipedia/commons/2/21/Picto_infobox_Quebec.png")        no-repeat top right;}
+.entete.science-fiction {background: url("http://upload.wikimedia.org/wikipedia/commons/e/ed/Picto_infobox_fliyingsaucer.png") no-repeat top right;}
+.entete.sport           {background: url("http://upload.wikimedia.org/wikipedia/commons/8/8e/Picto_infobox_Olympic.png")       no-repeat top right;}
+.entete.television      {background: url("http://upload.wikimedia.org/wikipedia/commons/a/a6/Picto_infobox_TV-T%26PC.png") no-repeat top right;}
+.entete.universite {background: url("http://upload.wikimedia.org/wikipedia/commons/4/42/Picto_infobox_book.png") no-repeat top right;}
+.media.audio            {background: url("http://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Gnome-speakernotes.png/35px-Gnome-speakernotes.png") no-repeat top left;} 
+.media.video            {background: url("http://upload.wikimedia.org/wikipedia/en/thumb/2/20/Tango-video-x-generic.png/35px-Tango-video-x-generic.png") no-repeat top left;}
+ 
+/* Fin de la phase de test Infobox V2 */ /* monobookocentré fin */
+
+/* Classe de masquage, remplace display:none. Contenu non affiché mais lisible par les lecteurs d'écrans */
+.hidden {
+position: absolute;
+left: 0;
+top: -5000px;
+width: 1px;
+height: 1px;
+overflow: hidden;
+}
+/* liens d'accès directs pour la navigation au clavier */
+#jump-to-nav {
+display: block;
+text-align: right;
+}
+#column-one {
+zoom: 1; /* pour que la tabulation soit fonctionnelle dans IE6-7 */
+}
+
+/* Image du [[Portail:Réalisation audiovisuelle]] et [[Portail:Cinéma]] : en-tête */
+.realisateur-bandeau {
+     background-image: url("http://upload.wikimedia.org/wikipedia/fr/9/98/Banni%C3%A8re_portail.png");  
+     background-position : center;
+     height:136px; 
+     background-repeat: no-repeat; 
+}
+
+.cinema-bandeau {
+     background-image: url("http://upload.wikimedia.org/wikipedia/fr/6/68/Bandeau_portail_cin%C3%A9ma.png");  
+     background-position : left;
+     height:35px; 
+     background-repeat: no-repeat; 
+}
+
+
+/* Encarts dans un texte, signalés par une icône */
+.encart p {
+text-indent: 20px;
+line-height: 1.5em;
+background: no-repeat left 0.15em;
+font-style: italic;
+}
+ 
+/* encart accessibilité */
+.aide_accessibilite p {
+background-image: url("http://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Gnome-preferences-desktop-accessibility.svg/18px-Gnome-preferences-desktop-accessibility.svg.png");
+}
+
+/* Géolocalisation dynamique */
+.NavContent .img_toogle {
+zoom: 1; /* be kind to IE7 */
+clear: both;  /* be kind to IE7 */
+}
+.img_toogle, .img_toogle * {
+margin: 0 !important;
+padding: 0 !important;
+}
+.img_toogle .a_toogle {
+display: block;
+text-align: center !important;
+font-size: 0.95em;
+}
+.img_toogle .geobox {
+position: relative;
+}
+.img_toogle .geobox +.geobox {
+border-top: 5px solid #aaa;
+}
+.img_toogle .geopoint {
+position: absolute;
+width: 5px;
+height: 5px;
+font-size: 1px;
+border: 1px solid #000;
+background:#F00;
+}
+
+/*Gallery un peu moins moches... */
+table.gallery{
+background-color:#F9F9F9;
+margin:auto;
+}
+
+table.gallery caption{
+margin:auto
+}
+
+table.gallery td{
+background-color:#F9F9F9;
+border:2px solid #F9F9F9;
+}
+div.gallerytext{
+font-size:80%;
+}
+.gallery_left table.gallery {
+margin: auto 0;
+}
+
+
+/* Be kind to IE6, formulaire d'édition */
+#editpage-copywarn{
+zoom: 1
+}
+
+/* Affichage du [[Projet:Impression]] */
+#listeImprimeurs {
+text-align: left;
+background: white;
+display: none;
+position:absolute;
+left:66%;
+padding:0;
+margin:0;
+border-collapse: collapse;
+}
+
+#listeImprimeurs table {
+border: 0px solid #AAA;
+padding:0;
+margin:0;
+border-collapse: collapse;
+}
+
+#listeImprimeurs table tr {
+padding:0;
+margin:0;
+}
+
+#listeImprimeurs table tr td {
+border: 1px solid #AAA;
+padding: 3px;
+margin:0;
+border-collapse: collapse;
+width: 220px;
+}
+
+/* Modèle:Autres projets */
+#autres_projets, .interprojet {
+border: 1px solid #aaa;
+padding: 4px;
+font-size: 90%;
+background: #f9f9f9;
+float: right;
+clear: right;
+margin: 1em 0 1em 1em;
+width: 250px;
+}
+#autres_projets p, .interprojet p {
+text-align:center;
+margin: 5px 0;
+}
+#autres_projets ul, .interprojet ul {
+list-style-type: none;
+list-style-image: none;
+margin: 0;
+padding: 0;
+}
+#autres_projets li, .interprojet li {
+margin: 0;
+padding: 7px 0 7px 35px;
+background: no-repeat left center;
+}
+.interprojet li.interprojet_top {
+background-position: left top;
+}
+#autres_projets li.commons, .interprojet li.commons {
+background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Commons-logo.svg/25px-Commons-logo.svg.png);
+}
+#autres_projets li.species, .interprojet li.species {
+background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Wikispecies-logo.svg/25px-Wikispecies-logo.svg.png);
+}
+#autres_projets li.dictionary, .interprojet li.dictionary {
+background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Wiktprintable_without_text.svg/25px-Wiktprintable_without_text.svg.png);
+}
+#autres_projets li.versity, .interprojet li.versity {
+background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Wikiversity-logo.svg/25px-Wikiversity-logo.svg.png);
+}
+#autres_projets li.books, .interprojet li.books {
+background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Wikibooks-logo-fr.png/25px-Wikibooks-logo-fr.png);
+}
+#autres_projets li.source, .interprojet li.source {
+background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Wikisource-logo.svg/25px-Wikisource-logo.svg.png);
+}
+#autres_projets li.quote, .interprojet li.quote {
+background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Wikiquote-logo.svg/25px-Wikiquote-logo.svg.png);
+}
+#autres_projets li.news, .interprojet li.news {
+background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Wikinews-logo.svg/25px-Wikinews-logo.svg.png);
+}
+#autres_projets li.meta, .interprojet li.meta {
+background-image: url(http://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Wikimedia_Community_Logo.svg/25px-Wikimedia_Community_Logo.svg.png);
+}
+#autres_projets li a, .interprojet li a {
+font-weight: bold;
+font-style: italic;
+}
+
+/* Classes pour modèles de sommaires allégés */
+/* [[Modèle: TOC_1]] */
+.toc_niveau_1 ul ul {
+display: none;
+}
+/* [[Modèle: TOC_2]] */
+.toc_niveau_2 ul ul ul {
+display: none;
+}
+/* [[Modèle: TOC_3]] */
+.toc_niveau_3 ul ul ul ul {
+display: none;
+}
+
+/* Classes pour Boîtes déroulantes */
+.collapseButtonTest {
+display: -moz-inline-box;
+display: -webkit-inline-box;
+display: inline-block;
+font-weight: normal;
+min-width: 5em;
+margin-left: 0.5em;
+color: #0645ad;
+white-space: nowrap;
+padding: 0;
+text-align: left;
+}
+
+.collapseButtonBalance {
+display: -moz-inline-box;
+display: -webkit-inline-box;
+display: inline-block;
+width: 5em;
+margin-right: 2.5em;
+}
+ 
+.collapseButtonContent {
+padding: 0 0.25em 0 0.25em;
+border: 1px solid transparent;
+text-decoration: none;
+color: #0645ad;
+}
+ 
+a.collapseButtonContent:hover {
+border: 1px solid;
+border-color: white black black white;
+cursor: pointer;
+cursor: hand;
+text-decoration: none;
+color: #0645ad;
+}
+ 
+.collapseButtonHide {
+background-image: url(http://upload.wikimedia.org/wikipedia/en/9/99/ArrowUpNavbox.gif);
+}
+ 
+.collapseButtonShow {
+background-image: url(http://upload.wikimedia.org/wikipedia/en/7/7b/ArrowDownNavbox.gif);
+}
+ 
+.collapseButtonHide,
+.collapseButtonShow,
+.collapseButtonHideIE6,
+.collapseButtonShowIE6 {
+color: #0645ad;
+padding-left: 0.7em;
+background-repeat: no-repeat;
+background-position: left center;
+}
+ 
+span.navbarEditLinks {
+display: none;
+}
+
+/* Patch temporaire pour bug de rendu des liens externes hors des articles */	 
+
+#bodyContent a.external, #bodyContent a[href^="gopher://"] {	 
+padding:0 13px 0 0;	 
+}
+
+.mw-textarea-protected {
+  border:2px solid #FF0000;
+  color:navy;
+}

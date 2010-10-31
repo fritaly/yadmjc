@@ -1,0 +1,137 @@
+/* FEUILLE DE STYLE POUR MONOBOOK SEULEMENT
+Cette page contrôle l'apparence pour l'apparence Monobook. Les modifications
+devant s'appliquer à toutes les apparences devraient aller dans MediaWiki:Common.css.
+*/
+
+/* ÉLEMENTS HTML DE BASE */
+ins { text-decoration:none; background:#dfc !important; }
+del { text-decoration:line-through !important; }
+
+/* COULEUR DE FOND PAR ESPACE DE NOM */
+/* Special */
+.ns--1 #content,
+.ns--1 #p-cactions li,
+.ns--1 #p-cactions li a { background:#F8FCFF; }
+/* main */
+.ns-0 * #content,
+.ns-0 * #p-cactions li,
+.ns-0 * #p-cactions li a { background:#FFF; }
+/* Utilisateur */
+.ns-2 * #content,
+.ns-2 * #p-cactions li,
+.ns-2 * #p-cactions li a { background:#FFF; }
+/* Wikipédia */
+.ns-4 * #content,
+.ns-4 * #p-cactions li,
+.ns-4 * #p-cactions li a { background:#F4F4F4; }
+/* Image */
+.ns-6 * #content,
+.ns-6 * #p-cactions li,
+.ns-6 * #p-cactions li a {  background:#FFF; }
+/* MediaWiki */
+.ns-8 * #content,
+.ns-8 * #p-cactions li,
+.ns-8 * #p-cactions li a { background:#EEF; }
+/* Modèle */
+.ns-10 * #content,
+.ns-10 * #p-cactions li,
+.ns-10 * #p-cactions li a { background:#FFF; }
+/* Aide */
+.ns-12 * #content,
+.ns-12 * #p-cactions li,
+.ns-12 * #p-cactions li a { background:#F8FCFF; } /* Test, voir [[Wikipédia:Le Bistro/4 octobre 2007]] */
+/* Catégorie */
+.ns-14 * #content,
+.ns-14 * #p-cactions li,
+.ns-14 * #p-cactions li a { background:#FFF; }
+/* Portail */
+.ns-100 * #content,
+.ns-100 * #p-cactions li,
+.ns-100 * #p-cactions li a { background:#FFF; }
+/* Projet */
+.ns-102 * #content,
+.ns-102 * #p-cactions li,
+.ns-102 * #p-cactions li a { background:#F6F6F6; }
+/* Référence */
+.ns-104 * #content,
+.ns-104 * #p-cactions li,
+.ns-104 * #p-cactions li a { background:#EFE; }
+/* Pages de discussion */
+.ns-talk * #content,
+.ns-talk * #p-cactions li,
+.ns-talk * #p-cactions li a { background:#FFE }
+
+/* PAGES DE DISCUSSION : COLORATION INDENTÉE */
+.ns-talk dd {
+ margin:0;
+ padding:0;
+}
+
+.ns-talk dl {
+ border-top:solid 1px #F0F080;
+ border-left:solid 1px #F0F080;
+ padding-top:.5em;
+ padding-left:.5em;
+ margin-left:1em;
+}
+
+.ns-talk dl,
+.ns-talk dl dl dl,
+.ns-talk dl dl dl dl dl,
+.ns-talk dl dl dl dl dl dl dl,
+.ns-talk dl dl dl dl dl dl dl dl dl
+{ background:#FFFFE0 }
+
+.ns-talk dl dl,
+.ns-talk dl dl dl dl,
+.ns-talk dl dl dl dl dl dl,
+.ns-talk dl dl dl dl dl dl dl dl,
+.ns-talk dl dl dl dl dl dl dl dl dl dl
+{ background:#FFE }
+
+/* SUPPRESSION DE LA MISE EN MINUSCULE DANS LE MENU PERSONNEL */
+#p-personal li {
+ text-transform:none;
+ font-variant:normal;
+}
+
+/* APPARENCE DES TITRES DE SECTION DANS LE MENU DE GAUCHE */
+.portlet h5 {
+ text-transform:none;
+ font-variant:normal;
+ background:#e0e3e6;
+ border:thin solid silver;
+}
+
+/* POINT POUR LA CARTE DU MONDE */
+div.PointCarte {
+ position:absolute;
+ width:1px;
+ height:1px;
+ background:#000;
+ border:1px solid #FFF;
+}
+
+/* MODÈLES DE COORDONNÉES */
+#coordinates {
+ position:absolute;
+ z-index:1;
+ right:30px;
+ top:3.7em;
+ font-size:85%;
+}
+
+/* TABLE DES MATIÈRES */
+#toc { margin-top:1em }
+
+/* IMAGES
+Rend blanc au lieu de gris le fond des images transparentes en thumb. */
+div.thumb .thumbimage { background:white; }
+
+/* bordure des thumb au memes couleurs que le fond */
+.ns-4 div.thumb{
+border-color:#F4F4F4;
+}
+.ns-talk div.thumb{
+border-color:#FFE;
+}

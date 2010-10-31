@@ -1,0 +1,2203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html class="js" dir="ltr" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+
+  
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Technical Documentation - File Formats - Dungeon File (DUNGEON.DAT) | Dungeon Master Encyclopaedia</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="search" title="DM Encyclopaedia Search" href="http://dmweb.free.fr/sites/all/modules/dmwebmodule/dmwebopensearch.xml" type="application/opensearchdescription+xml">
+<link rel="shortcut icon" href="http://dmweb.free.fr/sites/all/themes/dmwebtheme/favicon.ico" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" media="all" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/node.css">
+<link type="text/css" rel="stylesheet" media="all" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/defaults.css">
+<link type="text/css" rel="stylesheet" media="all" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/system.css">
+<link type="text/css" rel="stylesheet" media="all" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/system-menus.css">
+<link type="text/css" rel="stylesheet" media="all" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/user.css">
+<link type="text/css" rel="stylesheet" media="all" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/content-module.css">
+<link type="text/css" rel="stylesheet" media="all" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/date.css">
+<link type="text/css" rel="stylesheet" media="all" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/lightbox.css">
+<link type="text/css" rel="stylesheet" media="all" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/forum.css">
+<link type="text/css" rel="stylesheet" media="all" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/views.css">
+<link type="text/css" rel="stylesheet" media="all" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/comment.css">
+<link type="text/css" rel="stylesheet" media="all" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/style.css">
+<link type="text/css" rel="stylesheet" media="print" href="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/print.css">
+    <script type="text/javascript" src="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/jquery.js"></script>
+<script type="text/javascript" src="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/drupal.js"></script>
+<script type="text/javascript" src="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/soundmanager2.js"></script>
+<script type="text/javascript" src="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/dmweb.js"></script>
+<script type="text/javascript" src="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/lightbox.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/", "lightbox2": { "rtl": 0, "file_path": "/(\\w\\w/)files", "default_image": "/sites/all/modules/lightbox2/images/brokenimage.jpg", "border_size": "10", "font_color": "000", "box_color": "9E9E9E", "top_position": "", "overlay_opacity": "0.8", "overlay_color": "0C4B54", "disable_close_click": 1, "resize_sequence": "0", "resize_speed": 10, "fade_in_speed": 10, "slide_down_speed": 10, "use_alt_layout": 0, "disable_resize": 0, "disable_zoom": 0, "force_show_nav": 0, "loop_items": 0, "node_link_text": "View Image Details", "node_link_target": 0, "image_count": "Image !current of !total", "video_count": "Video !current of !total", "page_count": "Page !current of !total", "lite_press_x_close": "press \x3ca href=\"#\" onclick=\"hideLightbox(); return FALSE;\"\x3e\x3ckbd\x3ex\x3c/kbd\x3e\x3c/a\x3e to close", "download_link_text": "", "enable_login": false, "enable_contact": false, "keys_close": "c x 27", "keys_previous": "p 37", "keys_next": "n 39", "keys_zoom": "z", "keys_play_pause": "32", "display_image_size": "", "image_node_sizes": "()", "trigger_lightbox_classes": "", "trigger_lightbox_group_classes": "", "trigger_slideshow_classes": "", "trigger_lightframe_classes": "", "trigger_lightframe_group_classes": "", "custom_class_handler": 0, "custom_trigger_classes": "", "disable_for_gallery_lists": 0, "disable_for_acidfree_gallery_lists": true, "enable_acidfree_videos": true, "slideshow_interval": 5000, "slideshow_automatic_start": true, "slideshow_automatic_exit": true, "show_play_pause": true, "pause_on_next_click": false, "pause_on_previous_click": true, "loop_slides": false, "iframe_width": 600, "iframe_height": 400, "iframe_border": 1, "enable_video": 0 } });
+//--><!]]>
+</script>
+    <!--[if lt IE 7]>
+      <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/dmwebtheme/fix-ie.css" />    <![endif]-->
+    <meta name="description" content="A reference site for Dungeon Master, Chaos Strikes Back, Dungeon Master II The Legend Of Skullkeep, Theron's Quest and Dungeon Master Nexus. It provides detailed maps, manuals, lists of items, skills, spells and creatures and much more information.">
+    <meta name="robots" content="noodp">
+  </head><body class="sidebar-left lightbox-processed">
+
+<!-- Layout -->
+  <div id="header-region" class="clear-block"></div>
+
+    <div id="wrapper">
+    <div id="container" class="clear-block">
+
+      <div id="header">
+        <div id="logo-floater">
+        <h1><a href="http://dmweb.free.fr/" title="Dungeon Master Encyclopaedia"><img src="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/logo.png" alt="Dungeon Master Encyclopaedia" id="logo"><span>Dungeon Master Encyclopaedia</span></a></h1>        </div>
+
+                  <ul class="links primary-links"><li class="menu-54 first"><a href="http://dmweb.free.fr/?q=view/CategoryBrowser">Content Categories</a></li>
+<li class="menu-37"><a href="http://dmweb.free.fr/?q=forum">Site Forum</a></li>
+<li class="menu-36 last"><a href="http://www.dungeon-master.com/forum">dungeon-master.com Forums</a></li>
+</ul>                                  
+      </div> <!-- /header -->
+
+              <div id="sidebar-left" class="sidebar">
+          <div class="block block-theme"><form action="/?q=node/217" accept-charset="UTF-8" method="post" id="search-theme-form">
+<div><div id="search" class="container-inline">
+  <div class="form-item" id="edit-search-theme-form-1-wrapper">
+ <label for="edit-search-theme-form-1">Search this site: </label>
+ <input maxlength="128" name="search_theme_form" id="edit-search-theme-form-1" size="15" title="Enter the terms you wish to search for." class="form-text" type="text">
+</div>
+<input name="op" id="edit-submit" value="Search" class="form-submit" type="submit">
+<input name="form_build_id" id="form-ad1666b75e1c5e60db11340b6db64390" value="form-ad1666b75e1c5e60db11340b6db64390" type="hidden">
+<input name="form_id" id="edit-search-theme-form" value="search_theme_form" type="hidden">
+</div>
+
+</div></form>
+<small><a href="http://dmweb.free.fr/?q=search">More search options</a></small></div>          <div id="block-user-1" class="clear-block block block-user">
+
+  <h2>Navigation</h2>
+
+  <div class="content"><ul class="menu"><li id="the_games_series" class="expanded first"><a href="http://dmweb.free.fr/?q=node/1168">The games series</a><ul class="menu"><li id="dungeon_master" class="leaf first"><a href="http://dmweb.free.fr/?q=node/247">Dungeon Master</a></li>
+<li id="chaos_strikes_back" class="leaf"><a href="http://dmweb.free.fr/?q=node/249">Chaos Strikes Back</a></li>
+<li id="dungeon_master_ii" class="leaf"><a href="http://dmweb.free.fr/?q=node/250">Dungeon Master II</a></li>
+<li id="therons_quest" class="leaf"><a href="http://dmweb.free.fr/?q=node/252">Theron's Quest</a></li>
+<li id="dungeon_master_nexus" class="leaf last"><a href="http://dmweb.free.fr/?q=node/251">Dungeon Master Nexus</a></li>
+</ul></li>
+<li id="related_products" class="leaf"><a href="http://dmweb.free.fr/?q=taxonomy/term/85%2B86%2B55" title="">Related products</a></li>
+<li id="ftl_games" class="leaf"><a href="http://dmweb.free.fr/?q=node/100">FTL Games</a></li>
+<li id="fan_made" class="expanded"><a href="http://dmweb.free.fr/?q=node/870">Fan made</a><ul class="menu"><li id="clones" class="leaf first"><a href="http://dmweb.free.fr/?q=view/Clones">Clones</a></li>
+<li id="custom_dungeons" class="expanded"><a href="http://dmweb.free.fr/?q=view/CustomDungeons">Custom Dungeons</a><ul class="menu"><li id="reviews" class="leaf first last"><a href="http://dmweb.free.fr/?q=view/CustomDungeonsReviews">Reviews</a></li>
+</ul></li>
+<li id="tools" class="leaf last"><a href="http://dmweb.free.fr/?q=view/Tools">Tools</a></li>
+</ul></li>
+<li id="faq" class="leaf"><a href="http://dmweb.free.fr/?q=view/FAQ">FAQ</a></li>
+<li id="technical_documentation" class="leaf"><a href="http://dmweb.free.fr/?q=taxonomy/term/39">Technical Documentation</a></li>
+<li id="wiki" class="leaf"><a href="http://dmweb.free.fr/?q=view/Wiki">Wiki</a></li>
+<li id="links" class="leaf"><a href="http://dmweb.free.fr/?q=view/Links">Links</a></li>
+<li id="site_news" class="leaf"><a href="http://dmweb.free.fr/?q=tracker">Site news</a></li>
+<li id="content_categories" class="leaf"><a href="http://dmweb.free.fr/?q=view/CategoryBrowser">Content Categories</a></li>
+<li id="contact" class="leaf"><a href="http://dmweb.free.fr/?q=node/204">Contact</a></li>
+<li id="news_feed" class="leaf"><a href="http://dmweb.free.fr/?q=node/feed" title="News feed">News feed</a></li>
+<li id="windows_live_alerts" class="leaf"><a href="http://signup.alerts.live.com/alerts/login.do?PINID=41190349&amp;returnURL=http://dmweb.free.fr/">Windows Live Alerts</a></li>
+<li id="log_in" class="leaf last"><a href="http://dmweb.free.fr/?q=user">Log in</a></li>
+</ul></div>
+</div>
+        </div>
+      
+      <div id="center"><div id="squeeze"><div class="right-corner"><div class="left-corner">
+          <div class="breadcrumb"><a href="http://dmweb.free.fr/">Home</a> › <a href="http://dmweb.free.fr/?q=node">content</a></div>                    <div id="quickmenu"><form id="ContentCategories"><h2>Content Categories</h2><table><tbody><tr class="odd"><td><input value="Show" id="ContentCategoriesSubmit" type="button"></td> <td>Click
+ a category to display the list of pages in this category. Check several
+ categories and click 'Show' to display the list of pages in all 
+selected categories. Click anywhere outside this category list to hide 
+it.</td></tr><tr class="even"><th>Games</th><td><input name="C17" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/17">Dungeon&nbsp;Master</a> <input name="C22" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/22">Chaos&nbsp;Strikes&nbsp;Back</a> <input name="C33" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/33">Dungeon&nbsp;Master&nbsp;II</a> <input name="C34" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/34">Theron's&nbsp;Quest</a> <input name="C35" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/35">Dungeon&nbsp;Master&nbsp;Nexus</a> </td></tr><tr class="odd"><th>Platforms</th><td><input name="C21" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/21">Amiga</a> <input name="C24" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/24">Apple&nbsp;IIGS</a> <input name="C20" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/20">Atari&nbsp;ST</a> <input name="C26" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/26">FM-Towns</a> <input name="C59" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/59">IBM&nbsp;PS/V</a> <input name="C29" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/29">Macintosh</a> <input name="C28" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/28">PC</a> <input name="C27" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/27">PC-9801&nbsp;/&nbsp;PC-9821</a> <input name="C30" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/30">Sega&nbsp;CD&nbsp;/&nbsp;Mega&nbsp;CD</a> <input name="C32" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/32">Sega&nbsp;Saturn</a> <input name="C25" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/25">Super&nbsp;NES&nbsp;/&nbsp;Super&nbsp;Famicom</a> <input name="C31" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/31">TurboGrafx&nbsp;/&nbsp;PC&nbsp;Engine</a> <input name="C23" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/23">X68000</a> </td></tr><tr class="even"><th>Other</th><td><input name="C40" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/40">Champions</a> <input name="C57" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/57">Creatures</a> <input name="C41" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/41">Items</a> <input name="C44" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/44">Spells</a> <input name="C42" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/42">Maps</a> <input name="C45" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/45">Hints</a> <input name="C46" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/46">Walkthroughs</a> <input name="C56" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/56">Reviews</a> <input name="C43" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/43">Screenshots</a> <input name="C18" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/18">Scans</a> <input name="C19" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/19">Manuals</a> <input name="C47" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/47">Downloads</a> <input name="C49" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/49">Music</a> <input name="C58" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/58">Videos</a> <input name="C84" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/84">Advertisements</a> <input name="C85" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/85">Related&nbsp;products</a> <input name="C86" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/86">Audio&nbsp;CD</a> <input name="C55" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/55">Hint&nbsp;books</a> <input name="C87" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/87">FTL&nbsp;Games</a> <input name="C74" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/74">Interviews</a> <input name="C36" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/88">Clones (Traditional)</a> <input name="C36" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/89">Clones (Modern)</a> <input name="C81" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/81">CSBwin</a> <input name="C80" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/80">Tools</a> <input name="C39" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/39">Technical&nbsp;Documentation</a> <input name="C54" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/54">News</a> <input name="C50" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/50">PDF</a> <input name="C52" type="checkbox"><a href="http://dmweb.free.fr/?q=taxonomy/term/52">Web&nbsp;site</a> </td></tr></tbody></table></form></div>
+                              <div style="display: block;" id="toc">
+          <div id="toc-title">Contents</div>
+          <div id="toc-content"><div class="toc-h3"><a href="#toc0">Dungeon description</a></div><div class="toc-h3"><a href="#toc10">Detailed file structure</a></div><div class="toc-h4"><a href="#toc14">0000h (00000) 44 bytes - File header</a></div><div class="toc-h4"><a href="#toc16">002Ch (44) 224 bytes - Map definitions</a></div><div class="toc-h4"><a href="#toc21">010Ch (268) 818 bytes - Index of tiles with objects on them (per column)</a></div><div class="toc-h4"><a href="#toc24">043Eh (1086) 3358 bytes - List of object IDs of first objects on tiles</a></div><div class="toc-h4"><a href="#toc31">115Ch (4444) 3498 bytes - Text Data</a></div><div class="toc-h4"><a href="#toc40">1F06h (7942) 680 bytes - List of doors</a></div><div class="toc-h4"><a href="#toc45">21AEh (8622) 1074 bytes - List of teleporters</a></div><div class="toc-h4"><a href="#toc49">25E0h (9696) 500 bytes - List of texts (wall texts, champion skills and statistics, messages)</a></div><div class="toc-h4"><a href="#toc52">27D4h (10196) 5472 bytes - List of actuators</a></div><div class="toc-h4"><a href="#toc66">3D34h (15668) 2912 bytes - List of creatures</a></div><div class="toc-h4"><a href="#toc71">4894h (18580) 428 bytes - List of weapons</a></div><div class="toc-h4"><a href="#toc74">4A40h (19008) 484 bytes - List of clothes</a></div><div class="toc-h4"><a href="#toc77">4C24h (19492) 140 bytes - List of scrolls</a></div><div class="toc-h4"><a href="#toc82">4CB0h (19632) 224 bytes - List of potions</a></div><div class="toc-h4"><a href="#toc85">4D90h (19856) 96 bytes - List of containers</a></div><div class="toc-h4"><a href="#toc89">4DF0h (19952) 1120 bytes - List of miscellaneous items</a></div><div class="toc-h4"><a href="#toc92">4DF0h (19952) 0 bytes - List of missiles</a></div><div class="toc-h4"><a href="#toc95">4DF0h (19952) 0 bytes - List of clouds</a></div><div class="toc-h4"><a href="#toc98">5250h (21072) 12283 bytes - Map data</a></div><div class="toc-h4"><a href="#toc109">824Bh (33355) 1 word - Checksum</a></div><div class="toc-h4"><a href="#toc112">824Dh (33357) 0 bytes - End of file</a></div><div class="toc-h3"><a href="#toc113">Compressed dungeons</a></div><div class="toc-h4"><a href="#toc115">0000h (00000) 28 bytes - File header</a></div><div class="toc-h4"><a href="#toc117">0000h (00028) x bytes - Compressed data</a></div><div class="toc-h3"><a href="#toc120">Special Thanks</a></div><div class="toc-h3"><a href="#toc122">History of this document</a></div></div>
+          </div>
+                    <h2>Technical Documentation - File Formats - Dungeon File (DUNGEON.DAT)</h2>                                                  <div class="clear-block">
+            <div id="node-217" class="node">
+
+
+
+      <span class="submitted">Mon, 2005-10-24 02:00 — Christophe Fontanel</span>
+  
+  <div class="content clear-block">
+    <h3 id="toc0">Dungeon description</h3>
+<p>Version 1.7 - April 13, 2009<br>
+by Christophe Fontanel</p>
+<p>Dungeon files are called DUNGEON.DAT in most versions of the games. 
+The Apple II GS dungeon file is called DUNGEON.GAME (this version also 
+contains an additional dungeon file called DUNGEON.BONUS for the Kid 
+Dungeon). In multilingual versions, DUNGEONF.DAT and DUNGEONG.DAT are 
+also used respectively for French and German versions of the dungeons.</p>
+<p>Each dungeon file describes a complete dungeon with walls, doors, 
+items, creatures, etc... It is possible to play completely new games by 
+replacing the original dungeon files by new fan-made dungeons.</p>
+<p>The file format for dungeons is nearly the same for all versions of 
+Dungeon Master, Chaos Strikes Back and Dungeon Master II. Here are the 
+few differences:</p>
+<ul>
+<li>Little endian or big endian<br>
+Computers can store a word of data (2 bytes) in two ways:
+<ul>
+<li>Little endian: the least significant byte is stored first. Dungeons 
+use this format on Apple II GS, PC, Super NES, FM-Towns, PC-98 and IBM 
+PS-V.</li>
+<li>Big endian: the most significant byte is stored first. Dungeons use 
+this format on Atari ST, Amiga, X68000, Macintosh and Sega CD.</li>
+</ul>
+<p>It is possible to convert a dungeon between these two formats by 
+swapping the two bytes of each word of data (single bytes must not be 
+swapped).</p></li>
+<li>Checksum<br>
+A dungeon file may optionnaly include a 16 bits checksum (a word) at the
+ end of the file. The games will accept dungeons with a correct checksum
+ or no checksum at all, but they will reject a dungeon with an incorrect
+ checksum (This was not checked with all versions).<br>
+In Dungeon Master versions 1.x (Atari ST), the original dungeon files never have a checksum.<br>
+In Dungeon Master and Chaos Strikes Back versions 2.x and above, English
+ dungeon files always have a checksum and non English dungeon files 
+never have a checksum (this applies to the Dungeon Master dungeon, the 
+Kid Dungeon and the Chaos Strikes Back Prison.<br>
+In the Chaos Strikes Back dungeon and in the Dungeon Master II dungeon 
+(including beta and demo versions) there is always a checksum.</li>
+<li>Compression<br>
+Each dungeon file may be optionnaly compressed. Most versions of the 
+games will accept both compressed and uncompressed dungeons, but for 
+example Dungeon Master for Atari ST version 1.2 English does not support
+ compressed dungeons. (This was not checked with all versions).</li>
+</ul>
+<p>Here is a summary of the properties of the dungeons from all the available versions of the games on this site:</p>
+<table>
+<tbody><tr>
+<th>Dungeon File Description<br>
+MD5 Hash</th>
+<th>Endian</th>
+<th>Checksum</th>
+<th>Compressed Size (if compressed)</th>
+<th>Uncompressed size</th>
+<th>Notes</th>
+</tr>
+<tr>
+<th colspan="6">Dungeon Master</th>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (Atari ST 1.0 EN JC)<br>
+<code>EBCCB5F99C4437ADCB34D9228B57EB6A</code></td>
+<td>Big</td>
+<td>No</td>
+<td></td>
+<td>33286</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (Atari ST 1.0 EN JG)<br>
+<code>C4A54AF4284F40BC3D53FE2C7EF5195B</code></td>
+<td>Big</td>
+<td>No</td>
+<td></td>
+<td>33314</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (Atari ST 1.1 EN)<br>
+<code>E0333C81C52E957DACD3B45739D077C9</code></td>
+<td>Big</td>
+<td>No</td>
+<td></td>
+<td>33442</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (Atari ST 1.2 EN)<br>
+<code>050FB2CFDED1B502EC2C53956B94C5BD</code></td>
+<td>Big</td>
+<td>No</td>
+<td></td>
+<td>33442</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (Atari ST 1.2 GE)<br>
+<code>CEA11D6E9F7E1698FC95329FE3FB0899</code></td>
+<td>Big</td>
+<td>No</td>
+<td></td>
+<td>33792</td>
+<td>Identical to uncompressed DUNGEON.DAT (Amiga 2.0 &amp; 2.2 GE), DUNGEONG.DAT (Amiga 3.6 EN FR GE)</td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (Atari ST 1.3 FR)<br>
+<code>DFD82FB7D44E4B5CC81ADD257655C966</code></td>
+<td>Big</td>
+<td>No</td>
+<td></td>
+<td>33774</td>
+<td>Identical to uncompressed DUNGEON.DAT (Amiga 2.0 FR), DUNGEONF.DAT (Amiga 3.6 EN FR GE)</td>
+</tr>
+<tr class="odd">
+<td>DUNGEON.GAME (Apple IIGS 2.0 EN)<br>
+<code>E10959DE5CE74E48A17E2CC84D1C0B92</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td>25006</td>
+<td>33444</td>
+<td>Once converted to big endian, identical to DUNGEON.DAT (Amiga 2.0 &amp; 2.1 &amp; 2.2 EN, 3.6 EN FR GE)</td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (Amiga 2.0 &amp; 2.1 &amp; 2.2 EN, 3.6 EN FR GE)<br>
+<code>30028FB6A301ECB20127EF0B3AF32B05</code></td>
+<td>Big</td>
+<td>Yes</td>
+<td>25006</td>
+<td>33444</td>
+<td>Once converted to little endian, identical to dungeon.game (Apple IIGS 2.0 EN)</td>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (Amiga 2.0 FR), DUNGEONF.DAT (Amiga 3.6 EN FR GE)<br>
+<code>C0E1BF1B9C5578681879D624BB28E663</code></td>
+<td>Big</td>
+<td>No</td>
+<td>25414</td>
+<td>33774</td>
+<td>Once uncompressed, identical to DUNGEON.DAT (Atari ST 1.3 FR)</td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (Amiga 2.0 &amp; 2.2 GE), DUNGEONG.DAT (Amiga 3.6 EN FR GE)<br>
+<code>59E332CF47852D5C7C88A9538F0ADCEA</code></td>
+<td>Big</td>
+<td>No</td>
+<td>25380</td>
+<td>33792</td>
+<td>Once uncompressed, identical to DUNGEON.DAT (Atari ST 1.2 GE)</td>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (FM-Towns 2.0 EN)<br>
+<code>3DC0A932D0E0ADFE59878F07C51700C5</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td></td>
+<td>33423</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (FM-Towns 2.0 JP, PC-98 2.0 JP)<br>
+<code>FE098F70CE83CFE3F2333565093DAF35</code></td>
+<td>Little</td>
+<td>No</td>
+<td></td>
+<td>33931</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (X68000 3.0 JP)<br>
+<code>3E9612E7137BB0BA63D79D35F3458B4E</code></td>
+<td>Big</td>
+<td>No</td>
+<td></td>
+<td>33990</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (PC 3.4 EN, 3.4 EN FR GE)<br>
+<code>766450C940651FC021C92FE5D0D0B3A6</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td></td>
+<td>33357</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>DUNGEONF.DAT (PC 3.4 EN FR GE)<br>
+<code>82C7802122E9CFB2DC117BC9D197F457</code></td>
+<td>Little</td>
+<td>No</td>
+<td></td>
+<td>33687</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>DUNGEONG.DAT (PC 3.4 EN FR GE)<br>
+<code>B9487DB563FF9E89605C77EE44D17D14</code></td>
+<td>Little</td>
+<td>No</td>
+<td></td>
+<td>33705</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Extract (Super NES 1.0 ENEU, 1.0 ENUS, 1.0 &amp; 1.1 JP)<br>
+<code>049D670A12CC1979F20AC0E15EDDDD79</code></td>
+<td>Little</td>
+<td>No</td>
+<td></td>
+<td>33380</td>
+<td>This dungeon was extracted from the Super NES ROM using <a href="http://dmweb.free.fr/?q=node/657" class="internal">DM SNES-PC Exchange</a></td>
+</tr>
+<tr>
+<th colspan="6">Kid Dungeon (Bonus dungeon supplied with some versions of the game)</th>
+</tr>
+<tr class="odd">
+<td>DUNGEON.BONUS (Apple IIGS 2.0 EN)<br>
+<code>550EFD94ECB941D44E65DEF1B758587C</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td>4958</td>
+<td>6562</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>DUNGEONB.DAT (Amiga 2.2 EN, 2.2 GE)<br>
+<code>D42915CF346494EFA0ED78CFBBB4C2B5</code></td>
+<td>Big</td>
+<td>Yes</td>
+<td>4806</td>
+<td>6359</td>
+<td></td>
+</tr>
+<tr>
+<th colspan="6">Chaos Strikes Back Prison (where you can choose champions)</th>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (Atari ST 2.0 &amp; 2.1 EN Game Disk, Amiga 3.1 &amp; 3.5 EN Game Disk, Amiga 3.1 &amp; 3.3 EN FR GE Game Disk)<br>
+<code>6695D2ACEBCE49F95DB1D8F3A5C733DE</code></td>
+<td>Big</td>
+<td>Yes</td>
+<td>2098</td>
+<td>2622</td>
+<td>Once converted to little endian, identical to DUNGEON.DAT (FM-Towns 3.1 EN)</td>
+</tr>
+<tr class="even">
+<td>DUNGEONF.DAT (Amiga 3.1 &amp; 3.3 EN FR GE Game Disk)<br>
+<code>5ECE6270669693F7F48BD2E1E350CDB6</code></td>
+<td>Big</td>
+<td>No</td>
+<td>2091</td>
+<td>2624</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>DUNGEONG.DAT (Amiga 3.1 &amp; 3.3 EN FR GE Game Disk)<br>
+<code>7926A41466C7113C082A8D766B2E5A16</code></td>
+<td>Big</td>
+<td>No</td>
+<td>2076</td>
+<td>2618</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (FM-Towns 3.1 EN)<br>
+<code>83C56CF1B779E7460A55C9299EBEB04B</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td>2098</td>
+<td>2622</td>
+<td>Once converted to big endian, identical to DUNGEON.DAT (Atari ST 2.0
+ &amp; 2.1 EN Game Disk, Amiga 3.1 &amp; 3.5 EN Game Disk, Amiga 3.1 
+&amp; 3.3 EN FR GE Game Disk)</td>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (FM-Towns 3.1 JP, PC-98 31. JP)<br>
+<code>7CA51C17EF8BD542CA5F0273672EC1A5</code></td>
+<td>Little</td>
+<td>No</td>
+<td>2065</td>
+<td>2600</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (X68000 3.1 JP)<br>
+<code>8EEA67CFDF033031530E9B4F88D57066</code></td>
+<td>Big</td>
+<td>No</td>
+<td>2066</td>
+<td>2602</td>
+<td></td>
+</tr>
+<tr>
+<th colspan="6">Chaos Strikes Back (extracted from MINI.DAT saved game)</th>
+</tr>
+<tr class="odd">
+<td>MINI.DAT (Atari ST 2.0 &amp; 2.1 EN)<br>
+<code>9B5D7323884BE0FFA20F74D54B6A9039</code></td>
+<td>Big</td>
+<td>Yes</td>
+<td></td>
+<td>32655</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>MINI.DAT (Amiga EN R1 &amp; R2 &amp; R3 &amp; RX)<br>
+<code>F12B500022EC4ED87C7220F12A072098</code></td>
+<td>Big</td>
+<td>Yes</td>
+<td></td>
+<td>32688</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>MINIF.DAT (Amiga FR)<br>
+<code>E74F95A65907D6CDFEFCFC3D13A0DEAE</code></td>
+<td>Big</td>
+<td>Yes</td>
+<td></td>
+<td>32776</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>MINIG.DAT (Amiga GE)<br>
+<code>05E615C44984A0F168ACA867C646CD2F</code></td>
+<td>Big</td>
+<td>Yes, Invalid!</td>
+<td></td>
+<td>32780</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>MINI.DAT (FM-Towns 3.1 EN)<br>
+<code>9B7F387DCF7FC221F08274E6D5EA1531</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td></td>
+<td>32684</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>MINI.DAT (FM-Towns 3.1 JP)<br>
+<code>870E5764D6BA74BE3806C6ABEA733347</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td></td>
+<td>33116</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>MINI.DAT (PC-98 3.1 JP)<br>
+<code>05CF681CCF56F5B6B23A654868EA9CB8</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td></td>
+<td>33124</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>MINI.DAT (X68000 3.1 JP)<br>
+<code>9834E01A73F61306CA145D792193F737</code></td>
+<td>Big</td>
+<td>Yes</td>
+<td></td>
+<td>33124</td>
+<td></td>
+</tr>
+<tr>
+<th colspan="6">Dungeon Master II Beta version on PC</th>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (PC Beta 0.9 EN)<br>
+<code>80D989890FFCA46BABC84442272E2089</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td></td>
+<td>39554</td>
+<td></td>
+</tr>
+<tr>
+<th colspan="6">Dungeon Master II Demo</th>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (PC Demo 1.0 EN)<br>
+<code>9794F25CC83BEFA0BD798AE0442EAE9D</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td></td>
+<td>6535</td>
+<td>Once converted to big endian, identical to DUNGEON.DAT (Macintosh Demo 1.0 EN)</td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (Macintosh Demo 1.0 EN)<br>
+<code>C9C909CB8CC2ED68DEF20211B8C1CAF6</code></td>
+<td>Big</td>
+<td>Yes</td>
+<td></td>
+<td>6535</td>
+<td>Once converted to little endian, identical to DUNGEON.DAT (PC Demo 1.0 EN)</td>
+</tr>
+<tr>
+<th colspan="6">Dungeon Master II</th>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (Amiga 1.0 EN, Macintosh 1.0 EN)<br>
+<code>719AE78BC124027806C65491A256827D</code></td>
+<td>Big</td>
+<td>Yes</td>
+<td></td>
+<td>39411</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (Macintosh 1.0 JP)<br>
+<code>29F386D5EC836BB5294155F6975F1E01</code></td>
+<td>Big</td>
+<td>Yes</td>
+<td></td>
+<td>37957</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (PC 1.0 EN, 1.0 FR, 1.0 GE)<br>
+<code>6CACCD7875009E82FE2E28E7F6D6ADC0</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td></td>
+<td>39437</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (Sega CD 1.0 EN)<br>
+<code>918CA21778D88A028BB7541DC064BB41</code></td>
+<td>Big</td>
+<td>Yes</td>
+<td></td>
+<td>37957</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (Sega CD 1.0 JP)<br>
+<code>92F83C251FEC69E01C594BC01CE5CD51</code></td>
+<td>Big</td>
+<td>Yes</td>
+<td></td>
+<td>37957</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (FM-Towns 1.0 JP)<br>
+<code>74C7549F174574201988BF936385841A</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td></td>
+<td>37954</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>DUNGEON.DAT (PC-9801 1.0 JP)<br>
+<code>74616DFE800CA2A5DAC76A60A95387E5</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td></td>
+<td>39004</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>DUNGEON.DAT (IBM PS-V 1.0 JP, PC-9821 1.0 JP)<br>
+<code>FA644B2451AF197874EE7DC3951E7033</code></td>
+<td>Little</td>
+<td>Yes</td>
+<td></td>
+<td>37957</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>Notes</p>
+<ul>
+<li>The DUNGEON.DAT file in Chaos Strikes Back is the prison (the little
+ two levels dungeon where you choose your champions when you start a new
+ game). The main dungeon is stored as a saved game on the utility disk 
+(the file is called MINI.DAT).</li>
+<li>In Dungeon Master II, the music to play on each map is not stored in the dungeon file.</li>
+<li>Dungeons can contain up to 256 maps of 32x32 tiles. Maps can be on 
+64 levels (several maps can be on the same level, like in the main 
+exterior level in Dungeon Master II)</li>
+</ul>
+<h3 id="toc10">Detailed file structure</h3>
+<p>Here is a detailed description of the contents of the DUNGEON.DAT file from Dungeon Master for PC.<br>
+This example is used to show the structure of a dungeon file. Offsets would be different in other dungeons.<br>
+Notes:</p>
+<ul>
+<li>This file is 33357 bytes long.</li>
+</ul>
+<p>In this part of the document, each section of the file is entitled 
+with the following information: Offset hexadecimal (offset decimal) Size
+ of section in bytes - Description of section.<br>
+Below the title of each section are details about its content.</p>
+<h4 id="toc14">0000h (00000) 44 bytes - File header</h4>
+<ul>
+<li>1 word: 0063 (99) : Random seed and Dungeon ID. This value is used 
+to define where to display random decorations on walls and floors.<br>
+It is also a unique value identifying the dungeon. Hint Oracle hints 
+files refer to this value to associate the dungeon with the hints file. 
+It is stored in the header of the hints file as described on <a href="http://dmweb.free.fr/?q=node/219" class="internal">Technical Documentation - File Formats - Hint Oracle Hints File (HCSB.HTC)</a>.<br>
+Values are 99 (Dungeon Master), 8 (Chaos Strikes Back Prison), 13 (Chaos Strikes Back Dungeon), 0 (Dungeon Master II).</li>
+<li>1 word: 2FFB (12283) : Size of global map data in bytes (total size of all maps)</li>
+<li>1 byte: 0E (14) : Number of maps (in Dungeon Master and Chaos Strikes Back, number of maps = number of levels)</li>
+<li>1 byte: 00 (0) : Unused, padding</li>
+<li>1 word: 06D5 (1749): Text data size in words (1749 words * 2 = 3498 bytes)</li>
+<li>1 word: 0861 (0000 10 00011 00001 : X=1, Y=3, facing south) : Starting party position (must start on map 0)
+<ul>
+<li>Bits 15-12: Unused</li>
+<li>Bits 11-10: Facing
+<ul>
+<li>'00' North</li>
+<li>'01' East</li>
+<li>'10' South</li>
+<li>'11' West</li>
+</ul>
+</li>
+<li>Bits 9-5: Y coordinate</li>
+<li>Bits 4-0: X coordinate</li>
+</ul>
+</li>
+<li>1 word: 068F (1679) : Object list size in words (1679 words * 2 = 3358 bytes)</li>
+<li>16 words: Number of objects of each type:
+<ul>
+<li>1 word: 00AA (170) : Number of doors</li>
+<li>1 word: 00B3 (179) : Number of teleporters</li>
+<li>1 word: 007D (125) : Number of texts</li>
+<li>1 word: 02AC (684) : Number of actuators</li>
+<li>1 word: 00B6 (182) : Number of creatures</li>
+<li>1 word: 006B (107) : Number of weapons</li>
+<li>1 word: 0079 (121) : Number of clothes</li>
+<li>1 word: 0023 (35) : Number of scrolls</li>
+<li>1 word: 0038 (56) : Number of potions</li>
+<li>1 word: 000C (12) : Number of containers</li>
+<li>1 word: 0118 (280) : Number of miscellaneous items</li>
+<li>3 words: 0000 0000 0000 : Unused</li>
+<li>1 word: 0000 (0) : Number of missiles</li>
+<li>1 word: 0000 (0) : Number of clouds</li>
+</ul>
+</li>
+</ul>
+<h4 id="toc16">002Ch (44) 224 bytes - Map definitions</h4>
+<p>Each map is defined by 16 bytes (14 maps * 16 bytes = 224 bytes)</p>
+<ul>
+<li>1 word: Offset of map data in global map data</li>
+<li>1 word: This word is not used by Dungeon Master and Chaos Strikes 
+Back, where its value is always 0000. It is only used in Dungeon Master 
+II.<br>
+This word is a bit field defining which components are used on the map:
+<ul>
+<li>Bits 15-9: Unused</li>
+<li>Bit 8: Door type 1</li>
+<li>Bit 7: Door type 0</li>
+<li>Bit 6: Portraits</li>
+<li>Bit 5: Blue haze of teleporters</li>
+<li>Bit 4: Stairs going down</li>
+<li>Bit 3: Stairs going up</li>
+<li>Bit 2: Nearly invisible pit. This bit is always set to 0 in the 
+Dungeon Master II dungeon because it does not use this kind of pits. 
+However the pictures do exist and they work fine, even with this bit set
+ to 0)</li>
+<li>Bit 1: Pit in the ceiling. Always set to 1 in the Dungeon Master II 
+dungeon, probably because detecting that with the original dungeon 
+editor was too difficult (as it would need to examine other maps)</li>
+<li>Bit 0: Normal pit</li>
+</ul>
+<p>The exact role of these bits is not clear.<br>
+If one bit for doors is set to 0 then the corresponding doors are not 
+displayed and replaced by a grimacing face (the door frame is still 
+displayed, though).<br>
+The other bits can be changed from 1 to 0 without any visible impact as things are still displayed correctly.<br>
+This word may be used to allocate memory for graphics or for color 
+palette management. What is known is that the values are used by the 
+code.</p></li>
+<li>1 word: 0000 : Unused</li>
+<li>1 byte: Map offset x</li>
+<li>1 byte: Map offset y</li>
+<li>1 word: Map size
+<ul>
+<li>Bits 15-11: Map height - 1</li>
+<li>Bits 10-6: Map width - 1</li>
+<li>Bits 5-0: Level number. Several maps can be at the same level in 
+order to produce large levels. This is only used in Dungeon Master II 
+where for example the exterior level (level 6) is made of 26 maps, 
+resulting in a global size of 86x93 tiles. Here are the associations of 
+levels and maps in the Dungeon Master II dungeon:
+<ul>
+<li>Level 1: Map 01</li>
+<li>Level 2: Maps 02 03</li>
+<li>Level 3: Maps 04 05</li>
+<li>Level 4: Maps 06 07</li>
+<li>Level 5: Maps 08 09</li>
+<li>Level 6: Maps 10 11 14 15-19 22-34 37 39 41-43</li>
+<li>Level 7: Maps 00 12 20 21 35 36 40</li>
+<li>Level 8: Map 13</li>
+<li>Level 9: -</li>
+<li>Level 10: Map 38</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>1 word: Number of graphics
+<ul>
+<li>Bits 15-12: Number of floor graphics available for random decorations</li>
+<li>Bits 11-8: Number of floor graphics available in the map</li>
+<li>Bits 7-4: Number of wall graphics available for random decorations</li>
+<li>Bits 3-0: Number of wall graphics available in the map</li>
+</ul>
+<p>Note: The number of graphics available for random decorations must be
+ smaller than the number of graphics available in the map. The first 
+graphics in the lists of available graphics (defined at the end of each 
+map data) are used for random decorations.<br>
+Random decorations are only placed on the sides of 'Wall' and 'Floor' 
+tiles if they allow them (four bits to allow each side of the tile to 
+receive a decoration). The program generates a random number between 0 
+and 29. If the random number is lesser than the number of graphics 
+available for random decorations, then the decoration is displayed.</p>
+</li>
+<li>1 word:
+<ul>
+<li>Bits 15-12: Map difficulty. The difficulty (also known as 'depth') 
+is used as an experience multiplier and to determine the initial hit 
+points of generated creatures. Difficulty 0 produces permanent light, as
+ in the Hall of Champions.</li>
+<li>Bits 11-8: These bits are not used by the games, but there are some non zero values:<br>
+Dungeon Master: Value 4 for map 3, Value 1 for map 5, Value 3 for map 12<br>
+Chaos Strikes Back: Value 3 for map 0, Value 1 for map 1, Value 3 for 
+map 2, Value 4 for map 3, Value 2 for map 4, Value 3 for map 5, Value 3 
+for map 6, Value 3 for map 7, Value 2 for map 8, Value 2 for map 9<br>
+Dungeon Master II: Values 1 to 5</li>
+<li>Bits 7-4: Number of creatures types allowed in map</li>
+<li>Bits 3-0: Number of door decoration graphics (7 max)</li>
+</ul>
+</li>
+<li>1 word: Door graphics.
+<ul>
+<li>Bits 15-12: Graphics for door type 1
+<ul>
+<li>'0000' (0) Grate door</li>
+<li>'0001' (1) Wooden door</li>
+<li>'0010' (2) Iron door</li>
+<li>'0011' (3) Ra door</li>
+<li>Other values: Unknown</li>
+</ul>
+</li>
+<li>Bits 11-8: Graphics for door type 0 (Same possible values as door type 1)</li>
+<li>Bits 7-4: Map graphics style. Must be 0h in Dungeon Master and Chaos
+ Strikes Back because there is only one style available (other values 
+cause graphical glitches or crashes). Here are the possible values in 
+Dungeon Master 2:
+<ul>
+<li>0: Blue zone</li>
+<li>1: Outside</li>
+<li>2: Cave</li>
+<li>3: Interior</li>
+<li>4: Skullkeep roof</li>
+<li>5: Mist</li>
+</ul>
+</li>
+<li>Bits 3-0: 00 : Floor and ceiling graphics style. Must be 0h in 
+Dungeon Master and Chaos Strikes Back because there is only one style 
+available (other values cause graphical glitches or crashes). Unused in 
+Dungeon Master II (always 0h).</li>
+</ul>
+</li>
+</ul>
+<p>The Dungeon Master dungeon contains 14 maps, one per level.<br>
+The Chaos Strikes Back Prison dungeon contains 2 maps, one per level.<br>
+The Chaos Strikes Back dungeon contains 11 maps, one per level. The last map is empty.<br>
+The Dungeon Master II dungeon contains 44 maps on 7 levels. Here is a short description of each map:</p>
+<ul>
+<li>00 Level 7: Hall of champions </li>
+<li>01 Level 1: Skullkeep, Roof</li>
+<li>02 Level 2: Skullkeep, Lightnings corridor, Skeleton and Onyx keys</li>
+<li>03 Level 2: Skullkeep, Door to access Dragoth map</li>
+<li>04 Level 3: Skullkeep, Rams pushing to pits</li>
+<li>05 Level 3: Skullkeep, Moving teleporters, Fireball reflection</li>
+<li>06 Level 4: Skullkeep, Multiple doors and switches</li>
+<li>07 Level 4: Skullkeep, Flying chest (below map 4)</li>
+<li>08 Level 5: Skullkeep, Vexirks and corridor of fire</li>
+<li>09 Level 5: Skullkeep, Zo pit, first machine room</li>
+<li>10 Level 6: Skullkeep, Boiler and Pyro</li>
+<li>11 Level 6: Skullkeep, Entrance</li>
+<li>12 Level 7: Dru Tan map, Blood key</li>
+<li>13 Level 8: Fire elementals</li>
+<li>14 Level 6: Thorn demons</li>
+<li>15 Level 6: Wolves (Second key)</li>
+<li>16 Level 6: Exterior: Glops (Beginning of game)</li>
+<li>17 Level 6: Cemetery</li>
+<li>18 Level 6: Merchant</li>
+<li>19 Level 6: Food merchant</li>
+<li>20 Level 7: Cave below wolves map</li>
+<li>21 Level 7: Leads below Skullkeep (Second Tempest)</li>
+<li>22 Level 6: Home, Altar of Vi</li>
+<li>23 Level 6: Temple: moving pits</li>
+<li>24 Level 6: Merchant</li>
+<li>25 Level 6: Trees, marsh</li>
+<li>26 Level 6: Gigglers, Fireballs</li>
+<li>27 Level 6: Non material creatures (First key)</li>
+<li>28 Level 6: Two merchants (clothes and weapons)</li>
+<li>29 Level 6: Axes map (Third key)</li>
+<li>30 Level 6: Above map 30, access to merchants</li>
+<li>31 Level 6: Merchant</li>
+<li>32 Level 6: Weapons merchant (Vorax)</li>
+<li>33 Level 6: Exterior: near Skullkeep entrance</li>
+<li>34 Level 6: Merchant</li>
+<li>35 Level 7: Cave: Bats</li>
+<li>36 Level 7: Below the temple (random doors)</li>
+<li>37 Level 6: Not accessible</li>
+<li>38 Level 10: Dragoth map</li>
+<li>39 Level 6: Exterior: Access to Wolves map</li>
+<li>40 Level 7: Skeletons below Skullkeep</li>
+<li>41 Level 6: Exterior: access to cemetery, back to temple, merchant</li>
+<li>42 Level 6: Exterior: access to axes map</li>
+<li>43 Level 6: Bats under Skulkeep (pits to close)</li>
+</ul>
+<h4 id="toc21">010Ch (268) 818 bytes - Index of tiles with objects on them (per column)</h4>
+<p>This section contains one word for each column in each map of the 
+dungeon, from left to right and above to below. The sum of the widths of
+ all maps is 409. (409 columns * 2 bytes = 818 bytes)</p>
+<p>Each word contains the number of tiles having one (or more) object(s)
+ on them encountered so far while browsing all the dungeon columns. The 
+first word is always 0 because at the beginning of the very first 
+column, no object has been encountered yet. The second word contains the
+ number of tiles having objects on them in the first column. The third 
+word contains the number of tiles having objects on them in the first 
+and second columns, etc... Consequently, each word value is greater or 
+equal to the previous value. The last word in this section contains the 
+number of tiles having objects on them in the whole dungeon, excepted 
+those in the last column of the last map. As there are no objects in the
+ last column of the original Dungeon Master dungeon, the last word 
+contains exactly the number of tiles having objects on them in the whole
+ dungeon (this value is 1300).<br>
+The content of this section is used as a shortcut as it can be rebuilt easily.</p>
+<h4 id="toc24">043Eh (1086) 3358 bytes - List of object IDs of first objects on tiles</h4>
+<p>Each ID is defined by 2 bytes. 1679 (item list size) * 2 = 3358 bytes<br>
+There is free space at the end, filled with FF FF words. An FF FF word means that no object is referenced.<br>
+2600 bytes used (1300 objects), 758 (379 objects) FF bytes</p>
+<p>Each tile has a bit to specify if there are objects on it. Tiles are 
+ordered as in the dungeon file: from up to down, left to right, first 
+map to the last map. The first object ID is located on the first tile 
+having an object, etc...</p>
+<p>When several objects are located on the same tile, only the first one
+ is referenced here. Each object references the next object ID located 
+on the same tile. The last object in a linked list has this next object 
+ID: FFFEh</p>
+<p>A given object should NOT be referenced by several other objects. The
+ game engine does not allow this and will often crash or corrupt save 
+games when you do so. However, there are few situations where it will 
+work without causing any trouble.</p>
+<p>Object ID</p>
+<ul>
+<li>1 word:
+<ul>
+<li>Bits 15-14: Object position on tile: North/Top left (00) East/Top right (01) South/Bottom left (10) West/bottom right (11)</li>
+<li>Bits 13-10: Object category
+<ul>
+<li>0000 (0) Doors</li>
+<li>0001 (1) Teleporters</li>
+<li>0010 (2) Wall texts and messages</li>
+<li>0011 (3) Actuators</li>
+<li>0100 (4) Creatures</li>
+<li>0101 (5) Weapons</li>
+<li>0110 (6) Clothes</li>
+<li>0111 (7) Scrolls</li>
+<li>1000 (8) Potions</li>
+<li>1001 (9) Containers</li>
+<li>1010 (10) Miscellaneous objects</li>
+<li>1011 (11) Unused</li>
+<li>1100 (12) Unused</li>
+<li>1101 (13) Unused</li>
+<li>1110 (14) Missiles. There must not be such objects in a dungeon 
+file, only in saved games. Otherwise they would stay in place in the 
+dungeon because the associated timer would be missing.</li>
+<li>1111 (15) Clouds. There must not be such objects in a dungeon file, 
+only in saved games. Otherwise they would stay in place in the dungeon 
+because the associated timer would be missing.</li>
+</ul>
+</li>
+<li>Bits 9-0: Object number in list. Valid values range from 0 to 1021.</li>
+</ul>
+</li>
+</ul>
+<h4 id="toc31">115Ch (4444) 3498 bytes - Text Data</h4>
+<p>Text is encoded. Each word of text data contains 3 codes of 5 bits, and 1 unused bit.<br>
+In Dungeon Master and Chaos Strikes Back, the champions characteristics 
+are encoded in texts. In Dungeon Master 2, champions characteristics are
+ stored in the graphics.dat file.</p>
+<ul>
+<li>1 word: 3 characters
+<ul>
+<li>Bit 15: Unused</li>
+<li>Bits 14-10: First character</li>
+<li>Bits 9-5: Second character</li>
+<li>Bits 4-0: Third character</li>
+</ul>
+</li>
+</ul>
+<p>Here is the character encoding:</p>
+<ul>
+<li>0 to 25: 'A' to 'Z'</li>
+<li>26: Space</li>
+<li>27: '.'</li>
+<li>28: Carriage return</li>
+<li>29: Escape code 1. When character 29 is found, the next character is read from a table in graphic item 559.</li>
+<li>30: Escape code 2. When character 30 is found, the next character is
+ read from one of two tables in graphic item 559, depending on whether 
+the text is a wall text or not. In the PC version, the texts are:
+<ul>
+<li>0: 'AND '</li>
+<li>1: '!'</li>
+<li>2: 'THE '</li>
+<li>3: 'YOU '</li>
+<li>4 to 31: Unused</li>
+</ul>
+</li>
+<li>31: End of text</li>
+</ul>
+<p>For details about the extended strings obtained with escape codes, please refer to <a href="http://dmweb.free.fr/?q=node/1395" class="internal">Technical Documentation - Graphics.dat Item 559</a> (Atari ST versions).<br>
+In Dungeon Master and Chaos Strikes Back, the initial champion 
+statistics and skills are stored as text in the dungeon file. In Dungeon
+ Master II, this information is stored in the graphics.dat file.<br>
+These special texts have the following structure:</p>
+<ul>
+<li>Name: 7 characters maximum, followed by a carriage return.</li>
+<li>Title: 19 characters maximum. The title string is split in two parts
+ of 17 + 2 characters. Each part is followed by a carriage return. The 
+game concatenates the two parts of the title.</li>
+<li>Gender: 1 character (must be 'M' or 'F') followed by a carriage 
+return. The gender makes not difference, it is not used by the game 
+engine.</li>
+<li>Health: 4 characters.</li>
+<li>Stamina: 4 characters. This value is always 10 times the value displayed in the game.</li>
+<li>Mana: 4 characters followed by a carriage return.</li>
+<li>Luck: 2 characters. This statistic is not visible in the game.</li>
+<li>Strength: 2 characters.</li>
+<li>Dexterity: 2 characters.</li>
+<li>Wisdom: 2 characters.</li>
+<li>Vitality: 2 characters.</li>
+<li>Anti-magic: 2 characters.</li>
+<li>Anti-fire: 2 characters followed by a carriage return.</li>
+<li>Fighter: 4 characters, one for each hidden skill.</li>
+<li>Ninja: 4 characters, one for each hidden skill.</li>
+<li>Priest: 4 characters, one for each hidden skill.</li>
+<li>Wizard: 4 characters, one for each hidden skill, followed by an end of text character.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>The name, title and gender use the same encoding as normal texts (see above).</li>
+<li>The statistics and skills use an hexadecimal encoding: only 
+character codes 0 to 15 (0h to Fh) are allowed. Example: if in the 
+champion text, the string for health consists of the four characters 0h,
+ 0h, 3h and Bh then it must be interpreted as the hexadecimal value 
+0x003B which is equal to 59 health points in decimal.</li>
+<li>For the skills, each character specifies the initial starting level 
+in each hidden skill and not the initial starting experience points.<br>
+The visible skill levels are computed by adding the experience points 
+(not levels) in the 4 hidden skills, dividing by 2 and then convert this
+ experience amount to the corresponding experience level.<br>
+Please refer to the <a href="http://dmweb.free.fr/?q=node/691" class="internal">Technical Documentation - Dungeon Master and Chaos Strikes Back Skills and Statistics</a> for the link between experience points and experience levels.</li>
+<li>Dungeon Master II requires double amounts of experience points for 
+the same experience level compared to Dungeon Master and Chaos Strikes 
+Back.</li>
+</ul>
+<h4 id="toc40">1F06h (7942) 680 bytes - List of doors</h4>
+<p>Each door is defined by 4 bytes. (170 doors * 4 bytes = 680 bytes)</p>
+<p>Door objects must always be created on door tiles.</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word: Door attributes.
+<ul>
+<li>Bits 15-9: Unused. Might impact fireball or missile resistance in some versions.</li>
+<li>Bit 8: Bashable by chopping. This only works on wooden doors, and only characters of strength 39 or more can bash doors.
+<ul>
+<li>'0' Not bashable</li>
+<li>'1' Bashable</li>
+</ul>
+</li>
+<li>Bit 7: Destroyable by Fireball.
+<ul>
+<li>'0' Not destroyable</li>
+<li>'1' Destroyable</li>
+</ul>
+</li>
+<li>Bit 6: Button.
+<ul>
+<li>'0' Door without button</li>
+<li>'1' Door with button</li>
+</ul>
+</li>
+<li>Bit 5: Opening direction.
+<ul>
+<li>'0' Horizontal</li>
+<li>'1' Vertical</li>
+</ul>
+</li>
+<li>Bits 4-1: Ornate number (0 no ornate) Be careful to only use ornate 
+defined in the map definition, otherwise glithed graphics will appear.</li>
+<li>Bit 0: Door type (defines the appearance based on door graphics declared in map)</li>
+</ul>
+</li>
+</ul>
+<p>The attack power required to destroy a door depends on its type. The 
+resistance values are stored in the graphics.dat file in item 559, 
+offset 244h (4 words). Wooden doors are easy, grate doors are harder, 
+iron doors are very hard and Ra doors are nearly indestructible.</p>
+<h4 id="toc45">21AEh (8622) 1074 bytes - List of teleporters</h4>
+<p>Each teleporter is defined by 6 bytes. (179 doors * 6 bytes = 1074 bytes)</p>
+<p>Teleporter objects must always be created on teleporter tiles.</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word: Teleporter attributes
+<ul>
+<li>Bit 15: Sound.
+<ul>
+<li>'0' No sound</li>
+<li>'1' Sound</li>
+</ul>
+</li>
+<li>Bits 14-13: Scope
+<ul>
+<li>'00' Items</li>
+<li>'01' Creatures</li>
+<li>'10' Items / Party</li>
+<li>'11' Everything</li>
+</ul>
+</li>
+<li>Bit 12 Rotation type
+<ul>
+<li>'0' Relative rotation based on current party orientation.</li>
+<li>'1' Absolute rotation from North.</li>
+</ul>
+</li>
+<li>Bits 11-10: Rotation
+<ul>
+<li>'00' None/North</li>
+<li>'01' 90° clockwise/East</li>
+<li>'10' 180°/South</li>
+<li>'11' 90° anti-clockwise/West</li>
+</ul>
+</li>
+<li>Bits 9-5: Destination Y coordinate (without map offset)</li>
+<li>Bits 4-0: Destination X coordinate (without map offset)</li>
+</ul>
+</li>
+<li>1 word: Destination map
+<ul>
+<li>Bits 15-8: Destination map (the game hangs if you teleport to a non existant map)</li>
+<li>Bits 7-0: 00h Unused</li>
+</ul>
+</li>
+</ul>
+<h4 id="toc49">25E0h (9696) 500 bytes - List of texts (wall texts, champion skills and statistics, messages)</h4>
+<p>Each text is defined by 4 bytes. (125 texts * 4 bytes = 500 bytes)</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word: Referred text in text data.
+<ul>
+<li>Bits 15-3: If Bit 2 = 0 and Bit 1 = 0, Offset in text data of 
+beginning of text in number of words. Other cases are not decoded yet.</li>
+<li>Bit 2: Only used in Dungeon Master II
+<ul>
+<li>'0' Normal</li>
+<li>'1' Complex</li>
+</ul>
+</li>
+<li>Bit 1: Only used in Dungeon Master II
+<ul>
+<li>'0' Normal</li>
+<li>'1' Actuator</li>
+</ul>
+</li>
+<li>Bit 0: Text visibility
+<ul>
+<li>'0' Invisible text</li>
+<li>'1' Visible text</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="toc52">27D4h (10196) 5472 bytes - List of actuators</h4>
+<p>Each actuator is defined by 8 bytes. (684 actuators * 8 bytes = 5472 bytes)</p>
+<p>Actuators are used to display decorations on walls and floors and to implement the dungeon mechanics.<br>
+There are many type of actuators. For some types, the effect of the 
+actuator is different whether the actuator is on a floor tile or a wall 
+tile.<br>
+Actuators can target a tile that can be any tile on the same map 
+('Remote' type) or the tile where the actuator itself is located 
+('local' type).<br>
+Actuators can target other actuators, doors and pits (to open and close 
+them), teleporters and trick walls (to enable or disable them) and 
+texts.</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word:
+<ul>
+<li>Bits 15-7: Data (content depends on actuator type, see below)</li>
+<li>Bits 6-0: Type (all actuator types are listed below)</li>
+</ul>
+</li>
+<li>1 word:
+<ul>
+<li>Bits 15-12: Graphic number (0 is invisible). If there are several 
+actuators in the same location, only the last one in the list is 
+displayed and determines the active screen zones for mouse clicking.</li>
+<li>Bits 11: Action target type
+<ul>
+<li>'0' Remote tile</li>
+<li>'1' Local tile</li>
+</ul>
+</li>
+<li>Bits 10-7: Delay before action</li>
+<li>Bits 6: Sound effect</li>
+<li>Bits 5: Revert effect when stepping in and out of a tile</li>
+<li>Bits 4-3: Action type
+<ul>
+<li>'00' Set</li>
+<li>'01' Clear</li>
+<li>'10' Toggle (set if cleared, clear if set)</li>
+<li>'11' Hold</li>
+</ul>
+</li>
+<li>Bits 2: Once only actuator. When this bit is set, the actuator is disabled after its first activation by changing its type to 0.</li>
+<li>Bits 1-0: Unused</li>
+</ul>
+</li>
+<li>1 word: This word has different meaning depending on the action target type (Remote or Local).
+<p>For remote target:</p>
+<ul>
+<li>Bits 15-11: Y coordinate of target tile</li>
+<li>Bits 10-6: X coordinate of target tile</li>
+<li>Bits 5-4: Direction (for a wall tile, determines which wall's face is triggered, North East South West)</li>
+<li>Bits 3-0: Unused</li>
+</ul>
+<p>For local target:</p>
+<ul>
+<li>Bits 15-4: Action to execute
+<ul>
+<li>'0' No action</li>
+<li>'1' or '2' Rotation of actuators in the same tile. Sends the current actuator to the beginning of the list.</li>
+<li>'10' Experience gain in Ninja skill number 8. If the actuator is on a
+ floor tile, all champions get the experience. If the actuator is on a 
+wall tile, only the party leader gets the experience.</li>
+<li>Other values: No action</li>
+</ul>
+</li>
+<li>Bits 3-0: Unused</li>
+</ul>
+</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Bug: if you put creatures and actuators on the same tile, the 
+actuators must be located before the creature in the list of objects or 
+the game will crash.</li>
+<li>Bug: Actuators should not be put on the same wall as a champion 
+portrait or the champion portrait will display above the actuator 
+graphic. However, you can have a text object on the same tile with no 
+issue.</li>
+<li>Only tiles of type 'Wall' can have wall actuators. All other tile types are considered as floor regarding actuators.</li>
+<li>If you have an actuator on a strairs tile, it is only activated when
+ you arrive by this stair, not when you leave to another level (maybe 
+that was the purpose of the type 5 actuator, but it does not work).</li>
+<li>It is possible to have actuators on trick walls, but only without 
+decoration or the game may crash. Activation is similar to a floor tile.</li>
+</ul>
+<p>You can refer to the <a href="http://dmweb.free.fr/?q=node/886" class="internal">Technical Documentation - Dungeon Master and Chaos Strikes Back Items properties</a> page to find the complete list of index values to use in the Data field for each item.</p>
+<h5>Floor actuators</h5>
+<table>
+<tbody><tr>
+<th>Actuator type</th>
+<th>Details</th>
+</tr>
+<tr class="odd">
+<td>00 (Floor)<br>
+Inactive floor actuator</td>
+<td>Activated by: Nothing<br>
+Example use: display a floor decoration<br>
+Note: Once activated, the type of wall actuators that have the 'once only' flag is set to 'Inactive floor actuator'.</td>
+</tr>
+<tr class="even">
+<td>01 (Floor)<br>
+Floor actuator TPCI</td>
+<td>Activated by: Theron, Party, Creatures, Items</td>
+</tr>
+<tr class="odd">
+<td>02 (Floor)<br>
+Floor actuator TPC</td>
+<td>Activated by: Theron, Party, Creatures (but not items)</td>
+</tr>
+<tr class="even">
+<td>03 (Floor)<br>
+Floor actuator P</td>
+<td>Activated by: Party (but not Theron, Creatures and items). Activation also depends on the data value:
+<ul>
+<li>'0' Always activated</li>
+<li>'1' Activated only if party faces north</li>
+<li>'2' Activated only if party faces east</li>
+<li>'3' Activated only if party faces south</li>
+<li>'4' Activated only if party faces west</li>
+</ul>
+</td>
+</tr>
+<tr class="odd">
+<td>04 (Floor)<br>
+Floor actuator I</td>
+<td>Activated by: The item specified in the Data field (but not Theron, 
+Party or Creatures). The effect is triggered when at least one item of 
+this type is placed on the tile and canceled when all of them are 
+removed.</td>
+</tr>
+<tr class="even">
+<td>05 (Floor)<br>
+Stairs actuator</td>
+<td>Activated by: Party when it arrives from stairs. This type of actuator can only be put on stairs tiles.<br>
+Does not work before version 2.1 because of a bug in the code.</td>
+</tr>
+<tr class="odd">
+<td>06 (Floor)<br>
+Creature generator</td>
+<td>Activated by: Another actuator (via a timer object of type 5).<br>
+Generates a creature group on the tile. If the tile is occupied, for 
+example by another creature group, the timer stays in the queue for 
+later processing until the tile is free.<br>
+The two other words are used differently than for other actuators:<br>
+1 word:
+<ul>
+<li>Bits 15-12: Graphic number</li>
+<li>Bit 11: Unused</li>
+<li>Bit 10: Number of creatures
+<ul>
+<li>'0' Predefined number of generated creatures, stored in bits 9-7</li>
+<li>'1' Random number of generated creatures, their maximum number is stored in bits 9-7</li>
+</ul>
+</li>
+<li>Bits 9-7: Value for the number of creatures. Allowed values: 1 à 4, others values can cause crashes.</li>
+<li>Bit 6: Sound effect (teleport sound)</li>
+<li>Bits 5-3: Unused</li>
+<li>Bit 2: Once only actuator</li>
+<li>Bits 1-0: Unused</li>
+</ul>
+<p>1 word:</p>
+<ul>
+<li>Bits 15-8: Delay before next creature generation (activations of the
+ actuator before this delay are ignored). Value 0 causes no delay. 
+Values 1 to 127 cause the actuator to only work once. For values between
+ 128 and 255, a type 65 timer is queued to reactivate the actuator at 64
+ x ((Bits15-8) - 126).</li>
+<li>Bits 7-4: Hit point multiplier. If set to 0, the experience multiplier of the map is used.</li>
+<li>Bits 3-0: Unused</li>
+</ul>
+</td>
+</tr>
+<tr class="even">
+<td>07 (Floor)<br>
+Floor actuator C</td>
+<td>Activated by: Creatures (but not by Theron, Party or Items)</td>
+</tr>
+<tr class="odd">
+<td>08 (Floor)<br>
+Party possession detector</td>
+<td>Activated by the Party if any champion has the item specified in the Data field in its possessions (including the item in hand).</td>
+</tr>
+<tr class="even">
+<td>09 (Floor)<br>
+Version checker</td>
+<td>Implemented in engine version 2.0 and above of Dungeon Master and Chaos Strikes Back (no effect in earlier versions).<br>
+Put the required version in the Data field as 10 x version + revision. Example: '21' for version 2.1.<br>
+Activated if game engine version &lt;= required version.<br>
+Activated by Theron and Party only.<br>
+Meynaf has created a custom dungeon that can detect the version of the game using this actuator: <a href="http://dmweb.free.fr/?q=node/887" class="internal">Version checker dungeon</a></td>
+</tr>
+</tbody></table>
+<h5>Wall actuators</h5>
+<table>
+<tbody><tr>
+<th>Actuator type</th>
+<th>Details</th>
+</tr>
+<tr class="odd">
+<td>00 (Wall)<br>
+Inactive wall actuator</td>
+<td>Activated by: Nothing<br>
+Example use: display a wall decoration<br>
+Note: Once activated, the type of wall actuators that have the 'once only' flag is set to 'Inactive wall actuator'.</td>
+</tr>
+<tr class="even">
+<td>01 (Wall)</td>
+<td>Activated by: Mouse click on decoration with empty hand or any item.<br>
+For alcoves: any item placed in the alcove.</td>
+</tr>
+<tr class="odd">
+<td>02 (Wall)</td>
+<td>Activated by: If the 'Revert effect' flag is not set: mouse click on decoration with any item but not with empty hand.<br>
+If the 'Revert effect' flag is set: mouse click on decoration with empty
+ hand but not with any item. For alcoves: can only be activated with the
+ idem specified in the data field.</td>
+</tr>
+<tr class="even">
+<td>03 (Wall)</td>
+<td>Activated by: If the 'Revert effect' flag is not set: mouse click on
+ decoration with the item specified in the data field but not with any 
+other item or empty hand.<br>
+If the 'Revert effect' flag is set: mouse click on decoration with any item but not with the item specified in the data field.<br>
+For alcoves: Any item except the one specified in the data field.<br>
+The item used to activate the actuator is not removed from the hand.</td>
+</tr>
+<tr class="odd">
+<td>04 (Wall)</td>
+<td>Activated by: If the 'Revert effect' flag is not set: mouse click on
+ decoration with the item specified in the data field but not with any 
+other item or empty hand.<br>
+If the 'Revert effect' flag is set: mouse click on decoration with any 
+item but not with the item specified in the data field or empty hand.<br>
+The item used to activate the actuator is removed from the hand.<br>
+For alcoves: cannot be activated.</td>
+</tr>
+<tr class="even">
+<td>05 (Wall)<br>
+And / Or gate</td>
+<td>Activated by: Another actuator. (A type 6 timer is used to 
+set/clear/toggle the bit specified by byte 8 (position) of the timer 
+object)<br>
+The data field contains two 4 bits values. A reference state that is 
+defined at design time, and a current state that can be changed through 
+activations. The direction of an activation determines which bit of the 
+current state is affected.
+<ul>
+<li>Bit 15: Unused</li>
+<li>Bit 14: Reference state, West</li>
+<li>Bit 13: Reference state, South</li>
+<li>Bit 12: Reference state, East</li>
+<li>Bit 11: Reference state, North</li>
+<li>Bit 10: Current state, West</li>
+<li>Bit 9: Current state, South</li>
+<li>Bit 8: Current state, East</li>
+<li>Bit 7: Current state, North</li>
+</ul>
+<p>Effect: If the two 4 bits values are identical, the effect is produced.<br>
+If the two values are identical from the beginning, the actuator still 
+requires at least one activation before the effect is produced.</p>
+</td>
+</tr>
+<tr class="odd">
+<td>06 (Wall)<br>
+Counter</td>
+<td>Activated by: Another actuator<br>
+Direction of this actuator and direction of activation are ignore.<br>
+The data field is used as a counter. Each 'open' activation increases 
+the counter, each 'close' or 'toggle' activation decreases the counter. 
+When the counter reaches 0, the effect of the actuator is triggered and 
+the actuator is disabled definitively.<br>
+The actuator is considered 'pressed' if the counter is non-zero.</td>
+</tr>
+<tr class="even">
+<td>07 (Wall)<br>
+Weapon missile shooter</td>
+<td>Activated by: Another actuator<br>
+Effect: Shoots a missile in the direction defined by the position of the
+ actuator on the tile. The missile is shot randomly from the left or 
+right.<br>
+Direction of activation: Used.<br>
+Example use: usually a wall decoration is displayed to show holes in the wall.<br>
+The two other words are used differently than for other actuators:<br>
+1 word:
+<ul>
+<li>Bits 15-12: Graphic number</li>
+<li>Bit 11: Always set to 1 but has no effect.</li>
+<li>Bit 2: Once only actuator</li>
+</ul>
+<p>1 word:</p>
+<ul>
+<li>Bits 15-12: Missile power decrease. The higher this value, the 
+quicker the power will decrease and the shorter will be the shot. The 
+missile power is decreased by this value at each clock tick. This only 
+works correctly starting with Chaos Strikes Back v2.1. In previous 
+versions this value is hard coded to 0.</li>
+<li>Bits 11-4: Missile power. Determines the size of magic missiles and damage.</li>
+</ul>
+<p>The data field defines the missile type (items are created, no supply needed):</p>
+<ul>
+<li>'4' to '7': Torch</li>
+<li>'32' Dagger</li>
+<li>'51' Arrow</li>
+<li>'52' Slayer</li>
+<li>'54' Rock</li>
+<li>'55' Poison dart</li>
+<li>'56' Throwing star</li>
+<li>'128' Boulder</li>
+</ul>
+</td>
+</tr>
+<tr class="odd">
+<td>08 (Wall)<br>
+Magic missile shooter</td>
+<td>Identical to type 7, but a magic missile is created based on the value of the Data field:
+<ul>
+<li>'0' Fireball</li>
+<li>'1' Poison Blob</li>
+<li>'2' Lightning Bolt</li>
+<li>'3' Dispell</li>
+<li>'4' Zo spell</li>
+<li>'6' Poison Bolt</li>
+<li>'7' Poison Cloud</li>
+</ul>
+</td>
+</tr>
+<tr class="even">
+<td>09 (Wall)<br>
+Double weapon missile shooter</td>
+<td>Identical to type 7 (Wall), but shoots two missiles (one on each side)</td>
+</tr>
+<tr class="odd">
+<td>10 (Wall)<br>
+Double magic missile shooter</td>
+<td>Identical to type 8 (Wall), but shoots two missiles (one on each side)</td>
+</tr>
+<tr class="even">
+<td>11 (Wall)</td>
+<td>Identical to type 4 with these two differences:
+<ul>
+<li>the actuator is moved to the beginning of the list when activated</li>
+<li>the actuator can only be activated when it is at the end of the list</li>
+</ul>
+</td>
+</tr>
+<tr class="odd">
+<td>12 (Wall)<br>
+Item creator</td>
+<td>Activated by: Mouse click with empty hand<br>
+Effect: Creates an item of type specified in the Data field and puts it in the hand.<br>
+The actuator is moved to the beginning of the list when activated.<br>
+The actuator can only be activated when it is at the end of the list.<br>
+Can also activate another actuator.</td>
+</tr>
+<tr class="even">
+<td>13 (Wall)<br>
+Item storage</td>
+<td>Activated by: Mouse click with empty hand or Mouse click with an item of type specified in the Data field.<br>
+Effect: When clicked with empty hand, an item of the type specified in 
+the Data field is put in the hand if one can be found on the actuator 
+tile (no matter which position on the tile). If no item is available on 
+the tile there is no effect. When clicked with an item of the type 
+specified in the Data field in hand, the item is removed from the hand 
+and placed in the wall.<br>
+Example use: a torch holder. You can put a torch and get it from the torch holder.<br>
+Can also activate another actuator.</td>
+</tr>
+<tr class="odd">
+<td>14 (Wall)<br>
+Item missile shooter</td>
+<td>Activated by: Another actuator (by a type 6 timer)<br>
+Effect: Similar to type 7 but shoots the first item found on the actuator tile itself, on the same position as the actuator.<br>
+When there are no more items to shoot, the game can crash or shoot magic missiles. This bug was fixed in CSBwin.</td>
+</tr>
+<tr class="even">
+<td>15 (Wall)<br>
+Double item missile shooter</td>
+<td>Similar to type 14 but shoots the first two items. This actuator has the same bug when there are no more items to shoot.<br>
+In Chaos Strikes Back, the "Give up - pull the lever" zone uses this 
+actuator type and works fine only by chance (it crashes in Dungeon 
+Master v1.2)</td>
+</tr>
+<tr class="odd">
+<td>16 (Wall)<br>
+Item exchanger</td>
+<td>Activated by: Mouse click with the item specified in the Data field 
+in hand. The item is exchanged with the first item found on the actuator
+ tile (its position on the tile is ignored). If no item is found on the 
+tile, activation does not occur.</td>
+</tr>
+<tr class="even">
+<td>17 (Wall)</td>
+<td>Identical to type 11 but if it is not the only actuator on its wall side, the actuator is removed from the list.</td>
+</tr>
+<tr class="odd">
+<td>18 (Wall)<br>
+End game</td>
+<td>Activated by: Another actuator with any action and any direction.<br>
+Effect: triggers the end of the game (simply displays portraits on ST 
+versions). Only works with Chaos Strikes Back v2.0 and above.<br>
+Starting with version 2.1, a delay in seconds can be configured in Bits 
+10-7 of the second word. The game is stopped during this delay. The 
+delay is hard coded in version 2.0. The delay is removed in versions 
+with an end sequence like Chaos Strikes Back for Amiga v3.3.<br>
+Note : the Chaos Strikes Back dungeon does not use this delay and blocks the party with teleporters.<br>
+Bug : the delay value is always multiplied by 60 to get a number of VBL 
+to wait. This works fine for an NTSC system but for a PAL system the 
+delay value should be multiplied by 50. The effect is that on PAL system
+ the delay seems to be multiplied by 1,2 seconds.</td>
+</tr>
+<tr class="even">
+<td>127 (Wall)<br>
+Champion portrait (Dungeon Master and Chaos Strikes Back)</td>
+<td>The Data field contains the champion graphic number to use (0 to 23). Here is the list of champions to use:
+<ul>
+<li>00 Elija / Airwing</li>
+<li>01 Halk / Aroc</li>
+<li>02 Syra / Talon</li>
+<li>03 Hissssa / Leta</li>
+<li>04 Zed / Dema</li>
+<li>05 Chani / Algor</li>
+<li>06 Hawk / Toadrot</li>
+<li>07 Boris / Ven</li>
+<li>08 Mophus / Mantia</li>
+<li>09 Leif / Gnatu</li>
+<li>10 Wu Tse / Slogar</li>
+<li>11 Alex / Sting</li>
+<li>12 Linflas / Skelar</li>
+<li>13 Azizi / Deth</li>
+<li>14 Iaido / Necro</li>
+<li>15 Gando / Plague</li>
+<li>16 Stamm / Tunda</li>
+<li>17 Leyla / Lana</li>
+<li>18 Tiggy / Buzzzz</li>
+<li>19 Sonja / Petal</li>
+<li>20 Nabi / Itza</li>
+<li>21 Gothmog / Tula</li>
+<li>22 Wuuf / Kazai</li>
+<li>23 Daroou / Lor</li>
+</ul>
+<p>When the champion has been resurrected or reincarnated, the actuator 
+is disabled (changed to type 0). However, if other actuators are present
+ on the same tile, a bug allows cloning of the champion.<br>
+The tile in front of the portrait must contain a text object (preferably
+ disabled) containing the champion statistics and skills. The game 
+crashes if this text object is missing.<br>
+Note: although in FTL dungeons these actuators always target the tile in
+ front of the portrait with a direction identical to that of the 
+portrait, the game ignores this and always uses the tile in front of the
+ portrait, no matter which tile is specified.</p>
+</td>
+</tr>
+</tbody></table>
+<h5>Other actuators</h5>
+<table>
+<tbody><tr>
+<th>Actuator type</th>
+<th>Details</th>
+</tr>
+<tr class="odd">
+<td>19 to 125<br>
+Unused in Dungeon Master and Chaos Strikes Back. Some are used in Dungeon Master II)</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>126<br>
+Champion portrait (Dungeon Master II only)</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<p>All of the Dungeon Master and Chaos Strikes Back actuators can also 
+be used in Dungeon Master II except the champion portrait actuator which
+ is not recognized. Dungeon Master II also includes many additional 
+actuator types. Please visit <a href="http://members.at.infoseek.co.jp/danmasu/" class="external">Kentaro.k-21's web site</a> for more information about them.</p>
+<h4 id="toc66">3D34h (15668) 2912 bytes - List of creatures</h4>
+<p>Each monster is defined by 16 bytes. (182 creatures * 16 bytes = 2912 bytes)</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word: Next possession object ID. Although not recommended, it is 
+possible to put a creature as a possession of another creature. When the
+ creature dies, the other one is released.</li>
+<li>1 byte: Creature type. Here are the possible values in Dungeon Master and Chaos Strikes Back:
+<ul>
+<li>0 Giant Scorpion / Scorpion</li>
+<li>1 Swamp Slime / Slime Devil</li>
+<li>2 Giggler</li>
+<li>3 Wizard Eye / Flying Eye</li>
+<li>4 Pain Rat / Hellhound</li>
+<li>5 Ruster / -</li>
+<li>6 Screamer</li>
+<li>7 Rockpile / Rock pile</li>
+<li>8 Ghost / Rive</li>
+<li>9 Stone Golem</li>
+<li>10 Mummy</li>
+<li>11 Black Flame</li>
+<li>12 Skeleton</li>
+<li>13 Couatl</li>
+<li>14 Vexirk</li>
+<li>15 Magenta Worm / Worm</li>
+<li>16 Trolin / Ant Man</li>
+<li>17 Giant Wasp / Muncher</li>
+<li>18 Animated Armour / Deth Knight</li>
+<li>19 Materializer / Zytaz</li>
+<li>20 Water Elemental</li>
+<li>21 Oitu</li>
+<li>22 Demon / Demon</li>
+<li>23 Lord Chaos</li>
+<li>24 Red Dragon / Dragon</li>
+<li>25 Lord Order / -</li>
+<li>26 Grey Lord</li>
+</ul>
+</li>
+<li>1 byte: Position of each creature on the tile. FFh is a special value when there is a single creature in the center.
+<ul>
+<li>Bits 7-6: Position of creature 4</li>
+<li>Bits 5-4: Position of creature 3</li>
+<li>Bits 3-2: Position of creature 2</li>
+<li>Bits 1-0: Position of creature 1</li>
+</ul>
+</li>
+<li>1 word: Hit points of creature 1</li>
+<li>1 word: Hit points of creature 2</li>
+<li>1 word: Hit points of creature 3</li>
+<li>1 word: Hit points of creature 4</li>
+<li>1 word:
+<ul>
+<li>Bits 15-11: Unused</li>
+<li>Bits 10: Important object, non flushable</li>
+<li>Bits 9-8: Facing
+<ul>
+<li>'00' North</li>
+<li>'01' East</li>
+<li>'10' South</li>
+<li>'11' West</li>
+</ul>
+</li>
+<li>Bits 7: Unused</li>
+<li>Bits 6-5: Number of creatures in the group - 1</li>
+<li>Bits 4-0: Used only during the game</li>
+</ul>
+</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>There is a bug at least Dungeon Master for Atari ST v1.2 where you 
+should not use creatures 25 and 26: they can cause graphical glitches 
+and crashes.</li>
+<li>If a creature is teleported to a map where this type of creature is 
+not allowed, the creature is automatically killed. However, this will 
+cause an error if the creature has possessions (this was fixed in 
+CSBwin).</li>
+<li>In Dungeon Master, the facing direction of each creature can be 
+different. The program manages this at runtime only and the values 
+stored in the dungeon file are ignored.</li>
+<li>In Dungeon Master II, items like trees and tables are considered as creatures.</li>
+<li>In order to correctly display Black Flames, it is required to add the adequate circular floor decoration.</li>
+</ul>
+<h4 id="toc71">4894h (18580) 428 bytes - List of weapons</h4>
+<p>Each weapon is defined by 4 bytes. (107 weapons * 4 bytes = 428 bytes)</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word: Item description
+<ul>
+<li>Bit 15: Used at runtime, for example set when torch is lit</li>
+<li>Bits 14: Broken</li>
+<li>Bits 13-10: Number of charges</li>
+<li>Bit 9: Poisoned</li>
+<li>Bit 8: Cursed. This attribute has no effect in Dungeon Master 
+because it was never implemented in the game (however it was implemented
+ in Chaos Strikes Back). Falchions dropped by Animated Armours and Deth 
+Knights have this attribute set.
+<ul>
+<li>'0' Not cursed</li>
+<li>'1' Cursed</li>
+</ul>
+</li>
+<li>Bits 7: Important item. An important item will not be flushed if the
+ game has no more free space to store items dropped by creatures. Only 
+non important items can be flushed. Items dropped by creatures have this
+ bit set to 0.</li>
+<li>Bits 6-0: Item type. You can refer to the <a href="http://dmweb.free.fr/?q=node/886" class="internal">Technical Documentation - Dungeon Master and Chaos Strikes Back Items properties</a> page to find the complete list of possible values.</li>
+</ul>
+</li>
+</ul>
+<h4 id="toc74">4A40h (19008) 484 bytes - List of clothes</h4>
+<p>Each clothe is defined by 4 bytes. (121 clothes * 4 bytes = 484 bytes)</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word: Item attributes
+<ul>
+<li>Bit 15-14: Unused</li>
+<li>Bit 13: Broken</li>
+<li>Bit 12-9: Unused</li>
+<li>Bit 8: Cursed. This attribute has no effect in Dungeon Master 
+because it was never implemented in the game (however it was implemented
+ in Chaos Strikes Back). Torso plate, Armet, Foot plate and Leg plate 
+dropped by Animated Armours and Deth Knights have this attribute set.
+<ul>
+<li>'0' Not cursed</li>
+<li>'1' Cursed</li>
+</ul>
+</li>
+<li>Bit 7: Important item. An important item will not be flushed if the 
+game has no more free space to store items dropped by creatures. Only 
+non important items can be flushed. Items dropped by creatures have this
+ bit set to 0.</li>
+<li>Bits 6-0: Item type. You can refer to the <a href="http://dmweb.free.fr/?q=node/886" class="internal">Technical Documentation - Dungeon Master and Chaos Strikes Back Items properties</a> page to find the complete list of possible values.</li>
+</ul>
+</li>
+</ul>
+<h4 id="toc77">4C24h (19492) 140 bytes - List of scrolls</h4>
+<p>Each scroll is defined by 4 bytes. (35 scrolls * 4 bytes = 680 bytes)</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word: Scroll attributes
+<ul>
+<li>Bits 15-10: Used at runtime
+<ul>
+<li>'0' Open (in hand)</li>
+<li>'1' Closed</li>
+</ul>
+</li>
+<li>Bits 9-0: Referred text in list of text objects.</li>
+</ul>
+</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Scrolls ignore the visibility attribute of the referred text</li>
+<li>In some versions like Chaos Strikes Back for Amiga v3.3, if the text
+ is "MAGICMAP" or "CREANAME" then the scroll acts either as the magic 
+map or displays the name of the creature in front of the party.</li>
+<li>There are 14 characters maximum on each line, including the end of 
+text character but not the carriage return characters. If the end of 
+text character is the 15th character on a line, then garbage will be 
+displayed after. In some versions, you need at least two lines of text 
+or the program will display an additional line with garbage.</li>
+</ul>
+<h4 id="toc82">4CB0h (19632) 224 bytes - List of potions</h4>
+<p>Each potion is defined by 4 bytes. (56 potions * 4 bytes = 224 bytes)</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word: Item attributes.
+<ul>
+<li>Bit 15: Visible power (unused in Dungeon Master): determines whether the player can see the power of the potion.</li>
+<li>Bits 14-8: Potion type. You can refer to the <a href="http://dmweb.free.fr/?q=node/886" class="internal">Technical Documentation - Dungeon Master and Chaos Strikes Back Items properties</a> page to find the complete list of possible values.</li>
+<li>Bits 7-0: Potion power. 0 is an invalid value. The program accepts 
+all possible values. In Dungeon Master and Chaos Strikes Back, the power
+ displayed to the player is obtained by dividing the power value by 40. 
+The result is the symbol number between 1 and 6. In Dungeon Master II, 
+the potion power is displayed to the player with a bar.</li>
+</ul>
+</li>
+</ul>
+<h4 id="toc85">4D90h (19856) 96 bytes - List of containers</h4>
+<p>Each container is defined by 8 bytes. (12 containers * 8 bytes = 96 bytes)</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word: Next contained object ID</li>
+<li>1 word:
+<ul>
+<li>Bits 15-3: Unknown (Seems to have random content)</li>
+<li>Bits 2-1: Container type. In Dungeon Master and Chaos Strikes Back, the only valid value is 00 for the Chests.</li>
+<li>Bit 0: Unknown (Seems to have random content)</li>
+</ul>
+</li>
+<li>1 word: 00 00 : Unused</li>
+</ul>
+<p>Note: it is probably possible to get an open chest (like for open scrolls).</p>
+<h4 id="toc89">4DF0h (19952) 1120 bytes - List of miscellaneous items</h4>
+<p>Each miscellaneous item is defined by 4 bytes. (280 miscellaneous items * 4 bytes = 1120 bytes)</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word: Item attributes
+<ul>
+<li>Bits 15-14: Used for Waterskin / Compass / Bones
+<ul>
+<li>'00' Empty / North / Champion #1</li>
+<li>'01' Almost empty / East / Champion #2</li>
+<li>'10' Almost full / South / Champion #3</li>
+<li>'11' Full / West / Champion #4</li>
+</ul>
+<p>Also used by Illumulet &amp; Jewel Symal (worn / not worn)</p></li>
+<li>Bits 13-8: Unused</li>
+<li>Bits 7: Important item. An important item will not be flushed if the
+ game has no more free space to store items dropped by creatures. Only 
+non important items can be flushed. Items dropped by creatures have this
+ bit set to 0.</li>
+<li>Bits 6-0: Item type. You can refer to the <a href="http://dmweb.free.fr/?q=node/886" class="internal">Technical Documentation - Dungeon Master and Chaos Strikes Back Items properties</a> page to find the complete list of possible values.</li>
+</ul>
+</li>
+</ul>
+<h4 id="toc92">4DF0h (19952) 0 bytes - List of missiles</h4>
+<p>Each missile is defined by 8 bytes.</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word: Missile object (dagger, fireball, ...)</li>
+<li>1 byte: Energy remaining</li>
+<li>1 byte: Energy remaining 2</li>
+<li>1 word: Timer index</li>
+</ul>
+<h4 id="toc95">4DF0h (19952) 0 bytes - List of clouds</h4>
+<p>Each cloud is defined by 4 bytes.</p>
+<ul>
+<li>1 word: Next object ID.</li>
+<li>1 word:
+<ul>
+<li>Bits 15-8: Value. Like Damage.</li>
+<li>Bit 7: Unknown</li>
+<li>Bit 6-0: Type (50 is special to monsters?) (fluxcage?)</li>
+</ul>
+</li>
+</ul>
+<h4 id="toc98">5250h (21072) 12283 bytes - Map data</h4>
+<p>Each map is defined by a variable number of bytes. For each map in 
+order, there is one byte per tile, plus one byte for each creature 
+graphic, wall decoration graphic, floor decoration graphic and door 
+decoration graphics (in that order). The number of graphics of each kind
+ is specified in the map definition section.</p>
+<p>Each tile is defined by 1 byte.</p>
+<ul>
+<li>1 byte: Tile definition
+<ul>
+<li>Bits 7-5: Tile type:
+<ul>
+<li>'000' (0) Wall</li>
+<li>'001' (1) Floor</li>
+<li>'010' (2) Pit</li>
+<li>'011' (3) Stairs</li>
+<li>'100' (4) Door</li>
+<li>'101' (5) Teleporter</li>
+<li>'110' (6) Trick wall</li>
+<li>'111' (7) Empty tile. Only valid in Dungeon Master II.</li>
+</ul>
+</li>
+<li>Bit 4: Object(s) on this tile
+<ul>
+<li>'0' No object on this tile</li>
+<li>'1' A list of object on this tile</li>
+</ul>
+</li>
+<li>Bits 3-0: Tile attributes depending on tile type:
+<ul>
+<li>Wall
+<ul>
+<li>Bit 3:
+<ul>
+<li>'0' Do not allow random decoration on North side</li>
+<li>'1' Allow random decoration on North side</li>
+</ul>
+</li>
+<li>Bit 2:
+<ul>
+<li>'0' Do not allow random decoration on East side</li>
+<li>'1' Allow random decoration on East side</li>
+</ul>
+</li>
+<li>Bit 1:
+<ul>
+<li>'0' Do not allow random decoration on South side</li>
+<li>'1' Allow random decoration on South side</li>
+</ul>
+</li>
+<li>Bit 0:
+<ul>
+<li>'0' Do not allow random decoration on West side</li>
+<li>'1' Allow random decoration on West side</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Floor
+<ul>
+<li>Bit 3:
+<ul>
+<li>'0' Do not allow random decoration</li>
+<li>'1' Allow random decoration</li>
+</ul>
+</li>
+<li>Bit 2-0: Unused</li>
+</ul>
+</li>
+<li>Pit
+<ul>
+<li>Bit 0:
+<ul>
+<li>'0' Normal</li>
+<li>'1' Imaginary</li>
+</ul>
+</li>
+<li>Bit 1: Unused</li>
+<li>Bit 2:
+<ul>
+<li>'0' Visible</li>
+<li>'1' Invisible</li>
+</ul>
+</li>
+<li>Bit 3:
+<ul>
+<li>'0' Closed</li>
+<li>'1' Open</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Stairs
+<ul>
+<li>Bit 3: Orientation
+<ul>
+<li>'0' West-East</li>
+<li>'1' North-South</li>
+</ul>
+</li>
+<li>Bit 2: Direction
+<ul>
+<li>'0' Down</li>
+<li>'1' Up</li>
+</ul>
+</li>
+<li>Bit 1-0: Unused</li>
+</ul>
+</li>
+<li>Door
+<ul>
+<li>Bit 2-0: State
+<ul>
+<li>'000' Open</li>
+<li>'001' 1/4 open</li>
+<li>'010' 1/2 open</li>
+<li>'011' 3/4 open</li>
+<li>'100' Closed</li>
+<li>'101' Bashed</li>
+<li>'110' Invalid</li>
+<li>'111' Invalid</li>
+</ul>
+</li>
+<li>Bit 3: Orientation
+<ul>
+<li>'0' West-East</li>
+<li>'1' North-South</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Teleporter
+<ul>
+<li>Bit 1-0: Unused</li>
+<li>Bit 2: Visibility
+<ul>
+<li>'0' Invisible</li>
+<li>'1' Visible (blue haze)</li>
+</ul>
+</li>
+<li>Bit 3:
+<ul>
+<li>'0' Closed</li>
+<li>'1' Open</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Trick wall
+<ul>
+<li>Bit 0:
+<ul>
+<li>'0' False</li>
+<li>'1' Imaginary</li>
+</ul>
+</li>
+<li>Bit 1: Unused</li>
+<li>Bit 2:
+<ul>
+<li>'0' Closed</li>
+<li>'1' Open</li>
+</ul>
+</li>
+<li>Bit 3:
+<ul>
+<li>'0' Do not allow random decoration</li>
+<li>'1' Allow random decoration</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Empty tile
+<ul>
+<li>Bit 3-0: Unused.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Each creature graphic is defined by 1 byte. The number of bytes is specified in the map definition.</p>
+<p>Each wall decoration graphic is defined by 1 byte. The number of 
+bytes is specified in the map definition. Here is the list of possible 
+values for Dungeon Master:</p>
+<ul>
+<li>00 Unreadable Wall Inscription</li>
+<li>01 Square Alcove</li>
+<li>02 Vi Altar</li>
+<li>03 Arched Alcove</li>
+<li>04 Hook</li>
+<li>05 Iron Lock</li>
+<li>06 Wood Ring</li>
+<li>07 Small Switch</li>
+<li>08 Dent 1</li>
+<li>09 Dent 2</li>
+<li>10 Iron Ring</li>
+<li>11 Crack</li>
+<li>12 Slime Outlet</li>
+<li>13 Dent 3</li>
+<li>14 Tiny Switch</li>
+<li>15 Green Switch Out</li>
+<li>16 Blue Switch Out</li>
+<li>17 Coin Slot</li>
+<li>18 Double Iron Lock</li>
+<li>19 Square Lock</li>
+<li>20 Winged Lock</li>
+<li>21 Onyx Lock</li>
+<li>22 Stone Lock</li>
+<li>23 Cross Lock</li>
+<li>24 Topaz Lock</li>
+<li>25 Skeleton Lock</li>
+<li>26 Gold Lock</li>
+<li>27 Tourquoise Lock</li>
+<li>28 Emerald Lock</li>
+<li>29 Ruby Lock</li>
+<li>30 Ra Lock</li>
+<li>31 Master Lock</li>
+<li>32 Gem Hole</li>
+<li>33 Slime</li>
+<li>34 Grate</li>
+<li>35 Fountain</li>
+<li>36 Manacles</li>
+<li>37 Ghoul's Head</li>
+<li>38 Empty Torch Holder</li>
+<li>39 Scratches</li>
+<li>40 Poison Holes</li>
+<li>41 Fireball Holes</li>
+<li>42 Dagger Holes</li>
+<li>43 Champion Mirror</li>
+<li>44 Lever Up</li>
+<li>45 Lever Down</li>
+<li>46 Full Torch Holder</li>
+<li>47 Red Switch Out</li>
+<li>48 Eye Switch</li>
+<li>49 Big Switch Out</li>
+<li>50 Crack Switch Out</li>
+<li>51 Green Switch In</li>
+<li>52 Blue Switch In</li>
+<li>53 Red Switch In</li>
+<li>54 Big Switch In</li>
+<li>55 Crack Switch In</li>
+<li>56 Amalgam (Encased Gem)</li>
+<li>57 Amalgam (Free Gem)</li>
+<li>58 Amalgam (Without Gem)</li>
+<li>59 Lord Order (Outside)</li>
+</ul>
+<p>Each floor decoration graphic is defined by 1 byte. The number of 
+bytes is specified in the map definition. Here is the list of possible 
+values for Dungeon Master:</p>
+<ul>
+<li>00 Square Grate</li>
+<li>01 Square Pressure Pad</li>
+<li>02 Moss</li>
+<li>03 Round Grate</li>
+<li>04 Round Pressure Plate</li>
+<li>05 Black Flame Pit</li>
+<li>06 Crack</li>
+<li>07 Tiny Pressure Pad</li>
+<li>08 Puddle</li>
+</ul>
+<p>Each door decoration graphic is defined by 1 byte. The number of 
+bytes is specified in the map definition. Here is the list of possible 
+values for Dungeon Master:</p>
+<ul>
+<li>00 Square Grid</li>
+<li>01 Iron Bars</li>
+<li>02 Jewels</li>
+<li>03 Wooden Bars</li>
+<li>04 Arched Grid</li>
+<li>05 Block Lock</li>
+<li>06 Corner Lock</li>
+<li>07 Black door (Dungeon Entrance)</li>
+<li>08 Red Triangle Lock</li>
+<li>09 Triangle Lock</li>
+<li>10 Ra Door Energy</li>
+<li>11 Iron Door Damages</li>
+</ul>
+<h4 id="toc109">824Bh (33355) 1 word - Checksum</h4>
+<p>This word contains the checksum of all the previous data in the file.</p>
+<p>Tested on PC34ML version (to be tested with other versions): if 
+checksum is not present, no problem. If present and correct value, no 
+problem. If present but wrong value, then the message "The game is 
+damaged!" is displayed by the game.</p>
+<h4 id="toc112">824Dh (33357) 0 bytes - End of file</h4>
+<h3 id="toc113">Compressed dungeons</h3>
+<p>This section describes the format of a compressed dungeon file. Once 
+uncompressed, the data obtained has exactly the same format as an 
+uncompressed dungeon.</p>
+<h4 id="toc115">0000h (00000) 28 bytes - File header</h4>
+<ul>
+<li>1 word: 8104 (33028) : File signature. If a dungeon file starts with
+ this word value, the game will know that the dungeon is compressed.</li>
+<li>1 dword: Size of the uncompressed dungeon data.</li>
+<li>1 word: Unknown use. 000Ch or 0008h have been encountered.</li>
+<li>4 bytes: List of the 4 most common byte values in the dungeon data.</li>
+<li>16 bytes: List of the 16 less common byte values in the dungeon data.</li>
+</ul>
+<h4 id="toc117">0000h (00028) x bytes - Compressed data</h4>
+<p>The most common bytes in the uncompressed dungeon data are encoded as
+ three bits '0xx'. The two bits after the first '0' bit define the index
+ in the table of most common bytes.<br>
+The less common bytes in the uncompressed dungeon data are encoded as 
+six bits '10xxxx'. The four bits after the first two '10' bits define 
+the index in the table of less common bytes.<br>
+The least common bytes in the uncompressed dungeon data are encoded as 
+ten bits '11xxxxxxxx'. The eight bits after the first two '11' bits 
+directly define the byte value.</p>
+<p>In each byte of compressed data, bits are read from the most 
+significant one to the least significant one. Once all bits in a byte 
+have been used, the next byte is read from the file.</p>
+<h3 id="toc120">Special Thanks</h3>
+<p>I wish to thank Zyx and Meynaf for their dungeon.dat descriptions, 
+Sphenx for his precious help, Beowuuf for his DMute Hex guide, 
+kentaro-k.21 for his description of the Dungeon Master II actuators and 
+Paul R. Stevens for the source code of Chaos Strikes Back for Windows 
+and for help about the compression algorithm.</p>
+<h3 id="toc122">History of this document</h3>
+<dl>
+<dt>Version 1.7 - April 13, 2009</dt>
+<dd>The list of dungeons has been updated to include all known original dungeon files.</dd>
+<dt>Version 1.6 - February 14, 2009</dt>
+<dd>Added some information supplied by Meynaf regarding the second word in Map Definitions</dd>
+<dt>Version 1.5 - September 10, 2008</dt>
+<dd>Added some information supplied by Meynaf: DM Atari ST 1.2 EN does not support compressed dungeons,<br>
+Define the first word as a dungeon ID,<br>
+Explained how some dungeon texts are stored in graphics.dat.</dd>
+<dt>Version 1.4 - December 29, 2007</dt>
+<dd>Updated the List of texts section.<br>
+Renamed the 'Map exit' tile type to 'Empty tile'.</dd>
+<dt>Version 1.3 - February 11, 2007</dt>
+<dd>The last two bytes of creatures are in fact a word, they must be read as big or little endian depending on the platform.</dd>
+<dt>Version 1.2 - December 10, 2005</dt>
+<dd>Lots of additions and corrections supplied by Meynaf, including documentation of actuators.</dd>
+<dt>Version 1.1 - March 4, 2004</dt>
+<dd>Some additions and corrections suggested by Meynaf.</dd>
+<dt>Version 1.0 - February 9, 2003</dt>
+<dd>First release</dd>
+</dl>
+  </div>
+
+  <div class="clear-block">
+    <div class="meta">
+          <div class="terms"><ul class="links inline"><li class="taxonomy_term_22 first"><a href="http://dmweb.free.fr/?q=taxonomy/term/22" rel="tag" title="">Chaos Strikes Back</a></li>
+<li class="taxonomy_term_17"><a href="http://dmweb.free.fr/?q=taxonomy/term/17" rel="tag" title="">Dungeon Master</a></li>
+<li class="taxonomy_term_33"><a href="http://dmweb.free.fr/?q=taxonomy/term/33" rel="tag" title="">Dungeon Master II</a></li>
+<li class="taxonomy_term_39 last"><a href="http://dmweb.free.fr/?q=taxonomy/term/39" rel="tag" title="">Technical Documentation</a></li>
+</ul></div>
+        </div>
+
+          <div class="links"><ul class="links inline"><li class="comment_forbidden first last"></li>
+</ul></div>
+      </div>
+
+</div>
+          </div>
+                    <div id="footer"></div>
+          <hr>
+<p><a href="http://www.drupal.org/" title="Drupal - Community plumbing"><img src="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/powered-blue-80x15.png" alt="Powered by Drupal" width="80" height="15"></a>&nbsp;
+<a href="http://www.xiti.com/xiti.asp?s=76739" title="Xiti audience measurement">
+<script type="text/javascript">
+<!--
+Xt_param = '';
+try {Xt_r = top.document.referrer;}
+catch(e) {Xt_r = document.referrer; }
+Xt_h = new Date();
+Xt_i = '<img width="80" height="15" alt="Xiti audience measurement" src="http://logv18.xiti.com/bcg.xiti?s=76739&p=&hl='+Xt_h.getHours()+'x'+Xt_h.getMinutes()+'x'+Xt_h.getSeconds();
+if(parseFloat(navigator.appVersion)>=4)
+{Xt_s=screen;Xt_i+='&r='+Xt_s.width+'x'+Xt_s.height+'x'+Xt_s.pixelDepth+'x'+Xt_s.colorDepth;}
+document.write(Xt_i+'&ref='+Xt_r.replace(/[<>"]/g, '').replace(/&/g, '$')+'" title="Xiti audience measurement">');
+//-->
+</script><img alt="Xiti audience measurement" src="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/bcg.gif" title="Xiti audience measurement" width="80" height="15">
+<object>
+<noscript>
+<div><img width="80" height="15" src="http://logv18.xiti.com/bcg.xiti?s=76739&amp;p=&amp;" alt="Xiti audience measurement" title="Xiti audience measurement" /></div>
+</noscript>
+</object>
+</a>
+&nbsp;<a href="http://validator.w3.org/check?uri=referer" title="Valid XHTML 1.0 Strict"><img src="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/xhtml10.png" alt="Valid XHTML 1.0 Strict" width="80" height="15"></a>
+</p>
+      </div></div></div></div> <!-- /.left-corner, /.right-corner, /#squeeze, /#center -->
+
+      
+    </div> <!-- /container -->
+  </div>
+<!-- /layout -->
+
+    <div id="overlay" style="display: none;"></div>      <div id="lightbox" style="display: none;">        <div style="background-color: rgb(158, 158, 158); color: rgb(0, 0, 0);" id="outerImageContainer"><div id="modalContainer" style="display: none; padding: 10px;"></div><div id="frameContainer" style="display: none; padding: 10px;"></div><div id="imageContainer" style="display: none; padding: 10px;"><img id="lightboxImage"><div id="hoverNav"><a style="padding-top: 10px;" id="prevLink" href="#"></a><a style="padding-top: 10px;" id="nextLink" href="#"></a></div></div><div id="loading"><a href="#" id="loadingLink"></a></div></div>        <div style="background-color: rgb(158, 158, 158); color: rgb(0, 0, 0);" id="imageDataContainer" class="clearfix">          <div id="imageData"><div id="frameHoverNav"><a style="padding-top: 10px;" id="framePrevLink" href="#"></a><a style="padding-top: 10px;" id="frameNextLink" href="#"></a></div><div id="imageDetails"><span id="caption"></span><span id="numberDisplay"></span></div><div id="bottomNav"><a style="background-color: rgb(158, 158, 158); color: rgb(0, 0, 0);" id="bottomNavClose" href="#"></a><a id="bottomNavZoom" href="#"></a><a id="bottomNavZoomOut" href="#"></a><a id="lightshowPause" href="#" style="display: none;"></a><a id="lightshowPlay" href="#" style="display: none;"></a></div></div>        </div>      </div><div style="position: fixed; width: 8px; height: 8px; bottom: 0px; left: 0px; z-index: -1;" class="movieContainer" id="sm2-container"><embed name="sm2movie" id="sm2movie" src="Technical%20Documentation%20-%20File%20Formats%20-%20Dungeon%20File%20%28DUNGEON.DAT%29%20_%20Dungeon%20Master%20Encyclopaedia_fichiers/soundmanager2.swf" allowscriptaccess="always" quality="high" wmode="transparent" bgcolor="#ffffff" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="100%" height="100%"></div></body></html>
