@@ -1261,6 +1261,7 @@ public abstract class Item implements ChangeEventSource {
 	public static enum AffectedStatistic {
 		MANA,
 		STRENGTH,
+		MAX_LOAD,
 		DEXTERITY,
 		// INTELLIGENCE,
 		WISDOM,
@@ -1324,6 +1325,12 @@ public abstract class Item implements ChangeEventSource {
 				stats.getStrength().incMax(value);
 				stats.getStrength().inc(value);
 				break;
+			case MAX_LOAD:
+				// MaxLoad est une statistique à part pour laquelle le boost est
+				// géré séparement de la valeur de base (qui est calculée 
+				// dynamiquement)
+				stats.getMaxLoadBoost().inc(value);
+				break;
 			case WISDOM:
 				stats.getWisdom().incMax(value);
 				stats.getWisdom().inc(value);
@@ -1385,6 +1392,12 @@ public abstract class Item implements ChangeEventSource {
 			case STRENGTH:
 				stats.getStrength().dec(value);
 				stats.getStrength().decMax(value);
+				break;
+			case MAX_LOAD:
+				// MaxLoad est une statistique à part pour laquelle le boost est
+				// géré séparement de la valeur de base (qui est calculée 
+				// dynamiquement)
+				stats.getMaxLoadBoost().dec(value);
 				break;
 			case WISDOM:
 				stats.getWisdom().dec(value);
