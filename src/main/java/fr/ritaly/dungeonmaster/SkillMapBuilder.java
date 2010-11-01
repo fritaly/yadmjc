@@ -27,10 +27,16 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Level;
 
 /**
+ * A helper class used to simplify the way a champion skills are defined.
+ * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public class SkillMapBuilder {
 
+	/**
+	 * A Map&lt;Skill, Level&gt; containing the {@link Skill}s currently being
+	 * built.
+	 */
 	private final Map<Skill, Level> skills = new LinkedHashMap<Skill, Champion.Level>();
 
 	public SkillMapBuilder() {
@@ -144,7 +150,7 @@ public class SkillMapBuilder {
 			throw new IllegalArgumentException("Unsupported skill " + skill);
 		}
 	}
-	
+
 	public Map<Skill, Level> getSkills() {
 		// Recopie défensive
 		return new LinkedHashMap<Skill, Champion.Level>(skills);

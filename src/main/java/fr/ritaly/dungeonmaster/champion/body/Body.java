@@ -34,23 +34,38 @@ import fr.ritaly.dungeonmaster.champion.body.BodyPart.Type;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
+ * A champion's body is made of 7 parts:
+ * <ul>
+ * <li>the head</li>
+ * <li>the neck</li>
+ * <li>the torso</li>
+ * <li>the legs</li>
+ * <li>the feet</li>
+ * <li>the weapon hand</li>
+ * <li>the shield hand</li>
+ * </ul>
+ * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public class Body {
 
 	private final Log log = LogFactory.getLog(Body.class);
 
+	/**
+	 * The {@link Champion} this body belongs to.
+	 */
 	private final Champion champion;
 
+	/**
+	 * The body parts stored by type.
+	 */
 	private final Map<BodyPart.Type, BodyPart> parts = new EnumMap<BodyPart.Type, BodyPart>(
 			BodyPart.Type.class);
 
 	private final Random random = new Random();
 
 	public Body(Champion champion) {
-		if (champion == null) {
-			throw new IllegalArgumentException("The given champion is null");
-		}
+		Validate.notNull(champion, "The given champion is null");
 
 		this.champion = champion;
 
@@ -64,9 +79,7 @@ public class Body {
 	}
 
 	private void register(BodyPart bodyPart) {
-		if (bodyPart == null) {
-			throw new IllegalArgumentException("The given body part is null");
-		}
+		Validate.notNull(bodyPart, "The given body part is null");
 
 		parts.put(bodyPart.getType(), bodyPart);
 	}
@@ -76,12 +89,12 @@ public class Body {
 	}
 
 	/**
-	 * Retourne la partie du corps de type donné.
+	 * Returns the body part with given type.
 	 * 
 	 * @param type
-	 *            une instance de {@link Type} représentant le type de la partie
-	 *            du corps demandée.
-	 * @return une instance de {@link BodyPart}. Ne retourne jamais null.
+	 *            a instance of {@link Type} representing the type of the
+	 *            requested body part.
+	 * @return an instance of {@link BodyPart}. Never returns null.
 	 */
 	public BodyPart getPart(BodyPart.Type type) {
 		Validate.notNull(type, "The given body part type is null");
@@ -102,7 +115,8 @@ public class Body {
 		case WEAPON_HAND:
 			return getWeaponHand();
 		default:
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException(
+					"Unexpected body part type " + type);
 		}
 	}
 
@@ -134,6 +148,12 @@ public class Body {
 		return (Hand) parts.get(BodyPart.Type.SHIELD_HAND);
 	}
 
+	/**
+	 * Collects (and removes) all the items worn by this body's parts and
+	 * returns them.
+	 * 
+	 * @return a List&lt;Item&gt;. Never returns null.
+	 */
 	public List<Item> removeAllItems() {
 		final List<Item> items = new ArrayList<Item>();
 
@@ -146,6 +166,12 @@ public class Body {
 		return items;
 	}
 
+	/**
+	 * Collects (but doesn't remove) all the items worn by this body's parts and
+	 * returns them.
+	 * 
+	 * @return a List&lt;Item&gt;. Never returns null.
+	 */
 	public List<Item> getItems() {
 		final List<Item> items = new ArrayList<Item>();
 
@@ -159,9 +185,9 @@ public class Body {
 	}
 
 	/**
-	 * Indique si au moins une partie du {@link Body} est blessée.
+	 * Tells whether at least one part of this body is wounded.
 	 * 
-	 * @return si au moins une partie du {@link Body} est blessée.
+	 * @return whether at least one part of this body is wounded.
 	 */
 	public boolean isWounded() {
 		// Version optimisée
@@ -174,6 +200,11 @@ public class Body {
 		return false;
 	}
 
+	/**
+	 * Tries to wound this body and returns whether the operation succeeded.
+	 * 
+	 * @return whether at least one body part was wounded.
+	 */
 	public boolean wound() {
 		if (log.isDebugEnabled()) {
 			log.debug("Wounding " + getChampion().getName() + "'s body ...");
@@ -197,6 +228,11 @@ public class Body {
 		return false;
 	}
 
+	/**
+	 * Tries to heal this body and returns whether the operation succeeded.
+	 * 
+	 * @return whether at least one body part was healed.
+	 */
 	public boolean heal() {
 		if (log.isDebugEnabled()) {
 			log.debug("Healing " + getChampion().getName() + "'s body ...");
@@ -223,9 +259,11 @@ public class Body {
 	}
 
 	/**
-	 * Retourne les parties de ce {@link Body} qui sont blessées.
+	 * Returns the parts of this body which are wounded.
 	 * 
-	 * @return une List&lt;BodyPart&gt; contenant les parties du corps blessées.
+	 * @return a List&lt;BodyPart&gt; containing the wounded body parts. Never
+	 *         returns null.
+	 * @see #getNotWoundedParts()
 	 */
 	public List<BodyPart> getWoundedParts() {
 		final List<BodyPart> result = new ArrayList<BodyPart>(7);
@@ -240,10 +278,11 @@ public class Body {
 	}
 
 	/**
-	 * Retourne les parties de ce {@link Body} qui ne sont pas blessées.
+	 * Returns the parts of this body which are NOT wounded.
 	 * 
-	 * @return une List&lt;BodyPart&gt; contenant les parties du corps non
-	 *         blessées.
+	 * @return a List&lt;BodyPart&gt; containing the not wounded body parts.
+	 *         Never returns null.
+	 * @see #getWoundedParts()
 	 */
 	public List<BodyPart> getNotWoundedParts() {
 		final List<BodyPart> result = new ArrayList<BodyPart>(7);
@@ -258,10 +297,9 @@ public class Body {
 	}
 
 	/**
-	 * Retourne le poids total des objets équipant les parties de ce
-	 * {@link Body}.
+	 * Returns the total weight for all the items put on this body.
 	 * 
-	 * @return un float représentant un poids en kilogrammes.
+	 * @return a float representing a weight (in kilograms).
 	 */
 	public float getTotalWeight() {
 		float weight = 0.0f;
@@ -274,10 +312,9 @@ public class Body {
 	}
 
 	/**
-	 * Retourne le bonus de résistance à la magie généré par les objets portés
-	 * par le corps du champion.
+	 * Returns the anti-magic bonus computed from the items worn by this body.
 	 * 
-	 * @return un entier positif ou nul.
+	 * @return a positive or null integer representing an anti-magic bonus.
 	 */
 	public int getAntiMagic() {
 		int antiMagic = 0;
@@ -298,10 +335,9 @@ public class Body {
 	}
 
 	/**
-	 * Retourne le bonus de défense généré par les objets portés par le corps du
-	 * champion.
+	 * Returns the shield bonus computed from the items worn by this body.
 	 * 
-	 * @return un entier positif ou nul.
+	 * @return a positive or null integer representing a shield bonus.
 	 */
 	public int getShield() {
 		int shield = 0;

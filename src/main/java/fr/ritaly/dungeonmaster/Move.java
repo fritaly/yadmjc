@@ -19,7 +19,8 @@
 package fr.ritaly.dungeonmaster;
 
 /**
- * Enumération des différents déplacements possibles.
+ * Enumeration of possible moves. A {@link Move} is dependent on the current
+ * look {@link Direction}.
  * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
@@ -83,6 +84,11 @@ public enum Move {
 		}
 	}
 
+	/**
+	 * Tells whether this {@link Move} changes the {@link Position}.
+	 * 
+	 * @return whether this {@link Move} changes the {@link Position}.
+	 */
 	public boolean changesPosition() {
 		switch (this) {
 		case BACKWARD:
@@ -100,6 +106,11 @@ public enum Move {
 		}
 	}
 
+	/**
+	 * Tells whether this {@link Move} changes the {@link Direction}.
+	 * 
+	 * @return whether this {@link Move} changes the {@link Direction}.
+	 */
 	public boolean changesDirection() {
 		switch (this) {
 		case BACKWARD:

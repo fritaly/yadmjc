@@ -21,6 +21,10 @@ package fr.ritaly.dungeonmaster;
 import org.apache.commons.lang.StringUtils;
 
 /**
+ * Enumeration of champion skills. A {@link Skill} is either basic or hidden.
+ * There are 4 basic skills ({@link #FIGHTER}, {@link #NINJA}, {@link #PRIEST}
+ * and {@link #WIZARD}) and 16 hidden skills (4 per basic skill).
+ * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public enum Skill {
@@ -51,9 +55,9 @@ public enum Skill {
 	WATER;
 
 	/**
-	 * Indique si cette {@link Skill} est basique (ou cachée).
+	 * Tells whether this {@link Skill} is basic (or hidden).
 	 * 
-	 * @return si cette {@link Skill} est basique (ou cachée).
+	 * @return whether this {@link Skill} is basic (or hidden).
 	 */
 	public boolean isBasic() {
 		switch (this) {
@@ -68,18 +72,20 @@ public enum Skill {
 	}
 
 	/**
-	 * Indique si cette {@link Skill} est cachée (ou basique).
+	 * Tells whether this {@link Skill} is hidden (or basic).
 	 * 
-	 * @return si cette {@link Skill} est cachée (ou basique).
+	 * @return whether this {@link Skill} is hidden (or basic).
 	 */
 	public boolean isHidden() {
 		return !isBasic();
 	}
 
 	/**
-	 * Retourne la {@link Skill} basique associée à cette compétence cachée.
+	 * Returns the basic {@link Skill} mapped to this hidden {@link Skill}. This
+	 * method throws an {@link UnsupportedOperationException} if this skill
+	 * isn't basic.
 	 * 
-	 * @return une instance de {@link Skill}.
+	 * @return a {@link Skill}.
 	 */
 	public Skill getRelatedSkill() {
 		if (isBasic()) {
@@ -113,53 +119,109 @@ public enum Skill {
 	}
 
 	/**
-	 * Indique si un un gain de niveau dans la compétence améliore la force du
-	 * champion.
+	 * Tells whether the champion's strength improves when the champion gains a
+	 * new level of this {@link Skill}.
 	 * 
-	 * @return si un un gain de niveau dans la compétence améliore la force du
-	 *         champion.
+	 * @return whether the champion's strength improves when the champion gains
+	 *         a new level of this {@link Skill}.
 	 */
 	public boolean improvesStrength() {
 		return equals(FIGHTER) || equals(NINJA);
 	}
 
+	/**
+	 * Tells whether the champion's dexterity improves when the champion gains a
+	 * new level of this {@link Skill}.
+	 * 
+	 * @return whether the champion's dexterity improves when the champion gains
+	 *         a new level of this {@link Skill}.
+	 */
 	public boolean improvesDexterity() {
 		return equals(FIGHTER) || equals(NINJA);
 	}
 
+	/**
+	 * Tells whether the champion's mana improves when the champion gains a new
+	 * level of this {@link Skill}.
+	 * 
+	 * @return whether the champion's mana improves when the champion gains a
+	 *         new level of this {@link Skill}.
+	 */
 	public boolean improvesMana() {
 		return equals(PRIEST) || equals(WIZARD);
 	}
 
+	/**
+	 * Tells whether the champion's wisdom improves when the champion gains a
+	 * new level of this {@link Skill}.
+	 * 
+	 * @return whether the champion's wisdom improves when the champion gains a
+	 *         new level of this {@link Skill}.
+	 */
 	public boolean improvesWisdom() {
 		return equals(PRIEST) || equals(WIZARD);
 	}
 
+	/**
+	 * Tells whether the champion's anti-magic improves when the champion gains
+	 * a new level of this {@link Skill}.
+	 * 
+	 * @return whether the champion's anti-magic improves when the champion
+	 *         gains a new level of this {@link Skill}.
+	 */
 	public boolean improvesAntiMagic() {
 		return equals(PRIEST) || equals(WIZARD);
 	}
-	
+
+	/**
+	 * Tells whether the champion's health improves when the champion gains a
+	 * new level of this {@link Skill}.
+	 * 
+	 * @return whether the champion's health improves when the champion gains a
+	 *         new level of this {@link Skill}.
+	 */
 	public boolean improvesHealth() {
 		return true;
 	}
-	
+
+	/**
+	 * Tells whether the champion's stamina improves when the champion gains a
+	 * new level of this {@link Skill}.
+	 * 
+	 * @return whether the champion's stamina improves when the champion gains a
+	 *         new level of this {@link Skill}.
+	 */
 	public boolean improvesStamina() {
 		return true;
 	}
-	
+
+	/**
+	 * Tells whether the champion's vitality improves when the champion gains a
+	 * new level of this {@link Skill}.
+	 * 
+	 * @return whether the champion's vitality improves when the champion gains
+	 *         a new level of this {@link Skill}.
+	 */
 	public boolean improvesVitality() {
 		return true;
 	}
-	
+
+	/**
+	 * Tells whether the champion's anti-fire improves when the champion gains a
+	 * new level of this {@link Skill}.
+	 * 
+	 * @return whether the champion's anti-fire improves when the champion gains
+	 *         a new level of this {@link Skill}.
+	 */
 	public boolean improvesAntiFire() {
 		return true;
 	}
 
 	/**
-	 * Retourne le libellé de la {@link Skill}. Exemple: Retourne "Ninja" pour
-	 * la skill {@link #NINJA}.
+	 * Returns this {@link Skill}'s label. Example: Returns "Ninja" for the
+	 * {@link #NINJA} skill.
 	 * 
-	 * @return une {@link String}.
+	 * @return a {@link String}.
 	 */
 	public String getLabel() {
 		return StringUtils.capitalize(name().toLowerCase());

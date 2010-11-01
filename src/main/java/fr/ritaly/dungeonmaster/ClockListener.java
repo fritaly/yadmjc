@@ -19,15 +19,17 @@
 package fr.ritaly.dungeonmaster;
 
 /**
+ * An object notified when the game clock ticks.
+ * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public interface ClockListener {
-	
+
 	/**
-	 * Notifie le tic d'horloge au listener et retourne si le listener doit
-	 * encore être notifié des tics d'horloge.
+	 * Notifies the listener that the clock just ticked and returns whether the
+	 * listener must be notified of subsequent clock ticks.
 	 * 
-	 * @return si le listener doit encore être notifié des tics d'horloge.
+	 * @return whether the listener must be notified of subsequent clock ticks.
 	 */
 	public boolean clockTicked();
 }
