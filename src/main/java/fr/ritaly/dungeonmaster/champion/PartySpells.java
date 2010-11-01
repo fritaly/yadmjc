@@ -40,6 +40,8 @@ public class PartySpells implements ClockListener {
 	private final IntStat antiMagic;
 	
 	private final IntStat shield;
+	
+	private final IntStat dispellIllusion;
 
 	private final Temporizer temporizer = new Temporizer("Party.Spells", 4);
 
@@ -50,6 +52,7 @@ public class PartySpells implements ClockListener {
 		this.invisibility = new IntStat("Party.Spells", "Invisibility");
 		this.antiMagic = new IntStat("Party.Spells", "AntiMagic");
 		this.shield = new IntStat("Party.Spells", "Shield");
+		this.dispellIllusion = new IntStat("Party.Spells", "DispellIllusion");
 	}
 
 	@Override
@@ -79,6 +82,14 @@ public class PartySpells implements ClockListener {
 					}
 				}
 			}
+			if (dispellIllusion.actualValue() > 0) {
+				if (dispellIllusion.dec() == 0) {
+					// TODO Lever un évènement
+					if (log.isDebugEnabled()) {
+						log.debug("Party.Spells.DispellIllusion is now inactive");
+					}
+				}
+			}
 		}
 
 		return true;
@@ -86,6 +97,10 @@ public class PartySpells implements ClockListener {
 
 	public boolean isInvisibilityActive() {
 		return (invisibility.actualValue() > 0);
+	}
+	
+	public boolean isDispellIllusionActive() {
+		return (dispellIllusion.actualValue() > 0);
 	}
 	
 	public Party getParty() {
@@ -102,5 +117,9 @@ public class PartySpells implements ClockListener {
 	
 	public IntStat getInvisibility() {
 		return invisibility;
+	}
+
+	public IntStat getDispellIllusion() {
+		return dispellIllusion;
 	}
 }
