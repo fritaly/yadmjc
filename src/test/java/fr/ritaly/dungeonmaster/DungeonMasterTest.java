@@ -1718,7 +1718,7 @@ public class DungeonMasterTest extends TestCase {
 		assertEquals(56, Item.Category.MISCELLANEOUS.getTypes().size());
 	}
 
-	public void testOpenPit() {
+	public void testPartyFallingThroughOpenPit() {
 		// Level1:
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -1812,7 +1812,7 @@ public class DungeonMasterTest extends TestCase {
 		assertEquals(new Position(3, 2, 1), dungeon.getParty().getPosition());
 	}
 
-	public void testClosedPit() {
+	public void testPartyFallingThroughPitWhenOpened() {
 		// Level1:
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
