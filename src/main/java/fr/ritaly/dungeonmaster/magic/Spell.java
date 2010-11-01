@@ -954,9 +954,9 @@ public class Spell {
 			break;
 		}
 		case SEE_THROUGH_WALLS:
-			// FIXME Implémenter actUpon(Champion)
-			throw new UnsupportedOperationException("Unsupported spell <"
-					+ getType() + ">");
+			champion.getParty().getSpells().getSeeThroughWalls()
+					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
+			break;
 		case SHIELD:
 			champion.getParty().getSpells().getShield()
 					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));

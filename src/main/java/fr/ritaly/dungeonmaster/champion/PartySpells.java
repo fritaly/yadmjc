@@ -42,6 +42,8 @@ public class PartySpells implements ClockListener {
 	private final IntStat shield;
 	
 	private final IntStat dispellIllusion;
+	
+	private final IntStat seeThroughWalls;
 
 	private final Temporizer temporizer = new Temporizer("Party.Spells", 4);
 
@@ -53,6 +55,7 @@ public class PartySpells implements ClockListener {
 		this.antiMagic = new IntStat("Party.Spells", "AntiMagic");
 		this.shield = new IntStat("Party.Spells", "Shield");
 		this.dispellIllusion = new IntStat("Party.Spells", "DispellIllusion");
+		this.seeThroughWalls = new IntStat("Party.Spells", "SeeThroughWalls");
 	}
 
 	@Override
@@ -90,6 +93,14 @@ public class PartySpells implements ClockListener {
 					}
 				}
 			}
+			if (seeThroughWalls.actualValue() > 0) {
+				if (seeThroughWalls.dec() == 0) {
+					// TODO Lever un évènement
+					if (log.isDebugEnabled()) {
+						log.debug("Party.Spells.SeeThroughWalls is now inactive");
+					}
+				}
+			}
 		}
 
 		return true;
@@ -101,6 +112,10 @@ public class PartySpells implements ClockListener {
 	
 	public boolean isDispellIllusionActive() {
 		return (dispellIllusion.actualValue() > 0);
+	}
+	
+	public boolean isSeeThroughWallsActive() {
+		return (seeThroughWalls.actualValue() > 0);
 	}
 	
 	public Party getParty() {
@@ -121,5 +136,9 @@ public class PartySpells implements ClockListener {
 
 	public IntStat getDispellIllusion() {
 		return dispellIllusion;
+	}
+
+	public IntStat getSeeThroughWalls() {
+		return seeThroughWalls;
 	}
 }

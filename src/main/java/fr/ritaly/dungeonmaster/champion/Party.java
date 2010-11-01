@@ -976,6 +976,15 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	public final boolean dispellsIllusions() {
 		return getSpells().isDispellIllusionActive();
 	}
+	
+	/**
+	 * Tells whether the party can see through walls.
+	 * 
+	 * @return whether the party can see through walls.
+	 */
+	public final boolean seesThroughWalls() {
+		return getSpells().isSeeThroughWallsActive();
+	}
 
 	/**
 	 * Retourne l'identifiant du dernier tic d'horloge pendant lequel le groupe

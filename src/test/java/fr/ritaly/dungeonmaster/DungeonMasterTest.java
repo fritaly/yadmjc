@@ -4371,4 +4371,29 @@ public class DungeonMasterTest extends TestCase {
 		
 		assertTrue(tiggy.getSpells().getLight().value().intValue() > 0);
 	}
+	
+	public void testSeeThroughWallsSpell() throws Exception {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.setSkill(Skill.DEFEND, Champion.Level.ARCH_MASTER);
+		tiggy.getStats().getMana().maxValue(200);
+		tiggy.getStats().getMana().value(200);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		// --- Lancer le sort
+		tiggy.cast(PowerRune.LO, Spell.Type.SEE_THROUGH_WALLS);
+		
+		assertFalse(party.seesThroughWalls());
+		assertFalse(party.getSpells().isSeeThroughWallsActive());
+		
+		final Spell spell = tiggy.castSpell();
+
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		
+		assertTrue(party.seesThroughWalls());
+		assertTrue(party.getSpells().isSeeThroughWallsActive());
+	}
 }
