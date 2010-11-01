@@ -306,16 +306,18 @@ public class Spell {
 				// Niveau 4
 				return Champion.Level.JOURNEYMAN;
 			default:
-				throw new UnsupportedOperationException();
+				// Niveau 0
+				return Champion.Level.NONE;
 			}
 		}
 
 		/**
 		 * Retourne la compétence mise en oeuvre lors de l'invocation de ce
 		 * sort. Permet de faire gagner de l'expérience au champion qui réussit
-		 * le sort.
+		 * le sort. Peut retourner null si aucune compétence particulière n'est
+		 * requise.
 		 * 
-		 * @return une instance de {@link Skill}.
+		 * @return une instance de {@link Skill} ou null.
 		 */
 		public Skill getSkill() {
 			switch (this) {
@@ -361,7 +363,8 @@ public class Spell {
 				// Compétence #3
 				return Skill.WIZARD;
 			default:
-				throw new UnsupportedOperationException();
+				// Aucune compétence spéciale requise !
+				return null;
 			}
 		}
 
@@ -643,8 +646,12 @@ public class Spell {
 	/**
 	 * Retourne la compétence mise en oeuvre lors de l'invocation de ce sort.
 	 * Permet de faire gagner de l'expérience au champion qui réussit le sort.
+	 * Peut retourner null si aucune compétence particulière n'est requise pour
+	 * invoquer le sort.
 	 * 
-	 * @return une instance de {@link Skill} ou null si le sort est invalide.
+	 * @return une instance de {@link Skill} ou null si le sort est invalide ou
+	 *         si aucune compétence particulière n'est requise pour invoquer le
+	 *         sort.
 	 */
 	public Skill getSkill() {
 		final Type spellType = getType();
@@ -785,8 +792,15 @@ public class Spell {
 		Validate.notNull(champion, "The given champion is null");
 		Validate.isTrue(isValid(), "The spell isn't valid");
 
+		final Skill skill = getSkill();
+		
+		if (skill == null) {
+			// Aucune compétence requise pour invoquer le sort
+			return true;
+		}
+		
 		final Champion.Level requiredLevel = getType().getRequiredLevel();
-		final Champion.Level actualLevel = champion.getLevel(getSkill());
+		final Champion.Level actualLevel = champion.getLevel(skill);
 
 		return (actualLevel.compareTo(requiredLevel) >= 0);
 	}
@@ -898,9 +912,9 @@ public class Spell {
 			throw new UnsupportedOperationException("Unsupported spell <"
 					+ getType() + ">");
 		case DISPELL_ILLUSION:
-			// FIXME Implémenter actUpon(Champion)
-			throw new UnsupportedOperationException("Unsupported spell <"
-					+ getType() + ">");
+			champion.getParty().getSpells().getDispellIllusion()
+					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
+			break;
 		case FIRE_SHIELD:
 			champion.getParty().getSpells().getAntiMagic()
 					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));

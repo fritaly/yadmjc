@@ -967,6 +967,15 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	public final boolean isInvisible() {
 		return getSpells().isInvisibilityActive();
 	}
+	
+	/**
+	 * Tells whether the party can dispell illusions.
+	 * 
+	 * @return whether the party can dispell illusions.
+	 */
+	public final boolean dispellsIllusions() {
+		return getSpells().isDispellIllusionActive();
+	}
 
 	/**
 	 * Retourne l'identifiant du dernier tic d'horloge pendant lequel le groupe

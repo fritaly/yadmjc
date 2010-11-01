@@ -4255,4 +4255,28 @@ public class DungeonMasterTest extends TestCase {
 		assertEquals(maxLoad1, tiggy.getStats().getActualMaxLoad(), 0.00001f);
 		assertEquals(maxLoad2, tiggy.getMaxLoad(), 0.00001f);
 	}
+	
+	public void testDispellIllusionSpell() throws Exception {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.getStats().getMana().maxValue(200);
+		tiggy.getStats().getMana().value(200);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		// --- Lancer le sort
+		tiggy.cast(PowerRune.LO, Spell.Type.DISPELL_ILLUSION);
+		
+		assertFalse(party.dispellsIllusions());
+		assertFalse(party.getSpells().isDispellIllusionActive());
+		
+		final Spell spell = tiggy.castSpell();
+
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		
+		assertTrue(party.dispellsIllusions());
+		assertTrue(party.getSpells().isDispellIllusionActive());
+	}
 }

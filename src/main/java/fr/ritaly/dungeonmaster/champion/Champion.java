@@ -957,11 +957,21 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		// Supprimer les runes formulés
 		spellCaster.clear();
 
-		// Oui. Le champion gagne de l'expérience. Nombre de points gagnés ?
-		gainExperience(spell.getSkill(), spell.getEarnedExperience());
+		// Compétence mise en oeuvre par le sort (peut être nul !)
+		final Skill skill = spell.getSkill();
+		
+		if (skill != null) {
+			// Le champion gagne de l'expérience. Nombre de points gagnés ?
+			gainExperience(skill, spell.getEarnedExperience());			
+		}
 
-		// Rendre la main du champion indisponible
-		body.getWeaponHand().disable(spell.getDuration());
+		final int duration = spell.getDuration();
+		
+		if (duration > 0) {
+			// Rendre la main du champion indisponible (uniquement si le sort a 
+			// une "durée" d'indisponibilité)
+			body.getWeaponHand().disable(duration);
+		}
 
 		// Laisser le sort "agir" sur le champion
 		spell.actUpon(this);
