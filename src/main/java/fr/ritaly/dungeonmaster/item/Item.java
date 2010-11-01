@@ -1951,9 +1951,7 @@ public abstract class Item implements ChangeEventSource {
 				}
 
 				// Utiliser l'action (rend la main du champion indisponible)
-				action.perform(champion.getParty().getDungeon(), champion);
-
-				return true;
+				return action.perform(champion.getParty().getDungeon(), champion);
 			}
 		}
 

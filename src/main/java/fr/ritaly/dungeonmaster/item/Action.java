@@ -21,9 +21,14 @@ package fr.ritaly.dungeonmaster.item;
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Clock;
+import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.Move;
+import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Skill;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.map.Dungeon;
+import fr.ritaly.dungeonmaster.map.Element;
+import fr.ritaly.dungeonmaster.map.Pit;
 
 /**
  * Une {@link Action} qu'un champion peut réaliser à l'aide d'un {@link Item}.
@@ -177,29 +182,65 @@ public enum Action {
 	}
 
 	// FIXME Implémenter les actions
-	public void perform(Dungeon dungeon, Champion champion) {
+	public boolean perform(Dungeon dungeon, Champion champion) {
 		// Le champion peut être à null selon les actions
 		Validate.isTrue(dungeon != null, "The given dungeon is null");
+		
+		if (Action.CLIMB_DOWN.equals(this)) {
+			// Le groupe doit être face à une oubliette
+			final Element current = dungeon.getCurrentElement();
+			
+			// Direction de regard du groupe ?
+			final Direction lookDirection = dungeon.getParty().getLookDirection();
+			
+			// Position cible visible ? 
+			final Position target = current.getPosition().towards(lookDirection);
+			
+			// Element cible visible ?
+			final Element facingElement = dungeon.getElement(target);
+			
+			if (!(facingElement instanceof Pit)) {
+				// Le groupe ne peut descendre dans l'oubliette
+				return false;
+			}
+			
+			final Pit pit = (Pit) facingElement;
+			
+			// L'oubliette ne doit pas être une illusion
+			if (pit.isIllusion()) {
+				return false;
+			}
+			
+			// L'oubliette doit être ouverte
+			if (pit.isClosed()) {
+				return false;
+			}
+			
+			// Le groupe peut descendre (pas de son à jouer)
+			dungeon.moveParty(Move.DOWN, true);
+		} else {
+			// TODO Calculer si le coup a porté
+			final boolean success = true;
 
-		// TODO Calculer si le coup a porté
-		final boolean success = true;
+			if (success) {
+				// TODO Calculer les points de dommage infligés
 
-		if (success) {
-			// TODO Calculer les points de dommage infligés
+				// Le champion gagne de l'expérience
+				champion.gainExperience(improvedSkill,
+						computeEarnedExperience(dungeon));
+			}
 
-			// Le champion gagne de l'expérience
-			champion.gainExperience(improvedSkill,
-					computeEarnedExperience(dungeon));
+			// TODO La défense du champion est modifiée
+
+			// TODO Son
 		}
-
-		// TODO La défense du champion est modifiée
-
-		// TODO Son
-
+		
 		// Le champion consomme de la stamina
 		champion.getStats().getStamina().dec(stamina);
 
 		// Main indisponible en fonction de la fatigue associée à l'action
 		champion.getBody().getWeaponHand().disable(fatigue);
+		
+		return true;
 	}
 }
