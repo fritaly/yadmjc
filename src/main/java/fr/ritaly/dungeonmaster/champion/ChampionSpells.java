@@ -37,7 +37,7 @@ public class ChampionSpells implements ClockListener {
 	
 	// private final IntStat shield;
 
-	public ChampionSpells(Champion champion) {
+	public ChampionSpells(final Champion champion) {
 		Validate.isTrue(champion != null, "The given champion is null");
 
 		this.champion = champion;

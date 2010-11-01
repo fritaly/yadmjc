@@ -23,5 +23,5 @@ package fr.ritaly.dungeonmaster;
  */
 public class Constants {
 
-	public static int MAX_LIGHT = 255;
+	public static final int MAX_LIGHT = 255;
 }

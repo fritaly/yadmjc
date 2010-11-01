@@ -136,7 +136,9 @@ public enum Location {
 		return SubCell.fromLocation(direction, this);
 	}
 
-	public static Location fromSubCell(Direction direction, SubCell subCell) {
+	public static Location fromSubCell(final Direction direction,
+			final SubCell subCell) {
+		
 		Validate.isTrue(direction != null, "The given direction is null");
 		Validate.isTrue(subCell != null, "The given sub-cell is null");
 

@@ -36,13 +36,13 @@ public class Poison implements ClockListener {
 		return (strength > 0);
 	}
 
-	public void cure(PowerRune powerRune) {
+	public void cure(final PowerRune powerRune) {
 		Validate.isTrue(powerRune != null, "The given power rune is null");
 
 		this.strength = Math.max(0, strength - powerRune.getPowerLevel());
 	}
 
-	public void strengthen(PowerRune powerRune) {
+	public void strengthen(final PowerRune powerRune) {
 		Validate.isTrue(powerRune != null, "The given power rune is null");
 
 		final boolean wasActive = isActive();

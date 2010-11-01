@@ -97,7 +97,7 @@ public class SoundSystemV1 {
 		System.exit(0);
 	}
 
-	public synchronized void init(File directory) throws IOException,
+	public synchronized void init(final File directory) throws IOException,
 			UnsupportedAudioFileException, LineUnavailableException {
 
 		Validate.isTrue(directory != null, "The given directory is null");

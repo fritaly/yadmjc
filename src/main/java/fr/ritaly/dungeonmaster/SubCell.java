@@ -101,7 +101,9 @@ public enum SubCell {
 		return Arrays.asList(NORTH_EAST, SOUTH_EAST);
 	}
 
-	public static SubCell fromLocation(Direction direction, Location location) {
+	public static SubCell fromLocation(final Direction direction,
+			final Location location) {
+		
 		Validate.isTrue(direction != null, "The given direction is null");
 		Validate.isTrue(location != null, "The given location is null");
 

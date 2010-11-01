@@ -38,7 +38,7 @@ public final class Pillar extends Element {
 	}
 	
 	@Override
-	public boolean isTraversable(Creature creature) {
+	public boolean isTraversable(final Creature creature) {
 		Validate.isTrue(creature != null, "The given creature is null");
 		
 		return creature.isImmaterial();

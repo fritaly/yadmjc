@@ -48,7 +48,7 @@ public enum AlignmentRune implements Rune {
 	}
 
 	@Override
-	public int getCost(PowerRune powerRune) {
+	public int getCost(final PowerRune powerRune) {
 		Validate.isTrue(powerRune != null, "The given power rune is null");
 
 		return costs[powerRune.ordinal()];

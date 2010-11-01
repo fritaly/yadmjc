@@ -1592,7 +1592,7 @@ public abstract class Item implements ChangeEventSource {
 	 * @param powerRune
 	 *            un {@link PowerRune} représentant la force de l'envoûtement.
 	 */
-	public void curse(PowerRune powerRune) {
+	public void curse(final PowerRune powerRune) {
 		Validate.isTrue(powerRune != null, "The given power rune is null");
 
 		if (curse == null) {
@@ -1717,8 +1717,9 @@ public abstract class Item implements ChangeEventSource {
 	 * @param bodyPart
 	 *            une {@link BodyPart} sur laquelle l'objet vient d'être placé.
 	 */
-	public final void itemPutOn(BodyPart bodyPart) {
+	public final void itemPutOn(final BodyPart bodyPart) {
 		Validate.isTrue(bodyPart != null, "The given body part is null");
+		
 		if (this.bodyPart != null) {
 			// L'objet ne doit pas déjà être portée par un champion
 			throw new IllegalStateException(this + " is already worn by "

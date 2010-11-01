@@ -135,7 +135,8 @@ public class Spell {
 
 		private final AlignmentRune alignmentRune;
 
-		private Type(ElementRune elementRune, int duration, int difficulty) {
+		private Type(final ElementRune elementRune, int duration, int difficulty) {
+			
 			Validate.isTrue(elementRune != null,
 					"The given element rune is null");
 			Validate.isTrue(duration >= 0, "The given duration <" + duration
@@ -152,8 +153,8 @@ public class Spell {
 			this.alignmentRune = null;
 		}
 
-		private Type(ElementRune elementRune, FormRune formRune, int duration,
-				int difficulty) {
+		private Type(final ElementRune elementRune, final FormRune formRune,
+				int duration, int difficulty) {
 
 			Validate.isTrue(elementRune != null,
 					"The given element rune is null");
@@ -172,8 +173,8 @@ public class Spell {
 			this.alignmentRune = null;
 		}
 
-		private Type(ElementRune elementRune, FormRune formRune,
-				AlignmentRune alignmentRune, int duration, int difficulty) {
+		private Type(final ElementRune elementRune, final FormRune formRune,
+				final AlignmentRune alignmentRune, int duration, int difficulty) {
 
 			Validate.isTrue(elementRune != null,
 					"The given element rune is null");

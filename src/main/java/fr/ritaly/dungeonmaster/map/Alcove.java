@@ -175,7 +175,7 @@ public final class Alcove extends DirectedElement implements HasActuator {
 		throw new UnsupportedOperationException();
 	}
 
-	private SubCell map(Direction direction) {
+	private SubCell map(final Direction direction) {
 		Validate.isTrue(direction != null, "The given direction is null");
 
 		switch (direction) {

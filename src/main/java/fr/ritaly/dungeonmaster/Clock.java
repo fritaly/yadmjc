@@ -323,7 +323,7 @@ public class Clock {
 		tickCount++;
 	}
 
-	public long getPeriod() {
+	public synchronized long getPeriod() {
 		return period;
 	}
 

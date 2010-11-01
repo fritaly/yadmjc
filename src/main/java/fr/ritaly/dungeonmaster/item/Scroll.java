@@ -33,7 +33,7 @@ public final class Scroll extends Item {
 	
 	private final List<String> text;
 
-	public Scroll(List<String> text) {
+	public Scroll(final List<String> text) {
 		super(Type.SCROLL);
 		
 		Validate.isTrue(text != null, "The given text is null");

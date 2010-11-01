@@ -523,7 +523,9 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		teleport(position, this.lookDirection, silent);
 	}
 
-	public void teleport(Position position, Direction direction, boolean silent) {
+	public void teleport(final Position position, final Direction direction,
+			final boolean silent) {
+		
 		Validate.isTrue(position != null, "The given position is null");
 		Validate.isTrue(direction != null, "The given direction is null");
 
