@@ -2899,9 +2899,7 @@ public class DungeonMasterTest extends TestCase {
 		assertTrue(tiggy.die());
 	}
 
-	// TODO TEST: Quand les champions tombent, ils perdent de la vie
-
-	public void testChampionResurection() {
+	public void testChampionResurrection() {
 		// +---+---+---+
 		// | W | A | W |
 		// +---+---+---+
@@ -4544,5 +4542,87 @@ public class DungeonMasterTest extends TestCase {
 		
 		assertTrue(party.seesThroughWalls());
 		assertTrue(party.getSpells().isSeeThroughWallsActive());
+	}
+	
+	public void testChampionsHurtWhenFallingThroughOpenPit() {
+		// Level1:
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | P | I | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		// Level2:
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+
+		final Dungeon dungeon = new Dungeon();
+		
+		final Level level1 = dungeon.createLevel(1, 5, 5);
+		level1.setElement(3, 2, new Pit());
+
+		dungeon.createLevel(2, 5, 5);
+
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.getStats().getHealth().maxValue(500);
+		tiggy.getStats().getHealth().value(500);
+		
+		final Champion daroou = ChampionFactory.getFactory().newChampion(
+				Name.DAROOU);
+		daroou.getStats().getHealth().maxValue(500);
+		daroou.getStats().getHealth().value(500);
+		
+		final Champion halk = ChampionFactory.getFactory().newChampion(
+				Name.HALK);
+		halk.getStats().getHealth().maxValue(500);
+		halk.getStats().getHealth().value(500);
+		
+		final Champion wuuf = ChampionFactory.getFactory().newChampion(
+				Name.WUUF);
+		wuuf.getStats().getHealth().maxValue(500);
+		wuuf.getStats().getHealth().value(500);
+		
+		final Party party = new Party();
+		party.addChampion(tiggy);
+		party.addChampion(daroou);
+		party.addChampion(halk);
+		party.addChampion(wuuf);
+
+		dungeon.setParty(new Position(2, 2, 1), party);
+
+		// --- Situation initiale
+		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
+
+		// --- Le groupe tombe à travers l'oubliette
+		final int tiggyHealth = tiggy.getStats().getHealth().value();
+		final int daroouHealth = daroou.getStats().getHealth().value();
+		final int halkHealth = halk.getStats().getHealth().value();
+		final int wuufHealth = wuuf.getStats().getHealth().value();
+		
+		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
+		
+		// --- Les champions doivent avoir perdu de la vie
+		assertTrue(tiggy.getStats().getHealth().value().intValue() < tiggyHealth);
+		assertTrue(daroou.getStats().getHealth().value().intValue() < daroouHealth);
+		assertTrue(halk.getStats().getHealth().value().intValue() < halkHealth);
+		assertTrue(wuuf.getStats().getHealth().value().intValue() < wuufHealth);
 	}
 }
