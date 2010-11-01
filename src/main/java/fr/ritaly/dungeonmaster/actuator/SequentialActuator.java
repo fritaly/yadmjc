@@ -26,7 +26,7 @@ import org.apache.commons.lang.Validate;
 /**
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
-public class CompositeActuator implements Actuator {
+public class SequentialActuator implements Actuator {
 
 	private final LinkedList<Actuator> actuators = new LinkedList<Actuator>();
 
@@ -35,7 +35,7 @@ public class CompositeActuator implements Actuator {
 	 */
 	private final String label;
 	
-	public CompositeActuator(Actuator... actuators) {
+	public SequentialActuator(Actuator... actuators) {
 		Validate.notNull(actuators, "The given array of actuators is null");
 		Validate.isTrue(actuators.length > 0,
 				"The given array of actuators is empty");
@@ -58,7 +58,7 @@ public class CompositeActuator implements Actuator {
 		this.label = getClass().getSimpleName() + "[" + builder + "]";
 	}
 
-	public CompositeActuator(CompositeActuator actuator)
+	public SequentialActuator(SequentialActuator actuator)
 			throws CloneNotSupportedException {
 
 		Validate.notNull(actuator, "The given actuator is null");
@@ -92,7 +92,7 @@ public class CompositeActuator implements Actuator {
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		return new CompositeActuator(this);
+		return new SequentialActuator(this);
 	}
 
 	@Override

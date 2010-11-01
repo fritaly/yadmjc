@@ -47,15 +47,15 @@ public class Actuators {
 			return actuator1;
 		}
 
-		if (actuator1 instanceof CompositeActuator) {
+		if (actuator1 instanceof SequentialActuator) {
 			// Optimisation
-			final CompositeActuator composite = (CompositeActuator) actuator1;
+			final SequentialActuator sequence = (SequentialActuator) actuator1;
 
-			composite.addActuator(actuator2);
+			sequence.addActuator(actuator2);
 
-			return composite;
+			return sequence;
 		}
 
-		return new CompositeActuator(actuator1, actuator2);
+		return new SequentialActuator(actuator1, actuator2);
 	}
 }

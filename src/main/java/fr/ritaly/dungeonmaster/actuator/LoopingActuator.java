@@ -80,7 +80,7 @@ public class LoopingActuator implements Actuator {
 		Validate.isTrue(actuators.length > 0,
 				"The given array of actuators is empty");
 
-		this.prototype = new CompositeActuator(actuators);
+		this.prototype = new SequentialActuator(actuators);
 		this.max = max;
 		this.label = getClass().getSimpleName() + "[" + max + " x "
 				+ prototype.getLabel() + "]";
