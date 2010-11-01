@@ -40,7 +40,7 @@ public class WaterFlask extends Item {
 	}
 
 	@Override
-	public int getFireShield() {
+	public int getAntiMagic() {
 		return 0;
 	}
 

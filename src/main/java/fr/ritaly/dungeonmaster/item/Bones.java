@@ -50,7 +50,7 @@ public class Bones extends MiscItem {
 	}
 
 	@Override
-	public int getFireShield() {
+	public int getAntiMagic() {
 		return 0;
 	}
 

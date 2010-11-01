@@ -40,7 +40,7 @@ public final class Food extends Item {
 	}
 
 	@Override
-	public final int getFireShield() {
+	public final int getAntiMagic() {
 		return 0;
 	}
 

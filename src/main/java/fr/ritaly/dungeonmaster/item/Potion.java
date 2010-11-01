@@ -65,7 +65,7 @@ public final class Potion extends Item {
 		case POISON_POTION:
 			return Item.Type.POISON_POTION;
 		case SHIELD_POTION:
-			return Item.Type.MAGIC_SHIELD_POTION;
+			return Item.Type.ANTI_MAGIC_POTION;
 		case STAMINA_POTION:
 			return Item.Type.STAMINA_POTION;
 		case STRENGTH_POTION:
@@ -98,7 +98,7 @@ public final class Potion extends Item {
 	}
 
 	@Override
-	public int getFireShield() {
+	public int getAntiMagic() {
 		return 0;
 	}
 
@@ -136,7 +136,7 @@ public final class Potion extends Item {
 		case STAMINA_POTION:
 			stats.getStamina().incBoost(points, duration);
 			break;
-		case MAGIC_SHIELD_POTION:
+		case ANTI_MAGIC_POTION:
 			stats.getAntiMagic().incBoost(points, duration);
 			break;
 		case MANA_POTION:

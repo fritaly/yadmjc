@@ -48,7 +48,7 @@ public final class Scroll extends Item {
 	}
 
 	@Override
-	public int getFireShield() {
+	public int getAntiMagic() {
 		return 0;
 	}
 

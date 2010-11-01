@@ -286,12 +286,11 @@ public class BodyTest extends TestCase {
 		assertEquals(apple1.getWeight(), body.getTotalWeight());
 	}
 
-	public void testGetMagicResistance() {
+	public void testGetAntiMagic() {
 		fail("Not yet implemented");
 	}
 
-	public void testGetDefense() {
+	public void testGetShield() {
 		fail("Not yet implemented");
 	}
-
 }

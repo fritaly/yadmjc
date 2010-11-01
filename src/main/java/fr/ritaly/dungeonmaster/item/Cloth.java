@@ -107,7 +107,7 @@ public final class Cloth extends Item {
 	}
 
 	@Override
-	public int getFireShield() {
+	public int getAntiMagic() {
 		switch (getType()) {
 		case CAPE:
 			return 1;

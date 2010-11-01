@@ -1157,16 +1157,16 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * @return un entier positif ou nul représentant un bonus de résistance au
 	 *         feu.
 	 */
-	public int getFireShield() {
+	public int getAntiMagic() {
 		// Prendre en compte le bonus conféré par les objets portés
-		int fireShield = body.getFireShield();
+		int antiMagic = body.getAntiMagic();
 
 		if (party != null) {
 			// ... et les sorts (du groupe)
-			fireShield += party.getSpells().getFireShield().actualValue();
+			antiMagic += party.getSpells().getAntiMagic().actualValue();
 		}
 
-		return fireShield;
+		return antiMagic;
 	}
 
 	/**

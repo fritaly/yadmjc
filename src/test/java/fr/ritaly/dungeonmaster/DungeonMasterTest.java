@@ -1140,17 +1140,17 @@ public class DungeonMasterTest extends TestCase {
 		testPotionCasting(Spell.Type.STAMINA_POTION, Item.Type.STAMINA_POTION);
 	}
 
-	public void testMagicShieldPotion() {
+	public void testAntiMagicPotion() {
 		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		Party party = new Party();
 		party.addChampion(tiggy);
 
 		testPotion(tiggy, tiggy.getStats().getAntiMagic(),
-				Item.Type.MAGIC_SHIELD_POTION);
+				Item.Type.ANTI_MAGIC_POTION);
 	}
 
-	public void testMagicShieldPotionCasting() throws Throwable {
+	public void testAntiMagicPotionCasting() throws Throwable {
 		fail();
 	}
 

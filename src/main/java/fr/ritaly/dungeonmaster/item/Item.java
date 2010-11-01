@@ -168,7 +168,7 @@ public abstract class Item implements ChangeEventSource {
 			0.3f,
 			Combo.COMBO_0,
 			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		MAGIC_SHIELD_POTION(
+		ANTI_MAGIC_POTION(
 			0.3f,
 			Combo.COMBO_0,
 			CarryLocations.CHEST_POUCH_CONSUMABLE),
@@ -1819,7 +1819,7 @@ public abstract class Item implements ChangeEventSource {
 	 * @return un entier positif ou nul représentant un bonus de résistance au
 	 *         feu.
 	 */
-	public abstract int getFireShield();
+	public abstract int getAntiMagic();
 
 	/**
 	 * Retourne le bonus de défense conféré par l'objet.

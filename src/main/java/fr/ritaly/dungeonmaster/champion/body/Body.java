@@ -279,8 +279,8 @@ public class Body {
 	 * 
 	 * @return un entier positif ou nul.
 	 */
-	public int getFireShield() {
-		int fireShield = 0;
+	public int getAntiMagic() {
+		int antiMagic = 0;
 
 		for (BodyPart bodyPart : parts.values()) {
 			final Item item = bodyPart.getItem();
@@ -289,12 +289,12 @@ public class Body {
 				// Ne prendre en compte l'objet que s'il est sur la bonne partie
 				// du corps
 				if (item.isActivatedBy(bodyPart)) {
-					fireShield += item.getFireShield();
+					antiMagic += item.getAntiMagic();
 				}
 			}
 		}
 
-		return fireShield;
+		return antiMagic;
 	}
 
 	/**

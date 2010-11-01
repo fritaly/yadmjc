@@ -382,7 +382,7 @@ public enum Action {
 
 	private final int experienceGain;
 
-	private final int defenseModifier;
+	private final int shieldModifier;
 
 	private final int stamina;
 
@@ -393,14 +393,14 @@ public enum Action {
 	private final int fatigue;
 
 	private Action(Skill improvedSkill, int experienceGain,
-			int defenseModifier, int stamina, int hitProbability, int damage,
+			int shieldModifier, int stamina, int hitProbability, int damage,
 			int fatigue) {
 
 		Validate.isTrue(improvedSkill != null, "The given skill is null");
 
 		this.improvedSkill = improvedSkill;
 		this.experienceGain = experienceGain;
-		this.defenseModifier = defenseModifier;
+		this.shieldModifier = shieldModifier;
 		this.stamina = stamina;
 		this.hitProbability = hitProbability;
 		this.damage = damage;
@@ -415,8 +415,8 @@ public enum Action {
 		return experienceGain;
 	}
 
-	public int getDefenseModifier() {
-		return defenseModifier;
+	public int getShieldModifier() {
+		return shieldModifier;
 	}
 
 	public int getStamina() {

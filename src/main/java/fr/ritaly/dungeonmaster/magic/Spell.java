@@ -901,7 +901,7 @@ public class Spell {
 			throw new UnsupportedOperationException("Unsupported spell <"
 					+ getType() + ">");
 		case FIRE_SHIELD:
-			champion.getParty().getSpells().getFireShield()
+			champion.getParty().getSpells().getAntiMagic()
 					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
 		case FIREBALL: {
 			// Créer une boule de feu

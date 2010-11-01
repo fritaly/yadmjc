@@ -37,7 +37,7 @@ public class PartySpells implements ClockListener {
 
 	private final IntStat invisibility;
 	
-	private final IntStat fireShield;
+	private final IntStat antiMagic;
 	
 	private final IntStat shield;
 
@@ -48,7 +48,7 @@ public class PartySpells implements ClockListener {
 
 		this.party = party;
 		this.invisibility = new IntStat("Party.Spells", "Invisibility");
-		this.fireShield = new IntStat("Party.Spells", "FireShield");
+		this.antiMagic = new IntStat("Party.Spells", "AntiMagic");
 		this.shield = new IntStat("Party.Spells", "Shield");
 	}
 
@@ -63,11 +63,11 @@ public class PartySpells implements ClockListener {
 					}
 				}
 			}
-			if (fireShield.actualValue() > 0) {
-				if (fireShield.dec() == 0) {
+			if (antiMagic.actualValue() > 0) {
+				if (antiMagic.dec() == 0) {
 					// TODO Lever un évènement
 					if (log.isDebugEnabled()) {
-						log.debug("Party.Spells.FireShield is now inactive");
+						log.debug("Party.Spells.AntiMagic is now inactive");
 					}
 				}
 			}
@@ -92,8 +92,8 @@ public class PartySpells implements ClockListener {
 		return party;
 	}
 	
-	public IntStat getFireShield() {
-		return fireShield;
+	public IntStat getAntiMagic() {
+		return antiMagic;
 	}
 	
 	public IntStat getShield() {

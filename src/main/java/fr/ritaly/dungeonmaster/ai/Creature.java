@@ -229,7 +229,7 @@ public class Creature implements ChangeListener, ClockListener {
 		 * la {@link Creature} est immunisée contre le magie. aka "Fire
 		 * resistance".
 		 */
-		private final int magicShield;
+		private final int antiMagic;
 
 		/**
 		 * Valeur dans l'intervalle [0-15]. La valeur spéciale 15 signifie que
@@ -255,14 +255,14 @@ public class Creature implements ChangeListener, ClockListener {
 		 * Valeur dans l'intervalle [0-255]. La valeur spéciale 255 signifie que
 		 * la {@link Creature} est intouchable.
 		 */
-		private final int defense;
+		private final int shield;
 
 		private Type(int moveDuration, int armor, int baseHealth,
 				int hitProbability, int poisonAmount, int attackPower,
 				int attackType, int sightRange, int awareness, int spellRange,
-				int skill, int bravery, int magicShield, int poisonResistance,
+				int skill, int bravery, int antiMagic, int poisonResistance,
 				int attackDuration, int attackDisplayDuration,
-				int experienceMultiplier, int defense) {
+				int experienceMultiplier, int shield) {
 
 			Validate.isTrue((moveDuration >= 0) && (moveDuration <= 255),
 					"The given move duration " + moveDuration
@@ -295,8 +295,8 @@ public class Creature implements ChangeListener, ClockListener {
 					+ skill + " must be in range [0-15]");
 			Validate.isTrue((bravery >= 0) && (bravery <= 15),
 					"The given bravery " + bravery + " must be in range [0-15]");
-			Validate.isTrue((magicShield >= 0) && (magicShield <= 15),
-					"The given magic shield " + magicShield
+			Validate.isTrue((antiMagic >= 0) && (antiMagic <= 15),
+					"The given anti-magic " + antiMagic
 							+ " must be in range [0-15]");
 			Validate.isTrue(
 					(poisonResistance >= 0) && (poisonResistance <= 15),
@@ -314,8 +314,8 @@ public class Creature implements ChangeListener, ClockListener {
 					&& (experienceMultiplier <= 15),
 					"The given experience multiplier " + experienceMultiplier
 							+ " must be in range [0-15]");
-			Validate.isTrue((defense >= 0) && (defense <= 255),
-					"The given defense " + defense
+			Validate.isTrue((shield >= 0) && (shield <= 255),
+					"The given shield " + shield
 							+ " must be in range [0-255]");
 
 			this.baseHealth = baseHealth;
@@ -330,18 +330,18 @@ public class Creature implements ChangeListener, ClockListener {
 			this.spellRange = spellRange;
 			this.skill = Champion.Level.values()[skill];
 			this.bravery = bravery;
-			this.magicShield = magicShield;
+			this.antiMagic = antiMagic;
 			this.poisonResistance = poisonResistance;
 			this.attackDuration = attackDuration;
 			this.attackDisplayDuration = attackDisplayDuration;
 			this.experienceMultiplier = experienceMultiplier;
-			this.defense = defense;
+			this.shield = shield;
 		}
 
-		public int getDefense() {
+		public int getShield() {
 			// This value represents the difficulty for champions to hit the
 			// creature
-			return defense;
+			return shield;
 		}
 
 		public int getExperienceMultiplier() {
@@ -399,7 +399,7 @@ public class Creature implements ChangeListener, ClockListener {
 		}
 
 		public boolean isImmuneToMagic() {
-			return (15 == magicShield);
+			return (15 == antiMagic);
 		}
 
 		public int getPoisonResistance() {
@@ -408,10 +408,10 @@ public class Creature implements ChangeListener, ClockListener {
 			return poisonResistance;
 		}
 
-		public int getMagicShield() {
+		public int getAntiMagic() {
 			// Resistance to magical spells like Fireball. Value 15 means the
 			// creature is immune
-			return magicShield;
+			return antiMagic;
 		}
 		
 		public int getBravery() {
@@ -1526,8 +1526,8 @@ public class Creature implements ChangeListener, ClockListener {
 		return getType().canTeleport();
 	}
 
-	public final int getMagicShield() {
-		return getType().getMagicShield();
+	public final int getAntiMagic() {
+		return getType().getAntiMagic();
 	}
 
 	public final String getId() {
@@ -1626,8 +1626,8 @@ public class Creature implements ChangeListener, ClockListener {
 		return getType().getExperienceMultiplier();
 	}
 
-	public final int getDefense() {
-		return getType().getDefense();
+	public final int getShield() {
+		return getType().getShield();
 	}
 	
 	@Override

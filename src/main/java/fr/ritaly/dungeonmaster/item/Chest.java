@@ -136,7 +136,7 @@ public final class Chest extends Item implements ItemContainer {
 	}
 
 	@Override
-	public int getFireShield() {
+	public int getAntiMagic() {
 		return 0;
 	}
 
