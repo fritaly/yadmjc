@@ -89,6 +89,11 @@ public class Spell {
 		ANTIDOTE_POTION(VI, BRO, 26, 1),
 		SHIELD_POTION(YA, BRO, 25, 2),
 		ANTI_MAGIC(FUL, BRO, NETA, 28, 4),
+		
+		/**
+		 * Note: This spell is a party spell. The shield per champion is gained
+		 * by drinking spell potions.
+		 */
 		SHIELD(YA, IR, 30, 2),
 		DARKNESS(DES, IR, SAR, 12, 1),
 		DISPELL_ILLUSION(OH, GOR, ROS, 0, 0),

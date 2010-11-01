@@ -4303,4 +4303,72 @@ public class DungeonMasterTest extends TestCase {
 		assertTrue(party.isInvisible());
 		assertTrue(party.getSpells().isInvisibilityActive());
 	}
+	
+	public void testAntiMagicSpell() throws Exception {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.setSkill(Skill.DEFEND, Champion.Level.ARCH_MASTER);
+		tiggy.getStats().getMana().maxValue(200);
+		tiggy.getStats().getMana().value(200);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		// --- Lancer le sort
+		tiggy.cast(PowerRune.LO, Spell.Type.ANTI_MAGIC);
+		
+		assertEquals(0, party.getSpells().getAntiMagic().value().intValue());
+		
+		final Spell spell = tiggy.castSpell();
+
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		
+		assertTrue(party.getSpells().getAntiMagic().value().intValue() > 0);
+	}
+	
+	public void testShieldSpell() throws Exception {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.setSkill(Skill.DEFEND, Champion.Level.ARCH_MASTER);
+		tiggy.getStats().getMana().maxValue(200);
+		tiggy.getStats().getMana().value(200);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		// --- Lancer le sort
+		tiggy.cast(PowerRune.LO, Spell.Type.SHIELD);
+		
+		assertEquals(0, party.getSpells().getShield().value().intValue());
+		
+		final Spell spell = tiggy.castSpell();
+
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		
+		assertTrue(party.getSpells().getShield().value().intValue() > 0);
+	}
+	
+	public void testLightSpell() throws Exception {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.getStats().getMana().maxValue(200);
+		tiggy.getStats().getMana().value(200);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		// --- Lancer le sort
+		tiggy.cast(PowerRune.LO, Spell.Type.LIGHT);
+		
+		assertEquals(0, tiggy.getSpells().getLight().value().intValue());
+		
+		final Spell spell = tiggy.castSpell();
+
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		
+		assertTrue(tiggy.getSpells().getLight().value().intValue() > 0);
+	}
 }

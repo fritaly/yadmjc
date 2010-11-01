@@ -931,7 +931,9 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 			// Non. Supprimer les runes formulés
 			spellCaster.clear();
 
-			throw new SkillTooLowException();
+			throw new SkillTooLowException("The champion's skill "
+					+ spell.getSkill() + " is too low to cast spell "
+					+ spell.getName());
 		}
 
 		// Prérequis pour que le sort fonctionne ?
