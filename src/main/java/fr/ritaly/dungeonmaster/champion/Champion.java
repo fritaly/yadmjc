@@ -1043,7 +1043,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * @return un float représentant un nombre de kilogrammes.
 	 */
 	public final float getMaxLoad() {
-		return getStats().getMaxLoad();
+		return getStats().getActualMaxLoad();
 	}
 
 	/**

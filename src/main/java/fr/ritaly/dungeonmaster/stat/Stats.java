@@ -393,7 +393,7 @@ public class Stats implements ChangeListener, ClockListener {
 		return maxLoadBoost;
 	}
 
-	public final float getMaxLoad() {
+	public final float getActualMaxLoad() {
 		final float baseMaxLoad = (8.0f * strength.actualValue() + 100.0f) / 10.0f;
 		
 		// Prendre en compte le bonus de charge s'il y en a un

@@ -4223,4 +4223,36 @@ public class DungeonMasterTest extends TestCase {
 	// FIXME Tester l'effet des sorts (FUL, Potions)
 	
 	// FIXME Tester champions se cognant dans un mur et étant blessés
+	
+	public void testInfluenceOfElvenBootsOnMaxLoad() {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+
+		final Item elvenBoots = ItemFactory.getFactory().newItem(
+				Item.Type.ELVEN_BOOTS);
+
+		final IntStat maxLoadBoost = tiggy.getStats().getMaxLoadBoost();
+		final float maxLoad1 = tiggy.getStats().getActualMaxLoad();
+		final float maxLoad2 = tiggy.getMaxLoad();
+
+		// --- Le boost doit valoir initialement 0
+		assertEquals(0, maxLoadBoost.actualValue().intValue());
+
+		// --- Tiggy met les bottes, le boost augmente de +14
+		tiggy.getBody().getFeet().putOn(elvenBoots);
+
+		assertEquals(+14, maxLoadBoost.actualValue().intValue());
+		assertEquals(maxLoad1 + 14, tiggy.getStats().getActualMaxLoad(), 0.00001f);
+		assertEquals(maxLoad2 + 14, tiggy.getMaxLoad(), 0.00001f);
+
+		// --- Tiggy retire les bottes, le boost diminue de +14
+		final Item item = tiggy.getBody().getFeet().takeOff(true);
+
+		assertNotNull(item);
+		assertEquals(elvenBoots, item);
+		
+		assertEquals(0, maxLoadBoost.actualValue().intValue());
+		assertEquals(maxLoad1, tiggy.getStats().getActualMaxLoad(), 0.00001f);
+		assertEquals(maxLoad2, tiggy.getMaxLoad(), 0.00001f);
+	}
 }

@@ -1162,9 +1162,10 @@ public abstract class Item implements ChangeEventSource {
 			case CLOAK_OF_NIGHT:
 				return Arrays
 						.asList(new Effect(AffectedStatistic.DEXTERITY, +8));
-				// case ELVEN_BOOTS:
-				// FIXME +1-14 Load
-				// throw new UnsupportedOperationException();
+			case ELVEN_BOOTS:
+				// +14 Load (Should be actually +1-14)
+				return Arrays
+						.asList(new Effect(AffectedStatistic.MAX_LOAD, 14));
 			case CROWN_OF_NERRA:
 				return Arrays.asList(new Effect(AffectedStatistic.WISDOM, +10));
 			case DEXHELM:
