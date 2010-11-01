@@ -39,14 +39,17 @@ import fr.ritaly.dungeonmaster.item.Item;
 public final class WallSlot extends DirectedElement implements HasActuator {
 
 	private final Log log = LogFactory.getLog(WallSlot.class);
-	
+
 	// FIXME Un WallSlot doit pouvoir être activé avec plusieurs pièces
 
 	/**
-	 * Indique si la fente a été utilisée.
+	 * Tells whether the slot has been used / triggered.
 	 */
 	private boolean used = false;
 
+	/**
+	 * The type of the item that can trigger the slot. Can't be null.
+	 */
 	private final Item.Type itemType;
 
 	private Actuator actuator;
@@ -90,21 +93,21 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 	}
 
 	/**
-	 * Indique si la fente a été utilisée.
+	 * Tells whether the slot has been used / triggered.
 	 * 
-	 * @return si la fente a été utilisée.
+	 * @return whether the slot has been used / triggered.
 	 */
 	public boolean isUsed() {
 		return used;
 	}
-	
+
 	/**
-	 * Tente d'utiliser l'objet donné sur la fente et retourne si
-	 * l'opération a réussi.
+	 * Tries to use / trigger the slot by using the given item and returns
+	 * whether the operation succeeded.
 	 * 
 	 * @param item
-	 *            une instance de {@link Item} représentant un objet à utiliser sur la fente.
-	 * @return si l'opération a réussi.
+	 *            an {@link Item} used to use / trigger the slot. Can't be null.
+	 * @return whether the slot was successfully used / triggered.
 	 */
 	public boolean unlock(Item item) {
 		Validate.notNull(item, "The given item is null");
@@ -142,7 +145,7 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 	public Actuator getActuator() {
 		return actuator;
 	}
-	
+
 	public void addActuator(Actuator actuator) {
 		Validate.notNull(actuator, "The given actuator is null");
 
@@ -156,7 +159,7 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 	public Item.Type getItemType() {
 		return itemType;
 	}
-	
+
 	@Override
 	public void clearActuator() {
 		this.actuator = null;
