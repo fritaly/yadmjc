@@ -882,6 +882,7 @@ public class Spell {
 			}
 
 			// FIXME Gérer le cas de la main vide: KICK, CRY, PUNCH !!
+			break;
 		case LIGHT:
 			// Augmenter la lumière générée par le héros
 			champion.getSpells().getLight()
@@ -903,6 +904,7 @@ public class Spell {
 		case FIRE_SHIELD:
 			champion.getParty().getSpells().getAntiMagic()
 					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
+			break;
 		case FIREBALL: {
 			// Créer une boule de feu
 			// FIXME Changer manière de créer un projectile
@@ -912,6 +914,7 @@ public class Spell {
 		case INVISIBILITY:
 			champion.getParty().getSpells().getInvisibility()
 					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
+			break;
 		case LIGHTNING_BOLT: {
 			// FIXME Changer manière de créer un projectile
 			final Projectile projectile = new SpellProjectile(this, champion);
@@ -938,6 +941,7 @@ public class Spell {
 		case SHIELD:
 			champion.getParty().getSpells().getShield()
 					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
+			break;
 		case WEAKEN_IMMATERIAL: {
 			// FIXME Changer manière de créer un projectile
 			final Projectile projectile = new SpellProjectile(this, champion);
