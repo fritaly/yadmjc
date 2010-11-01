@@ -34,19 +34,20 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * Une oubliette.
- *
+ * A pit. A pit can be real or virtual (i.e. just an illusion). It can also be
+ * open or closed.
+ * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public class Pit extends Element implements Triggered {
 
 	/**
-	 * Indique si l'oubliette est ouverte.
+	 * Tells whether the pit is open.
 	 */
 	private boolean open = true;
 
 	/**
-	 * Indique si l'oubliette est une fausse (illusion).
+	 * Tells whether the pit is fake (an illusion).
 	 */
 	private boolean illusion;
 
@@ -121,21 +122,21 @@ public class Pit extends Element implements Triggered {
 			if (log.isDebugEnabled()) {
 				log.debug("Party stepped on an open pit. Party is falling ...");
 			}
-			
+
 			// Conserver une référence vers le groupe car getParty() retourne
 			// null après la chute !
 			final Party party = getParty();
 
 			// Le groupe tombe
 			getParty().getDungeon().moveParty(Move.DOWN, true, AudioClip.SHOUT);
-			
+
 			// FIXME Gérer le cas de chute dans plusieurs oubliettes d'un coup!
 			// Blesser les champions à cause de la chute !
 			for (Champion champion : party.getChampions(false)) {
 				final Item item = champion.getBody().getFeet().getItem();
-				
+
 				final int injury;
-				
+
 				if (item != null) {
 					// Les bottes protègent un peu le héros de la chute
 					injury = Utils.random(7, 21);
@@ -143,19 +144,19 @@ public class Pit extends Element implements Triggered {
 					// Blessure maximale
 					injury = Utils.random(10, 30);
 				}
-				
+
 				champion.hit(injury);
-				
+
 				if (champion.isAlive()) {
 					// Le champion est-il blessé aux pieds ?
 					if (item != null) {
 						// Champion un peu mieux protégé (25%)
-						if (Utils.random(1, 4) > 3 ) {
+						if (Utils.random(1, 4) > 3) {
 							champion.getBody().getFeet().wound();
-						}						
+						}
 					} else {
 						// Champion un peu moins protégé (50%)
-						if (Utils.random(1, 2) > 1 ) {
+						if (Utils.random(1, 2) > 1) {
 							champion.getBody().getFeet().wound();
 						}
 					}
@@ -169,27 +170,27 @@ public class Pit extends Element implements Triggered {
 	}
 
 	/**
-	 * Indique si l'oubliette est ouverte.
+	 * Tells whether the pit is open.
 	 * 
-	 * @return si l'oubliette est ouverte.
+	 * @return whether the pit is open.
 	 */
 	public boolean isOpen() {
 		return open;
 	}
 
 	/**
-	 * Indique si l'oubliette est fermée.
+	 * Tells whether the pit is closed.
 	 * 
-	 * @return si l'oubliette est fermée.
+	 * @return whether the pit is closed.
 	 */
 	public final boolean isClosed() {
 		return !isOpen();
 	}
 
 	/**
-	 * Ouvre l'oubliette et retourne si l'opération a réussi.
+	 * Tries to open the pit and returns whether the operation succeeded.
 	 * 
-	 * @return si l'oubliette a été ouverte.
+	 * @return whether the pit was successfully opened.
 	 */
 	public boolean open() {
 		// Le résultat de cette méthode ne dépend pas du caractère fake de
@@ -224,9 +225,9 @@ public class Pit extends Element implements Triggered {
 	}
 
 	/**
-	 * Ferme l'oubliette et retourne si l'opération a réussi.
+	 * Tries to close the pit and returns whether the operation succeeded.
 	 * 
-	 * @return si l'oubliette a été fermée.
+	 * @return whether the pit was successfully closed.
 	 */
 	public boolean close() {
 		// Le résultat de cette méthode ne dépend pas du caractère fake de
@@ -251,18 +252,18 @@ public class Pit extends Element implements Triggered {
 	}
 
 	/**
-	 * Indique si l'oubliette est une illusion (ou réelle).
+	 * Tells whether the pit is fake (an illusion) or real.
 	 * 
-	 * @return si l'oubliette est une illusion.
+	 * @return whether the pit is fake (an illusion) or real.
 	 */
 	public boolean isIllusion() {
 		return illusion;
 	}
 
 	/**
-	 * Indique si l'oubliette est réelle (ou une illusion).
+	 * Tells whether the pit is real (or an illusion).
 	 * 
-	 * @return si l'oubliette est réelle.
+	 * @return whether the pit is real (or an illusion).
 	 */
 	public final boolean isReal() {
 		return !isIllusion();
@@ -276,15 +277,15 @@ public class Pit extends Element implements Triggered {
 	private void dropCreatures() {
 		if (isReal()) {
 			// Faire tomber les créatures qui ne volent pas !
-			
+
 			// Position cible ?
 			final Position targetPosition = getPosition().towards(
 					Direction.DOWN);
 
 			// Element cible ?
-			final Element targetElement = getLevel().getDungeon()
-					.getElement(targetPosition);
-			
+			final Element targetElement = getLevel().getDungeon().getElement(
+					targetPosition);
+
 			for (Creature creature : getCreatures()) {
 				if (creature.getType().levitates()) {
 					// La créature ne peut tomber dans l'oubliette car elle vole
@@ -297,7 +298,7 @@ public class Pit extends Element implements Triggered {
 
 				// La créature quitte la position
 				final Object location = removeCreature(creature);
-				
+
 				// La créature tombe au niveau inférieur
 				targetElement.addCreature(creature, location);
 			}
