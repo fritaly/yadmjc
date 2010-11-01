@@ -88,7 +88,7 @@ public class Spell {
 		VITALITY_POTION(YA, BRO, NETA, 15, 4),
 		ANTIDOTE_POTION(VI, BRO, 26, 1),
 		SHIELD_POTION(YA, BRO, 25, 2),
-		FIRE_SHIELD(FUL, BRO, NETA, 28, 4),
+		ANTI_MAGIC(FUL, BRO, NETA, 28, 4),
 		SHIELD(YA, IR, 30, 2),
 		DARKNESS(DES, IR, SAR, 12, 1),
 		DISPELL_ILLUSION(OH, GOR, ROS, 0, 0),
@@ -288,7 +288,7 @@ public class Spell {
 				// Niveau 1
 				return Champion.Level.NEOPHYTE;
 			case SHIELD_POTION:
-			case FIRE_SHIELD:
+			case ANTI_MAGIC:
 			case SHIELD:
 			case DARKNESS:
 			case SEE_THROUGH_WALLS:
@@ -334,7 +334,7 @@ public class Spell {
 				// Compétence #2
 				return Skill.PRIEST;
 			case SHIELD_POTION:
-			case FIRE_SHIELD:
+			case ANTI_MAGIC:
 			case SHIELD:
 			case DARKNESS:
 			case SEE_THROUGH_WALLS:
@@ -915,7 +915,7 @@ public class Spell {
 			champion.getParty().getSpells().getDispellIllusion()
 					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
 			break;
-		case FIRE_SHIELD:
+		case ANTI_MAGIC:
 			champion.getParty().getSpells().getAntiMagic()
 					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
 			break;
