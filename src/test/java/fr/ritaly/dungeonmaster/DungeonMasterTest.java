@@ -4276,7 +4276,102 @@ public class DungeonMasterTest extends TestCase {
 
 	// FIXME Tester l'effet des sorts (FUL, Potions)
 	
-	// FIXME Tester champions se cognant dans un mur et étant blessés
+	public void testChampionsHurtWhenHittingConcreteWalls() {
+		// +---+---+---+
+		// | W | W | W |
+		// +---+---+---+
+		// | W | P | W |
+		// +---+---+---+
+		// | W | W | W |
+		// +---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+		dungeon.createLevel(1, 3, 3);
+
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.getStats().getHealth().maxValue(500);
+		tiggy.getStats().getHealth().value(500);
+		
+		final Champion daroou = ChampionFactory.getFactory().newChampion(
+				Name.DAROOU);
+		daroou.getStats().getHealth().maxValue(500);
+		daroou.getStats().getHealth().value(500);
+		
+		final Champion halk = ChampionFactory.getFactory().newChampion(
+				Name.HALK);
+		halk.getStats().getHealth().maxValue(500);
+		halk.getStats().getHealth().value(500);
+		
+		final Champion wuuf = ChampionFactory.getFactory().newChampion(
+				Name.WUUF);
+		wuuf.getStats().getHealth().maxValue(500);
+		wuuf.getStats().getHealth().value(500);
+
+		// Attention ! La position des champions dans le groupe est importante
+		// pour la suite du test !
+		final Party party = new Party();
+		assertEquals(Location.FRONT_LEFT, party.addChampion(tiggy));
+		assertEquals(Location.FRONT_RIGHT, party.addChampion(daroou));
+		assertEquals(Location.REAR_LEFT, party.addChampion(halk));
+		assertEquals(Location.REAR_RIGHT, party.addChampion(wuuf));
+
+		dungeon.setParty(new Position(1, 1, 1), party);
+
+		assertEquals(Direction.NORTH, party.getLookDirection());
+		
+		// --- FORWARD. Seuls deux héros sont blessés
+		final int tiggyHealth1 = tiggy.getStats().getHealth().value();
+		final int daroouHealth1 = daroou.getStats().getHealth().value();
+		final int halkHealth1 = halk.getStats().getHealth().value();
+		final int wuufHealth1 = wuuf.getStats().getHealth().value();
+		
+		assertFalse(dungeon.moveParty(Move.FORWARD, true));
+		
+		assertTrue(tiggy.getStats().getHealth().value() < tiggyHealth1);
+		assertTrue(daroou.getStats().getHealth().value() < daroouHealth1);
+		assertEquals(halkHealth1, halk.getStats().getHealth().value().intValue());
+		assertEquals(wuufHealth1, wuuf.getStats().getHealth().value().intValue());
+		
+		// --- BACKWARD. Seuls deux héros sont blessés
+		final int tiggyHealth2 = tiggy.getStats().getHealth().value();
+		final int daroouHealth2 = daroou.getStats().getHealth().value();
+		final int halkHealth2 = halk.getStats().getHealth().value();
+		final int wuufHealth2 = wuuf.getStats().getHealth().value();
+		
+		assertFalse(dungeon.moveParty(Move.BACKWARD, true));
+		
+		assertEquals(tiggyHealth2, tiggy.getStats().getHealth().value().intValue());
+		assertEquals(daroouHealth2, daroou.getStats().getHealth().value().intValue());
+		assertTrue(halk.getStats().getHealth().value() < halkHealth2);
+		assertTrue(wuuf.getStats().getHealth().value() < wuufHealth2);
+		
+		// --- LEFT. Seuls deux héros sont blessés
+		final int tiggyHealth3 = tiggy.getStats().getHealth().value();
+		final int daroouHealth3 = daroou.getStats().getHealth().value();
+		final int halkHealth3 = halk.getStats().getHealth().value();
+		final int wuufHealth3 = wuuf.getStats().getHealth().value();
+		
+		assertFalse(dungeon.moveParty(Move.LEFT, true));
+		
+		assertTrue(tiggy.getStats().getHealth().value() < tiggyHealth3);
+		assertEquals(daroouHealth3, daroou.getStats().getHealth().value().intValue());
+		assertTrue(halk.getStats().getHealth().value() < halkHealth3);
+		assertEquals(wuufHealth3, wuuf.getStats().getHealth().value().intValue());
+
+		// --- RIGHT. Seuls deux héros sont blessés
+		final int tiggyHealth4 = tiggy.getStats().getHealth().value();
+		final int daroouHealth4 = daroou.getStats().getHealth().value();
+		final int halkHealth4 = halk.getStats().getHealth().value();
+		final int wuufHealth4 = wuuf.getStats().getHealth().value();
+		
+		assertFalse(dungeon.moveParty(Move.RIGHT, true));
+		
+		assertEquals(tiggyHealth4, tiggy.getStats().getHealth().value().intValue());
+		assertTrue(daroou.getStats().getHealth().value() < daroouHealth4);
+		assertEquals(halkHealth4, halk.getStats().getHealth().value().intValue());
+		assertTrue(wuuf.getStats().getHealth().value() < wuufHealth4);
+	}
 	
 	public void testInfluenceOfElvenBootsOnMaxLoad() {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(
