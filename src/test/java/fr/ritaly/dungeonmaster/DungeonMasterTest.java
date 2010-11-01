@@ -3788,6 +3788,60 @@ public class DungeonMasterTest extends TestCase {
 		assertTrue(actuator.isTriggered());
 		assertTrue(wallSlot.isUsed());
 	}
+	
+	public void testActuatorTriggeredWhenUsingMultiWallSlot() {
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | S |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+
+		final TestActuator actuator = new TestActuator();
+		
+		final WallSlot wallSlot = new WallSlot(Direction.EAST,
+				Item.Type.GOLD_COIN, 2);
+		wallSlot.setActuator(actuator);
+		
+		final Dungeon dungeon = new Dungeon();
+		
+		final Level level1 = dungeon.createLevel(1, 5, 5);
+		level1.setElement(2, 2, wallSlot);
+
+		// --- Situation initiale
+		assertFalse(actuator.isTriggered());
+		assertFalse(wallSlot.isUsed());
+
+		// --- Tenter avec un objet du mauvais type
+		assertFalse(wallSlot.unlock(new MiscItem(Item.Type.KEY_OF_B)));
+		Clock.getInstance().tick(1);
+		assertFalse(actuator.isTriggered());
+		assertFalse(wallSlot.isUsed());
+
+		// --- Tenter avec le bon type d'objet (1ère fois)
+		assertTrue(wallSlot.unlock(new MiscItem(Item.Type.GOLD_COIN)));
+		Clock.getInstance().tick(1);
+		assertTrue(actuator.isTriggered()); // <-- Déclenchement 1x
+		assertFalse(wallSlot.isUsed()); // <-- Pas encore utilisé
+		
+		// --- Tenter avec le bon type d'objet (2nde fois)
+		assertTrue(wallSlot.unlock(new MiscItem(Item.Type.GOLD_COIN)));
+		Clock.getInstance().tick(1);
+		assertTrue(actuator.isTriggered()); // <-- Déclenchement 2x
+		assertTrue(wallSlot.isUsed()); // <-- Utilisé
+
+		// --- On ne peut réutiliser une fente déjà utilisée
+		assertFalse(wallSlot.unlock(new MiscItem(Item.Type.GOLD_COIN)));
+		Clock.getInstance().tick(1);
+		assertTrue(actuator.isTriggered());
+		assertTrue(wallSlot.isUsed());
+	}
 
 	public void testActuatorTriggeredWhenItemDroppedInAlcove() {
 		// +---+---+---+---+---+

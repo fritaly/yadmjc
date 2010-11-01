@@ -40,12 +40,15 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 
 	private final Log log = LogFactory.getLog(WallSlot.class);
 
-	// FIXME Un WallSlot doit pouvoir être activé avec plusieurs pièces
+	/**
+	 * The number of times the slot has been used / triggered.
+	 */
+	private int useCount = 0;
 
 	/**
-	 * Tells whether the slot has been used / triggered.
+	 * The maximal number of times the slot can be used / triggered.
 	 */
-	private boolean used = false;
+	private final int maxUseCount;
 
 	/**
 	 * The type of the item that can trigger the slot. Can't be null.
@@ -54,13 +57,19 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 
 	private Actuator actuator;
 
-	public WallSlot(Direction direction, Item.Type itemType) {
+	public WallSlot(Direction direction, Item.Type itemType, int maxCount) {
 		super(Type.WALL_SLOT, direction);
 
 		// N'importe quel objet peut être utilisé en tant que "pièce"
 		Validate.notNull(itemType, "The given item type is null");
+		Validate.isTrue(maxCount >= 1, "The given max count " + maxCount + " must be positive (1+)");
 
 		this.itemType = itemType;
+		this.maxUseCount = maxCount;
+	}
+	
+	public WallSlot(Direction direction, Item.Type itemType) {
+		this(direction, itemType, 1);
 	}
 
 	@Override
@@ -98,7 +107,7 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 	 * @return whether the slot has been used / triggered.
 	 */
 	public boolean isUsed() {
-		return used;
+		return (useCount == maxUseCount);
 	}
 
 	/**
@@ -114,12 +123,21 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 
 		if (itemType.equals(item.getType())) {
 			// Objet du bon type
-			if (!used) {
+			if (!isUsed()) {
 				// L'objet active la fente
-				this.used = true;
-
+				final int backup = this.useCount;
+				
+				this.useCount++;
+				
 				if (log.isDebugEnabled()) {
-					log.debug(this + ": slot used");
+					log.debug(this + ".UseCount: " + backup + " -> " + useCount
+							+ " / " + maxUseCount + " [+1]");
+				}
+				
+				if (isUsed()) {
+					if (log.isDebugEnabled()) {
+						log.debug(this + ".Used = true");
+					}					
 				}
 
 				// Jouer le son
