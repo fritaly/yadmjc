@@ -35,14 +35,14 @@ public class ChampionSpells implements ClockListener {
 
 	private final IntStat light;
 	
-	private final IntStat shield;
+	// private final IntStat shield;
 
 	public ChampionSpells(Champion champion) {
 		Validate.isTrue(champion != null, "The given champion is null");
 
 		this.champion = champion;
 		this.light = new IntStat(champion.getName(), "Light");
-		this.shield = new IntStat(champion.getName(), "Shield");
+		// this.shield = new IntStat(champion.getName(), "Shield");
 		this.temporizer = new Temporizer(champion.getName() + ".Spells", 4);
 	}
 
@@ -62,17 +62,17 @@ public class ChampionSpells implements ClockListener {
 					// TODO Lever un évènement
 				}
 			}
-			if (shield.actualValue() > 0) {
-				if (shield.dec() == 0) {
-					// TODO Lever un évènement
-				}
-			}
+//			if (shield.actualValue() > 0) {
+//				if (shield.dec() == 0) {
+//					// TODO Lever un évènement
+//				}
+//			}
 		}
 
 		return true;
 	}
 	
-	public IntStat getShield() {
-		return shield;
-	}
+//	public IntStat getShield() {
+//		return shield;
+//	}
 }

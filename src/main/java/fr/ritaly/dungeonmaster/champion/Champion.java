@@ -1192,7 +1192,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		int shield = body.getShield();
 
 		// Prendre en compte le bonus de défense du sort associé au champion
-		shield += spells.getShield().actualValue();
+		// shield += spells.getShield().actualValue();
 
 		if (party != null) {
 			// ... et les sorts (du groupe)
