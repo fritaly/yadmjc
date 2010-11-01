@@ -1317,6 +1317,7 @@ public abstract class Item implements ChangeEventSource {
 				stats.getDexterity().inc(value);
 				break;
 			case MANA:
+				stats.getMana().incMax(value);
 				stats.getMana().inc(value);
 				break;
 			case STRENGTH:
@@ -1379,6 +1380,7 @@ public abstract class Item implements ChangeEventSource {
 				break;
 			case MANA:
 				stats.getMana().dec(value);
+				stats.getMana().decMax(value);
 				break;
 			case STRENGTH:
 				stats.getStrength().dec(value);
