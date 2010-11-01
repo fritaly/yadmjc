@@ -44,6 +44,8 @@ public final class WallLock extends DirectedElement implements HasActuator {
 	 * Indique si la serrure a été déverrouillée.
 	 */
 	private boolean unlocked = false;
+	
+	// TODO Implement maxUseCount like for WallSlot
 
 	private final Item.Type keyType;
 

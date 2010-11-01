@@ -47,6 +47,8 @@ public final class WallSwitch extends DirectedElement implements HasActuator,
 	 * de sens que pour un bouton poussoir.
 	 */
 	private boolean pressed = false;
+	
+	// TODO Implement maxUseCount like for WallSlot
 
 	/**
 	 * Indique si le bouton est de type poussoir. Vaut true par défaut.

@@ -35,7 +35,7 @@ public class AlcoveTest extends TestCase {
 		super(name);
 	}
 
-	public void testActuatorTriggeredWhenItemDroppedInAlcove() {
+	public void testActuatorTriggeredWhenItemDropped() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
@@ -75,7 +75,7 @@ public class AlcoveTest extends TestCase {
 		assertFalse(actuator.isTriggered());
 	}
 	
-	public void testActuatorTriggeredWhenItemOfGivenTypeDroppedInAlcove() {
+	public void testActuatorTriggeredWhenItemOfGivenTypeDropped() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
@@ -127,7 +127,7 @@ public class AlcoveTest extends TestCase {
 		actuator.reset();
 	}
 	
-	public void testActuatorTriggeredWhenItemPickedUpFromAlcove() {
+	public void testActuatorTriggeredWhenItemPickedUp() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+

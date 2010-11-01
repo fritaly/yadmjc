@@ -285,12 +285,4 @@ public class BodyTest extends TestCase {
 		body.getWeaponHand().putOn(apple1);
 		assertEquals(apple1.getWeight(), body.getTotalWeight());
 	}
-
-	public void testGetAntiMagic() {
-		fail("Not yet implemented");
-	}
-
-	public void testGetShield() {
-		fail("Not yet implemented");
-	}
 }

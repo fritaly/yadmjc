@@ -31,6 +31,7 @@ public class Curse {
 
 	private final Log log = LogFactory.getLog(Curse.class);
 
+	// TODO Should strength be a PowerRune instead of an int ? 
 	private int strength;
 
 	private boolean detected;
