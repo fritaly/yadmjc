@@ -56,6 +56,8 @@ public class Stats implements ChangeListener, ClockListener {
 	public static final String PROPERTY_ANTI_MAGIC = "AntiMagic";
 
 	public static final String PROPERTY_LUCK = "Luck";
+	
+	public static final String PROPERTY_MAX_LOAD_BOOST = "MaxLoadBoost";
 
 	private final Champion champion;
 
@@ -141,6 +143,8 @@ public class Stats implements ChangeListener, ClockListener {
 	 * This value determines a champion's resistance to fire damage.
 	 */
 	private final IntStat antiFire;
+	
+	private final IntStat maxLoadBoost;
 
 	private boolean initialized;
 
@@ -170,6 +174,7 @@ public class Stats implements ChangeListener, ClockListener {
 		antiFire = new IntStat(champion.getName(), PROPERTY_ANTI_FIRE);
 		antiMagic = new IntStat(champion.getName(), PROPERTY_ANTI_MAGIC);
 		luck = new IntStat(champion.getName(), PROPERTY_LUCK);
+		maxLoadBoost = new IntStat(champion.getName(), PROPERTY_MAX_LOAD_BOOST);
 
 		// Ecouter les évènements levés par les stats
 		food.addChangeListener(this);
@@ -184,6 +189,7 @@ public class Stats implements ChangeListener, ClockListener {
 		antiFire.addChangeListener(this);
 		antiMagic.addChangeListener(this);
 		luck.addChangeListener(this);
+		maxLoadBoost.addChangeListener(this);
 
 		// 5 secondes
 		temporizer = new Temporizer(champion.getName() + ".Stats",
@@ -380,19 +386,28 @@ public class Stats implements ChangeListener, ClockListener {
 
 		return luck;
 	}
+	
+	public IntStat getMaxLoadBoost() {
+		assertInitialized();
+
+		return maxLoadBoost;
+	}
 
 	public final float getMaxLoad() {
 		final float baseMaxLoad = (8.0f * strength.actualValue() + 100.0f) / 10.0f;
+		
+		// Prendre en compte le bonus de charge s'il y en a un
+		final float actualBaseMaxLoad = baseMaxLoad + maxLoadBoost.value();
 
 		final Integer curStamina = stamina.actualValue();
 		final Integer maxStamina = stamina.actualMaxValue();
 
 		if (curStamina >= (maxStamina / 2.0f)) {
-			return baseMaxLoad;
+			return actualBaseMaxLoad;
 		} else {
 			// Champion à la peine
-			return (baseMaxLoad / 2)
-					+ ((baseMaxLoad * curStamina) / (maxStamina / 2.0f));
+			return (actualBaseMaxLoad / 2)
+					+ ((actualBaseMaxLoad * curStamina) / (maxStamina / 2.0f));
 		}
 	}
 }
