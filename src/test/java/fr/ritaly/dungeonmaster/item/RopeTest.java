@@ -104,7 +104,7 @@ public class RopeTest extends TestCase {
 		assertEquals(Direction.EAST, party.getLookDirection());
 		assertTrue(rope.perform(Action.CLIMB_DOWN));
 		
-		assertEquals(new Position(2, 2, 2), dungeon.getParty().getPosition());
+		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
 	}
 	
 	public void testCantClimbDownThroughFakeOpenPit() {
@@ -239,5 +239,79 @@ public class RopeTest extends TestCase {
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
+	}
+	
+	public void testClimbDownThroughSeveralStackedRealOpenPits() {
+		// Level1:
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | P | I | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		// Level2:
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | I | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		
+		// Level3:
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		Dungeon dungeon = new Dungeon();
+
+		final Level level1 = dungeon.createLevel(1, 5, 5);
+		level1.setElement(3, 2, new Pit());
+
+		final Level level2 = dungeon.createLevel(2, 5, 5);
+		level2.setElement(3, 2, new Pit());
+		
+		dungeon.createLevel(3, 5, 5);
+
+		final MiscItem rope = new MiscItem(Item.Type.ROPE);
+		
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.getBody().getWeaponHand().putOn(rope);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		dungeon.setParty(new Position(2, 2, 1), party);
+
+		// --- Situation initiale
+		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
+		
+		// --- Le groupe descend à travers l'oubliette à l'aide de la corde
+		assertEquals(Direction.NORTH, party.getLookDirection());
+		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true));
+		assertEquals(Direction.EAST, party.getLookDirection());
+		assertTrue(rope.perform(Action.CLIMB_DOWN));
+		
+		// Le groupe atterrit au troisième niveau
+		assertEquals(new Position(3, 2, 3), dungeon.getParty().getPosition());
 	}
 }

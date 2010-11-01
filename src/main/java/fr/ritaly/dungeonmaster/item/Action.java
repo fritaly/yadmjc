@@ -22,9 +22,9 @@ import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Skill;
+import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
@@ -32,7 +32,7 @@ import fr.ritaly.dungeonmaster.map.Pit;
 
 /**
  * Une {@link Action} qu'un champion peut réaliser à l'aide d'un {@link Item}.
- * Les {@link Action}s ne sont jamais utilisées individuellement mais regrouper
+ * Les {@link Action}s ne sont jamais utilisées individuellement mais regroupées
  * au sein de {@link Combo} assignées à un item.
  * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
@@ -185,39 +185,62 @@ public enum Action {
 	public boolean perform(Dungeon dungeon, Champion champion) {
 		// Le champion peut être à null selon les actions
 		Validate.isTrue(dungeon != null, "The given dungeon is null");
-		
+
 		if (Action.CLIMB_DOWN.equals(this)) {
 			// Le groupe doit être face à une oubliette
 			final Element current = dungeon.getCurrentElement();
-			
+
 			// Direction de regard du groupe ?
-			final Direction lookDirection = dungeon.getParty().getLookDirection();
-			
-			// Position cible visible ? 
-			final Position target = current.getPosition().towards(lookDirection);
-			
+			final Direction lookDirection = dungeon.getParty()
+					.getLookDirection();
+
+			// Position cible visible ?
+			final Position target = current.getPosition()
+					.towards(lookDirection);
+
 			// Element cible visible ?
 			final Element facingElement = dungeon.getElement(target);
-			
+
 			if (!(facingElement instanceof Pit)) {
 				// Le groupe ne peut descendre dans l'oubliette
 				return false;
 			}
-			
+
 			final Pit pit = (Pit) facingElement;
-			
+
 			// L'oubliette ne doit pas être une illusion
 			if (pit.isIllusion()) {
 				return false;
 			}
-			
+
 			// L'oubliette doit être ouverte
 			if (pit.isClosed()) {
 				return false;
 			}
+
+			// Le groupe peut descendre (pas de son à jouer). Attention de bien
+			// faire avancer de une position vers l'avant le groupe !!! Le cas
+			// de plusieurs oubliettes "empilées" est traité car la méthode
+			// Dungeon.teleportParty()
+			dungeon.teleportParty(target.towards(Direction.DOWN),
+					lookDirection, true);
+
+			// Le champion gagne de l'expérience
+			champion.gainExperience(improvedSkill,
+					computeEarnedExperience(dungeon));
+		} else if (Action.HEAL.equals(this)) {
+			// Guérir le groupe
+			final int healPoints = Utils.random(10, 30);
 			
-			// Le groupe peut descendre (pas de son à jouer)
-			dungeon.moveParty(Move.DOWN, true);
+			// On ne peut soigner que les héros vivants (les morts doivent être 
+			// ressuscités avant via un autel)
+			for (Champion aChampion : dungeon.getParty().getChampions(false)) {
+				aChampion.getStats().getHealth().inc(healPoints);
+			}
+
+			// Le champion gagne de l'expérience
+			champion.gainExperience(improvedSkill,
+					computeEarnedExperience(dungeon));
 		} else {
 			// TODO Calculer si le coup a porté
 			final boolean success = true;
@@ -234,13 +257,13 @@ public enum Action {
 
 			// TODO Son
 		}
-		
+
 		// Le champion consomme de la stamina
 		champion.getStats().getStamina().dec(stamina);
 
 		// Main indisponible en fonction de la fatigue associée à l'action
 		champion.getBody().getWeaponHand().disable(fatigue);
-		
+
 		return true;
 	}
 }

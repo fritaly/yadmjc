@@ -31,10 +31,12 @@ import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.champion.body.WeaponHand;
+import fr.ritaly.dungeonmaster.item.Action;
 import fr.ritaly.dungeonmaster.item.Cloth;
 import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.item.Torch;
+import fr.ritaly.dungeonmaster.item.Weapon;
 import fr.ritaly.dungeonmaster.magic.ElementRune;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
@@ -503,7 +505,7 @@ public class DungeonMasterTest extends TestCase {
 	}
 
 	public void testAntiMagicPotionCasting() throws Throwable {
-		fail();
+		fail("Not yet implemented");
 	}
 
 	public void testBoostedStatWearsOff() {
@@ -1012,4 +1014,63 @@ public class DungeonMasterTest extends TestCase {
 		assertEquals(maxLoad1, tiggy.getStats().getActualMaxLoad(), 0.00001f);
 		assertEquals(maxLoad2, tiggy.getMaxLoad(), 0.00001f);
 	}
+	
+	public void testHealActionCanHealChampions() {
+		// +---+---+---+
+		// | W | W | W |
+		// +---+---+---+
+		// | W | P | W |
+		// +---+---+---+
+		// | W | W | W |
+		// +---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+		dungeon.createLevel(1, 3, 3);
+
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.getStats().getHealth().maxValue(500);
+		tiggy.getStats().getHealth().value(400);
+		
+		final Champion daroou = ChampionFactory.getFactory().newChampion(
+				Name.DAROOU);
+		daroou.getStats().getHealth().maxValue(500);
+		daroou.getStats().getHealth().value(400);
+		
+		final Champion halk = ChampionFactory.getFactory().newChampion(
+				Name.HALK);
+		halk.getStats().getHealth().maxValue(500);
+		halk.getStats().getHealth().value(400);
+		
+		final Champion wuuf = ChampionFactory.getFactory().newChampion(
+				Name.WUUF);
+		wuuf.getStats().getHealth().maxValue(500);
+		wuuf.getStats().getHealth().value(400);
+		
+		final Weapon crossOfNeta = new Weapon(Item.Type.CROSS_OF_NETA);
+		tiggy.getBody().getWeaponHand().putOn(crossOfNeta);
+		
+		final Party party = new Party();
+		party.addChampion(tiggy);
+		party.addChampion(daroou);
+		party.addChampion(halk);
+		party.addChampion(wuuf);
+		
+		dungeon.setParty(new Position(1, 1, 1), party);
+		
+		// --- Tous les héros sont guéris par l'action HEAL
+		final int tiggyHealth = tiggy.getStats().getHealth().value();
+		final int daroouHealth = daroou.getStats().getHealth().value();
+		final int halkHealth = halk.getStats().getHealth().value();
+		final int wuufHealth = wuuf.getStats().getHealth().value();
+		
+		assertTrue(crossOfNeta.perform(Action.HEAL));
+		
+		assertTrue(tiggy.getStats().getHealth().value() > tiggyHealth);
+		assertTrue(daroou.getStats().getHealth().value() > daroouHealth);
+		assertTrue(halk.getStats().getHealth().value() > halkHealth);
+		assertTrue(wuuf.getStats().getHealth().value() > wuufHealth);
+	}
+	
+	// FIXME Implémenter le nombre de charges par item + utilisation limitée
 }

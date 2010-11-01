@@ -688,8 +688,8 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 			throw new IllegalArgumentException("The given skill is null");
 		}
 		if (points <= 0) {
-			throw new IllegalArgumentException("The given points <" + points
-					+ "> must be positive");
+			throw new IllegalArgumentException("The given points " + points
+					+ " must be positive");
 		}
 		assertAlive();
 

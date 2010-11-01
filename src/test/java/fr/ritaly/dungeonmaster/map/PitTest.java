@@ -90,6 +90,69 @@ public class PitTest extends TestCase {
 		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
 	}
 	
+	public void testPartyFallingThroughSeveralStackedOpenPit() {
+		// Level1:
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | P | I | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		// Level2:
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | I | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		
+		// Level3:
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		Dungeon dungeon = new Dungeon();
+
+		final Level level1 = dungeon.createLevel(1, 5, 5);
+		level1.setElement(3, 2, new Pit());
+
+		final Level level2 = dungeon.createLevel(2, 5, 5);
+		level2.setElement(3, 2, new Pit());
+		
+		dungeon.createLevel(3, 5, 5);
+
+		Party party = new Party();
+		party.addChampion(ChampionFactory.getFactory().newChampion(Name.TIGGY));
+
+		dungeon.setParty(new Position(2, 2, 1), party);
+
+		// --- Situation initiale
+		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
+
+		// --- Le groupe tombe à travers l'oubliette
+		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertEquals(new Position(3, 2, 3), dungeon.getParty().getPosition());
+	}
+	
 	public void testFakePit() {
 		// Level1:
 		// +---+---+---+---+---+
