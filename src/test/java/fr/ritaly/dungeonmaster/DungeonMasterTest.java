@@ -4279,4 +4279,28 @@ public class DungeonMasterTest extends TestCase {
 		assertTrue(party.dispellsIllusions());
 		assertTrue(party.getSpells().isDispellIllusionActive());
 	}
+	
+	public void testInvisibilitySpell() throws Exception {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.getStats().getMana().maxValue(200);
+		tiggy.getStats().getMana().value(200);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		// --- Lancer le sort
+		tiggy.cast(PowerRune.LO, Spell.Type.INVISIBILITY);
+		
+		assertFalse(party.isInvisible());
+		assertFalse(party.getSpells().isInvisibilityActive());
+		
+		final Spell spell = tiggy.castSpell();
+
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		
+		assertTrue(party.isInvisible());
+		assertTrue(party.getSpells().isInvisibilityActive());
+	}
 }
