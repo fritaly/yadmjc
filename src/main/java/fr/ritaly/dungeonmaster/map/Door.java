@@ -228,20 +228,24 @@ public final class Door extends OrientedElement implements ClockListener,
 		}
 	}
 
-	private State state = State.CLOSED;
+	private State state;
 
 	private Motion motion = Motion.IDLE;
 
 	private final Style style;
 
 	public Door(Style style, Orientation orientation) {
+		this(style, orientation, State.CLOSED);
+	}
+	
+	public Door(Style style, Orientation orientation, State state) {
 		super(Element.Type.DOOR, orientation);
 
-		if (style == null) {
-			throw new IllegalArgumentException("The given door style is null");
-		}
+		Validate.notNull(style, "The given door style is null");
+		Validate.notNull(state, "The given door state is null");
 
 		this.style = style;
+		this.state = state;
 	}
 
 	public boolean destroy() {

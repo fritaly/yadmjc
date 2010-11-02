@@ -28,6 +28,7 @@ import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.audio.SoundSystem;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.magic.Spell;
+import fr.ritaly.dungeonmaster.map.Door;
 import fr.ritaly.dungeonmaster.map.Element;
 
 /**
@@ -289,11 +290,48 @@ public class SpellProjectile implements Projectile {
 					log.debug(getId() + " is exploding ...");
 				}
 
-				// Jouer le son
+				// Jouer le son TODO Le son varie selon le type de projectile 
 				SoundSystem.getInstance().play(position, AudioClip.FIRE_BALL);
+				
+				if (Spell.Type.OPEN_DOOR.equals(spell.getType())) {
+					final Element currentElement = champion.getParty()
+							.getDungeon().getElement(position);
+
+					if (currentElement.getType().equals(Element.Type.DOOR)) {
+						// Ouvrir ou fermer la porte
+						final Door door = (Door) currentElement;
+
+						if (Door.Motion.IDLE.equals(door.getMotion())) {
+							if (Door.State.OPEN.equals(door.getState())) {
+								// Fermer la porte
+								door.close();
+							} else if (Door.State.CLOSED
+									.equals(door.getState())) {
+								// Ouvrir la porte
+								door.open();
+							} else {
+								// Pas géré
+								throw new IllegalStateException(
+										"Unexpected door state: "
+												+ door.getState());
+							}
+						} else if (Door.Motion.CLOSING.equals(door.getMotion())) {
+							// Ouvrir la porte
+							door.open();
+						} else if (Door.Motion.OPENING.equals(door.getMotion())) {
+							// Fermer la porte
+							door.close();
+						} else {
+							// Pas géré
+							throw new IllegalStateException(
+									"Unexpected door motion: "
+											+ door.getMotion());
+						}
+					}
+				}
 
 				// FIXME Appliquer les dégâts aux créatures / champions / porte
-				// ou ouvrir porte ou créer nuage de poison
+				// ou créer nuage de poison
 
 				setState(State.EXPLODED);
 

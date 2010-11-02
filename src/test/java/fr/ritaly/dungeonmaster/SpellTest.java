@@ -30,6 +30,9 @@ import fr.ritaly.dungeonmaster.item.Torch;
 import fr.ritaly.dungeonmaster.magic.EmptyHandNeededException;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
+import fr.ritaly.dungeonmaster.map.Door;
+import fr.ritaly.dungeonmaster.map.Dungeon;
+import fr.ritaly.dungeonmaster.map.Door.State;
 
 public class SpellTest extends TestCase {
 
@@ -206,7 +209,7 @@ public class SpellTest extends TestCase {
 			// Erreur attendue
 		}
 	}
-	
+
 	public void testLightSpell() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(
 				Name.TIGGY);
@@ -218,14 +221,105 @@ public class SpellTest extends TestCase {
 
 		// --- Lancer le sort
 		tiggy.cast(PowerRune.LO, Spell.Type.LIGHT);
-		
+
 		assertEquals(0, tiggy.getSpells().getLight().value().intValue());
-		
+
 		final Spell spell = tiggy.castSpell();
 
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
-		
+
 		assertTrue(tiggy.getSpells().getLight().value().intValue() > 0);
+	}
+
+	public void testOpenDoorSpellToOpenDoor() throws Exception {
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | D | . | W |
+		// +---+---+---+---+---+
+		// | W | . | P | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+		dungeon.createLevel(1, 5, 5);
+
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		final Position initialPosition = new Position(2, 2, 1);
+
+		dungeon.setParty(initialPosition, party);
+
+		// Porte face au groupe
+		final Door door = new Door(Door.Style.WOODEN, Orientation.NORTH_SOUTH);
+
+		dungeon.setElement(initialPosition.towards(Direction.NORTH), door);
+		
+		assertEquals(State.CLOSED, door.getState());
+
+		// Lancer le sort ZO
+		tiggy.cast(PowerRune.LO, Spell.Type.OPEN_DOOR);
+		final Spell spell = tiggy.castSpell();
+		
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		
+		Clock.getInstance().tick(24);
+		
+		assertEquals(State.OPEN, door.getState());
+	}
+	
+	public void testOpenDoorSpellToCloseDoor() throws Exception {
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | D | . | W |
+		// +---+---+---+---+---+
+		// | W | . | P | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+		dungeon.createLevel(1, 5, 5);
+
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		final Position initialPosition = new Position(2, 2, 1);
+
+		dungeon.setParty(initialPosition, party);
+
+		// Porte face au groupe
+		final Door door = new Door(Door.Style.WOODEN, Orientation.NORTH_SOUTH,
+				Door.State.OPEN);
+
+		dungeon.setElement(initialPosition.towards(Direction.NORTH), door);
+		
+		assertEquals(State.OPEN, door.getState());
+
+		// Lancer le sort ZO
+		tiggy.cast(PowerRune.LO, Spell.Type.OPEN_DOOR);
+		final Spell spell = tiggy.castSpell();
+		
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		
+		Clock.getInstance().tick(30);
+		
+		assertEquals(State.CLOSED, door.getState());
 	}
 }

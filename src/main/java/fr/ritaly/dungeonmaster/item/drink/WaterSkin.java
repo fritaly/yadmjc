@@ -18,6 +18,8 @@
  */
 package fr.ritaly.dungeonmaster.item.drink;
 
+import org.apache.commons.lang.Validate;
+
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.audio.SoundSystem;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -91,6 +93,8 @@ public class WaterSkin extends Item {
 
 	@Override
 	protected Item consume(Champion champion) {
+		Validate.notNull(champion, "The given champion is null");
+		
 		if (!isEmpty()) {
 			// Le héros boit une dose de l'outre
 			drink();
