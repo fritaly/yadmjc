@@ -19,7 +19,7 @@
 package fr.ritaly.dungeonmaster;
 
 /**
- * Un projectile (ou missile).
+ * A projectile (or missile).
  *
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
