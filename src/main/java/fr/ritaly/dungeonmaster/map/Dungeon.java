@@ -70,6 +70,8 @@ public class Dungeon implements ClockListener {
 	 * The {@link Party} of champions inside the dungeon.
 	 */
 	private Party party;
+	
+	private final LinkedList<DeferredCommand> partyMoves = new LinkedList<DeferredCommand>();
 
 	/**
 	 * Returns the number of levels composing this dungeon.
@@ -236,12 +238,8 @@ public class Dungeon implements ClockListener {
 	}
 
 	public void setElement(Position position, Element element) {
-		if (position == null) {
-			throw new IllegalArgumentException("The given position is null");
-		}
-		if (element == null) {
-			throw new IllegalArgumentException("The given element is null");
-		}
+		Validate.notNull(position, "The given position is null");
+		Validate.notNull(element, "The given element is null");
 
 		setElement(position.x, position.y, position.z, element);
 	}
@@ -265,18 +263,12 @@ public class Dungeon implements ClockListener {
 	}
 
 	public Level createLevel(int number, int height, int width) {
-		if (number <= 0) {
-			throw new IllegalArgumentException("The level number <" + number
-					+ "> must be positive");
-		}
-		if (height <= 0) {
-			throw new IllegalArgumentException("The given height <" + height
-					+ "> must be positive");
-		}
-		if (width <= 0) {
-			throw new IllegalArgumentException("The given width <" + width
-					+ "> must be positive");
-		}
+		Validate.isTrue(number > 0, "The level number <" + number
+				+ "> must be positive");
+		Validate.isTrue(height > 0, "The given height <" + height
+				+ "> must be positive");
+		Validate.isTrue(width > 0, "The given width <" + width
+				+ "> must be positive");
 
 		if (levels.containsKey(number)) {
 			throw new IllegalArgumentException(
@@ -291,9 +283,9 @@ public class Dungeon implements ClockListener {
 	}
 
 	public void setLevel(int number, Level level) {
-		if (level == null) {
-			throw new IllegalArgumentException("The given level is null");
-		}
+		Validate.isTrue(number > 0, "The level number <" + number
+				+ "> must be positive");
+		Validate.notNull(level, "The given level is null");
 
 		levels.put(number, level);
 	}
@@ -312,19 +304,15 @@ public class Dungeon implements ClockListener {
 		return true;
 	}
 
-	private final LinkedList<DeferredCommand> partyMoves = new LinkedList<DeferredCommand>();
-
-	public boolean moveParty(final Move move, boolean now) {
+	public boolean moveParty(final Move move, final boolean now) {
+		Validate.notNull(move, "The given move is null");
+		
 		return moveParty(move, now, AudioClip.STEP);
 	}
 
 	public boolean moveParty(final Move move, boolean now, final AudioClip clip) {
-		if (move == null) {
-			throw new IllegalArgumentException("The given move is null");
-		}
-		if (clip == null) {
-			throw new IllegalArgumentException("The given clip is null");
-		}
+		Validate.notNull(move, "The given move is null");
+		Validate.notNull(clip, "The given clip is null");
 		if (party == null) {
 			throw new IllegalStateException("The party isn't defined");
 		}
@@ -361,12 +349,8 @@ public class Dungeon implements ClockListener {
 	}
 
 	private boolean movePartyNow(Move move, AudioClip clip) {
-		if (move == null) {
-			throw new IllegalArgumentException("The given move is null");
-		}
-		if (clip == null) {
-			throw new IllegalArgumentException("The given clip is null");
-		}
+		Validate.notNull(move, "The given move is null");
+		Validate.notNull(clip, "The given clip is null");
 		if (this.party == null) {
 			throw new IllegalStateException("There is no party set");
 		}
@@ -501,24 +485,19 @@ public class Dungeon implements ClockListener {
 		return true;
 	}
 
-	public boolean teleportParty(Teleport teleport, boolean silent) {
-		if (teleport == null) {
-			throw new IllegalArgumentException("The given teleport is null");
-		}
+	public boolean teleportParty(final Teleport teleport, final boolean silent) {
+		Validate.notNull(teleport, "The given teleport is null");
 
 		return teleportParty(teleport.getPosition(), teleport.getDirection(),
 				silent);
 	}
 
-	public boolean teleportParty(Position destination, Direction direction,
-			boolean silent) {
-
-		if (destination == null) {
-			throw new IllegalArgumentException("The given position is null");
-		}
-		if (direction == null) {
-			throw new IllegalArgumentException("The given direction is null");
-		}
+	public boolean teleportParty(final Position destination,
+			final Direction direction, final boolean silent) {
+		
+		Validate.notNull(destination, "The given destination is null");
+		Validate.notNull(direction, "The given direction is null");
+		
 		if (this.party == null) {
 			throw new IllegalStateException("There is no party set");
 		}

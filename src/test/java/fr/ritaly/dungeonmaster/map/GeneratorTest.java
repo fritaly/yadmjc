@@ -32,7 +32,7 @@ public class GeneratorTest extends TestCase {
 		super(name);
 	}
 	
-	public void testGeneratorWithCreatureOfSizeFour() {
+	public void testGenerateCreaturesOfSizeFour() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
@@ -65,7 +65,7 @@ public class GeneratorTest extends TestCase {
 		assertFalse(generator.getCreatures().isEmpty());
 	}
 	
-	public void testGeneratorWithCreatureOfSizeOne() {
+	public void testGenerateCreaturesOfSizeOne() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
@@ -98,7 +98,7 @@ public class GeneratorTest extends TestCase {
 		assertFalse(generator.getCreatures().isEmpty());
 	}
 	
-	public void testGeneratorWithCreatureOfSizeTwo() {
+	public void testGenerateCreaturesOfSizeTwo() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
