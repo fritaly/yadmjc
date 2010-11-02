@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -45,24 +46,46 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Party;
 
 /**
+ * A dungeon. A {@link Dungeon} is made of one to several {@link Level}s.
+ * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public class Dungeon implements ClockListener {
 
+	/**
+	 * Creates a new empty dungeon.
+	 */
 	public Dungeon() {
 		Clock.getInstance().register(this);
 	}
 
 	private final Log log = LogFactory.getLog(Dungeon.class);
 
+	/**
+	 * The dungeon levels stored by level number.
+	 */
 	private final Map<Integer, Level> levels = new HashMap<Integer, Level>();
 
+	/**
+	 * The {@link Party} of champions inside the dungeon.
+	 */
 	private Party party;
 
+	/**
+	 * Returns the number of levels composing this dungeon.
+	 * 
+	 * @return an int.
+	 */
 	public int getLevelCount() {
 		return levels.size();
 	}
 
+	/**
+	 * Returns the {@link Level} where the party is currently located or null if
+	 * there is no defined party.
+	 * 
+	 * @return a {@link Level} or null.
+	 */
 	public Level getCurrentLevel() {
 		if (hasParty()) {
 			return getLevel(getParty().getPosition().z);
@@ -71,6 +94,11 @@ public class Dungeon implements ClockListener {
 		return null;
 	}
 
+	/**
+	 * Returns the dungeon's levels.
+	 * 
+	 * @return a {@link List} of {@link Level}s. Never returns null.
+	 */
 	public List<Level> getLevels() {
 		final ArrayList<Level> list = new ArrayList<Level>(levels.values());
 
@@ -84,6 +112,12 @@ public class Dungeon implements ClockListener {
 		return list;
 	}
 
+	/**
+	 * Returns the dungeon element where the party is currently located or null
+	 * if there is no defined party.
+	 * 
+	 * @return an {@link Element} or null.
+	 */
 	public Element getCurrentElement() {
 		if (hasParty()) {
 			return getElement(getParty().getPosition());
@@ -92,25 +126,49 @@ public class Dungeon implements ClockListener {
 		return null;
 	}
 
+	/**
+	 * Returns the {@link Level} with given number.
+	 * 
+	 * @param level
+	 *            an int identifying the requested {@link Level}.
+	 * @return a {@link Level} or null.
+	 */
 	public Level getLevel(int level) {
+		Validate.isTrue((level >= 0), "The given level number " + level
+				+ " must be positive or zero");
+		
 		return levels.get(level);
 	}
 
+	/**
+	 * Returns the {@link Party} inside this dungeon (if any).
+	 * 
+	 * @return a {@link Party} or null.
+	 */
 	public Party getParty() {
 		return party;
 	}
 
+	/**
+	 * Tells whether there is a {@link Party} inside this dungeon.
+	 * 
+	 * @return whether there is a {@link Party} inside this dungeon.
+	 */
 	public boolean hasParty() {
 		return (party != null);
 	}
 
+	/**
+	 * Sets this dungeon's party and installs it to the given {@link Position}.
+	 * 
+	 * @param position
+	 *            a {@link Position} where the {@link Party} will be installed.
+	 * @param party
+	 *            the {@link Party} to install.
+	 */
 	public void setParty(Position position, Party party) {
-		if (position == null) {
-			throw new IllegalStateException("The given position is null");
-		}
-		if (party == null) {
-			throw new IllegalStateException("The given party is null");
-		}
+		Validate.notNull(position, "The given position is null");
+		Validate.notNull(party, "The given party is null");
 
 		setParty(position.x, position.y, position.z, party);
 	}
@@ -119,9 +177,7 @@ public class Dungeon implements ClockListener {
 		if (this.party != null) {
 			throw new IllegalStateException("There is already a party set");
 		}
-		if (party == null) {
-			throw new IllegalStateException("The given party is null");
-		}
+		Validate.notNull(party, "The given party is null");
 
 		final Position position = new Position(x, y, z);
 
@@ -154,18 +210,21 @@ public class Dungeon implements ClockListener {
 		}
 	}
 
+	/**
+	 * Returns the dungeon element with given position.
+	 * 
+	 * @param position
+	 *            the {@link Position} of the requested element. Can't be null.
+	 * @return an {@link Element} or null.
+	 */
 	public Element getElement(Position position) {
-		if (position == null) {
-			throw new IllegalArgumentException("The given position is null");
-		}
+		Validate.notNull(position, "The given position is null");
 
 		return getElement(position.x, position.y, position.z);
 	}
 
 	public void setElement(int x, int y, int z, Element element) {
-		if (element == null) {
-			throw new IllegalArgumentException("The given element is null");
-		}
+		Validate.notNull(element, "The given element is null");
 
 		final Level level = getLevel(z);
 
