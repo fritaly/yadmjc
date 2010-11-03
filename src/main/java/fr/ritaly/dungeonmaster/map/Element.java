@@ -159,7 +159,8 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		/**
 		 * Un générateur de monstres
 		 */
-		GENERATOR;
+		GENERATOR,
+		PROJECTILE_LAUNCHER;
 
 		/**
 		 * Indique si l'élément est "en dur". C'est le cas d'un mur au sens
@@ -184,6 +185,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 			case DECORATED_WALL:
 			case TEXT_WALL:
 			case PORTRAIT:
+			case PROJECTILE_LAUNCHER:
 				return true;
 			case FAKE_WALL:
 			case DOOR:
