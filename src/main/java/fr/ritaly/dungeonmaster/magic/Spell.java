@@ -43,6 +43,7 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
 
+import fr.ritaly.dungeonmaster.Immutable;
 import fr.ritaly.dungeonmaster.Projectile;
 import fr.ritaly.dungeonmaster.Skill;
 import fr.ritaly.dungeonmaster.SpellProjectile;
@@ -72,6 +73,7 @@ import fr.ritaly.dungeonmaster.item.Potion;
  * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
+@Immutable
 public class Spell {
 
 	/**
