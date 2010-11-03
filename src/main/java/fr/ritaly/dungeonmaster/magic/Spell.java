@@ -197,7 +197,22 @@ public class Spell {
 			this.formRune = formRune;
 			this.alignmentRune = alignmentRune;
 		}
-
+		
+		public int getRuneCount() {
+			// Il y a forcément au moins un ElementRune
+			int count = 1;
+			
+			if (formRune != null) {
+				count++;
+				
+				if (alignmentRune != null) {
+					count++;
+				}
+			}
+			
+			return count;
+		}
+		
 		/**
 		 * Retourne l'instance de {@link Type} associée à l'identifiant de sort
 		 * donné.
@@ -450,6 +465,18 @@ public class Spell {
 			}
 
 			return builder.toString();
+		}
+
+		public ElementRune getElementRune() {
+			return elementRune;
+		}
+
+		public FormRune getFormRune() {
+			return formRune;
+		}
+
+		public AlignmentRune getAlignmentRune() {
+			return alignmentRune;
 		}
 	}
 
