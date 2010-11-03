@@ -29,6 +29,7 @@ import fr.ritaly.dungeonmaster.audio.SoundSystem;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.magic.Spell;
 import fr.ritaly.dungeonmaster.map.Door;
+import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 
 /**
@@ -81,7 +82,7 @@ public class SpellProjectile implements Projectile {
 	 */
 	private int range;
 
-	private final Champion champion;
+	private final Dungeon dungeon;
 
 	public SpellProjectile(Spell spell, Champion champion) {
 		Validate.notNull(spell, "The given spell is null");
@@ -94,7 +95,7 @@ public class SpellProjectile implements Projectile {
 				"The given champion didn't join a party");
 
 		this.spell = spell;
-		this.champion = champion;
+		this.dungeon = champion.getParty().getDungeon();
 
 		// Mémoriser la position de départ du projectile
 		this.position = champion.getParty().getPosition();
@@ -178,8 +179,7 @@ public class SpellProjectile implements Projectile {
 			case FLYING: {
 				// Le projectile doit-il exploser car il est situé sur une porte
 				// fermée ?
-				final Element currentElement = champion.getParty().getDungeon()
-						.getElement(position);
+				final Element currentElement = dungeon.getElement(position);
 
 				if (currentElement.getType().equals(Element.Type.DOOR)
 						&& !currentElement.isTraversableByProjectile()) {
@@ -212,7 +212,7 @@ public class SpellProjectile implements Projectile {
 				// Subcell cible ?
 				final SubCell targetSubCell = subCell.towards(direction);
 
-				final Element targetElement = champion.getParty().getDungeon()
+				final Element targetElement = dungeon
 						.getElement(targetPosition);
 
 				if (targetElement == null) {
@@ -244,8 +244,7 @@ public class SpellProjectile implements Projectile {
 				// --- Déplacer le projectile --- //
 
 				// Le projectile quitte sa position actuelle
-				champion.getParty().getDungeon().getElement(position)
-						.projectileLeft(this, subCell);
+				dungeon.getElement(position).projectileLeft(this, subCell);
 
 				// Le projectile avance, la distance restante diminue
 				this.position = targetPosition;
@@ -294,8 +293,7 @@ public class SpellProjectile implements Projectile {
 				SoundSystem.getInstance().play(position, AudioClip.FIRE_BALL);
 				
 				if (Spell.Type.OPEN_DOOR.equals(spell.getType())) {
-					final Element currentElement = champion.getParty()
-							.getDungeon().getElement(position);
+					final Element currentElement = dungeon.getElement(position);
 
 					if (currentElement.getType().equals(Element.Type.DOOR)) {
 						// Ouvrir ou fermer la porte
@@ -344,8 +342,7 @@ public class SpellProjectile implements Projectile {
 				}
 
 				// Le projectile disparaît du donjon
-				champion.getParty().getDungeon().getElement(position)
-						.projectileLeft(this, subCell);
+				dungeon.getElement(position).projectileLeft(this, subCell);
 
 				return false;
 			}
