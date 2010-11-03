@@ -111,8 +111,48 @@ public class SpellProjectile implements Projectile {
 		this.range = spell.getDuration();
 
 		// Installer le projectile dans le donjon
-		champion.getParty().getDungeon().getElement(position)
-				.projectileArrived(this, subCell);
+		this.dungeon.getElement(position).projectileArrived(this, subCell);
+
+		// Enregistrer le projectile
+		Clock.getInstance().register(this);
+
+		if (log.isDebugEnabled()) {
+			log.debug(getId() + " created at " + position);
+		}
+	}
+	
+	public SpellProjectile(final Spell spell, final Dungeon dungeon, 
+			final Position position, final Direction direction, 
+			final SubCell subCell) {
+		
+		Validate.notNull(spell, "The given spell is null");
+		Validate.isTrue(spell.isValid(), "The given spell <" + spell.getName()
+				+ "> isn't valid");
+		Validate.isTrue(spell.getType().isProjectile(), "The given spell <"
+				+ spell.getName() + "> isn't a projectile spell");
+		Validate.notNull(dungeon, "The given dungeon is null");
+		Validate.notNull(position, "The given position is null");
+		Validate.notNull(direction, "The given direction is null");
+		Validate.notNull(subCell, "The given sub-cell is null");
+
+		this.spell = spell;
+		this.dungeon = dungeon;
+
+		// Mémoriser la position de départ du projectile
+		this.position = position;
+
+		// ... sa direction
+		this.direction = direction;
+
+		// ... et son emplacement
+		this.subCell = subCell;
+
+		// On mémorise la distance restante à parcourir par le projectile avant
+		// de disparaître TODO Distance à calculer
+		this.range = spell.getDuration();
+
+		// Installer le projectile dans le donjon
+		this.dungeon.getElement(position).projectileArrived(this, subCell);
 
 		// Enregistrer le projectile
 		Clock.getInstance().register(this);
