@@ -100,11 +100,17 @@ public class RopeTest extends TestCase {
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
 		// --- Le groupe descend à travers l'oubliette à l'aide de la corde
+		final int health = tiggy.getStats().getHealth().value();
+		
 		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
 		assertEquals(Direction.EAST, party.getLookDirection());
 		assertTrue(rope.perform(Action.CLIMB_DOWN));
 		
 		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
+		
+		// La santé du champion ne doit pas avoir diminué pour bien différencier
+		// du cas de la chute !!
+		assertEquals(health, tiggy.getStats().getHealth().value().intValue());
 	}
 	
 	public void testCantClimbDownThroughFakeOpenPit() {
@@ -306,6 +312,8 @@ public class RopeTest extends TestCase {
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 		
 		// --- Le groupe descend à travers l'oubliette à l'aide de la corde
+		final int health = tiggy.getStats().getHealth().value();
+		
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true));
 		assertEquals(Direction.EAST, party.getLookDirection());
@@ -313,5 +321,9 @@ public class RopeTest extends TestCase {
 		
 		// Le groupe atterrit au troisième niveau
 		assertEquals(new Position(3, 2, 3), dungeon.getParty().getPosition());
+		
+		// La santé du champion ne doit pas avoir diminué pour bien différencier
+		// du cas de la chute !!
+		assertEquals(health, tiggy.getStats().getHealth().value().intValue());
 	}
 }
