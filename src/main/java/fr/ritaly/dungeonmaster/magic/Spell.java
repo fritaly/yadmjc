@@ -136,7 +136,7 @@ public class Spell {
 		private final FormRune formRune;
 
 		private final AlignmentRune alignmentRune;
-
+		
 		private Type(final ElementRune elementRune, int duration, int difficulty) {
 			
 			Validate.isTrue(elementRune != null,
@@ -569,6 +569,23 @@ public class Spell {
 		this.elementRune = elementRune;
 		this.formRune = null; // Rune non alimenté
 		this.alignmentRune = null; // Rune non alimenté
+		this.id = computeId(elementRune, formRune, alignmentRune);
+		this.cost = computeCost(powerRune, elementRune, formRune, alignmentRune);
+	}
+	
+	// Le sort ainsi créé est forcément valide !
+	public Spell(PowerRune powerRune, Spell.Type type) {
+		if (powerRune == null) {
+			throw new IllegalArgumentException("The given power rune is null");
+		}
+		if (type == null) {
+			throw new IllegalArgumentException("The given spell type is null");
+		}
+
+		this.powerRune = powerRune;
+		this.elementRune = type.getElementRune();
+		this.formRune = type.getFormRune(); // Peut retourner null
+		this.alignmentRune = type.getAlignmentRune(); // Peut retourner null
 		this.id = computeId(elementRune, formRune, alignmentRune);
 		this.cost = computeCost(powerRune, elementRune, formRune, alignmentRune);
 	}
