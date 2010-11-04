@@ -32,8 +32,10 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.HasPosition;
+import fr.ritaly.dungeonmaster.PoisonCloud;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Projectile;
 import fr.ritaly.dungeonmaster.SubCell;
@@ -55,8 +57,6 @@ import fr.ritaly.dungeonmaster.item.Item;
 public abstract class Element implements ChangeEventSource, HasPosition {
 
 	protected final Log log = LogFactory.getLog(this.getClass());
-
-	// TODO PROJECTILE_LAUNCHER
 
 	/**
 	 * Enumération des différents types d'élément disponibles.
@@ -232,6 +232,8 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	private final CreatureManager creatureManager = new CreatureManager(this);
 
 	private Map<SubCell, Projectile> projectiles;
+	
+	private List<PoisonCloud> poisonClouds;
 
 	/**
 	 * Les objets de l'élément (s'il peut en avoir). Ce membre est alimenté lors
@@ -1020,5 +1022,56 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 
 	public void addCreature(Creature creature) {
 		creatureManager.addCreature(creature);
+	}
+	
+	public boolean hasPoisonClouds() {
+		return (poisonClouds != null) && !poisonClouds.isEmpty();
+	}
+	
+	public int getPoisonCloudCount() {
+		if (poisonClouds != null) {
+			return poisonClouds.size();
+		}
+		
+		return 0;
+	}
+	
+	// TODO Prendre en compte la force du nuage de poison en paramètre
+	public void createPoisonCloud() {
+		if (this.poisonClouds == null) {
+			this.poisonClouds = new ArrayList<PoisonCloud>();
+		}
+		
+//		if (log.isDebugEnabled()) {
+//			log.debug("Creating new poison cloud on " + this + " ...");
+//		}
+		
+		final PoisonCloud poisonCloud = new PoisonCloud(this);
+
+		// S'enregistrer pour savoir quand le nuage disparaît
+		poisonCloud.addChangeListener(new ChangeListener() {
+			@Override
+			public void onChangeEvent(ChangeEvent event) {
+				if (log.isDebugEnabled()) {
+					log.debug(event.getSource() + " vanished into thin air");
+				}
+				
+				poisonClouds.remove(event.getSource());
+				
+				if (poisonClouds.isEmpty()) {
+					poisonClouds = null;
+				}
+			}
+		});
+		
+		// Mémoriser le nuage
+		this.poisonClouds.add(poisonCloud);
+		
+		if (log.isDebugEnabled()) {
+			log.debug("Created a new poison cloud on " + this);
+		}
+		
+		// Enregistrer ce nuage
+		Clock.getInstance().register(poisonCloud);
 	}
 }

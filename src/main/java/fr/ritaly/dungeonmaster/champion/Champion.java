@@ -933,7 +933,9 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 			throw new SkillTooLowException("The champion's skill "
 					+ spell.getSkill() + " is too low to cast spell "
-					+ spell.getName());
+					+ spell.getName() + " (actual: "
+					+ getLevel(spell.getSkill()) + ", minimum: "
+					+ spell.getType().getRequiredLevel() + ")");
 		}
 
 		// Prérequis pour que le sort fonctionne ?

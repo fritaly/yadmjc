@@ -268,13 +268,16 @@ public class SpellProjectile implements Projectile {
 
 					// S'il la cible est une porte, le projectile explose dans
 					// celle-ci pas à côté !
+					
+					// TODO Le sort POISON_CLOUD peut-il passer à travers une 
+					// grille ?
 
 					// Le projectile explose à sa position actuelle
 					setState(State.EXPLODING);
 
 					if (log.isDebugEnabled()) {
 						log.debug(getId()
-								+ " is about to explode because of "
+								+ " is about to explode because of facing "
 								+ targetElement.getId());
 					}
 
@@ -289,7 +292,15 @@ public class SpellProjectile implements Projectile {
 				// Le projectile avance, la distance restante diminue
 				this.position = targetPosition;
 				this.subCell = targetSubCell;
+				
+				final int backup = range;
+				
 				this.range--;
+				
+				if (log.isDebugEnabled()) {
+					log.debug(getId() + ".Range: " + backup + " -> " + range
+							+ " [-1]");
+				}
 
 				// Il arrive sur la nouvelle position
 				targetElement.projectileArrived(this, targetSubCell);
@@ -301,7 +312,7 @@ public class SpellProjectile implements Projectile {
 
 					if (log.isDebugEnabled()) {
 						log.debug(getId()
-								+ " is about to explode because of "
+								+ " is about to explode because of facing "
 								+ targetElement.getCreature(targetSubCell)
 										.getId());
 					}
@@ -333,64 +344,17 @@ public class SpellProjectile implements Projectile {
 				SoundSystem.getInstance().play(position, AudioClip.FIRE_BALL);
 				
 				if (Spell.Type.OPEN_DOOR.equals(spell.getType())) {
-					final Element currentElement = dungeon.getElement(position);
-
-					if (currentElement.getType().equals(Element.Type.DOOR)) {
-						// Ouvrir ou fermer la porte
-						final Door door = (Door) currentElement;
-
-						if (Door.Motion.IDLE.equals(door.getMotion())) {
-							if (Door.State.OPEN.equals(door.getState())) {
-								// Fermer la porte
-								door.close();
-							} else if (Door.State.CLOSED
-									.equals(door.getState())) {
-								// Ouvrir la porte
-								door.open();
-							} else {
-								// Pas géré
-								throw new IllegalStateException(
-										"Unexpected door state: "
-												+ door.getState());
-							}
-						} else if (Door.Motion.CLOSING.equals(door.getMotion())) {
-							// Ouvrir la porte
-							door.open();
-						} else if (Door.Motion.OPENING.equals(door.getMotion())) {
-							// Fermer la porte
-							door.close();
-						} else {
-							// Pas géré
-							throw new IllegalStateException(
-									"Unexpected door motion: "
-											+ door.getMotion());
-						}
-					}
+					openDoor();
 				} else if (Spell.Type.FIREBALL.equals(spell.getType())) {
-					// TODO D'autres sorts permettent-ils d'exploser une porte ?
-					// (Lightning par exemple)
-					final Element currentElement = dungeon.getElement(position);
-
-					if (currentElement.getType().equals(Element.Type.DOOR)) {
-						// Exploser la porte si elle peut l'être
-						final Door door = (Door) currentElement;
-
-						// On doit tester en amont si la porte n'est pas déjà
-						// cassée autrement ça lève une exception
-						if (!door.isBroken()) {
-							if (door.destroy()) {
-								// La porte a explosé
-								// TODO Conditionner le son joué par le type
-								// d'attaque de la porte. Prendre en compte la 
-								// force restante du sort
-							}
-						}
-					} 
+					fireballExplodes();
+				} else if (Spell.Type.POISON_CLOUD.equals(spell.getType())) {
+					poisonCloudExplodes();
+				} else {
+					// TODO Implémenter les autres types de SpellProjectile
 				}
 
-				// FIXME Appliquer les dégâts aux créatures / champions / porte
-				// ou créer nuage de poison
-
+				// FIXME Appliquer les dégâts aux créatures / champions
+				
 				setState(State.EXPLODED);
 
 				return true;
@@ -413,6 +377,71 @@ public class SpellProjectile implements Projectile {
 		}
 
 		return true;
+	}
+
+	private void poisonCloudExplodes() {
+		// Créer un nuage de poison sur place
+		dungeon.getElement(position).createPoisonCloud();
+	}
+
+	private void fireballExplodes() {
+		// TODO D'autres sorts permettent-ils d'exploser une porte ?
+		// (Lightning par exemple)
+		final Element currentElement = dungeon.getElement(position);
+
+		if (currentElement.getType().equals(Element.Type.DOOR)) {
+			// Exploser la porte si elle peut l'être
+			final Door door = (Door) currentElement;
+
+			// On doit tester en amont si la porte n'est pas déjà
+			// cassée autrement ça lève une exception
+			if (!door.isBroken()) {
+				if (door.destroy()) {
+					// La porte a explosé
+					// TODO Conditionner le son joué par le type
+					// d'attaque de la porte. Prendre en compte la 
+					// force restante du sort
+				}
+			}
+		} else {
+			// TODO Faire des dégâts aux champions
+		}
+	}
+
+	private void openDoor() {
+		final Element currentElement = dungeon.getElement(position);
+
+		if (currentElement.getType().equals(Element.Type.DOOR)) {
+			// Ouvrir ou fermer la porte
+			final Door door = (Door) currentElement;
+
+			if (Door.Motion.IDLE.equals(door.getMotion())) {
+				if (Door.State.OPEN.equals(door.getState())) {
+					// Fermer la porte
+					door.close();
+				} else if (Door.State.CLOSED
+						.equals(door.getState())) {
+					// Ouvrir la porte
+					door.open();
+				} else {
+					// Pas géré
+					throw new IllegalStateException(
+							"Unexpected door state: "
+									+ door.getState());
+				}
+			} else if (Door.Motion.CLOSING.equals(door.getMotion())) {
+				// Ouvrir la porte
+				door.open();
+			} else if (Door.Motion.OPENING.equals(door.getMotion())) {
+				// Fermer la porte
+				door.close();
+			} else {
+				// Pas géré
+				throw new IllegalStateException(
+						"Unexpected door motion: "
+								+ door.getMotion());
+			}
+		}
 	}
 
 	@Override

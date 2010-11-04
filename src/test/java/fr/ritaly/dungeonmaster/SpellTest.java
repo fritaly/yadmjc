@@ -34,6 +34,7 @@ import fr.ritaly.dungeonmaster.map.Door;
 import fr.ritaly.dungeonmaster.map.Door.Motion;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Door.State;
+import fr.ritaly.dungeonmaster.map.Floor;
 
 public class SpellTest extends TestCase {
 
@@ -263,21 +264,21 @@ public class SpellTest extends TestCase {
 		final Door door = new Door(Door.Style.WOODEN, Orientation.NORTH_SOUTH);
 
 		dungeon.setElement(initialPosition.towards(Direction.NORTH), door);
-		
+
 		assertEquals(State.CLOSED, door.getState());
 
 		// Lancer le sort ZO
 		tiggy.cast(PowerRune.LO, Spell.Type.OPEN_DOOR);
 		final Spell spell = tiggy.castSpell();
-		
+
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
-		
+
 		Clock.getInstance().tick(24);
-		
+
 		assertEquals(State.OPEN, door.getState());
 	}
-	
+
 	public void testOpenDoorSpellToCloseDoor() throws Exception {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -309,22 +310,23 @@ public class SpellTest extends TestCase {
 				Door.State.OPEN);
 
 		dungeon.setElement(initialPosition.towards(Direction.NORTH), door);
-		
+
 		assertEquals(State.OPEN, door.getState());
 
 		// Lancer le sort ZO
 		tiggy.cast(PowerRune.LO, Spell.Type.OPEN_DOOR);
 		final Spell spell = tiggy.castSpell();
-		
+
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
-		
+
 		Clock.getInstance().tick(30);
-		
+
 		assertEquals(State.CLOSED, door.getState());
 	}
-	
-	public void testFireballSpellCanDestroyClosedBreakableDoor() throws Exception {
+
+	public void testFireballSpellCanDestroyClosedBreakableDoor()
+			throws Exception {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
@@ -356,7 +358,7 @@ public class SpellTest extends TestCase {
 				Door.State.CLOSED);
 
 		dungeon.setElement(initialPosition.towards(Direction.NORTH), door);
-		
+
 		assertEquals(State.CLOSED, door.getState());
 		assertEquals(Motion.IDLE, door.getMotion());
 		assertFalse(door.isBroken());
@@ -364,17 +366,17 @@ public class SpellTest extends TestCase {
 		// Lancer le sort FUL IR
 		tiggy.cast(PowerRune.MON, Spell.Type.FIREBALL);
 		final Spell spell = tiggy.castSpell();
-		
+
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
-		
+
 		Clock.getInstance().tick(30);
-		
+
 		assertEquals(State.BROKEN, door.getState());
 		assertEquals(Motion.IDLE, door.getMotion());
 		assertTrue(door.isBroken());
 	}
-	
+
 	public void testFireballSpellCantDestroyAnOpenDoor() throws Exception {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -407,7 +409,7 @@ public class SpellTest extends TestCase {
 				Door.State.OPEN);
 
 		dungeon.setElement(initialPosition.towards(Direction.NORTH), door);
-		
+
 		assertEquals(State.OPEN, door.getState());
 		assertEquals(Motion.IDLE, door.getMotion());
 		assertFalse(door.isBroken());
@@ -415,17 +417,17 @@ public class SpellTest extends TestCase {
 		// Lancer le sort FUL IR
 		tiggy.cast(PowerRune.MON, Spell.Type.FIREBALL);
 		final Spell spell = tiggy.castSpell();
-		
+
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
-		
+
 		Clock.getInstance().tick(30);
-		
+
 		assertEquals(State.OPEN, door.getState());
 		assertEquals(Motion.IDLE, door.getMotion());
 		assertFalse(door.isBroken());
 	}
-	
+
 	public void testFireballSpellCantDestroyBrokenDoor() throws Exception {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -459,7 +461,7 @@ public class SpellTest extends TestCase {
 		door.destroy();
 
 		dungeon.setElement(initialPosition.towards(Direction.NORTH), door);
-		
+
 		assertEquals(State.BROKEN, door.getState());
 		assertEquals(Motion.IDLE, door.getMotion());
 		assertTrue(door.isBroken());
@@ -467,18 +469,19 @@ public class SpellTest extends TestCase {
 		// Lancer le sort FUL IR
 		tiggy.cast(PowerRune.MON, Spell.Type.FIREBALL);
 		final Spell spell = tiggy.castSpell();
-		
+
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
-		
+
 		Clock.getInstance().tick(30);
-		
+
 		assertEquals(State.BROKEN, door.getState());
 		assertEquals(Motion.IDLE, door.getMotion());
 		assertTrue(door.isBroken());
 	}
-	
-	public void testFireballSpellCantDestroyAnUnbreakableDoor() throws Exception {
+
+	public void testFireballSpellCantDestroyAnUnbreakableDoor()
+			throws Exception {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
@@ -510,7 +513,7 @@ public class SpellTest extends TestCase {
 				Door.State.CLOSED);
 
 		dungeon.setElement(initialPosition.towards(Direction.NORTH), door);
-		
+
 		assertEquals(State.CLOSED, door.getState());
 		assertEquals(Motion.IDLE, door.getMotion());
 		assertFalse(door.isBroken());
@@ -518,14 +521,123 @@ public class SpellTest extends TestCase {
 		// Lancer le sort FUL IR
 		tiggy.cast(PowerRune.MON, Spell.Type.FIREBALL);
 		final Spell spell = tiggy.castSpell();
-		
+
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
-		
+
 		Clock.getInstance().tick(30);
-		
+
 		assertEquals(State.CLOSED, door.getState());
 		assertEquals(Motion.IDLE, door.getMotion());
 		assertFalse(door.isBroken());
+	}
+
+	public void testPoisonCloudSpell() throws Exception {
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | P | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+		dungeon.createLevel(1, 5, 5);
+
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.gainExperience(Skill.WIZARD, 100000);
+		tiggy.gainExperience(Skill.WATER, 100000);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		dungeon.setParty(new Position(2, 2, 1), party);
+
+		final Floor floor = (Floor) dungeon.getElement(2, 1, 1);
+
+		// --- Situation initiale
+		assertFalse(floor.hasPoisonClouds());
+
+		// Lancer le sort POISON_CLOUD
+		tiggy.cast(PowerRune.MON, Spell.Type.POISON_CLOUD);
+		final Spell spell = tiggy.castSpell();
+
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+
+		Clock.getInstance().tick(18);
+
+		// --- Un nuage de poison doit être apparu
+		assertTrue(floor.hasPoisonClouds());
+		assertEquals(1, floor.getPoisonCloudCount());
+
+		// --- Si on attend suffisamment longtemps, le nuage va disparaître de
+		// lui-même
+		Clock.getInstance().tick(60);
+
+		assertFalse(floor.hasPoisonClouds());
+	}
+	
+	public void testPoisonCloudSpellWhenPartyNearWall() throws Exception {
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | P | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+		dungeon.createLevel(1, 5, 5);
+
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.gainExperience(Skill.WIZARD, 100000);
+		tiggy.gainExperience(Skill.WATER, 100000);
+		tiggy.getStats().getHealth().maxValue(500);
+		tiggy.getStats().getHealth().value(500);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		dungeon.setParty(new Position(2, 1, 1), party);
+
+		final Floor floor = (Floor) dungeon.getElement(2, 1, 1);
+
+		// --- Situation initiale
+		assertFalse(floor.hasPoisonClouds());
+
+		// Lancer le sort POISON_CLOUD (qui explose sur place)
+		tiggy.cast(PowerRune.MON, Spell.Type.POISON_CLOUD);
+		final Spell spell = tiggy.castSpell();
+
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+
+		Clock.getInstance().tick(18);
+		
+		final int health = tiggy.getStats().getHealth().value();
+
+		// --- Un nuage de poison doit être apparu
+		assertTrue(floor.hasPoisonClouds());
+		assertEquals(1, floor.getPoisonCloudCount());
+
+		// --- Si on attend suffisamment longtemps, le nuage va disparaître de
+		// lui-même
+		Clock.getInstance().tick(60);
+
+		assertFalse(floor.hasPoisonClouds());
+		
+		// --- La santé du champion doit avoir diminué du fait du poison
+		assertTrue(health > tiggy.getStats().getHealth().value().intValue());
 	}
 }
