@@ -24,6 +24,7 @@ import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.ai.Creature;
+import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
@@ -86,7 +87,7 @@ public class PitTest extends TestCase {
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
 		// --- Le groupe tombe à travers l'oubliette
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
 	}
 	
@@ -149,7 +150,7 @@ public class PitTest extends TestCase {
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
 		// --- Le groupe tombe à travers l'oubliette
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 3), dungeon.getParty().getPosition());
 	}
 	
@@ -196,7 +197,7 @@ public class PitTest extends TestCase {
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
 		// --- Le groupe ne tombe pas à travers l'oubliette (car fausse)
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 1), dungeon.getParty().getPosition());
 	}
 	
@@ -244,7 +245,7 @@ public class PitTest extends TestCase {
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
 		// --- Le groupe ne tombe pas à travers l'oubliette (car fermée)
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 1), dungeon.getParty().getPosition());
 
 		// --- Quand l'oubliette s'ouvre, le groupe tombe à travers
@@ -926,7 +927,7 @@ public class PitTest extends TestCase {
 		final int halkHealth = halk.getStats().getHealth().value();
 		final int wuufHealth = wuuf.getStats().getHealth().value();
 		
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
 		
 		// --- Les champions doivent avoir perdu de la vie

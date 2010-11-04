@@ -26,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
+import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
@@ -85,23 +86,23 @@ public class StairsTest extends TestCase {
 
 		// --- Pas sur la droite, le groupe est sur l'escalier mais dans la
 		// mauvaise direction pour le prendre
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(stairsUpPosition, dungeon.getParty().getPosition());
 
 		// --- Quart de tour sur la gauche (WEST), le groupe est sur l'escalier
 		// mais dans la mauvaise direction pour le prendre
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 		assertEquals(stairsUpPosition, dungeon.getParty().getPosition());
 
 		// --- Quart de tour sur la gauche (SOUTH), le groupe est sur l'escalier
 		// mais dans la mauvaise direction pour le prendre
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 		assertEquals(stairsUpPosition, dungeon.getParty().getPosition());
 
 		// --- Quart de tour sur la gauche (EAST). Doit changer le groupe de
 		// place car on est dans le sens de l'escalier. Sa direction est aussi
 		// changée
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 		assertEquals(stairsDownPosition, dungeon.getParty().getPosition());
 		assertEquals(Direction.EAST, dungeon.getParty().getLookDirection());
 
@@ -113,7 +114,7 @@ public class StairsTest extends TestCase {
 
 		// --- Pas en avant. Doit changer le groupe de place et lui faire
 		// prendre l'escalier
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(stairsDownPosition, dungeon.getParty().getPosition());
 		assertEquals(Direction.EAST, dungeon.getParty().getLookDirection());
 
@@ -125,7 +126,7 @@ public class StairsTest extends TestCase {
 
 		// --- Pas en avant. Doit changer le groupe de place et lui faire
 		// prendre l'escalier
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(stairsUpPosition, dungeon.getParty().getPosition());
 		assertEquals(Direction.WEST, dungeon.getParty().getLookDirection());
 
@@ -137,13 +138,13 @@ public class StairsTest extends TestCase {
 
 		// --- Pas en arrière. Doit changer le groupe de place sans lui faire
 		// prendre l'escalier
-		assertTrue(dungeon.moveParty(Move.BACKWARD, true));
+		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 		assertEquals(stairsUpPosition, dungeon.getParty().getPosition());
 		assertEquals(Direction.WEST, dungeon.getParty().getLookDirection());
 
 		// --- Pas en arrière. Doit changer le groupe de place en lui faisant
 		// prendre l'escalier
-		assertTrue(dungeon.moveParty(Move.BACKWARD, true));
+		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 		assertEquals(stairsDownPosition, dungeon.getParty().getPosition());
 		assertEquals(Direction.EAST, dungeon.getParty().getLookDirection());
 
@@ -155,13 +156,13 @@ public class StairsTest extends TestCase {
 
 		// --- Pas sur la droite. Doit changer le groupe de place sans lui faire
 		// prendre l'escalier
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(stairsUpPosition, dungeon.getParty().getPosition());
 		assertEquals(Direction.NORTH, dungeon.getParty().getLookDirection());
 
 		// --- Pas sur la droite. Doit changer le groupe de place en lui faisant
 		// prendre l'escalier
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(stairsDownPosition, dungeon.getParty().getPosition());
 		assertEquals(Direction.EAST, dungeon.getParty().getLookDirection());
 	}
@@ -212,7 +213,7 @@ public class StairsTest extends TestCase {
 		assertEquals(Direction.EAST, dungeon.getParty().getLookDirection());
 
 		// --- Pas devant, le groupe prend l'escalier
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(stairsDownPosition, dungeon.getParty().getPosition());
 		assertEquals(Direction.SOUTH, dungeon.getParty().getLookDirection());
 	}

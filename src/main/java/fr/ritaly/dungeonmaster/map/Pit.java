@@ -118,53 +118,80 @@ public class Pit extends Element implements Triggered {
 
 	private void dropParty() {
 		if (isReal()) {
-			// Faire tomber le groupe
-			if (log.isDebugEnabled()) {
-				log.debug("Party stepped on an open pit. Party is falling ...");
-			}
-
-			// Conserver une référence vers le groupe car getParty() retourne
-			// null après la chute !
-			final Party party = getParty();
-
-			// Le groupe tombe
-			getParty().getDungeon().moveParty(Move.DOWN, true, AudioClip.SHOUT);
-
-			// FIXME Gérer le cas de chute dans plusieurs oubliettes d'un coup!
-			// Blesser les champions à cause de la chute !
-			for (Champion champion : party.getChampions(false)) {
-				final Item item = champion.getBody().getFeet().getItem();
-
-				final int injury;
-
-				if (item != null) {
-					// Les bottes protègent un peu le héros de la chute
-					injury = Utils.random(7, 21);
-				} else {
-					// Blessure maximale
-					injury = Utils.random(10, 30);
+			// Le groupe descend-t-il en corde ou tombe-t-il ?
+			final boolean climbingDown = Party.State.CLIMBING_DOWN
+					.equals(getParty().getState());
+			
+			if (climbingDown) {
+				// Le groupe descend en corde
+				if (log.isDebugEnabled()) {
+					log.debug("Party is climbing down ...");
 				}
 
-				champion.hit(injury);
+				// Conserver une référence vers le groupe car getParty() 
+				// retourne null après la chute !
+				final Party party = getParty();
 
-				if (champion.isAlive()) {
-					// Le champion est-il blessé aux pieds ?
+				// Le groupe descend (silencieusement)
+				getParty().getDungeon().moveParty(Move.DOWN, true);
+
+				if (log.isDebugEnabled()) {
+					log.debug("Party climbed down of one floor");
+				}
+			} else {
+				// Le groupe tombe dans l'oubliette
+				
+				// Faire tomber le groupe
+				if (log.isDebugEnabled()) {
+					log.debug("Party stepped on an open pit. Party is falling ...");
+				}
+
+				// Conserver une référence vers le groupe car getParty() 
+				// retourne null après la chute !
+				final Party party = getParty();
+
+				// Le groupe tombe
+				getParty().getDungeon().moveParty(Move.DOWN, true,
+						AudioClip.SHOUT);
+
+				// FIXME Gérer le cas de chute dans plusieurs oubliettes d'un 
+				// coup!
+				
+				// Blesser les champions à cause de la chute !
+				for (Champion champion : party.getChampions(false)) {
+					final Item item = champion.getBody().getFeet().getItem();
+
+					final int damage;
+
 					if (item != null) {
-						// Champion un peu mieux protégé (25%)
-						if (Utils.random(1, 4) > 3) {
-							champion.getBody().getFeet().wound();
-						}
+						// Les bottes protègent un peu le héros de la chute
+						damage = Utils.random(7, 21);
 					} else {
-						// Champion un peu moins protégé (50%)
-						if (Utils.random(1, 2) > 1) {
-							champion.getBody().getFeet().wound();
+						// Blessure maximale
+						damage = Utils.random(10, 30);
+					}
+
+					champion.hit(damage);
+
+					if (champion.isAlive()) {
+						// Le champion est-il blessé aux pieds ?
+						if (item != null) {
+							// Champion un peu mieux protégé (25%)
+							if (Utils.random(1, 4) > 3) {
+								champion.getBody().getFeet().wound();
+							}
+						} else {
+							// Champion un peu moins protégé (50%)
+							if (Utils.random(1, 2) > 1) {
+								champion.getBody().getFeet().wound();
+							}
 						}
 					}
 				}
-			}
 
-			if (log.isDebugEnabled()) {
-				log.debug("Party fell in pit");
+				if (log.isDebugEnabled()) {
+					log.debug("Party fell in pit");
+				}
 			}
 		}
 	}

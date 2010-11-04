@@ -26,6 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.ai.Creature;
+import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
@@ -314,67 +315,67 @@ public class DungeonMasterTest extends TestCase {
 		assertEquals(initialPosition, party.getPosition());
 
 		// --- Pas en avant
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 
 		assertEquals(initialPosition.towards(Direction.NORTH),
 				party.getPosition());
 
 		// --- Pas en arrière
-		assertTrue(dungeon.moveParty(Move.BACKWARD, true));
+		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 
 		assertEquals(initialPosition, party.getPosition());
 
 		// --- Pas à gauche
-		assertTrue(dungeon.moveParty(Move.LEFT, true));
+		assertTrue(dungeon.moveParty(Move.LEFT, true, AudioClip.STEP));
 
 		assertEquals(initialPosition.towards(Direction.WEST),
 				party.getPosition());
 
 		// --- Pas à droite
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 
 		assertEquals(initialPosition, party.getPosition());
 
 		// --- Quart de tour gauche (x4)
 		assertEquals(Direction.NORTH, party.getLookDirection());
 
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 
 		assertEquals(Direction.WEST, party.getLookDirection());
 		assertEquals(initialPosition, party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 
 		assertEquals(Direction.SOUTH, party.getLookDirection());
 		assertEquals(initialPosition, party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 
 		assertEquals(Direction.EAST, party.getLookDirection());
 		assertEquals(initialPosition, party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertEquals(initialPosition, party.getPosition());
 
 		// --- Quart de tour droite (x4)
-		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true, AudioClip.STEP));
 
 		assertEquals(Direction.EAST, party.getLookDirection());
 		assertEquals(initialPosition, party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true, AudioClip.STEP));
 
 		assertEquals(Direction.SOUTH, party.getLookDirection());
 		assertEquals(initialPosition, party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true, AudioClip.STEP));
 
 		assertEquals(Direction.WEST, party.getLookDirection());
 		assertEquals(initialPosition, party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true, AudioClip.STEP));
 
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertEquals(initialPosition, party.getPosition());
@@ -408,65 +409,65 @@ public class DungeonMasterTest extends TestCase {
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 
-		assertFalse(dungeon.moveParty(Move.FORWARD, true));
+		assertFalse(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 
 		assertEquals(partyPosition, party.getPosition());
 
 		// ---
-		assertFalse(dungeon.moveParty(Move.BACKWARD, true));
+		assertFalse(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 
 		assertEquals(partyPosition, party.getPosition());
 
 		// ---
-		assertFalse(dungeon.moveParty(Move.LEFT, true));
+		assertFalse(dungeon.moveParty(Move.LEFT, true, AudioClip.STEP));
 
 		assertEquals(partyPosition, party.getPosition());
 
 		// ---
-		assertFalse(dungeon.moveParty(Move.RIGHT, true));
+		assertFalse(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 
 		assertEquals(partyPosition, party.getPosition());
 
 		// ---
 		assertEquals(Direction.NORTH, party.getLookDirection());
 
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 
 		assertEquals(Direction.WEST, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 
 		assertEquals(Direction.SOUTH, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 
 		assertEquals(Direction.EAST, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 
 		// ---
-		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true, AudioClip.STEP));
 
 		assertEquals(Direction.EAST, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true, AudioClip.STEP));
 
 		assertEquals(Direction.SOUTH, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true, AudioClip.STEP));
 
 		assertEquals(Direction.WEST, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true, AudioClip.STEP));
 
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
@@ -936,7 +937,7 @@ public class DungeonMasterTest extends TestCase {
 		final int halkHealth1 = halk.getStats().getHealth().value();
 		final int wuufHealth1 = wuuf.getStats().getHealth().value();
 		
-		assertFalse(dungeon.moveParty(Move.FORWARD, true));
+		assertFalse(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		
 		assertTrue(tiggy.getStats().getHealth().value() < tiggyHealth1);
 		assertTrue(daroou.getStats().getHealth().value() < daroouHealth1);
@@ -949,7 +950,7 @@ public class DungeonMasterTest extends TestCase {
 		final int halkHealth2 = halk.getStats().getHealth().value();
 		final int wuufHealth2 = wuuf.getStats().getHealth().value();
 		
-		assertFalse(dungeon.moveParty(Move.BACKWARD, true));
+		assertFalse(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 		
 		assertEquals(tiggyHealth2, tiggy.getStats().getHealth().value().intValue());
 		assertEquals(daroouHealth2, daroou.getStats().getHealth().value().intValue());
@@ -962,7 +963,7 @@ public class DungeonMasterTest extends TestCase {
 		final int halkHealth3 = halk.getStats().getHealth().value();
 		final int wuufHealth3 = wuuf.getStats().getHealth().value();
 		
-		assertFalse(dungeon.moveParty(Move.LEFT, true));
+		assertFalse(dungeon.moveParty(Move.LEFT, true, AudioClip.STEP));
 		
 		assertTrue(tiggy.getStats().getHealth().value() < tiggyHealth3);
 		assertEquals(daroouHealth3, daroou.getStats().getHealth().value().intValue());
@@ -975,7 +976,7 @@ public class DungeonMasterTest extends TestCase {
 		final int halkHealth4 = halk.getStats().getHealth().value();
 		final int wuufHealth4 = wuuf.getStats().getHealth().value();
 		
-		assertFalse(dungeon.moveParty(Move.RIGHT, true));
+		assertFalse(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		
 		assertEquals(tiggyHealth4, tiggy.getStats().getHealth().value().intValue());
 		assertTrue(daroou.getStats().getHealth().value() < daroouHealth4);

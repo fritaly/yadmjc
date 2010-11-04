@@ -24,6 +24,7 @@ import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Orientation;
 import fr.ritaly.dungeonmaster.Position;
+import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
@@ -228,43 +229,43 @@ public class DoorTest extends TestCase {
 		assertEquals(initialPosition, party.getPosition());
 		assertFalse(door.isTraversable(party));
 
-		assertFalse(dungeon.moveParty(Move.FORWARD, true));
+		assertFalse(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 
 		assertEquals(initialPosition, party.getPosition());
 
 		door.open();
 
-		assertFalse(dungeon.moveParty(Move.FORWARD, true));
+		assertFalse(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 
 		assertEquals(initialPosition, party.getPosition());
 		assertFalse(door.isTraversable(party));
 
 		Clock.getInstance().tick(4); // 1/4 ouverte
 
-		assertFalse(dungeon.moveParty(Move.FORWARD, true));
+		assertFalse(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 
 		assertEquals(initialPosition, party.getPosition());
 		assertFalse(door.isTraversable(party));
 
 		Clock.getInstance().tick(4); // 1/2 ouverte
 
-		assertFalse(dungeon.moveParty(Move.FORWARD, true));
+		assertFalse(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 
 		assertEquals(initialPosition, party.getPosition());
 		assertFalse(door.isTraversable(party));
 
 		Clock.getInstance().tick(4); // 3/4 ouverte
 
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 
 		assertEquals(doorPosition, party.getPosition());
 		assertTrue(door.isTraversable(party));
 
-		assertTrue(dungeon.moveParty(Move.BACKWARD, true));
+		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 
 		Clock.getInstance().tick(4);
 
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 
 		assertEquals(doorPosition, party.getPosition());
 		assertTrue(door.isTraversable(party));

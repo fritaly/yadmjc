@@ -63,6 +63,11 @@ import fr.ritaly.dungeonmaster.map.Element;
  */
 public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		ChangeListener {
+	
+	public static enum State {
+		NORMAL,
+		CLIMBING_DOWN;
+	}
 
 	private final Log log = LogFactory.getLog(Party.class);
 
@@ -119,6 +124,8 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	private final PartySpells spells = new PartySpells(this);
 
 	// FIXME Implémenter Serialization !!
+	
+	private State state = State.NORMAL;
 
 	public Party() {
 	}
@@ -555,26 +562,24 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		}
 	}
 
-	public void move(Direction direction) {
-		if (direction == null) {
-			throw new IllegalArgumentException("The given direction is null");
-		}
-
-		// Jouer le son des pas
-		SoundSystem.getInstance().play(getPosition(), AudioClip.STEP);
-
-		if (log.isDebugEnabled()) {
-			log.debug("Moving party towards " + direction + " ...");
-		}
-
-		final Position newPosition = direction.change(this.position);
-
-		setPosition(newPosition, true);
-
-		if (log.isInfoEnabled()) {
-			log.info("Party moved to " + newPosition);
-		}
-	}
+//	public void move(Direction direction) {
+//		Validate.notNull(direction, "The given direction is null");
+//
+//		// Jouer le son des pas
+//		SoundSystem.getInstance().play(getPosition(), AudioClip.STEP);
+//
+//		if (log.isDebugEnabled()) {
+//			log.debug("Moving party towards " + direction + " ...");
+//		}
+//
+//		final Position newPosition = direction.change(this.position);
+//
+//		setPosition(newPosition, true);
+//
+//		if (log.isInfoEnabled()) {
+//			log.info("Party moved to " + newPosition);
+//		}
+//	}
 
 	public void turn(Move move) {
 		if (move == null) {
@@ -621,10 +626,8 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		}
 	}
 
-	private void setPosition(Position position, boolean notify) {
-		if (position == null) {
-			throw new IllegalArgumentException("The given position is null");
-		}
+	private void setPosition(final Position position, final boolean notify) {
+		Validate.notNull(position, "The given position is null");
 
 		final Position oldPosition = this.position;
 
@@ -1036,14 +1039,32 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 			if (champion.isDead()) {
 				// Le champion est mort. Sélectionner un nouveau leader s'il
-				// reste des champions vivants ! FIXME Game Over
+				// reste des champions vivants !
 				if (getChampions(false).isEmpty()) {
 					// Game over. Tous les champions sont morts
+					fireChangeEvent();
 				} else {
 					// Il reste au moins un champion vivant
 					selectNewLeader();
 				}
 			}
+		}
+	}
+	
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		Validate.notNull(state, "The given state is null");
+		
+		if (!this.state.equals(state)) {
+			if (log.isDebugEnabled()) {
+				log.debug("Party.State: " + this.state + " -> " + state);
+			}
+			
+			// Transition d'état forcément valide (seulement 2 états possibles)
+			this.state = state;
 		}
 	}
 }

@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
+import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
@@ -74,62 +75,62 @@ public class RetractableWallTest extends TestCase {
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 
-		assertFalse(dungeon.moveParty(Move.FORWARD, true));
+		assertFalse(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(partyPosition, party.getPosition());
 
 		retractableWallNorth.open();
 
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(partyPosition.towards(Direction.NORTH),
 				party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.BACKWARD, true));
+		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 		assertEquals(partyPosition, party.getPosition());
 
 		// ---
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 
-		assertFalse(dungeon.moveParty(Move.BACKWARD, true));
+		assertFalse(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 		assertEquals(partyPosition, party.getPosition());
 
 		retractableWallSouth.open();
 
-		assertTrue(dungeon.moveParty(Move.BACKWARD, true));
+		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 		assertEquals(partyPosition.towards(Direction.SOUTH),
 				party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(partyPosition, party.getPosition());
 
 		// ---
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 
-		assertFalse(dungeon.moveParty(Move.LEFT, true));
+		assertFalse(dungeon.moveParty(Move.LEFT, true, AudioClip.STEP));
 		assertEquals(partyPosition, party.getPosition());
 
 		retractableWallWest.open();
 
-		assertTrue(dungeon.moveParty(Move.LEFT, true));
+		assertTrue(dungeon.moveParty(Move.LEFT, true, AudioClip.STEP));
 		assertEquals(partyPosition.towards(Direction.WEST), party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(partyPosition, party.getPosition());
 
 		// ---
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 
-		assertFalse(dungeon.moveParty(Move.RIGHT, true));
+		assertFalse(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(partyPosition, party.getPosition());
 
 		retractableWallEast.open();
 
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(partyPosition.towards(Direction.EAST), party.getPosition());
 
-		assertTrue(dungeon.moveParty(Move.LEFT, true));
+		assertTrue(dungeon.moveParty(Move.LEFT, true, AudioClip.STEP));
 		assertEquals(partyPosition, party.getPosition());
 	}
 }

@@ -28,6 +28,7 @@ import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.LoopingActuator;
 import fr.ritaly.dungeonmaster.actuator.SimpleActuator;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
+import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
@@ -78,7 +79,7 @@ public class TeleporterTest extends TestCase {
 		assertEquals(Direction.NORTH, party.getLookDirection());
 
 		// --- Marcher dans le téléporteur
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(destination, dungeon.getParty().getPosition());
 		assertEquals(Direction.SOUTH, party.getLookDirection());
 	}
@@ -233,7 +234,7 @@ public class TeleporterTest extends TestCase {
 		assertEquals(Direction.NORTH, party.getLookDirection());
 
 		// --- Marcher dans le téléporteur
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 1), dungeon.getParty().getPosition());
 		assertEquals(Direction.SOUTH, party.getLookDirection());
 	}

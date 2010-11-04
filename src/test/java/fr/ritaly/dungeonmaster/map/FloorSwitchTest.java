@@ -27,6 +27,7 @@ import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.actuator.SimpleActuator;
 import fr.ritaly.dungeonmaster.actuator.TestActuator;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
+import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -172,7 +173,7 @@ public class FloorSwitchTest extends TestCase {
 		assertFalse(actuator.isTriggered());
 
 		// --- Le groupe avance - rien ne se passe
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
 		Clock.getInstance().tick();
@@ -180,7 +181,7 @@ public class FloorSwitchTest extends TestCase {
 		assertFalse(actuator.isTriggered());
 
 		// --- Le groupe avance et déclenche l'actuator
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 1, 1), dungeon.getParty().getPosition());
 
 		Clock.getInstance().tick();
@@ -222,7 +223,7 @@ public class FloorSwitchTest extends TestCase {
 		assertFalse(actuator.isTriggered());
 
 		// --- Le groupe avance et déclenche l'actuator
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
 		Clock.getInstance().tick();
@@ -274,7 +275,7 @@ public class FloorSwitchTest extends TestCase {
 		assertEquals(Door.Motion.IDLE, door.getMotion());
 
 		// --- Le groupe avance - la porte doit s'ouvrir
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
 		// Attendre que la porte s'ouvre
@@ -284,7 +285,7 @@ public class FloorSwitchTest extends TestCase {
 		assertEquals(Door.State.OPEN, door.getState());
 
 		// --- Le groupe recule - la porte doit se fermer
-		assertTrue(dungeon.moveParty(Move.BACKWARD, true));
+		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 3, 1), dungeon.getParty().getPosition());
 
 		// Attendre que la porte se ferme
@@ -332,7 +333,7 @@ public class FloorSwitchTest extends TestCase {
 		assertTrue(pit.isClosed());
 
 		// --- Le groupe avance - l'oubliette doit s'ouvrir
-		assertTrue(dungeon.moveParty(Move.FORWARD, true));
+		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
 		// Attendre que l'oubliette s'ouvre
@@ -341,7 +342,7 @@ public class FloorSwitchTest extends TestCase {
 		assertTrue(pit.isOpen());
 
 		// --- Le groupe recule - l'oubliette doit se fermer
-		assertTrue(dungeon.moveParty(Move.BACKWARD, true));
+		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 3, 1), dungeon.getParty().getPosition());
 
 		// Attendre que l'oubliette se ferme

@@ -23,6 +23,7 @@ import java.io.File;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.audio.SoundSystem;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
@@ -100,10 +101,10 @@ public class Main {
 				dungeon.setParty(5, 5, 1, party);
 
 				for (int i = 0; i < 4; i++) {
-					dungeon.moveParty(Move.TURN_LEFT, false);
+					dungeon.moveParty(Move.TURN_LEFT, false, AudioClip.STEP);
 				}
 				for (int i = 0; i < 5; i++) {
-					dungeon.moveParty(Move.FORWARD, false);
+					dungeon.moveParty(Move.FORWARD, false, AudioClip.STEP);
 				}
 
 				// party.removeChampion(champion);

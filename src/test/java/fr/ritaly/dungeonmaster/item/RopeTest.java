@@ -21,6 +21,7 @@ package fr.ritaly.dungeonmaster.item;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
+import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -91,18 +92,18 @@ public class RopeTest extends TestCase {
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 		assertEquals(Direction.WEST, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 		assertEquals(Direction.SOUTH, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
 		// --- Le groupe descend à travers l'oubliette à l'aide de la corde
 		final int health = tiggy.getStats().getHealth().value();
 		
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 		assertEquals(Direction.EAST, party.getLookDirection());
 		assertTrue(rope.perform(Action.CLIMB_DOWN));
 		
@@ -165,15 +166,15 @@ public class RopeTest extends TestCase {
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 		assertEquals(Direction.WEST, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 		assertEquals(Direction.SOUTH, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 		assertEquals(Direction.EAST, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
@@ -232,15 +233,15 @@ public class RopeTest extends TestCase {
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 		assertEquals(Direction.WEST, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 		assertEquals(Direction.SOUTH, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
-		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
 		assertEquals(Direction.EAST, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 		
@@ -315,7 +316,7 @@ public class RopeTest extends TestCase {
 		final int health = tiggy.getStats().getHealth().value();
 		
 		assertEquals(Direction.NORTH, party.getLookDirection());
-		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.TURN_RIGHT, true, AudioClip.STEP));
 		assertEquals(Direction.EAST, party.getLookDirection());
 		assertTrue(rope.perform(Action.CLIMB_DOWN));
 		

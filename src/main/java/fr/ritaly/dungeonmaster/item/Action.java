@@ -26,6 +26,7 @@ import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Skill;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.champion.Champion;
+import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.map.Pit;
@@ -220,10 +221,18 @@ public enum Action {
 
 			// Le groupe peut descendre (pas de son à jouer). Attention de bien
 			// faire avancer de une position vers l'avant le groupe !!! Le cas
-			// de plusieurs oubliettes "empilées" est traité car la méthode
+			// de plusieurs oubliettes "empilées" est traité par la méthode
 			// Dungeon.teleportParty()
-			dungeon.teleportParty(target.towards(Direction.DOWN),
+			
+			// Passer le groupe dans l'état CLIMBING_DOWN le temps de la 
+			// descente
+			champion.getParty().setState(Party.State.CLIMBING_DOWN);
+			
+			dungeon.teleportParty(target, // target.towards(Direction.DOWN),
 					lookDirection, true);
+			
+			// Sortir de l'état CLIMBING_DOWN
+			champion.getParty().setState(Party.State.NORMAL);
 
 			// Le champion gagne de l'expérience
 			champion.gainExperience(improvedSkill,

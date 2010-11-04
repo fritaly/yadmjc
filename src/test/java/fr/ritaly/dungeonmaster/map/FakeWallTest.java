@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
+import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -59,7 +60,7 @@ public class FakeWallTest extends TestCase {
 		// --- Le groupe peut se déplacer "dans" le faux mur
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
-		assertTrue(dungeon.moveParty(Move.RIGHT, true));
+		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(partyPosition.towards(Direction.EAST), party.getPosition());
 	}
 }

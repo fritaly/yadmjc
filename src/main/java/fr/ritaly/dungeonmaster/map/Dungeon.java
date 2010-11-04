@@ -304,15 +304,23 @@ public class Dungeon implements ClockListener {
 		return true;
 	}
 
-	public boolean moveParty(final Move move, final boolean now) {
-		Validate.notNull(move, "The given move is null");
-		
-		return moveParty(move, now, AudioClip.STEP);
-	}
-
 	public boolean moveParty(final Move move, boolean now, final AudioClip clip) {
-		Validate.notNull(move, "The given move is null");
+		// Le clip ne peut être nul si on appelle cette méthode
 		Validate.notNull(clip, "The given clip is null");
+		
+		return doMoveParty(move, now, clip);
+	}
+	
+	public boolean moveParty(final Move move, boolean now) {
+		// Déplacer sans jouer de son
+		return doMoveParty(move, now, null);
+	}
+	
+	private boolean doMoveParty(final Move move, boolean now,
+			final AudioClip clip) {
+
+		// Le paramètre clip peut être null ou non selon la méthode appelante
+		Validate.notNull(move, "The given move is null");
 		if (party == null) {
 			throw new IllegalStateException("The party isn't defined");
 		}
@@ -349,8 +357,8 @@ public class Dungeon implements ClockListener {
 	}
 
 	private boolean movePartyNow(Move move, AudioClip clip) {
+		// Le paramètre clip peut être null ou non selon la méthode appelante
 		Validate.notNull(move, "The given move is null");
-		Validate.notNull(clip, "The given clip is null");
 		if (this.party == null) {
 			throw new IllegalStateException("There is no party set");
 		}
