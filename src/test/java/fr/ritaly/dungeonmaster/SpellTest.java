@@ -31,6 +31,7 @@ import fr.ritaly.dungeonmaster.magic.EmptyHandNeededException;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
 import fr.ritaly.dungeonmaster.map.Door;
+import fr.ritaly.dungeonmaster.map.Door.Motion;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Door.State;
 
@@ -321,5 +322,210 @@ public class SpellTest extends TestCase {
 		Clock.getInstance().tick(30);
 		
 		assertEquals(State.CLOSED, door.getState());
+	}
+	
+	public void testFireballSpellCanDestroyClosedBreakableDoor() throws Exception {
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | D | . | W |
+		// +---+---+---+---+---+
+		// | W | . | P | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+		dungeon.createLevel(1, 5, 5);
+
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.gainExperience(Skill.WIZARD, 100000);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		final Position initialPosition = new Position(2, 2, 1);
+
+		dungeon.setParty(initialPosition, party);
+
+		// Porte face au groupe
+		final Door door = new Door(Door.Style.WOODEN, Orientation.NORTH_SOUTH,
+				Door.State.CLOSED);
+
+		dungeon.setElement(initialPosition.towards(Direction.NORTH), door);
+		
+		assertEquals(State.CLOSED, door.getState());
+		assertEquals(Motion.IDLE, door.getMotion());
+		assertFalse(door.isBroken());
+
+		// Lancer le sort FUL IR
+		tiggy.cast(PowerRune.MON, Spell.Type.FIREBALL);
+		final Spell spell = tiggy.castSpell();
+		
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		
+		Clock.getInstance().tick(30);
+		
+		assertEquals(State.BROKEN, door.getState());
+		assertEquals(Motion.IDLE, door.getMotion());
+		assertTrue(door.isBroken());
+	}
+	
+	public void testFireballSpellCantDestroyAnOpenDoor() throws Exception {
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | D | . | W |
+		// +---+---+---+---+---+
+		// | W | . | P | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+		dungeon.createLevel(1, 5, 5);
+
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.gainExperience(Skill.WIZARD, 100000);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		final Position initialPosition = new Position(2, 2, 1);
+
+		dungeon.setParty(initialPosition, party);
+
+		// Porte face au groupe
+		final Door door = new Door(Door.Style.WOODEN, Orientation.NORTH_SOUTH,
+				Door.State.OPEN);
+
+		dungeon.setElement(initialPosition.towards(Direction.NORTH), door);
+		
+		assertEquals(State.OPEN, door.getState());
+		assertEquals(Motion.IDLE, door.getMotion());
+		assertFalse(door.isBroken());
+
+		// Lancer le sort FUL IR
+		tiggy.cast(PowerRune.MON, Spell.Type.FIREBALL);
+		final Spell spell = tiggy.castSpell();
+		
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		
+		Clock.getInstance().tick(30);
+		
+		assertEquals(State.OPEN, door.getState());
+		assertEquals(Motion.IDLE, door.getMotion());
+		assertFalse(door.isBroken());
+	}
+	
+	public void testFireballSpellCantDestroyBrokenDoor() throws Exception {
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | D | . | W |
+		// +---+---+---+---+---+
+		// | W | . | P | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+		dungeon.createLevel(1, 5, 5);
+
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.gainExperience(Skill.WIZARD, 100000);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		final Position initialPosition = new Position(2, 2, 1);
+
+		dungeon.setParty(initialPosition, party);
+
+		// Porte face au groupe
+		final Door door = new Door(Door.Style.WOODEN, Orientation.NORTH_SOUTH,
+				Door.State.CLOSED);
+		door.destroy();
+
+		dungeon.setElement(initialPosition.towards(Direction.NORTH), door);
+		
+		assertEquals(State.BROKEN, door.getState());
+		assertEquals(Motion.IDLE, door.getMotion());
+		assertTrue(door.isBroken());
+
+		// Lancer le sort FUL IR
+		tiggy.cast(PowerRune.MON, Spell.Type.FIREBALL);
+		final Spell spell = tiggy.castSpell();
+		
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		
+		Clock.getInstance().tick(30);
+		
+		assertEquals(State.BROKEN, door.getState());
+		assertEquals(Motion.IDLE, door.getMotion());
+		assertTrue(door.isBroken());
+	}
+	
+	public void testFireballSpellCantDestroyAnUnbreakableDoor() throws Exception {
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | D | . | W |
+		// +---+---+---+---+---+
+		// | W | . | P | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+		dungeon.createLevel(1, 5, 5);
+
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+		tiggy.gainExperience(Skill.WIZARD, 100000);
+
+		final Party party = new Party();
+		party.addChampion(tiggy);
+
+		final Position initialPosition = new Position(2, 2, 1);
+
+		dungeon.setParty(initialPosition, party);
+
+		// Porte face au groupe
+		final Door door = new Door(Door.Style.RA, Orientation.NORTH_SOUTH,
+				Door.State.CLOSED);
+
+		dungeon.setElement(initialPosition.towards(Direction.NORTH), door);
+		
+		assertEquals(State.CLOSED, door.getState());
+		assertEquals(Motion.IDLE, door.getMotion());
+		assertFalse(door.isBroken());
+
+		// Lancer le sort FUL IR
+		tiggy.cast(PowerRune.MON, Spell.Type.FIREBALL);
+		final Spell spell = tiggy.castSpell();
+		
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		
+		Clock.getInstance().tick(30);
+		
+		assertEquals(State.CLOSED, door.getState());
+		assertEquals(Motion.IDLE, door.getMotion());
+		assertFalse(door.isBroken());
 	}
 }

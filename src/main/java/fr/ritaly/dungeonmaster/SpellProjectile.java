@@ -366,6 +366,26 @@ public class SpellProjectile implements Projectile {
 											+ door.getMotion());
 						}
 					}
+				} else if (Spell.Type.FIREBALL.equals(spell.getType())) {
+					// TODO D'autres sorts permettent-ils d'exploser une porte ?
+					// (Lightning par exemple)
+					final Element currentElement = dungeon.getElement(position);
+
+					if (currentElement.getType().equals(Element.Type.DOOR)) {
+						// Exploser la porte si elle peut l'être
+						final Door door = (Door) currentElement;
+
+						// On doit tester en amont si la porte n'est pas déjà
+						// cassée autrement ça lève une exception
+						if (!door.isBroken()) {
+							if (door.destroy()) {
+								// La porte a explosé
+								// TODO Conditionner le son joué par le type
+								// d'attaque de la porte. Prendre en compte la 
+								// force restante du sort
+							}
+						}
+					} 
 				}
 
 				// FIXME Appliquer les dégâts aux créatures / champions / porte
