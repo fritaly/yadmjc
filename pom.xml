@@ -42,6 +42,11 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/src/lib/joal.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.6.9</version>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -108,6 +113,34 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>1.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<!-- Weave the main classes -->
+							<goal>compile</goal>
+							<!-- Do not weave the test classes
+							<goal>test-compile</goal>
+							-->  
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+           </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<ajdtVersion>1.5</ajdtVersion>
+				</configuration>
+           </plugin>
 		</plugins>
 	</build>
 	<reporting>
