@@ -27,13 +27,12 @@ import org.apache.commons.logging.LogFactory;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Projectile;
-import fr.ritaly.dungeonmaster.SpellProjectile;
+import fr.ritaly.dungeonmaster.ProjectileFactory;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
 import fr.ritaly.dungeonmaster.actuator.Triggered;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
-import fr.ritaly.dungeonmaster.magic.Spell;
 
 /**
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
@@ -42,21 +41,16 @@ public class ProjectileLauncher extends DirectedElement implements Triggered {
 
 	private final Log log = LogFactory.getLog(ProjectileLauncher.class);
 
-	// FIXME Rendre le type de projectile paramétrable via le constructeur
-	private final Spell spell;
+	private final ProjectileFactory factory;
 
-	public ProjectileLauncher(final Direction direction, final Spell spell) {
+	public ProjectileLauncher(final Direction direction,
+			final ProjectileFactory factory) {
+		
 		super(Element.Type.PROJECTILE_LAUNCHER, direction);
 
-		Validate.notNull(spell, "The given spell is null");
-		Validate.isTrue(spell.getType().isProjectile(), "The given spell "
-				+ spell.getName() + " isn't a projectile spell");
+		Validate.notNull(factory, "The given projectile factory is null");
 
-		this.spell = spell;
-	}
-
-	public Spell getSpell() {
-		return spell;
+		this.factory = factory;
 	}
 
 	@Override
@@ -96,10 +90,10 @@ public class ProjectileLauncher extends DirectedElement implements Triggered {
 		final List<SubCell> subCells = SubCell
 				.getVisibleSubCells(getDirection().getOpposite());
 
-		final Projectile projectile1 = new SpellProjectile(spell, getLevel()
+		final Projectile projectile1 = factory.createProjectile(getLevel()
 				.getDungeon(), startPosition, getDirection(), subCells.get(0));
 
-		final Projectile projectile2 = new SpellProjectile(spell, getLevel()
+		final Projectile projectile2 = factory.createProjectile(getLevel()
 				.getDungeon(), startPosition, getDirection(), subCells.get(1));
 	}
 

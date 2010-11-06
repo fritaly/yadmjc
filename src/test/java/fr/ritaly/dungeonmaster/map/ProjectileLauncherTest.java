@@ -21,6 +21,7 @@ package fr.ritaly.dungeonmaster.map;
 import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.SpellProjectileFactory;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
@@ -59,8 +60,9 @@ public class ProjectileLauncherTest extends TestCase {
 
 		final Dungeon dungeon = new Dungeon();
 		
-		final ProjectileLauncher launcher = new ProjectileLauncher(Direction.WEST,
-				new Spell(PowerRune.MON, Spell.Type.FIREBALL));
+		final ProjectileLauncher launcher = new ProjectileLauncher(
+				Direction.WEST, new SpellProjectileFactory(new Spell(
+						PowerRune.MON, Spell.Type.FIREBALL)));
 		
 		final Level level1 = dungeon.createLevel(1, 10, 10);
 		level1.setElement(9, 5, launcher);
