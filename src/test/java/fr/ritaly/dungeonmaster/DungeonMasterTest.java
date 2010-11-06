@@ -47,7 +47,7 @@ import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.map.Level;
 import fr.ritaly.dungeonmaster.map.ValidationException;
 import fr.ritaly.dungeonmaster.map.Wall;
-import fr.ritaly.dungeonmaster.stat.IntStat;
+import fr.ritaly.dungeonmaster.stat.Stat;
 
 public class DungeonMasterTest extends TestCase {
 
@@ -510,7 +510,7 @@ public class DungeonMasterTest extends TestCase {
 	}
 
 	public void testBoostedStatWearsOff() {
-		final IntStat stat = new IntStat("Test", "Stat", 1);
+		final Stat stat = new Stat("Test", "Stat", 1);
 
 		// --- Vérifier l'état initial
 		assertEquals(1, stat.actualValue().intValue());
@@ -991,7 +991,7 @@ public class DungeonMasterTest extends TestCase {
 		final Item elvenBoots = ItemFactory.getFactory().newItem(
 				Item.Type.ELVEN_BOOTS);
 
-		final IntStat maxLoadBoost = tiggy.getStats().getMaxLoadBoost();
+		final Stat maxLoadBoost = tiggy.getStats().getMaxLoadBoost();
 		final float maxLoad1 = tiggy.getStats().getActualMaxLoad();
 		final float maxLoad2 = tiggy.getMaxLoad();
 

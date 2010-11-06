@@ -22,7 +22,7 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
-import fr.ritaly.dungeonmaster.stat.IntStat;
+import fr.ritaly.dungeonmaster.stat.Stat;
 import junit.framework.TestCase;
 
 public class RabbitFootTest extends TestCase {
@@ -40,7 +40,7 @@ public class RabbitFootTest extends TestCase {
 		Party party = new Party();
 		party.addChampion(tiggy);
 
-		final IntStat luck = tiggy.getStats().getLuck();
+		final Stat luck = tiggy.getStats().getLuck();
 		final int initialLuck = luck.actualValue();
 
 		// Le pied de lapin marche quelque soit l'endroit où il est porté !

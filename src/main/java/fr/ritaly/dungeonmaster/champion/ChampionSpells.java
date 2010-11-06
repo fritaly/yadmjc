@@ -22,7 +22,7 @@ import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Temporizer;
-import fr.ritaly.dungeonmaster.stat.IntStat;
+import fr.ritaly.dungeonmaster.stat.Stat;
 
 /**
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
@@ -33,16 +33,16 @@ public class ChampionSpells implements ClockListener {
 
 	private final Temporizer temporizer;
 
-	private final IntStat light;
+	private final Stat light;
 	
-	// private final IntStat shield;
+	// private final Stat shield;
 
 	public ChampionSpells(final Champion champion) {
 		Validate.isTrue(champion != null, "The given champion is null");
 
 		this.champion = champion;
-		this.light = new IntStat(champion.getName(), "Light");
-		// this.shield = new IntStat(champion.getName(), "Shield");
+		this.light = new Stat(champion.getName(), "Light");
+		// this.shield = new Stat(champion.getName(), "Shield");
 		this.temporizer = new Temporizer(champion.getName() + ".Spells", 4);
 	}
 
@@ -50,7 +50,7 @@ public class ChampionSpells implements ClockListener {
 		return light.actualValue();
 	}
 	
-	public IntStat getLight() {
+	public Stat getLight() {
 		return light;
 	}
 
@@ -72,7 +72,7 @@ public class ChampionSpells implements ClockListener {
 		return true;
 	}
 	
-//	public IntStat getShield() {
+//	public Stat getShield() {
 //		return shield;
 //	}
 }

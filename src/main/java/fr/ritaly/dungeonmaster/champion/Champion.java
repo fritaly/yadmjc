@@ -71,7 +71,7 @@ import fr.ritaly.dungeonmaster.magic.SkillTooLowException;
 import fr.ritaly.dungeonmaster.magic.Spell;
 import fr.ritaly.dungeonmaster.magic.SpellCaster;
 import fr.ritaly.dungeonmaster.map.Element;
-import fr.ritaly.dungeonmaster.stat.IntStat;
+import fr.ritaly.dungeonmaster.stat.Stat;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
@@ -778,7 +778,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		assertAlive();
 
 		// Vérifier que le champion a assez de mana pour invoquer ce rune
-		final IntStat mana = getStats().getMana();
+		final Stat mana = getStats().getMana();
 
 		final int cost;
 
@@ -1347,7 +1347,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		}
 
 		// Ajouter des points de vie au héros
-		final IntStat health = stats.getHealth();
+		final Stat health = stats.getHealth();
 
 		health.inc(Utils.random(1, health.maxValue()));
 	}

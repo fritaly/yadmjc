@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.event.ChangeEvent;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 
-public class IntStatTest extends TestCase {
+public class StatTest extends TestCase {
 
 	private final class Listener implements ChangeListener {
 		private boolean notified;
@@ -33,36 +33,36 @@ public class IntStatTest extends TestCase {
 		}
 	}
 
-	public IntStatTest(String name) {
+	public StatTest(String name) {
 		super(name);
 	}
 
-	public void testIntStatString() {
-		final IntStat stat = new IntStat("Owner", "Name");
+	public void testStatString() {
+		final Stat stat = new Stat("Owner", "Name");
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 0);
 		assertTrue(stat.getPrevious() == 0);
 	}
 
-	public void testIntStatStringInteger() {
-		final IntStat stat = new IntStat("Owner", "Name", 10);
+	public void testStatStringInteger() {
+		final Stat stat = new Stat("Owner", "Name", 10);
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 10);
 		assertTrue(stat.getPrevious() == 10);
 	}
 
-	public void testIntStatStringIntegerIntegerInteger() {
-		final IntStat stat = new IntStat("Owner", "Name", 10, 20);
+	public void testStatStringIntegerIntegerInteger() {
+		final Stat stat = new Stat("Owner", "Name", 10, 20);
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 10);
 		assertTrue(stat.getPrevious() == 10);
 	}
 
-	public void testIntStatStringIntegerInteger() {
-		final IntStat stat = new IntStat("Owner", "Name", 10, 0, 20);
+	public void testStatStringIntegerInteger() {
+		final Stat stat = new Stat("Owner", "Name", 10, 0, 20);
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 10);
@@ -72,7 +72,7 @@ public class IntStatTest extends TestCase {
 	public void testAddChangeListener() {
 		final Listener listener = new Listener();
 
-		final IntStat stat = new IntStat("Owner", "Name");
+		final Stat stat = new Stat("Owner", "Name");
 		stat.addChangeListener(listener);
 
 		assertFalse(listener.notified);
@@ -87,7 +87,7 @@ public class IntStatTest extends TestCase {
 	}
 
 	public void testGet() {
-		final IntStat stat = new IntStat("Owner", "Name", 10);
+		final Stat stat = new Stat("Owner", "Name", 10);
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 10);
@@ -98,7 +98,7 @@ public class IntStatTest extends TestCase {
 	}
 
 	public void testInc() {
-		final IntStat stat = new IntStat("Owner", "Name", 10, 30);
+		final Stat stat = new Stat("Owner", "Name", 10, 30);
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 10);
@@ -114,7 +114,7 @@ public class IntStatTest extends TestCase {
 	}
 
 	public void testDec() {
-		final IntStat stat = new IntStat("Owner", "Name", 10);
+		final Stat stat = new Stat("Owner", "Name", 10);
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 10);
@@ -130,7 +130,7 @@ public class IntStatTest extends TestCase {
 	}
 
 	public void testSet() {
-		final IntStat stat = new IntStat("Owner", "Name", 10, 30);
+		final Stat stat = new Stat("Owner", "Name", 10, 30);
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 10);
@@ -151,13 +151,13 @@ public class IntStatTest extends TestCase {
 	}
 
 	public void testGetName() {
-		final IntStat stat = new IntStat("Owner", "Name", 10);
+		final Stat stat = new Stat("Owner", "Name", 10);
 
 		assertEquals("Name", stat.getName());
 	}
 
 	public void testGetPrevious() {
-		final IntStat stat = new IntStat("Owner", "Name", 10);
+		final Stat stat = new Stat("Owner", "Name", 10);
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 10);

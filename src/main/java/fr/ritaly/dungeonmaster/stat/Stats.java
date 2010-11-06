@@ -31,7 +31,7 @@ import fr.ritaly.dungeonmaster.event.ChangeListener;
 /**
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
-public class Stats implements ChangeListener, ClockListener {
+public final class Stats implements ChangeListener, ClockListener {
 
 	public static final String PROPERTY_WATER = "Water";
 
@@ -67,22 +67,22 @@ public class Stats implements ChangeListener, ClockListener {
 	 * values reach zero, the champion is starving: his stamina and health
 	 * decrease until he eats, drinks or dies.
 	 */
-	private final IntStat food;
+	private final Stat food;
 
-	private final IntStat water;
+	private final Stat water;
 
 	/**
 	 * This value represents how much damage a champion can take before dying.
 	 * You can regain Health points by sleeping and drinking healing potions.
 	 * Health also naturally increases over time, but slowly.
 	 */
-	private final IntStat health;
+	private final Stat health;
 
 	/**
 	 * This value determines the load a champion can carry, how far items can be
 	 * thrown and how much damage is done by melee attacks.
 	 */
-	private final IntStat strength;
+	private final Stat strength;
 
 	/**
 	 * This value represents the champion's ability to overcome fatigue. It
@@ -91,7 +91,7 @@ public class Stats implements ChangeListener, ClockListener {
 	 * health. You can regain Stamina points by sleeping and drinking Stamina
 	 * potions. Stamina also naturally increases over time, but slowly.
 	 */
-	private final IntStat stamina;
+	private final Stat stamina;
 
 	/**
 	 * This value represents the magical energy a champion has to cast spells.
@@ -102,31 +102,31 @@ public class Stats implements ChangeListener, ClockListener {
 	 * The speed of the increase of mana while you sleep depends on the Wisdom
 	 * and the Priest and Wizard levels of the champion.
 	 */
-	private final IntStat mana;
+	private final Stat mana;
 
 	/**
 	 * This value determines the accuracy of missiles and the odds of hitting
 	 * opponents in combat. It also helps the champion to avoid or reduce
 	 * physical damage.
 	 */
-	private final IntStat dexterity;
+	private final Stat dexterity;
 
 	/**
 	 * This value is important for spellcasters as it determines their ability
 	 * to master Magick. It also determines the speed of Mana recovery.
 	 */
-	private final IntStat wisdom;
+	private final Stat wisdom;
 
 	/**
 	 * This value determines how quickly a champion heals and regains stamina as
 	 * well as his poison resistance. It also helps to reduce damage.
 	 */
-	private final IntStat vitality;
+	private final Stat vitality;
 
 	/**
 	 * This value determines a champion's resistance to magic attacks.
 	 */
-	private final IntStat antiMagic;
+	private final Stat antiMagic;
 
 	/**
 	 * This value is not visible through the game user interface. It is used
@@ -137,14 +137,14 @@ public class Stats implements ChangeListener, ClockListener {
 	 * modified by some items: a Rabbit's Foot will increase it by 10, while
 	 * cursed items will decrease it by 3.
 	 */
-	private final IntStat luck;
+	private final Stat luck;
 
 	/**
 	 * This value determines a champion's resistance to fire damage.
 	 */
-	private final IntStat antiFire;
+	private final Stat antiFire;
 	
-	private final IntStat maxLoadBoost;
+	private final Stat maxLoadBoost;
 
 	private boolean initialized;
 
@@ -161,20 +161,20 @@ public class Stats implements ChangeListener, ClockListener {
 		this.champion = champion;
 
 		// Instancier ces membres depuis le constructeur permet de passer aux
-		// instances de IntStat le nom de son "propriétaire"
-		food = new IntStat(champion.getName(), PROPERTY_FOOD, 1500, 1500);
-		water = new IntStat(champion.getName(), PROPERTY_WATER, 1500, 1500);
-		health = new IntStat(champion.getName(), PROPERTY_HEALTH);
-		strength = new IntStat(champion.getName(), PROPERTY_STRENGTH);
-		stamina = new IntStat(champion.getName(), PROPERTY_STAMINA);
-		mana = new IntStat(champion.getName(), PROPERTY_MANA);
-		dexterity = new IntStat(champion.getName(), PROPERTY_DEXTERITY);
-		wisdom = new IntStat(champion.getName(), PROPERTY_WISDOM);
-		vitality = new IntStat(champion.getName(), PROPERTY_VITALITY);
-		antiFire = new IntStat(champion.getName(), PROPERTY_ANTI_FIRE);
-		antiMagic = new IntStat(champion.getName(), PROPERTY_ANTI_MAGIC);
-		luck = new IntStat(champion.getName(), PROPERTY_LUCK);
-		maxLoadBoost = new IntStat(champion.getName(), PROPERTY_MAX_LOAD_BOOST);
+		// instances de Stat le nom de son "propriétaire"
+		food = new Stat(champion.getName(), PROPERTY_FOOD, 1500, 1500);
+		water = new Stat(champion.getName(), PROPERTY_WATER, 1500, 1500);
+		health = new Stat(champion.getName(), PROPERTY_HEALTH);
+		strength = new Stat(champion.getName(), PROPERTY_STRENGTH);
+		stamina = new Stat(champion.getName(), PROPERTY_STAMINA);
+		mana = new Stat(champion.getName(), PROPERTY_MANA);
+		dexterity = new Stat(champion.getName(), PROPERTY_DEXTERITY);
+		wisdom = new Stat(champion.getName(), PROPERTY_WISDOM);
+		vitality = new Stat(champion.getName(), PROPERTY_VITALITY);
+		antiFire = new Stat(champion.getName(), PROPERTY_ANTI_FIRE);
+		antiMagic = new Stat(champion.getName(), PROPERTY_ANTI_MAGIC);
+		luck = new Stat(champion.getName(), PROPERTY_LUCK);
+		maxLoadBoost = new Stat(champion.getName(), PROPERTY_MAX_LOAD_BOOST);
 
 		// Ecouter les évènements levés par les stats
 		food.addChangeListener(this);
@@ -207,13 +207,13 @@ public class Stats implements ChangeListener, ClockListener {
 		return champion;
 	}
 
-	public IntStat getFood() {
+	public Stat getFood() {
 		assertInitialized();
 
 		return food;
 	}
 
-	public IntStat getWater() {
+	public Stat getWater() {
 		assertInitialized();
 
 		return water;
@@ -234,31 +234,31 @@ public class Stats implements ChangeListener, ClockListener {
 	}
 
 	protected void firePropertyChangeEvent(Object source) {
-		final Stat<Number> stat = (Stat<Number>) source;
+		final Stat stat = (Stat) source;
 
 		changeSupport.firePropertyChange(stat.getName(), stat.getPrevious(),
 				stat.value());
 	}
 
-	public IntStat getHealth() {
+	public Stat getHealth() {
 		assertInitialized();
 
 		return health;
 	}
 
-	public IntStat getStrength() {
+	public Stat getStrength() {
 		assertInitialized();
 
 		return strength;
 	}
 
-	public IntStat getStamina() {
+	public Stat getStamina() {
 		assertInitialized();
 
 		return stamina;
 	}
 
-	public IntStat getMana() {
+	public Stat getMana() {
 		assertInitialized();
 
 		return mana;
@@ -309,19 +309,19 @@ public class Stats implements ChangeListener, ClockListener {
 		initialized = true;
 	}
 
-	public IntStat getDexterity() {
+	public Stat getDexterity() {
 		assertInitialized();
 
 		return dexterity;
 	}
 
-	public IntStat getWisdom() {
+	public Stat getWisdom() {
 		assertInitialized();
 
 		return wisdom;
 	}
 
-	public IntStat getVitality() {
+	public Stat getVitality() {
 		assertInitialized();
 
 		return vitality;
@@ -369,25 +369,25 @@ public class Stats implements ChangeListener, ClockListener {
 		return true;
 	}
 
-	public IntStat getAntiMagic() {
+	public Stat getAntiMagic() {
 		assertInitialized();
 
 		return antiMagic;
 	}
 
-	public IntStat getAntiFire() {
+	public Stat getAntiFire() {
 		assertInitialized();
 
 		return antiFire;
 	}
 
-	public IntStat getLuck() {
+	public Stat getLuck() {
 		assertInitialized();
 
 		return luck;
 	}
 	
-	public IntStat getMaxLoadBoost() {
+	public Stat getMaxLoadBoost() {
 		assertInitialized();
 
 		return maxLoadBoost;

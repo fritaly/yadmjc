@@ -23,7 +23,7 @@ import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.body.WeaponHand;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
-import fr.ritaly.dungeonmaster.stat.IntStat;
+import fr.ritaly.dungeonmaster.stat.Stat;
 import junit.framework.TestCase;
 
 public class CurseTest extends TestCase {
@@ -79,7 +79,7 @@ public class CurseTest extends TestCase {
 		final Torch torch = new Torch();
 		torch.curse(PowerRune.EE);
 
-		final IntStat luck = tiggy.getStats().getLuck();
+		final Stat luck = tiggy.getStats().getLuck();
 		luck.value(10);
 
 		// --- La chance doit valoir initialement 10 points

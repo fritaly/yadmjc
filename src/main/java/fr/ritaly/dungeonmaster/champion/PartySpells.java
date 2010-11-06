@@ -24,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Temporizer;
-import fr.ritaly.dungeonmaster.stat.IntStat;
+import fr.ritaly.dungeonmaster.stat.Stat;
 
 /**
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
@@ -35,15 +35,15 @@ public class PartySpells implements ClockListener {
 
 	private final Party party;
 
-	private final IntStat invisibility;
+	private final Stat invisibility;
 	
-	private final IntStat antiMagic;
+	private final Stat antiMagic;
 	
-	private final IntStat shield;
+	private final Stat shield;
 	
-	private final IntStat dispellIllusion;
+	private final Stat dispellIllusion;
 	
-	private final IntStat seeThroughWalls;
+	private final Stat seeThroughWalls;
 
 	private final Temporizer temporizer = new Temporizer("Party.Spells", 4);
 
@@ -51,11 +51,11 @@ public class PartySpells implements ClockListener {
 		Validate.isTrue(party != null, "The given party is null");
 
 		this.party = party;
-		this.invisibility = new IntStat("Party.Spells", "Invisibility");
-		this.antiMagic = new IntStat("Party.Spells", "AntiMagic");
-		this.shield = new IntStat("Party.Spells", "Shield");
-		this.dispellIllusion = new IntStat("Party.Spells", "DispellIllusion");
-		this.seeThroughWalls = new IntStat("Party.Spells", "SeeThroughWalls");
+		this.invisibility = new Stat("Party.Spells", "Invisibility");
+		this.antiMagic = new Stat("Party.Spells", "AntiMagic");
+		this.shield = new Stat("Party.Spells", "Shield");
+		this.dispellIllusion = new Stat("Party.Spells", "DispellIllusion");
+		this.seeThroughWalls = new Stat("Party.Spells", "SeeThroughWalls");
 	}
 
 	@Override
@@ -122,23 +122,23 @@ public class PartySpells implements ClockListener {
 		return party;
 	}
 	
-	public IntStat getAntiMagic() {
+	public Stat getAntiMagic() {
 		return antiMagic;
 	}
 	
-	public IntStat getShield() {
+	public Stat getShield() {
 		return shield;
 	}
 	
-	public IntStat getInvisibility() {
+	public Stat getInvisibility() {
 		return invisibility;
 	}
 
-	public IntStat getDispellIllusion() {
+	public Stat getDispellIllusion() {
 		return dispellIllusion;
 	}
 
-	public IntStat getSeeThroughWalls() {
+	public Stat getSeeThroughWalls() {
 		return seeThroughWalls;
 	}
 }

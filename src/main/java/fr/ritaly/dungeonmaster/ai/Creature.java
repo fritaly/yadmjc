@@ -40,7 +40,7 @@ import fr.ritaly.dungeonmaster.item.MiscItem;
 import fr.ritaly.dungeonmaster.item.Weapon;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
-import fr.ritaly.dungeonmaster.stat.IntStat;
+import fr.ritaly.dungeonmaster.stat.Stat;
 
 /**
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
@@ -1235,7 +1235,7 @@ public class Creature implements ChangeListener, ClockListener {
 
 	private final Type type;
 
-	private final IntStat health;
+	private final Stat health;
 
 	private final List<Item> absorbedItems = new ArrayList<Item>();
 
@@ -1255,7 +1255,7 @@ public class Creature implements ChangeListener, ClockListener {
 		final int healthPoints = (multiplier * getType().getBaseHealth())
 				+ Utils.random(getType().getBaseHealth() / 4);
 
-		this.health = new IntStat(getId(), "Health", healthPoints, healthPoints);
+		this.health = new Stat(getId(), "Health", healthPoints, healthPoints);
 		this.health.addChangeListener(this);
 	}
 

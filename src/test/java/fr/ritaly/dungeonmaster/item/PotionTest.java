@@ -24,7 +24,7 @@ import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
-import fr.ritaly.dungeonmaster.stat.IntStat;
+import fr.ritaly.dungeonmaster.stat.Stat;
 
 public class PotionTest extends TestCase {
 
@@ -35,10 +35,10 @@ public class PotionTest extends TestCase {
 		super(name);
 	}
 
-	private void testPotion(Champion tiggy, IntStat statistic,
+	private void testPotion(Champion tiggy, Stat statistic,
 			fr.ritaly.dungeonmaster.item.Item.Type itemType) {
 
-		final IntStat stat = statistic;
+		final Stat stat = statistic;
 
 		stat.value(1);
 		assertEquals(1, stat.actualValue().intValue());

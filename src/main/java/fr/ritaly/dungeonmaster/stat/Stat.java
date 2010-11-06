@@ -32,9 +32,7 @@ import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 
 /**
- * Une {@link Stat} représente une caractéristique de {@link Champion}. La
- * classe est paramétrée par le type T (qui étend {@link Number}) afin de
- * permettre l'utilisation de statistiques de type entière ou décimale. Une
+ * Une {@link Stat} représente une caractéristique de {@link Champion}. Une
  * {@link Stat} est caractérisée par 4 valeurs:
  * <ul>
  * <li>La valeur de base: cf {@link #value}</li>
@@ -50,10 +48,9 @@ import fr.ritaly.dungeonmaster.event.ChangeListener;
  * La valeur de base est toujours dans l'intervalle [min, max]. Cette contrainte
  * ne s'applique pas au boost ou à la valeur réelle.
  * 
- * @param <T>
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
-public abstract class Stat<T extends Number> implements ChangeEventSource {
+public final class Stat implements ChangeEventSource {
 
 	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
@@ -62,9 +59,9 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 	/**
 	 * La valeur de base de la statistique.
 	 */
-	private T value;
+	private Integer value;
 
-	private T previous;
+	private Integer previous;
 
 	/**
 	 * Le nom de la statistique. Permet de générer des logs parlantes. Exemple:
@@ -75,17 +72,17 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 	/**
 	 * La valeur minimale que peut prendre la valeur de base.
 	 */
-	private T min;
+	private Integer min;
 
 	/**
 	 * La valeur maximale que peut prendre la valeur de base.
 	 */
-	private T max;
+	private Integer max;
 
 	/**
 	 * La valeur de boost.
 	 */
-	private T boost;
+	private Integer boost;
 
 	/**
 	 * Le propriétaire de la statistique. Permet de générer des logs parlantes.
@@ -109,7 +106,7 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 		this.previous = value;
 	}
 
-	public Stat(String owner, String name, T initialValue) {
+	public Stat(String owner, String name, Integer initialValue) {
 		// owner peut être null
 		if ((name == null) || (name.trim().length() == 0)) {
 			throw new IllegalArgumentException("The given name <" + name
@@ -129,7 +126,7 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 		this.previous = value;
 	}
 
-	public Stat(String owner, String name, T initialValue, T maxValue) {
+	public Stat(String owner, String name, Integer initialValue, Integer maxValue) {
 		// owner peut être null
 		if ((name == null) || (name.trim().length() == 0)) {
 			throw new IllegalArgumentException("The given name <" + name
@@ -156,8 +153,8 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 		this.previous = value;
 	}
 
-	public Stat(String owner, String name, T initialValue, T minValue,
-			T maxValue) {
+	public Stat(String owner, String name, Integer initialValue, Integer minValue,
+			Integer maxValue) {
 
 		// owner peut être null
 		if ((name == null) || (name.trim().length() == 0)) {
@@ -206,9 +203,9 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 	/**
 	 * Retourne la valeur de base (c'est-à-dire non boostée) de la statistique.
 	 * 
-	 * @return une instance de T.
+	 * @return une instance de Integer.
 	 */
-	public T value() {
+	public Integer value() {
 		return value;
 	}
 
@@ -216,9 +213,9 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 	 * Retourne la valeur réelle (c'est-à-dire avec l'éventuel boost) de la
 	 * statistique.
 	 * 
-	 * @return une instance de T.
+	 * @return une instance de Integer.
 	 */
-	public T actualValue() {
+	public Integer actualValue() {
 		if (boost.floatValue() != 0.0f) {
 			return create(value.floatValue() + boost.floatValue());
 		}
@@ -287,9 +284,9 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 	/**
 	 * Retourne la valeur maximale de la valeur de base.
 	 * 
-	 * @return une instance de T.
+	 * @return une instance de Integer.
 	 */
-	public T maxValue() {
+	public Integer maxValue() {
 		return max;
 	}
 
@@ -297,9 +294,9 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 	 * Retourne la valeur réelle maximale (c'est-à-dire avec l'éventuel boost)
 	 * de la statistique.
 	 * 
-	 * @return une instance de T.
+	 * @return une instance de Integer.
 	 */
-	public T actualMaxValue() {
+	public Integer actualMaxValue() {
 		if (boost.floatValue() != 0.0f) {
 			return create(max.floatValue() + boost.floatValue());
 		}
@@ -310,9 +307,9 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 	/**
 	 * Retourne la valeur du boost.
 	 * 
-	 * @return une instance de T.
+	 * @return une instance de Integer.
 	 */
-	public T boostValue() {
+	public Integer boostValue() {
 		return this.boost;
 	}
 
@@ -324,7 +321,7 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 	 *            la quantité dont le boost doit être incrémenté.
 	 * @return la nouvelle valeur du boost.
 	 */
-	public T incBoost(final T n) {
+	public Integer incBoost(final Integer n) {
 		return incBoost(n, -1);
 	}
 
@@ -341,13 +338,13 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 	 *            rend la modification "éternelle".
 	 * @return la nouvelle valeur du boost.
 	 */
-	public T incBoost(final T n, int duration) {
+	public Integer incBoost(final Integer n, int duration) {
 		if (n.floatValue() == 0) {
 			// On ne fait rien si paramètre à 0
 			return boostValue();
 		}
 
-		final T oldValue = this.boost;
+		final Integer oldValue = this.boost;
 		final float actual = boost.floatValue() + n.floatValue();
 		final float delta = actual - oldValue.floatValue();
 
@@ -383,13 +380,13 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 		return boostValue();
 	}
 
-	public T inc(T n) {
+	public Integer inc(Integer n) {
 		if (n.floatValue() == 0) {
 			// On ne fait rien si paramètre à 0
 			return value();
 		}
 
-		final T oldValue = this.value;
+		final Integer oldValue = this.value;
 		final float actual = getActual(value.floatValue() + n.floatValue());
 		final float delta = actual - oldValue.floatValue();
 
@@ -405,13 +402,13 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 		return value();
 	}
 
-	public T incMax(T n) {
+	public Integer incMax(Integer n) {
 		if (n.floatValue() == 0) {
 			// On ne fait rien si paramètre à 0
 			return maxValue();
 		}
 
-		final T oldValue = this.max;
+		final Integer oldValue = this.max;
 		final float actual = this.max.floatValue() + n.floatValue();
 		final float delta = actual - oldValue.floatValue();
 
@@ -427,13 +424,13 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 		return maxValue();
 	}
 
-	public T decMax(T n) {
+	public Integer decMax(Integer n) {
 		if (n.floatValue() == 0) {
 			// On ne fait rien si paramètre à 0
 			return maxValue();
 		}
 
-		final T oldValue = this.max;
+		final Integer oldValue = this.max;
 		final float actual = this.max.floatValue() - n.floatValue();
 		final float delta = actual - oldValue.floatValue();
 
@@ -450,25 +447,25 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 		return maxValue();
 	}
 
-	public T dec() {
+	public Integer dec() {
 		return dec(create(1));
 	}
 
-	public T inc() {
+	public Integer inc() {
 		return inc(create(1));
 	}
 
-	public T decBoost(final T n) {
+	public Integer decBoost(final Integer n) {
 		return decBoost(n, -1);
 	}
 
-	public T decBoost(final T n, int duration) {
+	public Integer decBoost(final Integer n, int duration) {
 		if (n.floatValue() == 0) {
 			// On ne fait rien si paramètre à 0
 			return boostValue();
 		}
 
-		final T oldValue = this.boost;
+		final Integer oldValue = this.boost;
 		final float actual = boost.floatValue() - n.floatValue();
 		final float delta = actual - oldValue.floatValue();
 
@@ -504,13 +501,13 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 		return value();
 	}
 
-	public T dec(T n) {
+	public Integer dec(Integer n) {
 		if (n.floatValue() == 0) {
 			// On ne fait rien si paramètre à 0
 			return value();
 		}
 
-		final T oldValue = this.value;
+		final Integer oldValue = this.value;
 		final float actual = getActual(value.floatValue() - n.floatValue());
 		final float delta = actual - oldValue.floatValue();
 
@@ -539,8 +536,8 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 		}
 	}
 
-	public void value(T n) {
-		final T oldValue = value;
+	public void value(Integer n) {
+		final Integer oldValue = value;
 		final float actual = getActual(n.floatValue());
 		final float delta = actual - oldValue.floatValue();
 
@@ -554,20 +551,20 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 		}
 	}
 
-	public void maxValue(T newMax) {
+	public void maxValue(Integer newMax) {
 		if (max.floatValue() <= min.floatValue()) {
 			throw new IllegalArgumentException("The given max value <" + newMax
 					+ "> must be greater than the min value <"
 					+ min.floatValue() + ">");
 		}
 
-		final T oldMax = max;
+		final Integer oldMax = max;
 
 		if (newMax.floatValue() < oldMax.floatValue()) {
 			// La valeur max a diminué
 			if (value.floatValue() > newMax.floatValue()) {
 				// Diminuer la valeur d'abord
-				final T oldValue = value;
+				final Integer oldValue = value;
 				value = create(newMax.floatValue());
 				previous = oldValue;
 
@@ -604,7 +601,17 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 		}
 	}
 
-	protected abstract T create(float value);
+	protected Integer create(float value) {
+		// Ne pas générer de dépassement de capacité
+		if (value >= Integer.MAX_VALUE) {
+			return Integer.MAX_VALUE;
+		}
+		if (value <= Integer.MIN_VALUE) {
+			return Integer.MIN_VALUE;
+		}
+
+		return Integer.valueOf((int) value);
+	}
 
 	public String getName() {
 		return name;
@@ -639,7 +646,7 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 		return builder.toString();
 	}
 
-	public T getPrevious() {
+	public Integer getPrevious() {
 		return previous;
 	}
 
@@ -665,7 +672,7 @@ public abstract class Stat<T extends Number> implements ChangeEventSource {
 	}
 
 	// FIXME Méthode à renommer
-	public T improve(int min, int max) {
+	public Integer improve(int min, int max) {
 		Validate.isTrue(min >= 0);
 		Validate.isTrue(max >= 0);
 		Validate.isTrue(min <= max);
