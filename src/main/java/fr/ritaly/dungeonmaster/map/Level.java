@@ -180,12 +180,6 @@ public class Level {
 		return elements[x][y];
 	}
 
-	public Element getElement(Position position) {
-		Validate.notNull(position);
-
-		return getElement(position.x, position.y);
-	}
-
 	public int getLevel() {
 		return level;
 	}

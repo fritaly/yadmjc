@@ -66,7 +66,7 @@ public abstract class DirectedElement extends Element {
 
 		final Level level = getLevel();
 
-		return Arrays.asList(level.getElement(position1),
-				level.getElement(position2));
+		return Arrays.asList(level.getElement(position1.x, position1.y),
+				level.getElement(position2.x, position2.y));
 	}
 }
