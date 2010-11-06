@@ -29,9 +29,9 @@ import fr.ritaly.dungeonmaster.map.Door;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Wall;
 
-public class ProjectileTest extends TestCase {
+public class SpellProjectileTest extends TestCase {
 
-	public ProjectileTest(String name) {
+	public SpellProjectileTest(String name) {
 		super(name);
 	}
 
