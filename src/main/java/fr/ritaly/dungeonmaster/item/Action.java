@@ -24,12 +24,14 @@ import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Skill;
+import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.map.Pit;
+import fr.ritaly.dungeonmaster.projectile.ItemProjectile;
 
 /**
  * Une {@link Action} qu'un champion peut réaliser à l'aide d'un {@link Item}.
@@ -182,10 +184,24 @@ public enum Action {
 		return xp;
 	}
 
-	// FIXME Implémenter les actions
+	// FIXME Implémenter les actions -> Créer squelettes de méthode de test
 	public boolean perform(Dungeon dungeon, Champion champion) {
 		// Le champion peut être à null selon les actions
 		Validate.isTrue(dungeon != null, "The given dungeon is null");
+
+		if (champion != null) {
+			Validate.isTrue(champion.isAlive(), "The given champion is dead");
+		}
+
+		// Déterminer l'objet utilisé en récupérant celui tenu par le champion
+		final Item item = champion.getBody().getWeaponHand().getItem();
+
+		// L'objet récupéré ne peut pas être null !
+		if (item == null) {
+			throw new IllegalStateException("The given champion "
+					+ champion.getName()
+					+ " doesn't hold any item in its weapon hand");
+		}
 
 		if (Action.CLIMB_DOWN.equals(this)) {
 			// Le groupe doit être face à une oubliette
@@ -223,14 +239,14 @@ public enum Action {
 			// faire avancer de une position vers l'avant le groupe !!! Le cas
 			// de plusieurs oubliettes "empilées" est traité par la méthode
 			// Dungeon.teleportParty()
-			
-			// Passer le groupe dans l'état CLIMBING_DOWN le temps de la 
+
+			// Passer le groupe dans l'état CLIMBING_DOWN le temps de la
 			// descente
 			champion.getParty().setState(Party.State.CLIMBING_DOWN);
-			
+
 			dungeon.teleportParty(target, // target.towards(Direction.DOWN),
 					lookDirection, true);
-			
+
 			// Sortir de l'état CLIMBING_DOWN
 			champion.getParty().setState(Party.State.NORMAL);
 
@@ -238,10 +254,10 @@ public enum Action {
 			champion.gainExperience(improvedSkill,
 					computeEarnedExperience(dungeon));
 		} else if (Action.HEAL.equals(this)) {
-			// Guérir le groupe
+			// TODO Guérir le groupe ou seulement le porteur de l'objet ?
 			final int healPoints = Utils.random(10, 30);
-			
-			// On ne peut soigner que les héros vivants (les morts doivent être 
+
+			// On ne peut soigner que les héros vivants (les morts doivent être
 			// ressuscités avant via un autel)
 			for (Champion aChampion : dungeon.getParty().getChampions(false)) {
 				aChampion.getStats().getHealth().inc(healPoints);
@@ -250,6 +266,54 @@ public enum Action {
 			// Le champion gagne de l'expérience
 			champion.gainExperience(improvedSkill,
 					computeEarnedExperience(dungeon));
+		} else if (Action.THROW.equals(this)) {
+			// TODO Implémenter lancer d'objet sans passer par une action (UI)
+			// avec gain d'expérience
+			// TODO Calculer la portée du projectile (fonction de la force du
+			// champion, etc)
+
+			// Lancer l'objet dans la main du champion
+			final Direction direction = champion.getParty()
+					.getDirection();
+			
+			final SubCell subCell;
+			
+			switch (direction) {
+			case EAST:
+				if (champion.getSubCell().isTowardsNorth()) {
+					subCell = SubCell.NORTH_WEST;
+				} else {
+					subCell = SubCell.SOUTH_WEST;
+				}
+				break;
+			case NORTH:
+				if (champion.getSubCell().isTowardsEast()) {
+					subCell = SubCell.SOUTH_EAST;
+				} else {
+					subCell = SubCell.SOUTH_WEST;
+				}
+				break;
+			case SOUTH:
+				if (champion.getSubCell().isTowardsEast()) {
+					subCell = SubCell.NORTH_EAST;
+				} else {
+					subCell = SubCell.NORTH_WEST;
+				}
+				break;
+			case WEST:
+				if (champion.getSubCell().isTowardsNorth()) {
+					subCell = SubCell.NORTH_EAST;
+				} else {
+					subCell = SubCell.SOUTH_EAST;
+				}
+				break;
+				default:
+					throw new RuntimeException();
+			}
+			
+			// Le projectile apparaît sur la position voisine 
+			new ItemProjectile(item, dungeon, champion.getParty().getPosition()
+					.towards(direction), direction, subCell, 30);
 		} else {
 			// TODO Calculer si le coup a porté
 			final boolean success = true;
@@ -270,8 +334,12 @@ public enum Action {
 		// Le champion consomme de la stamina
 		champion.getStats().getStamina().dec(stamina);
 
-		// Main indisponible en fonction de la fatigue associée à l'action
-		champion.getBody().getWeaponHand().disable(fatigue);
+		if (fatigue > 0) {
+			// Main indisponible en fonction de la fatigue associée à l'action
+			champion.getBody().getWeaponHand().disable(fatigue);			
+		} else {
+			// Quid des actions dont la fatigue est nulle (THROW par ex) ?
+		}
 
 		return true;
 	}

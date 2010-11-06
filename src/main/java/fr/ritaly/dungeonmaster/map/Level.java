@@ -353,4 +353,6 @@ public class Level {
 
 		System.out.println(level.draw());
 	}
+	
+	// TODO Méthode de récupération des projectiles du niveau
 }

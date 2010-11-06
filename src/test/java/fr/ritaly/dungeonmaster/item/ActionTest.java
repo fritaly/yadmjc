@@ -18,12 +18,19 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
+import fr.ritaly.dungeonmaster.Clock;
+import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
+import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.map.Dungeon;
+import fr.ritaly.dungeonmaster.map.Element;
+import fr.ritaly.dungeonmaster.map.Level;
+import fr.ritaly.dungeonmaster.map.ProjectileLauncher;
+import fr.ritaly.dungeonmaster.projectile.ItemProjectileFactory;
 import junit.framework.TestCase;
 
 public class ActionTest extends TestCase {
@@ -90,5 +97,84 @@ public class ActionTest extends TestCase {
 		assertTrue(daroou.getStats().getHealth().value() > daroouHealth);
 		assertTrue(halk.getStats().getHealth().value() > halkHealth);
 		assertTrue(wuuf.getStats().getHealth().value() > wuufHealth);
+	}
+	
+	public void testThrowAction() throws Throwable {
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | <-+---+ P | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+
+		final Weapon dagger = new Weapon(Item.Type.DAGGER);
+		
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+		tiggy.getBody().getWeaponHand().putOn(dagger);
+		
+		final Party party = new Party(tiggy);
+		party.setDirection(Direction.WEST);
+		
+		final Dungeon dungeon = new Dungeon();
+
+		final Level level1 = dungeon.createLevel(1, 10, 10);
+		
+		dungeon.setParty(8, 5, 1, party);
+
+		// --- Pas d'objet au sol initialement
+		final Element target = level1.getElement(1, 5);
+		final Element neighbour = level1.getElement(7, 5);
+		
+		assertFalse(target.hasItem());
+
+		// --- Déclencher l'action de lancer
+		dagger.perform(Action.THROW);
+
+		// --- Un projectile doit être apparu sur la position voisine en SE
+		assertTrue(neighbour.hasProjectiles());
+		assertEquals(1, neighbour.getProjectiles().size());
+		assertNotNull(neighbour.getProjectiles().get(SubCell.SOUTH_EAST));
+
+		assertFalse(target.hasProjectiles());
+
+		// Laisser le projectile bouger
+		Clock.getInstance().tick(3);
+
+		// --- Vérifier le déplacement du projectile en SW
+		assertTrue(neighbour.hasProjectiles());
+		assertEquals(1, neighbour.getProjectiles().size());
+		assertNotNull(neighbour.getProjectiles().get(SubCell.SOUTH_WEST));
+
+		assertFalse(target.hasProjectiles());
+
+		// Laisser le projectile atteindre le mur opposée (attendre suffisamment
+		// longtemps)
+		Clock.getInstance().tick(60);
+
+		assertFalse(neighbour.hasProjectiles());
+		assertFalse(target.hasProjectiles());
+
+		// Il doit y avoir 1 objet au sol
+		assertEquals(1, target.getItemCount());
+
+		assertFalse(target.getItems(SubCell.SOUTH_WEST).isEmpty());
+		assertEquals(1, target.getItemCount(SubCell.SOUTH_WEST));
+		assertEquals(Item.Type.DAGGER, target.getItems(SubCell.SOUTH_WEST)
+				.iterator().next().getType());
 	}
 }
