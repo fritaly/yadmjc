@@ -19,6 +19,7 @@
 package fr.ritaly.dungeonmaster.stat;
 
 import junit.framework.TestCase;
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.event.ChangeEvent;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 
@@ -172,5 +173,34 @@ public class StatTest extends TestCase {
 
 		assertTrue(stat.value() == 30);
 		assertTrue(stat.getPrevious() == 20);
+	}
+	
+	public void testStatBoostWearsOff() {
+		final Stat stat = new Stat("Test", "Stat", 1);
+
+		// --- Vérifier l'état initial
+		assertEquals(1, stat.actualValue().intValue());
+		assertEquals(1, stat.value().intValue());
+		assertEquals(0, stat.boostValue().intValue());
+
+		// --- Augmenter le boost pour 6 tics
+		stat.incBoost(10, 6);
+
+		assertEquals(11, stat.actualValue().intValue()); // <---
+		assertEquals(1, stat.value().intValue());
+		assertEquals(10, stat.boostValue().intValue()); // <---
+
+		// Attendre que l'effet du boost se dissipe
+		Clock.getInstance().tick(5);
+
+		assertEquals(11, stat.actualValue().intValue()); // <---
+		assertEquals(1, stat.value().intValue());
+		assertEquals(10, stat.boostValue().intValue());
+
+		Clock.getInstance().tick();
+
+		assertEquals(1, stat.actualValue().intValue()); // <---
+		assertEquals(1, stat.value().intValue());
+		assertEquals(0, stat.boostValue().intValue()); // <---
 	}
 }

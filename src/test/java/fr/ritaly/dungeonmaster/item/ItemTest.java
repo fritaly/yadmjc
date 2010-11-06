@@ -20,7 +20,12 @@ package fr.ritaly.dungeonmaster.item;
 
 import java.util.EnumSet;
 
+import fr.ritaly.dungeonmaster.champion.Champion;
+import fr.ritaly.dungeonmaster.champion.ChampionFactory;
+import fr.ritaly.dungeonmaster.champion.Party;
+import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.item.Item.Category;
+import fr.ritaly.dungeonmaster.stat.Stat;
 import junit.framework.TestCase;
 
 public class ItemTest extends TestCase {
@@ -76,5 +81,69 @@ public class ItemTest extends TestCase {
 						consumable);
 			}
 		}
+	}
+	
+	public void testEffectOfItemOnChampion() {
+		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+
+		Party party = new Party();
+		party.addChampion(tiggy);
+
+		final Item cloak = new Cloth(Item.Type.CLOAK_OF_NIGHT);
+
+		final int initialDexterity = tiggy.getStats().getDexterity()
+				.actualValue();
+
+		// --- Mettre la cape en main -> pas d'effet constaté
+		assertNull(tiggy.getBody().getWeaponHand().putOn(cloak));
+		assertEquals(initialDexterity, tiggy.getStats().getDexterity()
+				.actualValue().intValue());
+
+		// --- Retirer la cape -> pas d'effet constaté
+		assertEquals(cloak, tiggy.getBody().getWeaponHand().takeOff());
+		assertEquals(initialDexterity, tiggy.getStats().getDexterity()
+				.actualValue().intValue());
+
+		// --- Mettre la cape sur le dos -> effet constaté
+		assertNull(tiggy.getBody().getNeck().putOn(cloak));
+		assertEquals(initialDexterity + 8, tiggy.getStats().getDexterity()
+				.actualValue().intValue());
+
+		// --- Retirer la cape -> effet constaté
+		assertEquals(cloak, tiggy.getBody().getNeck().takeOff());
+		assertEquals(initialDexterity, tiggy.getStats().getDexterity()
+				.actualValue().intValue());
+	}
+	
+	public void testInfluenceOfElvenBootsOnMaxLoad() {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(
+				Name.TIGGY);
+
+		final Item elvenBoots = ItemFactory.getFactory().newItem(
+				Item.Type.ELVEN_BOOTS);
+
+		final Stat maxLoadBoost = tiggy.getStats().getMaxLoadBoost();
+		final float maxLoad1 = tiggy.getStats().getActualMaxLoad();
+		final float maxLoad2 = tiggy.getMaxLoad();
+
+		// --- Le boost doit valoir initialement 0
+		assertEquals(0, maxLoadBoost.actualValue().intValue());
+
+		// --- Tiggy met les bottes, le boost augmente de +14
+		tiggy.getBody().getFeet().putOn(elvenBoots);
+
+		assertEquals(+14, maxLoadBoost.actualValue().intValue());
+		assertEquals(maxLoad1 + 14, tiggy.getStats().getActualMaxLoad(), 0.00001f);
+		assertEquals(maxLoad2 + 14, tiggy.getMaxLoad(), 0.00001f);
+
+		// --- Tiggy retire les bottes, le boost diminue de +14
+		final Item item = tiggy.getBody().getFeet().takeOff(true);
+
+		assertNotNull(item);
+		assertEquals(elvenBoots, item);
+		
+		assertEquals(0, maxLoadBoost.actualValue().intValue());
+		assertEquals(maxLoad1, tiggy.getStats().getActualMaxLoad(), 0.00001f);
+		assertEquals(maxLoad2, tiggy.getMaxLoad(), 0.00001f);
 	}
 }
