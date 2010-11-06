@@ -16,7 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster;
+package fr.ritaly.dungeonmaster.projectile;
+
+import fr.ritaly.dungeonmaster.ClockListener;
+import fr.ritaly.dungeonmaster.HasDirection;
+import fr.ritaly.dungeonmaster.HasPosition;
 
 /**
  * A projectile (or missile).

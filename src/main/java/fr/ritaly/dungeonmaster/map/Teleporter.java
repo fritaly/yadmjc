@@ -23,13 +23,13 @@ import org.apache.commons.lang.Validate;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.Projectile;
 import fr.ritaly.dungeonmaster.DirectionTransform;
 import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.actuator.Triggered;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
+import fr.ritaly.dungeonmaster.projectile.Projectile;
 
 /**
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>

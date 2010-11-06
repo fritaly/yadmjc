@@ -1,7 +1,10 @@
-package fr.ritaly.dungeonmaster;
+package fr.ritaly.dungeonmaster.projectile;
 
 import org.apache.commons.lang.Validate;
 
+import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.Position;
+import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 

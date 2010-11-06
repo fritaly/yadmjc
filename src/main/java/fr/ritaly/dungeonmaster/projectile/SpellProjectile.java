@@ -16,12 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster;
+package fr.ritaly.dungeonmaster.projectile;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.Position;
+import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.audio.SoundSystem;
 import fr.ritaly.dungeonmaster.champion.Champion;

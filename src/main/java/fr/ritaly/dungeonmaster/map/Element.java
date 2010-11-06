@@ -37,7 +37,6 @@ import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.HasPosition;
 import fr.ritaly.dungeonmaster.PoisonCloud;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.Projectile;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.Teleport;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
@@ -48,6 +47,7 @@ import fr.ritaly.dungeonmaster.event.ChangeEventSource;
 import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.item.Item;
+import fr.ritaly.dungeonmaster.projectile.Projectile;
 
 /**
  * Un élément permettant de construire des niveaux de donjon.

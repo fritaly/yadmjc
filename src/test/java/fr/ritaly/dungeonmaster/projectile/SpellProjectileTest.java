@@ -16,9 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster;
+package fr.ritaly.dungeonmaster.projectile;
 
 import junit.framework.TestCase;
+import fr.ritaly.dungeonmaster.Clock;
+import fr.ritaly.dungeonmaster.Orientation;
+import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;

@@ -21,10 +21,10 @@ package fr.ritaly.dungeonmaster.map;
 import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.SpellProjectileFactory;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
+import fr.ritaly.dungeonmaster.projectile.SpellProjectileFactory;
 
 public class ProjectileLauncherTest extends TestCase {
 

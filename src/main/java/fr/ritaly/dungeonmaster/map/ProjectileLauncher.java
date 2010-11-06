@@ -26,13 +26,13 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.Projectile;
-import fr.ritaly.dungeonmaster.ProjectileFactory;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
 import fr.ritaly.dungeonmaster.actuator.Triggered;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
+import fr.ritaly.dungeonmaster.projectile.Projectile;
+import fr.ritaly.dungeonmaster.projectile.ProjectileFactory;
 
 /**
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>

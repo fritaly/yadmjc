@@ -44,9 +44,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
 
 import fr.ritaly.dungeonmaster.Immutable;
-import fr.ritaly.dungeonmaster.Projectile;
 import fr.ritaly.dungeonmaster.Skill;
-import fr.ritaly.dungeonmaster.SpellProjectile;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Level;
@@ -55,6 +53,8 @@ import fr.ritaly.dungeonmaster.item.EmptyFlask;
 import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.item.Potion;
+import fr.ritaly.dungeonmaster.projectile.Projectile;
+import fr.ritaly.dungeonmaster.projectile.SpellProjectile;
 
 /**
  * Un sort lancé par un champion, une créature ou un piège. Un sort est créé en
