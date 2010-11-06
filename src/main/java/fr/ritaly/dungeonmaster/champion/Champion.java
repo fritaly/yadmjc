@@ -1540,4 +1540,9 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	public Location getLocation() {
 		return (party != null) ? party.getLocation(this) : null;
 	}
+	
+	public SubCell getSubCell() {
+		return (party != null) ? getLocation().toSubCell(
+				getParty().getDirection()) : null;
+	}
 }

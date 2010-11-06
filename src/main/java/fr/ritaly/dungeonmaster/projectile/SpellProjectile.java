@@ -48,8 +48,7 @@ public final class SpellProjectile extends AbstractProjectile {
 		// TODO Distance à calculer
 		super(champion.getParty().getDungeon(), champion.getParty()
 				.getPosition(), champion.getParty().getDirection(), champion
-				.getLocation().toSubCell(champion.getParty().getDirection()),
-				spell.getDuration());
+				.getSubCell(), spell.getDuration());
 
 		Validate.isTrue(spell.isValid(), "The given spell <" + spell.getName()
 				+ "> isn't valid");
