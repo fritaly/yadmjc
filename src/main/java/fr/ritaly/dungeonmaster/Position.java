@@ -18,6 +18,8 @@
  */
 package fr.ritaly.dungeonmaster;
 
+import org.apache.commons.lang.Validate;
+
 /**
  * Représente des coordonnées en 3 dimensions dans un donjon.
  *
@@ -134,9 +136,7 @@ public final class Position {
 	}
 
 	public Position towards(Direction direction) {
-		if (direction == null) {
-			throw new IllegalArgumentException("The given direction is null");
-		}
+		Validate.notNull(direction, "The given direction is null");
 
 		return direction.change(this);
 	}

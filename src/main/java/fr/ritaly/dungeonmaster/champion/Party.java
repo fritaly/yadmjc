@@ -38,6 +38,7 @@ import fr.ritaly.dungeonmaster.Constants;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Location;
 import fr.ritaly.dungeonmaster.Move;
+import fr.ritaly.dungeonmaster.NeverNull;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Side;
 import fr.ritaly.dungeonmaster.Speed;
@@ -94,7 +95,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	/**
 	 * La {@link Direction} dans laquelle le groupe regarde.
 	 */
-	private Direction lookDirection = Direction.NORTH;
+	@NeverNull private Direction lookDirection = Direction.NORTH;
 
 	/**
 	 * La {@link Position} actuelle du groupe.
@@ -523,6 +524,21 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	@Override
 	public Position getPosition() {
 		return position;
+	}
+	
+	/**
+	 * Returns the {@link Position} next to the party's current position and in
+	 * its look {@link Direction}.
+	 * 
+	 * @return a {@link Position} or null.
+	 */
+	public Position getFacingPosition() {
+		if (position != null) {
+			// The look direction is never null
+			return position.towards(getLookDirection());
+		}
+
+		return null;
 	}
 
 	public void teleport(Position position, boolean silent) {

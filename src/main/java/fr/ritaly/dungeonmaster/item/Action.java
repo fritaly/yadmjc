@@ -204,16 +204,9 @@ public enum Action {
 		}
 
 		if (Action.CLIMB_DOWN.equals(this)) {
-			// Le groupe doit être face à une oubliette
-			final Element current = dungeon.getCurrentElement();
-
-			// Direction de regard du groupe ?
-			final Direction lookDirection = dungeon.getParty()
-					.getLookDirection();
-
-			// Position cible visible ?
-			final Position target = current.getPosition()
-					.towards(lookDirection);
+			// Le groupe doit être face à une oubliette. Position cible visible
+			// ?
+			final Position target = dungeon.getParty().getFacingPosition();
 
 			// Element cible visible ?
 			final Element facingElement = dungeon.getElement(target);
@@ -245,7 +238,7 @@ public enum Action {
 			champion.getParty().setState(Party.State.CLIMBING_DOWN);
 
 			dungeon.teleportParty(target, // target.towards(Direction.DOWN),
-					lookDirection, true);
+					dungeon.getParty().getLookDirection(), true);
 
 			// Sortir de l'état CLIMBING_DOWN
 			champion.getParty().setState(Party.State.NORMAL);
@@ -312,8 +305,8 @@ public enum Action {
 			}
 			
 			// Le projectile apparaît sur la position voisine 
-			new ItemProjectile(item, dungeon, champion.getParty().getPosition()
-					.towards(direction), direction, subCell, 30);
+			new ItemProjectile(item, dungeon, champion.getParty()
+					.getFacingPosition(), direction, subCell, 30);
 		} else {
 			// TODO Calculer si le coup a porté
 			final boolean success = true;
