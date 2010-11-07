@@ -1,26 +1,23 @@
-package fr.ritaly.dungeonmaster;
-
-import java.util.List;
-import java.util.Set;
+package fr.ritaly.dungeonmaster.map;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import fr.ritaly.dungeonmaster.ai.Creature;
-import fr.ritaly.dungeonmaster.champion.Champion;
+import fr.ritaly.dungeonmaster.Clock;
+import fr.ritaly.dungeonmaster.ClockListener;
+import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.event.ChangeEvent;
 import fr.ritaly.dungeonmaster.event.ChangeEventSource;
 import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
-import fr.ritaly.dungeonmaster.map.Element;
 
-public class PoisonCloud implements ClockListener, ChangeEventSource {
+public class FluxCage implements ClockListener, ChangeEventSource {
 
-	private final Log log = LogFactory.getLog(PoisonCloud.class);
+	private final Log log = LogFactory.getLog(FluxCage.class);
 
 	/**
-	 * The {@link Element} where the poison cloud is located.
+	 * The {@link Element} where the flux cage is located.
 	 */
 	private final Element element;
 
@@ -28,17 +25,14 @@ public class PoisonCloud implements ClockListener, ChangeEventSource {
 
 	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
-	// TODO Implémenter la notion de force du poison !
-
-	// La durée de vie d'un nuage restante constante (10 sec), seule sa force
-	// diffère selon la puissance du sort
+	// 10 secondes
 	private int lifeTime = 10;
 
-	public PoisonCloud(Element element) {
+	public FluxCage(Element element) {
 		Validate.notNull(element, "The given element is null");
 
 		this.element = element;
-		this.temporizer = new Temporizer("PoisonCloud" + element.getPosition(),
+		this.temporizer = new Temporizer("FluxCage" + element.getPosition(),
 				Clock.ONE_SECOND);
 	}
 
@@ -59,27 +53,6 @@ public class PoisonCloud implements ClockListener, ChangeEventSource {
 	@Override
 	public boolean clockTicked() {
 		if (temporizer.trigger()) {
-			// Le nuage attaque les champions / créatures présentes sur
-			// l'élément courant (les deux en même temps ne sont pas possibles
-			// !)
-			if (element.hasParty()) {
-				final List<Champion> champions = element.getParty()
-						.getChampions(false);
-
-				for (Champion champion : champions) {
-					// TODO Passer en paramètre le type de dommage (Poison),
-					// prendre en compte la force du nuage de poison
-					champion.hit(Utils.random(5, 20));
-				}
-			} else if (element.hasCreatures()) {
-				final Set<Creature> creatures = element.getCreatures();
-
-				for (Creature creature : creatures) {
-					// TODO Attaquer la créature
-					// TODO Passer en paramètre le type de dommage (Poison)
-				}
-			}
-
 			// La durée de vie du nuage diminue
 			final int backup = lifeTime;
 

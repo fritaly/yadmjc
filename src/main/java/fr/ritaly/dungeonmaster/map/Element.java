@@ -35,7 +35,6 @@ import org.apache.commons.logging.LogFactory;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.HasPosition;
-import fr.ritaly.dungeonmaster.PoisonCloud;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.Teleport;
@@ -234,6 +233,11 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	private Map<SubCell, Projectile> projectiles;
 	
 	private List<PoisonCloud> poisonClouds;
+	
+	/**
+	 * There can be only one {@link FluxCage} per {@link Element}.
+	 */
+	private FluxCage fluxCage;
 
 	/**
 	 * Les objets de l'élément (s'il peut en avoir). Ce membre est alimenté lors
@@ -1073,5 +1077,46 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		
 		// Enregistrer ce nuage
 		Clock.getInstance().register(poisonCloud);
+	}
+	
+	public boolean hasFluxCage() {
+		return (fluxCage != null);
+	}
+	
+	public void createFluxCage() {
+		// On ne peut créer une cage s'il y en a déjà une en place
+		if (hasFluxCage()) {
+			// TODO Gérer le cas d'une seconde cage qui renforce la première ?
+			throw new IllegalStateException("There is already a flux cage on "
+					+ this);
+		}
+		
+//		if (log.isDebugEnabled()) {
+//			log.debug("Creating new flux cage on " + this + " ...");
+//		}
+		
+		final FluxCage fluxCage = new FluxCage(this);
+
+		// S'enregistrer pour savoir quand la cage disparaît
+		fluxCage.addChangeListener(new ChangeListener() {
+			@Override
+			public void onChangeEvent(ChangeEvent event) {
+				if (log.isDebugEnabled()) {
+					log.debug(event.getSource() + " vanished into thin air");
+				}
+				
+				Element.this.fluxCage = null;
+			}
+		});
+		
+		// Mémoriser la cage
+		this.fluxCage = fluxCage;
+		
+		if (log.isDebugEnabled()) {
+			log.debug("Created a flux cage on " + this);
+		}
+		
+		// Enregistrer la cage
+		Clock.getInstance().register(fluxCage);
 	}
 }

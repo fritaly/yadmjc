@@ -570,6 +570,7 @@ public class SpellTest extends TestCase {
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
 
+		// Laisser le temps au projectile de "mourir"
 		Clock.getInstance().tick(18);
 
 		// --- Un nuage de poison doit être apparu
@@ -623,6 +624,7 @@ public class SpellTest extends TestCase {
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
 
+		// Laisser le temps au projectile de "mourir"
 		Clock.getInstance().tick(18);
 		
 		final int health = tiggy.getStats().getHealth().value();
