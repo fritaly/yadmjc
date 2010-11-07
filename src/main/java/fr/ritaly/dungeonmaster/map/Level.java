@@ -18,6 +18,9 @@
  */
 package fr.ritaly.dungeonmaster.map;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,8 +29,10 @@ import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Constants;
 import fr.ritaly.dungeonmaster.Position;
+import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.map.Element.Type;
+import fr.ritaly.dungeonmaster.projectile.Projectile;
 
 /**
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
@@ -346,13 +351,38 @@ public class Level {
 
 		return builder.toString();
 	}
-
-	public static void main(String[] args) {
-		Dungeon dungeon = new Dungeon();
-		Level level = dungeon.createLevel(1, 9, 6);
-
-		System.out.println(level.draw());
+	
+	/**
+	 * Returns the projectiles located on this {@link Level}.
+	 * 
+	 * @return a {@link List} of {@link Projectile}s. Never returns null.
+	 */
+	public List<Projectile> getProjectiles() {
+		final List<Projectile> projectiles = new ArrayList<Projectile>();
+		
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				projectiles.addAll(getElement(x, y).getProjectiles().values());
+			}
+		}
+		
+		return projectiles;
 	}
 	
-	// TODO Méthode de récupération des projectiles du niveau
+	/**
+	 * Returns the creatures located on this {@link Level}.
+	 * 
+	 * @return a {@link List} of {@link Creatures}s. Never returns null.
+	 */
+	public List<Creature> getCreatures() {
+		final List<Creature> creatures = new ArrayList<Creature>();
+		
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				creatures.addAll(getElement(x, y).getCreatures());
+			}
+		}
+		
+		return creatures;
+	}
 }
