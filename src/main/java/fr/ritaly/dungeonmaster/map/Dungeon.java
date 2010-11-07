@@ -70,7 +70,7 @@ public class Dungeon implements ClockListener {
 	 * The {@link Party} of champions inside the dungeon.
 	 */
 	private Party party;
-	
+
 	private final LinkedList<DeferredCommand> partyMoves = new LinkedList<DeferredCommand>();
 
 	/**
@@ -138,7 +138,7 @@ public class Dungeon implements ClockListener {
 	public Level getLevel(int level) {
 		Validate.isTrue((level >= 0), "The given level number " + level
 				+ " must be positive or zero");
-		
+
 		return levels.get(level);
 	}
 
@@ -307,15 +307,15 @@ public class Dungeon implements ClockListener {
 	public boolean moveParty(final Move move, boolean now, final AudioClip clip) {
 		// Le clip ne peut être nul si on appelle cette méthode
 		Validate.notNull(clip, "The given clip is null");
-		
+
 		return doMoveParty(move, now, clip);
 	}
-	
+
 	public boolean moveParty(final Move move, boolean now) {
 		// Déplacer sans jouer de son
 		return doMoveParty(move, now, null);
 	}
-	
+
 	private boolean doMoveParty(final Move move, boolean now,
 			final AudioClip clip) {
 
@@ -446,7 +446,7 @@ public class Dungeon implements ClockListener {
 				champions = null;
 				break;
 			}
-			
+
 			if (champions != null) {
 				for (Champion champion : champions) {
 					// Blesser chaque champion
@@ -502,10 +502,10 @@ public class Dungeon implements ClockListener {
 
 	public boolean teleportParty(final Position destination,
 			final Direction direction, final boolean silent) {
-		
+
 		Validate.notNull(destination, "The given destination is null");
 		Validate.notNull(direction, "The given direction is null");
-		
+
 		if (this.party == null) {
 			throw new IllegalStateException("There is no party set");
 		}
@@ -594,7 +594,9 @@ public class Dungeon implements ClockListener {
 	 * 
 	 * @return un entier positif ou nul dans l'intervalle [0-255].
 	 */
-	public int getLight() {
+	public int getActualLight() {
+		// Il vaut mieux que cette méthode soit sur la classe Dungeon (seule
+		// cette classe sait sur quel niveau se situent les champions)
 		int light = 0;
 
 		// Contribution des champions ?
@@ -606,6 +608,8 @@ public class Dungeon implements ClockListener {
 
 		// Lumière naturelle du niveau ?
 		light += getLevel(party.getPosition().z).getAmbiantLight();
+		
+		// TODO Prendre en compte les sorts de type Darkness !!
 
 		// TODO 7 niveaux de lumière possibles (enum)
 		return Utils.bind(light, 0, 255);
