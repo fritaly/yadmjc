@@ -203,6 +203,7 @@ public enum Action {
 					+ " doesn't hold any item in its weapon hand");
 		}
 
+		// TODO Refactoriser ce code
 		if (Action.CLIMB_DOWN.equals(this)) {
 			// Le groupe doit être face à une oubliette. Position cible visible
 			// ?
@@ -307,7 +308,21 @@ public enum Action {
 			// Le projectile apparaît sur la position voisine 
 			new ItemProjectile(item, dungeon, champion.getParty()
 					.getFacingPosition(), direction, subCell, 30);
+		} else if (Action.FLUX_CAGE.equals(this)) {
+			// Créer une flux cage sur la position face au champion
+			final Element element = dungeon.getElement(dungeon.getParty()
+					.getFacingPosition());
+			
+			// TODO Tester que l'élément peut accueillir une flux cage ?
+			element.createFluxCage();
+
+			// Le champion gagne de l'expérience
+			champion.gainExperience(improvedSkill,
+					computeEarnedExperience(dungeon));
 		} else {
+			// FIXME Quelles sont les actions qui doivent passer par ce else ?
+			// Les identifier
+			
 			// TODO Calculer si le coup a porté
 			final boolean success = true;
 

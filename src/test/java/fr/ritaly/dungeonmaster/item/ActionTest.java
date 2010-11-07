@@ -18,20 +18,18 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
+import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.champion.Champion;
+import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
-import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.map.Level;
-import fr.ritaly.dungeonmaster.map.ProjectileLauncher;
-import fr.ritaly.dungeonmaster.projectile.ItemProjectileFactory;
-import junit.framework.TestCase;
 
 public class ActionTest extends TestCase {
 
@@ -176,5 +174,59 @@ public class ActionTest extends TestCase {
 		assertEquals(1, target.getItemCount(SubCell.SOUTH_WEST));
 		assertEquals(Item.Type.DAGGER, target.getItems(SubCell.SOUTH_WEST)
 				.iterator().next().getType());
+	}
+	
+	public void testFluxCageAction() throws Throwable {
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | F | P | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+---+
+
+		final Weapon firestaff = new Weapon(Item.Type.THE_FIRESTAFF_COMPLETE);
+		
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+		tiggy.getBody().getWeaponHand().putOn(firestaff);
+		
+		final Party party = new Party(tiggy);
+		party.setDirection(Direction.WEST);
+		
+		final Dungeon dungeon = new Dungeon();
+
+		final Level level1 = dungeon.createLevel(1, 10, 10);
+		
+		dungeon.setParty(8, 5, 1, party);
+
+		// --- Pas de cage initialement
+		final Element neighbour = level1.getElement(7, 5);
+		
+		assertFalse(neighbour.hasFluxCage());
+
+		// --- Déclencher l'action
+		firestaff.perform(Action.FLUX_CAGE);
+
+		// --- Une cage doit être apparue sur la position voisine
+		assertTrue(neighbour.hasFluxCage());
+		
+		// Laisser le temps à la cage de disparaître 
+		Clock.getInstance().tick(60);
+
+		assertFalse(neighbour.hasFluxCage());
 	}
 }
