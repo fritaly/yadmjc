@@ -37,7 +37,6 @@ import fr.ritaly.dungeonmaster.Constants;
 import fr.ritaly.dungeonmaster.Location;
 import fr.ritaly.dungeonmaster.Poison;
 import fr.ritaly.dungeonmaster.Skill;
-import fr.ritaly.dungeonmaster.SkillMapBuilder;
 import fr.ritaly.dungeonmaster.Speed;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.Temporizer;

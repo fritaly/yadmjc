@@ -97,13 +97,13 @@ public final class Alcove extends DirectedElement implements HasActuator {
 			// Un objet a été pris
 			if (itemType == null) {
 				// Déclenchement sur tous les types d'objets
-				if (!hasItem() && (actuator != null)) {
+				if (!hasItems() && (actuator != null)) {
 					// Déclenchement au dernier objet pris
 					Clock.getInstance().register(actuator);
 				}
 			} else if (itemType.equals(item.getType())) {
 				// Déclenchement pour un type d'objet donné
-				if (!hasItem() && (actuator != null)) {
+				if (!hasItems() && (actuator != null)) {
 					// Déclenchement au dernier objet pris
 					Clock.getInstance().register(actuator);
 				}

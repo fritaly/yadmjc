@@ -142,7 +142,7 @@ public class ProjectileLauncherTest extends TestCase {
 		assertNotNull(neighbour.getProjectiles().get(SubCell.NORTH_EAST));
 		assertNotNull(neighbour.getProjectiles().get(SubCell.SOUTH_EAST));
 
-		assertFalse(target.hasItem());
+		assertFalse(target.hasItems());
 
 		// Laisser le projectile bouger
 		Clock.getInstance().tick(3);
@@ -153,7 +153,7 @@ public class ProjectileLauncherTest extends TestCase {
 		assertNotNull(neighbour.getProjectiles().get(SubCell.NORTH_WEST));
 		assertNotNull(neighbour.getProjectiles().get(SubCell.SOUTH_WEST));
 
-		assertFalse(target.hasItem());
+		assertFalse(target.hasItems());
 
 		// Laisser le projectile atteindre le mur opposée (attendre suffisamment
 		// longtemps)

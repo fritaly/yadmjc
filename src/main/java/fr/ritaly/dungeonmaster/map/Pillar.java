@@ -56,7 +56,7 @@ public final class Pillar extends Element {
 	
 	@Override
 	public void validate() throws ValidationException {
-		if (hasItem()) {
+		if (hasItems()) {
 			throw new ValidationException("A pillar can't have items");
 		}
 		if (hasParty()) {

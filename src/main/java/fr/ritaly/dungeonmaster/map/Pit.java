@@ -239,7 +239,7 @@ public class Pit extends Element implements Triggered {
 			if (isReal() && hasCreatures()) {
 				dropCreatures();
 			}
-			if (isReal() && hasItem()) {
+			if (isReal() && hasItems()) {
 				dropItems();
 			}
 

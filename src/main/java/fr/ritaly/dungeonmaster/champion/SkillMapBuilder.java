@@ -16,15 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster;
+package fr.ritaly.dungeonmaster.champion;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.Validate;
 
-import fr.ritaly.dungeonmaster.champion.Champion;
-import fr.ritaly.dungeonmaster.champion.Champion.Level;
+import fr.ritaly.dungeonmaster.Skill;
 
 /**
  * A helper class used to simplify the way a champion skills are defined.
@@ -37,12 +36,12 @@ public class SkillMapBuilder {
 	 * A Map&lt;Skill, Level&gt; containing the {@link Skill}s currently being
 	 * built.
 	 */
-	private final Map<Skill, Level> skills = new LinkedHashMap<Skill, Champion.Level>();
+	private final Map<Skill, Champion.Level> skills = new LinkedHashMap<Skill, Champion.Level>();
 
 	public SkillMapBuilder() {
 	}
 
-	private SkillMapBuilder setFighterSkills(Level level, int swingLevel,
+	private SkillMapBuilder setFighterSkills(Champion.Level level, int swingLevel,
 			int thrustLevel, int clubLevel, int parryLevel) {
 
 		Validate.notNull(level);
@@ -55,15 +54,15 @@ public class SkillMapBuilder {
 		skills.put(Skill.FIGHTER, level);
 
 		// Compétences cachées
-		skills.put(Skill.SWING, Level.values()[swingLevel]);
-		skills.put(Skill.THRUST, Level.values()[thrustLevel]);
-		skills.put(Skill.CLUB, Level.values()[clubLevel]);
-		skills.put(Skill.PARRY, Level.values()[parryLevel]);
+		skills.put(Skill.SWING, Champion.Level.values()[swingLevel]);
+		skills.put(Skill.THRUST, Champion.Level.values()[thrustLevel]);
+		skills.put(Skill.CLUB, Champion.Level.values()[clubLevel]);
+		skills.put(Skill.PARRY, Champion.Level.values()[parryLevel]);
 
 		return this;
 	}
 
-	private SkillMapBuilder setPriestSkills(Level level, int identifyLevel,
+	private SkillMapBuilder setPriestSkills(Champion.Level level, int identifyLevel,
 			int healLevel, int influenceLevel, int defendLevel) {
 
 		Validate.notNull(level);
@@ -76,15 +75,15 @@ public class SkillMapBuilder {
 		skills.put(Skill.PRIEST, level);
 
 		// Compétences cachées
-		skills.put(Skill.IDENTIFY, Level.values()[identifyLevel]);
-		skills.put(Skill.HEAL, Level.values()[healLevel]);
-		skills.put(Skill.INFLUENCE, Level.values()[influenceLevel]);
-		skills.put(Skill.DEFEND, Level.values()[defendLevel]);
+		skills.put(Skill.IDENTIFY, Champion.Level.values()[identifyLevel]);
+		skills.put(Skill.HEAL, Champion.Level.values()[healLevel]);
+		skills.put(Skill.INFLUENCE, Champion.Level.values()[influenceLevel]);
+		skills.put(Skill.DEFEND, Champion.Level.values()[defendLevel]);
 
 		return this;
 	}
 
-	private SkillMapBuilder setNinjaSkills(Level level, int stealLevel,
+	private SkillMapBuilder setNinjaSkills(Champion.Level level, int stealLevel,
 			int fightLevel, int throwLevel, int shootLevel) {
 
 		Validate.notNull(level);
@@ -97,15 +96,15 @@ public class SkillMapBuilder {
 		skills.put(Skill.NINJA, level);
 
 		// Compétences cachées
-		skills.put(Skill.STEAL, Level.values()[stealLevel]);
-		skills.put(Skill.FIGHT, Level.values()[fightLevel]);
-		skills.put(Skill.THROW, Level.values()[throwLevel]);
-		skills.put(Skill.SHOOT, Level.values()[shootLevel]);
+		skills.put(Skill.STEAL, Champion.Level.values()[stealLevel]);
+		skills.put(Skill.FIGHT, Champion.Level.values()[fightLevel]);
+		skills.put(Skill.THROW, Champion.Level.values()[throwLevel]);
+		skills.put(Skill.SHOOT, Champion.Level.values()[shootLevel]);
 
 		return this;
 	}
 
-	private SkillMapBuilder setWizardSkills(Level level, int fireLevel,
+	private SkillMapBuilder setWizardSkills(Champion.Level level, int fireLevel,
 			int airLevel, int earthLevel, int waterLevel) {
 
 		Validate.notNull(level);
@@ -118,15 +117,15 @@ public class SkillMapBuilder {
 		skills.put(Skill.WIZARD, level);
 
 		// Compétences cachées
-		skills.put(Skill.FIRE, Level.values()[fireLevel]);
-		skills.put(Skill.AIR, Level.values()[airLevel]);
-		skills.put(Skill.EARTH, Level.values()[earthLevel]);
-		skills.put(Skill.WATER, Level.values()[waterLevel]);
+		skills.put(Skill.FIRE, Champion.Level.values()[fireLevel]);
+		skills.put(Skill.AIR, Champion.Level.values()[airLevel]);
+		skills.put(Skill.EARTH, Champion.Level.values()[earthLevel]);
+		skills.put(Skill.WATER, Champion.Level.values()[waterLevel]);
 
 		return this;
 	}
 
-	public SkillMapBuilder setSkills(Skill skill, Level level, int level1,
+	public SkillMapBuilder setSkills(Skill skill, Champion.Level level, int level1,
 			int level2, int level3, int level4) {
 
 		Validate.notNull(skill);
@@ -151,7 +150,7 @@ public class SkillMapBuilder {
 		}
 	}
 
-	public Map<Skill, Level> getSkills() {
+	public Map<Skill, Champion.Level> getSkills() {
 		// Recopie défensive
 		return new LinkedHashMap<Skill, Champion.Level>(skills);
 	}

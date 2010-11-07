@@ -140,7 +140,7 @@ public class ActionTest extends TestCase {
 		final Element target = level1.getElement(1, 5);
 		final Element neighbour = level1.getElement(7, 5);
 		
-		assertFalse(target.hasItem());
+		assertFalse(target.hasItems());
 
 		// --- Déclencher l'action de lancer
 		dagger.perform(Action.THROW);

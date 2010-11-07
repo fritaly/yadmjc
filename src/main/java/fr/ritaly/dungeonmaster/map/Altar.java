@@ -77,7 +77,7 @@ public final class Altar extends DirectedElement implements HasActuator {
 		// Appel de la méthode non surchargée
 		final Item item = super.pickItem(map(direction));
 
-		if (!hasItem() && (item != null) && (actuator != null)) {
+		if (!hasItems() && (item != null) && (actuator != null)) {
 			// Déclenchement au dernier objet pris
 			Clock.getInstance().register(actuator);
 		}

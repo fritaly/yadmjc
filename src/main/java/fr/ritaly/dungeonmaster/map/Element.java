@@ -835,7 +835,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	 * 
 	 * @return si l'élément comporte des objets.
 	 */
-	public boolean hasItem() {
+	public boolean hasItems() {
 		if (items != null) {
 			for (Stack<Item> stack : items.values()) {
 				if (!stack.isEmpty()) {
