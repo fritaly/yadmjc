@@ -385,4 +385,6 @@ public class Level {
 		
 		return creatures;
 	}
+	
+	// TODO Méthode de récupération des projectiles du niveau
 }
