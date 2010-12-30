@@ -1119,4 +1119,19 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		// Enregistrer la cage
 		Clock.getInstance().register(fluxCage);
 	}
+	
+	public List<Element> getSurroundingElements() {
+		final List<Element> elements = new ArrayList<Element>();
+		
+		for (Position position : getPosition().getSurroundingPositions()) {
+			if (!getLevel().contains(position)) {
+				// Position située en dehors des limites du niveau
+				continue;
+			}
+			
+			elements.add(getLevel().getElement(position.x, position.y));
+		}
+		
+		return elements;
+	}
 }
