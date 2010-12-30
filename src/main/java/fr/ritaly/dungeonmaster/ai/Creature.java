@@ -1513,6 +1513,11 @@ public class Creature implements ChangeListener, ClockListener {
 
 	public int hit(AttackType attackType) {
 		Validate.notNull(attackType, "The given attack type is null");
+		
+		if (getType().isInvincible()) {
+			// La créature ne peut être blessée
+			return 0;
+		}
 
 		final int initialHealth = health.value();
 		final int points;
@@ -1604,6 +1609,10 @@ public class Creature implements ChangeListener, ClockListener {
 
 	public final boolean isImmuneToPoison() {
 		return getType().isImmuneToPoison();
+	}
+	
+	public final boolean isInvincible() {
+		return getType().isInvincible();
 	}
 
 	public final boolean isImmuneToMagic() {

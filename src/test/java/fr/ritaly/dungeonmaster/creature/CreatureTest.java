@@ -106,4 +106,14 @@ public class CreatureTest extends TestCase {
 		
 		assertTrue(count == 0);
 	}
+	
+	public void testInvincibleCreatureCantBeHurt() {
+		final Creature creature = new Creature(Creature.Type.LORD_CHAOS, 1);
+		
+		assertTrue(creature.isInvincible());
+		
+		for (int i = 0; i < 10; i++) {
+			assertEquals(0, creature.hit(AttackType.CRITICAL));
+		}
+	}
 }
