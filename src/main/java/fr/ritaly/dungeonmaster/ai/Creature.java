@@ -32,8 +32,6 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
-import fr.ritaly.dungeonmaster.HasPosition;
-import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -46,12 +44,13 @@ import fr.ritaly.dungeonmaster.item.MiscItem;
 import fr.ritaly.dungeonmaster.item.Weapon;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
+import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.stat.Stat;
 
 /**
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
-public class Creature implements ChangeListener, ClockListener, HasPosition {
+public class Creature implements ChangeListener, ClockListener {
 
 	private final Log log = LogFactory.getLog(this.getClass());
 
@@ -1253,7 +1252,7 @@ public class Creature implements ChangeListener, ClockListener, HasPosition {
 
 	private final Materializer materializer;
 	
-	private Position position;
+	private Element element;
 
 	/**
 	 * Membre d'instance synchronisé. A lire / écrire via le getter / setter.
@@ -1763,21 +1762,21 @@ public class Creature implements ChangeListener, ClockListener, HasPosition {
 		}
 	}
 
-	public Position getPosition() {
-		return position;
+	public Element getElement() {
+		return element;
 	}
 
-	public void setPosition(Position position) {
+	public void setElement(Element element) {
 		// Le paramètre peut être null
 		
-		if (!ObjectUtils.equals(this.position, position)) {
-			final Position initialPosition = this.position;
+		if (!ObjectUtils.equals(this.element, element)) {
+			final Element initialElement = this.element;
 			
-			this.position = position;
+			this.element = element;
 			
 			if (log.isDebugEnabled()) {
-				log.debug(this + ".Position: " + initialPosition + " -> "
-						+ this.position);
+				log.debug(this + ".Element: " + initialElement + " -> "
+						+ this.element);
 			}
 		}
 	}

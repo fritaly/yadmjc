@@ -367,8 +367,8 @@ public class CreatureManager {
 		// Mémoriser la créature
 		creatures.put(subCell, creature);
 		
-		// Positionner la position sur la créature
-		creature.setPosition(element.getPosition());
+		// Positionner l'élémenet sur la créature
+		creature.setElement(element);
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped on " + element.getId() + " ("
@@ -413,8 +413,8 @@ public class CreatureManager {
 			creatures = null;
 		}
 		
-		// Repositionner la position sur la créature
-		creature.setPosition(null);
+		// Positionner l'élémenet sur la créature
+		creature.setElement(element);
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped off " + element.getId() + " ("
@@ -458,8 +458,8 @@ public class CreatureManager {
 		creatures.put(SubCell.SOUTH_EAST, creature);
 		creatures.put(SubCell.SOUTH_WEST, creature);
 		
-		// Positionner la position sur la créature
-		creature.setPosition(element.getPosition());
+		// Positionner l'élémenet sur la créature
+		creature.setElement(element);
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped on " + element.getId()
@@ -518,8 +518,8 @@ public class CreatureManager {
 
 		this.creatures = null;
 		
-		// Repositionner la position sur la créature
-		creature.setPosition(null);
+		// Réinitialiser l'élément sur la créature
+		creature.setElement(null);
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped off " + element.getId()
@@ -578,8 +578,8 @@ public class CreatureManager {
 			creatures.put(subCell, creature);
 		}
 		
-		// Positionner la position sur la créature
-		creature.setPosition(element.getPosition());
+		// Réinitialiser l'élément sur la créature
+		creature.setElement(null);
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped on " + element.getId() + " ("
@@ -637,8 +637,8 @@ public class CreatureManager {
 			creatures = null;
 		}
 		
-		// Repositionner la position sur la créature
-		creature.setPosition(null);
+		// Réinitialiser l'élément sur la créature
+		creature.setElement(null);
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped off " + element.getId() + " ("
