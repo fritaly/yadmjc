@@ -212,9 +212,9 @@ public class Level {
 			removed.setPosition(null);
 
 			elements[x][y] = null;
-			
+
 			if (removed instanceof ClockListener) {
-				Clock.getInstance().unregister((ClockListener) element);	
+				Clock.getInstance().unregister((ClockListener) element);
 			}
 		}
 
@@ -224,9 +224,9 @@ public class Level {
 
 		// Permuter les éléments
 		elements[x][y] = element;
-		
+
 		if (element instanceof ClockListener) {
-			// Référencer le ClockListener 
+			// Référencer le ClockListener
 			Clock.getInstance().register((ClockListener) element);
 		}
 	}
@@ -271,6 +271,37 @@ public class Level {
 		}
 
 		this.experienceMultiplier = experienceMultiplier;
+	}
+
+	/**
+	 * Indique si la {@link Position} donnée est située sur ce niveau et est
+	 * valide (ses valeurs de x et y sont valides).
+	 * 
+	 * @param position
+	 *            la {@link Position} à tester.
+	 * @return si la {@link Position} donnée est située sur ce niveau et est
+	 *         valide (ses valeurs de x et y sont valides).
+	 */
+	public boolean contains(Position position) {
+		Validate.notNull(position, "The given position is null");
+
+		if (position.z != level) {
+			// C'est une position sur un niveau différent
+			return false;
+		}
+
+		if ((position.x < 0) || (position.x > width - 1)) {
+			// Valeur x hors intervalle
+			return false;
+		}
+
+		if ((position.y < 0) || (position.y > height - 1)) {
+			// Valeur y hors intervalle
+			return false;
+		}
+
+		// Position située sur ce niveau et valide
+		return true;
 	}
 
 	public void validate() throws ValidationException {
@@ -351,7 +382,7 @@ public class Level {
 
 		return builder.toString();
 	}
-	
+
 	/**
 	 * Returns the projectiles located on this {@link Level}.
 	 * 
@@ -359,16 +390,16 @@ public class Level {
 	 */
 	public List<Projectile> getProjectiles() {
 		final List<Projectile> projectiles = new ArrayList<Projectile>();
-		
+
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				projectiles.addAll(getElement(x, y).getProjectiles().values());
 			}
 		}
-		
+
 		return projectiles;
 	}
-	
+
 	/**
 	 * Returns the creatures located on this {@link Level}.
 	 * 
@@ -376,15 +407,15 @@ public class Level {
 	 */
 	public List<Creature> getCreatures() {
 		final List<Creature> creatures = new ArrayList<Creature>();
-		
+
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				creatures.addAll(getElement(x, y).getCreatures());
 			}
 		}
-		
+
 		return creatures;
 	}
-	
+
 	// TODO Méthode de récupération des projectiles du niveau
 }
