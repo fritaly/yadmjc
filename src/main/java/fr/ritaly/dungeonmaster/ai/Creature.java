@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang.Validate;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Utils;
@@ -47,6 +49,8 @@ import fr.ritaly.dungeonmaster.stat.Stat;
  */
 public class Creature implements ChangeListener, ClockListener {
 	
+	private final Log log = LogFactory.getLog(this.getClass());
+
 	public static enum State {
 		IDLE,
 		PATROLLING,
@@ -315,8 +319,7 @@ public class Creature implements ChangeListener, ClockListener {
 					"The given experience multiplier " + experienceMultiplier
 							+ " must be in range [0-15]");
 			Validate.isTrue((shield >= 0) && (shield <= 255),
-					"The given shield " + shield
-							+ " must be in range [0-255]");
+					"The given shield " + shield + " must be in range [0-255]");
 
 			this.baseHealth = baseHealth;
 			this.moveDuration = moveDuration;
@@ -413,7 +416,7 @@ public class Creature implements ChangeListener, ClockListener {
 			// creature is immune
 			return antiMagic;
 		}
-		
+
 		public int getBravery() {
 			// Resistance to War Cry, Calm, Brandish and Blow Horn (maybe also
 			// Confuse). With a value of 15, the creature is never afraid
@@ -865,7 +868,7 @@ public class Creature implements ChangeListener, ClockListener {
 
 		public int computeDamagePoints(Champion champion, Weapon weapon,
 				Action action) {
-			
+
 			Validate.notNull(champion, "The given champion is null");
 			Validate.notNull(weapon, "The given weapon is null");
 			Validate.notNull(action, "The given action is null");
@@ -874,16 +877,16 @@ public class Creature implements ChangeListener, ClockListener {
 
 			// - Le type d'arme
 			final int weaponDamage = weapon.getType().getDamage();
-			
+
 			// - La force du champion
 			final int strength = champion.getStats().getStrength().value();
 
 			// - L'armure de la créature
 			final int vulnerability = 255 - armor;
-			
+
 			// - Le type d'action utilisé
 			final int actionDamage = action.getDamage();
-			
+
 			// FIXME Facteur correctif ?
 			return (weaponDamage + actionDamage) * vulnerability * strength;
 		}
@@ -1495,6 +1498,58 @@ public class Creature implements ChangeListener, ClockListener {
 		return health.value();
 	}
 
+	public int hit(AttackType attackType) {
+		Validate.notNull(attackType, "The given attack type is null");
+
+		final int initialHealth = health.value();
+		final int points;
+		
+		switch (attackType) {
+		case CRITICAL:
+			// FIXME Valeurs
+			points = Utils.random(1, 5) * 3;
+			break;
+		case FIRE:
+			// FIXME Valeurs
+			points = Utils.random(1, 5);
+			break;
+		case MAGIC:
+			if (isImmuneToMagic()) {
+				// Créature immunisée à la magie, aucun dégât possible
+				return 0;
+			}
+			
+			// FIXME Valeurs
+			points = Utils.random(1, 5);
+			break;
+		case NONE:
+			// FIXME Valeurs
+			points = Utils.random(1, 5);
+			break;
+		case NORMAL:
+			// FIXME Valeurs
+			points = Utils.random(1, 5);
+			break;
+		case PSYCHIC:
+			// FIXME Valeurs
+			points = Utils.random(1, 5);
+			break;
+		case SHARP:
+			// FIXME Valeurs
+			points = Utils.random(1, 5);
+			break;
+		default:
+			throw new UnsupportedOperationException("Unsupported attack type "
+					+ attackType);
+		}
+
+		this.health.dec(points);
+		
+		// La différence n'est pas forcément égale à la variable points si la
+		// créature vient de mourir !
+		return initialHealth - health.value();
+	}
+
 	/**
 	 * Retourne le son de la {@link Creature}.
 	 * 
@@ -1629,23 +1684,29 @@ public class Creature implements ChangeListener, ClockListener {
 	public final int getShield() {
 		return getType().getShield();
 	}
-	
+
 	@Override
 	public void onChangeEvent(ChangeEvent event) {
 		if (event.getSource() == health) {
 			if (health.value() == 0) {
 				// Le monstre vient de mourir
+				if (log.isDebugEnabled()) {
+					log.debug(this + " just died");
+				}
+				
 				// FIXME Lâcher les objets au sol
 				dropItems();
+				
+				this.health.removeChangeListener(this);
 			}
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return getId();
 	}
-	
+
 	@Override
 	public boolean clockTicked() {
 		// TODO Quand enregistrer la créature ?

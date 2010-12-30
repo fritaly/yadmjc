@@ -18,6 +18,7 @@
  */
 package fr.ritaly.dungeonmaster.creature;
 
+import fr.ritaly.dungeonmaster.ai.AttackType;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import junit.framework.TestCase;
 
@@ -29,14 +30,41 @@ public class CreatureTest extends TestCase {
 	public CreatureTest(String name) {
 		super(name);
 	}
-	
+
 	public void testSpellMethodsMustBeConsistent() {
 		for (Creature.Type type : Creature.Type.values()) {
+			// Si une créature peut lancer des sorts alors la liste de sorts
+			// associée ne doit pas être vide
 			if (type.canCastSpell()) {
 				assertFalse(type.getSpells().isEmpty());
 			} else {
 				assertTrue(type.getSpells().isEmpty());
 			}
 		}
+	}
+
+	public void testCreatureIsAlive() {
+		final Creature creature = new Creature(Creature.Type.MUMMY, 1);
+		
+		assertTrue(creature.isAlive());
+	}
+	
+	public void testCreatureCanBeKilled() {
+		final Creature creature = new Creature(Creature.Type.MUMMY, 1);
+		
+		assertTrue(creature.isAlive());
+		assertFalse(creature.isDead());
+		
+		while (creature.isAlive()) {
+			final int health = creature.getHealth();
+			
+			final int hitPoints = creature.hit(AttackType.NORMAL);
+			
+			assertTrue(hitPoints > 0);
+			assertEquals(hitPoints, health - creature.getHealth());
+		}
+		
+		assertFalse(creature.isAlive());
+		assertTrue(creature.isDead());
 	}
 }
