@@ -1734,9 +1734,9 @@ public class Creature implements ChangeListener, ClockListener {
 	public boolean clockTicked() {
 		// Permet de faire "clignoter" le ZYTAZ
 		boolean result = this.materializer.clockTicked();
-
+		
 		// TODO Animer Creature
-		return result;
+		return true;
 	}
 
 	public synchronized State getState() {
