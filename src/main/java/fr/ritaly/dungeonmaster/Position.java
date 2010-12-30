@@ -18,11 +18,14 @@
  */
 package fr.ritaly.dungeonmaster;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.Validate;
 
 /**
  * Représente des coordonnées en 3 dimensions dans un donjon.
- *
+ * 
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public final class Position {
@@ -30,16 +33,16 @@ public final class Position {
 	public final int x, y, z;
 
 	private final int hash;
-	
+
 	private final String toString;
-	
+
 	public Position(int x, int y, int z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		
+
 		this.toString = "[" + z + ":" + x + "," + y + "]";
-		
+
 		int hashCode = 17;
 
 		hashCode = (hashCode * 31) + x;
@@ -48,7 +51,7 @@ public final class Position {
 
 		this.hash = hashCode;
 	}
-	
+
 	@Override
 	public final String toString() {
 		return toString;
@@ -163,5 +166,26 @@ public final class Position {
 
 	public Position getLower() {
 		return towards(Direction.DOWN);
+	}
+
+	/**
+	 * Retourne une liste contenant les 8 positions entourant cette
+	 * {@link Position}.
+	 * 
+	 * @return une {@link List} de {@link Position}s.
+	 */
+	public List<Position> getSurroundingPositions() {
+		final List<Position> positions = new ArrayList<Position>(9);
+
+		for (int a = this.x - 1; a <= this.x + 1; a++) {
+			for (int b = this.y - 1; b <= this.y + 1; b++) {
+				positions.add(new Position(a, b, this.z));
+			}
+		}
+
+		// Retirer la position courante
+		positions.remove(this);
+
+		return positions;
 	}
 }
