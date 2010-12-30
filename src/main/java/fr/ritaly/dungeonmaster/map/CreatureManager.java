@@ -366,6 +366,9 @@ public class CreatureManager {
 
 		// Mémoriser la créature
 		creatures.put(subCell, creature);
+		
+		// Positionner la position sur la créature
+		creature.setPosition(element.getPosition());
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped on " + element.getId() + " ("
@@ -409,6 +412,9 @@ public class CreatureManager {
 			// Purger la Map à la volée
 			creatures = null;
 		}
+		
+		// Repositionner la position sur la créature
+		creature.setPosition(null);
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped off " + element.getId() + " ("
@@ -451,6 +457,9 @@ public class CreatureManager {
 		creatures.put(SubCell.NORTH_WEST, creature);
 		creatures.put(SubCell.SOUTH_EAST, creature);
 		creatures.put(SubCell.SOUTH_WEST, creature);
+		
+		// Positionner la position sur la créature
+		creature.setPosition(element.getPosition());
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped on " + element.getId()
@@ -508,6 +517,9 @@ public class CreatureManager {
 		}
 
 		this.creatures = null;
+		
+		// Repositionner la position sur la créature
+		creature.setPosition(null);
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped off " + element.getId()
@@ -565,6 +577,9 @@ public class CreatureManager {
 		for (SubCell subCell : subCells) {
 			creatures.put(subCell, creature);
 		}
+		
+		// Positionner la position sur la créature
+		creature.setPosition(element.getPosition());
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped on " + element.getId() + " ("
@@ -621,6 +636,9 @@ public class CreatureManager {
 			// Purger la Map à la volée
 			creatures = null;
 		}
+		
+		// Repositionner la position sur la créature
+		creature.setPosition(null);
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped off " + element.getId() + " ("
