@@ -49,16 +49,21 @@ import fr.ritaly.dungeonmaster.stat.Stat;
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public class Creature implements ChangeListener, ClockListener {
-	
+
 	private final Log log = LogFactory.getLog(this.getClass());
 
+	/**
+	 * Les différents états possibles d'une {@link Creature}.
+	 * 
+	 * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+	 */
 	public static enum State {
-		IDLE,
-		PATROLLING,
-		STALKING,
-		ATTACKING,
-		DYING,
-		DEAD;
+		IDLE;
+		// PATROLLING,
+		// STALKING,
+		// ATTACKING,
+		// DYING,
+		// DEAD;
 	}
 
 	private static final EnumSet<Weakness> WEAKNESSES_MATERIAL_4 = EnumSet.of(
@@ -1244,7 +1249,12 @@ public class Creature implements ChangeListener, ClockListener {
 	private final List<Item> absorbedItems = new ArrayList<Item>();
 
 	private final Materializer materializer;
-	
+
+	/**
+	 * Membre d'instance synchronisé. A lire / écrire via le getter / setter.
+	 */
+	private State state = State.IDLE;
+
 	// Le paramètre multiplier peut représenter un "health multiplier" ou un
 	// "level experience multiplier"
 	public Creature(Type type, int multiplier) {
@@ -1261,7 +1271,7 @@ public class Creature implements ChangeListener, ClockListener {
 
 		this.health = new Stat(getId(), "Health", healthPoints, healthPoints);
 		this.health.addChangeListener(this);
-		
+
 		if (Type.ZYTAZ.equals(getType())) {
 			// Cas spécial du ZYTAZ. Son caractère immatériel est fonction du
 			// temps
@@ -1269,7 +1279,7 @@ public class Creature implements ChangeListener, ClockListener {
 		} else {
 			this.materializer = new StaticMaterializer(getType().isImmaterial());
 		}
-		
+
 		Clock.getInstance().register(this);
 	}
 
@@ -1288,7 +1298,7 @@ public class Creature implements ChangeListener, ClockListener {
 	}
 
 	public final boolean isMaterial() {
-		return !isImmaterial();
+		return materializer.isMaterial();
 	}
 
 	public final boolean isImmaterial() {
@@ -1506,7 +1516,7 @@ public class Creature implements ChangeListener, ClockListener {
 
 		final int initialHealth = health.value();
 		final int points;
-		
+
 		switch (attackType) {
 		case CRITICAL:
 			// FIXME Valeurs
@@ -1521,7 +1531,7 @@ public class Creature implements ChangeListener, ClockListener {
 				// Créature immunisée à la magie, aucun dégât possible
 				return 0;
 			}
-			
+
 			// FIXME Valeurs
 			points = Utils.random(1, 5);
 			break;
@@ -1547,7 +1557,7 @@ public class Creature implements ChangeListener, ClockListener {
 		}
 
 		this.health.dec(points);
-		
+
 		// La différence n'est pas forcément égale à la variable points si la
 		// créature vient de mourir !
 		return initialHealth - health.value();
@@ -1696,10 +1706,11 @@ public class Creature implements ChangeListener, ClockListener {
 				if (log.isDebugEnabled()) {
 					log.debug(this + " just died");
 				}
-				
-				// FIXME Lâcher les objets au sol
-				dropItems();
-				
+
+				if (dropItems()) {
+					// FIXME Lâcher les objets au sol
+				}
+
 				this.health.removeChangeListener(this);
 			}
 		}
@@ -1714,9 +1725,27 @@ public class Creature implements ChangeListener, ClockListener {
 	public boolean clockTicked() {
 		// Permet de faire "clignoter" le ZYTAZ
 		boolean result = this.materializer.clockTicked();
-		
-		// TODO Quand enregistrer la créature ?
+
 		// TODO Animer Creature
 		return result;
+	}
+
+	public synchronized State getState() {
+		return state;
+	}
+
+	private synchronized void setState(State state) {
+		Validate.notNull(state, "The given state is null");
+
+		if (this.state != state) {
+			final State initialState = this.state;
+
+			this.state = state;
+
+			if (log.isDebugEnabled()) {
+				log.debug(this + ".State: " + initialState + " -> "
+						+ this.state);
+			}
+		}
 	}
 }
