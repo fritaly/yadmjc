@@ -18,6 +18,7 @@
  */
 package fr.ritaly.dungeonmaster.creature;
 
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ai.AttackType;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import junit.framework.TestCase;
@@ -66,5 +67,43 @@ public class CreatureTest extends TestCase {
 		
 		assertFalse(creature.isAlive());
 		assertTrue(creature.isDead());
+	}
+	
+	public void testZytazMateriality() {
+		final Creature creature = new Creature(Creature.Type.ZYTAZ, 1);
+		
+		boolean material = creature.isMaterial();
+		int count = 0;
+		
+		for (int i = 0; i < 20; i++) {
+			Clock.getInstance().tick();
+			
+			if (material != creature.isMaterial()) {
+				count++;
+				
+				material = creature.isMaterial();
+			}
+		}
+		
+		assertTrue(count > 0);
+	}
+	
+	public void testMummyMateriality() {
+		final Creature creature = new Creature(Creature.Type.MUMMY, 1);
+		
+		boolean material = creature.isMaterial();
+		int count = 0;
+		
+		for (int i = 0; i < 20; i++) {
+			Clock.getInstance().tick();
+			
+			if (material != creature.isMaterial()) {
+				count++;
+				
+				material = creature.isMaterial();
+			}
+		}
+		
+		assertTrue(count == 0);
 	}
 }

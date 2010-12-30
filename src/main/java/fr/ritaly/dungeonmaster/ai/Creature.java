@@ -29,6 +29,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
@@ -1242,8 +1243,8 @@ public class Creature implements ChangeListener, ClockListener {
 
 	private final List<Item> absorbedItems = new ArrayList<Item>();
 
-	private boolean immaterial;
-
+	private final Materializer materializer;
+	
 	// Le paramètre multiplier peut représenter un "health multiplier" ou un
 	// "level experience multiplier"
 	public Creature(Type type, int multiplier) {
@@ -1260,6 +1261,16 @@ public class Creature implements ChangeListener, ClockListener {
 
 		this.health = new Stat(getId(), "Health", healthPoints, healthPoints);
 		this.health.addChangeListener(this);
+		
+		if (Type.ZYTAZ.equals(getType())) {
+			// Cas spécial du ZYTAZ. Son caractère immatériel est fonction du
+			// temps
+			this.materializer = new RandomMaterializer(this);
+		} else {
+			this.materializer = new StaticMaterializer(getType().isImmaterial());
+		}
+		
+		Clock.getInstance().register(this);
 	}
 
 	/**
@@ -1281,15 +1292,7 @@ public class Creature implements ChangeListener, ClockListener {
 	}
 
 	public final boolean isImmaterial() {
-		if (Type.ZYTAZ.equals(getType())) {
-			// Cas spécial du ZYTAZ. Son caractère immatériel est fonction du
-			// temps
-
-			// FIXME Implémenter ClockListener pour matérialiser le ZYTAZ
-			return immaterial;
-		}
-
-		return getType().isImmaterial();
+		return materializer.isImmaterial();
 	}
 
 	public final Height getHeight() {
@@ -1709,8 +1712,11 @@ public class Creature implements ChangeListener, ClockListener {
 
 	@Override
 	public boolean clockTicked() {
+		// Permet de faire "clignoter" le ZYTAZ
+		boolean result = this.materializer.clockTicked();
+		
 		// TODO Quand enregistrer la créature ?
 		// TODO Animer Creature
-		return false;
+		return result;
 	}
 }
