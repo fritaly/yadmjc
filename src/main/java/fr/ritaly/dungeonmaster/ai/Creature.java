@@ -449,6 +449,16 @@ public class Creature implements ChangeListener, ClockListener {
 		public boolean isStill() {
 			return (255 == moveDuration);
 		}
+		
+		/**
+		 * Indique si la créature peut bouger. Vaut true pour la plupart sauf
+		 * celles de type {@link #WATER_ELEMENTAL} et {@link #BLACK_FLAME}.
+		 * 
+		 * @return si la créature peut bouger. 
+		 */
+		public boolean canMove() {
+			return !isStill();
+		}
 
 		/**
 		 * Indique si la {@link Creature} est invincible.
@@ -1251,7 +1261,7 @@ public class Creature implements ChangeListener, ClockListener {
 	private final List<Item> absorbedItems = new ArrayList<Item>();
 
 	private final Materializer materializer;
-	
+
 	private Element element;
 
 	/**
@@ -1517,7 +1527,7 @@ public class Creature implements ChangeListener, ClockListener {
 
 	public int hit(AttackType attackType) {
 		Validate.notNull(attackType, "The given attack type is null");
-		
+
 		if (getType().isInvincible()) {
 			// La créature ne peut être blessée
 			return 0;
@@ -1614,9 +1624,13 @@ public class Creature implements ChangeListener, ClockListener {
 	public final boolean isImmuneToPoison() {
 		return getType().isImmuneToPoison();
 	}
-	
+
 	public final boolean isInvincible() {
 		return getType().isInvincible();
+	}
+	
+	public final boolean canMove() {
+		return getType().canMove();
 	}
 
 	public final boolean isImmuneToMagic() {
@@ -1737,8 +1751,8 @@ public class Creature implements ChangeListener, ClockListener {
 	@Override
 	public boolean clockTicked() {
 		// Permet de faire "clignoter" le ZYTAZ
-		boolean result = this.materializer.clockTicked();
-		
+		this.materializer.clockTicked();
+
 		// TODO Animer Creature
 		return true;
 	}
@@ -1768,12 +1782,12 @@ public class Creature implements ChangeListener, ClockListener {
 
 	public void setElement(Element element) {
 		// Le paramètre peut être null
-		
+
 		if (!ObjectUtils.equals(this.element, element)) {
 			final Element initialElement = this.element;
-			
+
 			this.element = element;
-			
+
 			if (log.isDebugEnabled()) {
 				log.debug(this + ".Element: " + initialElement + " -> "
 						+ this.element);
