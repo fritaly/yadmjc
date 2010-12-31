@@ -33,6 +33,8 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
+import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.HasDirection;
 import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
@@ -52,7 +54,7 @@ import fr.ritaly.dungeonmaster.stat.Stat;
 /**
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
-public class Creature implements ChangeListener, ClockListener {
+public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	private final Log log = LogFactory.getLog(this.getClass());
 
@@ -1251,6 +1253,20 @@ public class Creature implements ChangeListener, ClockListener {
 			}
 		}
 	}
+	
+	/**
+	 * La taille de la créature. Permet de déterminer de combien une porte doit
+	 * se fermer avant de frapper la créature en rebondissant.
+	 */
+	public static enum Height {
+		// Les valeurs doivent être classées du plus petit au plus grand
+		UNDEFINED,
+		// FIXME Les boules de feu peuvent passer au-dessus des créatures les +
+		// petites
+		SMALL,
+		MEDIUM,
+		GIANT;
+	}
 
 	private static final AtomicInteger SEQUENCE = new AtomicInteger();
 
@@ -1265,6 +1281,8 @@ public class Creature implements ChangeListener, ClockListener {
 	private final Materializer materializer;
 
 	private Element element;
+	
+	private Direction direction = Direction.NORTH;
 
 	/**
 	 * Membre d'instance synchronisé. A lire / écrire via le getter / setter.
@@ -1275,12 +1293,14 @@ public class Creature implements ChangeListener, ClockListener {
 	
 	// Le paramètre multiplier peut représenter un "health multiplier" ou un
 	// "level experience multiplier"
-	public Creature(Type type, int multiplier) {
+	public Creature(Type type, int multiplier, Direction direction) {
 		Validate.notNull(type);
 		Validate.isTrue(multiplier > 0, "The given multiplier <" + multiplier
 				+ "> must be positive");
+		Validate.notNull(direction);
 
 		this.type = type;
+		this.direction = direction;
 
 		// cf Technical Documentation - Dungeon Master and Chaos Strikes Back
 		// Creature Generators
@@ -1303,20 +1323,21 @@ public class Creature implements ChangeListener, ClockListener {
 
 		Clock.getInstance().register(this);
 	}
-
-	/**
-	 * La taille de la créature. Permet de déterminer de combien une porte doit
-	 * se fermer avant de frapper la créature en rebondissant.
-	 */
-	public static enum Height {
-		// Les valeurs doivent être classées du plus petit au plus grand
-		UNDEFINED,
-		// FIXME Les boules de feu peuvent passer au-dessus des créatures les +
-		// petites
-		SMALL,
-		MEDIUM,
-		GIANT;
+	
+	public Creature(Type type, int multiplier) {
+		this(type, multiplier, Direction.NORTH);
 	}
+	
+	@Override
+	public Direction getDirection() {
+		return direction;
+	}
+	
+	public void setDirection(Direction direction) {
+		Validate.notNull(direction, "The given direction is null");
+		
+		this.direction = direction;
+	};
 
 	public final boolean isMaterial() {
 		return materializer.isMaterial();
@@ -1770,6 +1791,18 @@ public class Creature implements ChangeListener, ClockListener {
 				if (!getType().canMove()) {
 					// La créature ne peut pas bouger
 				} else {
+					// FIXME Avant de déplacer la créature, on détermine si elle 
+					// voit les champions afin de transiter vers l'état TRACKING
+					final Direction lookDirection = getDirection();
+					
+					// Quelles sont les positions visibles de la créature ? Cela
+					// dépend de son acuité visuelle (awareness) et de la
+					// luminosité ambiante
+					
+					// FIXME
+					// Quelles sont les positions sur lesquelles les champions
+					// peuvent être repérés à l'oreille par la créature ? 
+					
 					// La créature peut bouger et se déplace. Element cible ?
 
 					if (getElement() == null) {
