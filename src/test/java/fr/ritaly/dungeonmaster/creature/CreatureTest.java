@@ -21,6 +21,9 @@ package fr.ritaly.dungeonmaster.creature;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ai.AttackType;
 import fr.ritaly.dungeonmaster.ai.Creature;
+import fr.ritaly.dungeonmaster.map.Dungeon;
+import fr.ritaly.dungeonmaster.map.Element;
+import fr.ritaly.dungeonmaster.map.Level;
 import junit.framework.TestCase;
 
 public class CreatureTest extends TestCase {
@@ -115,5 +118,56 @@ public class CreatureTest extends TestCase {
 		for (int i = 0; i < 10; i++) {
 			assertEquals(0, creature.hit(AttackType.CRITICAL));
 		}
+	}
+	
+	private void assertOneCreature(Element element, Creature creature) {
+		assertTrue(element.hasCreatures());
+		assertEquals(1, element.getCreatureCount());
+		assertEquals(creature, element.getCreatures().iterator().next());
+	}
+	
+	private void assertNoCreature(Element element) {
+		assertFalse(element.hasCreatures());
+		assertEquals(0, element.getCreatureCount());
+	}
+	
+	public void testCreatureIA() {
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | . | D | . | W |
+		// +---+---+---+---+---+
+		// | W | . | . | . | W |
+		// +---+---+---+---+---+
+		// | W | W | W | W | W |
+		// +---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+
+		final Level level1 = dungeon.createLevel(1, 5, 5);
+		final Element element = level1.getElement(2, 2);
+		
+		final Creature dragon = new Creature(Creature.Type.RED_DRAGON, 1);
+		element.addCreature(dragon);
+		
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 5; y++) {
+				if ((x == 2) && (y == 2)) {
+					// (2,2) a 1 créature
+					assertOneCreature(element, dragon);					
+				} else {
+					assertNoCreature(level1.getElement(x, y));
+				}
+			}
+		}
+		
+		assertEquals(Creature.State.IDLE, dragon.getState());
+		
+		// Laisser le temps passer
+		Clock.getInstance().tick(50);
+		
+		assertEquals(Creature.State.PATROLLING, dragon.getState());
 	}
 }

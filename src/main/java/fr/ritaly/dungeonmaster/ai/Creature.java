@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -32,6 +33,7 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
+import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -60,8 +62,8 @@ public class Creature implements ChangeListener, ClockListener {
 	 * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
 	 */
 	public static enum State {
-		IDLE;
-		// PATROLLING,
+		IDLE,
+		PATROLLING;
 		// STALKING,
 		// ATTACKING,
 		// DYING,
@@ -1268,7 +1270,9 @@ public class Creature implements ChangeListener, ClockListener {
 	 * Membre d'instance synchronisé. A lire / écrire via le getter / setter.
 	 */
 	private State state = State.IDLE;
-
+	
+	private final Temporizer moveTemporizer;
+	
 	// Le paramètre multiplier peut représenter un "health multiplier" ou un
 	// "level experience multiplier"
 	public Creature(Type type, int multiplier) {
@@ -1293,6 +1297,9 @@ public class Creature implements ChangeListener, ClockListener {
 		} else {
 			this.materializer = new StaticMaterializer(getType().isImmaterial());
 		}
+		
+		this.moveTemporizer = new Temporizer(getId(), getType()
+				.getMoveDuration());
 
 		Clock.getInstance().register(this);
 	}
@@ -1752,6 +1759,121 @@ public class Creature implements ChangeListener, ClockListener {
 	public boolean clockTicked() {
 		// Permet de faire "clignoter" le ZYTAZ
 		this.materializer.clockTicked();
+
+		// FIXME Pour l'instant, on ne gère que les créatures de taille 4 !!
+		// FIXME Temporiser cette logique
+		if (moveTemporizer.trigger() && Size.FOUR.equals(getSize())) {
+			// IA
+			if (State.IDLE.equals(getState())
+					|| State.PATROLLING.equals(getState())) {
+				
+				if (!getType().canMove()) {
+					// La créature ne peut pas bouger
+				} else {
+					// La créature peut bouger et se déplace. Element cible ?
+
+					if (getElement() == null) {
+						// Nécessaire pour faire fonctionner les tests unitaires
+						return true;
+					}
+
+					// Positions cible possibles ?
+					final List<Element> surroundingElements = getElement()
+							.getSurroundingElements();
+
+					// Filtrer les positions cible selon qu'elles sont
+					// occupables
+					for (Iterator<Element> it = surroundingElements.iterator(); it
+							.hasNext();) {
+
+						final Element element = it.next();
+
+						// La créature doit pouvoir "traverser" la position
+						if (!element.isTraversable(this)) {
+							it.remove();
+
+							continue;
+						}
+
+						// La position ne doit pas être occupée par les
+						// champions
+						if (element.hasParty()) {
+							it.remove();
+
+							continue;
+						}
+
+						// La position peut-elle accueillir la créature ?
+						if (!element.canHost(this)) {
+							it.remove();
+
+							continue;
+						}
+
+						if (Element.Type.STAIRS.equals(element.getType())) {
+							// S'il s'agit d'escaliers, la créature peut-elle
+							// les prendre ?
+							if (!canTakeStairs()) {
+								it.remove();
+
+								continue;
+							}
+						} else if (Element.Type.TELEPORTER.equals(element
+								.getType())) {
+							
+							// S'il s'agit d'un téléporteur, la créature
+							// peut-elle le prendre ?
+							if (!canTeleport()) {
+								it.remove();
+
+								continue;
+							}
+						} else if (Element.Type.PIT.equals(element.getType())) {
+							// S'il s'agit d'une oubliette, la créature
+							// peut-elle s'y jeter (si celle-ci est ouverte !) ?
+							// FIXME
+						}
+					}
+
+					if (surroundingElements.isEmpty()) {
+						// Impossible de déplacer la créature
+						return true;
+					}
+
+					// FIXME Implémenter un changement de direction à intervalle
+					// aléatoire
+
+					// FIXME On doit privilégier la direction dans laquelle la
+					// créature se trouve actuellement
+
+					// FIXME Faire tourner la créature
+
+					// FIXME Le déplacement est-il physiquement possible ? La
+					// créature n'est-elle pas gênée par une autre créature
+					// devant ?
+
+					// FIXME L'emplacement cible n'est-il pas une oubliette ?
+
+					if (State.IDLE.equals(getState())) {
+						// La créature passe dans l'état PATROLLING
+						setState(State.PATROLLING);						
+					}
+
+					// ... et on la déplace
+					Collections.shuffle(surroundingElements);
+					
+					final Element sourceElement = getElement();
+					final Element targetElement = surroundingElements
+							.iterator().next();
+					
+					// La créature quitte la position source
+					sourceElement.creatureSteppedOff(this);
+					
+					// La créature occupe la position cible
+					targetElement.creatureSteppedOn(this);
+				}
+			}
+		}
 
 		// TODO Animer Creature
 		return true;
