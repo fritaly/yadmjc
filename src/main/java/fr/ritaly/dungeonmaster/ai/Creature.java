@@ -35,6 +35,7 @@ import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.HasDirection;
+import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
@@ -1774,6 +1775,41 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	@Override
 	public String toString() {
 		return getId();
+	}
+	
+	/**
+	 * Indique si la créature peut voir la position donnée.
+	 * 
+	 * @return si la créature peut voir la position donnée.
+	 */
+	public boolean canSeePosition(Position targetPosition) {
+		Validate.notNull(targetPosition, "The given position is null");
+
+		if (getElement() == null) {
+			// Créature non installée dans un donjon
+			return false;
+		}
+
+		final Position currentPosition = getElement().getPosition();
+
+		// Optimisation: On commence par vérifier que la position cible donnée
+		// correspond bien au niveau de la créature
+		if (targetPosition.z != currentPosition.z) {
+			return false;
+		}
+
+		// Positions visibles de la créature ?
+		final List<Element> visibleElements = getElement().getLevel()
+				.getVisibleElements(currentPosition.x, currentPosition.y,
+						getDirection());
+
+		for (Element element : visibleElements) {
+			if (targetPosition.equals(element.getPosition())) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override
