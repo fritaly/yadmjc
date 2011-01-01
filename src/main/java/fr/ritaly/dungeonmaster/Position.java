@@ -175,6 +175,15 @@ public final class Position {
 	 * @return une {@link List} de {@link Position}s.
 	 */
 	public List<Position> getSurroundingPositions() {
+		// Positions entourant la position P
+		// +---+---+---+
+		// | S | S | S |
+		// +---+---+---+
+		// | S | P | S |
+		// +---+---+---+
+		// | S | S | S |
+		// +---+---+---+
+		
 		final List<Position> positions = new ArrayList<Position>(9);
 
 		for (int a = this.x - 1; a <= this.x + 1; a++) {
@@ -203,6 +212,19 @@ public final class Position {
 		Validate.notNull(lookDirection, "The given direction is null");
 
 		final List<Position> positions = new ArrayList<Position>();
+
+		// Positions visibles depuis la position P en regardant vers le nord
+		// +---+---+---+---+---+---+---+---+---+
+		// |   |   |   |   |   |   |   |   |   |
+		// +---+---+---+---+---+---+---+---+---+
+		// |   |   | V | V | V | V | V |   |   |
+		// +---+---+---+---+---+---+---+---+---+
+		// |   |   |   | V | V | V |   |   |   |
+		// +---+---+---+---+---+---+---+---+---+
+		// |   |   |   | V | V | V |   |   |   |
+		// +---+---+---+---+---+---+---+---+---+
+		// |   |   |   |   | P |   |   |   |   |
+		// +---+---+---+---+---+---+---+---+---+
 
 		switch (lookDirection) {
 		case NORTH:
