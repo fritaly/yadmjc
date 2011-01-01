@@ -437,18 +437,28 @@ public class Level {
 		checkY(y);
 		Validate.notNull(direction, "The given direction is null");
 		
-		final List<Element> visibleElements = new ArrayList<Element>();
+		return getElements(new Position(x, y, level)
+				.getVisiblePositions(direction));
+	}
+	
+	public List<Element> getElements(List<Position> positions) {
+		Validate.notNull(positions);
 		
-		for (Position position : new Position(x, y, level)
-				.getVisiblePositions(direction)) {
+		final List<Element> result = new ArrayList<Element>(positions.size());
+		
+		for (Position position : positions) {
+			// On doit vérifier la valeur de z associée à la position !!
+			if (position.z != this.level) {
+				continue;
+			}
 			
 			final Element element = getElement(position.x, position.y, false);
 			
 			if (element != null) {
-				visibleElements.add(element);
+				result.add(element);
 			}
 		}
 		
-		return visibleElements;
+		return result;
 	}
 }
