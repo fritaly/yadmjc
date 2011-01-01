@@ -1813,6 +1813,46 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 		return false;
 	}
+	
+	/**
+	 * Indique si la créature peut entendre un bruit provenant de la position
+	 * donnée.
+	 * 
+	 * @return si la créature peut entendre un bruit provenant de la position
+	 *         donnée.
+	 */
+	public boolean canHearPosition(Position targetPosition) {
+		Validate.notNull(targetPosition, "The given position is null");
+
+		if (getElement() == null) {
+			// Créature non installée dans un donjon
+			return false;
+		}
+
+		final Position currentPosition = getElement().getPosition();
+
+		// Optimisation: On commence par vérifier que la position cible donnée
+		// correspond bien au niveau de la créature
+		if (targetPosition.z != currentPosition.z) {
+			return false;
+		}
+
+		// Positions audibles de la créature ? Cela dépend de l'acuité de la 
+		// créature
+		final List<Position> audiblePositions = currentPosition
+				.getSurroundingPositions(getType().getAwareness());
+		
+		final List<Element> audibleElements = getElement().getLevel()
+				.getElements(audiblePositions);
+
+		for (Element element : audibleElements) {
+			if (targetPosition.equals(element.getPosition())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	@Override
 	public boolean clockTicked() {
