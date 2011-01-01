@@ -177,12 +177,24 @@ public class Level {
 					"The given y must be in range [0-" + (height - 1) + "]");
 		}
 	}
-
+	
 	public Element getElement(int x, int y) {
-		checkX(x);
-		checkY(y);
+		return getElement(x, y, true);
+	}
 
-		return elements[x][y];
+	public Element getElement(int x, int y, boolean fail) {
+		if (fail) {
+			checkX(x);
+			checkY(y);
+
+			return elements[x][y];			
+		} else {
+			if ((x >= 0) && (x <= width - 1) && (y >= 0) && (y <= height - 1)) {
+				return elements[x][y];
+			}
+			
+			return null;
+		}
 	}
 
 	public int getLevel() {
