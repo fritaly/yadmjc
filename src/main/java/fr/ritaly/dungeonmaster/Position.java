@@ -175,27 +175,123 @@ public final class Position {
 	 * @return une {@link List} de {@link Position}s.
 	 */
 	public List<Position> getSurroundingPositions() {
-		// Positions entourant la position P
+		// Rechercher les positions voisines dans un rayon de 1
+		return getSurroundingPositions(1);
+	}
+
+	/**
+	 * Retourne une liste contenant les positions entourant cette
+	 * {@link Position} dans le rayon donné.
+	 * 
+	 * @param radius
+	 *            un entier représentant le rayon en nombre de cases voisines.
+	 * 
+	 * @return une {@link List} de {@link Position}s.
+	 */
+	public List<Position> getSurroundingPositions(int radius) {
+		Validate.isTrue(radius >= 1, "The given radius must be positive");
+		
+		final List<Position> positions = new ArrayList<Position>(16);
+		
+		// Positions entourant la position P dans un rayon de 1
 		// +---+---+---+
-		// | S | S | S |
+		// | 1 | 1 | 1 |
 		// +---+---+---+
-		// | S | P | S |
+		// | 1 | P | 1 |
 		// +---+---+---+
-		// | S | S | S |
+		// | 1 | 1 | 1 |
 		// +---+---+---+
 		
-		final List<Position> positions = new ArrayList<Position>(9);
-
 		for (int a = this.x - 1; a <= this.x + 1; a++) {
 			for (int b = this.y - 1; b <= this.y + 1; b++) {
 				positions.add(new Position(a, b, this.z));
 			}
 		}
-
+			
 		// Retirer la position courante
 		positions.remove(this);
-
-		return positions;
+			
+		if (radius == 1) {
+			return positions;
+		}
+		
+		// Positions entourant la position P dans un rayon de 2
+		// +---+---+---+---+---+
+		// |   | 2 | 2 | 2 |   |
+		// +---+---+---+---+---+
+		// | 2 | 1 | 1 | 1 | 2 |
+		// +---+---+---+---+---+
+		// | 2 | 1 | P | 1 | 2 |
+		// +---+---+---+---+---+
+		// | 2 | 1 | 1 | 1 | 2 |
+		// +---+---+---+---+---+
+		// |   | 2 | 2 | 2 |   |
+		// +---+---+---+---+---+
+		
+		positions.add(new Position(this.x-2, this.y-1, this.z));
+		positions.add(new Position(this.x-2, this.y, this.z));
+		positions.add(new Position(this.x-2, this.y+1, this.z));
+		
+		positions.add(new Position(this.x+2, this.y-1, this.z));
+		positions.add(new Position(this.x+2, this.y, this.z));
+		positions.add(new Position(this.x+2, this.y+1, this.z));
+		
+		positions.add(new Position(this.x-1, this.y-2, this.z));
+		positions.add(new Position(this.x, this.y-2, this.z));
+		positions.add(new Position(this.x+1, this.y-2, this.z));
+		
+		positions.add(new Position(this.x-1, this.y+2, this.z));
+		positions.add(new Position(this.x, this.y+2, this.z));
+		positions.add(new Position(this.x+1, this.y+2, this.z));
+		
+		if (radius == 2) {
+			return positions;
+		}
+		
+		// Positions entourant la position P dans un rayon de 3
+		// +---+---+---+---+---+---+---+
+		// |   |   | 3 | 3 | 3 |   |   |
+		// +---+---+---+---+---+---+---+
+		// |   | 3 | 2 | 2 | 2 | 3 |   |
+		// +---+---+---+---+---+---+---+
+		// | 3 | 2 | 1 | 1 | 1 | 2 | 3 |
+		// +---+---+---+---+---+---+---+
+		// | 3 | 2 | 1 | P | 1 | 2 | 3 |
+		// +---+---+---+---+---+---+---+
+		// | 3 | 2 | 1 | 1 | 1 | 2 | 3 |
+		// +---+---+---+---+---+---+---+
+		// |   | 3 | 2 | 2 | 2 | 3 |   |
+		// +---+---+---+---+---+---+---+
+		// |   |   | 3 | 3 | 3 |   |   |
+		// +---+---+---+---+---+---+---+
+		
+		positions.add(new Position(this.x-3, this.y-1, this.z));
+		positions.add(new Position(this.x-3, this.y, this.z));
+		positions.add(new Position(this.x-3, this.y+1, this.z));
+		
+		positions.add(new Position(this.x+3, this.y-1, this.z));
+		positions.add(new Position(this.x+3, this.y, this.z));
+		positions.add(new Position(this.x+3, this.y+1, this.z));
+		
+		positions.add(new Position(this.x-2, this.y-2, this.z));
+		positions.add(new Position(this.x-2, this.y+2, this.z));
+		
+		positions.add(new Position(this.x+2, this.y-2, this.z));
+		positions.add(new Position(this.x+2, this.y+2, this.z));
+		
+		positions.add(new Position(this.x-1, this.y-3, this.z));
+		positions.add(new Position(this.x, this.y-3, this.z));
+		positions.add(new Position(this.x+1, this.y-3, this.z));
+		
+		positions.add(new Position(this.x-1, this.y+3, this.z));
+		positions.add(new Position(this.x, this.y+3, this.z));
+		positions.add(new Position(this.x+1, this.y+3, this.z));
+		
+		if (radius == 3) {
+			return positions;
+		}
+		
+		throw new UnsupportedOperationException("Unsupported radius " + radius);
 	}
 	
 	/**
