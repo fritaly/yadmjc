@@ -188,4 +188,104 @@ public final class Position {
 
 		return positions;
 	}
+	
+	/**
+	 * Retourne, pour cette {@link Position}, la liste des {@link Position}s qui
+	 * lui sont visibles en regardant dans la direction donnée. L'implémentation
+	 * courante suppose que la portée visuelle est de 3 lignes en profondeur.
+	 * 
+	 * @param lookDirection
+	 *            la {@link Direction} de regard.
+	 * @return une {@link List} de {@link Position}s. Ne retourne jamais null.
+	 */
+	public List<Position> getVisiblePositions(Direction lookDirection) {
+		// FIXME Rajouter un paramètre sightRange
+		Validate.notNull(lookDirection, "The given direction is null");
+
+		final List<Position> positions = new ArrayList<Position>();
+
+		switch (lookDirection) {
+		case NORTH:
+			// La créature voit sur 3 rangées de profondeur et sur une rangée de
+			// chaque côté
+			positions.add(new Position(x - 1, y - 1, z));
+			positions.add(new Position(x - 1, y, z));
+			positions.add(new Position(x - 1, y + 1, z));
+
+			positions.add(new Position(x - 2, y - 1, z));
+			positions.add(new Position(x - 2, y, z));
+			positions.add(new Position(x - 2, y + 1, z));
+
+			// Pour la dernière rangée, la créature voit sur 2 rangées de chaque
+			// côté
+			positions.add(new Position(x - 3, y - 2, z));
+			positions.add(new Position(x - 3, y - 1, z));
+			positions.add(new Position(x - 3, y, z));
+			positions.add(new Position(x - 3, y + 1, z));
+			positions.add(new Position(x - 3, y + 2, z));
+			break;
+		case SOUTH:
+			// La créature voit sur 3 rangées de profondeur et sur une rangée de
+			// chaque côté
+			positions.add(new Position(x + 1, y - 1, z));
+			positions.add(new Position(x + 1, y, z));
+			positions.add(new Position(x + 1, y + 1, z));
+
+			positions.add(new Position(x + 2, y - 1, z));
+			positions.add(new Position(x + 2, y, z));
+			positions.add(new Position(x + 2, y + 1, z));
+
+			// Pour la dernière rangée, la créature voit sur 2 rangées de chaque
+			// côté
+			positions.add(new Position(x + 3, y - 2, z));
+			positions.add(new Position(x + 3, y - 1, z));
+			positions.add(new Position(x + 3, y, z));
+			positions.add(new Position(x + 3, y + 1, z));
+			positions.add(new Position(x + 3, y + 2, z));
+			break;
+		case WEST:
+			// La créature voit sur 3 rangées de profondeur et sur une rangée de
+			// chaque côté
+			positions.add(new Position(x - 1, y - 1, z));
+			positions.add(new Position(x, y - 1, z));
+			positions.add(new Position(x + 1, y - 1, z));
+
+			positions.add(new Position(x - 1, y - 2, z));
+			positions.add(new Position(x, y - 2, z));
+			positions.add(new Position(x + 1, y - 2, z));
+
+			// Pour la dernière rangée, la créature voit sur 2 rangées de chaque
+			// côté
+			positions.add(new Position(x - 2, y - 3, z));
+			positions.add(new Position(x - 1, y - 3, z));
+			positions.add(new Position(x, y - 3, z));
+			positions.add(new Position(x + 1, y - 3, z));
+			positions.add(new Position(x + 2, y - 3, z));
+			break;
+		case EAST:
+			// La créature voit sur 3 rangées de profondeur et sur une rangée de
+			// chaque côté
+			positions.add(new Position(x - 1, y + 1, z));
+			positions.add(new Position(x, y + 1, z));
+			positions.add(new Position(x + 1, y + 1, z));
+
+			positions.add(new Position(x - 1, y + 2, z));
+			positions.add(new Position(x, y + 2, z));
+			positions.add(new Position(x + 1, y + 2, z));
+
+			// Pour la dernière rangée, la créature voit sur 2 rangées de chaque
+			// côté
+			positions.add(new Position(x - 2, y + 3, z));
+			positions.add(new Position(x - 1, y + 3, z));
+			positions.add(new Position(x, y + 3, z));
+			positions.add(new Position(x + 1, y + 3, z));
+			positions.add(new Position(x + 2, y + 3, z));
+			break;
+		default:
+			throw new UnsupportedOperationException("Unsupported direction "
+					+ lookDirection);
+		}
+
+		return positions;
+	}
 }
