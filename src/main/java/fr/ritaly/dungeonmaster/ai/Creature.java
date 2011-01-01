@@ -1799,9 +1799,11 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		// Positions visibles de la créature ?
+		final List<Position> visiblePositions = currentPosition
+				.getVisiblePositions(direction);
+		
 		final List<Element> visibleElements = getElement().getLevel()
-				.getVisibleElements(currentPosition.x, currentPosition.y,
-						getDirection());
+				.getElements(visiblePositions);
 
 		for (Element element : visibleElements) {
 			if (targetPosition.equals(element.getPosition())) {

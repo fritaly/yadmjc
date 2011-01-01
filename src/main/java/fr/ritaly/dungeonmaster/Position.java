@@ -36,6 +36,7 @@ public final class Position {
 
 	private final String toString;
 
+	// FIXME Masquer ce constructeur pour réutiliser les instances -> valueOf(x, y, z)
 	public Position(int x, int y, int z) {
 		this.x = x;
 		this.y = y;

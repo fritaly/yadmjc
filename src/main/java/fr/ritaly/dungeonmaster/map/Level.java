@@ -28,7 +28,6 @@ import org.apache.commons.logging.LogFactory;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Constants;
-import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -431,15 +430,6 @@ public class Level {
 	}
 
 	// TODO Méthode de récupération des projectiles du niveau
-	
-	public List<Element> getVisibleElements(int x, int y, Direction direction) {
-		checkX(x);
-		checkY(y);
-		Validate.notNull(direction, "The given direction is null");
-		
-		return getElements(new Position(x, y, level)
-				.getVisiblePositions(direction));
-	}
 	
 	public List<Element> getElements(List<Position> positions) {
 		Validate.notNull(positions);
