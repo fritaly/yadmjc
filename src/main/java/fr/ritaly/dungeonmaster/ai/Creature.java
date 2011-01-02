@@ -1329,6 +1329,13 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	 * (expiration).
 	 */
 	private final AtomicInteger moveTimer = new AtomicInteger();
+
+	/**
+	 * {@link AtomicInteger} utilisé afin de représenter le timer d'attaque de
+	 * la créature. Celle-ci peut attaquer quand le timer est à zéro ce qui le
+	 * réinitialise.
+	 */
+	private final AtomicInteger attackTimer = new AtomicInteger();
 	
 	// Le paramètre multiplier peut représenter un "health multiplier" ou un
 	// "level experience multiplier"
@@ -1958,6 +1965,9 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		// Indique si la créature peut se déplacer à ce "round"
 		final boolean moveAllowed;
 		
+		// FIXME Le timer moveTimer doit-il fonctionner comme le attackTimer ?
+		// c-a-d que le monstre n'est pas obligé de se déplacer s'il le peut
+		
 		if (moveTimer.decrementAndGet() == 0) {
 			// On réinitialise le timer de mouvement
 			moveTimer.set(getType().getMoveDuration());
@@ -1965,6 +1975,25 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			moveAllowed = true;
 		} else {
 			moveAllowed = false;
+		}
+		
+		// Indique si la créature peut attaquer à ce "round"
+		final boolean attackAllowed;
+		
+		if (attackTimer.get() == 0) {
+			// Le monstre peut déjà attaquer
+			attackAllowed = true;
+		} else {
+			// Décrémenter le compteur d'attaque
+			if (attackTimer.decrementAndGet() == 0) {
+				// On réinitialise le timer d'attaque
+				attackTimer.set(getType().getAttackDuration());
+				
+				attackAllowed = true;	
+			} else {
+				// La créature ne peut pas encore attaquer
+				attackAllowed = false;
+			}
 		}
 		
 		if (getElement() == null) {
@@ -1979,11 +2008,13 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		// "compatibilité d'humeur")
 		// FIXME Gérer priorité d'animosité créatures / champions
 		
-		if ((party != null) && canAttackPosition(party.getPosition())) {
-			// Attaquer les champions
-			attackParty(party);
+		if (attackAllowed) {
+			if ((party != null) && canAttackPosition(party.getPosition())) {
+				// Attaquer les champions
+				attackParty(party);
 
-			return true;
+				return true;
+			}			
 		}
 		
 		if (moveAllowed) {
@@ -1997,6 +2028,12 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				// La créature voit les champions, elle se met en chasse et
 				// se déplace vers eux
 				if (moveTo(party.getPosition().x, party.getPosition().y)) {
+					// Si la créature peut aussi attaquer dans la foulée, elle 
+					// le fait dans le même tour
+					if (attackAllowed && canAttackPosition(party.getPosition())) {
+						attackParty(party);
+					}
+					
 					// Le déplacement peut ne pas aboutir
 					return true;
 				}
@@ -2006,6 +2043,12 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				// La créature entend les champions, elle se met en chasse 
 				// et se déplace vers eux
 				if (moveTo(party.getPosition().x, party.getPosition().y)) {
+					// Si la créature peut aussi attaquer dans la foulée, elle 
+					// le fait dans le même tour
+					if (attackAllowed && canAttackPosition(party.getPosition())) {
+						attackParty(party);
+					}
+					
 					// Le déplacement peut ne pas aboutir
 					return true;
 				}

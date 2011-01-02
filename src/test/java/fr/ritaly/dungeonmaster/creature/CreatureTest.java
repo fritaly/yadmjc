@@ -398,15 +398,6 @@ public class CreatureTest extends TestCase {
 		Clock.getInstance().tick(Creature.Type.GIANT_SCORPION.getMoveDuration());
 		
 		// --- Contrôles sur nouvel état
-		assertEquals(Creature.State.TRACKING, scorpion.getState());
-		assertEquals(Direction.NORTH, scorpion.getDirection());
-		assertTrue(scorpion.canSeePosition(party.getPosition()));
-		assertEquals(new Position(4, 2, 1), scorpion.getElement().getPosition());
-		
-		// --- On laisse la créature se déplacer une fois (vers les champions)
-		Clock.getInstance().tick(Creature.Type.GIANT_SCORPION.getMoveDuration());
-		
-		// --- Contrôles sur nouvel état
 		assertEquals(Creature.State.ATTACKING, scorpion.getState());
 		assertEquals(Direction.NORTH, scorpion.getDirection());
 		assertTrue(scorpion.canSeePosition(party.getPosition()));
