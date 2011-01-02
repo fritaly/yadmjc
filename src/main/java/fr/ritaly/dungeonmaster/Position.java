@@ -120,7 +120,7 @@ public final class Position {
 			throw new IllegalArgumentException("The given position is null");
 		}
 
-		return this.x == position.x;
+		return (this.z == position.z) && (this.x == position.x);
 	}
 
 	/**
@@ -137,7 +137,25 @@ public final class Position {
 			throw new IllegalArgumentException("The given position is null");
 		}
 
-		return this.y == position.y;
+		return (this.z == position.z) && (this.y == position.y);
+	}
+	
+	/**
+	 * Indique si cette {@link Position} est alignée avec la {@link Position}
+	 * donnée.
+	 * 
+	 * @param position
+	 *            une instance de {@link Position}.
+	 * @return si cette {@link Position} est alignée avec la {@link Position}
+	 *         donnée.
+	 */
+	public boolean isAligned(Position position) {
+		if (position == null) {
+			throw new IllegalArgumentException("The given position is null");
+		}
+
+		return (this.z == position.z)
+				&& ((this.x == position.x) || (this.y == position.y));
 	}
 
 	public Position towards(Direction direction) {
