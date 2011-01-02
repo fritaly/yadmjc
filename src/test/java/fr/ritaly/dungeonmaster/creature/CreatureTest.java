@@ -131,7 +131,7 @@ public class CreatureTest extends TestCase {
 		assertEquals(0, element.getCreatureCount());
 	}
 	
-	public void testCreatureIA() {
+	public void testCreatureWhenIdle() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
@@ -164,10 +164,13 @@ public class CreatureTest extends TestCase {
 		}
 		
 		assertEquals(Creature.State.IDLE, dragon.getState());
+		assertTrue(element.equals(dragon.getElement()));
 		
-		// Laisser le temps passer
-		Clock.getInstance().tick(50);
+		// Laisser le temps passer (suffisamment pour que le dragon se déplace)
+		Clock.getInstance().tick(dragon.getMoveDuration());
 		
+		// Le dragon doit avoir changé d'état et changé de place
 		assertEquals(Creature.State.PATROLLING, dragon.getState());
+		assertFalse(element.equals(dragon.getElement()));
 	}
 }
