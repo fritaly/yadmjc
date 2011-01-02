@@ -1546,7 +1546,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		return getType().getSightRange();
 	}
 
-	public final int getSpellCastingRange() {
+	public final int getSpellRange() {
 		return getType().getSpellRange();
 	}
 
@@ -1897,16 +1897,24 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			return false;
 		}
 		
-		// Positions attaquables directement ?
-		final List<Position> attackablePositions = currentPosition
-				.getAttackablePositions();
+		final List<Position> attackablePositions;
 		
-		if (attackablePositions.contains(targetPosition)) {
-			// La position peut être attaquée directement
-			return true;
+		// Plutôt que d'appeler la méthode canCastSpell() qui considère tous les 
+		// sorts (d'attaque ou non), on se base sur le retour de 
+		// getAttackSpells()
+		if (!getType().getAttackSpells().isEmpty()) {
+			// La créature peut porter des attaques à distance, on considère 
+			// toutes les positions qu'elle peut attaquer (au contact ou à
+			// distance). Portée maximale du sort que peut lancer la créature ?
+			attackablePositions = currentPosition
+					.getAttackablePositions(getSpellRange());
+		} else {
+			// La créature ne peut attaquer qu'au contact, ne considérer que
+			// les positions d'attaque proches
+			attackablePositions = currentPosition.getAttackablePositions();
 		}
 
-		return false;
+		return attackablePositions.contains(targetPosition);
 	}
 
 	@Override
