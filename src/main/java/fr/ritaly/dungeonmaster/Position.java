@@ -407,4 +407,20 @@ public final class Position {
 
 		return positions;
 	}
+	
+	/**
+	 * Retourne les 4 {@link Position}s attaquables depuis cette
+	 * {@link Position}.
+	 * 
+	 * @return une {@link List} de {@link Position}s.
+	 */
+	public List<Position> getAttackablePositions() {
+		final List<Position> positions = new ArrayList<Position>();
+		positions.add(towardsEast());
+		positions.add(towardsNorth());
+		positions.add(towardsSouth());
+		positions.add(towardsWest());
+
+		return positions;
+	}
 }
