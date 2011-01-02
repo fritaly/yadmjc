@@ -19,6 +19,7 @@
 package fr.ritaly.dungeonmaster.item.drink;
 
 import junit.framework.TestCase;
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
@@ -48,5 +49,11 @@ public class WaterFlaskTest extends TestCase {
 		// --- On récupère une fiole vide
 		assertNotNull(emptyFlask);
 		assertEquals(0.1f, emptyFlask.getWeight(), 0.0001f);
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

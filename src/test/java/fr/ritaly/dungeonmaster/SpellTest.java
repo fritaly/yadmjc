@@ -642,4 +642,10 @@ public class SpellTest extends TestCase {
 		// --- La santé du champion doit avoir diminué du fait du poison
 		assertTrue(health > tiggy.getStats().getHealth().value().intValue());
 	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
+	}
 }

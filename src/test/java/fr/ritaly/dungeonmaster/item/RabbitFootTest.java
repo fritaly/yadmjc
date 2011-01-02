@@ -18,6 +18,7 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -93,5 +94,11 @@ public class RabbitFootTest extends TestCase {
 		assertEquals(initialLuck, luck.actualValue().intValue());
 
 		// FIXME Si patte de lapin dans coffre porté par joueur ?
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

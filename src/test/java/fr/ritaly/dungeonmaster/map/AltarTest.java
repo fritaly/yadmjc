@@ -19,6 +19,7 @@
 package fr.ritaly.dungeonmaster.map;
 
 import junit.framework.TestCase;
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
@@ -91,5 +92,11 @@ public class AltarTest extends TestCase {
 		
 		// L'autel doit être vide
 		assertEquals(0, altar.getItemCount());
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

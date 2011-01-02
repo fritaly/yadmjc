@@ -203,4 +203,10 @@ public class StatTest extends TestCase {
 		assertEquals(1, stat.value().intValue());
 		assertEquals(0, stat.boostValue().intValue()); // <---
 	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
+	}
 }

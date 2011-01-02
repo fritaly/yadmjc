@@ -312,6 +312,9 @@ public class DungeonMasterTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		log.info("--- Running test " + getName() + " ---");
+		
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 
 	// public void testDoorTriggering() {

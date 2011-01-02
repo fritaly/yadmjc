@@ -62,4 +62,10 @@ public class TorchWallTest extends TestCase {
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
+	}
 }

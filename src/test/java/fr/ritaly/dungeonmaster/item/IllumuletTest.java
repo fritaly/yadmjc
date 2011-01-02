@@ -19,6 +19,7 @@
 package fr.ritaly.dungeonmaster.item;
 
 import junit.framework.TestCase;
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
@@ -57,5 +58,11 @@ public class IllumuletTest extends TestCase {
 		// --- L'immumulet s'allume uniquement quand on la porte au cou
 		assertEquals(illumulet, tiggy.getBody().getNeck().takeOff());
 		assertEquals(0, tiggy.getLight());
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

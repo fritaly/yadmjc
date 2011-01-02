@@ -18,6 +18,7 @@
  */
 package fr.ritaly.dungeonmaster.item.drink;
 
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -69,5 +70,11 @@ public class WaterSkinTest extends TestCase {
 
 		assertEquals(waterSkin, item3);
 		assertEquals(0.3f * 0 + 0.3f, waterSkin.getWeight(), 0.0001f);
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

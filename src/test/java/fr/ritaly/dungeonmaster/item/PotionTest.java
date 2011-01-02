@@ -19,6 +19,7 @@
 package fr.ritaly.dungeonmaster.item;
 
 import junit.framework.TestCase;
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
@@ -141,5 +142,11 @@ public class PotionTest extends TestCase {
 		tiggy.consume(ItemFactory.getFactory().newItem(
 				Item.Type.ANTIDOTE_POTION));
 		assertFalse(tiggy.isPoisoned());
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

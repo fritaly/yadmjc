@@ -18,6 +18,7 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
@@ -326,5 +327,11 @@ public class RopeTest extends TestCase {
 		// La santé du champion ne doit pas avoir diminué pour bien différencier
 		// du cas de la chute !!
 		assertEquals(health, tiggy.getStats().getHealth().value().intValue());
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

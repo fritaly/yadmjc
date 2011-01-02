@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
@@ -216,5 +217,11 @@ public class StairsTest extends TestCase {
 		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(stairsDownPosition, dungeon.getParty().getPosition());
 		assertEquals(Direction.SOUTH, dungeon.getParty().getLookDirection());
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

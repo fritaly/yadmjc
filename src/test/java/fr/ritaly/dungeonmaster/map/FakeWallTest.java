@@ -19,6 +19,7 @@
 package fr.ritaly.dungeonmaster.map;
 
 import junit.framework.TestCase;
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
@@ -62,5 +63,11 @@ public class FakeWallTest extends TestCase {
 		assertEquals(partyPosition, party.getPosition());
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(partyPosition.towards(Direction.EAST), party.getPosition());
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

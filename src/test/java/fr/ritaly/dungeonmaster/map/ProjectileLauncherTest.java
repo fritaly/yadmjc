@@ -175,4 +175,10 @@ public class ProjectileLauncherTest extends TestCase {
 		assertEquals(Item.Type.POISON_DART, target.getItems(SubCell.SOUTH_WEST)
 				.iterator().next().getType());
 	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
+	}
 }

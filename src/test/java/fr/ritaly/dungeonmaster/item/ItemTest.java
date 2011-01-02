@@ -20,6 +20,7 @@ package fr.ritaly.dungeonmaster.item;
 
 import java.util.EnumSet;
 
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -145,5 +146,11 @@ public class ItemTest extends TestCase {
 		assertEquals(0, maxLoadBoost.actualValue().intValue());
 		assertEquals(maxLoad1, tiggy.getStats().getActualMaxLoad(), 0.00001f);
 		assertEquals(maxLoad2, tiggy.getMaxLoad(), 0.00001f);
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

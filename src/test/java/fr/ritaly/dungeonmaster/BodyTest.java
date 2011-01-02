@@ -285,4 +285,10 @@ public class BodyTest extends TestCase {
 		body.getWeaponHand().putOn(apple1);
 		assertEquals(apple1.getWeight(), body.getTotalWeight());
 	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
+	}
 }

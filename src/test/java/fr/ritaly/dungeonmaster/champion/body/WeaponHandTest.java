@@ -61,4 +61,10 @@ public class WeaponHandTest extends TestCase {
 
 		assertTrue(hand.isEnabled());
 	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
+	}
 }

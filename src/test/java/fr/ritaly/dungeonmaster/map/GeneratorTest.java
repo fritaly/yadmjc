@@ -130,4 +130,10 @@ public class GeneratorTest extends TestCase {
 		assertNotNull(generator.getCreatures());
 		assertFalse(generator.getCreatures().isEmpty());
 	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
+	}
 }

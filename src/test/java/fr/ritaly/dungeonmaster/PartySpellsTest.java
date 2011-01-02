@@ -153,4 +153,10 @@ public class PartySpellsTest extends TestCase {
 		
 		assertTrue(party.getSpells().getShield().value().intValue() > 0);
 	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
+	}
 }

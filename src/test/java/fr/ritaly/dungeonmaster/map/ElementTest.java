@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.ai.Creature;
@@ -341,5 +342,11 @@ public class ElementTest extends TestCase {
 			assertTrue(surroundingElements.contains(level1.getElement(1, 1)));
 			assertTrue(surroundingElements.contains(level1.getElement(1, 2)));
 		}
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

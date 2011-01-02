@@ -18,6 +18,7 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
+import fr.ritaly.dungeonmaster.Clock;
 import junit.framework.TestCase;
 
 public class ChestTest extends TestCase {
@@ -99,5 +100,11 @@ public class ChestTest extends TestCase {
 		assertTrue(chest.add(new Torch()) >= 0);
 		assertTrue(chest.add(new Weapon(Item.Type.EYE_OF_TIME)) >= 0);
 		assertTrue(chest.add(new Weapon(Item.Type.DAGGER)) >= 0);
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

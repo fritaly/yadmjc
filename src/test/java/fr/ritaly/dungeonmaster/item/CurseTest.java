@@ -18,6 +18,7 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
@@ -141,5 +142,11 @@ public class CurseTest extends TestCase {
 
 		assertNotNull(item2);
 		assertEquals(torch, item2);
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

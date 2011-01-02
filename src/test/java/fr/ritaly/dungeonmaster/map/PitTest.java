@@ -19,6 +19,7 @@
 package fr.ritaly.dungeonmaster.map;
 
 import junit.framework.TestCase;
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
@@ -935,5 +936,11 @@ public class PitTest extends TestCase {
 		assertTrue(daroou.getStats().getHealth().value().intValue() < daroouHealth);
 		assertTrue(halk.getStats().getHealth().value().intValue() < halkHealth);
 		assertTrue(wuuf.getStats().getHealth().value().intValue() < wuufHealth);
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }

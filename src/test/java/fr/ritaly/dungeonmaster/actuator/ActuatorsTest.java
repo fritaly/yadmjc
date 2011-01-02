@@ -18,6 +18,7 @@
  */
 package fr.ritaly.dungeonmaster.actuator;
 
+import fr.ritaly.dungeonmaster.Clock;
 import junit.framework.TestCase;
 
 public class ActuatorsTest extends TestCase {
@@ -44,5 +45,11 @@ public class ActuatorsTest extends TestCase {
 				TriggerAction.ENABLE, new TestTriggered());
 
 		assertEquals(actuator, Actuators.combine(actuator, null));
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
 	}
 }
