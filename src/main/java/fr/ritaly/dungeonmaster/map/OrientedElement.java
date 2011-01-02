@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 
+import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Orientation;
 import fr.ritaly.dungeonmaster.Position;
 
@@ -57,11 +58,11 @@ public abstract class OrientedElement extends Element {
 		final Position position2;
 
 		if (Orientation.NORTH_SOUTH.equals(getOrientation())) {
-			position1 = getPosition().towardsWest();
-			position2 = getPosition().towardsEast();
+			position1 = getPosition().towards(Direction.WEST);
+			position2 = getPosition().towards(Direction.EAST);
 		} else {
-			position1 = getPosition().towardsNorth();
-			position2 = getPosition().towardsSouth();
+			position1 = getPosition().towards(Direction.NORTH);
+			position2 = getPosition().towards(Direction.SOUTH);
 		}
 
 		final Element element1 = getLevel()
