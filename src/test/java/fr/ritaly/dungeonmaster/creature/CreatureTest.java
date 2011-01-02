@@ -18,13 +18,18 @@
  */
 package fr.ritaly.dungeonmaster.creature;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
+import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.ai.AttackType;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.map.Level;
-import junit.framework.TestCase;
 
 public class CreatureTest extends TestCase {
 
@@ -172,5 +177,167 @@ public class CreatureTest extends TestCase {
 		// Le dragon doit avoir changé d'état et changé de place
 		assertEquals(Creature.State.PATROLLING, dragon.getState());
 		assertFalse(element.equals(dragon.getElement()));
+	}
+	
+	public void testCreatureCanSeePosition() {
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | 3 | 3 | 3 | 3 | 3 | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | 2 | 2 | 2 | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | 1 | 1 | 1 | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | D | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+
+		final Level level1 = dungeon.createLevel(1, 9, 9);
+		final Element element = level1.getElement(4, 7);
+		
+		final Creature dragon = new Creature(Creature.Type.RED_DRAGON, 1);
+		dragon.setDirection(Direction.NORTH);
+		element.addCreature(dragon);
+		
+		final List<Position> visiblePositions = new ArrayList<Position>();
+		visiblePositions.add(new Position(3, 6, 1)); // 1
+		visiblePositions.add(new Position(4, 6, 1)); // 1
+		visiblePositions.add(new Position(5, 6, 1)); // 1
+		visiblePositions.add(new Position(3, 5, 1)); // 2
+		visiblePositions.add(new Position(4, 5, 1)); // 2
+		visiblePositions.add(new Position(5, 5, 1)); // 2
+		visiblePositions.add(new Position(2, 4, 1)); // 3
+		visiblePositions.add(new Position(3, 4, 1)); // 3
+		visiblePositions.add(new Position(4, 4, 1)); // 3
+		visiblePositions.add(new Position(5, 4, 1)); // 3
+		visiblePositions.add(new Position(6, 4, 1)); // 3
+		
+		assertEquals(Direction.NORTH, dragon.getDirection());
+		
+		for (int x = 0; x < 9; x++) {
+			for (int y = 0; y < 9; y++) {
+				final Position position = new Position(x, y, 1);
+				
+				if (visiblePositions.contains(position)) {
+					assertTrue(dragon.canSeePosition(position));
+				} else {
+					assertFalse("Creature can't see position " + position,
+							dragon.canSeePosition(position));
+				}
+			}
+		}
+	}
+	
+	public void testMummyCanAttackPosition() {
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | 1 | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | 1 | M | 1 | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | 1 | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+
+		final Level level1 = dungeon.createLevel(1, 9, 9);
+		final Element element = level1.getElement(4, 4);
+		
+		final Creature mummy = new Creature(Creature.Type.MUMMY, 1);
+		element.addCreature(mummy);
+		
+		final List<Position> attackablePositions = new ArrayList<Position>();
+		attackablePositions.add(new Position(3, 4, 1)); // 1
+		attackablePositions.add(new Position(5, 4, 1)); // 1
+		attackablePositions.add(new Position(4, 3, 1)); // 1
+		attackablePositions.add(new Position(4, 5, 1)); // 1
+		
+		for (int x = 0; x < 9; x++) {
+			for (int y = 0; y < 9; y++) {
+				final Position position = new Position(x, y, 1);
+				
+				if (attackablePositions.contains(position)) {
+					assertTrue(mummy.canAttackPosition(position));
+				} else {
+					assertFalse("Creature can't attack position " + position,
+							mummy.canAttackPosition(position));
+				}
+			}
+		}
+	}
+	
+	public void testDragonCanAttackPosition() {
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | 1 | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | 1 | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | 2 | 2 | D | 2 | 2 | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | 1 | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | 1 | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+
+		final Level level1 = dungeon.createLevel(1, 9, 9);
+		final Element element = level1.getElement(4, 4);
+		
+		final Creature dragon = new Creature(Creature.Type.RED_DRAGON, 1);
+		element.addCreature(dragon);
+		
+		final List<Position> attackablePositions = new ArrayList<Position>();
+		attackablePositions.add(new Position(4, 2, 1)); // 1
+		attackablePositions.add(new Position(4, 3, 1)); // 1
+		attackablePositions.add(new Position(4, 5, 1)); // 1
+		attackablePositions.add(new Position(4, 6, 1)); // 1
+		attackablePositions.add(new Position(2, 4, 1)); // 2
+		attackablePositions.add(new Position(3, 4, 1)); // 2
+		attackablePositions.add(new Position(5, 4, 1)); // 2
+		attackablePositions.add(new Position(6, 4, 1)); // 2
+		
+		for (int x = 0; x < 9; x++) {
+			for (int y = 0; y < 9; y++) {
+				final Position position = new Position(x, y, 1);
+				
+				if (attackablePositions.contains(position)) {
+					assertTrue("Creature can't attack position " + position,
+							dragon.canAttackPosition(position));
+				} else {
+					assertFalse("Creature can attack position " + position,
+							dragon.canAttackPosition(position));
+				}
+			}
+		}
 	}
 }

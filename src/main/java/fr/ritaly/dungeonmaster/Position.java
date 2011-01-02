@@ -410,7 +410,7 @@ public final class Position {
 	 * @return une {@link List} de {@link Position}s.
 	 */
 	public List<Position> getAttackablePositions(int range) {
-		Validate.isTrue(range > 1, "The given range " + range
+		Validate.isTrue(range >= 1, "The given range " + range
 				+ " must be positive");
 		
 		// Positions attaquables directement (range = 1) ou à distance 
