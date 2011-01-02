@@ -773,6 +773,24 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 		}
 
+		/**
+		 * Retourne la liste des sorts d'attaque de ce type de {@link Creature}.
+		 * 
+		 * @return une {@link List} de {@link Spell.Type}. Ne retourne jamais
+		 *         null.
+		 */
+		public List<Spell.Type> getAttackSpells() {
+			final List<Spell.Type> spells = getSpells();
+			
+			if (!spells.isEmpty()) {
+				// On retire l'éventuel sort OPEN_DOOR qui n'est pas un sort 
+				// d'attaque				
+				spells.remove(Spell.Type.OPEN_DOOR);
+			}
+			
+			return spells;
+		} 
+
 		public boolean canCastSpell() {
 			switch (this) {
 			case SWAMP_SLIME:
