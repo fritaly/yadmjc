@@ -21,6 +21,7 @@ package fr.ritaly.dungeonmaster;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -178,7 +179,7 @@ public final class Position {
 		
 		final List<Position> positions = new ArrayList<Position>(16);
 		
-		// Positions entourant la position P dans un rayon de 1
+		// Positions entourant la position P dans un rayon de 1 (8, +8)
 		// +---+---+---+
 		// | 1 | 1 | 1 |
 		// +---+---+---+
@@ -200,7 +201,7 @@ public final class Position {
 			return positions;
 		}
 		
-		// Positions entourant la position P dans un rayon de 2
+		// Positions entourant la position P dans un rayon de 2 (20, +12)
 		// +---+---+---+---+---+
 		// |   | 2 | 2 | 2 |   |
 		// +---+---+---+---+---+
@@ -233,7 +234,7 @@ public final class Position {
 			return positions;
 		}
 		
-		// Positions entourant la position P dans un rayon de 3
+		// Positions entourant la position P dans un rayon de 3 (36, +16)
 		// +---+---+---+---+---+---+---+
 		// |   |   | 3 | 3 | 3 |   |   |
 		// +---+---+---+---+---+---+---+
@@ -275,6 +276,27 @@ public final class Position {
 		if (radius == 3) {
 			return positions;
 		}
+		
+		// Positions entourant la position P dans un rayon de 4 (68, +32)
+		// +---+---+---+---+---+---+---+---+---+
+		// |   |   | 4 | 4 | 4 | 4 | 4 |   |   |
+		// +---+---+---+---+---+---+---+---+---+
+		// |   | 4 | 4 | 3 | 3 | 3 | 4 | 4 |   |
+		// +---+---+---+---+---+---+---+---+---+
+		// | 4 | 4 | 3 | 2 | 2 | 2 | 3 | 4 | 4 |
+		// +---+---+---+---+---+---+---+---+---+
+		// | 4 | 3 | 2 | 1 | 1 | 1 | 2 | 3 | 4 |
+		// +---+---+---+---+---+---+---+---+---+
+		// | 4 | 3 | 2 | 1 | P | 1 | 2 | 3 | 4 |
+		// +---+---+---+---+---+---+---+---+---+
+		// | 4 | 3 | 2 | 1 | 1 | 1 | 2 | 3 | 4 |
+		// +---+---+---+---+---+---+---+---+---+
+		// | 4 | 4 | 3 | 2 | 2 | 2 | 3 | 4 | 4 |
+		// +---+---+---+---+---+---+---+---+---+
+		// |   | 4 | 4 | 3 | 3 | 3 | 4 | 4 |   |
+		// +---+---+---+---+---+---+---+---+---+
+		// |   |   | 4 | 4 | 4 | 4 | 4 |   |   |
+		// +---+---+---+---+---+---+---+---+---+
 		
 		throw new UnsupportedOperationException("Unsupported radius " + radius);
 	}
@@ -442,5 +464,68 @@ public final class Position {
 		}
 		
 		return positions;
+	}
+	
+	public static void main(String[] args) {
+		for (int radius = 1; radius <= 15; radius++) {
+			final int width, height = width = (2 * radius) + 1;
+
+			final Position center = new Position((width - 1) / 2,
+					(height - 1) / 2, 1);
+			final StringBuilder builder = new StringBuilder();
+
+			int insideCount = 0;
+			int outsideCount = 0;
+
+			for (int x = 0; x < width; x++) {
+				builder.append("+");
+				builder.append(StringUtils.repeat("---+", width));
+				builder.append("\n");
+				
+				builder.append("|");
+				
+				for (int y = 0; y < height; y++) {
+					final Position position = new Position(x, y, 1);
+					
+					if (center.equals(position)) {
+						builder.append(" P |");
+						
+						continue;
+					}
+
+					final double distance = Utils.distance(center.x, center.y,
+							position.x, position.y);
+
+					final boolean inside = (distance <= radius + 0.5d);
+
+					if (inside) {
+						builder.append(" ")
+								.append(Integer.toHexString((int) Math
+										.floor(distance))).append(" |");
+						
+						insideCount++;
+					} else {
+						builder.append("   |");
+						
+						outsideCount++;
+					}
+
+//					System.out.println("Position " + position + " (d: "
+//							+ distance + ") -> " + inside);
+				}
+				
+				builder.append("\n");
+			}
+			
+			builder.append("+");
+			builder.append(StringUtils.repeat("---+", width));
+			builder.append("\n");
+			
+			System.out.println(builder);
+			System.out.println();
+
+			System.out.println("Radius: " + radius + " -> Inside: "
+					+ insideCount + ", Outside: " + outsideCount);
+		}
 	}
 }
