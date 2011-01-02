@@ -1991,46 +1991,42 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 		
 		final Party party = getElement().getLevel().getDungeon().getParty();
-		
-		// FIXME Gérer animosité entre les créatures (matrice de
-		// "compatibilité d'humeur")
-		// FIXME Gérer priorité d'animosité créatures / champions
-		
+
 		if (isAttackAllowed()) {
 			if ((party != null) && canAttackPosition(party.getPosition())) {
 				// Attaquer les champions
 				attackParty(party);
 
 				return true;
-			}			
+			}
 		}
-		
+
 		if (isMoveAllowed()) {
-			// FIXME Prendre en compte luminosité / invisibilité des 
-			// champions pour déterminer la portée de vue
-			
+			// FIXME Prendre en compte luminosité / invisibilité des champions
+			// pour déterminer la portée de vue
+
 			if ((party != null)
 					&& (canSeePosition(party.getPosition()) || canHearPosition(party
 							.getPosition()))) {
-				
-				// La créature voit / entend les champions, elle se met en 
+
+				// La créature voit / entend les champions, elle se met en
 				// chasse et se déplace vers eux
 				if (moveTo(party.getPosition().x, party.getPosition().y)) {
-					// Si la créature peut aussi attaquer dans la foulée, elle 
+					// Si la créature peut aussi attaquer dans la foulée, elle
 					// le fait dans le même tour
 					if (isAttackAllowed()
 							&& canAttackPosition(party.getPosition())) {
-						
+
 						attackParty(party);
 					}
-					
+
 					// Le déplacement peut ne pas aboutir
 					return true;
 				}
 			}
-			
+
 			// La créature patrouille car elle n'a rien à se mettre sous la dent
-			patrol();			
+			patrol();
 		}
 
 		// TODO Animer Creature
@@ -2238,6 +2234,13 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				log.debug(this + ".Element: " + initialElement + " -> "
 						+ this.element);
 			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		for (Creature.Type type : Creature.Type.values()) {
+			System.out.println("Creature " + type + ": Awareness = "
+					+ type.getAwareness());
 		}
 	}
 }
