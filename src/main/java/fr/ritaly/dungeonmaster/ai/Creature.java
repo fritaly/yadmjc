@@ -40,6 +40,7 @@ import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
+import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.event.ChangeEvent;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.item.Action;
@@ -49,6 +50,7 @@ import fr.ritaly.dungeonmaster.item.MiscItem;
 import fr.ritaly.dungeonmaster.item.Weapon;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
+import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.stat.Stat;
 
@@ -66,9 +68,22 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	 */
 	public static enum State {
 		IDLE,
-		PATROLLING;
-		// STALKING,
-		// ATTACKING,
+		
+		/**
+		 * Etat d'une créature en train de patrouiller dans le niveau.
+		 */
+		PATROLLING,
+
+		/**
+		 * Etat d'une créature ayant repéré des champions et en cours d'approche
+		 * pour attaquer.
+		 */
+		TRACKING,
+		
+		/**
+		 * Etat d'une créature en train d'attaquer
+		 */
+		ATTACKING;
 		// DYING,
 		// DEAD;
 	}
@@ -1921,136 +1936,186 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	public boolean clockTicked() {
 		// Permet de faire "clignoter" le ZYTAZ
 		this.materializer.clockTicked();
-
+		
 		// FIXME Pour l'instant, on ne gère que les créatures de taille 4 !!
+		if (!Size.FOUR.equals(getSize())) {
+			return true;
+		}
+		
 		// FIXME Temporiser cette logique
-		if (moveTemporizer.trigger() && Size.FOUR.equals(getSize())) {
+		if (moveTemporizer.trigger()) {
 			// IA
 			if (State.IDLE.equals(getState())
 					|| State.PATROLLING.equals(getState())) {
 				
-				if (!getType().canMove()) {
-					// La créature ne peut pas bouger
-				} else {
-					// FIXME Avant de déplacer la créature, on détermine si elle 
-					// voit les champions afin de transiter vers l'état TRACKING
-					final Direction lookDirection = getDirection();
-					
-					// Quelles sont les positions visibles de la créature ? Cela
-					// dépend de son acuité visuelle (awareness) et de la
-					// luminosité ambiante
-					
-					// FIXME
-					// Quelles sont les positions sur lesquelles les champions
-					// peuvent être repérés à l'oreille par la créature ? 
-					
-					// La créature peut bouger et se déplace. Element cible ?
-
-					if (getElement() == null) {
-						// Nécessaire pour faire fonctionner les tests unitaires
-						return true;
-					}
-
-					// Positions cible possibles ?
-					final List<Element> surroundingElements = getElement()
-							.getSurroundingElements();
-
-					// Filtrer les positions cible selon qu'elles sont
-					// occupables
-					for (Iterator<Element> it = surroundingElements.iterator(); it
-							.hasNext();) {
-
-						final Element element = it.next();
-
-						// La créature doit pouvoir "traverser" la position
-						if (!element.isTraversable(this)) {
-							it.remove();
-
-							continue;
-						}
-
-						// La position ne doit pas être occupée par les
-						// champions
-						if (element.hasParty()) {
-							it.remove();
-
-							continue;
-						}
-
-						// La position peut-elle accueillir la créature ?
-						if (!element.canHost(this)) {
-							it.remove();
-
-							continue;
-						}
-
-						if (Element.Type.STAIRS.equals(element.getType())) {
-							// S'il s'agit d'escaliers, la créature peut-elle
-							// les prendre ?
-							if (!canTakeStairs()) {
-								it.remove();
-
-								continue;
-							}
-						} else if (Element.Type.TELEPORTER.equals(element
-								.getType())) {
-							
-							// S'il s'agit d'un téléporteur, la créature
-							// peut-elle le prendre ?
-							if (!canTeleport()) {
-								it.remove();
-
-								continue;
-							}
-						} else if (Element.Type.PIT.equals(element.getType())) {
-							// S'il s'agit d'une oubliette, la créature
-							// peut-elle s'y jeter (si celle-ci est ouverte !) ?
-							// FIXME
-						}
-					}
-
-					if (surroundingElements.isEmpty()) {
-						// Impossible de déplacer la créature
-						return true;
-					}
-
-					// FIXME Implémenter un changement de direction à intervalle
-					// aléatoire
-
-					// FIXME On doit privilégier la direction dans laquelle la
-					// créature se trouve actuellement
-
-					// FIXME Faire tourner la créature
-
-					// FIXME Le déplacement est-il physiquement possible ? La
-					// créature n'est-elle pas gênée par une autre créature
-					// devant ?
-
-					// FIXME L'emplacement cible n'est-il pas une oubliette ?
-
-					if (State.IDLE.equals(getState())) {
-						// La créature passe dans l'état PATROLLING
-						setState(State.PATROLLING);						
-					}
-
-					// ... et on la déplace
-					Collections.shuffle(surroundingElements);
-					
-					final Element sourceElement = getElement();
-					final Element targetElement = surroundingElements
-							.iterator().next();
-					
-					// La créature quitte la position source
-					sourceElement.creatureSteppedOff(this);
-					
-					// La créature occupe la position cible
-					targetElement.creatureSteppedOn(this);
+				if (getElement() == null) {
+					// Nécessaire pour faire fonctionner les tests unitaires
+					return true;
 				}
+				
+				final Party party = getElement().getLevel().getDungeon()
+						.getParty();
+				
+				// FIXME Gérer animosité entre les créatures (matrice de
+				// "compatibilité d'humeur")
+				// FIXME Gérer priorité d'animosité créatures / champions
+				
+				if ((party != null) && canAttackPosition(party.getPosition())) {
+					// Attaquer les champions
+					attackParty(party);
+
+					return true;
+				}
+				
+				// Quelles sont les positions visibles de la créature ? Cela
+				// dépend de son acuité visuelle (awareness) et de la luminosité
+				// ambiante
+				
+				// FIXME Prendre en compte luminosité / invisibilité des 
+				// champions
+				if ((party != null) && canSeePosition(party.getPosition())) {
+					// La créature voit les champions, elle se met en chasse et
+					// se déplace vers eux
+					moveTo(party.getPosition().x, party.getPosition().y);
+					
+					return true;
+				}
+				
+				if ((party != null) && canHearPosition(party.getPosition())) {
+					// La créature entend les champions, elle se met en chasse 
+					// et se déplace vers eux
+					moveTo(party.getPosition().x, party.getPosition().y);
+					
+					return true;
+				}
+				
+				// La créature patrouille
+				patrol();
 			}
 		}
 
 		// TODO Animer Creature
 		return true;
+	}
+	
+	private void attackParty(Party party) {
+		// FIXME Implémenter attackParty(Party) (durée d'attaque ?)
+		
+		// Transition vers l'état ATTACKING
+		setState(State.ATTACKING);
+	}
+	
+	private void moveTo(int x, int y) {
+		if (!getType().canMove()) {
+			// La créature ne peut pas bouger
+			return;
+		}
+		
+		// FIXME Implémenter recherche de chemin (A*)
+		
+		// Transition vers l'état TRACKING
+		setState(State.TRACKING);
+	}
+	
+	private void patrol() {
+		if (!getType().canMove()) {
+			// La créature ne peut pas bouger
+			return;
+		}
+		
+		// La créature peut bouger et se déplace. Element cible ?
+
+		// Positions cible possibles ?
+		final List<Element> surroundingElements = getElement()
+				.getSurroundingElements();
+
+		// Filtrer les positions cible selon qu'elles sont occupables
+		for (Iterator<Element> it = surroundingElements.iterator(); it
+				.hasNext();) {
+
+			final Element element = it.next();
+
+			// La créature doit pouvoir "traverser" la position
+			if (!element.isTraversable(this)) {
+				it.remove();
+
+				continue;
+			}
+
+			// La position ne doit pas être occupée par les champions
+			if (element.hasParty()) {
+				it.remove();
+
+				continue;
+			}
+
+			// La position peut-elle accueillir la créature ?
+			if (!element.canHost(this)) {
+				it.remove();
+
+				continue;
+			}
+
+			if (Element.Type.STAIRS.equals(element.getType())) {
+				// S'il s'agit d'escaliers, la créature peut-elle les prendre ?
+				if (!canTakeStairs()) {
+					it.remove();
+
+					continue;
+				}
+			} else if (Element.Type.TELEPORTER.equals(element
+					.getType())) {
+				
+				// S'il s'agit d'un téléporteur, la créature peut-elle le 
+				// prendre ?
+				if (!canTeleport()) {
+					it.remove();
+
+					continue;
+				}
+			} else if (Element.Type.PIT.equals(element.getType())) {
+				// S'il s'agit d'une oubliette, la créature peut-elle s'y jeter 
+				// (si celle-ci est ouverte !) ?
+				// FIXME
+			}
+		}
+
+		if (surroundingElements.isEmpty()) {
+			// Impossible de déplacer la créature FIXME La téléporter ?
+			return;
+		}
+
+		// FIXME Implémenter un changement de direction à intervalle
+		// aléatoire
+
+		// FIXME On doit privilégier la direction dans laquelle la
+		// créature se trouve actuellement
+
+		// FIXME Faire tourner la créature
+
+		// FIXME Le déplacement est-il physiquement possible ? La
+		// créature n'est-elle pas gênée par une autre créature
+		// devant ?
+
+		// FIXME L'emplacement cible n'est-il pas une oubliette ?
+
+		if (State.IDLE.equals(getState())) {
+			// La créature passe dans l'état PATROLLING
+			setState(State.PATROLLING);						
+		}
+
+		// ... et on la déplace
+		Collections.shuffle(surroundingElements);
+		
+		final Element sourceElement = getElement();
+		final Element targetElement = surroundingElements
+				.iterator().next();
+		
+		// La créature quitte la position source
+		sourceElement.creatureSteppedOff(this);
+		
+		// La créature occupe la position cible
+		targetElement.creatureSteppedOn(this);
 	}
 
 	public synchronized State getState() {
