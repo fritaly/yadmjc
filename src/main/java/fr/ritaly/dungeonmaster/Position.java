@@ -83,30 +83,6 @@ public final class Position {
 	}
 
 	/**
-	 * Indique si cette {@link Position} est proche de la {@link Position}
-	 * donnée. Deux {@link Position}s sont proches quand le nombre de mouvements
-	 * nécessaire pour passer de l'une à l'autre est égal à 1.
-	 * 
-	 * @param position
-	 *            une instance de {@link Position}.
-	 * @return
-	 */
-	public boolean isCloseTo(Position position) {
-		if (position == null) {
-			throw new IllegalArgumentException("The given position is null");
-		}
-
-		final boolean sameX = (this.x == position.x);
-		final boolean sameY = (this.y == position.y);
-		final boolean sameZ = (this.z == position.z);
-		final boolean nearX = (Math.abs(this.x - position.x) == 1);
-		final boolean nearY = (Math.abs(this.y - position.y) == 1);
-
-		return sameZ
-				&& ((sameX && nearY) || (nearX && sameY) || (nearX && nearY));
-	}
-
-	/**
 	 * Indique si cette {@link Position} est alignée (le long de l'axe de X)
 	 * avec la {@link Position} donnée.
 	 * 
