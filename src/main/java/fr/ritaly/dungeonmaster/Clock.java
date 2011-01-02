@@ -368,4 +368,18 @@ public class Clock {
 	public int getTickId() {
 		return tickCount;
 	}
+	
+	/**
+	 * Supprimes toutes les instances de {@link ClockListener} enregistrées.
+	 */
+	public synchronized void reset() {
+		listeners.clear();
+		buffer.clear();
+		
+		tickCount = 1;
+		
+		if (log.isInfoEnabled()) {
+			log.info("Clock reset");
+		}
+	}
 }

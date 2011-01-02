@@ -403,4 +403,10 @@ public class CreatureTest extends TestCase {
 		assertTrue(scorpion.canSeePosition(party.getPosition()));
 		assertEquals(new Position(4, 2, 1), scorpion.getElement().getPosition());
 	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		// On nettoie l'horloge entre deux tests
+		Clock.getInstance().reset();
+	}
 }
