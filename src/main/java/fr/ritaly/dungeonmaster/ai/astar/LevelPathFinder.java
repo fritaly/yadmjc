@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import fr.ritaly.dungeonmaster.map.Dungeon;
+import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.map.Level;
 
 public class LevelPathFinder extends AStar<LevelPathFinder.Node> {
@@ -57,18 +58,41 @@ public class LevelPathFinder extends AStar<LevelPathFinder.Node> {
 	}
 
 	protected List<Node> generateSuccessors(Node node) {
+		// On recherche dans les 4 directions possibles de déplacement
 		List<Node> ret = new LinkedList<Node>();
 		int x = node.x;
 		int y = node.y;
 
 		// FIXME Améliorer la prise en compte du côté traversable des éléments
-		if (y < targetY && !level.getElement(x, y + 1).isConcrete()) {
-			ret.add(new Node(x, y + 1));
+		{
+			final Element element = level.getElement(x, y + 1, false);
+			
+			if (!element.isConcrete()) {
+				ret.add(new Node(x, y + 1));
+			}
+		}
+		{
+			final Element element = level.getElement(x, y - 1, false);
+			
+			if (!element.isConcrete()) {
+				ret.add(new Node(x, y - 1));
+			}
 		}
 
 		// FIXME Améliorer la prise en compte du côté traversable des éléments
-		if (x < targetX && !level.getElement(x + 1, y).isConcrete()) {
-			ret.add(new Node(x + 1, y));
+		{
+			final Element element = level.getElement(x + 1, y, false);
+			
+			if (!element.isConcrete()) {
+				ret.add(new Node(x + 1, y));
+			}
+		}
+		{
+			final Element element = level.getElement(x - 1, y, false);
+			
+			if (!element.isConcrete()) {
+				ret.add(new Node(x - 1, y));
+			}
 		}
 
 		return ret;
