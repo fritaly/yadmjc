@@ -57,11 +57,11 @@ public abstract class OrientedElement extends Element {
 		final Position position2;
 
 		if (Orientation.NORTH_SOUTH.equals(getOrientation())) {
-			position1 = getPosition().getWesternPosition();
-			position2 = getPosition().getEasternPosition();
+			position1 = getPosition().towardsWest();
+			position2 = getPosition().towardsEast();
 		} else {
-			position1 = getPosition().getNorthernPosition();
-			position2 = getPosition().getSouthernPosition();
+			position1 = getPosition().towardsNorth();
+			position2 = getPosition().towardsSouth();
 		}
 
 		final Element element1 = getLevel()

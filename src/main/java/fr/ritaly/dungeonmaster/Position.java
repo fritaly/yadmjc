@@ -145,19 +145,19 @@ public final class Position {
 		return direction.change(this);
 	}
 
-	public Position getNorthernPosition() {
+	public Position towardsNorth() {
 		return towards(Direction.NORTH);
 	}
 
-	public Position getSouthernPosition() {
+	public Position towardsSouth() {
 		return towards(Direction.SOUTH);
 	}
 
-	public Position getWesternPosition() {
+	public Position towardsWest() {
 		return towards(Direction.WEST);
 	}
 
-	public Position getEasternPosition() {
+	public Position towardsEast() {
 		return towards(Direction.EAST);
 	}
 
