@@ -1950,56 +1950,51 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		
 		// FIXME Temporiser cette logique
 		if (moveTemporizer.trigger()) {
-			// IA
-			if (State.IDLE.equals(getState())
-					|| State.PATROLLING.equals(getState())) {
-				
-				if (getElement() == null) {
-					// Nécessaire pour faire fonctionner les tests unitaires
-					return true;
-				}
-				
-				final Party party = getElement().getLevel().getDungeon()
-						.getParty();
-				
-				// FIXME Gérer animosité entre les créatures (matrice de
-				// "compatibilité d'humeur")
-				// FIXME Gérer priorité d'animosité créatures / champions
-				
-				if ((party != null) && canAttackPosition(party.getPosition())) {
-					// Attaquer les champions
-					attackParty(party);
-
-					return true;
-				}
-				
-				// Quelles sont les positions visibles de la créature ? Cela
-				// dépend de son acuité visuelle (awareness) et de la luminosité
-				// ambiante
-				
-				// FIXME Prendre en compte luminosité / invisibilité des 
-				// champions
-				if ((party != null) && canSeePosition(party.getPosition())) {
-					// La créature voit les champions, elle se met en chasse et
-					// se déplace vers eux
-					if (moveTo(party.getPosition().x, party.getPosition().y)) {
-						// Le déplacement peut ne pas aboutir
-						return true;
-					}
-				}
-				
-				if ((party != null) && canHearPosition(party.getPosition())) {
-					// La créature entend les champions, elle se met en chasse 
-					// et se déplace vers eux
-					if (moveTo(party.getPosition().x, party.getPosition().y)) {
-						// Le déplacement peut ne pas aboutir
-						return true;
-					}
-				}
-				
-				// La créature patrouille
-				patrol();
+			if (getElement() == null) {
+				// Nécessaire pour faire fonctionner les tests unitaires
+				return true;
 			}
+			
+			final Party party = getElement().getLevel().getDungeon()
+					.getParty();
+			
+			// FIXME Gérer animosité entre les créatures (matrice de
+			// "compatibilité d'humeur")
+			// FIXME Gérer priorité d'animosité créatures / champions
+			
+			if ((party != null) && canAttackPosition(party.getPosition())) {
+				// Attaquer les champions
+				attackParty(party);
+
+				return true;
+			}
+			
+			// Quelles sont les positions visibles de la créature ? Cela
+			// dépend de son acuité visuelle (awareness) et de la luminosité
+			// ambiante
+			
+			// FIXME Prendre en compte luminosité / invisibilité des 
+			// champions
+			if ((party != null) && canSeePosition(party.getPosition())) {
+				// La créature voit les champions, elle se met en chasse et
+				// se déplace vers eux
+				if (moveTo(party.getPosition().x, party.getPosition().y)) {
+					// Le déplacement peut ne pas aboutir
+					return true;
+				}
+			}
+			
+			if ((party != null) && canHearPosition(party.getPosition())) {
+				// La créature entend les champions, elle se met en chasse 
+				// et se déplace vers eux
+				if (moveTo(party.getPosition().x, party.getPosition().y)) {
+					// Le déplacement peut ne pas aboutir
+					return true;
+				}
+			}
+			
+			// La créature patrouille
+			patrol();
 		}
 
 		// TODO Animer Creature
@@ -2038,6 +2033,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		if (nodes == null) {
 			// Aucun chemin possible pour atteindre la cible, sortir
 			return false;
+		}
+		
+		if (log.isDebugEnabled()) {
+			log.debug("Found path: " + nodes);
 		}
 		
 		// Se diriger vers la cible (Noeud en seconde position)

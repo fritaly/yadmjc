@@ -27,6 +27,10 @@ import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.ai.AttackType;
 import fr.ritaly.dungeonmaster.ai.Creature;
+import fr.ritaly.dungeonmaster.champion.Champion;
+import fr.ritaly.dungeonmaster.champion.Champion.Name;
+import fr.ritaly.dungeonmaster.champion.ChampionFactory;
+import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.map.Level;
@@ -339,5 +343,73 @@ public class CreatureTest extends TestCase {
 				}
 			}
 		}
+	}
+	
+	public void testScorpionMustMoveTowardsParty() {
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | P | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | S | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+
+		final Level level1 = dungeon.createLevel(1, 9, 9);
+		final Element element = level1.getElement(4, 4);
+		
+		final Creature scorpion = new Creature(Creature.Type.GIANT_SCORPION, 1);
+		element.addCreature(scorpion);
+
+		final Party party = new Party(ChampionFactory.getFactory().newChampion(
+				Name.WUUF));
+		
+		dungeon.setParty(4, 1, 1, party);
+		
+		// --- Etat initial
+		assertEquals(Creature.State.IDLE, scorpion.getState());
+		assertEquals(Direction.NORTH, scorpion.getDirection());
+		assertTrue(scorpion.canSeePosition(party.getPosition()));
+		assertEquals(new Position(4, 4, 1), scorpion.getElement().getPosition());
+		
+		// --- On laisse la créature se déplacer une fois (vers les champions)
+		Clock.getInstance().tick(Creature.Type.GIANT_SCORPION.getMoveDuration());
+		
+		// --- Contrôles sur nouvel état
+		assertEquals(Creature.State.TRACKING, scorpion.getState());
+		assertEquals(Direction.NORTH, scorpion.getDirection());
+		assertTrue(scorpion.canSeePosition(party.getPosition()));
+		assertEquals(new Position(4, 3, 1), scorpion.getElement().getPosition());
+		
+		// --- On laisse la créature se déplacer une fois (vers les champions)
+		Clock.getInstance().tick(Creature.Type.GIANT_SCORPION.getMoveDuration());
+		
+		// --- Contrôles sur nouvel état
+		assertEquals(Creature.State.TRACKING, scorpion.getState());
+		assertEquals(Direction.NORTH, scorpion.getDirection());
+		assertTrue(scorpion.canSeePosition(party.getPosition()));
+		assertEquals(new Position(4, 2, 1), scorpion.getElement().getPosition());
+		
+		// --- On laisse la créature se déplacer une fois (vers les champions)
+		Clock.getInstance().tick(Creature.Type.GIANT_SCORPION.getMoveDuration());
+		
+		// --- Contrôles sur nouvel état
+		assertEquals(Creature.State.ATTACKING, scorpion.getState());
+		assertEquals(Direction.NORTH, scorpion.getDirection());
+		assertTrue(scorpion.canSeePosition(party.getPosition()));
+		assertEquals(new Position(4, 2, 1), scorpion.getElement().getPosition());
 	}
 }
