@@ -36,7 +36,6 @@ import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.HasDirection;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.ai.astar.LevelPathFinder;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
@@ -1949,6 +1948,22 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		return attackablePositions.contains(targetPosition);
 	}
 
+	private boolean isMoveAllowed() {
+		return (moveTimer.get() == 0);
+	}
+	
+	private boolean isAttackAllowed() {
+		return (attackTimer.get() == 0);
+	}
+	
+	private void resetMoveTimer() {
+		moveTimer.set(getType().getMoveDuration());
+	}
+	
+	private void resetAttackTimer() {
+		attackTimer.set(getType().getAttackDuration());
+	}
+	
 	@Override
 	public boolean clockTicked() {
 		// Permet de faire "clignoter" le ZYTAZ
@@ -1962,38 +1977,12 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			return true;
 		}
 		
-		// Indique si la créature peut se déplacer à ce "round"
-		final boolean moveAllowed;
-		
-		// FIXME Le timer moveTimer doit-il fonctionner comme le attackTimer ?
-		// c-a-d que le monstre n'est pas obligé de se déplacer s'il le peut
-		
-		if (moveTimer.decrementAndGet() == 0) {
-			// On réinitialise le timer de mouvement
-			moveTimer.set(getType().getMoveDuration());
-			
-			moveAllowed = true;
-		} else {
-			moveAllowed = false;
+		// Remise à jour des compteurs
+		if (moveTimer.get() > 0) {
+			moveTimer.decrementAndGet();
 		}
-		
-		// Indique si la créature peut attaquer à ce "round"
-		final boolean attackAllowed;
-		
-		if (attackTimer.get() == 0) {
-			// Le monstre peut déjà attaquer
-			attackAllowed = true;
-		} else {
-			// Décrémenter le compteur d'attaque
-			if (attackTimer.decrementAndGet() == 0) {
-				// On réinitialise le timer d'attaque
-				attackTimer.set(getType().getAttackDuration());
-				
-				attackAllowed = true;	
-			} else {
-				// La créature ne peut pas encore attaquer
-				attackAllowed = false;
-			}
+		if (attackTimer.get() > 0) {
+			attackTimer.decrementAndGet();
 		}
 		
 		if (getElement() == null) {
@@ -2001,14 +1990,13 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			return true;
 		}
 		
-		final Party party = getElement().getLevel().getDungeon()
-				.getParty();
+		final Party party = getElement().getLevel().getDungeon().getParty();
 		
 		// FIXME Gérer animosité entre les créatures (matrice de
 		// "compatibilité d'humeur")
 		// FIXME Gérer priorité d'animosité créatures / champions
 		
-		if (attackAllowed) {
+		if (isAttackAllowed()) {
 			if ((party != null) && canAttackPosition(party.getPosition())) {
 				// Attaquer les champions
 				attackParty(party);
@@ -2017,20 +2005,22 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}			
 		}
 		
-		if (moveAllowed) {
-			// Quelles sont les positions visibles de la créature ? Cela
-			// dépend de son acuité visuelle (awareness) et de la luminosité
-			// ambiante
-			
+		if (isMoveAllowed()) {
 			// FIXME Prendre en compte luminosité / invisibilité des 
-			// champions
-			if ((party != null) && canSeePosition(party.getPosition())) {
-				// La créature voit les champions, elle se met en chasse et
-				// se déplace vers eux
+			// champions pour déterminer la portée de vue
+			
+			if ((party != null)
+					&& (canSeePosition(party.getPosition()) || canHearPosition(party
+							.getPosition()))) {
+				
+				// La créature voit / entend les champions, elle se met en 
+				// chasse et se déplace vers eux
 				if (moveTo(party.getPosition().x, party.getPosition().y)) {
 					// Si la créature peut aussi attaquer dans la foulée, elle 
 					// le fait dans le même tour
-					if (attackAllowed && canAttackPosition(party.getPosition())) {
+					if (isAttackAllowed()
+							&& canAttackPosition(party.getPosition())) {
+						
 						attackParty(party);
 					}
 					
@@ -2039,22 +2029,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				}
 			}
 			
-			if ((party != null) && canHearPosition(party.getPosition())) {
-				// La créature entend les champions, elle se met en chasse 
-				// et se déplace vers eux
-				if (moveTo(party.getPosition().x, party.getPosition().y)) {
-					// Si la créature peut aussi attaquer dans la foulée, elle 
-					// le fait dans le même tour
-					if (attackAllowed && canAttackPosition(party.getPosition())) {
-						attackParty(party);
-					}
-					
-					// Le déplacement peut ne pas aboutir
-					return true;
-				}
-			}
-			
-			// La créature patrouille
+			// La créature patrouille car elle n'a rien à se mettre sous la dent
 			patrol();			
 		}
 
@@ -2064,6 +2039,9 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	
 	private void attackParty(Party party) {
 		// FIXME Implémenter attackParty(Party) (durée d'attaque ?)
+		
+		// Réinitialiser le compteur d'attaque
+		resetAttackTimer();
 		
 		// Transition vers l'état ATTACKING
 		setState(State.ATTACKING);
@@ -2111,6 +2089,9 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		
 		// La créature occupe la position cible
 		targetElement.creatureSteppedOn(this);
+		
+		// Réinitialiser le compteur de mouvement
+		resetMoveTimer();
 
 		// Transition vers l'état TRACKING
 		setState(State.TRACKING);
@@ -2217,6 +2198,9 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		
 		// La créature occupe la position cible
 		targetElement.creatureSteppedOn(this);
+		
+		// Réinitialiser le compteur de mouvement
+		resetMoveTimer();
 	}
 
 	public synchronized State getState() {
