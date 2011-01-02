@@ -415,12 +415,48 @@ public final class Position {
 	 * @return une {@link List} de {@link Position}s.
 	 */
 	public List<Position> getAttackablePositions() {
-		final List<Position> positions = new ArrayList<Position>();
-		positions.add(towardsEast());
-		positions.add(towardsNorth());
-		positions.add(towardsSouth());
-		positions.add(towardsWest());
+		// Retourner les positions attaquables situées dans un rayon de 1 pas
+		return getAttackablePositions(1);
+	}
 
+	/**
+	 * Retourne les {@link Position}s attaquables depuis cette {@link Position}
+	 * et situées dans un rayon de range pas dans les 4 directions.
+	 * 
+	 * @return une {@link List} de {@link Position}s.
+	 */
+	public List<Position> getAttackablePositions(int range) {
+		Validate.isTrue(range > 1, "The given range " + range
+				+ " must be positive");
+		
+		// Positions attaquables directement (range = 1) ou à distance 
+		// (range > 1) depuis la position P
+		
+		// +---+---+---+---+---+---+---+
+		// |   |   |   | 3 |   |   |   |
+		// +---+---+---+---+---+---+---+
+		// |   |   |   | 2 |   |   |   |
+		// +---+---+---+---+---+---+---+
+		// |   |   |   | 1 |   |   |   |
+		// +---+---+---+---+---+---+---+
+		// | 3 | 2 | 1 | P | 1 | 2 | 3 |
+		// +---+---+---+---+---+---+---+
+		// |   |   |   | 1 |   |   |   |
+		// +---+---+---+---+---+---+---+
+		// |   |   |   | 2 |   |   |   |
+		// +---+---+---+---+---+---+---+
+		// |   |   |   | 3 |   |   |   |
+		// +---+---+---+---+---+---+---+
+		
+		final List<Position> positions = new ArrayList<Position>(4 * range);
+		
+		for (int i = 1; i <= range; i++) {
+			positions.add(new Position(x-i, y, z));
+			positions.add(new Position(x+i, y, z));
+			positions.add(new Position(x, y-i, z));
+			positions.add(new Position(x, y+i, z));
+		}
+		
 		return positions;
 	}
 }
