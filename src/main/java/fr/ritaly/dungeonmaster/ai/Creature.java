@@ -1853,6 +1853,43 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 		return false;
 	}
+	
+	/**
+	 * Indique si la {@link Creature} peut attaquer (directement) la
+	 * {@link Position} donnée.
+	 * 
+	 * @param targetPosition
+	 *            la {@link Position} attaquée.
+	 * @return si la {@link Creature} peut attaquer (directement) la
+	 *         {@link Position} donnée.
+	 */
+	public boolean canAttackPosition(Position targetPosition) {
+		Validate.notNull(targetPosition, "The given position is null");
+
+		if (getElement() == null) {
+			// Créature non installée dans un donjon
+			return false;
+		}
+
+		final Position currentPosition = getElement().getPosition();
+
+		// Optimisation: On commence par vérifier que la position cible donnée
+		// correspond bien au niveau de la créature
+		if (targetPosition.z != currentPosition.z) {
+			return false;
+		}
+		
+		// Positions attaquables directement ?
+		final List<Position> attackablePositions = currentPosition
+				.getAttackablePositions();
+		
+		if (attackablePositions.contains(targetPosition)) {
+			// La position peut être attaquée directement
+			return true;
+		}
+
+		return false;
+	}
 
 	@Override
 	public boolean clockTicked() {
