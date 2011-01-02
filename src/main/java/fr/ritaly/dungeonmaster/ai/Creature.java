@@ -38,6 +38,7 @@ import fr.ritaly.dungeonmaster.HasDirection;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.Utils;
+import fr.ritaly.dungeonmaster.ai.astar.LevelPathFinder;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -50,7 +51,6 @@ import fr.ritaly.dungeonmaster.item.MiscItem;
 import fr.ritaly.dungeonmaster.item.Weapon;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
-import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.stat.Stat;
 
@@ -1830,6 +1830,8 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		if (targetPosition.z != currentPosition.z) {
 			return false;
 		}
+		
+		// FIXME Prendre en compte la transparence des portes ou les obstacles!!
 
 		// Positions visibles de la créature ?
 		final List<Position> visiblePositions = currentPosition
@@ -1869,6 +1871,8 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		if (targetPosition.z != currentPosition.z) {
 			return false;
 		}
+		
+		// FIXME Prendre en compte les obstacles !!
 
 		// Positions audibles de la créature ? Cela dépend de l'acuité de la 
 		// créature
@@ -1911,6 +1915,8 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		if (targetPosition.z != currentPosition.z) {
 			return false;
 		}
+		
+		// FIXME Prendre en compte les obstacles !!
 		
 		final List<Position> attackablePositions;
 		
@@ -1976,17 +1982,19 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				if ((party != null) && canSeePosition(party.getPosition())) {
 					// La créature voit les champions, elle se met en chasse et
 					// se déplace vers eux
-					moveTo(party.getPosition().x, party.getPosition().y);
-					
-					return true;
+					if (moveTo(party.getPosition().x, party.getPosition().y)) {
+						// Le déplacement peut ne pas aboutir
+						return true;
+					}
 				}
 				
 				if ((party != null) && canHearPosition(party.getPosition())) {
 					// La créature entend les champions, elle se met en chasse 
 					// et se déplace vers eux
-					moveTo(party.getPosition().x, party.getPosition().y);
-					
-					return true;
+					if (moveTo(party.getPosition().x, party.getPosition().y)) {
+						// Le déplacement peut ne pas aboutir
+						return true;
+					}
 				}
 				
 				// La créature patrouille
@@ -2005,16 +2013,49 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		setState(State.ATTACKING);
 	}
 	
-	private void moveTo(int x, int y) {
+	private boolean moveTo(int x, int y) {
 		if (!getType().canMove()) {
 			// La créature ne peut pas bouger
-			return;
+			return false;
+		}
+
+		final Element element = getElement();
+
+		if (element == null) {
+			// Créature non installée dans un donjon
+			return false;
+		}
+
+		// Position actuelle de la créature
+		final Position position = element.getPosition();
+
+		// Rechercher le chemin à suivre pour atteindre la position cible
+		final LevelPathFinder pathFinder = new LevelPathFinder(
+				element.getLevel(), x, y);
+		final List<LevelPathFinder.Node> nodes = pathFinder
+				.compute(new LevelPathFinder.Node(position.x, position.y));
+		
+		if (nodes == null) {
+			// Aucun chemin possible pour atteindre la cible, sortir
+			return false;
 		}
 		
-		// FIXME Implémenter recherche de chemin (A*)
+		// Se diriger vers la cible (Noeud en seconde position)
+		final LevelPathFinder.Node node = nodes.get(1);
 		
+		// La créature quitte la position source
+		element.creatureSteppedOff(this);
+		
+		final Element targetElement = element.getLevel().getElement(node.x,
+				node.y);
+		
+		// La créature occupe la position cible
+		targetElement.creatureSteppedOn(this);
+
 		// Transition vers l'état TRACKING
 		setState(State.TRACKING);
+		
+		return true;
 	}
 	
 	private void patrol() {
