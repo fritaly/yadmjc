@@ -146,14 +146,6 @@ public final class Position {
 		return direction.change(this);
 	}
 
-	public Position getUpper() {
-		return towards(Direction.UP);
-	}
-
-	public Position getLower() {
-		return towards(Direction.DOWN);
-	}
-
 	/**
 	 * Retourne une liste contenant les 8 positions entourant cette
 	 * {@link Position}.
