@@ -428,6 +428,23 @@ public class Level {
 
 		return creatures;
 	}
+	
+	/**
+	 * Retourne le nombre de créatures situées sur ce niveau.
+	 * 
+	 * @return un entier positif ou nul.
+	 */
+	public int getCreatureCount() {
+		int count = 0;
+
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				count += getElement(x, y).getCreatureCount();
+			}
+		}
+
+		return count;
+	}
 
 	// TODO Méthode de récupération des projectiles du niveau
 	
