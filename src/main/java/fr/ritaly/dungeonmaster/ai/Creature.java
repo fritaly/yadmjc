@@ -1322,8 +1322,13 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	 * Membre d'instance synchronisé. A lire / écrire via le getter / setter.
 	 */
 	private State state = State.IDLE;
-	
-	private final Temporizer moveTemporizer;
+
+	/**
+	 * {@link AtomicInteger} utilisé afin de représenter le timer de déplacement
+	 * de la créature. Celle-ci se déplace quand le timer arrive à zéro
+	 * (expiration).
+	 */
+	private final AtomicInteger moveTimer = new AtomicInteger();
 	
 	// Le paramètre multiplier peut représenter un "health multiplier" ou un
 	// "level experience multiplier"
@@ -1352,8 +1357,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			this.materializer = new StaticMaterializer(getType().isImmaterial());
 		}
 		
-		this.moveTemporizer = new Temporizer(getId(), getType()
-				.getMoveDuration());
+		this.moveTimer.set(getType().getMoveDuration());
 
 		Clock.getInstance().register(this);
 	}
@@ -1945,30 +1949,44 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		
 		// FIXME Pour l'instant, on ne gère que les créatures de taille 4 !!
 		if (!Size.FOUR.equals(getSize())) {
+			log.warn("Method Creature.clockTicked() doesn't support creatures whose size is "
+					+ getSize() + " (for the moment)");
+			
 			return true;
 		}
 		
-		// FIXME Temporiser cette logique
-		if (moveTemporizer.trigger()) {
-			if (getElement() == null) {
-				// Nécessaire pour faire fonctionner les tests unitaires
-				return true;
-			}
+		// Indique si la créature peut se déplacer à ce "round"
+		final boolean moveAllowed;
+		
+		if (moveTimer.decrementAndGet() == 0) {
+			// On réinitialise le timer de mouvement
+			moveTimer.set(getType().getMoveDuration());
 			
-			final Party party = getElement().getLevel().getDungeon()
-					.getParty();
-			
-			// FIXME Gérer animosité entre les créatures (matrice de
-			// "compatibilité d'humeur")
-			// FIXME Gérer priorité d'animosité créatures / champions
-			
-			if ((party != null) && canAttackPosition(party.getPosition())) {
-				// Attaquer les champions
-				attackParty(party);
+			moveAllowed = true;
+		} else {
+			moveAllowed = false;
+		}
+		
+		if (getElement() == null) {
+			// Nécessaire pour faire fonctionner les tests unitaires
+			return true;
+		}
+		
+		final Party party = getElement().getLevel().getDungeon()
+				.getParty();
+		
+		// FIXME Gérer animosité entre les créatures (matrice de
+		// "compatibilité d'humeur")
+		// FIXME Gérer priorité d'animosité créatures / champions
+		
+		if ((party != null) && canAttackPosition(party.getPosition())) {
+			// Attaquer les champions
+			attackParty(party);
 
-				return true;
-			}
-			
+			return true;
+		}
+		
+		if (moveAllowed) {
 			// Quelles sont les positions visibles de la créature ? Cela
 			// dépend de son acuité visuelle (awareness) et de la luminosité
 			// ambiante
@@ -1994,7 +2012,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 			
 			// La créature patrouille
-			patrol();
+			patrol();			
 		}
 
 		// TODO Animer Creature
