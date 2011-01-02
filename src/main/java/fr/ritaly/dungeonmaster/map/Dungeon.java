@@ -127,6 +127,14 @@ public class Dungeon implements ClockListener {
 
 		return null;
 	}
+	
+	public Position getCurrentPosition() {
+		if (hasParty()) {
+			return getParty().getPosition();
+		}
+
+		return null;
+	}
 
 	/**
 	 * Returns the {@link Level} with given number.
