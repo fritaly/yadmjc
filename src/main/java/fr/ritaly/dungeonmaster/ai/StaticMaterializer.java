@@ -18,12 +18,14 @@
  */
 package fr.ritaly.dungeonmaster.ai;
 
+import fr.ritaly.dungeonmaster.Materiality;
+
 public class StaticMaterializer implements Materializer {
 
-	private final boolean material;
+	private final Materiality materiality;
 
-	public StaticMaterializer(boolean material) {
-		this.material = material;
+	public StaticMaterializer(Materiality materiality) {
+		this.materiality = materiality;
 	}
 
 	@Override
@@ -31,14 +33,9 @@ public class StaticMaterializer implements Materializer {
 		// Donnée statique non fonction du temps
 		return false;
 	}
-
+	
 	@Override
-	public boolean isMaterial() {
-		return material;
-	}
-
-	@Override
-	public boolean isImmaterial() {
-		return !isMaterial();
+	public Materiality getMateriality() {
+		return materiality;
 	}
 }

@@ -1385,7 +1385,8 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			// temps
 			this.materializer = new RandomMaterializer(this);
 		} else {
-			this.materializer = new StaticMaterializer(getType().isImmaterial());
+			this.materializer = new StaticMaterializer(getType()
+					.getMateriality());
 		}
 		
 		this.moveTimer.set(getType().getMoveDuration());
@@ -1418,11 +1419,11 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 
 	public final boolean isMaterial() {
-		return materializer.isMaterial();
+		return Materiality.MATERIAL.equals(materializer.getMateriality());
 	}
 
 	public final boolean isImmaterial() {
-		return materializer.isImmaterial();
+		return Materiality.IMMATERIAL.equals(materializer.getMateriality());
 	}
 
 	public final Height getHeight() {

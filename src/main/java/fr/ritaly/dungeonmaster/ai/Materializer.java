@@ -19,10 +19,9 @@
 package fr.ritaly.dungeonmaster.ai;
 
 import fr.ritaly.dungeonmaster.ClockListener;
+import fr.ritaly.dungeonmaster.Materiality;
 
 public interface Materializer extends ClockListener {
 
-	public boolean isMaterial();
-	
-	public boolean isImmaterial();
+	public Materiality getMateriality();
 }

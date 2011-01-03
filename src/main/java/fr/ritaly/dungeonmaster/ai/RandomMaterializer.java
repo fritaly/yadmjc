@@ -22,6 +22,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.Utils;
 
@@ -60,21 +61,16 @@ public class RandomMaterializer implements Materializer {
 
 			if (log.isDebugEnabled()) {
 				log.debug(creature + " is now "
-						+ (isMaterial() ? "material" : "immaterial") + " for "
+						+ (material ? "material" : "immaterial") + " for "
 						+ count + " ticks");
 			}
 		}
 
 		return true;
 	}
-
+	
 	@Override
-	public boolean isMaterial() {
-		return material;
-	}
-
-	@Override
-	public boolean isImmaterial() {
-		return !isMaterial();
+	public Materiality getMateriality() {
+		return material ? Materiality.MATERIAL : Materiality.IMMATERIAL;
 	}
 }
