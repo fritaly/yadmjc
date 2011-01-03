@@ -1307,6 +1307,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	private final Type type;
 
+	// TODO La santé doit se regénérer avec le temps
 	private final Stat health;
 
 	private final List<Item> absorbedItems = new ArrayList<Item>();

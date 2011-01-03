@@ -59,23 +59,23 @@ public class LevelPathFinder extends AStar<LevelPathFinder.Node> {
 
 	protected List<Node> generateSuccessors(Node node) {
 		// On recherche dans les 4 directions possibles de déplacement
-		List<Node> ret = new LinkedList<Node>();
-		int x = node.x;
-		int y = node.y;
+		final List<Node> nodes = new LinkedList<Node>();
+		final int x = node.x;
+		final int y = node.y;
 
 		// FIXME Améliorer la prise en compte du côté traversable des éléments
 		{
 			final Element element = level.getElement(x, y + 1, false);
 			
-			if (!element.isConcrete()) {
-				ret.add(new Node(x, y + 1));
+			if ((element != null) && !element.isConcrete()) {
+				nodes.add(new Node(x, y + 1));
 			}
 		}
 		{
 			final Element element = level.getElement(x, y - 1, false);
 			
-			if (!element.isConcrete()) {
-				ret.add(new Node(x, y - 1));
+			if ((element != null) && !element.isConcrete()) {
+				nodes.add(new Node(x, y - 1));
 			}
 		}
 
@@ -83,19 +83,19 @@ public class LevelPathFinder extends AStar<LevelPathFinder.Node> {
 		{
 			final Element element = level.getElement(x + 1, y, false);
 			
-			if (!element.isConcrete()) {
-				ret.add(new Node(x + 1, y));
+			if ((element != null) && !element.isConcrete()) {
+				nodes.add(new Node(x + 1, y));
 			}
 		}
 		{
 			final Element element = level.getElement(x - 1, y, false);
 			
-			if (!element.isConcrete()) {
-				ret.add(new Node(x - 1, y));
+			if ((element != null) && !element.isConcrete()) {
+				nodes.add(new Node(x - 1, y));
 			}
 		}
 
-		return ret;
+		return nodes;
 	}
 
 	public static void main(String[] args) {
