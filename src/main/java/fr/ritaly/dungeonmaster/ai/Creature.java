@@ -35,6 +35,7 @@ import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.HasDirection;
+import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.ai.astar.LevelPathFinder;
@@ -648,6 +649,29 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				return true;
 			default:
 				return false;
+			}
+		}
+		
+		/**
+		 * Retourne la matérialité de la {@link Creature}.
+		 * 
+		 * @return une instance de {@link Materiality}.
+		 */
+		public Materiality getMateriality() {
+			// If this bit is set to '1', the creature is non material. These
+			// creatures ignore normal attacks but take damage from the
+			// 'Disrupt' action of the Vorpal Blade. Fire damage is also
+			// reduced by a half. All missiles except 'Weaken Non-material
+			// Beings' pass through these creatures (this is hard coded).
+			// These creatures can pass through all doors of any type.
+			switch (this) {
+			case BLACK_FLAME:
+			case GHOST:
+			case WATER_ELEMENTAL:
+			case ZYTAZ: // <--- Cas spécial car tantôt matériel tantôt immatériel 
+				return Materiality.IMMATERIAL;
+			default:
+				return Materiality.MATERIAL;
 			}
 		}
 
