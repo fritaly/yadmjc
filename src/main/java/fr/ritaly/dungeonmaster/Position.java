@@ -451,6 +451,55 @@ public final class Position {
 		
 		return positions;
 	}
+
+	/**
+	 * A partir de cette position, retourne la direction dans laquelle il faut
+	 * regarder / se tourner pour pointer vers la position cible donnée.
+	 * 
+	 * @param targetPosition
+	 *            la position cible vers laquelle il faut se tourner.
+	 * @return la direction dans laquelle il faut se tourner pour voir la
+	 *         position cible donnée.
+	 */
+	public Direction getDirection(Position targetPosition) {
+		Validate.notNull(targetPosition, "The given direction is null");
+
+		if (this.z != targetPosition.z) {
+			// Positions situées sur des niveaux différents, cas non supporté
+			return null;
+		}
+
+		if (isAlignedX(targetPosition)) {
+			// Positions alignées le long de l'axe des X
+			if (this.y < targetPosition.y) {
+				// Target située en bas de this
+				return Direction.SOUTH;
+			} else if (this.y > targetPosition.y) {
+				// Target située en haut de this
+				return Direction.NORTH;
+			} else {
+				// Même valeur de y
+				return null;
+			}
+		} else if (isAlignedY(targetPosition)) {
+			// Positions alignées le long de l'axe des Y
+			if (this.x < targetPosition.x) {
+				// Target située à droite de this
+				return Direction.EAST;
+			} else if (this.x > targetPosition.x) {
+				// Target située à gauche de this
+				return Direction.WEST;
+			} else {
+				// Même valeur de y
+				return null;
+			}
+		} else {
+			// Les directions ne sont pas alignées
+			// FIXME Calculer l'angle formé par les deux positions pour
+			// déterminer la direction de regard
+			return null;
+		}
+	}
 	
 	public static void main(String[] args) {
 		for (int radius = 1; radius <= 15; radius++) {
