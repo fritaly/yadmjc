@@ -30,7 +30,7 @@ import org.apache.commons.lang.Validate;
  * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
  */
 public final class Position {
-
+	
 	public final int x, y, z;
 
 	private final int hash;
@@ -163,8 +163,6 @@ public final class Position {
 	public List<Position> getSurroundingPositions(int radius) {
 		Validate.isTrue(radius >= 1, "The given radius must be positive");
 		
-		final List<Position> positions = new ArrayList<Position>(16);
-		
 		// Positions entourant la position P dans un rayon de 1 (8, +8)
 		// +---+---+---+
 		// | 1 | 1 | 1 |
@@ -173,19 +171,6 @@ public final class Position {
 		// +---+---+---+
 		// | 1 | 1 | 1 |
 		// +---+---+---+
-		
-		for (int a = this.x - 1; a <= this.x + 1; a++) {
-			for (int b = this.y - 1; b <= this.y + 1; b++) {
-				positions.add(new Position(a, b, this.z));
-			}
-		}
-			
-		// Retirer la position courante
-		positions.remove(this);
-			
-		if (radius == 1) {
-			return positions;
-		}
 		
 		// Positions entourant la position P dans un rayon de 2 (20, +12)
 		// +---+---+---+---+---+
@@ -199,26 +184,6 @@ public final class Position {
 		// +---+---+---+---+---+
 		// |   | 2 | 2 | 2 |   |
 		// +---+---+---+---+---+
-		
-		positions.add(new Position(this.x-2, this.y-1, this.z));
-		positions.add(new Position(this.x-2, this.y, this.z));
-		positions.add(new Position(this.x-2, this.y+1, this.z));
-		
-		positions.add(new Position(this.x+2, this.y-1, this.z));
-		positions.add(new Position(this.x+2, this.y, this.z));
-		positions.add(new Position(this.x+2, this.y+1, this.z));
-		
-		positions.add(new Position(this.x-1, this.y-2, this.z));
-		positions.add(new Position(this.x, this.y-2, this.z));
-		positions.add(new Position(this.x+1, this.y-2, this.z));
-		
-		positions.add(new Position(this.x-1, this.y+2, this.z));
-		positions.add(new Position(this.x, this.y+2, this.z));
-		positions.add(new Position(this.x+1, this.y+2, this.z));
-		
-		if (radius == 2) {
-			return positions;
-		}
 		
 		// Positions entourant la position P dans un rayon de 3 (36, +16)
 		// +---+---+---+---+---+---+---+
@@ -236,32 +201,6 @@ public final class Position {
 		// +---+---+---+---+---+---+---+
 		// |   |   | 3 | 3 | 3 |   |   |
 		// +---+---+---+---+---+---+---+
-		
-		positions.add(new Position(this.x-3, this.y-1, this.z));
-		positions.add(new Position(this.x-3, this.y, this.z));
-		positions.add(new Position(this.x-3, this.y+1, this.z));
-		
-		positions.add(new Position(this.x+3, this.y-1, this.z));
-		positions.add(new Position(this.x+3, this.y, this.z));
-		positions.add(new Position(this.x+3, this.y+1, this.z));
-		
-		positions.add(new Position(this.x-2, this.y-2, this.z));
-		positions.add(new Position(this.x-2, this.y+2, this.z));
-		
-		positions.add(new Position(this.x+2, this.y-2, this.z));
-		positions.add(new Position(this.x+2, this.y+2, this.z));
-		
-		positions.add(new Position(this.x-1, this.y-3, this.z));
-		positions.add(new Position(this.x, this.y-3, this.z));
-		positions.add(new Position(this.x+1, this.y-3, this.z));
-		
-		positions.add(new Position(this.x-1, this.y+3, this.z));
-		positions.add(new Position(this.x, this.y+3, this.z));
-		positions.add(new Position(this.x+1, this.y+3, this.z));
-		
-		if (radius == 3) {
-			return positions;
-		}
 		
 		// Positions entourant la position P dans un rayon de 4 (68, +32)
 		// +---+---+---+---+---+---+---+---+---+
@@ -284,7 +223,67 @@ public final class Position {
 		// |   |   | 4 | 4 | 4 | 4 | 4 |   |   |
 		// +---+---+---+---+---+---+---+---+---+
 		
-		throw new UnsupportedOperationException("Unsupported radius " + radius);
+		// On calcule les positions situées dans le rayon donné
+		final List<Position> positions = new ArrayList<Position>(64);
+		
+//		// Première version non optimisée
+//		for (int x = this.x - radius; x <= this.x + radius; x++) {
+//			for (int y = this.y - radius; y <= this.y + radius; y++) {
+//				final Position position = new Position(x, y, 1);
+//				
+//				if (this.equals(position)) {
+//					continue;
+//				}
+//
+//				final double distance = Utils.distance(this.x, this.y,
+//						position.x, position.y);
+//
+//				if (distance <= radius + 0.5d) {
+//					positions.add(position);
+//				}
+//			}
+//		}
+		
+		// Optimisation: vu la symétrie de l'espace exploré, on en explore 1/4
+		// et si le point et dans le cercle de rayon donné, on en déduit les 3
+		// points associés par symétrie (C4)
+		for (int x = 0; x <= radius; x++) {
+			for (int y = 0; y <= radius; y++) {
+				if ((x == 0) && (y == 0)) {
+					// On ignore la position centrale
+					continue;
+				}
+				
+				final double distance = Utils.distance(0, 0, x, y);
+
+				if (distance <= radius + 0.5d) {
+					positions.add(new Position(this.x + x, this.y + y, this.z));
+					
+					if (y != 0) {
+						// Ne considérer les positions symétriques que si les 2
+						// ne sont pas confondues
+						positions.add(new Position(this.x + x, this.y - y,
+								this.z));
+					}
+					
+					if (x != 0) {
+						// Ne considérer les positions symétriques que si les 2
+						// ne sont pas confondues
+						positions.add(new Position(this.x - x, this.y + y,
+								this.z));
+						
+						if (y != 0) {
+							// Ne considérer les positions symétriques que si 
+							// les 2 ne sont pas confondues
+							positions.add(new Position(this.x - x, this.y - y,
+									this.z));
+						}
+					}
+				}
+			}
+		}
+		
+		return positions;
 	}
 	
 	/**
@@ -562,5 +561,14 @@ public final class Position {
 			System.out.println("Radius: " + radius + " -> Inside: "
 					+ insideCount + ", Outside: " + outsideCount);
 		}
+		
+//		final long start = System.nanoTime();
+//		
+//		for (int i = 0; i < 10000; i++) {
+//			new Position(1,1,1).getSurroundingPositions(10);
+//		}
+//		
+//		System.out.println("Elapsed: "
+//				+ ((System.nanoTime() - start) / 1000000) + " ms");
 	}
 }
