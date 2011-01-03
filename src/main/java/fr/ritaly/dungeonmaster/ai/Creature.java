@@ -675,29 +675,6 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 		}
 
-		/**
-		 * Indique si la {@link Creature} est immatérielle.
-		 * 
-		 * @return si la {@link Creature} est immatérielle.
-		 */
-		private boolean isImmaterial() {
-			// If this bit is set to '1', the creature is non material. These
-			// creatures ignore normal attacks but take damage from the
-			// 'Disrupt' action of the Vorpal Blade. Fire damage is also
-			// reduced by a half. All missiles except 'Weaken Non-material
-			// Beings' pass through these creatures (this is hard coded).
-			// These creatures can pass through all doors of any type.
-			switch (this) {
-			case BLACK_FLAME:
-			case GHOST:
-			case WATER_ELEMENTAL:
-			case ZYTAZ:
-				return true;
-			default:
-				return false;
-			}
-		}
-
 		private List<Item> getItemsLeftWhenKilled() {
 			switch (this) {
 			case SCREAMER: {
