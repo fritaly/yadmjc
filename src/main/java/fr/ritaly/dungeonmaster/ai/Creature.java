@@ -1380,8 +1380,17 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	public void setDirection(Direction direction) {
 		Validate.notNull(direction, "The given direction is null");
 		
-		this.direction = direction;
-	};
+		if (this.direction != direction) {
+			final Direction initialDirection = this.direction;
+
+			this.direction = direction;
+
+			if (log.isDebugEnabled()) {
+				log.debug(this + ".Direction: " + initialDirection + " -> "
+						+ this.direction);
+			}
+		}
+	}
 
 	public final boolean isMaterial() {
 		return materializer.isMaterial();
@@ -1977,6 +1986,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			return true;
 		}
 		
+		// TODO La vitesse de déplacement d'une créature de taille 4 est-elle
+		// double car elle ne peut que se déplacer de 2 cases à la fois ? Quid 
+		// pour une créature de taille 2 ?
+		
 		// Remise à jour des compteurs
 		if (moveTimer.get() > 0) {
 			moveTimer.decrementAndGet();
@@ -1994,6 +2007,19 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 		if (isAttackAllowed()) {
 			if ((party != null) && canAttackPosition(party.getPosition())) {
+				// Si la créature ne fait pas face aux champions, elle se tourne
+				// vers eux avant d'attaquer dans la foulée
+				final Direction directionTowardsParty = getElement()
+						.getPosition().getDirectionTowards(party.getPosition());
+				
+				if (directionTowardsParty != null) {
+					// Une direction a été trouvée
+					if (!getDirection().equals(directionTowardsParty)) {
+						// La créature se tourne vers les champions
+						setDirection(directionTowardsParty);
+					}
+				}
+				
 				// Attaquer les champions
 				attackParty(party);
 
@@ -2016,6 +2042,20 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 					// le fait dans le même tour
 					if (isAttackAllowed()
 							&& canAttackPosition(party.getPosition())) {
+						
+						// Si la créature ne fait pas face aux champions, elle
+						// se tourne vers eux avant d'attaquer dans la foulée
+						final Direction directionTowardsParty = getElement()
+								.getPosition().getDirectionTowards(
+										party.getPosition());
+
+						if (directionTowardsParty != null) {
+							// Une direction a été trouvée
+							if (!getDirection().equals(directionTowardsParty)) {
+								// La créature se tourne vers les champions
+								setDirection(directionTowardsParty);
+							}
+						}
 
 						attackParty(party);
 					}
@@ -2077,8 +2117,21 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		// Se diriger vers la cible (Noeud en seconde position)
 		final LevelPathFinder.Node node = nodes.get(1);
 		
+		// On calcule la direction dans laquelle la créature doit se retrouver
+		// au final
+		final Direction directionTowardsTarget = getElement().getPosition()
+				.getDirectionTowards(new Position(node.x, node.y, position.z));
+		
 		// La créature quitte la position source
 		element.creatureSteppedOff(this);
+		
+		if (directionTowardsTarget != null) {
+			// Tourner la créature en cours de route
+			if (!getDirection().equals(directionTowardsTarget)) {
+				// La créature se tourne vers la cible
+				setDirection(directionTowardsTarget);
+			}
+		}
 		
 		final Element targetElement = element.getLevel().getElement(node.x,
 				node.y);

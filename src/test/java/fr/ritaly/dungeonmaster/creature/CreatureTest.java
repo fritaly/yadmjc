@@ -27,7 +27,6 @@ import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.ai.AttackType;
 import fr.ritaly.dungeonmaster.ai.Creature;
-import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -346,6 +345,11 @@ public class CreatureTest extends TestCase {
 	}
 	
 	public void testScorpionMustMoveTowardsParty() {
+		/*
+		 * Le scorpion voit les champions en face de lui. Il doit se rapprocher
+		 * d'eux pour attaquer au contact 
+		 */
+		
 		// +---+---+---+---+---+---+---+---+---+
 		// | W | W | W | W | W | W | W | W | W |
 		// +---+---+---+---+---+---+---+---+---+
@@ -402,6 +406,81 @@ public class CreatureTest extends TestCase {
 		assertEquals(Direction.NORTH, scorpion.getDirection());
 		assertTrue(scorpion.canSeePosition(party.getPosition()));
 		assertEquals(new Position(4, 2, 1), scorpion.getElement().getPosition());
+	}
+	
+	public void testDragonMustMoveAndTurnTowardsParty() {
+		/*
+		 * Le dragon regard au Nord. Il ne voit pas les champions mais doit les
+		 * détecter (awareness) et se mettre à les chasser. Pour cela, sa
+		 * direction doit changer pour pointer vers les champions. Quand il
+		 * parvient à portée, il attaque à distance par une boule de feu.
+		 */
+		
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | D | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | P | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | . | . | . | . | . | . | . | W |
+		// +---+---+---+---+---+---+---+---+---+
+		// | W | W | W | W | W | W | W | W | W |
+		// +---+---+---+---+---+---+---+---+---+
+
+		final Dungeon dungeon = new Dungeon();
+
+		final Level level1 = dungeon.createLevel(1, 9, 9);
+		final Element element = level1.getElement(4, 1);
+		
+		final Creature dragon = new Creature(Creature.Type.RED_DRAGON, 1);
+		element.addCreature(dragon);
+
+		final Party party = new Party(ChampionFactory.getFactory().newChampion(
+				Name.WUUF));
+		
+		dungeon.setParty(4, 6, 1, party);
+		
+		// --- Etat initial
+		assertEquals(Creature.State.IDLE, dragon.getState());
+		assertEquals(Direction.NORTH, dragon.getDirection());
+		assertFalse(dragon.canSeePosition(party.getPosition()));
+		assertEquals(new Position(4, 1, 1), dragon.getElement().getPosition());
+		
+		// --- On laisse la créature se déplacer une fois (vers les champions)
+		Clock.getInstance().tick(Creature.Type.RED_DRAGON.getMoveDuration());
+		
+		// --- Contrôles sur nouvel état
+		assertEquals(Creature.State.TRACKING, dragon.getState());
+		assertEquals(Direction.SOUTH, dragon.getDirection()); // <--- !!!
+		assertFalse(dragon.canSeePosition(party.getPosition()));
+		assertEquals(new Position(4, 2, 1), dragon.getElement().getPosition());
+		
+		// --- On laisse la créature se déplacer une fois (vers les champions)
+		Clock.getInstance().tick(Creature.Type.RED_DRAGON.getMoveDuration());
+		
+		// --- Contrôles sur nouvel état
+		assertEquals(Creature.State.TRACKING, dragon.getState());
+		assertEquals(Direction.SOUTH, dragon.getDirection());
+		assertTrue(dragon.canSeePosition(party.getPosition())); // <--- !!!
+		assertEquals(new Position(4, 3, 1), dragon.getElement().getPosition());
+		
+		// --- On laisse la créature se déplacer une fois (vers les champions)
+		Clock.getInstance().tick(Creature.Type.RED_DRAGON.getMoveDuration());
+		
+		// --- Contrôles sur nouvel état
+		assertEquals(Creature.State.ATTACKING, dragon.getState()); // <--- !!!
+		assertEquals(Direction.SOUTH, dragon.getDirection());
+		assertTrue(dragon.canSeePosition(party.getPosition()));
+		assertEquals(new Position(4, 4, 1), dragon.getElement().getPosition());
 	}
 	
 	@Override
