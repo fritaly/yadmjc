@@ -1394,6 +1394,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 		}
 	}
+	
+	public final Materiality getMateriality() {
+		return materializer.getMateriality();
+	}
 
 	public final boolean isMaterial() {
 		return Materiality.MATERIAL.equals(materializer.getMateriality());
