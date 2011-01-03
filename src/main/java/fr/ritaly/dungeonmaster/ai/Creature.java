@@ -2222,13 +2222,9 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		// FIXME On doit privilégier la direction dans laquelle la
 		// créature se trouve actuellement
 
-		// FIXME Faire tourner la créature
-
 		// FIXME Le déplacement est-il physiquement possible ? La
 		// créature n'est-elle pas gênée par une autre créature
 		// devant ?
-
-		// FIXME L'emplacement cible n'est-il pas une oubliette ?
 
 		if (State.IDLE.equals(getState())) {
 			// La créature passe dans l'état PATROLLING
@@ -2239,11 +2235,18 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		Collections.shuffle(surroundingElements);
 		
 		final Element sourceElement = getElement();
-		final Element targetElement = surroundingElements
-				.iterator().next();
+		final Element targetElement = surroundingElements.iterator().next();
+		
+		final Direction directionTowardsTarget = getElement().getPosition()
+				.getDirectionTowards(targetElement.getPosition());
 		
 		// La créature quitte la position source
 		sourceElement.creatureSteppedOff(this);
+		
+		if (!getDirection().equals(directionTowardsTarget)) {
+			// On tourne la créature dans le sens de la marche
+			setDirection(directionTowardsTarget);
+		}
 		
 		// La créature occupe la position cible
 		targetElement.creatureSteppedOn(this);
