@@ -43,9 +43,7 @@ public final class Position {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-
-		this.toString = "[" + z + ":" + x + "," + y + "]";
-
+		
 		int hashCode = 17;
 
 		hashCode = (hashCode * 31) + x;
@@ -53,6 +51,9 @@ public final class Position {
 		hashCode = (hashCode * 31) + z;
 
 		this.hash = hashCode;
+
+		this.toString = new StringBuilder(16).append('[').append(z).append(':')
+				.append(x).append(',').append(y).append(']').toString();
 	}
 
 	@Override
@@ -245,19 +246,69 @@ public final class Position {
 //			}
 //		}
 		
-		// Optimisation: vu la symétrie de l'espace exploré, on en explore 1/4
+//		// Optimisation: vu la symétrie de l'espace exploré, on en explore 1/4
+//		// et si le point et dans le cercle de rayon donné, on en déduit les 3
+//		// points associés par symétrie (C4)
+//		for (int x = 0; x <= radius; x++) {
+//			for (int y = 0; y <= radius; y++) {
+//				if ((x == 0) && (y == 0)) {
+//					// On ignore la position centrale
+//					continue;
+//				}
+//				
+//				final double distance = Utils.distance(0, 0, x, y);
+//
+//				if (distance <= radius + 0.5d) {
+//					positions.add(new Position(this.x + x, this.y + y, this.z));
+//					
+//					if (y != 0) {
+//						// Ne considérer les positions symétriques que si les 2
+//						// ne sont pas confondues
+//						positions.add(new Position(this.x + x, this.y - y,
+//								this.z));
+//					}
+//					
+//					if (x != 0) {
+//						// Ne considérer les positions symétriques que si les 2
+//						// ne sont pas confondues
+//						positions.add(new Position(this.x - x, this.y + y,
+//								this.z));
+//						
+//						if (y != 0) {
+//							// Ne considérer les positions symétriques que si 
+//							// les 2 ne sont pas confondues
+//							positions.add(new Position(this.x - x, this.y - y,
+//									this.z));
+//						}
+//					}
+//				}
+//			}
+//		}
+		
+		// Optimisation 1: Vu la symétrie de l'espace exploré, on en explore 1/4
 		// et si le point et dans le cercle de rayon donné, on en déduit les 3
 		// points associés par symétrie (C4)
-		for (int x = 0; x <= radius; x++) {
-			for (int y = 0; y <= radius; y++) {
+		// Optimisation 2: On parcourt l'espace de l'extérieur vers l'intérieur
+		// et dès qu'on découvre un point dans le cercle, on prend de suite tous
+		// les points "plus proches" pour une même valeur de x
+		// Optimisation 3: Méthode Utils.distance(int, int, int, int) inlinée
+		// Optimisation 4: Constructeur Position(int, int, int) optimisé
+		for (int x = radius; x >= 0; x--) {
+			boolean inside = false;
+			
+			for (int y = radius; y >= 0; y--) {
 				if ((x == 0) && (y == 0)) {
 					// On ignore la position centrale
 					continue;
 				}
 				
-				final double distance = Utils.distance(0, 0, x, y);
-
-				if (distance <= radius + 0.5d) {
+				if (!inside) {
+					final double distance = Math.sqrt((x * x) + (y * y));
+					
+					inside = (distance <= radius + 0.5d); 
+				}
+				
+				if (inside) {
 					positions.add(new Position(this.x + x, this.y + y, this.z));
 					
 					if (y != 0) {
@@ -589,13 +640,17 @@ public final class Position {
 					+ insideCount + ", Outside: " + outsideCount);
 		}
 		
-//		final long start = System.nanoTime();
-//		
-//		for (int i = 0; i < 10000; i++) {
-//			new Position(1,1,1).getSurroundingPositions(10);
+//		for (int j = 0; j < 10; j++) {
+//			final long start = System.nanoTime();
+//			
+//			final Position position = new Position(1,1,1);
+//			
+//			for (int i = 0; i < 10000; i++) {
+//				position.getSurroundingPositions(6);
+//			}
+//			
+//			System.out.println("Elapsed: "
+//					+ ((System.nanoTime() - start) / 1000000) + " ms");
 //		}
-//		
-//		System.out.println("Elapsed: "
-//				+ ((System.nanoTime() - start) / 1000000) + " ms");
 	}
 }
