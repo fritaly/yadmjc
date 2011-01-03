@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -87,7 +88,7 @@ public final class Portrait extends DirectedElement {
 	public boolean isTraversable(Creature creature) {
 		Validate.isTrue(creature != null, "The given creature is null");
 
-		return (creature != null) && creature.isImmaterial();
+		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}
 
 	@Override

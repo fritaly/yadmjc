@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
 import fr.ritaly.dungeonmaster.actuator.HasActuator;
@@ -68,7 +69,7 @@ public final class Lever extends DirectedElement implements HasActuator,
 	public boolean isTraversable(Creature creature) {
 		Validate.isTrue(creature != null, "The given creature is null");
 
-		return (creature != null) && creature.isImmaterial();
+		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}
 
 	@Override

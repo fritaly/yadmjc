@@ -24,6 +24,7 @@ import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
@@ -65,7 +66,7 @@ public final class Altar extends DirectedElement implements HasActuator {
 	public boolean isTraversable(Creature creature) {
 		Validate.isTrue(creature != null, "The given creature is null");
 
-		return (creature != null) && creature.isImmaterial();
+		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}
 
 	public final List<Item> getItems(Direction direction) {

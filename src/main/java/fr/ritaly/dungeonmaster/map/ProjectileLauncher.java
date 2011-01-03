@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
@@ -60,7 +61,7 @@ public class ProjectileLauncher extends DirectedElement implements Triggered {
 
 	@Override
 	public boolean isTraversable(Creature creature) {
-		return (creature != null) && creature.isImmaterial();
+		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}
 
 	@Override

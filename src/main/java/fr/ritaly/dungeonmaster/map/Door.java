@@ -26,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
+import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Orientation;
 import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
@@ -535,7 +536,7 @@ public final class Door extends OrientedElement implements ClockListener,
 			return true;
 		}
 
-		if (creature.isImmaterial() && !Style.RA.equals(getStyle())) {
+		if (Materiality.IMMATERIAL.equals(creature.getMateriality()) && !Style.RA.equals(getStyle())) {
 			// Les créature immatérielles ne peuvent passer les portes RA !!!
 			return true;
 		}

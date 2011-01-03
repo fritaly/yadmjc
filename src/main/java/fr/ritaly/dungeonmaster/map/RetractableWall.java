@@ -22,6 +22,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.actuator.Triggered;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
 import fr.ritaly.dungeonmaster.ai.Creature;
@@ -129,7 +130,7 @@ public class RetractableWall extends Element implements Triggered {
 	public boolean isTraversable(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 
-		return isOpen() || creature.isImmaterial();
+		return isOpen() || Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}
 
 	@Override

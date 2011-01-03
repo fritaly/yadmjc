@@ -1399,10 +1399,6 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		return materializer.getMateriality();
 	}
 
-	public final boolean isImmaterial() {
-		return Materiality.IMMATERIAL.equals(materializer.getMateriality());
-	}
-
 	public final Height getHeight() {
 		switch (getType()) {
 		case GHOST:

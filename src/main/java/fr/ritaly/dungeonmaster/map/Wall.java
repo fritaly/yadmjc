@@ -20,6 +20,7 @@ package fr.ritaly.dungeonmaster.map;
 
 import org.apache.commons.lang.Validate;
 
+import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
 
@@ -41,7 +42,7 @@ public final class Wall extends Element {
 	public boolean isTraversable(final Creature creature) {
 		Validate.isTrue(creature != null, "The given creature is null");
 		
-		return creature.isImmaterial();
+		return Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}
 	
 	@Override
