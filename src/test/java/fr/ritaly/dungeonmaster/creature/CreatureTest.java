@@ -24,6 +24,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.ai.AttackType;
 import fr.ritaly.dungeonmaster.ai.Creature;
@@ -83,16 +84,16 @@ public class CreatureTest extends TestCase {
 	public void testZytazMateriality() {
 		final Creature creature = new Creature(Creature.Type.ZYTAZ, 1);
 		
-		boolean material = creature.isMaterial();
+		Materiality materiality = creature.getMateriality();
 		int count = 0;
 		
 		for (int i = 0; i < 20; i++) {
 			Clock.getInstance().tick();
 			
-			if (material != creature.isMaterial()) {
+			if (materiality != creature.getMateriality()) {
 				count++;
 				
-				material = creature.isMaterial();
+				materiality = creature.getMateriality();
 			}
 		}
 		
@@ -102,16 +103,16 @@ public class CreatureTest extends TestCase {
 	public void testMummyMateriality() {
 		final Creature creature = new Creature(Creature.Type.MUMMY, 1);
 		
-		boolean material = creature.isMaterial();
+		Materiality materiality = creature.getMateriality();
 		int count = 0;
 		
 		for (int i = 0; i < 20; i++) {
 			Clock.getInstance().tick();
 			
-			if (material != creature.isMaterial()) {
+			if (materiality != creature.getMateriality()) {
 				count++;
 				
-				material = creature.isMaterial();
+				materiality = creature.getMateriality();
 			}
 		}
 		
