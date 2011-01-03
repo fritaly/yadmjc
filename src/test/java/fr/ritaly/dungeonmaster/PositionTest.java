@@ -26,17 +26,17 @@ public class PositionTest extends TestCase {
 		super(name);
 	}
 
-	public void testGetDirection() throws Exception {
+	public void testGetDirectionTowards() throws Exception {
 		// +---+---+---+---+---+
-		// | . | . | N | . | . |
+		// | . | 1 | N | 2 | . |
 		// +---+---+---+---+---+
-		// | . | . | . | . | . |
+		// | 8 | . | . | . | 3 |
 		// +---+---+---+---+---+
 		// | W | . | X | . | E |
 		// +---+---+---+---+---+
-		// | . | . | . | . | . |
+		// | 7 | . | . | . | 4 |
 		// +---+---+---+---+---+
-		// | . | . | S | . | . |
+		// | . | 6 | S | 5 | . |
 		// +---+---+---+---+---+
 
 		final Position positionX = new Position(2, 2, 1);
@@ -45,10 +45,28 @@ public class PositionTest extends TestCase {
 		final Position positionW = new Position(0, 2, 1);
 		final Position positionE = new Position(4, 2, 1);
 		
-		assertEquals(Direction.NORTH, positionX.getDirection(positionN));
-		assertEquals(Direction.SOUTH, positionX.getDirection(positionS));
-		assertEquals(Direction.WEST, positionX.getDirection(positionW));
-		assertEquals(Direction.EAST, positionX.getDirection(positionE));
+		assertEquals(Direction.NORTH, positionX.getDirectionTowards(positionN));
+		assertEquals(Direction.SOUTH, positionX.getDirectionTowards(positionS));
+		assertEquals(Direction.WEST, positionX.getDirectionTowards(positionW));
+		assertEquals(Direction.EAST, positionX.getDirectionTowards(positionE));
+		
+		final Position position1 = new Position(1, 0, 1);
+		final Position position2 = new Position(3, 0, 1);
+		final Position position3 = new Position(4, 1, 1);
+		final Position position4 = new Position(4, 3, 1);
+		final Position position5 = new Position(3, 4, 1);
+		final Position position6 = new Position(1, 4, 1);
+		final Position position7 = new Position(0, 3, 1);
+		final Position position8 = new Position(0, 1, 1);
+		
+		assertEquals(Direction.NORTH, positionX.getDirectionTowards(position1));
+		assertEquals(Direction.NORTH, positionX.getDirectionTowards(position2));
+		assertEquals(Direction.EAST, positionX.getDirectionTowards(position3));
+		assertEquals(Direction.EAST, positionX.getDirectionTowards(position4));
+		assertEquals(Direction.SOUTH, positionX.getDirectionTowards(position5));
+		assertEquals(Direction.SOUTH, positionX.getDirectionTowards(position6));
+		assertEquals(Direction.WEST, positionX.getDirectionTowards(position7));
+		assertEquals(Direction.WEST, positionX.getDirectionTowards(position8));
 	}
 	
 	public void testGetSurroundingPositionsInt() throws Exception {

@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.math.RandomUtils;
 
 /**
  * Représente des coordonnées en 3 dimensions dans un donjon.
@@ -460,7 +461,7 @@ public final class Position {
 	 * @return la direction dans laquelle il faut se tourner pour voir la
 	 *         position cible donnée.
 	 */
-	public Direction getDirection(Position targetPosition) {
+	public Direction getDirectionTowards(Position targetPosition) {
 		Validate.notNull(targetPosition, "The given direction is null");
 
 		if (this.z != targetPosition.z) {
@@ -477,7 +478,7 @@ public final class Position {
 				// Target située en haut de this
 				return Direction.NORTH;
 			} else {
-				// Même valeur de y
+				// this et target sont confondus
 				return null;
 			}
 		} else if (isAlignedY(targetPosition)) {
@@ -489,14 +490,40 @@ public final class Position {
 				// Target située à gauche de this
 				return Direction.WEST;
 			} else {
-				// Même valeur de y
+				// this et target sont confondus
 				return null;
 			}
 		} else {
-			// Les directions ne sont pas alignées
-			// FIXME Calculer l'angle formé par les deux positions pour
-			// déterminer la direction de regard
-			return null;
+			// Les directions ne sont pas alignées. Déterminer une direction de
+			// préférence à une autre
+			
+			// Valeur de x du vecteur permettant d'aller de this à target
+			final int deltaX = targetPosition.x - this.x;
+			
+			// Valeur de y du vecteur permettant d'aller de this à target
+			final int deltaY = targetPosition.y - this.y;
+			
+			if (deltaX == deltaY) {
+				// Impossible de décider de manière non arbitraire, on tire une
+				// direction au hasard
+				final Direction[] directions = new Direction[2];
+				
+				// Rappel: deltaX ne peut être nul
+				directions[0] = (deltaX > 0) ? Direction.EAST: Direction.WEST; 
+				
+				// Rappel: deltaY ne peut être nul
+				directions[1] = (deltaY > 0) ? Direction.SOUTH: Direction.NORTH;
+
+				return directions[RandomUtils.nextInt(2)];
+			}
+			
+			if (Math.abs(deltaX) > Math.abs(deltaY)) {
+				// Direction de préférence le long de l'axe des X
+				return (deltaX > 0) ? Direction.EAST: Direction.WEST;
+			} else {
+				// Direction de préférence le long de l'axe des Y
+				return (deltaY > 0) ? Direction.SOUTH: Direction.NORTH;
+			}
 		}
 	}
 	
