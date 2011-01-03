@@ -2100,7 +2100,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 		// Rechercher le chemin à suivre pour atteindre la position cible
 		final LevelPathFinder pathFinder = new LevelPathFinder(
-				element.getLevel(), x, y);
+				element.getLevel(), x, y, getMateriality());
 		final List<LevelPathFinder.Node> nodes = pathFinder
 				.compute(new LevelPathFinder.Node(position.x, position.y));
 		

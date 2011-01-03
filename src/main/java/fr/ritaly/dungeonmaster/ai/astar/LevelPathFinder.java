@@ -3,6 +3,7 @@ package fr.ritaly.dungeonmaster.ai.astar;
 import java.util.LinkedList;
 import java.util.List;
 
+import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.map.Level;
@@ -11,6 +12,13 @@ public class LevelPathFinder extends AStar<LevelPathFinder.Node> {
 	private final Level level;
 
 	private final int targetX, targetY;
+
+	/**
+	 * La matérialité de la créature pour laquelle on recherche un chemin.
+	 * Définit si elle peut traverser les murs ("fantômes") et donc le chemin
+	 * solution trouvé.
+	 */
+	private final Materiality materiality;
 
 	public static class Node {
 		public int x;
@@ -26,10 +34,11 @@ public class LevelPathFinder extends AStar<LevelPathFinder.Node> {
 		}
 	}
 
-	public LevelPathFinder(Level level, int x, int y) {
+	public LevelPathFinder(Level level, int x, int y, Materiality materiality) {
 		this.level = level;
 		this.targetX = x;
 		this.targetY = y;
+		this.materiality = materiality;
 	}
 
 	protected boolean isGoal(Node node) {
@@ -38,12 +47,14 @@ public class LevelPathFinder extends AStar<LevelPathFinder.Node> {
 
 	protected Double g(Node from, Node to) {
 		if (from.x == to.x && from.y == to.y) {
-			// But atteint
+			// But atteint (à tester en premier !)
 			return 0.0;
 		}
-
-		// FIXME Améliorer la prise en compte du côté traversable des éléments
-		if (!level.getElement(to.x, to.y).isConcrete()) {
+		
+		if (Materiality.IMMATERIAL.equals(materiality)) {
+			// On peut traverser n'importe quel élément du graphe
+			return 1.0;
+		} else if (!level.getElement(to.x, to.y).isConcrete()) {
 			// Element franchissable
 			return 1.0;
 		}
@@ -58,39 +69,39 @@ public class LevelPathFinder extends AStar<LevelPathFinder.Node> {
 	}
 
 	protected List<Node> generateSuccessors(Node node) {
-		// On recherche dans les 4 directions possibles de déplacement
+		// On recherche dans les 4 directions possibles de déplacement et on ne
+		// retourne que les noeuds que l'on peut traverser
 		final List<Node> nodes = new LinkedList<Node>();
 		final int x = node.x;
 		final int y = node.y;
+		final boolean immaterial = Materiality.IMMATERIAL.equals(materiality);
 
-		// FIXME Améliorer la prise en compte du côté traversable des éléments
 		{
 			final Element element = level.getElement(x, y + 1, false);
 			
-			if ((element != null) && !element.isConcrete()) {
+			if ((element != null) && (immaterial || !element.isConcrete())) {
 				nodes.add(new Node(x, y + 1));
 			}
 		}
 		{
 			final Element element = level.getElement(x, y - 1, false);
 			
-			if ((element != null) && !element.isConcrete()) {
+			if ((element != null) && (immaterial || !element.isConcrete())) {
 				nodes.add(new Node(x, y - 1));
 			}
 		}
 
-		// FIXME Améliorer la prise en compte du côté traversable des éléments
 		{
 			final Element element = level.getElement(x + 1, y, false);
 			
-			if ((element != null) && !element.isConcrete()) {
+			if ((element != null) && (immaterial || !element.isConcrete())) {
 				nodes.add(new Node(x + 1, y));
 			}
 		}
 		{
 			final Element element = level.getElement(x - 1, y, false);
 			
-			if ((element != null) && !element.isConcrete()) {
+			if ((element != null) && (immaterial || !element.isConcrete())) {
 				nodes.add(new Node(x - 1, y));
 			}
 		}
@@ -101,7 +112,8 @@ public class LevelPathFinder extends AStar<LevelPathFinder.Node> {
 	public static void main(String[] args) {
 		final Level level = new Dungeon().createLevel(1, 10, 10);
 
-		LevelPathFinder pf = new LevelPathFinder(level, 7, 8);
+		LevelPathFinder pf = new LevelPathFinder(level, 7, 8,
+				Materiality.MATERIAL);
 
 		long begin = System.nanoTime();
 
