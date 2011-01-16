@@ -1,5 +1,6 @@
 package fr.ritaly.dungeonmaster.ai.astar2;
 
+import java.util.List;
 import java.util.Random;
 
 public class RunMaze {
@@ -13,6 +14,8 @@ public class RunMaze {
 		int startX = 0, startY = 0;
 		int goalX = 0, goalY = 0;
 		
+		List<Square> path = null;
+		
 		do {
 			maze = new Maze(10, 10);
 			
@@ -25,9 +28,10 @@ public class RunMaze {
 				goalX = random.nextInt(10);
 				goalY = random.nextInt(10);
 			} while (goalX == startX && goalY == startY);
-			
-			maze.draw(startX, startY, goalX, goalY);
-		} while (!maze.findBestPath(startX, startY, goalX, goalY));
+
+			path = new PathFinder(maze).findBestPath(startX, startY, goalX,
+					goalY);
+		} while (path == null);
 	}
 
 }
