@@ -346,7 +346,23 @@ public class Level {
 	}
 
 	public String draw() {
+		return draw(null);
+	}
+	
+	public String draw(List<Element> path) {
 		final StringBuilder builder = new StringBuilder(1024);
+		
+		final Element start;
+		final Element goal;
+		final boolean pathDefined = ((path != null) && (path.size() >= 2));
+		
+		if (pathDefined) {
+			start = path.get(0);
+			goal = path.get(path.size() - 1);
+		} else {
+			start = null;
+			goal = null;
+		}
 
 		for (int x = 0; x < width; x++) {
 			if (x == 0) {
@@ -365,17 +381,41 @@ public class Level {
 				final Element element = getElement(x, y);
 
 				builder.append(" ");
-
-				if (element != null) {
-					// Pour alléger le résultat généré, les sols sont
-					// représentés comme " "
-					if (Type.FLOOR.equals(element.getType())) {
-						builder.append(" ");
+				
+				final boolean drawn;
+				
+				if (pathDefined) {
+					if (element.equals(start)) {
+						builder.append("S");
+						
+						drawn = true;
+					} else if (element.equals(goal)) {
+						builder.append("G");
+						
+						drawn = true;
+					} else if (path.contains(element)) {
+						builder.append(".");
+						
+						 drawn = true;
 					} else {
-						builder.append(element.getCaption());
+						drawn = false;
 					}
 				} else {
-					builder.append("?");
+					drawn = false;
+				}
+				
+				if (!drawn) {
+					if (element != null) {
+						// Pour alléger le résultat généré, les sols sont
+						// représentés comme " "
+						if (Type.FLOOR.equals(element.getType())) {
+							builder.append(" ");
+						} else {
+							builder.append(element.getCaption());
+						}
+					} else {
+						builder.append("?");
+					}
 				}
 
 				builder.append(" |");
