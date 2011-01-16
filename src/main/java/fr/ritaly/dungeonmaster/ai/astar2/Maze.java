@@ -26,7 +26,6 @@ public class Maze {
 	private List<Square> bestList = new ArrayList<Square>();
 
 	public Maze(int rows, int columns) {
-
 		this.rows = rows;
 		this.columns = columns;
 		elements = new Square[rows][columns];
@@ -34,9 +33,7 @@ public class Maze {
 	}
 
 	private void init() {
-
 		createSquares();
-		setStartAndGoal();
 		generateAdjacenies();
 	}
 
@@ -54,21 +51,13 @@ public class Maze {
 	
 	private int endX, endY;
 
-	private void setStartAndGoal() {
-		this.startX = 0;
-		this.startY = 0;
+	public void setStartAndGoal(int startX, int startY, int endX, int endY) {
+		this.startX = startX;
+		this.startY = startY;
+		this.endX = endX;
+		this.endY = endY;
 		
-		Random random = new Random();
-		int goalX = 0, goalY = 0;
-		while (goalX == 0 && goalY == 0) {
-			goalX = random.nextInt(rows);
-			goalY = random.nextInt(columns);
-		}
-		
-		this.endX = goalX;
-		this.endY = goalY;
-		
-		goal = elements[goalX][goalY];
+		goal = elements[endX][endY];
 	}
 
 	private void generateAdjacenies() {
