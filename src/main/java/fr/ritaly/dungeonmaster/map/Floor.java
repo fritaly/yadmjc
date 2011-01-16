@@ -47,7 +47,7 @@ public final class Floor extends Element {
 	
 	@Override
 	public String getCaption() {
-		return "FL";
+		return " ";
 	}
 	
 	@Override

@@ -279,7 +279,7 @@ public final class Teleporter extends Element implements ClockListener,
 
 	@Override
 	public String getCaption() {
-		return "TP";
+		return "T";
 	}
 
 	@Override

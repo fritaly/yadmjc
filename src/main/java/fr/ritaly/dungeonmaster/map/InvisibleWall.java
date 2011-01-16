@@ -52,7 +52,7 @@ public final class InvisibleWall extends Element {
 
 	@Override
 	public String getCaption() {
-		return "IW";
+		return "I";
 	}
 
 	@Override

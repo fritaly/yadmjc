@@ -40,7 +40,7 @@ public final class Fountain extends DirectedElement {
 
 	@Override
 	public String getCaption() {
-		return "FT";
+		return "F";
 	}
 
 	@Override

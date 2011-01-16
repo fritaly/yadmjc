@@ -76,7 +76,7 @@ public final class Portrait extends DirectedElement {
 
 	@Override
 	public String getCaption() {
-		return "PO";
+		return "P";
 	}
 
 	@Override

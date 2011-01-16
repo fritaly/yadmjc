@@ -298,7 +298,7 @@ public class Pit extends Element implements Triggered {
 
 	@Override
 	public String getCaption() {
-		return "PT";
+		return "O";
 	}
 
 	private void dropCreatures() {

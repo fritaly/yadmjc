@@ -47,7 +47,7 @@ public final class TextWall extends DirectedElement {
 
 	@Override
 	public String getCaption() {
-		return "TX";
+		return "X";
 	}
 
 	@Override

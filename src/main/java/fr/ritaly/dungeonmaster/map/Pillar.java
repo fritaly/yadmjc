@@ -52,7 +52,7 @@ public final class Pillar extends Element {
 	
 	@Override
 	public String getCaption() {
-		return "PL";
+		return "P";
 	}
 	
 	@Override

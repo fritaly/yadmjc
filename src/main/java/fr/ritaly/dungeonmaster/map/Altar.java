@@ -49,7 +49,7 @@ public final class Altar extends DirectedElement implements HasActuator {
 
 	@Override
 	public String getCaption() {
-		return "AL";
+		return "L";
 	}
 
 	@Override

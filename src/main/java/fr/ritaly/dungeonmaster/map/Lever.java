@@ -79,7 +79,7 @@ public final class Lever extends DirectedElement implements HasActuator,
 
 	@Override
 	public String getCaption() {
-		return "LV";
+		return "L";
 	}
 
 	@Override

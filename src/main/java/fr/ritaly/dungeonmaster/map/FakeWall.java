@@ -47,7 +47,7 @@ public final class FakeWall extends Element {
 	
 	@Override
 	public String getCaption() {
-		return "FW";
+		return "M";
 	}
 	
 	@Override

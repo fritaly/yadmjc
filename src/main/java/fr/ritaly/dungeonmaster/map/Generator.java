@@ -87,7 +87,7 @@ public final class Generator extends Element implements ClockListener {
 
 	@Override
 	public String getCaption() {
-		return "GN";
+		return "G";
 	}
 
 	@Override

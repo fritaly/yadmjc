@@ -65,7 +65,7 @@ public final class Alcove extends DirectedElement implements HasActuator {
 
 	@Override
 	public String getCaption() {
-		return "1A";
+		return "1";
 	}
 
 	@Override

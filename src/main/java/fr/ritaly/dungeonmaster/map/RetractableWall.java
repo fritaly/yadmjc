@@ -140,7 +140,7 @@ public class RetractableWall extends Element implements Triggered {
 
 	@Override
 	public String getCaption() {
-		return "RW";
+		return "R";
 	}
 
 	@Override

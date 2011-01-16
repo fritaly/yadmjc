@@ -72,7 +72,7 @@ public class TorchWall extends DirectedElement implements HasActuator {
 
 	@Override
 	public String getCaption() {
-		return "TW";
+		return "T";
 	}
 
 	@Override

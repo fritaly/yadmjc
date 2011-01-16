@@ -353,7 +353,7 @@ public class Level {
 				builder.append("+");
 
 				for (int y = 0; y < height; y++) {
-					builder.append("----+");
+					builder.append("---+");
 				}
 
 				builder.append("\n");
@@ -368,14 +368,14 @@ public class Level {
 
 				if (element != null) {
 					// Pour alléger le résultat généré, les sols sont
-					// représentés comme ".."
+					// représentés comme " "
 					if (Type.FLOOR.equals(element.getType())) {
-						builder.append("..");
+						builder.append(" ");
 					} else {
 						builder.append(element.getCaption());
 					}
 				} else {
-					builder.append("??");
+					builder.append("?");
 				}
 
 				builder.append(" |");
@@ -385,7 +385,7 @@ public class Level {
 			builder.append("+");
 
 			for (int y = 0; y < height; y++) {
-				builder.append("----+");
+				builder.append("---+");
 			}
 
 			// Fin de rangée
@@ -467,5 +467,10 @@ public class Level {
 		}
 		
 		return result;
+	}
+	
+	public static void main(String[] args) {
+		final Dungeon dungeon = new Dungeon();
+		System.out.println(dungeon.createLevel(1, 10, 5).draw());
 	}
 }

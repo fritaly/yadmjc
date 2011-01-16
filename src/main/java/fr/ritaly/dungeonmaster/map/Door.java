@@ -586,7 +586,7 @@ public final class Door extends OrientedElement implements ClockListener,
 
 	@Override
 	public String getCaption() {
-		return "DR";
+		return "D";
 	}
 
 	@Override

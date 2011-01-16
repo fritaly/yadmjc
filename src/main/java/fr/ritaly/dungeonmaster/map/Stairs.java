@@ -122,7 +122,7 @@ public final class Stairs extends DirectedElement {
 
 	@Override
 	public String getCaption() {
-		return up ? "SU" : "SD";
+		return "S";
 	}
 
 	@Override

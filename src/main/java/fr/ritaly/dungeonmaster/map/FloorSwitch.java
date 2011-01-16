@@ -76,7 +76,7 @@ public final class FloorSwitch extends Element implements HasActuators {
 
 	@Override
 	public String getCaption() {
-		return "FS";
+		return "P";
 	}
 
 	@Override

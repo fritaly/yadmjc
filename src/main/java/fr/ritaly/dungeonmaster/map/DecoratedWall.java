@@ -59,7 +59,7 @@ public final class DecoratedWall extends DirectedElement {
 
 	@Override
 	public String getCaption() {
-		return "DW";
+		return "D";
 	}
 
 	@Override

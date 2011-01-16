@@ -62,7 +62,7 @@ public final class DecoratedFloor extends Element {
 	
 	@Override
 	public String getCaption() {
-		return "DF";
+		return "D";
 	}
 	
 	@Override

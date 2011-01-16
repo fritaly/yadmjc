@@ -41,7 +41,7 @@ public final class FourSideAlcove extends Element {
 
 	@Override
 	public String getCaption() {
-		return "4A";
+		return "4";
 	}
 
 	@Override

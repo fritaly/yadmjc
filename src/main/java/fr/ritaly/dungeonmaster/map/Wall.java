@@ -52,7 +52,7 @@ public final class Wall extends Element {
 	
 	@Override
 	public String getCaption() {
-		return "WL";
+		return "W";
 	}
 	
 	@Override

@@ -71,7 +71,7 @@ public class ProjectileLauncher extends DirectedElement implements Triggered {
 
 	@Override
 	public String getCaption() {
-		return "PL";
+		return "L";
 	}
 
 	@Override

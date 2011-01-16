@@ -92,7 +92,7 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 
 	@Override
 	public String getCaption() {
-		return "SL";
+		return "S";
 	}
 
 	@Override
