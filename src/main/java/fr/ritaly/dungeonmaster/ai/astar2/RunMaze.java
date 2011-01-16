@@ -26,7 +26,7 @@ public class RunMaze {
 				goalY = random.nextInt(10);
 			} while (goalX == startX && goalY == startY);
 			
-			maze.draw();
+			maze.draw(startX, startY, goalX, goalY);
 		} while (!maze.findBestPath(startX, startY, goalX, goalY));
 	}
 
