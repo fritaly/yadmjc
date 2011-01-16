@@ -1,8 +1,9 @@
-package fr.ritaly.dungeonmaster.ai.astar3;
+package fr.ritaly.dungeonmaster.ai.astar;
 
 import java.util.List;
 import java.util.Random;
 
+import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.ai.astar2.Maze;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
@@ -30,8 +31,8 @@ public class RunMaze {
 				goalY = random.nextInt(10);
 			} while (goalX == startX && goalY == startY);
 
-			path = new PathFinder(level).findBestPath(startX, startY, goalX,
-					goalY);
+			path = new PathFinder(level, Materiality.MATERIAL).findBestPath(
+					startX, startY, goalX, goalY);
 		} while (path == null);
 	}
 

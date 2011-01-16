@@ -38,7 +38,7 @@ import fr.ritaly.dungeonmaster.HasDirection;
 import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Utils;
-import fr.ritaly.dungeonmaster.ai.astar.LevelPathFinder;
+import fr.ritaly.dungeonmaster.ai.astar.PathFinder;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -2099,27 +2099,29 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		final Position position = element.getPosition();
 
 		// Rechercher le chemin à suivre pour atteindre la position cible
-		final LevelPathFinder pathFinder = new LevelPathFinder(
-				element.getLevel(), x, y, getMateriality());
-		final List<LevelPathFinder.Node> nodes = pathFinder
-				.compute(new LevelPathFinder.Node(position.x, position.y));
+		final PathFinder pathFinder = new PathFinder(element.getLevel(),
+				getMateriality());
+		final List<Element> path = pathFinder.findBestPath(x, y, position.x,
+				position.y);
 		
-		if (nodes == null) {
+		if (path == null) {
 			// Aucun chemin possible pour atteindre la cible, sortir
 			return false;
 		}
 		
 		if (log.isDebugEnabled()) {
-			log.debug("Found path: " + nodes);
+			log.debug("Found path: " + path);
 		}
 		
 		// Se diriger vers la cible (Noeud en seconde position)
-		final LevelPathFinder.Node node = nodes.get(1);
+		final Element node = path.get(1);
 		
 		// On calcule la direction dans laquelle la créature doit se retrouver
 		// au final
 		final Direction directionTowardsTarget = getElement().getPosition()
-				.getDirectionTowards(new Position(node.x, node.y, position.z));
+				.getDirectionTowards(
+						new Position(node.getPosition().x,
+								node.getPosition().y, position.z));
 		
 		// La créature quitte la position source
 		element.creatureSteppedOff(this);
@@ -2132,8 +2134,8 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 		}
 		
-		final Element targetElement = element.getLevel().getElement(node.x,
-				node.y);
+		final Element targetElement = element.getLevel().getElement(
+				node.getPosition().x, node.getPosition().y);
 		
 		// La créature occupe la position cible
 		targetElement.creatureSteppedOn(this);

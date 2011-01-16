@@ -364,11 +364,11 @@ public class Level {
 			goal = null;
 		}
 
-		for (int x = 0; x < width; x++) {
-			if (x == 0) {
+		for (int y = 0; y < height; y++) {
+			if (y == 0) {
 				builder.append("+");
 
-				for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
 					builder.append("---+");
 				}
 
@@ -377,7 +377,7 @@ public class Level {
 
 			builder.append("|");
 
-			for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
 				final Element element = getElement(x, y);
 
 				builder.append(" ");
@@ -396,7 +396,7 @@ public class Level {
 					} else if (path.contains(element)) {
 						builder.append(".");
 						
-						 drawn = true;
+						drawn = true;
 					} else {
 						drawn = false;
 					}
@@ -424,7 +424,7 @@ public class Level {
 			builder.append("\n");
 			builder.append("+");
 
-			for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
 				builder.append("---+");
 			}
 
