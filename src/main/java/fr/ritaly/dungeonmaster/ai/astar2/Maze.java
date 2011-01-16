@@ -1,15 +1,14 @@
 package fr.ritaly.dungeonmaster.ai.astar2;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 public class Maze {
 
-	private int rows;
-	private int columns;
-	private Square[][] elements;
-	private Square goal;
+	private final int rows;
+	private final int columns;
+	private final Square[][] elements;
+	
 	private static final String CLOSED_TOP = "+ - ";
 	private static final String OPEN_TOP = "+   ";
 	private static final String CLOSED_LEFT = "|   ";
@@ -21,9 +20,9 @@ public class Maze {
 	private static final String OPEN_LEFT_START = "  S ";
 	private static final String OPEN_LEFT_GOAL = "  G ";
 
-	private List<Square> opened = new ArrayList<Square>();
-	private List<Square> closed = new ArrayList<Square>();
-	private List<Square> bestList = new ArrayList<Square>();
+	private final List<Square> opened = new ArrayList<Square>();
+	private final List<Square> closed = new ArrayList<Square>();
+	private final List<Square> bestList = new ArrayList<Square>();
 
 	public Maze(int rows, int columns) {
 		this.rows = rows;
@@ -70,14 +69,12 @@ public class Maze {
 	private void drawContents() {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				Square square = elements[i][j];
-				drawTop(square);
+				drawTop(elements[i][j]);
 			}
 			System.out.println("+");
 
 			for (int j = 0; j < columns; j++) {
-				Square square = elements[i][j];
-				drawLeft(square);
+				drawLeft(elements[i][j]);
 			}
 			System.out.println("|");
 		}
@@ -112,6 +109,10 @@ public class Maze {
 					System.out.print(OPEN_LEFT_GOAL);
 					return;
 				}
+				if ((square.x == startX) && (square.y == startY)) {
+					System.out.print(OPEN_LEFT_START);
+					return;
+				}
 				if (bestList.contains(square)) {
 					System.out.print(OPEN_LEFT_PATH);
 					return;
@@ -123,6 +124,11 @@ public class Maze {
 
 		if ((square.x == endX) && (square.y == endY)) {
 			System.out.print(CLOSED_LEFT_GOAL);
+			return;
+		}
+		
+		if ((square.x == startX) && (square.y == startY)) {
+			System.out.print(CLOSED_LEFT_START);
 			return;
 		}
 
@@ -168,19 +174,20 @@ public class Maze {
 		this.endX = endX;
 		this.endY = endY;
 		
-		goal = elements[endX][endY];
+		final Square start = elements[startX][startY];
+		final Square goal = elements[endX][endY];
 
 		System.out.println("Calculating best path...");
-		Set<Square> adjacencies = elements[0][0].getAdjacencies();
+		Set<Square> adjacencies = start.getAdjacencies();
 		for (Square adjacency : adjacencies) {
-			adjacency.setParent(elements[0][0]);
+			adjacency.setParent(start);
 			if (!((adjacency.x == startX) && (adjacency.y == startY))) {
 				opened.add(adjacency);
 			}
 		}
 
 		while (opened.size() > 0) {
-			Square best = findBestPassThrough();
+			Square best = findBestPassThrough(goal);
 			opened.remove(best);
 			closed.add(best);
 			if ((best.x == endX) && (best.y == endY)) {
@@ -234,7 +241,7 @@ public class Maze {
 		return;
 	}
 
-	private Square findBestPassThrough() {
+	private Square findBestPassThrough(Square goal) {
 		Square best = null;
 		for (Square square : opened) {
 			if (best == null

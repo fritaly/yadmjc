@@ -17,10 +17,14 @@ public class RunMaze {
 			maze = new Maze(10, 10);
 			
 			Random random = new Random();
-			while (goalX == startX && goalY == startY) {
+			
+			startX = random.nextInt(10);
+			startY = random.nextInt(10);
+			
+			do {
 				goalX = random.nextInt(10);
 				goalY = random.nextInt(10);
-			}
+			} while (goalX == startX && goalY == startY);
 			
 			maze.draw();
 		} while (!maze.findBestPath(startX, startY, goalX, goalY));
