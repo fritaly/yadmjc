@@ -357,8 +357,13 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	public Level getLevel() {
 		return level;
 	}
-
-	void setLevel(Level level) {
+	
+	// FIXME Protéger l'appel à cette méthode par un aspect
+	// Cette méthode ne doit être appelée que depuis la classe Level. On ne peut
+	// cependant la déclarer package protected car on en a besoin dans l'algo A*
+	// de recherche de chemin lorsque l'on crée un faux élément de test afin de
+	// déterminer si le chemin en cours d'évaluation est meilleur que l'actuel
+	public void setLevel(Level level) {
 		// level peut être null (retrait d'un élément de son niveau de
 		// rattachement)
 		this.level = level;
@@ -369,7 +374,12 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		return position;
 	}
 
-	void setPosition(Position position) {
+	// FIXME Protéger l'appel à cette méthode par un aspect
+	// Cette méthode ne doit être appelée que depuis la classe Level. On ne peut
+	// cependant la déclarer package protected car on en a besoin dans l'algo A*
+	// de recherche de chemin lorsque l'on crée un faux élément de test afin de
+	// déterminer si le chemin en cours d'évaluation est meilleur que l'actuel
+	public void setPosition(Position position) {
 		// position peut être null (retrait d'un élément de son niveau de
 		// rattachement)
 		this.position = position;
@@ -1124,6 +1134,22 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		final List<Element> elements = new ArrayList<Element>();
 		
 		for (Position position : getPosition().getSurroundingPositions()) {
+			if (!getLevel().contains(position)) {
+				// Position située en dehors des limites du niveau
+				continue;
+			}
+			
+			elements.add(getLevel().getElement(position.x, position.y));
+		}
+		
+		return elements;
+	}
+	
+	public List<Element> getReachableElements() {
+		// 4 positions atteignables au mieux
+		final List<Element> elements = new ArrayList<Element>(4);
+		
+		for (Position position : getPosition().getAttackablePositions()) {
 			if (!getLevel().contains(position)) {
 				// Position située en dehors des limites du niveau
 				continue;
