@@ -29,39 +29,19 @@ public class Maze {
 		this.rows = rows;
 		this.columns = columns;
 		elements = new Square[rows][columns];
-		init();
-	}
-
-	private void init() {
 		createSquares();
 		generateAdjacenies();
 	}
 
 	public int getRows() {
-
 		return rows;
 	}
 
 	public int getColumns() {
-
 		return columns;
 	}
 	
-	private int startX, startY;
-	
-	private int endX, endY;
-
-	public void setStartAndGoal(int startX, int startY, int endX, int endY) {
-		this.startX = startX;
-		this.startY = startY;
-		this.endX = endX;
-		this.endY = endY;
-		
-		goal = elements[endX][endY];
-	}
-
 	private void generateAdjacenies() {
-
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				elements[i][j].calculateAdjacencies();
@@ -70,7 +50,6 @@ public class Maze {
 	}
 
 	private void createSquares() {
-
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				elements[i][j] = new Square(i, j, this);
@@ -79,24 +58,16 @@ public class Maze {
 	}
 
 	public Square getSquare(int x, int y) {
-
 		return elements[x][y];
 	}
 
-	public void setSquare(Square square) {
-
-		elements[square.getX()][square.getY()] = square;
-	}
-
 	public void draw() {
-
 		System.out.println("Drawing maze");
 		drawContents();
 		drawBorder();
 	}
 
 	private void drawContents() {
-
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				Square square = elements[i][j];
@@ -113,7 +84,6 @@ public class Maze {
 	}
 
 	private void drawLeft(Square square) {
-
 		int x = square.getX();
 		int y = square.getY();
 
@@ -165,7 +135,6 @@ public class Maze {
 	}
 
 	private void drawTop(Square square) {
-
 		int x = square.getX();
 		int y = square.getY();
 
@@ -185,14 +154,21 @@ public class Maze {
 	}
 
 	private void drawBorder() {
-
 		for (int i = 0; i < columns; i++) {
 			System.out.print(CLOSED_TOP);
 		}
 		System.out.println("+");
 	}
-
-	public boolean findBestPath() {
+	
+	private int startX, startY, endX, endY;
+	
+	public boolean findBestPath(int startX, int startY, int endX, int endY) {
+		this.startX = startX;
+		this.startY = startY;
+		this.endX = endX;
+		this.endY = endY;
+		
+		goal = elements[endX][endY];
 
 		System.out.println("Calculating best path...");
 		Set<Square> adjacencies = elements[0][0].getAdjacencies();
@@ -249,7 +225,6 @@ public class Maze {
 	}
 
 	private void populateBestList(Square square) {
-
 		bestList.add(square);
 		Square r = square.getParent();
 		if (!((r.x == startX) && (r.y == startY))) {
@@ -260,7 +235,6 @@ public class Maze {
 	}
 
 	private Square findBestPassThrough() {
-
 		Square best = null;
 		for (Square square : opened) {
 			if (best == null
@@ -271,5 +245,4 @@ public class Maze {
 
 		return best;
 	}
-
 }

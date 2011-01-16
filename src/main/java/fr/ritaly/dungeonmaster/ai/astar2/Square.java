@@ -15,42 +15,35 @@ public class Square {
 	private Square parent;
 
 	public Square(int x, int y, Maze maze) {
-
 		this.x = x;
 		this.y = y;
 		this.maze = maze;
 	}
 
 	public int getX() {
-
 		return x;
 	}
 
 	public int getY() {
-
 		return y;
 	}
 
 	public Set<Square> getAdjacencies() {
-
 		return adjacencies;
 	}
 
 	public Square getParent() {
-
 		return parent;
 	}
 
 	public void setParent(Square parent) {
-
 		this.parent = parent;
 	}
 
 	public void calculateAdjacencies() {
-
-		int top = x - 1;
+		// int top = x - 1;
 		int bottom = x + 1;
-		int left = y - 1;
+		// int left = y - 1;
 		int right = y + 1;
 
 		if (bottom < maze.getRows()) {
@@ -68,12 +61,7 @@ public class Square {
 		}
 	}
 
-	public void removeAdjacency(Square square) {
-		adjacencies.remove(square);
-	}
-
 	public double getPassThrough(Square goal, int x, int y) {
-
 		if ((this.x == x) && (this.y == y)) {
 			return 0.0;
 		}
@@ -82,7 +70,6 @@ public class Square {
 	}
 
 	public double getLocalCost(Square goal, int x, int y) {
-
 		if ((this.x == x) && (this.y == y)) {
 			return 0.0;
 		}
@@ -92,7 +79,6 @@ public class Square {
 	}
 
 	public double getParentCost(int x, int y) {
-
 		if ((this.x == x) && (this.y == y)) {
 			return 0.0;
 		}
@@ -105,11 +91,6 @@ public class Square {
 	}
 	
 	private boolean isAdjacent() {
-
-		if (Math.random() > .5) {
-			return true;
-		}
-		return false;
+		return (Math.random() > .5); 
 	}
-
 }
