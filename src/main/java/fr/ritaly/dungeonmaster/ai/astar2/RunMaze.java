@@ -6,9 +6,12 @@ public class RunMaze {
 	 */
 	public static void main(String[] args) {
 
-		Maze maze = new Maze(10, 10);
-		maze.draw();
-		maze.findBestPath();
+		Maze maze;
+		
+		do {
+			maze = new Maze(10, 10);
+			maze.draw();
+		} while (!maze.findBestPath());
 	}
 
 }

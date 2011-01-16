@@ -49,18 +49,26 @@ public class Maze {
 
 		return columns;
 	}
+	
+	private int startX, startY;
+	
+	private int endX, endY;
 
 	private void setStartAndGoal() {
-
-		elements[0][0].setStart(true);
+		this.startX = 0;
+		this.startY = 0;
+		
 		Random random = new Random();
 		int goalX = 0, goalY = 0;
 		while (goalX == 0 && goalY == 0) {
 			goalX = random.nextInt(rows);
 			goalY = random.nextInt(columns);
 		}
+		
+		this.endX = goalX;
+		this.endY = goalY;
+		
 		goal = elements[goalX][goalY];
-		goal.setEnd(true);
 	}
 
 	private void generateAdjacenies() {
@@ -121,12 +129,12 @@ public class Maze {
 		int y = square.getY();
 
 		if (y - 1 < 0) {
-			if (square.isStart()) {
+			if ((square.x == startX) && (square.y == startY)) {
 				System.out.print(CLOSED_LEFT_START);
 				return;
 			}
 
-			if (square.isEnd()) {
+			if ((square.x == endX) && (square.y == endY)) {
 				System.out.print(CLOSED_LEFT_GOAL);
 				return;
 			}
@@ -141,7 +149,7 @@ public class Maze {
 
 		for (Square neighbor : square.getAdjacencies()) {
 			if (neighbor.getX() == x && neighbor.getY() == y - 1) {
-				if (square.isEnd()) {
+				if ((square.x == endX) && (square.y == endY)) {
 					System.out.print(OPEN_LEFT_GOAL);
 					return;
 				}
@@ -154,7 +162,7 @@ public class Maze {
 			}
 		}
 
-		if (square.isEnd()) {
+		if ((square.x == endX) && (square.y == endY)) {
 			System.out.print(CLOSED_LEFT_GOAL);
 			return;
 		}
@@ -195,13 +203,13 @@ public class Maze {
 		System.out.println("+");
 	}
 
-	public void findBestPath() {
+	public boolean findBestPath() {
 
 		System.out.println("Calculating best path...");
 		Set<Square> adjacencies = elements[0][0].getAdjacencies();
 		for (Square adjacency : adjacencies) {
 			adjacency.setParent(elements[0][0]);
-			if (adjacency.isStart() == false) {
+			if (!((adjacency.x == startX) && (adjacency.y == startY))) {
 				opened.add(adjacency);
 			}
 		}
@@ -210,11 +218,11 @@ public class Maze {
 			Square best = findBestPassThrough();
 			opened.remove(best);
 			closed.add(best);
-			if (best.isEnd()) {
+			if ((best.x == endX) && (best.y == endY)) {
 				System.out.println("Found Goal");
 				populateBestList(goal);
 				draw();
-				return;
+				return true;
 			} else {
 				Set<Square> neighbors = best.getAdjacencies();
 				for (Square neighbor : neighbors) {
@@ -222,8 +230,8 @@ public class Maze {
 						Square tmpSquare = new Square(neighbor.getX(),
 								neighbor.getY(), this);
 						tmpSquare.setParent(best);
-						if (tmpSquare.getPassThrough(goal) >= neighbor
-								.getPassThrough(goal)) {
+						if (tmpSquare.getPassThrough(goal, startX, startY) >= neighbor
+								.getPassThrough(goal, startX, startY)) {
 							continue;
 						}
 					}
@@ -232,8 +240,8 @@ public class Maze {
 						Square tmpSquare = new Square(neighbor.getX(),
 								neighbor.getY(), this);
 						tmpSquare.setParent(best);
-						if (tmpSquare.getPassThrough(goal) >= neighbor
-								.getPassThrough(goal)) {
+						if (tmpSquare.getPassThrough(goal, startX, startY) >= neighbor
+								.getPassThrough(goal, startX, startY)) {
 							continue;
 						}
 					}
@@ -248,13 +256,14 @@ public class Maze {
 			}
 		}
 
-		System.out.println("No Path to goal");
+		return false;
 	}
 
 	private void populateBestList(Square square) {
 
 		bestList.add(square);
-		if (square.getParent().isStart() == false) {
+		Square r = square.getParent();
+		if (!((r.x == startX) && (r.y == startY))) {
 			populateBestList(square.getParent());
 		}
 
@@ -266,7 +275,7 @@ public class Maze {
 		Square best = null;
 		for (Square square : opened) {
 			if (best == null
-					|| square.getPassThrough(goal) < best.getPassThrough(goal)) {
+					|| square.getPassThrough(goal, startX, startY) < best.getPassThrough(goal, startX, startY)) {
 				best = square;
 			}
 		}

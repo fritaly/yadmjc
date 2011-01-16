@@ -4,15 +4,10 @@ import java.util.Set;
 
 public class Square {
 
-	private int x;
-	private int y;
-	private boolean start;
-	private boolean end;
+	final int x;
+	final int y;
 
-	private double localCost; // cost of getting from this square to goal
 	private double parentCost; // cost of getting from parent square to this node
-	private double passThroughCost;// cost of getting from the start to the goal
-	// through this square
 
 	private Maze maze;
 	private Set<Square> adjacencies = new HashSet<Square>();
@@ -31,49 +26,14 @@ public class Square {
 		return x;
 	}
 
-	public void setX(int x) {
-
-		this.x = x;
-	}
-
 	public int getY() {
 
 		return y;
 	}
 
-	public void setY(int y) {
-
-		this.y = y;
-	}
-
-	public boolean isStart() {
-
-		return start;
-	}
-
-	public void setStart(boolean start) {
-
-		this.start = start;
-	}
-
-	public boolean isEnd() {
-
-		return end;
-	}
-
-	public void setEnd(boolean end) {
-
-		this.end = end;
-	}
-
 	public Set<Square> getAdjacencies() {
 
 		return adjacencies;
-	}
-
-	public void setAdjacencies(Set<Square> adjacencies) {
-
-		this.adjacencies = adjacencies;
 	}
 
 	public Square getParent() {
@@ -95,61 +55,56 @@ public class Square {
 
 		if (bottom < maze.getRows()) {
 			if (isAdjacent()) {
-				maze.getSquare(bottom, y).addAdjacency(this);
-				this.addAdjacency(maze.getSquare(bottom, y));
+				maze.getSquare(bottom, y).adjacencies.add(this);
+				this.adjacencies.add(maze.getSquare(bottom, y));
 			}
 		}
 
 		if (right < maze.getColumns()) {
 			if (isAdjacent()) {
-				maze.getSquare(x, right).addAdjacency(this);
-				this.addAdjacency(maze.getSquare(x, right));
+				maze.getSquare(x, right).adjacencies.add(this);
+				this.adjacencies.add(maze.getSquare(x, right));
 			}
 		}
 	}
 
-	public void addAdjacency(Square square) {
-
-		adjacencies.add(square);
-	}
-	
 	public void removeAdjacency(Square square) {
 		adjacencies.remove(square);
 	}
 
-	public double getPassThrough(Square goal) {
+	public double getPassThrough(Square goal, int x, int y) {
 
-		if (isStart()) {
+		if ((this.x == x) && (this.y == y)) {
 			return 0.0;
 		}
 
-		return getLocalCost(goal) + getParentCost();
+		return getLocalCost(goal, x, y) + getParentCost(x, y);
 	}
 
-	public double getLocalCost(Square goal) {
+	public double getLocalCost(Square goal, int x, int y) {
 
-		if (isStart()) {
+		if ((this.x == x) && (this.y == y)) {
 			return 0.0;
 		}
 
-		localCost = 1.0 * (Math.abs(x - goal.getX()) + Math.abs(y - goal.getY()));
-		return localCost;
+		 // cost of getting from this square to goal
+		return 1.0 * (Math.abs(x - goal.getX()) + Math.abs(y - goal.getY()));
 	}
 
-	public double getParentCost() {
+	public double getParentCost(int x, int y) {
 
-		if (isStart()) {
+		if ((this.x == x) && (this.y == y)) {
 			return 0.0;
 		}
 
 		if (parentCost == 0.0) {
-			parentCost = 1.0 + .5 * (parent.getParentCost() - 1.0);
+			parentCost = 1.0 + .5 * (parent.getParentCost(x, y) - 1.0);
 		}
 
 		return parentCost;
 	}
 	
-	public boolean isAdjacent() {
+	private boolean isAdjacent() {
 
 		if (Math.random() > .5) {
 			return true;
