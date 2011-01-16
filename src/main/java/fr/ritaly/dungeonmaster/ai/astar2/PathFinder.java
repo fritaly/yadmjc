@@ -1,7 +1,9 @@
 package fr.ritaly.dungeonmaster.ai.astar2;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.Validate;
@@ -16,6 +18,8 @@ public class PathFinder {
 	
 	private final List<Square> bestList = new ArrayList<Square>();
 	
+	private final Map<Square, Square> parents = new LinkedHashMap<Square, Square>();
+	
 	public PathFinder(Maze maze) {
 		Validate.notNull(maze);
 		
@@ -29,7 +33,7 @@ public class PathFinder {
 		System.out.println("Calculating best path...");
 		
 		for (Square adjacency : start.getAdjacencies()) {
-			adjacency.setParent(start);
+			parents.put(adjacency, start);
 			
 			if (!((adjacency.x == startX) && (adjacency.y == startY))) {
 				opened.add(adjacency);
@@ -56,10 +60,12 @@ public class PathFinder {
 					if (opened.contains(neighbor)) {
 						final Square temp = new Square(neighbor.getX(),
 								neighbor.getY(), maze);
-						temp.setParent(best);
 						
-						if (temp.getPassThrough(goal, startX, startY) >= neighbor
-								.getPassThrough(goal, startX, startY)) {
+						parents.put(temp, best);
+						
+						if (getPassThrough(temp, goal, startX, startY) >= getPassThrough(
+								neighbor, goal, startX, startY)) {
+							
 							continue;
 						}
 					}
@@ -67,15 +73,16 @@ public class PathFinder {
 					if (closed.contains(neighbor)) {
 						final Square temp = new Square(neighbor.getX(),
 								neighbor.getY(), maze);
-						temp.setParent(best);
+						parents.put(temp, best);
 						
-						if (temp.getPassThrough(goal, startX, startY) >= neighbor
-								.getPassThrough(goal, startX, startY)) {
+						if (getPassThrough(temp, goal, startX, startY) >= getPassThrough(
+								neighbor, goal, startX, startY)) {
+
 							continue;
 						}
 					}
 					
-					neighbor.setParent(best);
+					parents.put(neighbor, best);
 
 					opened.remove(neighbor);
 					closed.remove(neighbor);
@@ -91,7 +98,7 @@ public class PathFinder {
 		Square best = null;
 		for (Square square : opened) {
 			if (best == null
-					|| square.getPassThrough(goal, startX, startY) < best.getPassThrough(goal, startX, startY)) {
+					|| getPassThrough(square, goal, startX, startY) < getPassThrough(best, goal, startX, startY)) {
 				best = square;
 			}
 		}
@@ -102,10 +109,35 @@ public class PathFinder {
 	private void populateBestList(Square square, int startX, int startY) {
 		bestList.add(square);
 		
-		final Square parent = square.getParent();
+		final Square parent = parents.get(square);
 		
 		if (!((parent.x == startX) && (parent.y == startY))) {
-			populateBestList(square.getParent(), startX, startY);
+			populateBestList(parents.get(square), startX, startY);
 		}
+	}
+	
+	private double getPassThrough(Square square, Square goal, int x, int y) {
+		if ((square.x == x) && (square.y == y)) {
+			return 0.0;
+		}
+
+		return getLocalCost(square, goal, x, y) + getParentCost(square, x, y);
+	}
+	
+	private double getLocalCost(Square square, Square goal, int x, int y) {
+		if ((square.x == x) && (square.y == y)) {
+			return 0.0;
+		}
+
+		 // cost of getting from this square to goal
+		return 1.0 * (Math.abs(x - goal.getX()) + Math.abs(y - goal.getY()));
+	}
+	
+	private double getParentCost(Square square, int x, int y) {
+		if ((square.x == x) && (square.y == y)) {
+			return 0.0;
+		}
+
+		return 1.0 + .5 * (getParentCost(parents.get(square), x, y) - 1.0);
 	}
 }
