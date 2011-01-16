@@ -7,8 +7,6 @@ public class Square {
 	final int x;
 	final int y;
 
-	private double parentCost; // cost of getting from parent square to this node
-
 	private Maze maze;
 	private Set<Square> adjacencies = new HashSet<Square>();
 
@@ -83,11 +81,7 @@ public class Square {
 			return 0.0;
 		}
 
-		if (parentCost == 0.0) {
-			parentCost = 1.0 + .5 * (parent.getParentCost(x, y) - 1.0);
-		}
-
-		return parentCost;
+		return 1.0 + .5 * (parent.getParentCost(x, y) - 1.0);
 	}
 	
 	private boolean isAdjacent() {
