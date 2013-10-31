@@ -5,3 +5,10 @@
 /.settings/org.maven.ide.eclipse.prefs
 /doc/dmj/dmj105-src.tgz
 /target/*
+/target
+/.gradle/*
+/.gradle
+/build
+/build/*
+/bin
+/bin/*

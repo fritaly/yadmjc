@@ -1,0 +1,33 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'jacoco'
+
+repositories {
+	mavenCentral()
+}
+
+sourceCompatibility = targetCompatibility = '1.6'
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'CP1252'
+}
+
+dependencies {
+	compile 'commons-collections:commons-collections:3.2'
+	compile 'commons-lang:commons-lang:2.3'
+	compile 'commons-logging:commons-logging:1.1'
+	compile 'log4j:log4j:1.2.13'
+	compile 'org.aspectj:aspectjrt:1.6.9'
+	compile files('src/lib/joal.jar')
+
+	testCompile 'junit:junit:3.8.1'
+}
+
+test {
+	ignoreFailures = true
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.8'
+}
