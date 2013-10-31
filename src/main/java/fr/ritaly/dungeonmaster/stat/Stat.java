@@ -32,23 +32,23 @@ import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 
 /**
- * Une {@link Stat} représente une caractéristique de {@link Champion}. Une
- * {@link Stat} est caractérisée par 4 valeurs:
+ * Une {@link Stat} reprï¿½sente une caractï¿½ristique de {@link Champion}. Une
+ * {@link Stat} est caractï¿½risï¿½e par 4 valeurs:
  * <ul>
  * <li>La valeur de base: cf {@link #value}</li>
  * <li>La valeur minimale: cf {@link #min}</li>
  * <li>La valeur maximale: cf {@link #max}</li>
  * <li>La valeur du boost: cf {@link #boost}</li>
  * </ul>
- * La valeur réelle de la {@link Stat} est la somme de la valeur de base et du
- * boost. Si le boost vaut 0 alors valeur réelle = valeur de base. Cela
- * s'applique aussi à la valeur max: la valeur réelle maximale de la
+ * La valeur rï¿½elle de la {@link Stat} est la somme de la valeur de base et du
+ * boost. Si le boost vaut 0 alors valeur rï¿½elle = valeur de base. Cela
+ * s'applique aussi ï¿½ la valeur max: la valeur rï¿½elle maximale de la
  * {@link Stat} est la somme de la valeur maximale et du boost.<br>
  * <br>
  * La valeur de base est toujours dans l'intervalle [min, max]. Cette contrainte
- * ne s'applique pas au boost ou à la valeur réelle.
+ * ne s'applique pas au boost ou ï¿½ la valeur rï¿½elle.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Stat implements ChangeEventSource {
 
@@ -64,8 +64,8 @@ public final class Stat implements ChangeEventSource {
 	private Integer previous;
 
 	/**
-	 * Le nom de la statistique. Permet de générer des logs parlantes. Exemple:
-	 * "Strength". Ne peut être null.
+	 * Le nom de la statistique. Permet de gï¿½nï¿½rer des logs parlantes. Exemple:
+	 * "Strength". Ne peut ï¿½tre null.
 	 */
 	private final String name;
 
@@ -85,13 +85,13 @@ public final class Stat implements ChangeEventSource {
 	private Integer boost;
 
 	/**
-	 * Le propriétaire de la statistique. Permet de générer des logs parlantes.
-	 * Peut être null.
+	 * Le propriï¿½taire de la statistique. Permet de gï¿½nï¿½rer des logs parlantes.
+	 * Peut ï¿½tre null.
 	 */
 	private final String owner;
 
 	public Stat(String owner, String name) {
-		// owner peut être null
+		// owner peut ï¿½tre null
 		if ((name == null) || (name.trim().length() == 0)) {
 			throw new IllegalArgumentException("The given name <" + name
 					+ "> is blank");
@@ -107,7 +107,7 @@ public final class Stat implements ChangeEventSource {
 	}
 
 	public Stat(String owner, String name, Integer initialValue) {
-		// owner peut être null
+		// owner peut ï¿½tre null
 		if ((name == null) || (name.trim().length() == 0)) {
 			throw new IllegalArgumentException("The given name <" + name
 					+ "> is blank");
@@ -127,7 +127,7 @@ public final class Stat implements ChangeEventSource {
 	}
 
 	public Stat(String owner, String name, Integer initialValue, Integer maxValue) {
-		// owner peut être null
+		// owner peut ï¿½tre null
 		if ((name == null) || (name.trim().length() == 0)) {
 			throw new IllegalArgumentException("The given name <" + name
 					+ "> is blank");
@@ -156,7 +156,7 @@ public final class Stat implements ChangeEventSource {
 	public Stat(String owner, String name, Integer initialValue, Integer minValue,
 			Integer maxValue) {
 
-		// owner peut être null
+		// owner peut ï¿½tre null
 		if ((name == null) || (name.trim().length() == 0)) {
 			throw new IllegalArgumentException("The given name <" + name
 					+ "> is blank");
@@ -201,7 +201,7 @@ public final class Stat implements ChangeEventSource {
 	}
 
 	/**
-	 * Retourne la valeur de base (c'est-à-dire non boostée) de la statistique.
+	 * Retourne la valeur de base (c'est-ï¿½-dire non boostï¿½e) de la statistique.
 	 * 
 	 * @return une instance de Integer.
 	 */
@@ -210,7 +210,7 @@ public final class Stat implements ChangeEventSource {
 	}
 
 	/**
-	 * Retourne la valeur réelle (c'est-à-dire avec l'éventuel boost) de la
+	 * Retourne la valeur rï¿½elle (c'est-ï¿½-dire avec l'ï¿½ventuel boost) de la
 	 * statistique.
 	 * 
 	 * @return une instance de Integer.
@@ -291,7 +291,7 @@ public final class Stat implements ChangeEventSource {
 	}
 
 	/**
-	 * Retourne la valeur réelle maximale (c'est-à-dire avec l'éventuel boost)
+	 * Retourne la valeur rï¿½elle maximale (c'est-ï¿½-dire avec l'ï¿½ventuel boost)
 	 * de la statistique.
 	 * 
 	 * @return une instance de Integer.
@@ -314,11 +314,11 @@ public final class Stat implements ChangeEventSource {
 	}
 
 	/**
-	 * Incrémente la valeur du boost de la quantité donnée de manière illimitée
-	 * dans le temps et retourne la valeur résultante.
+	 * Incrï¿½mente la valeur du boost de la quantitï¿½ donnï¿½e de maniï¿½re illimitï¿½e
+	 * dans le temps et retourne la valeur rï¿½sultante.
 	 * 
 	 * @param n
-	 *            la quantité dont le boost doit être incrémenté.
+	 *            la quantitï¿½ dont le boost doit ï¿½tre incrï¿½mentï¿½.
 	 * @return la nouvelle valeur du boost.
 	 */
 	public Integer incBoost(final Integer n) {
@@ -326,21 +326,21 @@ public final class Stat implements ChangeEventSource {
 	}
 
 	/**
-	 * Incrémente la valeur du boost de la quantité donnée et pour le nombre de
-	 * tics d'horloge donné. Enfin retourne la valeur résultante.
+	 * Incrï¿½mente la valeur du boost de la quantitï¿½ donnï¿½e et pour le nombre de
+	 * tics d'horloge donnï¿½. Enfin retourne la valeur rï¿½sultante.
 	 * 
 	 * @param n
-	 *            la quantité dont le boost doit être incrémenté.
+	 *            la quantitï¿½ dont le boost doit ï¿½tre incrï¿½mentï¿½.
 	 * @param duration
-	 *            un entier représentant un nombre de tics d'horloge pendant
-	 *            lequel le boost doit être incrémenté. Passé ce délai, le boost
-	 *            revient à sa valeur initiale. Une valeur négative ou nulle
-	 *            rend la modification "éternelle".
+	 *            un entier reprï¿½sentant un nombre de tics d'horloge pendant
+	 *            lequel le boost doit ï¿½tre incrï¿½mentï¿½. Passï¿½ ce dï¿½lai, le boost
+	 *            revient ï¿½ sa valeur initiale. Une valeur nï¿½gative ou nulle
+	 *            rend la modification "ï¿½ternelle".
 	 * @return la nouvelle valeur du boost.
 	 */
 	public Integer incBoost(final Integer n, int duration) {
 		if (n.floatValue() == 0) {
-			// On ne fait rien si paramètre à 0
+			// On ne fait rien si paramï¿½tre ï¿½ 0
 			return boostValue();
 		}
 
@@ -354,7 +354,7 @@ public final class Stat implements ChangeEventSource {
 			log(name + ".Boost", oldValue.floatValue(), actual, delta);
 
 			if (duration > 0) {
-				// Création d'une DeferredCommand pour modifier le boost après
+				// Crï¿½ation d'une DeferredCommand pour modifier le boost aprï¿½s
 				// duration tics d'horloge
 				Clock.getInstance().register(
 						new DeferredCommand(name + ".Boost.DeferredCommand",
@@ -362,7 +362,7 @@ public final class Stat implements ChangeEventSource {
 
 							@Override
 							protected void run() {
-								// FIXME Décroissance en fonction du temps ou
+								// FIXME Dï¿½croissance en fonction du temps ou
 								// d'un seul coup ??
 								decBoost(n);
 							}
@@ -382,7 +382,7 @@ public final class Stat implements ChangeEventSource {
 
 	public Integer inc(Integer n) {
 		if (n.floatValue() == 0) {
-			// On ne fait rien si paramètre à 0
+			// On ne fait rien si paramï¿½tre ï¿½ 0
 			return value();
 		}
 
@@ -404,7 +404,7 @@ public final class Stat implements ChangeEventSource {
 
 	public Integer incMax(Integer n) {
 		if (n.floatValue() == 0) {
-			// On ne fait rien si paramètre à 0
+			// On ne fait rien si paramï¿½tre ï¿½ 0
 			return maxValue();
 		}
 
@@ -426,7 +426,7 @@ public final class Stat implements ChangeEventSource {
 
 	public Integer decMax(Integer n) {
 		if (n.floatValue() == 0) {
-			// On ne fait rien si paramètre à 0
+			// On ne fait rien si paramï¿½tre ï¿½ 0
 			return maxValue();
 		}
 
@@ -435,7 +435,7 @@ public final class Stat implements ChangeEventSource {
 		final float delta = actual - oldValue.floatValue();
 
 		if (delta != 0) {
-			// TODO Diminuer la valeur actuelle si supérieure au niveau max
+			// TODO Diminuer la valeur actuelle si supï¿½rieure au niveau max
 			max = create(actual);
 			previous = oldValue;
 
@@ -461,7 +461,7 @@ public final class Stat implements ChangeEventSource {
 
 	public Integer decBoost(final Integer n, int duration) {
 		if (n.floatValue() == 0) {
-			// On ne fait rien si paramètre à 0
+			// On ne fait rien si paramï¿½tre ï¿½ 0
 			return boostValue();
 		}
 
@@ -475,7 +475,7 @@ public final class Stat implements ChangeEventSource {
 			log(name + ".Boost", oldValue.floatValue(), actual, delta);
 
 			if (duration > 0) {
-				// Création d'une DeferredCommand pour modifier le boost après
+				// Crï¿½ation d'une DeferredCommand pour modifier le boost aprï¿½s
 				// duration tics d'horloge
 				Clock.getInstance().register(
 						new DeferredCommand(name + ".Boost.DeferredCommand",
@@ -483,7 +483,7 @@ public final class Stat implements ChangeEventSource {
 
 							@Override
 							protected void run() {
-								// FIXME Décroissance en fonction du temps ou
+								// FIXME Dï¿½croissance en fonction du temps ou
 								// d'un seul coup ??
 								incBoost(n);
 							}
@@ -503,7 +503,7 @@ public final class Stat implements ChangeEventSource {
 
 	public Integer dec(Integer n) {
 		if (n.floatValue() == 0) {
-			// On ne fait rien si paramètre à 0
+			// On ne fait rien si paramï¿½tre ï¿½ 0
 			return value();
 		}
 
@@ -525,13 +525,13 @@ public final class Stat implements ChangeEventSource {
 
 	private float getActual(final float value) {
 		if (value > max.floatValue()) {
-			// Attention de ne pas dépasser la valeur max autorisée
+			// Attention de ne pas dï¿½passer la valeur max autorisï¿½e
 			return max.floatValue();
 		} else if (value < min.floatValue()) {
-			// Attention de ne pas dépasser la valeur min autorisée
+			// Attention de ne pas dï¿½passer la valeur min autorisï¿½e
 			return min.floatValue();
 		} else {
-			// Valeur dans l'intervalle de validité
+			// Valeur dans l'intervalle de validitï¿½
 			return value;
 		}
 	}
@@ -561,7 +561,7 @@ public final class Stat implements ChangeEventSource {
 		final Integer oldMax = max;
 
 		if (newMax.floatValue() < oldMax.floatValue()) {
-			// La valeur max a diminué
+			// La valeur max a diminuï¿½
 			if (value.floatValue() > newMax.floatValue()) {
 				// Diminuer la valeur d'abord
 				final Integer oldValue = value;
@@ -587,7 +587,7 @@ public final class Stat implements ChangeEventSource {
 
 			fireChangeEvent();
 		} else if (newMax.floatValue() > oldMax.floatValue()) {
-			// La valeur max a augmenté
+			// La valeur max a augmentï¿½
 			max = newMax;
 
 			if (log.isDebugEnabled()) {
@@ -602,7 +602,7 @@ public final class Stat implements ChangeEventSource {
 	}
 
 	protected Integer create(float value) {
-		// Ne pas générer de dépassement de capacité
+		// Ne pas gï¿½nï¿½rer de dï¿½passement de capacitï¿½
 		if (value >= Integer.MAX_VALUE) {
 			return Integer.MAX_VALUE;
 		}
@@ -651,7 +651,7 @@ public final class Stat implements ChangeEventSource {
 	}
 
 	public float getPercent() {
-		// N'a de sens que si une valeur max est définie
+		// N'a de sens que si une valeur max est dï¿½finie
 		if (max.floatValue() == Float.MAX_VALUE) {
 			return 1.0f;
 		}
@@ -663,7 +663,7 @@ public final class Stat implements ChangeEventSource {
 	}
 
 	/**
-	 * La stat est faible si elle est inférieure à 20% de sa valeur max.
+	 * La stat est faible si elle est infï¿½rieure ï¿½ 20% de sa valeur max.
 	 * 
 	 * @return un boolean.
 	 */
@@ -671,7 +671,7 @@ public final class Stat implements ChangeEventSource {
 		return getPercent() <= 0.1f;
 	}
 
-	// FIXME Méthode à renommer
+	// FIXME Mï¿½thode ï¿½ renommer
 	public Integer improve(int min, int max) {
 		Validate.isTrue(min >= 0);
 		Validate.isTrue(max >= 0);
@@ -687,9 +687,9 @@ public final class Stat implements ChangeEventSource {
 	}
 	
 	/**
-	 * Indique si la statistique est boostée (positivement ou négativement).
+	 * Indique si la statistique est boostï¿½e (positivement ou nï¿½gativement).
 	 * 
-	 * @return si la statistique est boostée.
+	 * @return si la statistique est boostï¿½e.
 	 */
 	public boolean isBoosted() {
 		return boost.floatValue() != 0.0f;

@@ -37,7 +37,7 @@ import fr.ritaly.dungeonmaster.item.Item;
  * A pit. A pit can be real or virtual (i.e. just an illusion). It can also be
  * open or closed.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Pit extends Element implements Triggered {
 
@@ -93,7 +93,7 @@ public class Pit extends Element implements Triggered {
 	@Override
 	protected void afterCreatureSteppedOn(Creature creature) {
 		if (!isIllusion() && isOpen()) {
-			// Les créatures tombent dans l'oubliette
+			// Les crï¿½atures tombent dans l'oubliette
 			dropCreatures();
 		}
 	}
@@ -128,8 +128,8 @@ public class Pit extends Element implements Triggered {
 					log.debug("Party is climbing down ...");
 				}
 
-				// Conserver une référence vers le groupe car getParty() 
-				// retourne null après la chute !
+				// Conserver une rï¿½fï¿½rence vers le groupe car getParty() 
+				// retourne null aprï¿½s la chute !
 				final Party party = getParty();
 
 				// Le groupe descend (silencieusement)
@@ -146,25 +146,25 @@ public class Pit extends Element implements Triggered {
 					log.debug("Party stepped on an open pit. Party is falling ...");
 				}
 
-				// Conserver une référence vers le groupe car getParty() 
-				// retourne null après la chute !
+				// Conserver une rï¿½fï¿½rence vers le groupe car getParty() 
+				// retourne null aprï¿½s la chute !
 				final Party party = getParty();
 
 				// Le groupe tombe
 				getParty().getDungeon().moveParty(Move.DOWN, true,
 						AudioClip.SHOUT);
 
-				// FIXME Gérer le cas de chute dans plusieurs oubliettes d'un 
+				// FIXME Gï¿½rer le cas de chute dans plusieurs oubliettes d'un 
 				// coup!
 				
-				// Blesser les champions à cause de la chute !
+				// Blesser les champions ï¿½ cause de la chute !
 				for (Champion champion : party.getChampions(false)) {
 					final Item item = champion.getBody().getFeet().getItem();
 
 					final int damage;
 
 					if (item != null) {
-						// Les bottes protègent un peu le héros de la chute
+						// Les bottes protï¿½gent un peu le hï¿½ros de la chute
 						damage = Utils.random(7, 21);
 					} else {
 						// Blessure maximale
@@ -174,14 +174,14 @@ public class Pit extends Element implements Triggered {
 					champion.hit(damage);
 
 					if (champion.isAlive()) {
-						// Le champion est-il blessé aux pieds ?
+						// Le champion est-il blessï¿½ aux pieds ?
 						if (item != null) {
-							// Champion un peu mieux protégé (25%)
+							// Champion un peu mieux protï¿½gï¿½ (25%)
 							if (Utils.random(1, 4) > 3) {
 								champion.getBody().getFeet().wound();
 							}
 						} else {
-							// Champion un peu moins protégé (50%)
+							// Champion un peu moins protï¿½gï¿½ (50%)
 							if (Utils.random(1, 2) > 1) {
 								champion.getBody().getFeet().wound();
 							}
@@ -220,7 +220,7 @@ public class Pit extends Element implements Triggered {
 	 * @return whether the pit was successfully opened.
 	 */
 	public boolean open() {
-		// Le résultat de cette méthode ne dépend pas du caractère fake de
+		// Le rï¿½sultat de cette mï¿½thode ne dï¿½pend pas du caractï¿½re fake de
 		// l'oubliette
 		if (!open) {
 			if (log.isDebugEnabled()) {
@@ -257,7 +257,7 @@ public class Pit extends Element implements Triggered {
 	 * @return whether the pit was successfully closed.
 	 */
 	public boolean close() {
-		// Le résultat de cette méthode ne dépend pas du caractère fake de
+		// Le rï¿½sultat de cette mï¿½thode ne dï¿½pend pas du caractï¿½re fake de
 		// l'oubliette
 		if (open) {
 			if (log.isDebugEnabled()) {
@@ -303,7 +303,7 @@ public class Pit extends Element implements Triggered {
 
 	private void dropCreatures() {
 		if (isReal()) {
-			// Faire tomber les créatures qui ne volent pas !
+			// Faire tomber les crï¿½atures qui ne volent pas !
 
 			// Position cible ?
 			final Position targetPosition = getPosition().towards(
@@ -315,7 +315,7 @@ public class Pit extends Element implements Triggered {
 
 			for (Creature creature : getCreatures()) {
 				if (creature.getType().levitates()) {
-					// La créature ne peut tomber dans l'oubliette car elle vole
+					// La crï¿½ature ne peut tomber dans l'oubliette car elle vole
 					continue;
 				}
 
@@ -323,10 +323,10 @@ public class Pit extends Element implements Triggered {
 					log.debug(creature + " is falling through " + this);
 				}
 
-				// La créature quitte la position
+				// La crï¿½ature quitte la position
 				final Object location = removeCreature(creature);
 
-				// La créature tombe au niveau inférieur
+				// La crï¿½ature tombe au niveau infï¿½rieur
 				targetElement.addCreature(creature, location);
 			}
 		}
@@ -334,7 +334,7 @@ public class Pit extends Element implements Triggered {
 
 	private void dropItems() {
 		if (isReal()) {
-			// Faire tomber les objets au niveau inférieur
+			// Faire tomber les objets au niveau infï¿½rieur
 			for (Item item : getItems()) {
 				if (log.isDebugEnabled()) {
 					log.debug(item + " is falling through " + this);
@@ -359,7 +359,7 @@ public class Pit extends Element implements Triggered {
 				final Element targetElement = getLevel().getDungeon()
 						.getElement(targetPosition);
 
-				// L'objet tombe au niveau inférieur
+				// L'objet tombe au niveau infï¿½rieur
 				targetElement.itemDroppedDown(item, subCell);
 			}
 		}

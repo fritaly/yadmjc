@@ -26,9 +26,9 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
 
 /**
- * Représente des coordonnées en 3 dimensions dans un donjon.
+ * Reprï¿½sente des coordonnï¿½es en 3 dimensions dans un donjon.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Position {
 	
@@ -38,7 +38,7 @@ public final class Position {
 
 	private final String toString;
 
-	// FIXME Masquer ce constructeur pour réutiliser les instances -> valueOf(x, y, z)
+	// FIXME Masquer ce constructeur pour rï¿½utiliser les instances -> valueOf(x, y, z)
 	public Position(int x, int y, int z) {
 		this.x = x;
 		this.y = y;
@@ -85,13 +85,13 @@ public final class Position {
 	}
 
 	/**
-	 * Indique si cette {@link Position} est alignée (le long de l'axe de X)
-	 * avec la {@link Position} donnée.
+	 * Indique si cette {@link Position} est alignï¿½e (le long de l'axe de X)
+	 * avec la {@link Position} donnï¿½e.
 	 * 
 	 * @param position
 	 *            une instance de {@link Position}.
-	 * @return si cette {@link Position} est alignée (le long de l'axe de X)
-	 *         avec la {@link Position} donnée.
+	 * @return si cette {@link Position} est alignï¿½e (le long de l'axe de X)
+	 *         avec la {@link Position} donnï¿½e.
 	 */
 	public boolean isAlignedX(Position position) {
 		if (position == null) {
@@ -102,13 +102,13 @@ public final class Position {
 	}
 
 	/**
-	 * Indique si cette {@link Position} est alignée (le long de l'axe de Y)
-	 * avec la {@link Position} donnée.
+	 * Indique si cette {@link Position} est alignï¿½e (le long de l'axe de Y)
+	 * avec la {@link Position} donnï¿½e.
 	 * 
 	 * @param position
 	 *            une instance de {@link Position}.
-	 * @return si cette {@link Position} est alignée (le long de l'axe de Y)
-	 *         avec la {@link Position} donnée.
+	 * @return si cette {@link Position} est alignï¿½e (le long de l'axe de Y)
+	 *         avec la {@link Position} donnï¿½e.
 	 */
 	public boolean isAlignedY(Position position) {
 		if (position == null) {
@@ -119,13 +119,13 @@ public final class Position {
 	}
 	
 	/**
-	 * Indique si cette {@link Position} est alignée avec la {@link Position}
-	 * donnée.
+	 * Indique si cette {@link Position} est alignï¿½e avec la {@link Position}
+	 * donnï¿½e.
 	 * 
 	 * @param position
 	 *            une instance de {@link Position}.
-	 * @return si cette {@link Position} est alignée avec la {@link Position}
-	 *         donnée.
+	 * @return si cette {@link Position} est alignï¿½e avec la {@link Position}
+	 *         donnï¿½e.
 	 */
 	public boolean isAligned(Position position) {
 		if (position == null) {
@@ -155,10 +155,10 @@ public final class Position {
 
 	/**
 	 * Retourne une liste contenant les positions entourant cette
-	 * {@link Position} dans le rayon donné.
+	 * {@link Position} dans le rayon donnï¿½.
 	 * 
 	 * @param radius
-	 *            un entier représentant le rayon en nombre de cases voisines.
+	 *            un entier reprï¿½sentant le rayon en nombre de cases voisines.
 	 * 
 	 * @return une {@link List} de {@link Position}s.
 	 */
@@ -225,10 +225,10 @@ public final class Position {
 		// |   |   | 4 | 4 | 4 | 4 | 4 |   |   |
 		// +---+---+---+---+---+---+---+---+---+
 		
-		// On calcule les positions situées dans le rayon donné
+		// On calcule les positions situï¿½es dans le rayon donnï¿½
 		final List<Position> positions = new ArrayList<Position>(64);
 		
-//		// Première version non optimisée
+//		// Premiï¿½re version non optimisï¿½e
 //		for (int x = this.x - radius; x <= this.x + radius; x++) {
 //			for (int y = this.y - radius; y <= this.y + radius; y++) {
 //				final Position position = new Position(x, y, 1);
@@ -246,9 +246,9 @@ public final class Position {
 //			}
 //		}
 		
-//		// Optimisation: vu la symétrie de l'espace exploré, on en explore 1/4
-//		// et si le point et dans le cercle de rayon donné, on en déduit les 3
-//		// points associés par symétrie (C4)
+//		// Optimisation: vu la symï¿½trie de l'espace explorï¿½, on en explore 1/4
+//		// et si le point et dans le cercle de rayon donnï¿½, on en dï¿½duit les 3
+//		// points associï¿½s par symï¿½trie (C4)
 //		for (int x = 0; x <= radius; x++) {
 //			for (int y = 0; y <= radius; y++) {
 //				if ((x == 0) && (y == 0)) {
@@ -262,20 +262,20 @@ public final class Position {
 //					positions.add(new Position(this.x + x, this.y + y, this.z));
 //					
 //					if (y != 0) {
-//						// Ne considérer les positions symétriques que si les 2
+//						// Ne considï¿½rer les positions symï¿½triques que si les 2
 //						// ne sont pas confondues
 //						positions.add(new Position(this.x + x, this.y - y,
 //								this.z));
 //					}
 //					
 //					if (x != 0) {
-//						// Ne considérer les positions symétriques que si les 2
+//						// Ne considï¿½rer les positions symï¿½triques que si les 2
 //						// ne sont pas confondues
 //						positions.add(new Position(this.x - x, this.y + y,
 //								this.z));
 //						
 //						if (y != 0) {
-//							// Ne considérer les positions symétriques que si 
+//							// Ne considï¿½rer les positions symï¿½triques que si 
 //							// les 2 ne sont pas confondues
 //							positions.add(new Position(this.x - x, this.y - y,
 //									this.z));
@@ -285,14 +285,14 @@ public final class Position {
 //			}
 //		}
 		
-		// Optimisation 1: Vu la symétrie de l'espace exploré, on en explore 1/4
-		// et si le point et dans le cercle de rayon donné, on en déduit les 3
-		// points associés par symétrie (C4)
-		// Optimisation 2: On parcourt l'espace de l'extérieur vers l'intérieur
-		// et dès qu'on découvre un point dans le cercle, on prend de suite tous
-		// les points "plus proches" pour une même valeur de x
-		// Optimisation 3: Méthode Utils.distance(int, int, int, int) inlinée
-		// Optimisation 4: Constructeur Position(int, int, int) optimisé
+		// Optimisation 1: Vu la symï¿½trie de l'espace explorï¿½, on en explore 1/4
+		// et si le point et dans le cercle de rayon donnï¿½, on en dï¿½duit les 3
+		// points associï¿½s par symï¿½trie (C4)
+		// Optimisation 2: On parcourt l'espace de l'extï¿½rieur vers l'intï¿½rieur
+		// et dï¿½s qu'on dï¿½couvre un point dans le cercle, on prend de suite tous
+		// les points "plus proches" pour une mï¿½me valeur de x
+		// Optimisation 3: Mï¿½thode Utils.distance(int, int, int, int) inlinï¿½e
+		// Optimisation 4: Constructeur Position(int, int, int) optimisï¿½
 		for (int x = radius; x >= 0; x--) {
 			boolean inside = false;
 			
@@ -312,20 +312,20 @@ public final class Position {
 					positions.add(new Position(this.x + x, this.y + y, this.z));
 					
 					if (y != 0) {
-						// Ne considérer les positions symétriques que si les 2
+						// Ne considï¿½rer les positions symï¿½triques que si les 2
 						// ne sont pas confondues
 						positions.add(new Position(this.x + x, this.y - y,
 								this.z));
 					}
 					
 					if (x != 0) {
-						// Ne considérer les positions symétriques que si les 2
+						// Ne considï¿½rer les positions symï¿½triques que si les 2
 						// ne sont pas confondues
 						positions.add(new Position(this.x - x, this.y + y,
 								this.z));
 						
 						if (y != 0) {
-							// Ne considérer les positions symétriques que si 
+							// Ne considï¿½rer les positions symï¿½triques que si 
 							// les 2 ne sont pas confondues
 							positions.add(new Position(this.x - x, this.y - y,
 									this.z));
@@ -340,15 +340,15 @@ public final class Position {
 	
 	/**
 	 * Retourne, pour cette {@link Position}, la liste des {@link Position}s qui
-	 * lui sont visibles en regardant dans la direction donnée. L'implémentation
-	 * courante suppose que la portée visuelle est de 3 lignes en profondeur.
+	 * lui sont visibles en regardant dans la direction donnï¿½e. L'implï¿½mentation
+	 * courante suppose que la portï¿½e visuelle est de 3 lignes en profondeur.
 	 * 
 	 * @param lookDirection
 	 *            la {@link Direction} de regard.
 	 * @return une {@link List} de {@link Position}s. Ne retourne jamais null.
 	 */
 	public List<Position> getVisiblePositions(Direction lookDirection) {
-		// FIXME Rajouter un paramètre sightRange
+		// FIXME Rajouter un paramï¿½tre sightRange
 		Validate.notNull(lookDirection, "The given direction is null");
 
 		final List<Position> positions = new ArrayList<Position>();
@@ -368,8 +368,8 @@ public final class Position {
 
 		switch (lookDirection) {
 		case NORTH:
-			// La créature voit sur 3 rangées de profondeur et sur une rangée de
-			// chaque côté
+			// La crï¿½ature voit sur 3 rangï¿½es de profondeur et sur une rangï¿½e de
+			// chaque cï¿½tï¿½
 			positions.add(new Position(x - 1, y - 1, z));
 			positions.add(new Position(x, y - 1, z));
 			positions.add(new Position(x + 1, y - 1, z));
@@ -378,8 +378,8 @@ public final class Position {
 			positions.add(new Position(x, y - 2, z));
 			positions.add(new Position(x + 1, y - 2, z));
 
-			// Pour la dernière rangée, la créature voit sur 2 rangées de chaque
-			// côté
+			// Pour la derniï¿½re rangï¿½e, la crï¿½ature voit sur 2 rangï¿½es de chaque
+			// cï¿½tï¿½
 			positions.add(new Position(x - 2, y - 3, z));
 			positions.add(new Position(x - 1, y - 3, z));
 			positions.add(new Position(x, y - 3, z));
@@ -387,8 +387,8 @@ public final class Position {
 			positions.add(new Position(x + 2, y - 3, z));
 			break;
 		case SOUTH:
-			// La créature voit sur 3 rangées de profondeur et sur une rangée de
-			// chaque côté
+			// La crï¿½ature voit sur 3 rangï¿½es de profondeur et sur une rangï¿½e de
+			// chaque cï¿½tï¿½
 			positions.add(new Position(x - 1, y + 1, z));
 			positions.add(new Position(x, y + 1, z));
 			positions.add(new Position(x + 1, y + 1, z));
@@ -397,8 +397,8 @@ public final class Position {
 			positions.add(new Position(x, y + 2, z));
 			positions.add(new Position(x + 1, y + 2, z));
 
-			// Pour la dernière rangée, la créature voit sur 2 rangées de chaque
-			// côté
+			// Pour la derniï¿½re rangï¿½e, la crï¿½ature voit sur 2 rangï¿½es de chaque
+			// cï¿½tï¿½
 			positions.add(new Position(x - 2, y + 3, z));
 			positions.add(new Position(x - 1, y + 3, z));
 			positions.add(new Position(x, y + 3, z));
@@ -406,8 +406,8 @@ public final class Position {
 			positions.add(new Position(x + 2, y + 3, z));
 			break;
 		case WEST:
-			// La créature voit sur 3 rangées de profondeur et sur une rangée de
-			// chaque côté
+			// La crï¿½ature voit sur 3 rangï¿½es de profondeur et sur une rangï¿½e de
+			// chaque cï¿½tï¿½
 			positions.add(new Position(x - 1, y - 1, z));
 			positions.add(new Position(x - 1, y, z));
 			positions.add(new Position(x - 1, y + 1, z));
@@ -416,8 +416,8 @@ public final class Position {
 			positions.add(new Position(x - 2, y, z));
 			positions.add(new Position(x - 2, y + 1, z));
 
-			// Pour la dernière rangée, la créature voit sur 2 rangées de chaque
-			// côté
+			// Pour la derniï¿½re rangï¿½e, la crï¿½ature voit sur 2 rangï¿½es de chaque
+			// cï¿½tï¿½
 			positions.add(new Position(x - 3, y - 2, z));
 			positions.add(new Position(x - 3, y - 1, z));
 			positions.add(new Position(x - 3, y, z));
@@ -425,8 +425,8 @@ public final class Position {
 			positions.add(new Position(x - 3, y + 2, z));
 			break;
 		case EAST:
-			// La créature voit sur 3 rangées de profondeur et sur une rangée de
-			// chaque côté
+			// La crï¿½ature voit sur 3 rangï¿½es de profondeur et sur une rangï¿½e de
+			// chaque cï¿½tï¿½
 			positions.add(new Position(x + 1, y - 1, z));
 			positions.add(new Position(x + 1, y, z));
 			positions.add(new Position(x + 1, y + 1, z));
@@ -435,8 +435,8 @@ public final class Position {
 			positions.add(new Position(x + 2, y, z));
 			positions.add(new Position(x + 2, y + 1, z));
 
-			// Pour la dernière rangée, la créature voit sur 2 rangées de chaque
-			// côté
+			// Pour la derniï¿½re rangï¿½e, la crï¿½ature voit sur 2 rangï¿½es de chaque
+			// cï¿½tï¿½
 			positions.add(new Position(x + 3, y - 2, z));
 			positions.add(new Position(x + 3, y - 1, z));
 			positions.add(new Position(x + 3, y, z));
@@ -458,13 +458,13 @@ public final class Position {
 	 * @return une {@link List} de {@link Position}s.
 	 */
 	public List<Position> getAttackablePositions() {
-		// Retourner les positions attaquables situées dans un rayon de 1 pas
+		// Retourner les positions attaquables situï¿½es dans un rayon de 1 pas
 		return getAttackablePositions(1);
 	}
 
 	/**
 	 * Retourne les {@link Position}s attaquables depuis cette {@link Position}
-	 * et situées dans un rayon de range pas dans les 4 directions.
+	 * et situï¿½es dans un rayon de range pas dans les 4 directions.
 	 * 
 	 * @return une {@link List} de {@link Position}s.
 	 */
@@ -472,7 +472,7 @@ public final class Position {
 		Validate.isTrue(range >= 1, "The given range " + range
 				+ " must be positive");
 		
-		// Positions attaquables directement (range = 1) ou à distance 
+		// Positions attaquables directement (range = 1) ou ï¿½ distance 
 		// (range > 1) depuis la position P
 		
 		// +---+---+---+---+---+---+---+
@@ -505,74 +505,74 @@ public final class Position {
 
 	/**
 	 * A partir de cette position, retourne la direction dans laquelle il faut
-	 * regarder / se tourner pour pointer vers la position cible donnée.
+	 * regarder / se tourner pour pointer vers la position cible donnï¿½e.
 	 * 
 	 * @param targetPosition
 	 *            la position cible vers laquelle il faut se tourner.
 	 * @return la direction dans laquelle il faut se tourner pour voir la
-	 *         position cible donnée.
+	 *         position cible donnï¿½e.
 	 */
 	public Direction getDirectionTowards(Position targetPosition) {
 		Validate.notNull(targetPosition, "The given direction is null");
 
 		if (this.z != targetPosition.z) {
-			// Positions situées sur des niveaux différents, cas non supporté
+			// Positions situï¿½es sur des niveaux diffï¿½rents, cas non supportï¿½
 			return null;
 		}
 
 		if (isAlignedX(targetPosition)) {
-			// Positions alignées le long de l'axe des X
+			// Positions alignï¿½es le long de l'axe des X
 			if (this.y < targetPosition.y) {
-				// Target située en bas de this
+				// Target situï¿½e en bas de this
 				return Direction.SOUTH;
 			} else if (this.y > targetPosition.y) {
-				// Target située en haut de this
+				// Target situï¿½e en haut de this
 				return Direction.NORTH;
 			} else {
 				// this et target sont confondus
 				return null;
 			}
 		} else if (isAlignedY(targetPosition)) {
-			// Positions alignées le long de l'axe des Y
+			// Positions alignï¿½es le long de l'axe des Y
 			if (this.x < targetPosition.x) {
-				// Target située à droite de this
+				// Target situï¿½e ï¿½ droite de this
 				return Direction.EAST;
 			} else if (this.x > targetPosition.x) {
-				// Target située à gauche de this
+				// Target situï¿½e ï¿½ gauche de this
 				return Direction.WEST;
 			} else {
 				// this et target sont confondus
 				return null;
 			}
 		} else {
-			// Les directions ne sont pas alignées. Déterminer une direction de
-			// préférence à une autre
+			// Les directions ne sont pas alignï¿½es. Dï¿½terminer une direction de
+			// prï¿½fï¿½rence ï¿½ une autre
 			
-			// Valeur de x du vecteur permettant d'aller de this à target
+			// Valeur de x du vecteur permettant d'aller de this ï¿½ target
 			final int deltaX = targetPosition.x - this.x;
 			
-			// Valeur de y du vecteur permettant d'aller de this à target
+			// Valeur de y du vecteur permettant d'aller de this ï¿½ target
 			final int deltaY = targetPosition.y - this.y;
 			
 			if (deltaX == deltaY) {
-				// Impossible de décider de manière non arbitraire, on tire une
+				// Impossible de dï¿½cider de maniï¿½re non arbitraire, on tire une
 				// direction au hasard
 				final Direction[] directions = new Direction[2];
 				
-				// Rappel: deltaX ne peut être nul
+				// Rappel: deltaX ne peut ï¿½tre nul
 				directions[0] = (deltaX > 0) ? Direction.EAST: Direction.WEST; 
 				
-				// Rappel: deltaY ne peut être nul
+				// Rappel: deltaY ne peut ï¿½tre nul
 				directions[1] = (deltaY > 0) ? Direction.SOUTH: Direction.NORTH;
 
 				return directions[RandomUtils.nextInt(2)];
 			}
 			
 			if (Math.abs(deltaX) > Math.abs(deltaY)) {
-				// Direction de préférence le long de l'axe des X
+				// Direction de prï¿½fï¿½rence le long de l'axe des X
 				return (deltaX > 0) ? Direction.EAST: Direction.WEST;
 			} else {
-				// Direction de préférence le long de l'axe des Y
+				// Direction de prï¿½fï¿½rence le long de l'axe des Y
 				return (deltaY > 0) ? Direction.SOUTH: Direction.NORTH;
 			}
 		}

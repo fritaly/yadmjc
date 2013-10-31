@@ -21,7 +21,7 @@ package fr.ritaly.dungeonmaster.champion.body;
 import fr.ritaly.dungeonmaster.item.CarryLocation;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Legs extends BodyPart {
 

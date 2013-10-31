@@ -19,22 +19,22 @@
 package fr.ritaly.dungeonmaster;
 
 /**
- * Implémentation de {@link ClockListener} permettant d'exécuter une action
- * lorsque le temps d'attente a expiré.
+ * Implï¿½mentation de {@link ClockListener} permettant d'exï¿½cuter une action
+ * lorsque le temps d'attente a expirï¿½.
  *
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public abstract class DeferredCommand implements ClockListener {
 
 	private final Temporizer temporizer;
 
 	public DeferredCommand(String label, int max) {
-		// Contrôles réalisés par la classe Temporizer
+		// Contrï¿½les rï¿½alisï¿½s par la classe Temporizer
 		this.temporizer = new Temporizer(label, max);
 	}
 
 	/**
-	 * Méthode de callback appelée lorsque le temps d'attente a expiré.
+	 * Mï¿½thode de callback appelï¿½e lorsque le temps d'attente a expirï¿½.
 	 */
 	protected abstract void run();
 
@@ -42,13 +42,13 @@ public abstract class DeferredCommand implements ClockListener {
 	public final boolean clockTicked() {
 		if (temporizer.trigger()) {
 
-			// Déclenchement
+			// Dï¿½clenchement
 			run();
 
 			return false;
 		}
 
-		// Pas encore de déclenchement
+		// Pas encore de dï¿½clenchement
 		return true;
 	}
 }

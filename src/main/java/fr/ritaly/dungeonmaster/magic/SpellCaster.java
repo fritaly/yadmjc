@@ -30,7 +30,7 @@ import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SpellCaster implements ChangeEventSource {
 
@@ -199,10 +199,10 @@ public class SpellCaster implements ChangeEventSource {
 	}
 
 	/**
-	 * Retourne le rune de puissance utilisé pour invoquer le sort courant.
+	 * Retourne le rune de puissance utilisï¿½ pour invoquer le sort courant.
 	 * 
 	 * @return un {@link PowerRune} ou null si le rune de puissance n'a pas
-	 *         encore été invoqué.
+	 *         encore ï¿½tï¿½ invoquï¿½.
 	 */
 	public PowerRune getPowerRune() {
 		if (runes.isEmpty()) {

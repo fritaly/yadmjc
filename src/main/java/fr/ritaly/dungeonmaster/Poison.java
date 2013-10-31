@@ -23,7 +23,7 @@ import org.apache.commons.lang.Validate;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Poison implements ClockListener {
 

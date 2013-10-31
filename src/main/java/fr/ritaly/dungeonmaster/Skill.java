@@ -25,30 +25,30 @@ import org.apache.commons.lang.StringUtils;
  * There are 4 basic skills ({@link #FIGHTER}, {@link #NINJA}, {@link #PRIEST}
  * and {@link #WIZARD}) and 16 hidden skills (4 per basic skill).
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Skill {
-	// --- Compétences basiques --- //
+	// --- Compï¿½tences basiques --- //
 	FIGHTER,
 	NINJA,
 	PRIEST,
 	WIZARD,
-	// --- Compétences cachées de FIGHTER --- //
+	// --- Compï¿½tences cachï¿½es de FIGHTER --- //
 	SWING,
 	THRUST,
 	CLUB,
 	PARRY,
-	// --- Compétences cachées de NINJA --- //
+	// --- Compï¿½tences cachï¿½es de NINJA --- //
 	STEAL,
 	FIGHT,
 	THROW,
 	SHOOT,
-	// --- Compétences cachées de PRIEST --- //
+	// --- Compï¿½tences cachï¿½es de PRIEST --- //
 	IDENTIFY,
 	HEAL,
 	INFLUENCE,
 	DEFEND,
-	// --- Compétences cachées de WIZARD --- //
+	// --- Compï¿½tences cachï¿½es de WIZARD --- //
 	FIRE,
 	AIR,
 	EARTH,

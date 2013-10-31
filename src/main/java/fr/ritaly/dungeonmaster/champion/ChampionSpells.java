@@ -25,7 +25,7 @@ import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.stat.Stat;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class ChampionSpells implements ClockListener {
 
@@ -59,12 +59,12 @@ public class ChampionSpells implements ClockListener {
 		if (temporizer.trigger()) {
 			if (light.actualValue() > 0) {
 				if (light.dec() == 0) {
-					// TODO Lever un évènement
+					// TODO Lever un ï¿½vï¿½nement
 				}
 			}
 //			if (shield.actualValue() > 0) {
 //				if (shield.dec() == 0) {
-//					// TODO Lever un évènement
+//					// TODO Lever un ï¿½vï¿½nement
 //				}
 //			}
 		}

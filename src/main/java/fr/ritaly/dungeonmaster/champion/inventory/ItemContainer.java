@@ -24,7 +24,7 @@ import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface ItemContainer {
 
@@ -72,8 +72,8 @@ public interface ItemContainer {
 	public boolean isEmpty();
 
 	/**
-	 * Retourne un {@link Item} tiré au hasard parmi ceux de cet
-	 * {@link ItemContainer}. Cette méthode ne supprime pas l'objet du
+	 * Retourne un {@link Item} tirï¿½ au hasard parmi ceux de cet
+	 * {@link ItemContainer}. Cette mï¿½thode ne supprime pas l'objet du
 	 * conteneur.
 	 * 
 	 * @return un {@link Item} ou null si le conteneur est vide.
@@ -81,13 +81,13 @@ public interface ItemContainer {
 	public Item getRandom();
 
 	/**
-	 * Tente d'ajouter l'objet donné à cet {@link ItemContainer} et retourne
-	 * l'index auquel a été ajouté l'objet si l'opération a réussi autrement -1.
+	 * Tente d'ajouter l'objet donnï¿½ ï¿½ cet {@link ItemContainer} et retourne
+	 * l'index auquel a ï¿½tï¿½ ajoutï¿½ l'objet si l'opï¿½ration a rï¿½ussi autrement -1.
 	 * 
 	 * @param item
-	 *            un {@link Item} à ajouter.
-	 * @return un entier représentant l'index auquel a été ajouté l'objet si
-	 *         l'opération a réussi autrement -1.
+	 *            un {@link Item} ï¿½ ajouter.
+	 * @return un entier reprï¿½sentant l'index auquel a ï¿½tï¿½ ajoutï¿½ l'objet si
+	 *         l'opï¿½ration a rï¿½ussi autrement -1.
 	 */
 	public int add(Item item);
 
@@ -100,18 +100,18 @@ public interface ItemContainer {
 	public List<Item> removeAll();
 
 	/**
-	 * Supprime l'objet d'index donné et le retourne.
+	 * Supprime l'objet d'index donnï¿½ et le retourne.
 	 * 
 	 * @param index
-	 *            un entier positif ou nul représentant l'index de l'objet à
+	 *            un entier positif ou nul reprï¿½sentant l'index de l'objet ï¿½
 	 *            retirer.
-	 * @return une instance de {@link Item} ou null s'il n'y a aucun objet à
-	 *         l'index donné.
+	 * @return une instance de {@link Item} ou null s'il n'y a aucun objet ï¿½
+	 *         l'index donnï¿½.
 	 */
 	public Item remove(int index);
 
 	/**
-	 * Supprime un {@link Item} tiré au hasard parmi ceux de cet
+	 * Supprime un {@link Item} tirï¿½ au hasard parmi ceux de cet
 	 * {@link ItemContainer} et le retourne.
 	 * 
 	 * @return un {@link Item} ou null si le conteneur est vide.
@@ -119,11 +119,11 @@ public interface ItemContainer {
 	public Item removeRandom();
 
 	/**
-	 * Tente de supprimer l'objet donné et retourne si l'opération a réussi.
+	 * Tente de supprimer l'objet donnï¿½ et retourne si l'opï¿½ration a rï¿½ussi.
 	 * 
 	 * @param item
-	 *            une instance de {@link Item} à supprimer du conteneur.
-	 * @return si l'opération a réussi.
+	 *            une instance de {@link Item} ï¿½ supprimer du conteneur.
+	 * @return si l'opï¿½ration a rï¿½ussi.
 	 */
 	public boolean remove(Item item);
 
@@ -132,7 +132,7 @@ public interface ItemContainer {
 	/**
 	 * Retourne le poids total des objets contenus par cet {@link Item}.
 	 * 
-	 * @return un float représentant le poids des objets en kilogrammes.
+	 * @return un float reprï¿½sentant le poids des objets en kilogrammes.
 	 */
 	public float getTotalWeight();
 }

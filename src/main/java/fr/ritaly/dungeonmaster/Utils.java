@@ -21,12 +21,12 @@ package fr.ritaly.dungeonmaster;
 import org.apache.commons.lang.math.RandomUtils;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Utils {
 
 	/**
-	 * Tire une valeur au hasard dans l'intervalle [min-max] donné et la
+	 * Tire une valeur au hasard dans l'intervalle [min-max] donnï¿½ et la
 	 * retourne.
 	 * 
 	 * @param min
@@ -55,16 +55,16 @@ public class Utils {
 	}
 
 	/**
-	 * Borne la valeur donnée dans l'intervalle défini par les valeurs min et
-	 * max données.
+	 * Borne la valeur donnï¿½e dans l'intervalle dï¿½fini par les valeurs min et
+	 * max donnï¿½es.
 	 * 
 	 * @param value
-	 *            la valeur à borner.
+	 *            la valeur ï¿½ borner.
 	 * @param min
-	 *            la borne min de l'intervalle de valeur autorisé.
+	 *            la borne min de l'intervalle de valeur autorisï¿½.
 	 * @param max
-	 *            la borne max de l'intervalle de valeur autorisé.
-	 * @return la valeur bornée.
+	 *            la borne max de l'intervalle de valeur autorisï¿½.
+	 * @return la valeur bornï¿½e.
 	 */
 	public static int bind(int value, int min, int max) {
 		if (min >= max) {
@@ -79,13 +79,13 @@ public class Utils {
 			return max;
 		}
 
-		// Valeur déjà dans l'intervalle
+		// Valeur dï¿½jï¿½ dans l'intervalle
 		return value;
 	}
 
 	/**
-	 * Indique si la valeur donnée est située dans l'intervalle de valeur min et
-	 * max données.
+	 * Indique si la valeur donnï¿½e est situï¿½e dans l'intervalle de valeur min et
+	 * max donnï¿½es.
 	 * 
 	 * @param value
 	 * @param min
@@ -109,7 +109,7 @@ public class Utils {
 	}
 
 	public static double volume(double distance) {
-		// Tous les 3 mètres, le volume est divisé par deux
+		// Tous les 3 mï¿½tres, le volume est divisï¿½ par deux
 		return 1 / (Math.pow(2, (distance / 3)));
 	}
 

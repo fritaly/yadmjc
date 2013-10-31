@@ -28,7 +28,7 @@ import fr.ritaly.dungeonmaster.item.EmptyFlask;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class WaterFlask extends Item {
 
@@ -62,7 +62,7 @@ public class WaterFlask extends Item {
 	protected Item consume(Champion champion) {
 		Validate.notNull(champion, "The given champion is null");
 		
-		// Le héros boit la fiole
+		// Le hï¿½ros boit la fiole
 		drink();
 		
 		champion.getStats().getWater().inc(150);

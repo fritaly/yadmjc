@@ -21,11 +21,11 @@ package fr.ritaly.dungeonmaster.item;
 import java.util.EnumSet;
 
 /**
- * Enumération des différentes combinaisons possible de {@link CarryLocation}.
+ * Enumï¿½ration des diffï¿½rentes combinaisons possible de {@link CarryLocation}.
  * Chaque item se voit associer une instance de {@link CarryLocations} ce qui
- * permet de déterminer où l'objet peut être utilisé / placé / stocké.
+ * permet de dï¿½terminer oï¿½ l'objet peut ï¿½tre utilisï¿½ / placï¿½ / stockï¿½.
  *
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum CarryLocations {
 	CHEST_POUCH,
@@ -47,7 +47,7 @@ public enum CarryLocations {
 	NONE;
 
 	/**
-	 * Retourne l'ensemble des {@link CarryLocation} associées à cette instance
+	 * Retourne l'ensemble des {@link CarryLocation} associï¿½es ï¿½ cette instance
 	 * de {@link CarryLocations}.
 	 * 
 	 * @return un {@link EnumSet} de {@link CarryLocation}. Ne retourne jamais

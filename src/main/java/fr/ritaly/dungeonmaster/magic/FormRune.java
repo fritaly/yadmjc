@@ -21,7 +21,7 @@ package fr.ritaly.dungeonmaster.magic;
 import org.apache.commons.lang.Validate;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum FormRune implements Rune {
 	VEN(4, 6, 8, 10, 12, 14),

@@ -22,7 +22,7 @@ import fr.ritaly.dungeonmaster.event.DirectionChangeEvent;
 import fr.ritaly.dungeonmaster.event.DirectionChangeListener;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Compass extends MiscItem implements DirectionChangeListener {
 
@@ -32,7 +32,7 @@ public final class Compass extends MiscItem implements DirectionChangeListener {
 
 	@Override
 	public void directionChanged(DirectionChangeEvent event) {
-		// Quand la direction change, lever un évènement afin de forcer le
+		// Quand la direction change, lever un ï¿½vï¿½nement afin de forcer le
 		// redessin du compas
 		fireChangeEvent();
 	}

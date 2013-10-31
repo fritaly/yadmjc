@@ -19,7 +19,7 @@
 package fr.ritaly.dungeonmaster.champion;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Gender {
 	MALE, FEMALE;

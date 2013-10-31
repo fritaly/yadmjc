@@ -57,30 +57,30 @@ import fr.ritaly.dungeonmaster.projectile.Projectile;
 import fr.ritaly.dungeonmaster.projectile.SpellProjectile;
 
 /**
- * Un sort lancé par un champion, une créature ou un piège. Un sort est créé en
+ * Un sort lancï¿½ par un champion, une crï¿½ature ou un piï¿½ge. Un sort est crï¿½ï¿½ en
  * invoquant des runes de type {@link PowerRune}, {@link ElementRune},
  * {@link FormRune} et {@link AlignmentRune}. Au minimum, le sort requiert un
- * {@link PowerRune} pour déterminer sa puissance et un {@link ElementRune}. Le
+ * {@link PowerRune} pour dï¿½terminer sa puissance et un {@link ElementRune}. Le
  * sort peut aussi prendre un {@link FormRune} en plus (3 runes en tout) ou un
  * {@link FormRune} et un {@link AlignmentRune} en plus (4 runes en tout). C'est
  * la combinaison de {@link ElementRune}, {@link FormRune} et
- * {@link AlignmentRune} qui détermine si le sort est valide: seules certaines
- * combinaisons sont valides. Si un sort n'est pas valide cela n'empêche donc
- * <b>pas</b> de créer l'instance de {@link Spell}. Pour vérifier la validité du
- * sort, appeler la méthode {@link #isValid()}. Pour identifier le sort, appeler
- * sa méthode {@link #getType()}.
+ * {@link AlignmentRune} qui dï¿½termine si le sort est valide: seules certaines
+ * combinaisons sont valides. Si un sort n'est pas valide cela n'empï¿½che donc
+ * <b>pas</b> de crï¿½er l'instance de {@link Spell}. Pour vï¿½rifier la validitï¿½ du
+ * sort, appeler la mï¿½thode {@link #isValid()}. Pour identifier le sort, appeler
+ * sa mï¿½thode {@link #getType()}.
  * 
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 @Immutable
 public class Spell {
 
 	/**
-	 * Enumération des identifiants de sort.
+	 * Enumï¿½ration des identifiants de sort.
 	 */
 	public static enum Type {
-		// Sorts de prêtre //
+		// Sorts de prï¿½tre //
 		HEALTH_POTION(VI, 32, 1),
 		STAMINA_POTION(YA, 15, 2),
 		MANA_POTION(ZO, BRO, RA, 63, 3),
@@ -115,19 +115,19 @@ public class Spell {
 		ZO_KATH_RA(ZO, KATH, RA, 15, 0);
 
 		/**
-		 * L'identifiant du sort calculé à partir des runes qui sont nécessaires
+		 * L'identifiant du sort calculï¿½ ï¿½ partir des runes qui sont nï¿½cessaires
 		 * pour invoquer le sort.
 		 */
 		private final int id;
 
 		/**
-		 * La durée d'effet du sort en 1/6 de seconde.
+		 * La durï¿½e d'effet du sort en 1/6 de seconde.
 		 */
 		private final int duration;
 
 		/**
-		 * La difficulté à invoquer le sort. Permet de déterminer si un
-		 * {@link Champion} est assez compétent pour invoquer un sort donné.
+		 * La difficultï¿½ ï¿½ invoquer le sort. Permet de dï¿½terminer si un
+		 * {@link Champion} est assez compï¿½tent pour invoquer un sort donnï¿½.
 		 */
 		private final int difficulty;
 
@@ -199,7 +199,7 @@ public class Spell {
 		}
 		
 		public int getRuneCount() {
-			// Il y a forcément au moins un ElementRune
+			// Il y a forcï¿½ment au moins un ElementRune
 			int count = 1;
 			
 			if (formRune != null) {
@@ -214,12 +214,12 @@ public class Spell {
 		}
 		
 		/**
-		 * Retourne l'instance de {@link Type} associée à l'identifiant de sort
-		 * donné.
+		 * Retourne l'instance de {@link Type} associï¿½e ï¿½ l'identifiant de sort
+		 * donnï¿½.
 		 * 
 		 * @param id
-		 *            un entier représentant un identifiant de sort.
-		 * @return une instance de {@link Type} ou null si l'identifiant donné
+		 *            un entier reprï¿½sentant un identifiant de sort.
+		 * @return une instance de {@link Type} ou null si l'identifiant donnï¿½
 		 *         est invalide.
 		 */
 		public static Type byValue(int id) {
@@ -275,19 +275,19 @@ public class Spell {
 		}
 
 		/**
-		 * Indique si l'identifiant de sort donné est valide.
+		 * Indique si l'identifiant de sort donnï¿½ est valide.
 		 * 
 		 * @param id
-		 *            un entier représentant un identifiant de sort.
-		 * @return si l'identifiant de sort donné est valide.
+		 *            un entier reprï¿½sentant un identifiant de sort.
+		 * @return si l'identifiant de sort donnï¿½ est valide.
 		 */
 		public static boolean isValid(int id) {
 			return (byValue(id) != null);
 		}
 
 		/**
-		 * Retourne le niveau requis dans la compétence du sort (cf
-		 * {@link #getSkill()}) pour réussir celui-ci.
+		 * Retourne le niveau requis dans la compï¿½tence du sort (cf
+		 * {@link #getSkill()}) pour rï¿½ussir celui-ci.
 		 * 
 		 * @return une instance de {@link Level}. Ne retourne jamais null.
 		 */
@@ -335,9 +335,9 @@ public class Spell {
 		}
 
 		/**
-		 * Retourne la compétence mise en oeuvre lors de l'invocation de ce
-		 * sort. Permet de faire gagner de l'expérience au champion qui réussit
-		 * le sort. Peut retourner null si aucune compétence particulière n'est
+		 * Retourne la compï¿½tence mise en oeuvre lors de l'invocation de ce
+		 * sort. Permet de faire gagner de l'expï¿½rience au champion qui rï¿½ussit
+		 * le sort. Peut retourner null si aucune compï¿½tence particuliï¿½re n'est
 		 * requise.
 		 * 
 		 * @return une instance de {@link Skill} ou null.
@@ -351,42 +351,42 @@ public class Spell {
 			case WISDOM_POTION:
 			case VITALITY_POTION:
 			case ANTIDOTE_POTION:
-				// Compétence #13
+				// Compï¿½tence #13
 				return Skill.HEAL;
 			case MANA_POTION:
-				// Compétence #2
+				// Compï¿½tence #2
 				return Skill.PRIEST;
 			case SHIELD_POTION:
 			case ANTI_MAGIC:
 			case SHIELD:
 			case DARKNESS:
 			case SEE_THROUGH_WALLS:
-				// Compétence #15
+				// Compï¿½tence #15
 				return Skill.DEFEND;
 			case TORCH:
 			case FIREBALL:
-				// Compétence #16
+				// Compï¿½tence #16
 				return Skill.FIRE;
 			case LIGHT:
 			case OPEN_DOOR:
 			case INVISIBILITY:
 			case LIGHTNING_BOLT:
-				// Compétence #17
+				// Compï¿½tence #17
 				return Skill.AIR;
 			case MAGIC_FOOTPRINTS:
 			case WEAKEN_IMMATERIAL:
-				// Compétence #18
+				// Compï¿½tence #18
 				return Skill.EARTH;
 			case POISON_POTION:
 			case POISON_BOLT:
 			case POISON_CLOUD:
-				// Compétence #19
+				// Compï¿½tence #19
 				return Skill.WATER;
 			case ZO_KATH_RA:
-				// Compétence #3
+				// Compï¿½tence #3
 				return Skill.WIZARD;
 			default:
-				// Aucune compétence spéciale requise !
+				// Aucune compï¿½tence spï¿½ciale requise !
 				return null;
 			}
 		}
@@ -413,9 +413,9 @@ public class Spell {
 		}
 
 		/**
-		 * Indique si l'invocation du sort requiert une fiole vide pour réussir.
+		 * Indique si l'invocation du sort requiert une fiole vide pour rï¿½ussir.
 		 * 
-		 * @return si l'invocation du sort requiert une fiole vide pour réussir.
+		 * @return si l'invocation du sort requiert une fiole vide pour rï¿½ussir.
 		 */
 		public boolean requiresEmptyFlask() {
 			switch (this) {
@@ -444,10 +444,10 @@ public class Spell {
 		}
 
 		/**
-		 * Retourne le nom du sort à partir des {@link Rune}s le composant.
+		 * Retourne le nom du sort ï¿½ partir des {@link Rune}s le composant.
 		 * Exemple: "FUL", "FUL IR", etc.
 		 * 
-		 * @return une {@link String} représentant le nom complet du sort.
+		 * @return une {@link String} reprï¿½sentant le nom complet du sort.
 		 */
 		public String getName() {
 			final StringBuilder builder = new StringBuilder(32);
@@ -481,27 +481,27 @@ public class Spell {
 	}
 
 	/**
-	 * Le {@link Rune} de puissance du sort. Forcément non null.
+	 * Le {@link Rune} de puissance du sort. Forcï¿½ment non null.
 	 */
 	private final PowerRune powerRune;
 
 	/**
-	 * Le {@link Rune} de type {@link ElementRune} du sort. Forcément non null.
+	 * Le {@link Rune} de type {@link ElementRune} du sort. Forcï¿½ment non null.
 	 */
 	private final ElementRune elementRune;
 
 	/**
-	 * Le {@link Rune} de type {@link FormRune} du sort. Peut être null.
+	 * Le {@link Rune} de type {@link FormRune} du sort. Peut ï¿½tre null.
 	 */
 	private final FormRune formRune;
 
 	/**
-	 * Le {@link Rune} de type {@link AlignmentRune} du sort. Peut être null.
+	 * Le {@link Rune} de type {@link AlignmentRune} du sort. Peut ï¿½tre null.
 	 */
 	private final AlignmentRune alignmentRune;
 
 	/**
-	 * L'identifiant du sort sous forme d'entier. Sa valeur est calculée à
+	 * L'identifiant du sort sous forme d'entier. Sa valeur est calculï¿½e ï¿½
 	 * partir des {@link ElementRune}, {@link FormRune} et {@link AlignmentRune}
 	 * du sort. Ne prend donc pas en compte le {@link Rune} de puissance du sort
 	 * !
@@ -509,7 +509,7 @@ public class Spell {
 	private final int id;
 
 	/**
-	 * Le coût (en nombre de points de mana) nécessaires pour invoquer le sort.
+	 * Le coï¿½t (en nombre de points de mana) nï¿½cessaires pour invoquer le sort.
 	 */
 	private final int cost;
 
@@ -552,7 +552,7 @@ public class Spell {
 		this.powerRune = powerRune;
 		this.elementRune = elementRune;
 		this.formRune = formRune;
-		this.alignmentRune = null; // Rune non alimenté
+		this.alignmentRune = null; // Rune non alimentï¿½
 		this.id = computeId(elementRune, formRune, alignmentRune);
 		this.cost = computeCost(powerRune, elementRune, formRune, alignmentRune);
 	}
@@ -567,13 +567,13 @@ public class Spell {
 
 		this.powerRune = powerRune;
 		this.elementRune = elementRune;
-		this.formRune = null; // Rune non alimenté
-		this.alignmentRune = null; // Rune non alimenté
+		this.formRune = null; // Rune non alimentï¿½
+		this.alignmentRune = null; // Rune non alimentï¿½
 		this.id = computeId(elementRune, formRune, alignmentRune);
 		this.cost = computeCost(powerRune, elementRune, formRune, alignmentRune);
 	}
 	
-	// Le sort ainsi créé est forcément valide !
+	// Le sort ainsi crï¿½ï¿½ est forcï¿½ment valide !
 	public Spell(PowerRune powerRune, Spell.Type type) {
 		if (powerRune == null) {
 			throw new IllegalArgumentException("The given power rune is null");
@@ -591,15 +591,15 @@ public class Spell {
 	}
 
 	/**
-	 * Calcule et retourne l'identifiant du sort sous forme d'entier à partir
+	 * Calcule et retourne l'identifiant du sort sous forme d'entier ï¿½ partir
 	 * des {@link Rune}s composant le sort.
 	 * 
 	 * @param elementRune
-	 *            un {@link ElementRune}. Ne peut être null.
+	 *            un {@link ElementRune}. Ne peut ï¿½tre null.
 	 * @param formRune
-	 *            un {@link FormRune}. Peut être null.
+	 *            un {@link FormRune}. Peut ï¿½tre null.
 	 * @param alignmentRune
-	 *            un {@link AlignmentRune}. Peut être null.
+	 *            un {@link AlignmentRune}. Peut ï¿½tre null.
 	 * @return un entier positif identifiant le sort. Example: 1, 64, etc.
 	 */
 	private int computeId(ElementRune elementRune, FormRune formRune,
@@ -621,19 +621,19 @@ public class Spell {
 	}
 
 	/**
-	 * Calcule et retourne le nombre de points de mana nécessaires pour invoquer
-	 * le sort sous forme d'entier à partir des {@link Rune}s composant le sort.
+	 * Calcule et retourne le nombre de points de mana nï¿½cessaires pour invoquer
+	 * le sort sous forme d'entier ï¿½ partir des {@link Rune}s composant le sort.
 	 * 
 	 * @param powerRune
-	 *            un {@link PowerRune}. Ne peut être null.
+	 *            un {@link PowerRune}. Ne peut ï¿½tre null.
 	 * @param elementRune
-	 *            un {@link ElementRune}. Ne peut être null.
+	 *            un {@link ElementRune}. Ne peut ï¿½tre null.
 	 * @param formRune
-	 *            un {@link FormRune}. Peut être null.
+	 *            un {@link FormRune}. Peut ï¿½tre null.
 	 * @param alignmentRune
-	 *            un {@link AlignmentRune}. Peut être null.
-	 * @return un entier positif représentant un nombre de points de mana (le
-	 *         "coût" du sort).
+	 *            un {@link AlignmentRune}. Peut ï¿½tre null.
+	 * @return un entier positif reprï¿½sentant un nombre de points de mana (le
+	 *         "coï¿½t" du sort).
 	 */
 	private int computeCost(PowerRune powerRune, ElementRune elementRune,
 			FormRune formRune, AlignmentRune alignmentRune) {
@@ -655,10 +655,10 @@ public class Spell {
 	}
 
 	/**
-	 * Retourne le nom du sort à partir des {@link Rune}s le composant. Exemple:
+	 * Retourne le nom du sort ï¿½ partir des {@link Rune}s le composant. Exemple:
 	 * "LO FUL", "MON FUL IR", etc.
 	 * 
-	 * @return une {@link String} représentant le nom complet du sort.
+	 * @return une {@link String} reprï¿½sentant le nom complet du sort.
 	 */
 	public String getName() {
 		final StringBuilder builder = new StringBuilder(32);
@@ -685,7 +685,7 @@ public class Spell {
 	}
 
 	/**
-	 * Retourne le type du sort. Calculé à partir des runes qui rentrent en jeu
+	 * Retourne le type du sort. Calculï¿½ ï¿½ partir des runes qui rentrent en jeu
 	 * pour le formuler.
 	 * 
 	 * @return une instance de {@link Type} ou null si le sort n'est pas valide.
@@ -696,13 +696,13 @@ public class Spell {
 	}
 
 	/**
-	 * Retourne la compétence mise en oeuvre lors de l'invocation de ce sort.
-	 * Permet de faire gagner de l'expérience au champion qui réussit le sort.
-	 * Peut retourner null si aucune compétence particulière n'est requise pour
+	 * Retourne la compï¿½tence mise en oeuvre lors de l'invocation de ce sort.
+	 * Permet de faire gagner de l'expï¿½rience au champion qui rï¿½ussit le sort.
+	 * Peut retourner null si aucune compï¿½tence particuliï¿½re n'est requise pour
 	 * invoquer le sort.
 	 * 
 	 * @return une instance de {@link Skill} ou null si le sort est invalide ou
-	 *         si aucune compétence particulière n'est requise pour invoquer le
+	 *         si aucune compï¿½tence particuliï¿½re n'est requise pour invoquer le
 	 *         sort.
 	 */
 	public Skill getSkill() {
@@ -712,12 +712,12 @@ public class Spell {
 	}
 
 	/**
-	 * Retourne le nombre de runes utilisé pour formuler ce sort.
+	 * Retourne le nombre de runes utilisï¿½ pour formuler ce sort.
 	 * 
 	 * @return un entier.
 	 */
 	public int getRuneCount() {
-		// Runes power + element forcément présents
+		// Runes power + element forcï¿½ment prï¿½sents
 		int count = 2;
 
 		if (formRune != null) {
@@ -753,27 +753,27 @@ public class Spell {
 	}
 
 	/**
-	 * Retourne le coût (en nombre de points de mana) d'invocation du sort.
+	 * Retourne le coï¿½t (en nombre de points de mana) d'invocation du sort.
 	 * 
-	 * @return un entier positif représentant un nombre de points de mana.
+	 * @return un entier positif reprï¿½sentant un nombre de points de mana.
 	 */
 	public int getCost() {
 		return cost;
 	}
 
 	/**
-	 * Retourne le nombre de points d'expérience gagnés pour avoir réussi à
+	 * Retourne le nombre de points d'expï¿½rience gagnï¿½s pour avoir rï¿½ussi ï¿½
 	 * invoquer ce sort.
 	 * 
-	 * @return un entier positif représentant un nombre de points d'expérience
-	 *         ou zéro si le sort n'est pas valide.
+	 * @return un entier positif reprï¿½sentant un nombre de points d'expï¿½rience
+	 *         ou zï¿½ro si le sort n'est pas valide.
 	 */
 	public int getEarnedExperience() {
 		if (isValid()) {
-			// Sort valide, l'expérience gagnée dépend de la difficulté du sort
-			// et de son coût TODO A affiner
+			// Sort valide, l'expï¿½rience gagnï¿½e dï¿½pend de la difficultï¿½ du sort
+			// et de son coï¿½t TODO A affiner
 
-			// Attention car la difficulté peut être nulle (cf ZO KATH RA)
+			// Attention car la difficultï¿½ peut ï¿½tre nulle (cf ZO KATH RA)
 			final int difficulty = getDifficulty();
 
 			if (difficulty > 0) {
@@ -783,17 +783,17 @@ public class Spell {
 			return 5;
 		}
 
-		// Sort raté, aucune expérience gagnée
+		// Sort ratï¿½, aucune expï¿½rience gagnï¿½e
 		return 0;
 	}
 
 	/**
-	 * Retourne la difficulté à invoquer ce sort sous forme d'un nombre.
+	 * Retourne la difficultï¿½ ï¿½ invoquer ce sort sous forme d'un nombre.
 	 * 
 	 * @return un entier positif ou -1 si le sort est non valide.
 	 */
 	public int getDifficulty() {
-		// La difficulté dépend du rune de puissance et de la difficulté de base
+		// La difficultï¿½ dï¿½pend du rune de puissance et de la difficultï¿½ de base
 		// du sort
 		final Type spellType = getType();
 
@@ -808,9 +808,9 @@ public class Spell {
 
 	/**
 	 * Retourne le temps en 1/6 de secondes pendant lequel le {@link Champion}
-	 * qui a lancé ce sort ne peut en lancer un autre.
+	 * qui a lancï¿½ ce sort ne peut en lancer un autre.
 	 * 
-	 * @return un entier positif représentant un nombre de "tics" d'horloge ou
+	 * @return un entier positif reprï¿½sentant un nombre de "tics" d'horloge ou
 	 *         -1 si le sort est non valide.
 	 */
 	public int getDuration() {
@@ -820,24 +820,24 @@ public class Spell {
 	}
 
 	/**
-	 * Indique si le sort formulé est valide.
+	 * Indique si le sort formulï¿½ est valide.
 	 * 
-	 * @return si le sort formulé est valide.
+	 * @return si le sort formulï¿½ est valide.
 	 */
 	public boolean isValid() {
 		return Type.isValid(id);
 	}
 
 	/**
-	 * Indique si le {@link Champion} donné est assez compétent pour invoquer ce
-	 * sort. Le résultat dépend de la compétence du {@link Champion} dans la
-	 * compétence requise pour invoquer ce sort ainsi que de la difficulté du
+	 * Indique si le {@link Champion} donnï¿½ est assez compï¿½tent pour invoquer ce
+	 * sort. Le rï¿½sultat dï¿½pend de la compï¿½tence du {@link Champion} dans la
+	 * compï¿½tence requise pour invoquer ce sort ainsi que de la difficultï¿½ du
 	 * sort !
 	 * 
 	 * @param champion
-	 *            un {@link Champion} dont on cherche à savoir s'il est assez
-	 *            compétent pour invoquer ce sort.
-	 * @return si le {@link Champion} donné est assez compétent pour invoquer ce
+	 *            un {@link Champion} dont on cherche ï¿½ savoir s'il est assez
+	 *            compï¿½tent pour invoquer ce sort.
+	 * @return si le {@link Champion} donnï¿½ est assez compï¿½tent pour invoquer ce
 	 *         sort.
 	 */
 	public boolean canBeCastBy(Champion champion) {
@@ -847,7 +847,7 @@ public class Spell {
 		final Skill skill = getSkill();
 		
 		if (skill == null) {
-			// Aucune compétence requise pour invoquer le sort
+			// Aucune compï¿½tence requise pour invoquer le sort
 			return true;
 		}
 		
@@ -858,12 +858,12 @@ public class Spell {
 	}
 
 	/**
-	 * Fait agir le {@link Spell} sur le {@link Champion} donné.
+	 * Fait agir le {@link Spell} sur le {@link Champion} donnï¿½.
 	 * 
 	 * @param champion
 	 *            un {@link Champion} sur lequel faire agir le sort.
 	 * @throws EmptyFlaskNeededException
-	 *             si le sort requiert une flasque vide pour réussir.
+	 *             si le sort requiert une flasque vide pour rï¿½ussir.
 	 * @throws EmptyHandNeededException
 	 *             si le sort demande que l'une des mains du {@link Champion}
 	 *             soit vide.
@@ -885,7 +885,7 @@ public class Spell {
 		case STRENGTH_POTION:
 		case VITALITY_POTION:
 		case WISDOM_POTION: {
-			// Première fiole vide portée par le champion ?
+			// Premiï¿½re fiole vide portï¿½e par le champion ?
 			final EmptyFlask emptyFlask;
 			final BodyPart bodyPart;
 
@@ -911,7 +911,7 @@ public class Spell {
 			}
 
 			if (getType().requiresEmptyFlask() && (emptyFlask == null)) {
-				// N'arrive normalement pas car cette condition a été vérifiée
+				// N'arrive normalement pas car cette condition a ï¿½tï¿½ vï¿½rifiï¿½e
 				// en amont !
 				throw new EmptyFlaskNeededException();
 			}
@@ -921,19 +921,19 @@ public class Spell {
 			break;
 		}
 		case TORCH:
-			// Augmenter la lumière générée par le héros
+			// Augmenter la lumiï¿½re gï¿½nï¿½rï¿½e par le hï¿½ros
 			champion.getSpells().getLight()
 					.inc(Utils.random(20, 30) * getPower().getPowerLevel());
 			break;
 		case ZO_KATH_RA:
-			// L'une des mains du champion doit être vide
+			// L'une des mains du champion doit ï¿½tre vide
 			final boolean shieldHandEmpty = champion.getBody().getShieldHand()
 					.isEmpty();
 			final boolean weaponHandEmpty = champion.getBody().getWeaponHand()
 					.isEmpty();
 
 			if (!shieldHandEmpty && !weaponHandEmpty) {
-				// Les deux mains sont pleines, le sort ne peut réussir
+				// Les deux mains sont pleines, le sort ne peut rï¿½ussir
 				throw new EmptyHandNeededException();
 			}
 
@@ -947,20 +947,20 @@ public class Spell {
 				champion.getBody().getWeaponHand().putOn(zokathra);
 			}
 
-			// FIXME Gérer le cas de la main vide: KICK, CRY, PUNCH !!
+			// FIXME Gï¿½rer le cas de la main vide: KICK, CRY, PUNCH !!
 			break;
 		case LIGHT:
-			// Augmenter la lumière générée par le héros
+			// Augmenter la lumiï¿½re gï¿½nï¿½rï¿½e par le hï¿½ros
 			champion.getSpells().getLight()
 					.inc(Utils.random(20, 30) * getPower().getPowerLevel());
 			break;
 		case OPEN_DOOR: {
-			// FIXME Changer manière de créer un projectile
+			// FIXME Changer maniï¿½re de crï¿½er un projectile
 			final Projectile projectile = new SpellProjectile(this, champion);
 			break;
 		}
 		case DARKNESS:
-			// FIXME Implémenter actUpon(Champion)
+			// FIXME Implï¿½menter actUpon(Champion)
 			throw new UnsupportedOperationException("Unsupported spell <"
 					+ getType() + ">");
 		case DISPELL_ILLUSION:
@@ -972,8 +972,8 @@ public class Spell {
 					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
 			break;
 		case FIREBALL: {
-			// Créer une boule de feu
-			// FIXME Changer manière de créer un projectile
+			// Crï¿½er une boule de feu
+			// FIXME Changer maniï¿½re de crï¿½er un projectile
 			final Projectile projectile = new SpellProjectile(this, champion);
 			break;
 		}
@@ -982,21 +982,21 @@ public class Spell {
 					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
 			break;
 		case LIGHTNING_BOLT: {
-			// FIXME Changer manière de créer un projectile
+			// FIXME Changer maniï¿½re de crï¿½er un projectile
 			final Projectile projectile = new SpellProjectile(this, champion);
 			break;
 		}
 		case MAGIC_FOOTPRINTS:
-			// FIXME Implémenter actUpon(Champion)
+			// FIXME Implï¿½menter actUpon(Champion)
 			throw new UnsupportedOperationException("Unsupported spell <"
 					+ getType() + ">");
 		case POISON_BOLT: {
-			// FIXME Changer manière de créer un projectile
+			// FIXME Changer maniï¿½re de crï¿½er un projectile
 			final Projectile projectile = new SpellProjectile(this, champion);
 			break;
 		}
 		case POISON_CLOUD: {
-			// FIXME Changer manière de créer un projectile
+			// FIXME Changer maniï¿½re de crï¿½er un projectile
 			final Projectile projectile = new SpellProjectile(this, champion);
 			break;
 		}
@@ -1009,7 +1009,7 @@ public class Spell {
 					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
 			break;
 		case WEAKEN_IMMATERIAL: {
-			// FIXME Changer manière de créer un projectile
+			// FIXME Changer maniï¿½re de crï¿½er un projectile
 			final Projectile projectile = new SpellProjectile(this, champion);
 			break;
 		}

@@ -21,7 +21,7 @@ package fr.ritaly.dungeonmaster.actuator;
 /**
  * An object that can be triggered.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface Triggered {
 

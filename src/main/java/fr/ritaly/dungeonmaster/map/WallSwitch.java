@@ -36,7 +36,7 @@ import fr.ritaly.dungeonmaster.audio.SoundSystem;
 import fr.ritaly.dungeonmaster.champion.Party;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class WallSwitch extends DirectedElement implements HasActuator,
 		Triggered {
@@ -44,7 +44,7 @@ public final class WallSwitch extends DirectedElement implements HasActuator,
 	private final Log log = LogFactory.getLog(WallSwitch.class);
 
 	/**
-	 * Indique si le bouton est enfoncé ou pas. Par défaut il ne l'est pas. N'a
+	 * Indique si le bouton est enfoncï¿½ ou pas. Par dï¿½faut il ne l'est pas. N'a
 	 * de sens que pour un bouton poussoir.
 	 */
 	private boolean pressed = false;
@@ -52,7 +52,7 @@ public final class WallSwitch extends DirectedElement implements HasActuator,
 	// TODO Implement maxUseCount like for WallSlot
 
 	/**
-	 * Indique si le bouton est de type poussoir. Vaut true par défaut.
+	 * Indique si le bouton est de type poussoir. Vaut true par dï¿½faut.
 	 */
 	private final boolean pushButton;
 
@@ -107,9 +107,9 @@ public final class WallSwitch extends DirectedElement implements HasActuator,
 	}
 
 	/**
-	 * Indique si le bouton est pressé.
+	 * Indique si le bouton est pressï¿½.
 	 * 
-	 * @return si le bouton est pressé.
+	 * @return si le bouton est pressï¿½.
 	 */
 	public boolean isPressed() {
 		return pushButton && pressed;
@@ -130,7 +130,7 @@ public final class WallSwitch extends DirectedElement implements HasActuator,
 	public void release() {
 		if (isPushButton()) {
 			if (isPressed()) {
-				// On relâche le bouton poussoir
+				// On relï¿½che le bouton poussoir
 				toggle();
 			}
 		} else {
@@ -141,7 +141,7 @@ public final class WallSwitch extends DirectedElement implements HasActuator,
 
 	public void toggle() {
 		if (isPushButton()) {
-			// Le bouton poussoir change d'état
+			// Le bouton poussoir change d'ï¿½tat
 			this.pressed = !pressed;
 
 			if (log.isDebugEnabled()) {
@@ -160,7 +160,7 @@ public final class WallSwitch extends DirectedElement implements HasActuator,
 		// Jouer un son
 		SoundSystem.getInstance().play(getPartyPosition(), AudioClip.SWITCH);
 
-		// Déclenchement de la cible
+		// Dï¿½clenchement de la cible
 		if (actuator != null) {
 			Clock.getInstance().register(actuator);
 		}

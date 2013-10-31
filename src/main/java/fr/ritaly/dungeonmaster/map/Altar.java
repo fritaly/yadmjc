@@ -37,7 +37,7 @@ import fr.ritaly.dungeonmaster.item.Bones;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Altar extends DirectedElement implements HasActuator {
 
@@ -70,16 +70,16 @@ public final class Altar extends DirectedElement implements HasActuator {
 	}
 
 	public final List<Item> getItems(Direction direction) {
-		// Appel de la méthode non surchargée
+		// Appel de la mï¿½thode non surchargï¿½e
 		return super.getItems(map(direction));
 	}
 
 	public final Item pickItem(Direction direction) {
-		// Appel de la méthode non surchargée
+		// Appel de la mï¿½thode non surchargï¿½e
 		final Item item = super.pickItem(map(direction));
 
 		if (!hasItems() && (item != null) && (actuator != null)) {
-			// Déclenchement au dernier objet pris
+			// Dï¿½clenchement au dernier objet pris
 			Clock.getInstance().register(actuator);
 		}
 
@@ -87,10 +87,10 @@ public final class Altar extends DirectedElement implements HasActuator {
 	}
 
 	public final void dropItem(Item item, Direction direction) {
-		// Appel de la méthode non surchargée
+		// Appel de la mï¿½thode non surchargï¿½e
 		super.itemDroppedDown(item, map(direction));
 
-		// Déclenchement au premier objet déposé
+		// Dï¿½clenchement au premier objet dï¿½posï¿½
 		if ((getItemCount() == 1) && (actuator != null)) {
 			Clock.getInstance().register(actuator);
 		}
@@ -99,13 +99,13 @@ public final class Altar extends DirectedElement implements HasActuator {
 			final Bones bones = (Bones) item;
 
 			if (bones.hasChampion()) {
-				// FIXME Animation à jouer ici
+				// FIXME Animation ï¿½ jouer ici
 
 				// Jouer un son
 				SoundSystem.getInstance().play(getPartyPosition(),
 						AudioClip.ALTAR);
 
-				// Réssusciter le champion
+				// Rï¿½ssusciter le champion
 				bones.getChampion().resurrect();
 
 				// Supprimer les os de l'autel
@@ -122,19 +122,19 @@ public final class Altar extends DirectedElement implements HasActuator {
 
 	@Override
 	public final List<Item> getItems(SubCell subCell) {
-		// Surcharge pour forcer l'appel à la bonne méthode
+		// Surcharge pour forcer l'appel ï¿½ la bonne mï¿½thode
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public final Item pickItem(SubCell corner) {
-		// Surcharge pour forcer l'appel à la bonne méthode
+		// Surcharge pour forcer l'appel ï¿½ la bonne mï¿½thode
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public final void itemDroppedDown(Item item, SubCell corner) {
-		// Surcharge pour forcer l'appel à la bonne méthode
+		// Surcharge pour forcer l'appel ï¿½ la bonne mï¿½thode
 		throw new UnsupportedOperationException();
 	}
 

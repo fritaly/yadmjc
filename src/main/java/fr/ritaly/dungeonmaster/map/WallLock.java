@@ -35,14 +35,14 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class WallLock extends DirectedElement implements HasActuator {
 
 	private final Log log = LogFactory.getLog(WallLock.class);
 
 	/**
-	 * Indique si la serrure a été déverrouillée.
+	 * Indique si la serrure a ï¿½tï¿½ dï¿½verrouillï¿½e.
 	 */
 	private boolean unlocked = false;
 	
@@ -91,41 +91,41 @@ public final class WallLock extends DirectedElement implements HasActuator {
 	}
 
 	/**
-	 * Indique si la serrure a été déverrouillée.
+	 * Indique si la serrure a ï¿½tï¿½ dï¿½verrouillï¿½e.
 	 * 
-	 * @return si la serrure a été déverrouillée.
+	 * @return si la serrure a ï¿½tï¿½ dï¿½verrouillï¿½e.
 	 */
 	public boolean isUnlocked() {
 		return unlocked;
 	}
 	
 	/**
-	 * Indique si la serrure est verrouillée.
+	 * Indique si la serrure est verrouillï¿½e.
 	 * 
-	 * @return si la serrure est verrouillée.
+	 * @return si la serrure est verrouillï¿½e.
 	 */
 	public boolean isLocked() {
 		return !unlocked;
 	}
 
 	/**
-	 * Tente de déverrouiller la serrure avec la clé donnée et retourne si
-	 * l'opération a réussi.
+	 * Tente de dï¿½verrouiller la serrure avec la clï¿½ donnï¿½e et retourne si
+	 * l'opï¿½ration a rï¿½ussi.
 	 * 
 	 * @param item
-	 *            une instance de {@link Item} représentant une clé pour
-	 *            déverrouiller la serrure.
-	 * @return si la serrure a été déverrouillée avec succès.
+	 *            une instance de {@link Item} reprï¿½sentant une clï¿½ pour
+	 *            dï¿½verrouiller la serrure.
+	 * @return si la serrure a ï¿½tï¿½ dï¿½verrouillï¿½e avec succï¿½s.
 	 */
 	public boolean unlock(Item item) {
 		Validate.notNull(item, "The given item is null");
 
 		if (item.getType().isKey()) {
-			// L'objet est une clé
+			// L'objet est une clï¿½
 			if (keyType.equals(item.getType())) {
-				// Clé du bon type
+				// Clï¿½ du bon type
 				if (!unlocked) {
-					// La clé déverrouille la serrure
+					// La clï¿½ dï¿½verrouille la serrure
 					this.unlocked = true;
 
 					if (log.isDebugEnabled()) {
@@ -135,17 +135,17 @@ public final class WallLock extends DirectedElement implements HasActuator {
 					// Jouer le son
 					SoundSystem.getInstance().play(AudioClip.LOCK);
 
-					// Déclenchement de la cible
+					// Dï¿½clenchement de la cible
 					if (actuator != null) {
 						Clock.getInstance().register(actuator);
 					}
 
 					return true;
 				} else {
-					// Serrure déjà utilisée, ne rien faire
+					// Serrure dï¿½jï¿½ utilisï¿½e, ne rien faire
 				}
 			} else {
-				// Clé du mauvais type, jouer un son dédié FIXME Son à créer
+				// Clï¿½ du mauvais type, jouer un son dï¿½diï¿½ FIXME Son ï¿½ crï¿½er
 				// SoundSystem.getInstance().play(AudioClip.LOCK_FAILED);
 			}
 		} else {

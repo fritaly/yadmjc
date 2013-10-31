@@ -29,9 +29,9 @@ import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.item.Item;
 
-// FIXME FourSideAlcove doit implémenter HasActuator
+// FIXME FourSideAlcove doit implï¿½menter HasActuator
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class FourSideAlcove extends Element {
 
@@ -62,35 +62,35 @@ public final class FourSideAlcove extends Element {
 	}
 	
 	public final List<Item> getItems(Direction direction) {
-		// Appel de la méthode non surchargée
+		// Appel de la mï¿½thode non surchargï¿½e
 		return super.getItems(map(direction));
 	}
 	
 	public final Item pickItem(Direction direction) {
-		// Appel de la méthode non surchargée
+		// Appel de la mï¿½thode non surchargï¿½e
 		return super.pickItem(map(direction));
 	}
 	
 	public final void dropItem(Item item, Direction direction) {
-		// Appel de la méthode non surchargée
+		// Appel de la mï¿½thode non surchargï¿½e
 		super.itemDroppedDown(item, map(direction));
 	}
 	
 	@Override
 	public final List<Item> getItems(SubCell subCell) {
-		// Surcharge pour forcer l'appel à la bonne méthode
+		// Surcharge pour forcer l'appel ï¿½ la bonne mï¿½thode
 		throw new UnsupportedOperationException();
 	}
 	
 	@Override
 	public final Item pickItem(SubCell corner) {
-		// Surcharge pour forcer l'appel à la bonne méthode
+		// Surcharge pour forcer l'appel ï¿½ la bonne mï¿½thode
 		throw new UnsupportedOperationException();
 	}
 	
 	@Override
 	public final void itemDroppedDown(Item item, SubCell corner) {
-		// Surcharge pour forcer l'appel à la bonne méthode
+		// Surcharge pour forcer l'appel ï¿½ la bonne mï¿½thode
 		throw new UnsupportedOperationException();
 	}
 	

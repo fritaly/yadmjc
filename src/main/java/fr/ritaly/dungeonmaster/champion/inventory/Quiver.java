@@ -27,7 +27,7 @@ import fr.ritaly.dungeonmaster.item.CarryLocation;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Quiver extends AbstractItemContainer {
 
@@ -42,7 +42,7 @@ public class Quiver extends AbstractItemContainer {
 
 	@Override
 	protected boolean accepts(int index, Item item) {
-		// Attention à l'index passé en paramètre ici !
+		// Attention ï¿½ l'index passï¿½ en paramï¿½tre ici !
 		checkIndex(index);
 		Validate.notNull(item, "The given item is null");
 

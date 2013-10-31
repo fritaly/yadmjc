@@ -23,7 +23,7 @@ import java.util.Arrays;
 import fr.ritaly.dungeonmaster.item.Item.Category;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class ItemFactory {
 
@@ -45,7 +45,7 @@ public class ItemFactory {
 			return new Potion(type);
 		}
 		if (Item.Type.TORCH.equals(type)) {
-			// Cas particulier à traiter avant les "Weapons" !
+			// Cas particulier ï¿½ traiter avant les "Weapons" !
 			return new Torch();
 		}
 		if (type.getCategory().equals(Category.WEAPON)) {
@@ -55,14 +55,14 @@ public class ItemFactory {
 			return new Cloth(type);
 		}
 		if (Category.getFoodItems().contains(type)) {
-			// Cas particulier à traiter avant les "MiscItems" !
+			// Cas particulier ï¿½ traiter avant les "MiscItems" !
 			return new Food(type);
 		}
 		if (Item.Type.COMPASS.equals(type)) {
-			// Cas particulier à traiter avant les "MiscItems" !
+			// Cas particulier ï¿½ traiter avant les "MiscItems" !
 			return new Compass();
 		} else if (Item.Type.BONES.equals(type)) {
-			// Cas particulier à traiter avant les "MiscItems" !
+			// Cas particulier ï¿½ traiter avant les "MiscItems" !
 			return new Bones();
 		}
 		if (type.getCategory().equals(Category.MISCELLANEOUS)) {

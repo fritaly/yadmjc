@@ -19,7 +19,7 @@
 package fr.ritaly.dungeonmaster.magic;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class EmptyFlaskNeededException extends SpellException {
 

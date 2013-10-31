@@ -29,7 +29,7 @@ import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class RetractableWall extends Element implements Triggered {
 	
@@ -37,7 +37,7 @@ public class RetractableWall extends Element implements Triggered {
 
 	private boolean open;
 
-	// FIXME Lorsque le mur se rétracte, il tue les monstres ? quid des objets ?
+	// FIXME Lorsque le mur se rï¿½tracte, il tue les monstres ? quid des objets ?
 
 	public RetractableWall() {
 		super(Element.Type.RETRACTABLE_WALL);

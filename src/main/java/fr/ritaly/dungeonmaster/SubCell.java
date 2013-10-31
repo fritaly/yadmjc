@@ -28,7 +28,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.map.Element;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum SubCell {
 	NORTH_WEST,
@@ -44,7 +44,7 @@ public enum SubCell {
 
 	/**
 	 * Tire au hasard parmi les deux {@link SubCell}s visibles de la
-	 * {@link Direction} de regard donnée et le retourne.
+	 * {@link Direction} de regard donnï¿½e et le retourne.
 	 * 
 	 * @param direction
 	 *            une {@link Direction} de regard.
@@ -57,9 +57,9 @@ public enum SubCell {
 	}
 
 	/**
-	 * Compte tenu de la {@link Direction} de regard donnée, retourne les deux
+	 * Compte tenu de la {@link Direction} de regard donnï¿½e, retourne les deux
 	 * instances de {@link SubCell} visibles de celle-ci. Permet de savoir quand
-	 * la {@link Party} est située sur un {@link Element} quelles sont les deux
+	 * la {@link Party} est situï¿½e sur un {@link Element} quelles sont les deux
 	 * {@link SubCell}s visibles.
 	 * 
 	 * @param direction
@@ -180,14 +180,14 @@ public enum SubCell {
 	}
 
 	/**
-	 * Indique si la {@link SubCell} donnée est voisine de cette {@link SubCell}
-	 * . Pour être voisine, les deux {@link SubCell}s doivent partager une arête
+	 * Indique si la {@link SubCell} donnï¿½e est voisine de cette {@link SubCell}
+	 * . Pour ï¿½tre voisine, les deux {@link SubCell}s doivent partager une arï¿½te
 	 * commune.
 	 * 
 	 * @param subCell
 	 *            une instance de {@link SubCell}.
-	 * @return si cette {@link SubCell} est voisine de celle donnée en
-	 *         paramètre.
+	 * @return si cette {@link SubCell} est voisine de celle donnï¿½e en
+	 *         paramï¿½tre.
 	 */
 	public boolean isNeighbourOf(SubCell subCell) {
 		Validate.notNull(subCell);
@@ -207,13 +207,13 @@ public enum SubCell {
 	}
 
 	/**
-	 * Indique si lorsqu'on avance dans la {@link Direction} donnée, on quitte
-	 * la position actuelle en se déplaçant sur une position voisine ou si on
-	 * reste sur la même position.
+	 * Indique si lorsqu'on avance dans la {@link Direction} donnï¿½e, on quitte
+	 * la position actuelle en se dï¿½plaï¿½ant sur une position voisine ou si on
+	 * reste sur la mï¿½me position.
 	 * 
 	 * @param direction
 	 *            une instance de {@link Direction}.
-	 * @return si lorsqu'on avance dans la {@link Direction} donnée, on quitte
+	 * @return si lorsqu'on avance dans la {@link Direction} donnï¿½e, on quitte
 	 *         la position actuelle.
 	 */
 	public boolean changesPosition(Direction direction) {

@@ -36,7 +36,7 @@ import fr.ritaly.dungeonmaster.projectile.Projectile;
 import fr.ritaly.dungeonmaster.projectile.ProjectileFactory;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class ProjectileLauncher extends DirectedElement implements Triggered {
 
@@ -82,11 +82,11 @@ public class ProjectileLauncher extends DirectedElement implements Triggered {
 		// On tire en fait deux projectiles en raison de la largeur du lanceur
 		// et du fait qu'on ne peut tirer un projectile "au centre" !
 
-		// Les projectile apparaîssent sur l'élément d'à côté (fonction de la
+		// Les projectile apparaï¿½ssent sur l'ï¿½lï¿½ment d'ï¿½ cï¿½tï¿½ (fonction de la
 		// direction du lanceur) !
 		final Position startPosition = getPosition().towards(getDirection());
 
-		// Déterminer les deux SubCells sur lesquelles apparaissent les
+		// Dï¿½terminer les deux SubCells sur lesquelles apparaissent les
 		// projectiles !
 		final List<SubCell> subCells = SubCell
 				.getVisibleSubCells(getDirection().getOpposite());

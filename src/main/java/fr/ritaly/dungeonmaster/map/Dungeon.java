@@ -48,7 +48,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 /**
  * A dungeon. A {@link Dungeon} is made of one to several {@link Level}s.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Dungeon implements ClockListener {
 
@@ -195,10 +195,10 @@ public class Dungeon implements ClockListener {
 			log.debug("Installing party at " + position + " ...");
 		}
 
-		// Récupérer l'élément en premier (permet de valider le triplet (x,y,z))
+		// Rï¿½cupï¿½rer l'ï¿½lï¿½ment en premier (permet de valider le triplet (x,y,z))
 		final Element element = getElement(x, y, z);
 
-		// Vérifier que le groupe peut s'y placer !
+		// Vï¿½rifier que le groupe peut s'y placer !
 		if (!element.isTraversable(party)) {
 			throw new IllegalArgumentException("The " + element.getType()
 					+ " element at " + position
@@ -259,7 +259,7 @@ public class Dungeon implements ClockListener {
 			throw new IllegalArgumentException("There is no level <" + z + ">");
 		}
 
-		// Rechercher l'élément cible
+		// Rechercher l'ï¿½lï¿½ment cible
 		final Element element = level.getElement(x, y);
 
 		if (element == null) {
@@ -304,7 +304,7 @@ public class Dungeon implements ClockListener {
 			final DeferredCommand command = partyMoves.getFirst();
 
 			if (!command.clockTicked()) {
-				// L'action s'est déclenchée. La supprimer l'entrée de la liste
+				// L'action s'est dï¿½clenchï¿½e. La supprimer l'entrï¿½e de la liste
 				partyMoves.removeFirst();
 			}
 		}
@@ -313,21 +313,21 @@ public class Dungeon implements ClockListener {
 	}
 
 	public boolean moveParty(final Move move, boolean now, final AudioClip clip) {
-		// Le clip ne peut être nul si on appelle cette méthode
+		// Le clip ne peut ï¿½tre nul si on appelle cette mï¿½thode
 		Validate.notNull(clip, "The given clip is null");
 
 		return doMoveParty(move, now, clip);
 	}
 
 	public boolean moveParty(final Move move, boolean now) {
-		// Déplacer sans jouer de son
+		// Dï¿½placer sans jouer de son
 		return doMoveParty(move, now, null);
 	}
 
 	private boolean doMoveParty(final Move move, boolean now,
 			final AudioClip clip) {
 
-		// Le paramètre clip peut être null ou non selon la méthode appelante
+		// Le paramï¿½tre clip peut ï¿½tre null ou non selon la mï¿½thode appelante
 		Validate.notNull(move, "The given move is null");
 		if (party == null) {
 			throw new IllegalStateException("The party isn't defined");
@@ -365,14 +365,14 @@ public class Dungeon implements ClockListener {
 	}
 
 	private boolean movePartyNow(Move move, AudioClip clip) {
-		// Le paramètre clip peut être null ou non selon la méthode appelante
+		// Le paramï¿½tre clip peut ï¿½tre null ou non selon la mï¿½thode appelante
 		Validate.notNull(move, "The given move is null");
 		if (this.party == null) {
 			throw new IllegalStateException("There is no party set");
 		}
 
-		// Note: Un déplacement ne peut modifier la direction de regard et la
-		// position en même temps (seule une téléportation le peut)
+		// Note: Un dï¿½placement ne peut modifier la direction de regard et la
+		// position en mï¿½me temps (seule une tï¿½lï¿½portation le peut)
 
 		if (log.isDebugEnabled()) {
 			log.debug("Moving party [" + move + "] ...");
@@ -404,7 +404,7 @@ public class Dungeon implements ClockListener {
 			log.debug("Source element = " + sourceElement);
 		}
 
-		// Direction de déplacement ?
+		// Direction de dï¿½placement ?
 		final Direction moveDirection = move.getMoveDirection(party
 				.getLookDirection());
 
@@ -412,7 +412,7 @@ public class Dungeon implements ClockListener {
 			log.debug("Move direction = " + moveDirection);
 		}
 
-		// Position finale ? Le demander à l'élément source (pour les escaliers
+		// Position finale ? Le demander ï¿½ l'ï¿½lï¿½ment source (pour les escaliers
 		// entre autres)
 		final Teleport teleport = sourceElement.getTeleport(moveDirection);
 
@@ -433,7 +433,7 @@ public class Dungeon implements ClockListener {
 
 			SoundSystem.getInstance().play(AudioClip.BONG);
 
-			// Appliquer des dégâts aux champions. Champions concernés ?
+			// Appliquer des dï¿½gï¿½ts aux champions. Champions concernï¿½s ?
 			final Set<Champion> champions;
 
 			switch (move) {
@@ -469,7 +469,7 @@ public class Dungeon implements ClockListener {
 			return false;
 		}
 
-		// Position occupée ?
+		// Position occupï¿½e ?
 		if (!destinationElement.isEmpty()) {
 			// Oui, le groupe ne peut bouger
 			if (log.isInfoEnabled()) {
@@ -482,13 +482,13 @@ public class Dungeon implements ClockListener {
 		// Quitter la position actuelle
 		sourceElement.partySteppedOff();
 
-		// Changer la direction du groupe (si nécessaire)
+		// Changer la direction du groupe (si nï¿½cessaire)
 		getParty().setLookDirection(teleport.getDirection());
 
-		// Déplacement du groupe
+		// Dï¿½placement du groupe
 		party.setPosition(teleport.getPosition());
 
-		// Jouer le son demandé
+		// Jouer le son demandï¿½
 		SoundSystem.getInstance().play(clip);
 
 		// Occuper la position cible
@@ -546,13 +546,13 @@ public class Dungeon implements ClockListener {
 
 		// Position traversable ?
 		if (!destinationElement.isTraversable(party)) {
-			// Ne doit pas arriver, c'est qu'il y a un défaut de conception du
+			// Ne doit pas arriver, c'est qu'il y a un dï¿½faut de conception du
 			// niveau
 			throw new IllegalArgumentException("The given destination "
 					+ destination + " can't be traversed by the party");
 		}
 
-		// Position occupée ?
+		// Position occupï¿½e ?
 		if (!destinationElement.isEmpty()) {
 			// TODO Tuer les monstre sur la destination ?
 
@@ -571,11 +571,11 @@ public class Dungeon implements ClockListener {
 		// Faire tourner le groupe
 		party.setLookDirection(direction);
 
-		// Déplacement du groupe
+		// Dï¿½placement du groupe
 		party.setPosition(destination);
 
 		if (!silent) {
-			// Jouer le son demandé
+			// Jouer le son demandï¿½
 			SoundSystem.getInstance().play(AudioClip.TELEPORT);
 		}
 
@@ -596,14 +596,14 @@ public class Dungeon implements ClockListener {
 	}
 
 	/**
-	 * Retourne la luminosité totale en prennant en compte celle générée par les
+	 * Retourne la luminositï¿½ totale en prennant en compte celle gï¿½nï¿½rï¿½e par les
 	 * {@link Champion}s (amulettes, torches, sorts...) et celle naturelle du
-	 * niveau sur lequel sont situés les {@link Champion}s.
+	 * niveau sur lequel sont situï¿½s les {@link Champion}s.
 	 * 
 	 * @return un entier positif ou nul dans l'intervalle [0-255].
 	 */
 	public int getActualLight() {
-		// Il vaut mieux que cette méthode soit sur la classe Dungeon (seule
+		// Il vaut mieux que cette mï¿½thode soit sur la classe Dungeon (seule
 		// cette classe sait sur quel niveau se situent les champions)
 		int light = 0;
 
@@ -614,12 +614,12 @@ public class Dungeon implements ClockListener {
 			light += party.getLight();
 		}
 
-		// Lumière naturelle du niveau ?
+		// Lumiï¿½re naturelle du niveau ?
 		light += getLevel(party.getPosition().z).getAmbiantLight();
 		
 		// TODO Prendre en compte les sorts de type Darkness !!
 
-		// TODO 7 niveaux de lumière possibles (enum)
+		// TODO 7 niveaux de lumiï¿½re possibles (enum)
 		return Utils.bind(light, 0, 255);
 	}
 }

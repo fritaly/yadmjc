@@ -21,7 +21,7 @@ package fr.ritaly.dungeonmaster;
 /**
  * An object notified when the game clock ticks.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface ClockListener {
 

@@ -45,7 +45,7 @@ import fr.ritaly.dungeonmaster.item.Item;
  * <li>the shield hand</li>
  * </ul>
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Body {
 
@@ -190,7 +190,7 @@ public class Body {
 	 * @return whether at least one part of this body is wounded.
 	 */
 	public boolean isWounded() {
-		// Version optimisée
+		// Version optimisï¿½e
 		for (BodyPart bodyPart : parts.values()) {
 			if (bodyPart.isWounded()) {
 				return true;
@@ -238,7 +238,7 @@ public class Body {
 			log.debug("Healing " + getChampion().getName() + "'s body ...");
 		}
 
-		// TODO Force de guérison ? Nombre de guérisons ?
+		// TODO Force de guï¿½rison ? Nombre de guï¿½risons ?
 		final List<BodyPart> bodyParts = getWoundedParts();
 
 		if (!bodyParts.isEmpty()) {

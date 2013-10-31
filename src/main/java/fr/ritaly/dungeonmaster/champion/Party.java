@@ -60,7 +60,7 @@ import fr.ritaly.dungeonmaster.map.Element;
 /**
  * Un groupe de {@link Champion}s.
  *
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		ChangeListener {
@@ -103,17 +103,17 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	private Position position;
 
 	/**
-	 * Le {@link Champion} désigné comme le leader du groupe.
+	 * Le {@link Champion} dï¿½signï¿½ comme le leader du groupe.
 	 */
 	private Champion leader;
 
 	/**
-	 * L'éventuel objet actuellement porté par le leader du groupe.
+	 * L'ï¿½ventuel objet actuellement portï¿½ par le leader du groupe.
 	 */
 	private Item item;
 
 	/**
-	 * Le donjon où le groupe de {@link Champion}s est actuellement situé.
+	 * Le donjon oï¿½ le groupe de {@link Champion}s est actuellement situï¿½.
 	 */
 	private Dungeon dungeon;
 
@@ -124,7 +124,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 	private final PartySpells spells = new PartySpells(this);
 
-	// FIXME Implémenter Serialization !!
+	// FIXME Implï¿½menter Serialization !!
 	
 	private State state = State.NORMAL;
 
@@ -132,7 +132,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	public Party(Champion... champions) {
-		// Le paramètre champions peut être null
+		// Le paramï¿½tre champions peut ï¿½tre null
 		if (champions != null) {
 			Validate.isTrue(champions.length <= 4,
 					"The given array of champions is too long (4 champions max)");
@@ -173,8 +173,8 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	 * Retourne les champions du groupe sous forme de {@link List}.
 	 * 
 	 * @param all
-	 *            indique si tous les champions doivent être retournés dans la
-	 *            liste, c'est-à-dire ceux qui sont vivants ET morts.
+	 *            indique si tous les champions doivent ï¿½tre retournï¿½s dans la
+	 *            liste, c'est-ï¿½-dire ceux qui sont vivants ET morts.
 	 * @return une List&lt;Champion&gt;. Ne retourne jamais null.
 	 */
 	public List<Champion> getChampions(boolean all) {
@@ -199,8 +199,8 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	 * Retourne la taille du groupe.
 	 * 
 	 * @param all
-	 *            indique si tous les champions doivent être comptés,
-	 *            c'est-à-dire ceux qui sont vivants ET morts.
+	 *            indique si tous les champions doivent ï¿½tre comptï¿½s,
+	 *            c'est-ï¿½-dire ceux qui sont vivants ET morts.
 	 * @return un entier positif ou nul
 	 */
 	public int getSize(boolean all) {
@@ -216,10 +216,10 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Indique si le groupe est plein, c'est-à-dire qu'il compte 4
+	 * Indique si le groupe est plein, c'est-ï¿½-dire qu'il compte 4
 	 * {@link Champion}s.
 	 * 
-	 * @return si le groupe est plein, c'est-à-dire qu'il compte 4
+	 * @return si le groupe est plein, c'est-ï¿½-dire qu'il compte 4
 	 *         {@link Champion}s.
 	 */
 	public boolean isFull() {
@@ -285,7 +285,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 		final boolean wasEmpty = isEmpty(true);
 
-		// Emplacements déjà occupés
+		// Emplacements dï¿½jï¿½ occupï¿½s
 		final EnumSet<Location> busy;
 
 		if (champions.isEmpty()) {
@@ -305,12 +305,12 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			log.debug("Free locations = " + free);
 		}
 
-		// Ne peut être null
+		// Ne peut ï¿½tre null
 		final Location location = free.iterator().next();
 
 		champions.put(location, champion);
 
-		// Ecouter les évènements levés par le champion
+		// Ecouter les ï¿½vï¿½nements levï¿½s par le champion
 		champion.addChangeListener(this);
 
 		if (log.isDebugEnabled()) {
@@ -383,7 +383,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 				// On peut maitenant retirer le champion du groupe
 				champions.remove(location);
 
-				// Ne plus écouter les évènements levés par le champion
+				// Ne plus ï¿½couter les ï¿½vï¿½nements levï¿½s par le champion
 				champion.removeChangeListener(this);
 
 				releaseColor(champion.getColor());
@@ -400,15 +400,15 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			}
 		}
 
-		// Champion non trouvé
+		// Champion non trouvï¿½
 		return null;
 	}
 
 	/**
-	 * Définit le nouveau {@link Champion} du groupe.
+	 * Dï¿½finit le nouveau {@link Champion} du groupe.
 	 * 
 	 * @param champion
-	 *            le {@link Champion} qui doit être élu leader du groupe.
+	 *            le {@link Champion} qui doit ï¿½tre ï¿½lu leader du groupe.
 	 */
 	public void setLeader(Champion champion) {
 		setLeader(champion, true);
@@ -450,26 +450,26 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			}
 
 			if (item != null) {
-				// Lever un évènement sur chaque champion (l'objet change de
+				// Lever un ï¿½vï¿½nement sur chaque champion (l'objet change de
 				// main)
 				previousLeader.fireChangeEvent();
 				champion.fireChangeEvent();
 			}
 
-			// Ne lever un évènement que si strictement nécessaire
+			// Ne lever un ï¿½vï¿½nement que si strictement nï¿½cessaire
 			fireChangeEvent();
 		}
 	}
 
 	/**
-	 * Echange les {@link Champion}s situés aux deux emplacements donnés.
+	 * Echange les {@link Champion}s situï¿½s aux deux emplacements donnï¿½s.
 	 * 
 	 * @param location1
-	 *            une instance de {@link Location} représentant le premier
-	 *            emplacement à échanger.
+	 *            une instance de {@link Location} reprï¿½sentant le premier
+	 *            emplacement ï¿½ ï¿½changer.
 	 * @param location2
-	 *            une instance de {@link Location} représentant le second
-	 *            emplacement à échanger.
+	 *            une instance de {@link Location} reprï¿½sentant le second
+	 *            emplacement ï¿½ ï¿½changer.
 	 */
 	public void swap(Location location1, Location location2) {
 		if (location1 == null) {
@@ -555,7 +555,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		boolean notify = false;
 
 		if (!position.equals(this.position)) {
-			// Déplacer le groupe
+			// Dï¿½placer le groupe
 			setPosition(position, false);
 
 			notify = true;
@@ -569,7 +569,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		}
 
 		if (!silent) {
-			// Jouer le son de la téléportation
+			// Jouer le son de la tï¿½lï¿½portation
 			SoundSystem.getInstance().play(getPosition(), AudioClip.TELEPORT);
 		}
 
@@ -635,7 +635,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			if (notify) {
 				fireChangeEvent();
 
-				// Déclencher un évènement spécifique pour notifier du
+				// Dï¿½clencher un ï¿½vï¿½nement spï¿½cifique pour notifier du
 				// changement de direction
 				fireDirectionChangeEvent();
 			}
@@ -676,10 +676,10 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			// Un seul champion vivant dans le groupe
 			if (getChampions(false).iterator().next() != this.leader) {
 				// Le seul champion vivant du groupe n'est pas l'actuel leader.
-				// Cas où le leader vient de mourir et qu'il faut en désigner
-				// un nouveau à sa place !
+				// Cas oï¿½ le leader vient de mourir et qu'il faut en dï¿½signer
+				// un nouveau ï¿½ sa place !
 			} else {
-				// Le seul champion vivant du groupe est déjà l'actuel leader
+				// Le seul champion vivant du groupe est dï¿½jï¿½ l'actuel leader
 				return this.leader;
 			}
 		} else if (getSize(false) == 0) {
@@ -694,7 +694,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		// Identifier les candidats au poste
 		final List<Champion> candidates = new ArrayList<Champion>();
 
-		// Ne conserver que les champions vivants qui ne sont pas déjà leader
+		// Ne conserver que les champions vivants qui ne sont pas dï¿½jï¿½ leader
 		for (Champion champion : champions.values()) {
 			if (champion.isAlive() && (champion != this.leader)) {
 				candidates.add(champion);
@@ -715,16 +715,16 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Retourne la vitesse de déplacement du groupe sous forme d'une instance de
+	 * Retourne la vitesse de dï¿½placement du groupe sous forme d'une instance de
 	 * {@link Speed}.
 	 * 
 	 * @return une instance de {@link Speed}. Ne retourne jamais null.
 	 */
 	public Speed getMoveSpeed() {
-		// Vitesse de déplacement non définie
+		// Vitesse de dï¿½placement non dï¿½finie
 		Speed speed = Speed.UNDEFINED;
 
-		// C'est le champion le plus lent qui détermine la vitesse du groupe
+		// C'est le champion le plus lent qui dï¿½termine la vitesse du groupe
 		for (Champion champion : champions.values()) {
 			if (champion.isDead()) {
 				// Il est mort, ne pas le prendre en compte
@@ -740,11 +740,11 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Place l'objet donné dans la main du leader du groupe et retourne l'objet
-	 * qu'il portait précédemment (s'il y en avait un) ou null.
+	 * Place l'objet donnï¿½ dans la main du leader du groupe et retourne l'objet
+	 * qu'il portait prï¿½cï¿½demment (s'il y en avait un) ou null.
 	 * 
 	 * @param item
-	 *            un {@link Item} représentant l'objet que le leader doit
+	 *            un {@link Item} reprï¿½sentant l'objet que le leader doit
 	 *            saisir.
 	 * @return une instance de {@link Item} ou null.
 	 */
@@ -779,7 +779,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 				}
 			}
 
-			// Lever un évènement sur le leader du groupe
+			// Lever un ï¿½vï¿½nement sur le leader du groupe
 			leader.fireChangeEvent();
 
 			if (removed != null) {
@@ -813,7 +813,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Libère l'objet que le leader du groupe porte (s'il y en a un) et le
+	 * Libï¿½re l'objet que le leader du groupe porte (s'il y en a un) et le
 	 * retourne.
 	 * 
 	 * @return une instance de {@link Item} ou null.
@@ -836,7 +836,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		this.item = null;
 
 		if (removed != item) {
-			// Lever un évènement sur le leader du groupe
+			// Lever un ï¿½vï¿½nement sur le leader du groupe
 			leader.fireChangeEvent();
 
 			if (log.isDebugEnabled()) {
@@ -851,15 +851,15 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 	@Override
 	public boolean clockTicked() {
-		// Pas besoin de dispatcher l'appel aux champions car ils se sont déjà
-		// enregistrés de leur côté
+		// Pas besoin de dispatcher l'appel aux champions car ils se sont dï¿½jï¿½
+		// enregistrï¿½s de leur cï¿½tï¿½
 
 		// Traiter les sorts du groupe
 		spells.clockTicked();
 
 		// TODO Le groupe dort ?
 
-		// Animer le groupe tant qu'il est rattaché à un donjon
+		// Animer le groupe tant qu'il est rattachï¿½ ï¿½ un donjon
 		return (dungeon != null);
 	}
 
@@ -872,7 +872,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	public void setDungeon(Dungeon dungeon) {
-		// dungeon peut être null
+		// dungeon peut ï¿½tre null
 		if ((this.dungeon != null) && (dungeon != null)) {
 			// On ne peut positionner deux fois de suite le donjon
 			throw new IllegalArgumentException("The dungeon is already set");
@@ -916,7 +916,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 			fireChangeEvent();
 		} else if (wasSleeping && !sleeping) {
-			// Le groupe vient de se réveiller
+			// Le groupe vient de se rï¿½veiller
 			if (log.isDebugEnabled()) {
 				log.debug("Party has just waken up");
 			}
@@ -930,9 +930,9 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Retourne la luminosité générée par les champions du groupe.
+	 * Retourne la luminositï¿½ gï¿½nï¿½rï¿½e par les champions du groupe.
 	 * 
-	 * @return un entier positif ou null représentant la luminosité générée par
+	 * @return un entier positif ou null reprï¿½sentant la luminositï¿½ gï¿½nï¿½rï¿½e par
 	 *         les champions dans l'intervalle [0-255].
 	 */
 	public int getLight() {
@@ -1009,10 +1009,10 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 	/**
 	 * Retourne l'identifiant du dernier tic d'horloge pendant lequel le groupe
-	 * a été attaqué.
+	 * a ï¿½tï¿½ attaquï¿½.
 	 * 
-	 * @return un entier positif ou nul ou -1 si le groupe n'a jamais été
-	 *         attaqué.
+	 * @return un entier positif ou nul ou -1 si le groupe n'a jamais ï¿½tï¿½
+	 *         attaquï¿½.
 	 */
 	public int getLastAttackTick() {
 		int result = -1;
@@ -1027,12 +1027,12 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Retourne l'emplacement auquel est situé le {@link Champion} donné ou null
+	 * Retourne l'emplacement auquel est situï¿½ le {@link Champion} donnï¿½ ou null
 	 * si celui-ci n'appartient pas au groupe.
 	 * 
 	 * @param champion
 	 *            un {@link Champion} dont l'emplacement dans le groupe est
-	 *            demandé.
+	 *            demandï¿½.
 	 * @return une instance de {@link Location} ou null.
 	 */
 	Location getLocation(Champion champion) {
@@ -1054,7 +1054,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			final Champion champion = (Champion) event.getSource();
 
 			if (champion.isDead()) {
-				// Le champion est mort. Sélectionner un nouveau leader s'il
+				// Le champion est mort. Sï¿½lectionner un nouveau leader s'il
 				// reste des champions vivants !
 				if (getChampions(false).isEmpty()) {
 					// Game over. Tous les champions sont morts
@@ -1079,7 +1079,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 				log.debug("Party.State: " + this.state + " -> " + state);
 			}
 			
-			// Transition d'état forcément valide (seulement 2 états possibles)
+			// Transition d'ï¿½tat forcï¿½ment valide (seulement 2 ï¿½tats possibles)
 			this.state = state;
 		}
 	}

@@ -55,33 +55,33 @@ import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.stat.Stat;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	private final Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * Les différents états possibles d'une {@link Creature}.
+	 * Les diffï¿½rents ï¿½tats possibles d'une {@link Creature}.
 	 * 
-	 * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
 	 */
 	public static enum State {
 		IDLE,
 		
 		/**
-		 * Etat d'une créature en train de patrouiller dans le niveau.
+		 * Etat d'une crï¿½ature en train de patrouiller dans le niveau.
 		 */
 		PATROLLING,
 
 		/**
-		 * Etat d'une créature ayant repéré des champions et en cours d'approche
+		 * Etat d'une crï¿½ature ayant repï¿½rï¿½ des champions et en cours d'approche
 		 * pour attaquer.
 		 */
 		TRACKING,
 		
 		/**
-		 * Etat d'une créature en train d'attaquer
+		 * Etat d'une crï¿½ature en train d'attaquer
 		 */
 		ATTACKING;
 		// DYING,
@@ -190,16 +190,16 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				15, 130);
 
 		/**
-		 * La valeur d'armure associée à la {@link Creature}. Valeur dans
-		 * l'intervalle [0-255]. La valeur spéciale 255 signifie que la
+		 * La valeur d'armure associï¿½e ï¿½ la {@link Creature}. Valeur dans
+		 * l'intervalle [0-255]. La valeur spï¿½ciale 255 signifie que la
 		 * {@link Creature} est invincible.
 		 */
 		private final int armor;
 
 		/**
-		 * La durée d'un déplacement de la {@link Creature} en 1/6 de seconde.
-		 * Valeur dans l'intervalle [0-255]. La valeur spéciale 255 signifie que
-		 * la {@link Creature} ne peut se déplacer.
+		 * La durï¿½e d'un dï¿½placement de la {@link Creature} en 1/6 de seconde.
+		 * Valeur dans l'intervalle [0-255]. La valeur spï¿½ciale 255 signifie que
+		 * la {@link Creature} ne peut se dï¿½placer.
 		 */
 		private final int moveDuration;
 
@@ -252,39 +252,39 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		private final Champion.Level skill;
 
 		/**
-		 * Valeur dans l'intervalle [0-15]. FIXME Valeur spéciale 15 ?
+		 * Valeur dans l'intervalle [0-15]. FIXME Valeur spï¿½ciale 15 ?
 		 */
 		private final int bravery;
 
 		/**
-		 * Valeur dans l'intervalle [0-15]. La valeur spéciale 15 signifie que
-		 * la {@link Creature} est immunisée contre le magie. aka "Fire
+		 * Valeur dans l'intervalle [0-15]. La valeur spï¿½ciale 15 signifie que
+		 * la {@link Creature} est immunisï¿½e contre le magie. aka "Fire
 		 * resistance".
 		 */
 		private final int antiMagic;
 
 		/**
-		 * Valeur dans l'intervalle [0-15]. La valeur spéciale 15 signifie que
-		 * la {@link Creature} est immunisée contre le poison.
+		 * Valeur dans l'intervalle [0-15]. La valeur spï¿½ciale 15 signifie que
+		 * la {@link Creature} est immunisï¿½e contre le poison.
 		 */
 		private final int poisonResistance;
 
 		/**
-		 * La durée à atteindre entre deux attaques de la {@link Creature} (en
+		 * La durï¿½e ï¿½ atteindre entre deux attaques de la {@link Creature} (en
 		 * 1/6 de seconde). Valeur dans l'intervalle [0-255].
 		 */
 		private final int attackDuration;
 
 		/**
-		 * La durée pendant laquelle l'image d'attaque de la {@link Creature}
-		 * est affichée (en 1/6 de seconde). Valeur dans l'intervalle [0-255].
+		 * La durï¿½e pendant laquelle l'image d'attaque de la {@link Creature}
+		 * est affichï¿½e (en 1/6 de seconde). Valeur dans l'intervalle [0-255].
 		 */
 		private final int attackDisplayDuration;
 
 		private final int experienceMultiplier;
 
 		/**
-		 * Valeur dans l'intervalle [0-255]. La valeur spéciale 255 signifie que
+		 * Valeur dans l'intervalle [0-255]. La valeur spï¿½ciale 255 signifie que
 		 * la {@link Creature} est intouchable.
 		 */
 		private final int shield;
@@ -471,10 +471,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 		
 		/**
-		 * Indique si la créature peut bouger. Vaut true pour la plupart sauf
+		 * Indique si la crï¿½ature peut bouger. Vaut true pour la plupart sauf
 		 * celles de type {@link #WATER_ELEMENTAL} et {@link #BLACK_FLAME}.
 		 * 
-		 * @return si la créature peut bouger. 
+		 * @return si la crï¿½ature peut bouger. 
 		 */
 		public boolean canMove() {
 			return !isStill();
@@ -490,9 +490,9 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		/**
-		 * Indique si la {@link Creature} lévite.
+		 * Indique si la {@link Creature} lï¿½vite.
 		 * 
-		 * @return si la {@link Creature} lévite.
+		 * @return si la {@link Creature} lï¿½vite.
 		 */
 		public boolean levitates() {
 			// cf http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244
@@ -653,7 +653,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 		
 		/**
-		 * Retourne la matérialité de la {@link Creature}.
+		 * Retourne la matï¿½rialitï¿½ de la {@link Creature}.
 		 * 
 		 * @return une instance de {@link Materiality}.
 		 */
@@ -668,7 +668,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			case BLACK_FLAME:
 			case GHOST:
 			case WATER_ELEMENTAL:
-			case ZYTAZ: // <--- Cas spécial car tantôt matériel tantôt immatériel 
+			case ZYTAZ: // <--- Cas spï¿½cial car tantï¿½t matï¿½riel tantï¿½t immatï¿½riel 
 				return Materiality.IMMATERIAL;
 			default:
 				return Materiality.MATERIAL;
@@ -736,7 +736,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				return items;
 			}
 			case ANIMATED_ARMOR: {
-				// Les items sont envoûtés !!!
+				// Les items sont envoï¿½tï¿½s !!!
 				final List<Item> items = new ArrayList<Item>();
 				items.add(new Weapon(Item.Type.ARMET, PowerRune.UM));
 				items.add(new Weapon(Item.Type.TORSO_PLATE, PowerRune.UM));
@@ -798,7 +798,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			final List<Spell.Type> spells = getSpells();
 			
 			if (!spells.isEmpty()) {
-				// On retire l'éventuel sort OPEN_DOOR qui n'est pas un sort 
+				// On retire l'ï¿½ventuel sort OPEN_DOOR qui n'est pas un sort 
 				// d'attaque				
 				spells.remove(Spell.Type.OPEN_DOOR);
 			}
@@ -929,7 +929,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			Validate.notNull(weapon, "The given weapon is null");
 			Validate.notNull(action, "The given action is null");
 
-			// Le nombre de points de dégâts dépend de:
+			// Le nombre de points de dï¿½gï¿½ts dï¿½pend de:
 
 			// - Le type d'arme
 			final int weaponDamage = weapon.getType().getDamage();
@@ -937,10 +937,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			// - La force du champion
 			final int strength = champion.getStats().getStrength().value();
 
-			// - L'armure de la créature
+			// - L'armure de la crï¿½ature
 			final int vulnerability = 255 - armor;
 
-			// - Le type d'action utilisé
+			// - Le type d'action utilisï¿½
 			final int actionDamage = action.getDamage();
 
 			// FIXME Facteur correctif ?
@@ -1212,10 +1212,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		/**
-		 * Indique si la {@link Creature} peut attaquer même si elle ne fait pas
+		 * Indique si la {@link Creature} peut attaquer mï¿½me si elle ne fait pas
 		 * face aux {@link Champion}s.
 		 * 
-		 * @return si la {@link Creature} peut attaquer même si elle ne fait pas
+		 * @return si la {@link Creature} peut attaquer mï¿½me si elle ne fait pas
 		 *         face aux {@link Champion}s.
 		 */
 		public boolean isSideAttackAllowed() {
@@ -1236,10 +1236,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		/**
-		 * Indique si la {@link Creature} préfère rester en arrière-plan quand
+		 * Indique si la {@link Creature} prï¿½fï¿½re rester en arriï¿½re-plan quand
 		 * d'autres {@link Creature}s attaquent les {@link Champion}s.
 		 * 
-		 * @return si la {@link Creature} préfère rester en arrière-plan quand
+		 * @return si la {@link Creature} prï¿½fï¿½re rester en arriï¿½re-plan quand
 		 *         d'autres {@link Creature}s attaquent les {@link Champion}s.
 		 */
 		public boolean prefersBackRow() {
@@ -1263,12 +1263,12 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 		/**
 		 * Indique si la {@link Creature} peut attaquer n'importe quel
-		 * {@link Champion} du groupe, en particulier ceux situés derrière dans
+		 * {@link Champion} du groupe, en particulier ceux situï¿½s derriï¿½re dans
 		 * le groupe.
 		 * 
 		 * @return si la {@link Creature} peut attaquer n'importe quel
-		 *         {@link Champion} du groupe, en particulier ceux situés
-		 *         derrière dans le groupe.
+		 *         {@link Champion} du groupe, en particulier ceux situï¿½s
+		 *         derriï¿½re dans le groupe.
 		 */
 		public boolean canAttackAnyChampion() {
 			// If this bit is set to '1', the creature can attack any champion
@@ -1289,13 +1289,13 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 	
 	/**
-	 * La taille de la créature. Permet de déterminer de combien une porte doit
-	 * se fermer avant de frapper la créature en rebondissant.
+	 * La taille de la crï¿½ature. Permet de dï¿½terminer de combien une porte doit
+	 * se fermer avant de frapper la crï¿½ature en rebondissant.
 	 */
 	public static enum Height {
-		// Les valeurs doivent être classées du plus petit au plus grand
+		// Les valeurs doivent ï¿½tre classï¿½es du plus petit au plus grand
 		UNDEFINED,
-		// FIXME Les boules de feu peuvent passer au-dessus des créatures les +
+		// FIXME Les boules de feu peuvent passer au-dessus des crï¿½atures les +
 		// petites
 		SMALL,
 		MEDIUM,
@@ -1308,7 +1308,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	private final Type type;
 
-	// TODO La santé doit se regénérer avec le temps
+	// TODO La santï¿½ doit se regï¿½nï¿½rer avec le temps
 	private final Stat health;
 
 	private final List<Item> absorbedItems = new ArrayList<Item>();
@@ -1320,25 +1320,25 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	private Direction direction = Direction.NORTH;
 
 	/**
-	 * Membre d'instance synchronisé. A lire / écrire via le getter / setter.
+	 * Membre d'instance synchronisï¿½. A lire / ï¿½crire via le getter / setter.
 	 */
 	private State state = State.IDLE;
 
 	/**
-	 * {@link AtomicInteger} utilisé afin de représenter le timer de déplacement
-	 * de la créature. Celle-ci se déplace quand le timer arrive à zéro
+	 * {@link AtomicInteger} utilisï¿½ afin de reprï¿½senter le timer de dï¿½placement
+	 * de la crï¿½ature. Celle-ci se dï¿½place quand le timer arrive ï¿½ zï¿½ro
 	 * (expiration).
 	 */
 	private final AtomicInteger moveTimer = new AtomicInteger();
 
 	/**
-	 * {@link AtomicInteger} utilisé afin de représenter le timer d'attaque de
-	 * la créature. Celle-ci peut attaquer quand le timer est à zéro ce qui le
-	 * réinitialise.
+	 * {@link AtomicInteger} utilisï¿½ afin de reprï¿½senter le timer d'attaque de
+	 * la crï¿½ature. Celle-ci peut attaquer quand le timer est ï¿½ zï¿½ro ce qui le
+	 * rï¿½initialise.
 	 */
 	private final AtomicInteger attackTimer = new AtomicInteger();
 	
-	// Le paramètre multiplier peut représenter un "health multiplier" ou un
+	// Le paramï¿½tre multiplier peut reprï¿½senter un "health multiplier" ou un
 	// "level experience multiplier"
 	public Creature(Type type, int multiplier, Direction direction) {
 		Validate.notNull(type);
@@ -1358,7 +1358,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		this.health.addChangeListener(this);
 
 		if (Type.ZYTAZ.equals(getType())) {
-			// Cas spécial du ZYTAZ. Son caractère immatériel est fonction du
+			// Cas spï¿½cial du ZYTAZ. Son caractï¿½re immatï¿½riel est fonction du
 			// temps
 			this.materializer = new RandomMaterializer(this);
 		} else {
@@ -1446,7 +1446,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 
 	public final boolean canTakeStairs() {
-		// TODO Liste des créatures à confirmer
+		// TODO Liste des crï¿½atures ï¿½ confirmer
 		switch (getType()) {
 		case ZYTAZ:
 		case GHOST:
@@ -1458,10 +1458,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 
 	/**
-	 * Indique si la {@link Creature} peut attaquer même si elle ne fait pas
+	 * Indique si la {@link Creature} peut attaquer mï¿½me si elle ne fait pas
 	 * face aux {@link Champion}s.
 	 * 
-	 * @return si la {@link Creature} peut attaquer même si elle ne fait pas
+	 * @return si la {@link Creature} peut attaquer mï¿½me si elle ne fait pas
 	 *         face aux {@link Champion}s.
 	 */
 	public final boolean isSideAttackAllowed() {
@@ -1469,10 +1469,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 
 	/**
-	 * Indique si la {@link Creature} préfère rester en arrière-plan quand
+	 * Indique si la {@link Creature} prï¿½fï¿½re rester en arriï¿½re-plan quand
 	 * d'autres {@link Creature}s attaquent les {@link Champion}s.
 	 * 
-	 * @return si la {@link Creature} préfère rester en arrière-plan quand
+	 * @return si la {@link Creature} prï¿½fï¿½re rester en arriï¿½re-plan quand
 	 *         d'autres {@link Creature}s attaquent les {@link Champion}s.
 	 */
 	public final boolean prefersBackRow() {
@@ -1481,11 +1481,11 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	/**
 	 * Indique si la {@link Creature} peut attaquer n'importe quel
-	 * {@link Champion} du groupe, en particulier ceux situés derrière dans le
+	 * {@link Champion} du groupe, en particulier ceux situï¿½s derriï¿½re dans le
 	 * groupe.
 	 * 
 	 * @return si la {@link Creature} peut attaquer n'importe quel
-	 *         {@link Champion} du groupe, en particulier ceux situés derrière
+	 *         {@link Champion} du groupe, en particulier ceux situï¿½s derriï¿½re
 	 *         dans le groupe.
 	 */
 	public final boolean canAttackAnyChampion() {
@@ -1493,10 +1493,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 
 	/**
-	 * Indique si la {@link Creature} lâche des {@link Item}s au sol quand elle
+	 * Indique si la {@link Creature} lï¿½che des {@link Item}s au sol quand elle
 	 * meurt.
 	 * 
-	 * @return si la {@link Creature} lâche des {@link Item}s au sol quand elle
+	 * @return si la {@link Creature} lï¿½che des {@link Item}s au sol quand elle
 	 *         meurt.
 	 */
 	public final boolean dropItems() {
@@ -1507,7 +1507,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	/**
 	 * Indique si la {@link Creature} peut "absorber" les {@link Item}s qu'on
-	 * lui lance. Ces objets sont alors récupérés quand la {@link Creature}
+	 * lui lance. Ces objets sont alors rï¿½cupï¿½rï¿½s quand la {@link Creature}
 	 * meurt.
 	 * 
 	 * @return si la {@link Creature} peut "absorber" les {@link Item}s qu'on
@@ -1519,10 +1519,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	/**
 	 * Indique si la {@link Creature} peut voir le groupe de {@link Champion}s
-	 * même si celui-ci utilise le sort d'invisibilité.
+	 * mï¿½me si celui-ci utilise le sort d'invisibilitï¿½.
 	 * 
 	 * @return si la {@link Creature} peut voir le groupe de {@link Champion}s
-	 *         même si celui-ci utilise le sort d'invisibilité.
+	 *         mï¿½me si celui-ci utilise le sort d'invisibilitï¿½.
 	 */
 	public final boolean canSeeInvisible() {
 		return getType().canSeeInvisible();
@@ -1530,7 +1530,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	/**
 	 * Indique si la {@link Creature} peut voir dans le noir. Si c'est le cas,
-	 * la {@link Creature} n'est pas soumise à la baisse de lumière dûe à la
+	 * la {@link Creature} n'est pas soumise ï¿½ la baisse de lumiï¿½re dï¿½e ï¿½ la
 	 * distance d'observation.
 	 * 
 	 * @return si la {@link Creature} peut voir dans le noir.
@@ -1539,7 +1539,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		return getType().canSeeInDarkness();
 	}
 
-	// cf définition de Dungeon Master and Chaos Strikes Back Creature Details
+	// cf dï¿½finition de Dungeon Master and Chaos Strikes Back Creature Details
 	public final boolean isArchenemy() {
 		return getType().isArchenemy();
 	}
@@ -1549,10 +1549,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 
 	/**
-	 * Retourne la durée d'un déplacement de {@link Creature} (en 1/6 de
+	 * Retourne la durï¿½e d'un dï¿½placement de {@link Creature} (en 1/6 de
 	 * seconde).
 	 * 
-	 * @return un entier positif représentant la durée d'un déplacement.
+	 * @return un entier positif reprï¿½sentant la durï¿½e d'un dï¿½placement.
 	 */
 	public final int getMoveDuration() {
 		return getType().getMoveDuration();
@@ -1561,7 +1561,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	/**
 	 * Retourne le bonus d'armure de la {@link Creature} sous forme d'un entier.
 	 * 
-	 * @return un entier positif ou nul représentant un bonus d'armure.
+	 * @return un entier positif ou nul reprï¿½sentant un bonus d'armure.
 	 */
 	public final int getArmor() {
 		return getType().getArmor();
@@ -1609,7 +1609,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		Validate.notNull(attackType, "The given attack type is null");
 
 		if (getType().isInvincible()) {
-			// La créature ne peut être blessée
+			// La crï¿½ature ne peut ï¿½tre blessï¿½e
 			return 0;
 		}
 
@@ -1627,7 +1627,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			break;
 		case MAGIC:
 			if (isImmuneToMagic()) {
-				// Créature immunisée à la magie, aucun dégât possible
+				// Crï¿½ature immunisï¿½e ï¿½ la magie, aucun dï¿½gï¿½t possible
 				return 0;
 			}
 
@@ -1657,8 +1657,8 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 		this.health.dec(points);
 
-		// La différence n'est pas forcément égale à la variable points si la
-		// créature vient de mourir !
+		// La diffï¿½rence n'est pas forcï¿½ment ï¿½gale ï¿½ la variable points si la
+		// crï¿½ature vient de mourir !
 		return initialHealth - health.value();
 	}
 
@@ -1668,7 +1668,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	 * @return une instance de {@link AudioClip}.
 	 */
 	public AudioClip getSound() {
-		// FIXME Implémenter fr.ritaly.dungeonmaster.ai.Creature.getSound()
+		// FIXME Implï¿½menter fr.ritaly.dungeonmaster.ai.Creature.getSound()
 		throw new UnsupportedOperationException();
 	}
 
@@ -1752,10 +1752,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	public final List<Item> getItems() {
 		final List<Item> items = new ArrayList<Item>();
 
-		// Les objets que porte "nativement" la créature
+		// Les objets que porte "nativement" la crï¿½ature
 		items.addAll(getType().getItemsLeftWhenKilled());
 
-		// Les objets qu'il a éventuellement absorbé ou volé !
+		// Les objets qu'il a ï¿½ventuellement absorbï¿½ ou volï¿½ !
 		items.addAll(absorbedItems);
 
 		return items;
@@ -1815,7 +1815,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				}
 
 				if (dropItems()) {
-					// FIXME Lâcher les objets au sol
+					// FIXME Lï¿½cher les objets au sol
 				}
 
 				this.health.removeChangeListener(this);
@@ -1829,29 +1829,29 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 	
 	/**
-	 * Indique si la créature peut voir la position donnée.
+	 * Indique si la crï¿½ature peut voir la position donnï¿½e.
 	 * 
-	 * @return si la créature peut voir la position donnée.
+	 * @return si la crï¿½ature peut voir la position donnï¿½e.
 	 */
 	public boolean canSeePosition(Position targetPosition) {
 		Validate.notNull(targetPosition, "The given position is null");
 
 		if (getElement() == null) {
-			// Créature non installée dans un donjon
+			// Crï¿½ature non installï¿½e dans un donjon
 			return false;
 		}
 
 		final Position currentPosition = getElement().getPosition();
 
-		// Optimisation: On commence par vérifier que la position cible donnée
-		// correspond bien au niveau de la créature
+		// Optimisation: On commence par vï¿½rifier que la position cible donnï¿½e
+		// correspond bien au niveau de la crï¿½ature
 		if (targetPosition.z != currentPosition.z) {
 			return false;
 		}
 		
 		// FIXME Prendre en compte la transparence des portes ou les obstacles!!
 
-		// Positions visibles de la créature ?
+		// Positions visibles de la crï¿½ature ?
 		final List<Position> visiblePositions = currentPosition
 				.getVisiblePositions(direction);
 		
@@ -1868,32 +1868,32 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 	
 	/**
-	 * Indique si la créature peut entendre un bruit provenant de la position
-	 * donnée.
+	 * Indique si la crï¿½ature peut entendre un bruit provenant de la position
+	 * donnï¿½e.
 	 * 
-	 * @return si la créature peut entendre un bruit provenant de la position
-	 *         donnée.
+	 * @return si la crï¿½ature peut entendre un bruit provenant de la position
+	 *         donnï¿½e.
 	 */
 	public boolean canHearPosition(Position targetPosition) {
 		Validate.notNull(targetPosition, "The given position is null");
 
 		if (getElement() == null) {
-			// Créature non installée dans un donjon
+			// Crï¿½ature non installï¿½e dans un donjon
 			return false;
 		}
 
 		final Position currentPosition = getElement().getPosition();
 
-		// Optimisation: On commence par vérifier que la position cible donnée
-		// correspond bien au niveau de la créature
+		// Optimisation: On commence par vï¿½rifier que la position cible donnï¿½e
+		// correspond bien au niveau de la crï¿½ature
 		if (targetPosition.z != currentPosition.z) {
 			return false;
 		}
 		
 		// FIXME Prendre en compte les obstacles !!
 
-		// Positions audibles de la créature ? Cela dépend de l'acuité de la 
-		// créature
+		// Positions audibles de la crï¿½ature ? Cela dï¿½pend de l'acuitï¿½ de la 
+		// crï¿½ature
 		final List<Position> audiblePositions = currentPosition
 				.getSurroundingPositions(getType().getAwareness());
 		
@@ -1911,25 +1911,25 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	
 	/**
 	 * Indique si la {@link Creature} peut attaquer (directement) la
-	 * {@link Position} donnée.
+	 * {@link Position} donnï¿½e.
 	 * 
 	 * @param targetPosition
-	 *            la {@link Position} attaquée.
+	 *            la {@link Position} attaquï¿½e.
 	 * @return si la {@link Creature} peut attaquer (directement) la
-	 *         {@link Position} donnée.
+	 *         {@link Position} donnï¿½e.
 	 */
 	public boolean canAttackPosition(Position targetPosition) {
 		Validate.notNull(targetPosition, "The given position is null");
 
 		if (getElement() == null) {
-			// Créature non installée dans un donjon
+			// Crï¿½ature non installï¿½e dans un donjon
 			return false;
 		}
 
 		final Position currentPosition = getElement().getPosition();
 
-		// Optimisation: On commence par vérifier que la position cible donnée
-		// correspond bien au niveau de la créature
+		// Optimisation: On commence par vï¿½rifier que la position cible donnï¿½e
+		// correspond bien au niveau de la crï¿½ature
 		if (targetPosition.z != currentPosition.z) {
 			return false;
 		}
@@ -1938,17 +1938,17 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		
 		final List<Position> attackablePositions;
 		
-		// Plutôt que d'appeler la méthode canCastSpell() qui considère tous les 
+		// Plutï¿½t que d'appeler la mï¿½thode canCastSpell() qui considï¿½re tous les 
 		// sorts (d'attaque ou non), on se base sur le retour de 
 		// getAttackSpells()
 		if (!getType().getAttackSpells().isEmpty()) {
-			// La créature peut porter des attaques à distance, on considère 
-			// toutes les positions qu'elle peut attaquer (au contact ou à
-			// distance). Portée maximale du sort que peut lancer la créature ?
+			// La crï¿½ature peut porter des attaques ï¿½ distance, on considï¿½re 
+			// toutes les positions qu'elle peut attaquer (au contact ou ï¿½
+			// distance). Portï¿½e maximale du sort que peut lancer la crï¿½ature ?
 			attackablePositions = currentPosition
 					.getAttackablePositions(getSpellRange());
 		} else {
-			// La créature ne peut attaquer qu'au contact, ne considérer que
+			// La crï¿½ature ne peut attaquer qu'au contact, ne considï¿½rer que
 			// les positions d'attaque proches
 			attackablePositions = currentPosition.getAttackablePositions();
 		}
@@ -1977,7 +1977,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		// Permet de faire "clignoter" le ZYTAZ
 		this.materializer.clockTicked();
 		
-		// FIXME Pour l'instant, on ne gère que les créatures de taille 4 !!
+		// FIXME Pour l'instant, on ne gï¿½re que les crï¿½atures de taille 4 !!
 		if (!Size.FOUR.equals(getSize())) {
 			log.warn("Method Creature.clockTicked() doesn't support creatures whose size is "
 					+ getSize() + " (for the moment)");
@@ -1985,11 +1985,11 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			return true;
 		}
 		
-		// TODO La vitesse de déplacement d'une créature de taille 4 est-elle
-		// double car elle ne peut que se déplacer de 2 cases à la fois ? Quid 
-		// pour une créature de taille 2 ?
+		// TODO La vitesse de dï¿½placement d'une crï¿½ature de taille 4 est-elle
+		// double car elle ne peut que se dï¿½placer de 2 cases ï¿½ la fois ? Quid 
+		// pour une crï¿½ature de taille 2 ?
 		
-		// Remise à jour des compteurs
+		// Remise ï¿½ jour des compteurs
 		if (moveTimer.get() > 0) {
 			moveTimer.decrementAndGet();
 		}
@@ -1998,7 +1998,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 		
 		if (getElement() == null) {
-			// Nécessaire pour faire fonctionner les tests unitaires
+			// Nï¿½cessaire pour faire fonctionner les tests unitaires
 			return true;
 		}
 		
@@ -2006,15 +2006,15 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 		if (isAttackAllowed()) {
 			if ((party != null) && canAttackPosition(party.getPosition())) {
-				// Si la créature ne fait pas face aux champions, elle se tourne
-				// vers eux avant d'attaquer dans la foulée
+				// Si la crï¿½ature ne fait pas face aux champions, elle se tourne
+				// vers eux avant d'attaquer dans la foulï¿½e
 				final Direction directionTowardsParty = getElement()
 						.getPosition().getDirectionTowards(party.getPosition());
 				
 				if (directionTowardsParty != null) {
-					// Une direction a été trouvée
+					// Une direction a ï¿½tï¿½ trouvï¿½e
 					if (!getDirection().equals(directionTowardsParty)) {
-						// La créature se tourne vers les champions
+						// La crï¿½ature se tourne vers les champions
 						setDirection(directionTowardsParty);
 					}
 				}
@@ -2027,31 +2027,31 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		if (isMoveAllowed()) {
-			// FIXME Prendre en compte luminosité / invisibilité des champions
-			// pour déterminer la portée de vue
+			// FIXME Prendre en compte luminositï¿½ / invisibilitï¿½ des champions
+			// pour dï¿½terminer la portï¿½e de vue
 
 			if ((party != null)
 					&& (canSeePosition(party.getPosition()) || canHearPosition(party
 							.getPosition()))) {
 
-				// La créature voit / entend les champions, elle se met en
-				// chasse et se déplace vers eux
+				// La crï¿½ature voit / entend les champions, elle se met en
+				// chasse et se dï¿½place vers eux
 				if (moveTo(party.getPosition().x, party.getPosition().y)) {
-					// Si la créature peut aussi attaquer dans la foulée, elle
-					// le fait dans le même tour
+					// Si la crï¿½ature peut aussi attaquer dans la foulï¿½e, elle
+					// le fait dans le mï¿½me tour
 					if (isAttackAllowed()
 							&& canAttackPosition(party.getPosition())) {
 						
-						// Si la créature ne fait pas face aux champions, elle
-						// se tourne vers eux avant d'attaquer dans la foulée
+						// Si la crï¿½ature ne fait pas face aux champions, elle
+						// se tourne vers eux avant d'attaquer dans la foulï¿½e
 						final Direction directionTowardsParty = getElement()
 								.getPosition().getDirectionTowards(
 										party.getPosition());
 
 						if (directionTowardsParty != null) {
-							// Une direction a été trouvée
+							// Une direction a ï¿½tï¿½ trouvï¿½e
 							if (!getDirection().equals(directionTowardsParty)) {
-								// La créature se tourne vers les champions
+								// La crï¿½ature se tourne vers les champions
 								setDirection(directionTowardsParty);
 							}
 						}
@@ -2059,12 +2059,12 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 						attackParty(party);
 					}
 
-					// Le déplacement peut ne pas aboutir
+					// Le dï¿½placement peut ne pas aboutir
 					return true;
 				}
 			}
 
-			// La créature patrouille car elle n'a rien à se mettre sous la dent
+			// La crï¿½ature patrouille car elle n'a rien ï¿½ se mettre sous la dent
 			patrol();
 		}
 
@@ -2073,32 +2073,32 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 	
 	private void attackParty(Party party) {
-		// FIXME Implémenter attackParty(Party) (durée d'attaque ?)
+		// FIXME Implï¿½menter attackParty(Party) (durï¿½e d'attaque ?)
 		
-		// Réinitialiser le compteur d'attaque
+		// Rï¿½initialiser le compteur d'attaque
 		resetAttackTimer();
 		
-		// Transition vers l'état ATTACKING
+		// Transition vers l'ï¿½tat ATTACKING
 		setState(State.ATTACKING);
 	}
 	
 	private boolean moveTo(int x, int y) {
 		if (!getType().canMove()) {
-			// La créature ne peut pas bouger
+			// La crï¿½ature ne peut pas bouger
 			return false;
 		}
 
 		final Element element = getElement();
 
 		if (element == null) {
-			// Créature non installée dans un donjon
+			// Crï¿½ature non installï¿½e dans un donjon
 			return false;
 		}
 
-		// Position actuelle de la créature
+		// Position actuelle de la crï¿½ature
 		final Position position = element.getPosition();
 
-		// Rechercher le chemin à suivre pour atteindre la position cible
+		// Rechercher le chemin ï¿½ suivre pour atteindre la position cible
 		final PathFinder pathFinder = new PathFinder(element.getLevel(),
 				getMateriality());
 		final List<Element> path = pathFinder.findBestPath(x, y, position.x,
@@ -2116,20 +2116,20 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		// Se diriger vers la cible (Noeud en seconde position)
 		final Element node = path.get(1);
 		
-		// On calcule la direction dans laquelle la créature doit se retrouver
+		// On calcule la direction dans laquelle la crï¿½ature doit se retrouver
 		// au final
 		final Direction directionTowardsTarget = getElement().getPosition()
 				.getDirectionTowards(
 						new Position(node.getPosition().x,
 								node.getPosition().y, position.z));
 		
-		// La créature quitte la position source
+		// La crï¿½ature quitte la position source
 		element.creatureSteppedOff(this);
 		
 		if (directionTowardsTarget != null) {
-			// Tourner la créature en cours de route
+			// Tourner la crï¿½ature en cours de route
 			if (!getDirection().equals(directionTowardsTarget)) {
-				// La créature se tourne vers la cible
+				// La crï¿½ature se tourne vers la cible
 				setDirection(directionTowardsTarget);
 			}
 		}
@@ -2137,13 +2137,13 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		final Element targetElement = element.getLevel().getElement(
 				node.getPosition().x, node.getPosition().y);
 		
-		// La créature occupe la position cible
+		// La crï¿½ature occupe la position cible
 		targetElement.creatureSteppedOn(this);
 		
-		// Réinitialiser le compteur de mouvement
+		// Rï¿½initialiser le compteur de mouvement
 		resetMoveTimer();
 
-		// Transition vers l'état TRACKING
+		// Transition vers l'ï¿½tat TRACKING
 		setState(State.TRACKING);
 		
 		return true;
@@ -2151,11 +2151,11 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	
 	private void patrol() {
 		if (!getType().canMove()) {
-			// La créature ne peut pas bouger
+			// La crï¿½ature ne peut pas bouger
 			return;
 		}
 		
-		// La créature peut bouger et se déplace. Element cible ?
+		// La crï¿½ature peut bouger et se dï¿½place. Element cible ?
 
 		// Positions cible possibles ?
 		final List<Element> surroundingElements = getElement()
@@ -2167,21 +2167,21 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 			final Element element = it.next();
 
-			// La créature doit pouvoir "traverser" la position
+			// La crï¿½ature doit pouvoir "traverser" la position
 			if (!element.isTraversable(this)) {
 				it.remove();
 
 				continue;
 			}
 
-			// La position ne doit pas être occupée par les champions
+			// La position ne doit pas ï¿½tre occupï¿½e par les champions
 			if (element.hasParty()) {
 				it.remove();
 
 				continue;
 			}
 
-			// La position peut-elle accueillir la créature ?
+			// La position peut-elle accueillir la crï¿½ature ?
 			if (!element.canHost(this)) {
 				it.remove();
 
@@ -2189,7 +2189,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 
 			if (Element.Type.STAIRS.equals(element.getType())) {
-				// S'il s'agit d'escaliers, la créature peut-elle les prendre ?
+				// S'il s'agit d'escaliers, la crï¿½ature peut-elle les prendre ?
 				if (!canTakeStairs()) {
 					it.remove();
 
@@ -2198,7 +2198,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			} else if (Element.Type.TELEPORTER.equals(element
 					.getType())) {
 				
-				// S'il s'agit d'un téléporteur, la créature peut-elle le 
+				// S'il s'agit d'un tï¿½lï¿½porteur, la crï¿½ature peut-elle le 
 				// prendre ?
 				if (!canTeleport()) {
 					it.remove();
@@ -2206,33 +2206,33 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 					continue;
 				}
 			} else if (Element.Type.PIT.equals(element.getType())) {
-				// S'il s'agit d'une oubliette, la créature peut-elle s'y jeter 
+				// S'il s'agit d'une oubliette, la crï¿½ature peut-elle s'y jeter 
 				// (si celle-ci est ouverte !) ?
 				// FIXME
 			}
 		}
 
 		if (surroundingElements.isEmpty()) {
-			// Impossible de déplacer la créature FIXME La téléporter ?
+			// Impossible de dï¿½placer la crï¿½ature FIXME La tï¿½lï¿½porter ?
 			return;
 		}
 
-		// FIXME Implémenter un changement de direction à intervalle
-		// aléatoire
+		// FIXME Implï¿½menter un changement de direction ï¿½ intervalle
+		// alï¿½atoire
 
-		// FIXME On doit privilégier la direction dans laquelle la
-		// créature se trouve actuellement
+		// FIXME On doit privilï¿½gier la direction dans laquelle la
+		// crï¿½ature se trouve actuellement
 
-		// FIXME Le déplacement est-il physiquement possible ? La
-		// créature n'est-elle pas gênée par une autre créature
+		// FIXME Le dï¿½placement est-il physiquement possible ? La
+		// crï¿½ature n'est-elle pas gï¿½nï¿½e par une autre crï¿½ature
 		// devant ?
 
 		if (State.IDLE.equals(getState())) {
-			// La créature passe dans l'état PATROLLING
+			// La crï¿½ature passe dans l'ï¿½tat PATROLLING
 			setState(State.PATROLLING);						
 		}
 
-		// ... et on la déplace
+		// ... et on la dï¿½place
 		Collections.shuffle(surroundingElements);
 		
 		final Element sourceElement = getElement();
@@ -2241,18 +2241,18 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		final Direction directionTowardsTarget = getElement().getPosition()
 				.getDirectionTowards(targetElement.getPosition());
 		
-		// La créature quitte la position source
+		// La crï¿½ature quitte la position source
 		sourceElement.creatureSteppedOff(this);
 		
 		if (!getDirection().equals(directionTowardsTarget)) {
-			// On tourne la créature dans le sens de la marche
+			// On tourne la crï¿½ature dans le sens de la marche
 			setDirection(directionTowardsTarget);
 		}
 		
-		// La créature occupe la position cible
+		// La crï¿½ature occupe la position cible
 		targetElement.creatureSteppedOn(this);
 		
-		// Réinitialiser le compteur de mouvement
+		// Rï¿½initialiser le compteur de mouvement
 		resetMoveTimer();
 	}
 
@@ -2280,7 +2280,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 
 	public void setElement(Element element) {
-		// Le paramètre peut être null
+		// Le paramï¿½tre peut ï¿½tre null
 
 		if (!ObjectUtils.equals(this.element, element)) {
 			final Element initialElement = this.element;

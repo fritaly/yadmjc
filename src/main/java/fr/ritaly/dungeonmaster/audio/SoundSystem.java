@@ -48,7 +48,7 @@ import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Utils;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SoundSystem {
 
@@ -129,7 +129,7 @@ public class SoundSystem {
 			log.debug("Initializing sound system ...");
 		}
 
-		// Lister les fichiers du répertoire
+		// Lister les fichiers du rï¿½pertoire
 		File[] files = directory.listFiles();
 
 		for (File file : files) {
@@ -154,7 +154,7 @@ public class SoundSystem {
 			sounds.put(file.getName(), sound);
 		}
 
-		// On peut jouer au maximum 4 sons en même temps
+		// On peut jouer au maximum 4 sons en mï¿½me temps
 		this.executorService = Executors.newFixedThreadPool(4);
 
 		if (log.isInfoEnabled()) {
@@ -166,7 +166,7 @@ public class SoundSystem {
 
 	public void play(Position position, final AudioClip clip) {
 		if (!isInitialized()) {
-			// On ne lève pas d'erreur pour les tests unitaires
+			// On ne lï¿½ve pas d'erreur pour les tests unitaires
 			return;
 		}
 		if (position == null) {
@@ -210,7 +210,7 @@ public class SoundSystem {
 			throw new IllegalArgumentException("The given audio clip is null");
 		}
 		if (!isInitialized()) {
-			// On ne lève pas d'erreur pour les tests unitaires
+			// On ne lï¿½ve pas d'erreur pour les tests unitaires
 			return;
 		}
 
@@ -259,7 +259,7 @@ public class SoundSystem {
 							// Son sur la gauche, pan positif
 							pan.setValue(p);
 						} else {
-							// Son sur la droite, pan négatif
+							// Son sur la droite, pan nï¿½gatif
 							pan.setValue(p);
 						}
 
@@ -267,7 +267,7 @@ public class SoundSystem {
 							log.debug("Angle = "
 									+ decimalFormat
 											.format((angle / Math.PI) * 180)
-									+ "° / Pan = "
+									+ "ï¿½ / Pan = "
 									+ decimalFormat.format(p * 100));
 						}
 					} else {

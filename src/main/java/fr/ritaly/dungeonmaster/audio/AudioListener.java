@@ -22,7 +22,7 @@ import fr.ritaly.dungeonmaster.HasDirection;
 import fr.ritaly.dungeonmaster.HasPosition;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface AudioListener extends HasPosition, HasDirection {
 

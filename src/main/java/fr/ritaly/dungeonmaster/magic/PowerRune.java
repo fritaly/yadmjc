@@ -19,7 +19,7 @@
 package fr.ritaly.dungeonmaster.magic;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum PowerRune implements Rune {
 	LO, UM, ON, EE, PAL, MON;
@@ -51,8 +51,8 @@ public enum PowerRune implements Rune {
 	}
 
 	/**
-	 * Retourne le multiplicateur de difficulté appliqué quand un sort est
-	 * invoqué avec ce rune de puissance.
+	 * Retourne le multiplicateur de difficultï¿½ appliquï¿½ quand un sort est
+	 * invoquï¿½ avec ce rune de puissance.
 	 * 
 	 * @return un entier positif.
 	 */

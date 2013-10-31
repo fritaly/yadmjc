@@ -35,7 +35,7 @@ import fr.ritaly.dungeonmaster.map.Element.Type;
 import fr.ritaly.dungeonmaster.projectile.Projectile;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Level {
 
@@ -52,13 +52,13 @@ public class Level {
 	private final Dungeon dungeon;
 
 	/**
-	 * Le multiplicateur par lequel l'expérience gagnée par un {@link Champion}
-	 * doit être multipliée pour ce niveau-ci.
+	 * Le multiplicateur par lequel l'expï¿½rience gagnï¿½e par un {@link Champion}
+	 * doit ï¿½tre multipliï¿½e pour ce niveau-ci.
 	 */
 	private int experienceMultiplier = 1;
 
 	/**
-	 * La luminosité ambiante propre au niveau. Vaut en général 0 sauf pour les
+	 * La luminositï¿½ ambiante propre au niveau. Vaut en gï¿½nï¿½ral 0 sauf pour les
 	 * premiers niveaux d'un donjon.
 	 */
 	private int ambiantLight;
@@ -94,7 +94,7 @@ public class Level {
 			log.debug("Initializing level " + level + " ...");
 		}
 
-		// Placer des murs autour du niveau et des vides à l'intérieur
+		// Placer des murs autour du niveau et des vides ï¿½ l'intï¿½rieur
 		surround(ElementFactory.WALL_FACTORY);
 		fill(ElementFactory.FLOOR_FACTORY);
 
@@ -104,7 +104,7 @@ public class Level {
 	}
 
 	/**
-	 * Supprime tous les éléments du niveau.
+	 * Supprime tous les ï¿½lï¿½ments du niveau.
 	 */
 	public void clear() {
 		for (int x = 0; x < width; x++) {
@@ -112,7 +112,7 @@ public class Level {
 				final Element removed = elements[x][y];
 
 				if (removed != null) {
-					// Détacher l'élément du niveau
+					// Dï¿½tacher l'ï¿½lï¿½ment du niveau
 					removed.setLevel(null);
 					removed.setPosition(null);
 
@@ -219,7 +219,7 @@ public class Level {
 		final Element removed = elements[x][y];
 
 		if (removed != null) {
-			// Détacher l'élément du niveau
+			// Dï¿½tacher l'ï¿½lï¿½ment du niveau
 			removed.setLevel(null);
 			removed.setPosition(null);
 
@@ -230,15 +230,15 @@ public class Level {
 			}
 		}
 
-		// Attacher l'élément au niveau
+		// Attacher l'ï¿½lï¿½ment au niveau
 		element.setLevel(this);
 		element.setPosition(new Position(x, y, level));
 
-		// Permuter les éléments
+		// Permuter les ï¿½lï¿½ments
 		elements[x][y] = element;
 
 		if (element instanceof ClockListener) {
-			// Référencer le ClockListener
+			// Rï¿½fï¿½rencer le ClockListener
 			Clock.getInstance().register((ClockListener) element);
 		}
 	}
@@ -248,7 +248,7 @@ public class Level {
 	}
 
 	/**
-	 * Retourne la luminosité ambiante propre au niveau.
+	 * Retourne la luminositï¿½ ambiante propre au niveau.
 	 * 
 	 * @return un entier positif ou nul dans l'intervalle [0-255].
 	 */
@@ -257,7 +257,7 @@ public class Level {
 	}
 
 	/**
-	 * Définit la luminosité ambiante propre au niveau.
+	 * Dï¿½finit la luminositï¿½ ambiante propre au niveau.
 	 * 
 	 * @param ambiantLight
 	 *            un entier positif ou nul dans l'intervalle [0-255].
@@ -286,19 +286,19 @@ public class Level {
 	}
 
 	/**
-	 * Indique si la {@link Position} donnée est située sur ce niveau et est
+	 * Indique si la {@link Position} donnï¿½e est situï¿½e sur ce niveau et est
 	 * valide (ses valeurs de x et y sont valides).
 	 * 
 	 * @param position
-	 *            la {@link Position} à tester.
-	 * @return si la {@link Position} donnée est située sur ce niveau et est
+	 *            la {@link Position} ï¿½ tester.
+	 * @return si la {@link Position} donnï¿½e est situï¿½e sur ce niveau et est
 	 *         valide (ses valeurs de x et y sont valides).
 	 */
 	public boolean contains(Position position) {
 		Validate.notNull(position, "The given position is null");
 
 		if (position.z != level) {
-			// C'est une position sur un niveau différent
+			// C'est une position sur un niveau diffï¿½rent
 			return false;
 		}
 
@@ -312,12 +312,12 @@ public class Level {
 			return false;
 		}
 
-		// Position située sur ce niveau et valide
+		// Position situï¿½e sur ce niveau et valide
 		return true;
 	}
 
 	public void validate() throws ValidationException {
-		// Tous les éléments doivent être positionnés !
+		// Tous les ï¿½lï¿½ments doivent ï¿½tre positionnï¿½s !
 		for (int x = 0; x < width; x++) {
 			final boolean wallX = (x == 0) || (x == width - 1);
 
@@ -327,7 +327,7 @@ public class Level {
 				final Element element = elements[x][y];
 
 				if (element == null) {
-					// Il ne doit y avoir aucun élément nul
+					// Il ne doit y avoir aucun ï¿½lï¿½ment nul
 					throw new ValidationException("The element at [" + x + ","
 							+ y + "] isn't set");
 				}
@@ -406,8 +406,8 @@ public class Level {
 				
 				if (!drawn) {
 					if (element != null) {
-						// Pour alléger le résultat généré, les sols sont
-						// représentés comme " "
+						// Pour allï¿½ger le rï¿½sultat gï¿½nï¿½rï¿½, les sols sont
+						// reprï¿½sentï¿½s comme " "
 						if (Type.FLOOR.equals(element.getType())) {
 							builder.append(" ");
 						} else {
@@ -428,7 +428,7 @@ public class Level {
 				builder.append("---+");
 			}
 
-			// Fin de rangée
+			// Fin de rangï¿½e
 			builder.append("\n");
 		}
 
@@ -470,7 +470,7 @@ public class Level {
 	}
 	
 	/**
-	 * Retourne le nombre de créatures situées sur ce niveau.
+	 * Retourne le nombre de crï¿½atures situï¿½es sur ce niveau.
 	 * 
 	 * @return un entier positif ou nul.
 	 */
@@ -486,7 +486,7 @@ public class Level {
 		return count;
 	}
 
-	// TODO Méthode de récupération des projectiles du niveau
+	// TODO Mï¿½thode de rï¿½cupï¿½ration des projectiles du niveau
 	
 	public List<Element> getElements(List<Position> positions) {
 		Validate.notNull(positions);
@@ -494,7 +494,7 @@ public class Level {
 		final List<Element> result = new ArrayList<Element>(positions.size());
 		
 		for (Position position : positions) {
-			// On doit vérifier la valeur de z associée à la position !!
+			// On doit vï¿½rifier la valeur de z associï¿½e ï¿½ la position !!
 			if (position.z != this.level) {
 				continue;
 			}

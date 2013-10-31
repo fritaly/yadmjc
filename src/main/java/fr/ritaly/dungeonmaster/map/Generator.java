@@ -30,7 +30,7 @@ import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Generator extends Element implements ClockListener {
 
@@ -38,21 +38,21 @@ public final class Generator extends Element implements ClockListener {
 
 	private final Log log = LogFactory.getLog(this.getClass());
 
-	// Déclenchement toutes les minutes (60 secondes)
+	// Dï¿½clenchement toutes les minutes (60 secondes)
 	private final Temporizer temporizer = new Temporizer(
 			"Generator.Temporizer", PERIOD);
 
-	// FIXME Garder une référence sur les créatures créées pour les regénérer
+	// FIXME Garder une rï¿½fï¿½rence sur les crï¿½atures crï¿½ï¿½es pour les regï¿½nï¿½rer
 	// quand elles se font tuer
 
 	private final Creature.Type creatureType;
 
 	/**
-	 * Indique si lors du dernier déclenchement du {@link Generator} la
-	 * génération des créatures n'a pu avoir lieu. Quand cette propriété vaut
-	 * true, la génération est retardée tant que les conditions ne sont pas
-	 * favorables et a lieu dès qu'elles le deviennent. De plus, le
-	 * {@link Temporizer} associé au {@link Generator} ne voit plus le temps
+	 * Indique si lors du dernier dï¿½clenchement du {@link Generator} la
+	 * gï¿½nï¿½ration des crï¿½atures n'a pu avoir lieu. Quand cette propriï¿½tï¿½ vaut
+	 * true, la gï¿½nï¿½ration est retardï¿½e tant que les conditions ne sont pas
+	 * favorables et a lieu dï¿½s qu'elles le deviennent. De plus, le
+	 * {@link Temporizer} associï¿½ au {@link Generator} ne voit plus le temps
 	 * passer.
 	 */
 	private boolean delayed;
@@ -96,13 +96,13 @@ public final class Generator extends Element implements ClockListener {
 
 	@Override
 	public boolean clockTicked() {
-		// Attention à l'ordre d'évaluation ici ! delayed est prioritaire !
+		// Attention ï¿½ l'ordre d'ï¿½valuation ici ! delayed est prioritaire !
 		if (delayed || temporizer.trigger()) {
 			if (!hasParty() && !hasCreatures()) {
 				// L'emplacement est libre (pas de champion ou de monstre)
 
-				// Combien doit-on générer de monstres ? Cela dépend de la
-				// taille de la créature à générer !!
+				// Combien doit-on gï¿½nï¿½rer de monstres ? Cela dï¿½pend de la
+				// taille de la crï¿½ature ï¿½ gï¿½nï¿½rer !!
 				final int count;
 
 				switch (creatureType.getSize()) {
@@ -131,24 +131,24 @@ public final class Generator extends Element implements ClockListener {
 					// cf Technical Documentation - Dungeon Master and Chaos
 					// Strikes Back Creature Generators
 					if (healthMultiplier == 0) {
-						// Prendre le multiplicateur d'expérience du niveau !
+						// Prendre le multiplicateur d'expï¿½rience du niveau !
 						multiplier = getLevel().getExperienceMultiplier();
 					} else {
 						multiplier = healthMultiplier;
 					}
 
-					// Créer la créature
+					// Crï¿½er la crï¿½ature
 					final Creature creature = new Creature(creatureType,
 							multiplier);
 
-					// Ajouter la créature à un emplacement tiré au hasard
+					// Ajouter la crï¿½ature ï¿½ un emplacement tirï¿½ au hasard
 					addCreature(creature);
 				}
 
 				delayed = false;
 			} else {
-				// On mémorise qu'on n'a pas pu générer les monstres, cela aura
-				// lieu au "tour" d'après
+				// On mï¿½morise qu'on n'a pas pu gï¿½nï¿½rer les monstres, cela aura
+				// lieu au "tour" d'aprï¿½s
 				if (log.isDebugEnabled()) {
 					log.debug("Delaying creature generation for " + this
 							+ " is occupied ...");
@@ -158,7 +158,7 @@ public final class Generator extends Element implements ClockListener {
 			}
 		}
 
-		// Un générateur est toujours actif !
+		// Un gï¿½nï¿½rateur est toujours actif !
 		return true;
 	}
 }

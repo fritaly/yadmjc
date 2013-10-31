@@ -23,7 +23,7 @@ import javax.sound.sampled.AudioFormat;
 import org.apache.commons.lang.Validate;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Sound {
 

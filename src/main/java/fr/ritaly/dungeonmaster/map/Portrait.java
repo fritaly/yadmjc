@@ -33,7 +33,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Portrait extends DirectedElement {
 
@@ -59,7 +59,7 @@ public final class Portrait extends DirectedElement {
 
 	public Champion reincarnate() {
 		if (hasChampion()) {
-			// FIXME Réincarner le champion
+			// FIXME Rï¿½incarner le champion
 			final Champion backup = this.champion;
 
 			this.champion = null;
@@ -98,19 +98,19 @@ public final class Portrait extends DirectedElement {
 
 	@Override
 	public synchronized Item pickItem(SubCell corner) {
-		// Méthode non supportée
+		// Mï¿½thode non supportï¿½e
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public synchronized void itemDroppedDown(Item item, SubCell corner) {
-		// Méthode non supportée
+		// Mï¿½thode non supportï¿½e
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public List<Item> getItems(SubCell subCell) {
-		// Méthode non supportée
+		// Mï¿½thode non supportï¿½e
 		throw new UnsupportedOperationException();
 	}
 

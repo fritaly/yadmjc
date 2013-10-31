@@ -24,7 +24,7 @@ import java.util.LinkedList;
 import org.apache.commons.lang.Validate;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SequentialActuator implements Actuator {
 
@@ -81,11 +81,11 @@ public class SequentialActuator implements Actuator {
 		final Actuator actuator = actuators.getFirst();
 
 		if (!actuator.clockTicked()) {
-			// L'actuator a été utilisé
+			// L'actuator a ï¿½tï¿½ utilisï¿½
 			actuators.removeFirst();
 		}
 
-		// Continuer à être notifié des tics tant qu'il reste des actuators en
+		// Continuer ï¿½ ï¿½tre notifiï¿½ des tics tant qu'il reste des actuators en
 		// file
 		return !actuators.isEmpty();
 	}

@@ -32,7 +32,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.projectile.Projectile;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Teleporter extends Element implements ClockListener,
 		Triggered {
@@ -47,8 +47,8 @@ public final class Teleporter extends Element implements ClockListener,
 	private final DirectionTransform directionTransform;
 
 	/**
-	 * Indique si l'image du téléporteur doit être inversée (permet d'animer le
-	 * téléporteur).
+	 * Indique si l'image du tï¿½lï¿½porteur doit ï¿½tre inversï¿½e (permet d'animer le
+	 * tï¿½lï¿½porteur).
 	 */
 	private boolean mirrored;
 
@@ -57,8 +57,8 @@ public final class Teleporter extends Element implements ClockListener,
 			Clock.ONE_SECOND);
 
 	/**
-	 * Indique si le téléporteur est silencieux. Permet de téléporter un groupe
-	 * de champions sans qu'il s'en aperçoive.
+	 * Indique si le tï¿½lï¿½porteur est silencieux. Permet de tï¿½lï¿½porter un groupe
+	 * de champions sans qu'il s'en aperï¿½oive.
 	 */
 	private final boolean silent;
 
@@ -84,7 +84,7 @@ public final class Teleporter extends Element implements ClockListener,
 		Validate.isTrue(directionTransform != null,
 				"The given direction transform is null");
 
-		// La destination est nulle car le téléporteur ne téléporte pas
+		// La destination est nulle car le tï¿½lï¿½porteur ne tï¿½lï¿½porte pas
 		this.destination = null;
 		this.directionTransform = directionTransform;
 		this.silent = silent;
@@ -97,8 +97,8 @@ public final class Teleporter extends Element implements ClockListener,
 
 	@Override
 	public boolean isTraversable(Creature creature) {
-		// TODO Conditionner par le fait que la créature va mourir en prennant
-		// le téléporteur
+		// TODO Conditionner par le fait que la crï¿½ature va mourir en prennant
+		// le tï¿½lï¿½porteur
 		return true;
 	}
 
@@ -170,7 +170,7 @@ public final class Teleporter extends Element implements ClockListener,
 		super.afterPartySteppedOn();
 
 		if (isEnabled()) {
-			// Téléporter le groupe sur l'endroit cible
+			// Tï¿½lï¿½porter le groupe sur l'endroit cible
 			if (log.isDebugEnabled()) {
 				log.debug("Party stepped on an active teleporter");
 			}
@@ -188,7 +188,7 @@ public final class Teleporter extends Element implements ClockListener,
 		super.afterProjectileArrived(projectile);
 
 		if (isEnabled()) {
-			// Téléporter le projectile sur l'endroit cible
+			// Tï¿½lï¿½porter le projectile sur l'endroit cible
 			if (log.isDebugEnabled()) {
 				log.debug("Projectile " + projectile.getId()
 						+ " arrived on an active teleporter");
@@ -204,7 +204,7 @@ public final class Teleporter extends Element implements ClockListener,
 	}
 
 	private void teleportProjectile(Projectile projectile) {
-		// TODO Implémenter teleportProjectile(Projectile)
+		// TODO Implï¿½menter teleportProjectile(Projectile)
 	}
 
 	@Override
@@ -212,7 +212,7 @@ public final class Teleporter extends Element implements ClockListener,
 		super.afterCreatureSteppedOn(creature);
 
 		if (isEnabled()) {
-			// Téléporter la créature sur l'endroit cible
+			// Tï¿½lï¿½porter la crï¿½ature sur l'endroit cible
 			if (log.isDebugEnabled()) {
 				log.debug("Creature " + creature.getId()
 						+ " arrived on an active teleporter");
@@ -228,7 +228,7 @@ public final class Teleporter extends Element implements ClockListener,
 	}
 
 	private void teleportCreature(Creature creature) {
-		// TODO Implémenter teleportCreature(Creature)
+		// TODO Implï¿½menter teleportCreature(Creature)
 	}
 
 	private void teleportParty() {
@@ -256,16 +256,16 @@ public final class Teleporter extends Element implements ClockListener,
 	@Override
 	public boolean clockTicked() {
 		if (isSilent()) {
-			// Téléporteur invisible, pas besoin de l'animer
+			// Tï¿½lï¿½porteur invisible, pas besoin de l'animer
 			return false;
 		}
 
 		if (temporizer.trigger()) {
-			// On inverse l'image du téléporteur
+			// On inverse l'image du tï¿½lï¿½porteur
 			mirrored = !mirrored;
 		}
 
-		// Un téléporteur visible a tout le temps besoin d'être animé
+		// Un tï¿½lï¿½porteur visible a tout le temps besoin d'ï¿½tre animï¿½
 		return true;
 	}
 

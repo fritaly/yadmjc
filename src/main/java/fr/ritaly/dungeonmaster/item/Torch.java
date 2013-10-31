@@ -27,7 +27,7 @@ import fr.ritaly.dungeonmaster.Constants;
 import fr.ritaly.dungeonmaster.Temporizer;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Torch extends Weapon implements ClockListener {
 
@@ -61,18 +61,18 @@ public class Torch extends Weapon implements ClockListener {
 					// + "] ...");
 				}
 
-				// TODO Limiter la levée des events (7 états possibles)
+				// TODO Limiter la levï¿½e des events (7 ï¿½tats possibles)
 				fireChangeEvent();
 			}
 		}
 
-		// Continuer tant que la torche n'a pas complètement brûlé
+		// Continuer tant que la torche n'a pas complï¿½tement brï¿½lï¿½
 		return isBurning() && (light > 0);
 	};
 
 	@Override
 	protected void putOn() {
-		// Mémoriser le nom du champion
+		// Mï¿½moriser le nom du champion
 		this.owner = getBodyPart().getBody().getChampion().getName();
 
 		// Allumer la torche
@@ -89,7 +89,7 @@ public class Torch extends Weapon implements ClockListener {
 			fireChangeEvent();
 		}
 
-		// Réinitialiser le nom du champion
+		// Rï¿½initialiser le nom du champion
 		this.owner = null;
 	}
 

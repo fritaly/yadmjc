@@ -23,7 +23,7 @@ import fr.ritaly.dungeonmaster.ClockListener;
 /**
  * An object responsible for triggering a {@link Triggered}. 
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface Actuator extends ClockListener, Cloneable {
 

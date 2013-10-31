@@ -31,7 +31,7 @@ import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Experience implements ChangeEventSource {
 
@@ -80,16 +80,16 @@ public class Experience implements ChangeEventSource {
 		}
 
 		if (this.level != Level.NONE) {
-			// On n'autorise l'opération que si le level existant est à NONE !
+			// On n'autorise l'opï¿½ration que si le level existant est ï¿½ NONE !
 			throw new IllegalStateException(champion.getName() + "'s " + skill
 					+ " level is already defined");
 		}
 
 		if (this.level != level) {
-			// this.level vaut forcément NONE à ce stade
+			// this.level vaut forcï¿½ment NONE ï¿½ ce stade
 			this.level = level;
 
-			// Initialiser le nombre de points de départ
+			// Initialiser le nombre de points de dï¿½part
 			this.points = level.getStartRange();
 
 			if (log.isDebugEnabled()) {
@@ -100,7 +100,7 @@ public class Experience implements ChangeEventSource {
 		}
 	}
 
-	// Ne doit pouvoir être appelée que depuis la classe Champion
+	// Ne doit pouvoir ï¿½tre appelï¿½e que depuis la classe Champion
 	void gain(int xp) {
 		if (xp <= 0) {
 			throw new IllegalArgumentException("The points must be positive");
@@ -110,7 +110,7 @@ public class Experience implements ChangeEventSource {
 
 		points += xp;
 
-		// Delta forcément positif
+		// Delta forcï¿½ment positif
 		final int delta = points - oldPoints;
 
 		if (log.isDebugEnabled()) {
@@ -132,9 +132,9 @@ public class Experience implements ChangeEventSource {
 						+ (level.ordinal() - oldLevel.ordinal()) + "]");
 			}
 
-			// Augmenter les stats du champion en fonction de la compétence
-			// améliorée. On augmente autant de fois les Stats que le
-			// champion a gagné de niveau (pour les tests) !!!
+			// Augmenter les stats du champion en fonction de la compï¿½tence
+			// amï¿½liorï¿½e. On augmente autant de fois les Stats que le
+			// champion a gagnï¿½ de niveau (pour les tests) !!!
 			for (int i = 0; i < this.level.ordinal() - oldLevel.ordinal(); i++) {
 				final Stats stats = champion.getStats();
 
@@ -258,19 +258,19 @@ public class Experience implements ChangeEventSource {
 	}
 
 	/**
-	 * Retourne le niveau <b>réel</b> dans la compétence associée. La valeur
-	 * retournée prend donc en compte l'éventuel boost de compétence.
+	 * Retourne le niveau <b>rï¿½el</b> dans la compï¿½tence associï¿½e. La valeur
+	 * retournï¿½e prend donc en compte l'ï¿½ventuel boost de compï¿½tence.
 	 * 
 	 * @return une instance de {@link Level}. Ne retourne jamais null.
 	 */
 	public Level getActualLevel() {
 		if (boost == 0) {
-			// Pas de bonus de compétence
+			// Pas de bonus de compï¿½tence
 			return level;
 		}
 
-		// Prendre en compte le bonus de compétence. Attention le boost peut
-		// être négatif ! Retourner une valeur dans l'intervalle [0-15]
+		// Prendre en compte le bonus de compï¿½tence. Attention le boost peut
+		// ï¿½tre nï¿½gatif ! Retourner une valeur dans l'intervalle [0-15]
 		final int index = Math.min(15, Math.max(0, level.ordinal() + boost));
 
 		return Level.values()[index];

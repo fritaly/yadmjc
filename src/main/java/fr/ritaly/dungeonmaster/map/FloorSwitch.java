@@ -33,19 +33,19 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class FloorSwitch extends Element implements HasActuators {
 
 	/**
-	 * Map contenant les {@link Actuator}s à déclencher quand un évènement d'un
-	 * type donné survient.
+	 * Map contenant les {@link Actuator}s ï¿½ dï¿½clencher quand un ï¿½vï¿½nement d'un
+	 * type donnï¿½ survient.
 	 */
 	private Map<EventType, Actuator> actuators;
 
 	/**
 	 * Indique si une dalle de pression est visible au sol. Vaut true par
-	 * défaut.
+	 * dï¿½faut.
 	 */
 	private final boolean pressurePadVisible;
 
@@ -87,7 +87,7 @@ public final class FloorSwitch extends Element implements HasActuators {
 	protected void afterItemDropped(Item item, SubCell subCell) {
 		super.afterItemDropped(item, subCell);
 
-		// Ne déclencher qu'au premier objet déposé !!!
+		// Ne dï¿½clencher qu'au premier objet dï¿½posï¿½ !!!
 		if ((actuators != null)
 				&& actuators.containsKey(EventType.ITEM_DROPPED)
 				&& (getItemCount() == 1)) {
@@ -106,7 +106,7 @@ public final class FloorSwitch extends Element implements HasActuators {
 	protected void afterItemPicked(Item item, SubCell subCell) {
 		super.afterItemPicked(item, subCell);
 
-		// Ne déclencher qu'au dernier objet ramassé !!!
+		// Ne dï¿½clencher qu'au dernier objet ramassï¿½ !!!
 		if ((actuators != null)
 				&& actuators.containsKey(EventType.ITEM_PICKED_UP)
 				&& (getItemCount() == 0)) {
@@ -161,7 +161,7 @@ public final class FloorSwitch extends Element implements HasActuators {
 		Validate.notNull(actuator, "The given actuator is null");
 
 		if (actuators == null) {
-			// Créer la Map à la volée
+			// Crï¿½er la Map ï¿½ la volï¿½e
 			actuators = new EnumMap<EventType, Actuator>(EventType.class);
 		}
 
@@ -174,7 +174,7 @@ public final class FloorSwitch extends Element implements HasActuators {
 		Validate.notNull(actuator, "The given actuator is null");
 
 		if (actuators == null) {
-			// Créer la Map à la volée
+			// Crï¿½er la Map ï¿½ la volï¿½e
 			actuators = new EnumMap<EventType, Actuator>(EventType.class);
 		}
 

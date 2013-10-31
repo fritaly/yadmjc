@@ -21,9 +21,9 @@ package fr.ritaly.dungeonmaster;
 import org.apache.commons.lang.math.RandomUtils;
 
 /**
- * Enumération des différentes {@link Direction}s de déplacement possibles.
+ * Enumï¿½ration des diffï¿½rentes {@link Direction}s de dï¿½placement possibles.
  *
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Direction {
 	NORTH,
@@ -36,7 +36,7 @@ public enum Direction {
 	private static final int COUNT = values().length;
 
 	/**
-	 * Retourne la {@link Direction} opposée à cette {@link Direction}.
+	 * Retourne la {@link Direction} opposï¿½e ï¿½ cette {@link Direction}.
 	 * 
 	 * @return une instance de {@link Direction}.
 	 */
@@ -110,12 +110,12 @@ public enum Direction {
 	}
 
 	/**
-	 * Retourne la {@link Position} cible atteinte à partir de la
-	 * {@link Position} donnée quand on se déplace dans cette {@link Direction}.
+	 * Retourne la {@link Position} cible atteinte ï¿½ partir de la
+	 * {@link Position} donnï¿½e quand on se dï¿½place dans cette {@link Direction}.
 	 * 
 	 * @param position
-	 *            une {@link Position} de départ. Ne peut être nul.
-	 * @return une instance de {@link Position} représentant la {@link Position}
+	 *            une {@link Position} de dï¿½part. Ne peut ï¿½tre nul.
+	 * @return une instance de {@link Position} reprï¿½sentant la {@link Position}
 	 *         cible atteinte.
 	 */
 	public Position change(Position position) {
@@ -142,11 +142,11 @@ public enum Direction {
 	}
 
 	/**
-	 * Indique si cette {@link Direction} est l'opposée de celle donnée.
+	 * Indique si cette {@link Direction} est l'opposï¿½e de celle donnï¿½e.
 	 * 
 	 * @param direction
-	 *            une instance de {@link Direction}. Ne peut être nul.
-	 * @return si cette {@link Direction} est l'opposée de celle donnée.
+	 *            une instance de {@link Direction}. Ne peut ï¿½tre nul.
+	 * @return si cette {@link Direction} est l'opposï¿½e de celle donnï¿½e.
 	 */
 	public boolean isOpposite(Direction direction) {
 		if (direction == null) {
@@ -182,7 +182,7 @@ public enum Direction {
 	}
 
 	/**
-	 * Retourne l'orientation associée à cette {@link Direction}.
+	 * Retourne l'orientation associï¿½e ï¿½ cette {@link Direction}.
 	 * 
 	 * @return une instance de {@link Orientation}.
 	 */

@@ -29,7 +29,7 @@ import fr.ritaly.dungeonmaster.Temporizer;
 /**
  * A simple {@link Actuator} used to trigger a {@link Triggered}.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SimpleActuator implements Actuator {
 
@@ -100,7 +100,7 @@ public class SimpleActuator implements Actuator {
 	@Override
 	public boolean clockTicked() {
 		if (temporizer.trigger()) {
-			// Déclenchement de chaque cible
+			// Dï¿½clenchement de chaque cible
 			for (Triggered triggered : targets) {
 				triggered.trigger(action);
 			}

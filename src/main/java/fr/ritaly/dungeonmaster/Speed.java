@@ -19,14 +19,14 @@
 package fr.ritaly.dungeonmaster;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Speed {
 	SLOW,
 	NORMAL,
 	FAST,
 	/**
-	 * Valeur spéciale signifiant vitesse "non définie" (dans le cas d'un
+	 * Valeur spï¿½ciale signifiant vitesse "non dï¿½finie" (dans le cas d'un
 	 * champion mort par exemple).
 	 */
 	UNDEFINED;

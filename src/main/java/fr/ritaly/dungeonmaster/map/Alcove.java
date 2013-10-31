@@ -34,14 +34,14 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Alcove extends DirectedElement implements HasActuator {
 	
 	private Actuator actuator;
 	
 	/**
-	 * Le type d'item qui permet de déclencher l'actuator.
+	 * Le type d'item qui permet de dï¿½clencher l'actuator.
 	 */
 	private final Item.Type itemType;
 
@@ -86,26 +86,26 @@ public final class Alcove extends DirectedElement implements HasActuator {
 	}
 
 	public final List<Item> getItems(Direction direction) {
-		// Appel de la méthode non surchargée
+		// Appel de la mï¿½thode non surchargï¿½e
 		return super.getItems(map(direction));
 	}
 
 	public final Item pickItem(Direction direction) {
-		// Appel de la méthode non surchargée
+		// Appel de la mï¿½thode non surchargï¿½e
 		final Item item = super.pickItem(map(direction));
 		
 		if (item != null) {
-			// Un objet a été pris
+			// Un objet a ï¿½tï¿½ pris
 			if (itemType == null) {
-				// Déclenchement sur tous les types d'objets
+				// Dï¿½clenchement sur tous les types d'objets
 				if (!hasItems() && (actuator != null)) {
-					// Déclenchement au dernier objet pris
+					// Dï¿½clenchement au dernier objet pris
 					Clock.getInstance().register(actuator);
 				}
 			} else if (itemType.equals(item.getType())) {
-				// Déclenchement pour un type d'objet donné
+				// Dï¿½clenchement pour un type d'objet donnï¿½
 				if (!hasItems() && (actuator != null)) {
-					// Déclenchement au dernier objet pris
+					// Dï¿½clenchement au dernier objet pris
 					Clock.getInstance().register(actuator);
 				}
 			}			
@@ -115,16 +115,16 @@ public final class Alcove extends DirectedElement implements HasActuator {
 	}
 
 	public final void dropItem(Item item, Direction direction) {
-		// Appel de la méthode non surchargée
+		// Appel de la mï¿½thode non surchargï¿½e
 		super.itemDroppedDown(item, map(direction));
 		
 		if (itemType == null) {
-			// Déclenchement au premier objet déposé (quelque soit son type)
+			// Dï¿½clenchement au premier objet dï¿½posï¿½ (quelque soit son type)
 			if ((getItemCount() == 1) && (actuator != null)) {
 				Clock.getInstance().register(actuator);
 			}
 		} else if (itemType.equals(item.getType())) {
-			// Déclenchement au premier dépôt du type d'objet donné
+			// Dï¿½clenchement au premier dï¿½pï¿½t du type d'objet donnï¿½
 			final List<Item> items = getItems(direction);
 			
 			int count = 0;
@@ -143,19 +143,19 @@ public final class Alcove extends DirectedElement implements HasActuator {
 
 	@Override
 	public final List<Item> getItems(SubCell subCell) {
-		// Surcharge pour forcer l'appel à la bonne méthode
+		// Surcharge pour forcer l'appel ï¿½ la bonne mï¿½thode
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public final Item pickItem(SubCell corner) {
-		// Surcharge pour forcer l'appel à la bonne méthode
+		// Surcharge pour forcer l'appel ï¿½ la bonne mï¿½thode
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public final void itemDroppedDown(Item item, SubCell corner) {
-		// Surcharge pour forcer l'appel à la bonne méthode
+		// Surcharge pour forcer l'appel ï¿½ la bonne mï¿½thode
 		throw new UnsupportedOperationException();
 	}
 

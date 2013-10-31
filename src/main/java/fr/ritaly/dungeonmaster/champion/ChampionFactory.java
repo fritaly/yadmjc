@@ -27,7 +27,7 @@ import fr.ritaly.dungeonmaster.champion.Champion.Level;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class ChampionFactory {
 
@@ -50,7 +50,7 @@ public class ChampionFactory {
 				.name().toLowerCase()));
 		champion.setGender(name.getGender());
 
-		// Positionner les compétences du champion
+		// Positionner les compï¿½tences du champion
 		final Map<Skill, Level> skills = name.getSkills();
 
 		for (Skill skill : skills.keySet()) {

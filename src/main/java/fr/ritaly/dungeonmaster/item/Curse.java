@@ -25,7 +25,7 @@ import fr.ritaly.dungeonmaster.magic.PowerRune;
 
 // TODO Lever des events ?
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Curse {
 
@@ -85,7 +85,7 @@ public class Curse {
 
 	public void setDetected(boolean detected) {
 		if (!this.detected && detected) {
-			// Transition autorisée
+			// Transition autorisï¿½e
 			this.detected = detected;
 
 			if (log.isDebugEnabled()) {

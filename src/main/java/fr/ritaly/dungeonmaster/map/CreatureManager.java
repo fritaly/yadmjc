@@ -37,16 +37,16 @@ import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.ai.Creature;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class CreatureManager {
 
 	private final Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * Les créatures qui occupent l'élément. Une même {@link Creature} selon sa
+	 * Les crï¿½atures qui occupent l'ï¿½lï¿½ment. Une mï¿½me {@link Creature} selon sa
 	 * taille peut occuper plusieurs {@link SubCell}s de sorte que le nombre
-	 * d'entrées de la {@link Map} ne correspond pas forcément au nombre de
+	 * d'entrï¿½es de la {@link Map} ne correspond pas forcï¿½ment au nombre de
 	 * {@link Creature}s !
 	 */
 	private Map<SubCell, Creature> creatures;
@@ -60,26 +60,26 @@ public class CreatureManager {
 	}
 
 	/**
-	 * Retourne les créatures occupant cet élément sous forme de {@link List}.
+	 * Retourne les crï¿½atures occupant cet ï¿½lï¿½ment sous forme de {@link List}.
 	 * 
-	 * @return une Set&lt;Creature&gt. Cette méthode ne retourne jamais null.
+	 * @return une Set&lt;Creature&gt. Cette mï¿½thode ne retourne jamais null.
 	 */
 	public final Set<Creature> getCreatures() {
-		// Retourner un Set permet de supprimer les doublons du résultat
+		// Retourner un Set permet de supprimer les doublons du rï¿½sultat
 		if (creatures == null) {
 			return Collections.emptySet();
 		}
 
-		// Recopie défensive
+		// Recopie dï¿½fensive
 		return new HashSet<Creature>(creatures.values());
 	}
 
 	/**
-	 * Retourne la créature occupant l'emplacement donné s'il y a lieu.
+	 * Retourne la crï¿½ature occupant l'emplacement donnï¿½ s'il y a lieu.
 	 * 
 	 * @param subCell
-	 *            l'emplacement sur lequel rechercher la créature.
-	 * @return une instance de {@link Creature} ou null s'il n'y en a aucune à
+	 *            l'emplacement sur lequel rechercher la crï¿½ature.
+	 * @return une instance de {@link Creature} ou null s'il n'y en a aucune ï¿½
 	 *         cet emplacement.
 	 */
 	public final Creature getCreature(SubCell subCell) {
@@ -94,7 +94,7 @@ public class CreatureManager {
 
 	public final int getCreatureCount() {
 		if (creatures != null) {
-			// creatures != null -> Il y a forcément au moins une créature
+			// creatures != null -> Il y a forcï¿½ment au moins une crï¿½ature
 			return new HashSet<Creature>(creatures.values()).size();
 		}
 
@@ -102,9 +102,9 @@ public class CreatureManager {
 	}
 
 	/**
-	 * Retourne les créatures occupant cet élément sous forme de Map.
+	 * Retourne les crï¿½atures occupant cet ï¿½lï¿½ment sous forme de Map.
 	 * 
-	 * @return une Map&lt;SubCell, Creature&gt. Cette méthode ne retourne jamais
+	 * @return une Map&lt;SubCell, Creature&gt. Cette mï¿½thode ne retourne jamais
 	 *         null.
 	 */
 	public final Map<SubCell, Creature> getCreatureMap() {
@@ -112,16 +112,16 @@ public class CreatureManager {
 			return Collections.emptyMap();
 		}
 
-		// Recopie défensive
+		// Recopie dï¿½fensive
 		return Collections.unmodifiableMap(creatures);
 	}
 
 	/**
 	 * Calcule et retourne la place libre restante pour accueillir de nouvelles
-	 * {@link Creature}s sous forme d'un entier (représentant un nombre de
+	 * {@link Creature}s sous forme d'un entier (reprï¿½sentant un nombre de
 	 * {@link SubCell}s).
 	 * 
-	 * @return un entier dans l'intervalle [0-4] représentant le nombre de
+	 * @return un entier dans l'intervalle [0-4] reprï¿½sentant le nombre de
 	 *         {@link SubCell}s libres.
 	 */
 	public int getFreeRoom() {
@@ -133,7 +133,7 @@ public class CreatureManager {
 			}
 
 			if (room < 0) {
-				// Pas censé arriver
+				// Pas censï¿½ arriver
 				throw new IllegalStateException(
 						"Stumbled upon a negative room value <" + room
 								+ ">. Creatures are: "
@@ -199,7 +199,7 @@ public class CreatureManager {
 					return EnumSet.noneOf(Direction.class);
 				}
 			case 3:
-				// Un seul emplacement libre (2 possibilités au plus)
+				// Un seul emplacement libre (2 possibilitï¿½s au plus)
 				final List<Direction> directions = new ArrayList<Direction>(2);
 				
 				if (ne && nw) {
@@ -225,7 +225,7 @@ public class CreatureManager {
 			case 4:
 				// 2 emplacements libres
 
-				// On tire au hasard la paire de directions retournées
+				// On tire au hasard la paire de directions retournï¿½es
 				if (RandomUtils.nextBoolean()) {
 					return EnumSet.of(Direction.EAST, Direction.WEST);
 				} else {
@@ -236,7 +236,7 @@ public class CreatureManager {
 			}
 		}
 
-		// On tire au hasard la paire de directions retournées
+		// On tire au hasard la paire de directions retournï¿½es
 		if (RandomUtils.nextBoolean()) {
 			return EnumSet.of(Direction.EAST, Direction.WEST);
 		} else {
@@ -245,8 +245,8 @@ public class CreatureManager {
 	}
 
 	/**
-	 * Retourne les {@link SubCell}s occupées par les {@link Creature}s
-	 * présentes sur cet {@link Element}.
+	 * Retourne les {@link SubCell}s occupï¿½es par les {@link Creature}s
+	 * prï¿½sentes sur cet {@link Element}.
 	 * 
 	 * @return un EnumSet&lt;SubCell&gt;. Ne retourne jamais null.
 	 */
@@ -316,15 +316,15 @@ public class CreatureManager {
 	}
 
 	/**
-	 * Indique si l'élément est occupé par au moins une créature.
+	 * Indique si l'ï¿½lï¿½ment est occupï¿½ par au moins une crï¿½ature.
 	 * 
-	 * @return si l'élément est occupé par au moins une créature.
+	 * @return si l'ï¿½lï¿½ment est occupï¿½ par au moins une crï¿½ature.
 	 */
 	public boolean hasCreatures() {
 		return (creatures != null) && !creatures.isEmpty();
 	}
 
-	// Méthode pour une créature de taille Size.ONE
+	// Mï¿½thode pour une crï¿½ature de taille Size.ONE
 	public final void creatureSteppedOn(Creature creature, SubCell subCell) {
 		if (creature == null) {
 			throw new IllegalArgumentException("The given creature is null");
@@ -343,7 +343,7 @@ public class CreatureManager {
 					+ ")");
 		}
 
-		// L'emplacement doit initialement être vide
+		// L'emplacement doit initialement ï¿½tre vide
 		if ((creatures != null) && (creatures.get(subCell) != null)) {
 			throw new IllegalArgumentException("The cell " + subCell
 					+ " of element " + element.getId()
@@ -351,7 +351,7 @@ public class CreatureManager {
 					+ creatures.get(subCell) + ")");
 		}
 
-		// Il doit y avoir la place d'accueillir la créature
+		// Il doit y avoir la place d'accueillir la crï¿½ature
 		if (!element.canHost(creature)) {
 			throw new IllegalArgumentException("Unable to install creature "
 					+ creature + " on cell " + subCell + " of element "
@@ -360,14 +360,14 @@ public class CreatureManager {
 		}
 
 		if (creatures == null) {
-			// Créer la Map à la volée (après les contrôles)
+			// Crï¿½er la Map ï¿½ la volï¿½e (aprï¿½s les contrï¿½les)
 			creatures = new EnumMap<SubCell, Creature>(SubCell.class);
 		}
 
-		// Mémoriser la créature
+		// Mï¿½moriser la crï¿½ature
 		creatures.put(subCell, creature);
 		
-		// Positionner l'élémenet sur la créature
+		// Positionner l'ï¿½lï¿½menet sur la crï¿½ature
 		creature.setElement(element);
 
 		if (log.isDebugEnabled()) {
@@ -378,7 +378,7 @@ public class CreatureManager {
 		element.afterCreatureSteppedOn(creature);
 	}
 
-	// Méthode pour une créature de taille Size.ONE
+	// Mï¿½thode pour une crï¿½ature de taille Size.ONE
 	public final void creatureSteppedOff(Creature creature, SubCell subCell) {
 		if (creature == null) {
 			throw new IllegalArgumentException("The given creature is null");
@@ -409,11 +409,11 @@ public class CreatureManager {
 		}
 
 		if (creatures.isEmpty()) {
-			// Purger la Map à la volée
+			// Purger la Map ï¿½ la volï¿½e
 			creatures = null;
 		}
 		
-		// Positionner l'élémenet sur la créature
+		// Positionner l'ï¿½lï¿½menet sur la crï¿½ature
 		creature.setElement(element);
 
 		if (log.isDebugEnabled()) {
@@ -424,7 +424,7 @@ public class CreatureManager {
 		element.afterCreatureSteppedOff(creature);
 	}
 
-	// Méthode pour une créature de taille Size.FOUR
+	// Mï¿½thode pour une crï¿½ature de taille Size.FOUR
 	public final void creatureSteppedOn(Creature creature) {
 		if (creature == null) {
 			throw new IllegalArgumentException("The given creature is null");
@@ -440,7 +440,7 @@ public class CreatureManager {
 					+ ")");
 		}
 
-		// L'emplacement doit être vide
+		// L'emplacement doit ï¿½tre vide
 		if (hasCreatures()) {
 			throw new IllegalArgumentException("The element " + element.getId()
 					+ " is already occupied by at least one creature ("
@@ -448,17 +448,17 @@ public class CreatureManager {
 		}
 
 		if (creatures == null) {
-			// Créer la Map à la volée (après les contrôles)
+			// Crï¿½er la Map ï¿½ la volï¿½e (aprï¿½s les contrï¿½les)
 			creatures = new EnumMap<SubCell, Creature>(SubCell.class);
 		}
 
-		// Mémoriser la créature qui occupe les 4 SubCells
+		// Mï¿½moriser la crï¿½ature qui occupe les 4 SubCells
 		creatures.put(SubCell.NORTH_EAST, creature);
 		creatures.put(SubCell.NORTH_WEST, creature);
 		creatures.put(SubCell.SOUTH_EAST, creature);
 		creatures.put(SubCell.SOUTH_WEST, creature);
 		
-		// Positionner l'élémenet sur la créature
+		// Positionner l'ï¿½lï¿½menet sur la crï¿½ature
 		creature.setElement(element);
 
 		if (log.isDebugEnabled()) {
@@ -475,7 +475,7 @@ public class CreatureManager {
 		return (creatures != null) && creatures.containsValue(creature);
 	}
 
-	// Méthode pour une créature de taille Size.FOUR
+	// Mï¿½thode pour une crï¿½ature de taille Size.FOUR
 	public final void creatureSteppedOff(Creature creature) {
 		if (creature == null) {
 			throw new IllegalArgumentException("The given creature is null");
@@ -511,14 +511,14 @@ public class CreatureManager {
 		}
 
 		if (!creatures.isEmpty()) {
-			// Pas censé arriver
+			// Pas censï¿½ arriver
 			throw new IllegalStateException("The creature map isn't empty: "
 					+ creatures);
 		}
 
 		this.creatures = null;
 		
-		// Réinitialiser l'élément sur la créature
+		// Rï¿½initialiser l'ï¿½lï¿½ment sur la crï¿½ature
 		creature.setElement(null);
 
 		if (log.isDebugEnabled()) {
@@ -529,7 +529,7 @@ public class CreatureManager {
 		element.afterCreatureSteppedOff(creature);
 	}
 
-	// Méthode pour une créature de taille Size.TWO
+	// Mï¿½thode pour une crï¿½ature de taille Size.TWO
 	public final void creatureSteppedOn(Creature creature, Direction direction) {
 		if (creature == null) {
 			throw new IllegalArgumentException("The given creature is null");
@@ -548,7 +548,7 @@ public class CreatureManager {
 					+ ")");
 		}
 
-		// L'emplacement doit initialement être vide
+		// L'emplacement doit initialement ï¿½tre vide
 		final List<SubCell> subCells = SubCell.getVisibleSubCells(direction);
 
 		for (SubCell subCell : subCells) {
@@ -560,7 +560,7 @@ public class CreatureManager {
 			}
 		}
 
-		// Il doit y avoir la place d'accueillir la créature
+		// Il doit y avoir la place d'accueillir la crï¿½ature
 		if (!element.canHost(creature)) {
 			throw new IllegalArgumentException("Unable to install creature "
 					+ creature + " on cells " + subCells + " of element "
@@ -569,16 +569,16 @@ public class CreatureManager {
 		}
 
 		if (creatures == null) {
-			// Créer la Map à la volée (après les contrôles)
+			// Crï¿½er la Map ï¿½ la volï¿½e (aprï¿½s les contrï¿½les)
 			creatures = new EnumMap<SubCell, Creature>(SubCell.class);
 		}
 
-		// Mémoriser la créature
+		// Mï¿½moriser la crï¿½ature
 		for (SubCell subCell : subCells) {
 			creatures.put(subCell, creature);
 		}
 		
-		// Réinitialiser l'élément sur la créature
+		// Rï¿½initialiser l'ï¿½lï¿½ment sur la crï¿½ature
 		creature.setElement(null);
 
 		if (log.isDebugEnabled()) {
@@ -589,7 +589,7 @@ public class CreatureManager {
 		element.afterCreatureSteppedOn(creature);
 	}
 
-	// Méthode pour une créature de taille Size.TWO
+	// Mï¿½thode pour une crï¿½ature de taille Size.TWO
 	public final void creatureSteppedOff(Creature creature, Direction direction) {
 		if (creature == null) {
 			throw new IllegalArgumentException("The given creature is null");
@@ -614,7 +614,7 @@ public class CreatureManager {
 
 		final List<SubCell> subCells = SubCell.getVisibleSubCells(direction);
 
-		// La créature doit être sur ces emplacements
+		// La crï¿½ature doit ï¿½tre sur ces emplacements
 		for (SubCell subCell : subCells) {
 			if (creatures.get(subCell) != creature) {
 				throw new IllegalArgumentException("The cell " + subCell
@@ -633,11 +633,11 @@ public class CreatureManager {
 		}
 
 		if (creatures.isEmpty()) {
-			// Purger la Map à la volée
+			// Purger la Map ï¿½ la volï¿½e
 			creatures = null;
 		}
 		
-		// Réinitialiser l'élément sur la créature
+		// Rï¿½initialiser l'ï¿½lï¿½ment sur la crï¿½ature
 		creature.setElement(null);
 
 		if (log.isDebugEnabled()) {
@@ -651,7 +651,7 @@ public class CreatureManager {
 	public Creature.Height getTallestCreatureHeight() {
 		if (creatures != null) {
 			if (creatures.isEmpty()) {
-				// On ne peut retourner de résultat
+				// On ne peut retourner de rï¿½sultat
 				return null;
 			}
 
@@ -708,11 +708,11 @@ public class CreatureManager {
 	}
 
 	public void addCreature(Creature creature, Object location) {
-		// Location peut être null !
+		// Location peut ï¿½tre null !
 		Validate.notNull(creature, "The given creature is null");
 
 		if (location == null) {
-			// Cas à tester en premier
+			// Cas ï¿½ tester en premier
 			creatureSteppedOn(creature);
 		} else if (location instanceof SubCell) {
 			final SubCell subCell = (SubCell) location;

@@ -23,7 +23,7 @@ import fr.ritaly.dungeonmaster.map.EventType;
 /**
  * An object which handles an {@link Actuator} per event type.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface HasActuators {
 

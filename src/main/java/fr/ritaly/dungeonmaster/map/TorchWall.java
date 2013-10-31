@@ -33,7 +33,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.item.Torch;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class TorchWall extends DirectedElement implements HasActuator {
 	
@@ -94,7 +94,7 @@ public class TorchWall extends DirectedElement implements HasActuator {
 			}
 			
 			if (actuator != null) {
-				// Déclencher l'actuator
+				// Dï¿½clencher l'actuator
 				Clock.getInstance().register(actuator);
 			}
 
@@ -116,11 +116,11 @@ public class TorchWall extends DirectedElement implements HasActuator {
 		}
 		
 		if (actuator != null) {
-			// Déclencher l'actuator
+			// Dï¿½clencher l'actuator
 			Clock.getInstance().register(actuator);
 		}
 
-		// Retourner la torche qui était sur le mur
+		// Retourner la torche qui ï¿½tait sur le mur
 		return previous;
 	}
 	

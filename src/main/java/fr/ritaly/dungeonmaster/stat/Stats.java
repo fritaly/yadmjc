@@ -29,7 +29,7 @@ import fr.ritaly.dungeonmaster.event.ChangeEvent;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Stats implements ChangeListener, ClockListener {
 
@@ -161,7 +161,7 @@ public final class Stats implements ChangeListener, ClockListener {
 		this.champion = champion;
 
 		// Instancier ces membres depuis le constructeur permet de passer aux
-		// instances de Stat le nom de son "propriétaire"
+		// instances de Stat le nom de son "propriï¿½taire"
 		food = new Stat(champion.getName(), PROPERTY_FOOD, 1500, 1500);
 		water = new Stat(champion.getName(), PROPERTY_WATER, 1500, 1500);
 		health = new Stat(champion.getName(), PROPERTY_HEALTH);
@@ -176,7 +176,7 @@ public final class Stats implements ChangeListener, ClockListener {
 		luck = new Stat(champion.getName(), PROPERTY_LUCK);
 		maxLoadBoost = new Stat(champion.getName(), PROPERTY_MAX_LOAD_BOOST);
 
-		// Ecouter les évènements levés par les stats
+		// Ecouter les ï¿½vï¿½nements levï¿½s par les stats
 		food.addChangeListener(this);
 		water.addChangeListener(this);
 		health.addChangeListener(this);
@@ -221,7 +221,7 @@ public final class Stats implements ChangeListener, ClockListener {
 
 	@Override
 	public void onChangeEvent(ChangeEvent event) {
-		// Convertir l'évènement de ChangeEvent en PropertyChangeEvent
+		// Convertir l'ï¿½vï¿½nement de ChangeEvent en PropertyChangeEvent
 		firePropertyChangeEvent(event.getSource());
 	}
 
@@ -272,7 +272,7 @@ public final class Stats implements ChangeListener, ClockListener {
 					"The stats have already been initialized");
 		}
 
-		// On accède directement aux membres ce qui permet de ne pas passer par
+		// On accï¿½de directement aux membres ce qui permet de ne pas passer par
 		// les assertions sur le flag initialized
 		this.health.maxValue(health);
 		this.health.value(health);
@@ -301,7 +301,7 @@ public final class Stats implements ChangeListener, ClockListener {
 		this.antiMagic.value(antiMagic);
 		this.antiMagic.maxValue(antiMagic);
 
-		// Il n'y a pas de bornes à la statistique "Luck" afin de pouvoir
+		// Il n'y a pas de bornes ï¿½ la statistique "Luck" afin de pouvoir
 		// l'augmenter quand le champion porte une patte de lapin
 		this.luck.value(luck);
 		this.luck.maxValue(100);
@@ -332,9 +332,9 @@ public final class Stats implements ChangeListener, ClockListener {
 		assertInitialized();
 
 		if (temporizer.trigger()) {
-			// TODO Créer facteur quand mode sleeping
+			// TODO Crï¿½er facteur quand mode sleeping
 
-			// TODO Mise à jour des stats ?
+			// TODO Mise ï¿½ jour des stats ?
 			// dexterity.inc(3);
 			// strength.inc(3);
 			// vitality.inc(3);
@@ -344,28 +344,28 @@ public final class Stats implements ChangeListener, ClockListener {
 			mana.inc(3);
 
 			if (stamina.isLow() || food.isLow() || water.isLow()) {
-				// La santé décroît si la stamina est faible, le champion a faim
+				// La santï¿½ dï¿½croï¿½t si la stamina est faible, le champion a faim
 				// ou soif
 				health.dec(5);
 			} else {
-				// La santé se régénère
+				// La santï¿½ se rï¿½gï¿½nï¿½re
 				health.inc(3);
 			}
 
 			if (health.actualValue() == 0) {
-				// Si le héros vient de mourir, on retourne de suite
+				// Si le hï¿½ros vient de mourir, on retourne de suite
 				return false;
 			}
 
-			// TODO La stamina décroît avec le temps (et la charge portée !)
+			// TODO La stamina dï¿½croï¿½t avec le temps (et la charge portï¿½e !)
 			stamina.dec(3);
 
-			// Décroissance constante avec le temps
+			// Dï¿½croissance constante avec le temps
 			food.dec(5);
 			water.dec(5);
 		}
 
-		// On n'arrête jamais l'animation des stats
+		// On n'arrï¿½te jamais l'animation des stats
 		return true;
 	}
 
@@ -405,7 +405,7 @@ public final class Stats implements ChangeListener, ClockListener {
 		if (curStamina >= (maxStamina / 2.0f)) {
 			return actualBaseMaxLoad;
 		} else {
-			// Champion à la peine
+			// Champion ï¿½ la peine
 			return (actualBaseMaxLoad / 2)
 					+ ((actualBaseMaxLoad * curStamina) / (maxStamina / 2.0f));
 		}

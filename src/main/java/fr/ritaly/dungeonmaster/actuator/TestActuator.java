@@ -19,7 +19,7 @@
 package fr.ritaly.dungeonmaster.actuator;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class TestActuator implements Actuator {
 	
@@ -29,7 +29,7 @@ public class TestActuator implements Actuator {
 	public boolean clockTicked() {
 		triggered = true;
 		
-		// Arrêter les notifications
+		// Arrï¿½ter les notifications
 		return false;
 	}
 

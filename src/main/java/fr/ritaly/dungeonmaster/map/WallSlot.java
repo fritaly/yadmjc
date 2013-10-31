@@ -35,7 +35,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class WallSlot extends DirectedElement implements HasActuator {
 
@@ -61,7 +61,7 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 	public WallSlot(Direction direction, Item.Type itemType, int maxCount) {
 		super(Type.WALL_SLOT, direction);
 
-		// N'importe quel objet peut être utilisé en tant que "pièce"
+		// N'importe quel objet peut ï¿½tre utilisï¿½ en tant que "piï¿½ce"
 		Validate.notNull(itemType, "The given item type is null");
 		Validate.isTrue(maxCount >= 1, "The given max count " + maxCount + " must be positive (1+)");
 
@@ -144,17 +144,17 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 				// Jouer le son
 				SoundSystem.getInstance().play(AudioClip.LOCK);
 
-				// Déclenchement de la cible
+				// Dï¿½clenchement de la cible
 				if (actuator != null) {
 					Clock.getInstance().register(actuator);
 				}
 
 				return true;
 			} else {
-				// Fente déjà utilisée, ne rien faire
+				// Fente dï¿½jï¿½ utilisï¿½e, ne rien faire
 			}
 		} else {
-			// Objet du mauvais type, jouer un son dédié FIXME Son à créer
+			// Objet du mauvais type, jouer un son dï¿½diï¿½ FIXME Son ï¿½ crï¿½er
 			// SoundSystem.getInstance().play(AudioClip.LOCK_FAILED);
 		}
 

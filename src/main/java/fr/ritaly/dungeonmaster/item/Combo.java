@@ -29,9 +29,9 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Level;
 
 /**
- * Une combinaison d'actions assignées à un item.
+ * Une combinaison d'actions assignï¿½es ï¿½ un item.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Combo {
 	COMBO_0(),
@@ -195,7 +195,7 @@ public enum Combo {
 
 		private final int minimumSkillLevel;
 
-		// FIXME Rajouter paramètre damage ?
+		// FIXME Rajouter paramï¿½tre damage ?
 		private Entry(Action action, boolean useCharges, int minimumSkillLevel) {
 			this.action = action;
 			this.useCharges = useCharges;
@@ -220,12 +220,12 @@ public enum Combo {
 			// Niveau minimum requis ?
 			final Level level = getMinimumSkillLevel();
 
-			// Dans la plupart des cas, le niveau minimum est de zéro, on le
+			// Dans la plupart des cas, le niveau minimum est de zï¿½ro, on le
 			// traite en 1er
 			if (Level.NONE.equals(level)) {
 				return true;
 			} else {
-				// Skill associée ?
+				// Skill associï¿½e ?
 				final Skill skill = action.getImprovedSkill();
 
 				// Niveau suffisant pour que le champion l'utilise ?

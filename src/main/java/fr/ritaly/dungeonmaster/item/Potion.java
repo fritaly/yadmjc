@@ -28,7 +28,7 @@ import fr.ritaly.dungeonmaster.magic.Spell;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Potion extends Item {
 
@@ -80,11 +80,11 @@ public final class Potion extends Item {
 	}
 
 	/**
-	 * Constructeur spécial permettant d'instancier une {@link Potion}
-	 * directement à partir du sort.
+	 * Constructeur spï¿½cial permettant d'instancier une {@link Potion}
+	 * directement ï¿½ partir du sort.
 	 * 
 	 * @param spell
-	 *            une instance de {@link Spell} représentant un sort de création
+	 *            une instance de {@link Spell} reprï¿½sentant un sort de crï¿½ation
 	 *            de {@link Potion}.
 	 */
 	public Potion(Spell spell) {

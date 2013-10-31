@@ -21,7 +21,7 @@ package fr.ritaly.dungeonmaster.magic;
 import org.apache.commons.lang.Validate;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum AlignmentRune implements Rune {
 	KU(2, 3, 4, 5, 6, 7),

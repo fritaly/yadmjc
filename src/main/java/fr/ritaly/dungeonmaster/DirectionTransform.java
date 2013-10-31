@@ -22,36 +22,36 @@ import org.apache.commons.lang.Validate;
 
 /**
  * Un {@link DirectionTransform} transforme une {@link Direction} en une autre.
- * Pourrait égaler s'appeler DirectionTransform.
+ * Pourrait ï¿½galer s'appeler DirectionTransform.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum DirectionTransform {
 	/**
 	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en elle-même.
+	 * en elle-mï¿½me.
 	 */
 	IDENTITY,
 	/**
 	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en la {@link Direction} située après elle selon le sens des aiguilles
+	 * en la {@link Direction} situï¿½e aprï¿½s elle selon le sens des aiguilles
 	 * d'une montre.
 	 */
 	NEXT_CLOCKWISE,
 	/**
 	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en la {@link Direction} située après elle selon le sens inverse des
+	 * en la {@link Direction} situï¿½e aprï¿½s elle selon le sens inverse des
 	 * aiguilles d'une montre.
 	 */
 	NEXT_ANTI_CLOCKWISE,
 	/**
 	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en sa {@link Direction} opposée.
+	 * en sa {@link Direction} opposï¿½e.
 	 */
 	OPPOSITE,
 	/**
 	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en une autre {@link Direction} tirée au hasard.
+	 * en une autre {@link Direction} tirï¿½e au hasard.
 	 */
 	RANDOM,
 	/**

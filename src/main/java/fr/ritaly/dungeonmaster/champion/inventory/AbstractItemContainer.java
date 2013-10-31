@@ -34,7 +34,7 @@ import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public abstract class AbstractItemContainer implements ChangeEventSource,
 		ItemContainer {
@@ -102,7 +102,7 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 
 	@Override
 	public List<Item> getItems() {
-		// On filtre les valeurs à null
+		// On filtre les valeurs ï¿½ null
 		final List<Item> list = new ArrayList<Item>(capacity);
 
 		for (Item item : items) {
@@ -159,14 +159,14 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 	}
 
 	/**
-	 * Tente d'ajouter l'objet donné à cet {@link AbstractItemContainer} et
-	 * retourne l'index auquel a été ajouté l'objet si l'opération a réussi
+	 * Tente d'ajouter l'objet donnï¿½ ï¿½ cet {@link AbstractItemContainer} et
+	 * retourne l'index auquel a ï¿½tï¿½ ajoutï¿½ l'objet si l'opï¿½ration a rï¿½ussi
 	 * autrement -1.
 	 * 
 	 * @param item
-	 *            un {@link Item} à ajouter.
-	 * @return un entier représentant l'index auquel a été ajouté l'objet si
-	 *         l'opération a réussi autrement -1.
+	 *            un {@link Item} ï¿½ ajouter.
+	 * @return un entier reprï¿½sentant l'index auquel a ï¿½tï¿½ ajoutï¿½ l'objet si
+	 *         l'opï¿½ration a rï¿½ussi autrement -1.
 	 */
 	@Override
 	public int add(Item item) {
@@ -176,9 +176,9 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 
 		for (int i = 0; i < capacity; i++) {
 			if (items[i] == null) {
-				// Déterminer si l'objet est compatible avec le conteneur
+				// Dï¿½terminer si l'objet est compatible avec le conteneur
 				if (!accepts(i, item)) {
-					// On continue à itérer car il est possible que la réponse
+					// On continue ï¿½ itï¿½rer car il est possible que la rï¿½ponse
 					// soit true pour un autre index !
 					continue;
 				}
@@ -294,7 +294,7 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 			throw new IllegalArgumentException("The given item is null");
 		}
 
-		// Déterminer si l'objet est compatible avec le conteneur
+		// Dï¿½terminer si l'objet est compatible avec le conteneur
 		if (!accepts(index, item)) {
 			return item;
 		}

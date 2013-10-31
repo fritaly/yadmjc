@@ -34,11 +34,11 @@ import fr.ritaly.dungeonmaster.map.Pit;
 import fr.ritaly.dungeonmaster.projectile.ItemProjectile;
 
 /**
- * Une {@link Action} qu'un champion peut réaliser à l'aide d'un {@link Item}.
- * Les {@link Action}s ne sont jamais utilisées individuellement mais regroupées
- * au sein de {@link Combo} assignées à un item.
+ * Une {@link Action} qu'un champion peut rï¿½aliser ï¿½ l'aide d'un {@link Item}.
+ * Les {@link Action}s ne sont jamais utilisï¿½es individuellement mais regroupï¿½es
+ * au sein de {@link Combo} assignï¿½es ï¿½ un item.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Action {
 	N(Skill.FIGHTER, 0, 0, 0, 0, 0, 0),
@@ -142,22 +142,22 @@ public enum Action {
 	}
 
 	private int computeEarnedExperience(Dungeon dungeon) {
-		// Calculer l'expérience gagnée
+		// Calculer l'expï¿½rience gagnï¿½e
 		int xp = experienceGain;
 
 		final int currentTick = Clock.getInstance().getTickId();
 		final int lastAttackTick = dungeon.getParty().getLastAttackTick();
 
-		// Indique si le groupe a été attaqué dans les 150 derniers tics par un
+		// Indique si le groupe a ï¿½tï¿½ attaquï¿½ dans les 150 derniers tics par un
 		// monstre
 		final boolean attackedDuringLast150Ticks = (currentTick - lastAttackTick) <= 150;
 
-		// Indique si le groupe a été attaqué dans les 25 derniers tics par un
+		// Indique si le groupe a ï¿½tï¿½ attaquï¿½ dans les 25 derniers tics par un
 		// monstre
 		final boolean attackedDuringLast25Ticks = (currentTick - lastAttackTick) <= 25;
 
 		if (improvedSkill.isHidden()) {
-			// Compétence associée à cette compétence cachée ?
+			// Compï¿½tence associï¿½e ï¿½ cette compï¿½tence cachï¿½e ?
 			final Skill relatedSkill = improvedSkill.getRelatedSkill();
 
 			if (Skill.FIGHTER.equals(relatedSkill)
@@ -169,7 +169,7 @@ public enum Action {
 			}
 		}
 
-		// Multiplicateur d'expérience du niveau courant ?
+		// Multiplicateur d'expï¿½rience du niveau courant ?
 		final int experienceMultiplier = dungeon.getCurrentLevel()
 				.getExperienceMultiplier();
 
@@ -184,19 +184,19 @@ public enum Action {
 		return xp;
 	}
 
-	// FIXME Implémenter les actions -> Créer squelettes de méthode de test
+	// FIXME Implï¿½menter les actions -> Crï¿½er squelettes de mï¿½thode de test
 	public boolean perform(Dungeon dungeon, Champion champion) {
-		// Le champion peut être à null selon les actions
+		// Le champion peut ï¿½tre ï¿½ null selon les actions
 		Validate.isTrue(dungeon != null, "The given dungeon is null");
 
 		if (champion != null) {
 			Validate.isTrue(champion.isAlive(), "The given champion is dead");
 		}
 
-		// Déterminer l'objet utilisé en récupérant celui tenu par le champion
+		// Dï¿½terminer l'objet utilisï¿½ en rï¿½cupï¿½rant celui tenu par le champion
 		final Item item = champion.getBody().getWeaponHand().getItem();
 
-		// L'objet récupéré ne peut pas être null !
+		// L'objet rï¿½cupï¿½rï¿½ ne peut pas ï¿½tre null !
 		if (item == null) {
 			throw new IllegalStateException("The given champion "
 					+ champion.getName()
@@ -205,7 +205,7 @@ public enum Action {
 
 		// TODO Refactoriser ce code
 		if (Action.CLIMB_DOWN.equals(this)) {
-			// Le groupe doit être face à une oubliette. Position cible visible
+			// Le groupe doit ï¿½tre face ï¿½ une oubliette. Position cible visible
 			// ?
 			final Position target = dungeon.getParty().getFacingPosition();
 
@@ -219,51 +219,51 @@ public enum Action {
 
 			final Pit pit = (Pit) facingElement;
 
-			// L'oubliette ne doit pas être une illusion
+			// L'oubliette ne doit pas ï¿½tre une illusion
 			if (pit.isIllusion()) {
 				return false;
 			}
 
-			// L'oubliette doit être ouverte
+			// L'oubliette doit ï¿½tre ouverte
 			if (pit.isClosed()) {
 				return false;
 			}
 
-			// Le groupe peut descendre (pas de son à jouer). Attention de bien
+			// Le groupe peut descendre (pas de son ï¿½ jouer). Attention de bien
 			// faire avancer de une position vers l'avant le groupe !!! Le cas
-			// de plusieurs oubliettes "empilées" est traité par la méthode
+			// de plusieurs oubliettes "empilï¿½es" est traitï¿½ par la mï¿½thode
 			// Dungeon.teleportParty()
 
-			// Passer le groupe dans l'état CLIMBING_DOWN le temps de la
+			// Passer le groupe dans l'ï¿½tat CLIMBING_DOWN le temps de la
 			// descente
 			champion.getParty().setState(Party.State.CLIMBING_DOWN);
 
 			dungeon.teleportParty(target, // target.towards(Direction.DOWN),
 					dungeon.getParty().getLookDirection(), true);
 
-			// Sortir de l'état CLIMBING_DOWN
+			// Sortir de l'ï¿½tat CLIMBING_DOWN
 			champion.getParty().setState(Party.State.NORMAL);
 
-			// Le champion gagne de l'expérience
+			// Le champion gagne de l'expï¿½rience
 			champion.gainExperience(improvedSkill,
 					computeEarnedExperience(dungeon));
 		} else if (Action.HEAL.equals(this)) {
-			// TODO Guérir le groupe ou seulement le porteur de l'objet ?
+			// TODO Guï¿½rir le groupe ou seulement le porteur de l'objet ?
 			final int healPoints = Utils.random(10, 30);
 
-			// On ne peut soigner que les héros vivants (les morts doivent être
-			// ressuscités avant via un autel)
+			// On ne peut soigner que les hï¿½ros vivants (les morts doivent ï¿½tre
+			// ressuscitï¿½s avant via un autel)
 			for (Champion aChampion : dungeon.getParty().getChampions(false)) {
 				aChampion.getStats().getHealth().inc(healPoints);
 			}
 
-			// Le champion gagne de l'expérience
+			// Le champion gagne de l'expï¿½rience
 			champion.gainExperience(improvedSkill,
 					computeEarnedExperience(dungeon));
 		} else if (Action.THROW.equals(this)) {
-			// TODO Implémenter lancer d'objet sans passer par une action (UI)
-			// avec gain d'expérience
-			// TODO Calculer la portée du projectile (fonction de la force du
+			// TODO Implï¿½menter lancer d'objet sans passer par une action (UI)
+			// avec gain d'expï¿½rience
+			// TODO Calculer la portï¿½e du projectile (fonction de la force du
 			// champion, etc)
 
 			// Lancer l'objet dans la main du champion
@@ -305,36 +305,36 @@ public enum Action {
 					throw new RuntimeException();
 			}
 			
-			// Le projectile apparaît sur la position voisine 
+			// Le projectile apparaï¿½t sur la position voisine 
 			new ItemProjectile(item, dungeon, champion.getParty()
 					.getFacingPosition(), direction, subCell, 30);
 		} else if (Action.FLUX_CAGE.equals(this)) {
-			// Créer une flux cage sur la position face au champion
+			// Crï¿½er une flux cage sur la position face au champion
 			final Element element = dungeon.getElement(dungeon.getParty()
 					.getFacingPosition());
 			
-			// TODO Tester que l'élément peut accueillir une flux cage ?
+			// TODO Tester que l'ï¿½lï¿½ment peut accueillir une flux cage ?
 			element.createFluxCage();
 
-			// Le champion gagne de l'expérience
+			// Le champion gagne de l'expï¿½rience
 			champion.gainExperience(improvedSkill,
 					computeEarnedExperience(dungeon));
 		} else {
 			// FIXME Quelles sont les actions qui doivent passer par ce else ?
 			// Les identifier
 			
-			// TODO Calculer si le coup a porté
+			// TODO Calculer si le coup a portï¿½
 			final boolean success = true;
 
 			if (success) {
-				// TODO Calculer les points de dommage infligés
+				// TODO Calculer les points de dommage infligï¿½s
 
-				// Le champion gagne de l'expérience
+				// Le champion gagne de l'expï¿½rience
 				champion.gainExperience(improvedSkill,
 						computeEarnedExperience(dungeon));
 			}
 
-			// TODO La défense du champion est modifiée
+			// TODO La dï¿½fense du champion est modifiï¿½e
 
 			// TODO Son
 		}
@@ -343,7 +343,7 @@ public enum Action {
 		champion.getStats().getStamina().dec(stamina);
 
 		if (fatigue > 0) {
-			// Main indisponible en fonction de la fatigue associée à l'action
+			// Main indisponible en fonction de la fatigue associï¿½e ï¿½ l'action
 			champion.getBody().getWeaponHand().disable(fatigue);			
 		} else {
 			// Quid des actions dont la fatigue est nulle (THROW par ex) ?

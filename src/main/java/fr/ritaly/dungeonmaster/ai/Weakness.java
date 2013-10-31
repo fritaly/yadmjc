@@ -25,7 +25,7 @@ import fr.ritaly.dungeonmaster.item.Weapon;
 import fr.ritaly.dungeonmaster.magic.Spell;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Weakness {
 	// Armes
@@ -52,16 +52,16 @@ public enum Weakness {
 			// Toutes les armes fonctionnent
 			return true;
 		case VORPAL_BLADE:
-			// Seule l'arme du type donné fonctionne
+			// Seule l'arme du type donnï¿½ fonctionne
 			return Item.Type.VORPAL_BLADE.equals(weapon.getType());
 		case YEW_STAFF:
-			// Seule l'arme du type donné fonctionne
+			// Seule l'arme du type donnï¿½ fonctionne
 			return Item.Type.YEW_STAFF.equals(weapon.getType());
 		case STAFF_OF_MANAR:
-			// Seule l'arme du type donné fonctionne
+			// Seule l'arme du type donnï¿½ fonctionne
 			return Item.Type.STAFF_OF_MANAR.equals(weapon.getType());
 		case THE_FIRESTAFF:
-			// Seule l'arme du type donné fonctionne
+			// Seule l'arme du type donnï¿½ fonctionne
 			return Item.Type.THE_FIRESTAFF_COMPLETE.equals(weapon.getType());
 		default:
 			return false;

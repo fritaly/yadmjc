@@ -24,7 +24,7 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class BackPack extends AbstractItemContainer {
 	
@@ -42,7 +42,7 @@ public final class BackPack extends AbstractItemContainer {
 		checkIndex(index);
 		Validate.notNull(item, "The given item is null");
 		
-		// Le sac à dos accepte n'importe quel objet quel que soit l'index
+		// Le sac ï¿½ dos accepte n'importe quel objet quel que soit l'index
 		return true;
 	}
 }

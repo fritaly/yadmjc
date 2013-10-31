@@ -19,19 +19,19 @@
 package fr.ritaly.dungeonmaster;
 
 /**
- * Enumération des "matérialités" supportées dans le jeu.
+ * Enumï¿½ration des "matï¿½rialitï¿½s" supportï¿½es dans le jeu.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Materiality {
 	/**
-	 * Définit une entité matérielle (la plupart des objets dans le jeu).
+	 * Dï¿½finit une entitï¿½ matï¿½rielle (la plupart des objets dans le jeu).
 	 */
 	MATERIAL,
 
 	/**
-	 * Définit une entité immatérielle (les créatures de type GHOST, ZYTAZ, etc
-	 * qui peuvent passer à travers les murs, portes)
+	 * Dï¿½finit une entitï¿½ immatï¿½rielle (les crï¿½atures de type GHOST, ZYTAZ, etc
+	 * qui peuvent passer ï¿½ travers les murs, portes)
 	 */
 	IMMATERIAL;
 }

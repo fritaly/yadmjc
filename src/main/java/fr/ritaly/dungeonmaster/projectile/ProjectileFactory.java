@@ -26,7 +26,7 @@ import fr.ritaly.dungeonmaster.map.Dungeon;
 /**
  * A factory of {@link Projectile}s.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface ProjectileFactory {
 

@@ -29,7 +29,7 @@ import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Inventory implements ChangeEventSource, ChangeListener {
 
@@ -121,9 +121,9 @@ public class Inventory implements ChangeEventSource, ChangeListener {
 	public void onChangeEvent(ChangeEvent event) {
 		final Object source = event.getSource();
 
-		// On teste les références dans l'ordre de probabilité !
+		// On teste les rï¿½fï¿½rences dans l'ordre de probabilitï¿½ !
 		if ((source == backPack) || (source == quiver) || (source == pouch)) {
-			// Propager l'évènement
+			// Propager l'ï¿½vï¿½nement
 			fireChangeEvent();
 		}
 	}

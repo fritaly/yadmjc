@@ -74,7 +74,7 @@ import fr.ritaly.dungeonmaster.stat.Stat;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Champion implements ChangeEventSource, PropertyChangeListener,
 		ClockListener {
@@ -82,7 +82,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	private final Log log = LogFactory.getLog(Champion.class);
 
 	/**
-	 * Enumération des {@link Champion}s de Dungeon Master.
+	 * Enumï¿½ration des {@link Champion}s de Dungeon Master.
 	 */
 	public static enum Name {
 		ALEX("Alex Ander"),
@@ -162,11 +162,11 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		}
 
 		/**
-		 * Retourne les compétences du {@link Champion} sous forme d'une
+		 * Retourne les compï¿½tences du {@link Champion} sous forme d'une
 		 * {@link Map}.
 		 * 
-		 * @return une {@link Map} contenant les compétences et leur niveau
-		 *         associé. Ne retourne jamais null.
+		 * @return une {@link Map} contenant les compï¿½tences et leur niveau
+		 *         associï¿½. Ne retourne jamais null.
 		 */
 		public Map<Skill, Level> getSkills() {
 			switch (this) {
@@ -451,7 +451,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Enumération des couleurs attribuées aux {@link Champion}s quand ils
+	 * Enumï¿½ration des couleurs attribuï¿½es aux {@link Champion}s quand ils
 	 * rejoignent une {@link Party}.
 	 */
 	public static enum Color {
@@ -462,13 +462,13 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Niveau d'expérience d'un {@link Champion} dans une {@link Skill} donnée.
-	 * Chaque {@link Level} est associé à un intervalle de points d'expérience.
-	 * Quand l'expérience dépasse ce seuil, le {@link Champion} change
+	 * Niveau d'expï¿½rience d'un {@link Champion} dans une {@link Skill} donnï¿½e.
+	 * Chaque {@link Level} est associï¿½ ï¿½ un intervalle de points d'expï¿½rience.
+	 * Quand l'expï¿½rience dï¿½passe ce seuil, le {@link Champion} change
 	 * automatiquent de {@link Level}.
 	 */
 	public static enum Level {
-		// Niveaux possibles classés du plus faible au plus fort
+		// Niveaux possibles classï¿½s du plus faible au plus fort
 		NONE,
 		NEOPHYTE,
 		NOVICE,
@@ -487,19 +487,19 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		ARCH_MASTER;
 
 		/**
-		 * Valeur du début de l'intervalle d'expérience associé au {@link Level}
+		 * Valeur du dï¿½but de l'intervalle d'expï¿½rience associï¿½ au {@link Level}
 		 */
 		private final int startRange;
 
 		/**
-		 * Valeur de fin de l'intervalle d'expérience associé au {@link Level}
+		 * Valeur de fin de l'intervalle d'expï¿½rience associï¿½ au {@link Level}
 		 */
 		private final int endRange;
 
 		private final int span;
 
 		private Level() {
-			// La largeur de l'intervalle double à chaque niveau
+			// La largeur de l'intervalle double ï¿½ chaque niveau
 			this.startRange = 500 << (ordinal() - 1);
 			this.endRange = (500 << ordinal());
 			this.span = endRange - startRange;
@@ -514,31 +514,31 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		}
 
 		/**
-		 * Retourne la "largeur" de l'intervalle de points d'expérience associé
-		 * à ce niveau de compétence. Représente le nombre de points
-		 * d'expérience que le champion doit acquérir pour monter de niveau.
+		 * Retourne la "largeur" de l'intervalle de points d'expï¿½rience associï¿½
+		 * ï¿½ ce niveau de compï¿½tence. Reprï¿½sente le nombre de points
+		 * d'expï¿½rience que le champion doit acquï¿½rir pour monter de niveau.
 		 * 
-		 * @return un nombre de points d'expérience.
+		 * @return un nombre de points d'expï¿½rience.
 		 */
 		public int getRangeSpan() {
 			return span;
 		}
 
 		/**
-		 * Indique si le nombre de points d'expérience donnés est contenu dans
-		 * l'intervalle de points associé à ce {@link Level}.
+		 * Indique si le nombre de points d'expï¿½rience donnï¿½s est contenu dans
+		 * l'intervalle de points associï¿½ ï¿½ ce {@link Level}.
 		 * 
 		 * @param experience
-		 *            un nombre de points d'expérience.
-		 * @return si le nombre de points d'expérience donnés est contenu dans
-		 *         l'intervalle de points associé à ce {@link Level}.
+		 *            un nombre de points d'expï¿½rience.
+		 * @return si le nombre de points d'expï¿½rience donnï¿½s est contenu dans
+		 *         l'intervalle de points associï¿½ ï¿½ ce {@link Level}.
 		 */
 		public boolean contains(int experience) {
 			return (startRange <= experience) && (experience <= endRange);
 		}
 
 		/**
-		 * Retourne la valeur associée au {@link Level}. Correspond à la valeur
+		 * Retourne la valeur associï¿½e au {@link Level}. Correspond ï¿½ la valeur
 		 * ordinale de l'enum.
 		 * 
 		 * @return un entier positif ou nul.
@@ -548,13 +548,13 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		}
 
 		/**
-		 * Convertit le nombre de points d'expérience donné en une instance de
-		 * {@link Level}. Lève une {@link IllegalArgumentException} si la
+		 * Convertit le nombre de points d'expï¿½rience donnï¿½ en une instance de
+		 * {@link Level}. Lï¿½ve une {@link IllegalArgumentException} si la
 		 * conversion est impossible.
 		 * 
 		 * @param points
-		 *            un entier positif représentant un nombre de points
-		 *            d'expérience.
+		 *            un entier positif reprï¿½sentant un nombre de points
+		 *            d'expï¿½rience.
 		 * @return une instance de {@link Level}. Ne retourne jamais null.
 		 */
 		public static Level fromExperience(int points) {
@@ -583,12 +583,12 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	private Gender gender;
 
 	/**
-	 * Le groupe auquel est rattaché le {@link Champion}.
+	 * Le groupe auquel est rattachï¿½ le {@link Champion}.
 	 */
 	private Party party;
 
 	/**
-	 * La {@link Color} assignée au {@link Champion} lorsqu'il a rejoint le
+	 * La {@link Color} assignï¿½e au {@link Champion} lorsqu'il a rejoint le
 	 * groupe.
 	 */
 	private Color color;
@@ -598,20 +598,20 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	private final Inventory inventory;
 
 	/**
-	 * L'identifiant du dernier numéro de tic d'horloge pendant lequel le
-	 * {@link Champion} a été attaqué ou -1 si le {@link Champion} n'a jamais
-	 * été attaqué.
+	 * L'identifiant du dernier numï¿½ro de tic d'horloge pendant lequel le
+	 * {@link Champion} a ï¿½tï¿½ attaquï¿½ ou -1 si le {@link Champion} n'a jamais
+	 * ï¿½tï¿½ attaquï¿½.
 	 */
 	private int lastAttackTick = -1;
 
 	/**
-	 * L'instance de {@link SpellCaster} associée au {@link Champion} et lui
+	 * L'instance de {@link SpellCaster} associï¿½e au {@link Champion} et lui
 	 * permettant de lancer des sorts.
 	 */
 	private final SpellCaster spellCaster = new SpellCaster(this);
 
 	/**
-	 * La Map contenant l'expérience du {@link Champion} dans chacune de ses
+	 * La Map contenant l'expï¿½rience du {@link Champion} dans chacune de ses
 	 * {@link Skill}s.
 	 */
 	private final Map<Skill, Experience> skills;
@@ -621,18 +621,18 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	private final Stats stats;
 
 	/**
-	 * Permet de gérer l'empoisonnement du {@link Champion}.
+	 * Permet de gï¿½rer l'empoisonnement du {@link Champion}.
 	 */
 	private final Poison poison = new Poison();
 
 	/**
-	 * Les sorts lancés par le {@link Champion}.
+	 * Les sorts lancï¿½s par le {@link Champion}.
 	 */
 	private final ChampionSpells spells;
 
 	private final Temporizer temporizer;
 
-	// Il faut passer par la fabrique ChampionFactory afin de créer des
+	// Il faut passer par la fabrique ChampionFactory afin de crï¿½er des
 	// champions "complets"
 	Champion(String name) {
 		if (StringUtils.isBlank(name)) {
@@ -642,16 +642,16 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 		this.name = name;
 
-		// L'inventaire doit être instancié après avoir mémorisé le nom du
+		// L'inventaire doit ï¿½tre instanciï¿½ aprï¿½s avoir mï¿½morisï¿½ le nom du
 		// champion
 		this.inventory = new Inventory(this);
 
-		// Les stats doivent être instanciées après avoir mémorisé le nom du
+		// Les stats doivent ï¿½tre instanciï¿½es aprï¿½s avoir mï¿½morisï¿½ le nom du
 		// champion
 		this.stats = new Stats(this);
 		this.stats.addPropertyChangeListener(this);
 
-		// Le corps doit être instancié après pour la même raison
+		// Le corps doit ï¿½tre instanciï¿½ aprï¿½s pour la mï¿½me raison
 		this.body = new Body(this);
 
 		// Idem
@@ -660,7 +660,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		// Idem
 		this.temporizer = new Temporizer(name, 5);
 
-		// Initialiser toutes les skills du champion à NONE
+		// Initialiser toutes les skills du champion ï¿½ NONE
 		final Map<Skill, Experience> map = new HashMap<Skill, Experience>();
 
 		for (Skill skill : Skill.values()) {
@@ -672,15 +672,15 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Augmente du nombre de points d'expérience donnés la compétence du
+	 * Augmente du nombre de points d'expï¿½rience donnï¿½s la compï¿½tence du
 	 * {@link Champion}. Promeut automatiquement le {@link Champion} si sa
-	 * compétence est suffisante.
+	 * compï¿½tence est suffisante.
 	 * 
 	 * @param skill
-	 *            la {@link Skill} dont l'expérience doit augmenter.
+	 *            la {@link Skill} dont l'expï¿½rience doit augmenter.
 	 * @param points
-	 *            un entier positif ou nul représentant le nombre de points
-	 *            d'expérience acquis par le {@link Champion}.
+	 *            un entier positif ou nul reprï¿½sentant le nombre de points
+	 *            d'expï¿½rience acquis par le {@link Champion}.
 	 */
 	public void gainExperience(Skill skill, int points) {
 		if (skill == null) {
@@ -693,36 +693,36 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		assertAlive();
 
 		if (skill.isBasic()) {
-			// Traiter la compétence basique
+			// Traiter la compï¿½tence basique
 			getExperience(skill).gain(points);
 		} else {
-			// Traiter la compétence cachée
+			// Traiter la compï¿½tence cachï¿½e
 			getExperience(skill).gain(points);
 
-			// puis la compétence basique associée
+			// puis la compï¿½tence basique associï¿½e
 			getExperience(skill.getRelatedSkill()).gain(points);
 		}
 	}
 
 	/**
-	 * Retourne les compétences du {@link Champion} sous forme de {@link List}.
+	 * Retourne les compï¿½tences du {@link Champion} sous forme de {@link List}.
 	 * 
 	 * @return une {@link List} de {@link Skill}. Ne retourne jamais null.
 	 */
 	public List<Skill> getSkills() {
-		// Recopie défensive
+		// Recopie dï¿½fensive
 		return new ArrayList<Skill>(skills.keySet());
 	}
 
 	/**
-	 * Définit le niveau de compétence <b>de base</b> du héros dans la
-	 * {@link Skill} donnée, c'est-à-dire le niveau indépendant du bonus de
-	 * compétence.
+	 * Dï¿½finit le niveau de compï¿½tence <b>de base</b> du hï¿½ros dans la
+	 * {@link Skill} donnï¿½e, c'est-ï¿½-dire le niveau indï¿½pendant du bonus de
+	 * compï¿½tence.
 	 * 
 	 * @param skill
-	 *            la {@link Skill} dont le niveau doit être positionné.
+	 *            la {@link Skill} dont le niveau doit ï¿½tre positionnï¿½.
 	 * @param level
-	 *            le {@link Level} à définir pour la {@link Skill}.
+	 *            le {@link Level} ï¿½ dï¿½finir pour la {@link Skill}.
 	 */
 	public void setSkill(Skill skill, Level level) {
 		if (skill == null) {
@@ -737,11 +737,11 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Retourne l'expérience associée à la {@link Skill} donnée du
+	 * Retourne l'expï¿½rience associï¿½e ï¿½ la {@link Skill} donnï¿½e du
 	 * {@link Champion}.
 	 * 
 	 * @param skill
-	 *            la {@link Skill} pour laquelle on demande l'expérience.
+	 *            la {@link Skill} pour laquelle on demande l'expï¿½rience.
 	 * @return une instance de {@link Experience}. Ne retourne jamais null.
 	 */
 	public Experience getExperience(Skill skill) {
@@ -760,9 +760,9 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Fait invoquer le {@link Rune} donné au {@link Champion}. Cette méthode
-	 * gère la consommation de mana, la cohérence de la séquence de {@link Rune}
-	 * s invoqués, etc.
+	 * Fait invoquer le {@link Rune} donnï¿½ au {@link Champion}. Cette mï¿½thode
+	 * gï¿½re la consommation de mana, la cohï¿½rence de la sï¿½quence de {@link Rune}
+	 * s invoquï¿½s, etc.
 	 * 
 	 * @param rune
 	 *            le {@link Rune} que le {@link Champion} doit invoquer.
@@ -776,16 +776,16 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		}
 		assertAlive();
 
-		// Vérifier que le champion a assez de mana pour invoquer ce rune
+		// Vï¿½rifier que le champion a assez de mana pour invoquer ce rune
 		final Stat mana = getStats().getMana();
 
 		final int cost;
 
-		// Déterminer le coût d'invocation du rune
+		// Dï¿½terminer le coï¿½t d'invocation du rune
 		if (Rune.Type.POWER.equals(rune.getType())) {
 			cost = rune.getCost();
 		} else {
-			// Récupérer le power rune précédemment invoqué
+			// Rï¿½cupï¿½rer le power rune prï¿½cï¿½demment invoquï¿½
 			final PowerRune powerRune = spellCaster.getPowerRune();
 
 			if (powerRune == null) {
@@ -797,14 +797,14 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		}
 
 		if (mana.actualValue() >= cost) {
-			// Invoquer le rune (contrôle la séquence d'appel des runes)
+			// Invoquer le rune (contrï¿½le la sï¿½quence d'appel des runes)
 			spellCaster.cast(rune);
 
-			// Décrémenter la mana
+			// Dï¿½crï¿½menter la mana
 			mana.dec(cost);
 
-			// Le champion gagne de l'expérience uniquement si le sort réussit
-			// pas au moment où il invoque le rune
+			// Le champion gagne de l'expï¿½rience uniquement si le sort rï¿½ussit
+			// pas au moment oï¿½ il invoque le rune
 		} else {
 			// Pas assez de mana, le signaler
 			throw new NotEnoughManaException();
@@ -821,7 +821,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		// Rune de puissance
 		cast(powerRune);
 
-		// Runes composant le sort (1 à 3)
+		// Runes composant le sort (1 ï¿½ 3)
 		for (Rune rune : spellType.getRunes()) {
 			cast(rune);
 		}
@@ -871,7 +871,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		}
 
 		if (spellCaster.getRuneCount() > 0) {
-			// Il ne doit y avoir aucun rune déjà invoqué
+			// Il ne doit y avoir aucun rune dï¿½jï¿½ invoquï¿½
 			throw new IllegalStateException("There are "
 					+ spellCaster.getRuneCount() + " already invoked");
 		}
@@ -891,17 +891,17 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Lance le sort en cours d'invocation par le {@link Champion}. L'expérience
-	 * du {@link Champion} augmente si le sort réussit et sa main est rendue
-	 * indisponible pendant un temps fonction du sort invoqué.
+	 * Lance le sort en cours d'invocation par le {@link Champion}. L'expï¿½rience
+	 * du {@link Champion} augmente si le sort rï¿½ussit et sa main est rendue
+	 * indisponible pendant un temps fonction du sort invoquï¿½.
 	 * 
-	 * @return une instance de {@link Spell} représentant le sort invoqué.
+	 * @return une instance de {@link Spell} reprï¿½sentant le sort invoquï¿½.
 	 * @throws ChampionMumblesNonsenseException
 	 *             si le sort n'est pas valide.
 	 * @throws EmptyFlaskNeededException
-	 *             si le sort requiert une fiole vide qui n'est pas présente.
+	 *             si le sort requiert une fiole vide qui n'est pas prï¿½sente.
 	 * @throws SkillTooLowException
-	 *             si le {@link Champion} n'est pas assez compétent pour
+	 *             si le {@link Champion} n'est pas assez compï¿½tent pour
 	 *             invoquer le sort.
 	 * @throws EmptyHandNeededException
 	 *             si le sort demande que l'une des mains du {@link Champion}
@@ -913,21 +913,21 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 		assertAlive();
 
-		// On crée juste l'instance de Spell sans effacer les runes pour gérer
-		// le cas spécial de la création de potions (cf plus bas)
+		// On crï¿½e juste l'instance de Spell sans effacer les runes pour gï¿½rer
+		// le cas spï¿½cial de la crï¿½ation de potions (cf plus bas)
 		final Spell spell = spellCaster.cast(true);
 
-		// Le sort invoqué est-il valide ?
+		// Le sort invoquï¿½ est-il valide ?
 		if (!spell.isValid()) {
-			// Non. Supprimer les runes formulés
+			// Non. Supprimer les runes formulï¿½s
 			spellCaster.clear();
 
 			throw new ChampionMumblesNonsenseException();
 		}
 
-		// Le champion a-t-il assez de compétence pour invoquer ce sort ?
+		// Le champion a-t-il assez de compï¿½tence pour invoquer ce sort ?
 		if (!spell.canBeCastBy(this)) {
-			// Non. Supprimer les runes formulés
+			// Non. Supprimer les runes formulï¿½s
 			spellCaster.clear();
 
 			throw new SkillTooLowException("The champion's skill "
@@ -937,9 +937,9 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 					+ spell.getType().getRequiredLevel() + ")");
 		}
 
-		// Prérequis pour que le sort fonctionne ?
+		// Prï¿½requis pour que le sort fonctionne ?
 		if (spell.getType().requiresEmptyFlask()) {
-			// Le sort requiert une fiole vide pour être invoqué
+			// Le sort requiert une fiole vide pour ï¿½tre invoquï¿½
 
 			// Le champion tient-il une fiole vide dans l'une de ses mains ?
 			final Item item1 = getBody().getWeaponHand().getItem();
@@ -952,19 +952,19 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 			if (!emptyFlask1 && !emptyFlask2) {
 				// Aucune fiole vide, lever une erreur en conservant les runes
-				// déjà formulés
+				// dï¿½jï¿½ formulï¿½s
 				throw new EmptyFlaskNeededException();
 			}
 		}
 
-		// Supprimer les runes formulés
+		// Supprimer les runes formulï¿½s
 		spellCaster.clear();
 
-		// Compétence mise en oeuvre par le sort (peut être nul !)
+		// Compï¿½tence mise en oeuvre par le sort (peut ï¿½tre nul !)
 		final Skill skill = spell.getSkill();
 		
 		if (skill != null) {
-			// Le champion gagne de l'expérience. Nombre de points gagnés ?
+			// Le champion gagne de l'expï¿½rience. Nombre de points gagnï¿½s ?
 			gainExperience(skill, spell.getEarnedExperience());			
 		}
 
@@ -972,7 +972,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		
 		if (duration > 0) {
 			// Rendre la main du champion indisponible (uniquement si le sort a 
-			// une "durée" d'indisponibilité)
+			// une "durï¿½e" d'indisponibilitï¿½)
 			body.getWeaponHand().disable(duration);
 		}
 
@@ -1004,7 +1004,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		return party;
 	}
 
-	// Cette méthode ne doit être appelée que depuis la classe Party
+	// Cette mï¿½thode ne doit ï¿½tre appelï¿½e que depuis la classe Party
 	void setParty(Party party) {
 		this.party = party;
 
@@ -1027,8 +1027,8 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	void setColor(Color color) {
-		// color peut être null (quand le héros quitte le groupe). Cette méthode
-		// ne doit être appelée que depuis la classe Party
+		// color peut ï¿½tre null (quand le hï¿½ros quitte le groupe). Cette mï¿½thode
+		// ne doit ï¿½tre appelï¿½e que depuis la classe Party
 		this.color = color;
 	}
 
@@ -1053,20 +1053,20 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * Retourne la charge maximale (en kilogrammes) que peut porter ce
 	 * {@link Champion}.
 	 * 
-	 * @return un float représentant un nombre de kilogrammes.
+	 * @return un float reprï¿½sentant un nombre de kilogrammes.
 	 */
 	public final float getMaxLoad() {
 		return getStats().getActualMaxLoad();
 	}
 
 	/**
-	 * Retourne le niveau <b>réel</b> du champion pour la {@link Skill} donnée,
-	 * c'est-à-dire que la valeur retournée comprend l'éventuel bonus de
-	 * compétence.
+	 * Retourne le niveau <b>rï¿½el</b> du champion pour la {@link Skill} donnï¿½e,
+	 * c'est-ï¿½-dire que la valeur retournï¿½e comprend l'ï¿½ventuel bonus de
+	 * compï¿½tence.
 	 * 
 	 * @param skill
-	 *            une instance de {@link Skill} dont le niveau associé est
-	 *            demandé.
+	 *            une instance de {@link Skill} dont le niveau associï¿½ est
+	 *            demandï¿½.
 	 * @return une instance de {@link Level}. Ne retourne jamais null.
 	 */
 	public Level getLevel(Skill skill) {
@@ -1078,11 +1078,11 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Retourne la charge actuellement portée par le {@link Champion}. S'il est
-	 * leader de son groupe, cela inclut l'éventuel {@link Item} que le leader
+	 * Retourne la charge actuellement portï¿½e par le {@link Champion}. S'il est
+	 * leader de son groupe, cela inclut l'ï¿½ventuel {@link Item} que le leader
 	 * porte en main.
 	 * 
-	 * @return un float représentant un nombre de kilogrammes.
+	 * @return un float reprï¿½sentant un nombre de kilogrammes.
 	 */
 	public float getLoad() {
 		float weight = inventory.getTotalWeight() + body.getTotalWeight();
@@ -1097,15 +1097,15 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Retourne la vitesse de déplacement du champion compte tenu de son état
-	 * actuel. Le retour de la méthode dépend de si le héros est blessé,
-	 * surchargé, etc.
+	 * Retourne la vitesse de dï¿½placement du champion compte tenu de son ï¿½tat
+	 * actuel. Le retour de la mï¿½thode dï¿½pend de si le hï¿½ros est blessï¿½,
+	 * surchargï¿½, etc.
 	 * 
 	 * @return une instance de {@link Speed}.
 	 */
 	public Speed getMoveSpeed() {
 		if (isDead()) {
-			// Champion mort, vitesse non définie
+			// Champion mort, vitesse non dï¿½finie
 			return Speed.UNDEFINED;
 		}
 		if (getLoad() >= getMaxLoad()) {
@@ -1113,7 +1113,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 			return Speed.SLOW;
 		}
 		if (getBody().getFeet().isWounded() || getBody().getLegs().isWounded()) {
-			// Pieds ou jambes blessé(e)s. Une blessure ailleurs ne ralentit
+			// Pieds ou jambes blessï¿½(e)s. Une blessure ailleurs ne ralentit
 			// pas le champion
 			return Speed.SLOW;
 		}
@@ -1122,18 +1122,18 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 			return Speed.FAST;
 		}
 
-		// FIXME Gérer les combinatoires de vitesse: bottes de vitesse mais
-		// blessé, etc.
+		// FIXME Gï¿½rer les combinatoires de vitesse: bottes de vitesse mais
+		// blessï¿½, etc.
 
-		// Vitesse de déplacement normale
+		// Vitesse de dï¿½placement normale
 		return Speed.NORMAL;
 	}
 
 	/**
 	 * Fait mourir le {@link Champion} (s'il est vivant) et retourne si
-	 * l'opération a réussi.
+	 * l'opï¿½ration a rï¿½ussi.
 	 * 
-	 * @return si le {@link Champion} était vivant et qu'il vient de mourir.
+	 * @return si le {@link Champion} ï¿½tait vivant et qu'il vient de mourir.
 	 */
 	public boolean die() {
 		if (isAlive()) {
@@ -1164,14 +1164,14 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Retourne le bonus de résistance au feu du {@link Champion} calculé à
+	 * Retourne le bonus de rï¿½sistance au feu du {@link Champion} calculï¿½ ï¿½
 	 * partir des objets qu'il porte sur lui et des sorts actifs.
 	 * 
-	 * @return un entier positif ou nul représentant un bonus de résistance au
+	 * @return un entier positif ou nul reprï¿½sentant un bonus de rï¿½sistance au
 	 *         feu.
 	 */
 	public int getAntiMagic() {
-		// Prendre en compte le bonus conféré par les objets portés
+		// Prendre en compte le bonus confï¿½rï¿½ par les objets portï¿½s
 		int antiMagic = body.getAntiMagic();
 
 		if (party != null) {
@@ -1183,16 +1183,16 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Retourne le bonus de défense du {@link Champion} calculé à partir des
+	 * Retourne le bonus de dï¿½fense du {@link Champion} calculï¿½ ï¿½ partir des
 	 * objets qu'il porte sur lui et des sorts actifs.
 	 * 
-	 * @return un entier positif ou nul représentant un bonus de défense.
+	 * @return un entier positif ou nul reprï¿½sentant un bonus de dï¿½fense.
 	 */
 	public int getShield() {
-		// Prendre en compte le bonus conféré par les objets portés
+		// Prendre en compte le bonus confï¿½rï¿½ par les objets portï¿½s
 		int shield = body.getShield();
 
-		// Prendre en compte le bonus de défense du sort associé au champion
+		// Prendre en compte le bonus de dï¿½fense du sort associï¿½ au champion
 		// shield += spells.getShield().actualValue();
 
 		if (party != null) {
@@ -1204,18 +1204,18 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Fait consommer l'objet donné au {@link Champion} et retourne l'objet
-	 * résultant de l'opération. Si l'objet n'est pas consommable, retourne le
-	 * paramètre tel quel. Autrement consomme l'objet et retourne null si
-	 * celui-ci est détruit par l'opération ou retourne un autre objet dans
-	 * lequel il s'est changé (Ex: Vidage d'une fiole d'eau -> Fiole vide).
+	 * Fait consommer l'objet donnï¿½ au {@link Champion} et retourne l'objet
+	 * rï¿½sultant de l'opï¿½ration. Si l'objet n'est pas consommable, retourne le
+	 * paramï¿½tre tel quel. Autrement consomme l'objet et retourne null si
+	 * celui-ci est dï¿½truit par l'opï¿½ration ou retourne un autre objet dans
+	 * lequel il s'est changï¿½ (Ex: Vidage d'une fiole d'eau -> Fiole vide).
 	 * 
 	 * @param item
 	 *            un {@link Item} que le {@link Champion} doit consommer (boire
 	 *            ou manger).
-	 * @return l'objet dans lequel l'objet passé en paramètre s'est changé s'il
-	 *         y a lieu, null selon les cas ou alors l'objet en paramètre
-	 *         lui-même.
+	 * @return l'objet dans lequel l'objet passï¿½ en paramï¿½tre s'est changï¿½ s'il
+	 *         y a lieu, null selon les cas ou alors l'objet en paramï¿½tre
+	 *         lui-mï¿½me.
 	 */
 	public Item consume(Item item) {
 		if (item == null) {
@@ -1226,11 +1226,11 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Guérit le {@link Champion} avec la puissance du {@link PowerRune} donné.
+	 * Guï¿½rit le {@link Champion} avec la puissance du {@link PowerRune} donnï¿½.
 	 * 
 	 * @param powerRune
-	 *            un {@link PowerRune} qui détermine la puissance de la guérison
-	 *            appliquée au {@link Champion}.
+	 *            un {@link PowerRune} qui dï¿½termine la puissance de la guï¿½rison
+	 *            appliquï¿½e au {@link Champion}.
 	 */
 	public void heal(PowerRune powerRune) {
 		if (powerRune == null) {
@@ -1238,16 +1238,16 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		}
 		assertAlive();
 
-		// TODO Déterminer le nombre de points de santé restaurés
+		// TODO Dï¿½terminer le nombre de points de santï¿½ restaurï¿½s
 		getStats().getHealth().inc(
 				powerRune.getPowerLevel() * Utils.random(7, 15));
 	}
 
 	/**
-	 * Diminue les points de vie du {@link Champion} du nombre donné.
+	 * Diminue les points de vie du {@link Champion} du nombre donnï¿½.
 	 * 
 	 * @param points
-	 *            un entier positif ou nul représentant un nombre de points de
+	 *            un entier positif ou nul reprï¿½sentant un nombre de points de
 	 *            vie.
 	 */
 	public void hit(int points) {
@@ -1257,7 +1257,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		}
 		assertAlive();
 
-		// Décrémenter les points de vie (fait mourir le champion si plus de
+		// Dï¿½crï¿½menter les points de vie (fait mourir le champion si plus de
 		// points de vie)
 		getStats().getHealth().dec(points);
 	}
@@ -1277,15 +1277,15 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	private void kill() {
-		// On ne doit pas tester s'il est vivant en entrée car cette méthode est
-		// appelée au moment où sa santé passe à zéro (quand il est déjà mort)
+		// On ne doit pas tester s'il est vivant en entrï¿½e car cette mï¿½thode est
+		// appelï¿½e au moment oï¿½ sa santï¿½ passe ï¿½ zï¿½ro (quand il est dï¿½jï¿½ mort)
 		// assertAlive();
 
 		// Jouer le son du cri
 		SoundSystem.getInstance().play(getParty().getPosition(),
 				AudioClip.CHAMPION_DIED);
 
-		// Lâcher tous ses objets sur le sol
+		// Lï¿½cher tous ses objets sur le sol
 		if (log.isDebugEnabled()) {
 			log.debug(name + " is dropping its items ...");
 		}
@@ -1301,7 +1301,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		// Ne pas oublier ce qu'il porte sur lui !
 		items.addAll(body.removeAllItems());
 
-		// Créer et ajouter les os du champion mort aux objets (pour pouvoir le
+		// Crï¿½er et ajouter les os du champion mort aux objets (pour pouvoir le
 		// ressusciter)
 		items.add(new Bones(this));
 
@@ -1309,22 +1309,22 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		final Element location = getParty().getElement();
 
 		if (location != null) {
-			// Déposer les objets au sol (au hasard) "devant" le groupe
+			// Dï¿½poser les objets au sol (au hasard) "devant" le groupe
 			for (Item item : items) {
 				location.itemDroppedDown(item,
 						SubCell.randomVisible(party.getLookDirection()));
 			}
 		}
 
-		// Ne pas supprimer le héros du groupe car quand il meurt il reste quand
-		// même présent mais à l'état "mort" dans le groupe
+		// Ne pas supprimer le hï¿½ros du groupe car quand il meurt il reste quand
+		// mï¿½me prï¿½sent mais ï¿½ l'ï¿½tat "mort" dans le groupe
 		// getParty().removeChampion(this);
 
 		if (log.isInfoEnabled()) {
 			log.info(getName() + " is dead");
 		}
 
-		// Lever un évènement. Permet entre autres de sélectionner un nouveau
+		// Lever un ï¿½vï¿½nement. Permet entre autres de sï¿½lectionner un nouveau
 		// leader si l'actuel meurt !
 		fireChangeEvent();
 	}
@@ -1334,7 +1334,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Réssuscite le {@link Champion}.
+	 * Rï¿½ssuscite le {@link Champion}.
 	 */
 	public void resurrect() {
 		if (isAlive()) {
@@ -1345,7 +1345,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 			log.debug("Resurrecting " + name + " ...");
 		}
 
-		// Ajouter des points de vie au héros
+		// Ajouter des points de vie au hï¿½ros
 		final Stat health = stats.getHealth();
 
 		health.inc(Utils.random(1, health.maxValue()));
@@ -1354,7 +1354,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getSource() != stats) {
-			// On ignore cet évènement
+			// On ignore cet ï¿½vï¿½nement
 			return;
 		}
 
@@ -1363,7 +1363,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 			final int newHealth = ((Integer) event.getNewValue()).intValue();
 
 			if ((oldHealth > 0) && (newHealth == 0)) {
-				// Le héros vient de mourir
+				// Le hï¿½ros vient de mourir
 				if (log.isDebugEnabled()) {
 					log.debug(name + " is dying ...");
 				}
@@ -1371,11 +1371,11 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 				kill();
 			} else if ((oldHealth == 0) && (newHealth > 0)) {
 				if (log.isInfoEnabled()) {
-					// Le héros vient de ressusciter
+					// Le hï¿½ros vient de ressusciter
 					log.info(name + " has been resurrected ...");
 				}
 
-				// Inutile de le réintégrer au groupe, il y est déjà !
+				// Inutile de le rï¿½intï¿½grer au groupe, il y est dï¿½jï¿½ !
 			}
 		}
 	}
@@ -1386,7 +1386,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * @return si le {@link Champion} a faim.
 	 */
 	public boolean isStarving() {
-		// Le champion a faim si la stat "Food" est inférieure à 10%
+		// Le champion a faim si la stat "Food" est infï¿½rieure ï¿½ 10%
 		return getStats().getFood().isLow();
 	}
 
@@ -1396,15 +1396,15 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * @return si le {@link Champion} a soif.
 	 */
 	public boolean isThirsty() {
-		// Le champion a soif si la stat "Water" est inférieure à 10%
+		// Le champion a soif si la stat "Water" est infï¿½rieure ï¿½ 10%
 		return getStats().getWater().isLow();
 	}
 
 	/**
-	 * Empoisonne le {@link Champion} avec un poison de force donnée.
+	 * Empoisonne le {@link Champion} avec un poison de force donnï¿½e.
 	 * 
 	 * @param powerRune
-	 *            un {@link PowerRune} déterminant la force de l'empoisonnement.
+	 *            un {@link PowerRune} dï¿½terminant la force de l'empoisonnement.
 	 */
 	public void poison(PowerRune powerRune) {
 		if (powerRune == null) {
@@ -1415,11 +1415,11 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Guérit le {@link Champion} avec un anti-dote (anti-poison) de force
-	 * donnée.
+	 * Guï¿½rit le {@link Champion} avec un anti-dote (anti-poison) de force
+	 * donnï¿½e.
 	 * 
 	 * @param powerRune
-	 *            un {@link PowerRune} déterminant la force de la guérison.
+	 *            un {@link PowerRune} dï¿½terminant la force de la guï¿½rison.
 	 */
 	public void cure(PowerRune powerRune) {
 		if (powerRune == null) {
@@ -1430,9 +1430,9 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Indique si le {@link Champion} est empoisonné.
+	 * Indique si le {@link Champion} est empoisonnï¿½.
 	 * 
-	 * @return si le {@link Champion} est empoisonné.
+	 * @return si le {@link Champion} est empoisonnï¿½.
 	 */
 	public boolean isPoisoned() {
 		return poison.isActive();
@@ -1451,7 +1451,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 			poison.clockTicked();
 		}
 
-		// Continuer à animer le champion tant qu'il est dans le groupe et qu'il
+		// Continuer ï¿½ animer le champion tant qu'il est dans le groupe et qu'il
 		// est vivant
 		return (party != null) && isAlive();
 	}
@@ -1466,16 +1466,16 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Retourne la lumière générée par le {@link Champion}. Inclut les objets
-	 * portés par le {@link Champion}, les amulettes et les sorts.
+	 * Retourne la lumiï¿½re gï¿½nï¿½rï¿½e par le {@link Champion}. Inclut les objets
+	 * portï¿½s par le {@link Champion}, les amulettes et les sorts.
 	 * 
 	 * @return un entier positif ou nul dans l'intervalle [0-255].
 	 */
 	public int getLight() {
-		// Lumière générée par le sort FUL ?
+		// Lumiï¿½re gï¿½nï¿½rï¿½e par le sort FUL ?
 		int light = spells.getLightValue();
 
-		// Si le héros porte une torche, prendre en compte sa luminosité
+		// Si le hï¿½ros porte une torche, prendre en compte sa luminositï¿½
 		final Item item1 = body.getWeaponHand().getItem();
 
 		if (item1 instanceof Torch) {
@@ -1489,7 +1489,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 			light += ((Torch) item2).getLight();
 		}
 
-		// Si le héros porte l'amulette de lumière, la prendre en compte
+		// Si le hï¿½ros porte l'amulette de lumiï¿½re, la prendre en compte
 		final Item item3 = body.getNeck().getItem();
 
 		if ((item3 != null) && item3.getType().equals(Item.Type.ILLUMULET)) {
@@ -1501,7 +1501,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Retourne les objets portés par le {@link Champion}.
+	 * Retourne les objets portï¿½s par le {@link Champion}.
 	 * 
 	 * @return une {@link List} de {@link Item}. Ne retourne jamais null.
 	 */
@@ -1518,11 +1518,11 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Notifie le {@link Champion} qu'il vient d'être attaqué. Permet de
-	 * mémoriser quand la dernière attaque a eu lieu.
+	 * Notifie le {@link Champion} qu'il vient d'ï¿½tre attaquï¿½. Permet de
+	 * mï¿½moriser quand la derniï¿½re attaque a eu lieu.
 	 */
 	public void championAttacked() {
-		// Mémoriser le numéro de tic courant
+		// Mï¿½moriser le numï¿½ro de tic courant
 		this.lastAttackTick = Clock.getInstance().getTickId();
 	}
 
@@ -1531,8 +1531,8 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Retourne l'emplacement auquel est situé ce {@link Champion} dans son
-	 * groupe ou null s'il n'appartient à aucun groupe.
+	 * Retourne l'emplacement auquel est situï¿½ ce {@link Champion} dans son
+	 * groupe ou null s'il n'appartient ï¿½ aucun groupe.
 	 * 
 	 * @return une instance de {@link Location} ou null.
 	 */

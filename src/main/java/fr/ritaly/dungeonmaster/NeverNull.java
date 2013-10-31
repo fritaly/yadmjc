@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Annotation used to tag a property that can never be null.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 @Target(ElementType.FIELD)
 public @interface NeverNull {

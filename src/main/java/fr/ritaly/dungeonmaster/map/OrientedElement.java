@@ -28,7 +28,7 @@ import fr.ritaly.dungeonmaster.Orientation;
 import fr.ritaly.dungeonmaster.Position;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public abstract class OrientedElement extends Element {
 
@@ -48,7 +48,7 @@ public abstract class OrientedElement extends Element {
 
 	/**
 	 * Retourne les {@link Element}s qui entourent celui-ci. Pour une porte, les
-	 * éléments sont théoriquement deux murs situés de part et d'autre de la
+	 * ï¿½lï¿½ments sont thï¿½oriquement deux murs situï¿½s de part et d'autre de la
 	 * porte.
 	 * 
 	 * @return une List&lt;Element&gt;.

@@ -33,7 +33,7 @@ import fr.ritaly.dungeonmaster.item.Item;
 /**
  * Une partie du corps d'un {@link Champion}.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public abstract class BodyPart implements ChangeEventSource {
 
@@ -42,14 +42,14 @@ public abstract class BodyPart implements ChangeEventSource {
 	private final Body body;
 
 	/**
-	 * Indique si cette partie de corps est blessée.
+	 * Indique si cette partie de corps est blessï¿½e.
 	 */
 	private boolean wounded;
 
 	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
 	/**
-	 * L'objet eventuellement porté par cette partie de corps.
+	 * L'objet eventuellement portï¿½ par cette partie de corps.
 	 */
 	private Item item;
 
@@ -76,7 +76,7 @@ public abstract class BodyPart implements ChangeEventSource {
 	}
 
 	/**
-	 * Enumération des différents types de partie de corps.
+	 * Enumï¿½ration des diffï¿½rents types de partie de corps.
 	 */
 	public static enum Type {
 		HEAD,
@@ -88,7 +88,7 @@ public abstract class BodyPart implements ChangeEventSource {
 		SHIELD_HAND;
 
 		/**
-		 * Indique si ce type de partie de corps désigne une main.
+		 * Indique si ce type de partie de corps dï¿½signe une main.
 		 */
 		public boolean isHand() {
 			return equals(SHIELD_HAND) || equals(WEAPON_HAND);
@@ -119,8 +119,8 @@ public abstract class BodyPart implements ChangeEventSource {
 	public abstract Type getType();
 
 	/**
-	 * Retourne l'instance de {@link CarryLocation} associée à cette
-	 * {@link BodyPart}. Permet de savoir si un {@link Item} peut être équipé
+	 * Retourne l'instance de {@link CarryLocation} associï¿½e ï¿½ cette
+	 * {@link BodyPart}. Permet de savoir si un {@link Item} peut ï¿½tre ï¿½quipï¿½
 	 * par une {@link BodyPart}.
 	 * 
 	 * @return une {@link CarryLocation}. Ne retourne jamais null.
@@ -132,9 +132,9 @@ public abstract class BodyPart implements ChangeEventSource {
 	}
 
 	/**
-	 * Indique si cette {@link BodyPart} peut être blessée.
+	 * Indique si cette {@link BodyPart} peut ï¿½tre blessï¿½e.
 	 * 
-	 * @return si cette {@link BodyPart} peut être blessée.
+	 * @return si cette {@link BodyPart} peut ï¿½tre blessï¿½e.
 	 */
 	public abstract boolean isWoundable();
 
@@ -158,7 +158,7 @@ public abstract class BodyPart implements ChangeEventSource {
 
 	public void heal() {
 		if (isWoundable() && wounded) {
-			// TODO Force de guérison ?
+			// TODO Force de guï¿½rison ?
 			wounded = false;
 
 			fireChangeEvent();
@@ -171,16 +171,16 @@ public abstract class BodyPart implements ChangeEventSource {
 	}
 
 	/**
-	 * Indique si cette {@link BodyPart} est blessée.
+	 * Indique si cette {@link BodyPart} est blessï¿½e.
 	 * 
-	 * @return si cette {@link BodyPart} est blessée.
+	 * @return si cette {@link BodyPart} est blessï¿½e.
 	 */
 	public boolean isWounded() {
 		return wounded;
 	}
 
 	/**
-	 * Retourne l'objet porté par cette partie du corps ou null s'il n'y en a
+	 * Retourne l'objet portï¿½ par cette partie du corps ou null s'il n'y en a
 	 * aucun.
 	 * 
 	 * @return une instance de {@link Item}.
@@ -190,9 +190,9 @@ public abstract class BodyPart implements ChangeEventSource {
 	}
 
 	/**
-	 * Retourne le poids de l'objet porté par cette {@link BodyPart}.
+	 * Retourne le poids de l'objet portï¿½ par cette {@link BodyPart}.
 	 * 
-	 * @return un float représentant un poids.
+	 * @return un float reprï¿½sentant un poids.
 	 */
 	public float getWeight() {
 		return (item != null) ? item.getWeight() : 0.0f;
@@ -216,7 +216,7 @@ public abstract class BodyPart implements ChangeEventSource {
 
 				this.item = item;
 
-				// Notifier l'objet qu'il vient d'être pris / revêtu
+				// Notifier l'objet qu'il vient d'ï¿½tre pris / revï¿½tu
 				this.item.itemPutOn(this);
 
 				fireChangeEvent();
@@ -270,7 +270,7 @@ public abstract class BodyPart implements ChangeEventSource {
 		final Item removed = this.item;
 
 		if (removed != null) {
-			// Notifier l'objet qu'il vient d'être lâché
+			// Notifier l'objet qu'il vient d'ï¿½tre lï¿½chï¿½
 			removed.itemTakenOff();
 		}
 
@@ -301,12 +301,12 @@ public abstract class BodyPart implements ChangeEventSource {
 	}
 
 	/**
-	 * Indique si cette partie du corps porte un objet du type donné.
+	 * Indique si cette partie du corps porte un objet du type donnï¿½.
 	 * 
 	 * @param type
 	 *            une instance de {@link fr.ritaly.dungeonmaster.item.Item.Type}
 	 *            .
-	 * @return si cette partie du corps porte un objet du type donné.
+	 * @return si cette partie du corps porte un objet du type donnï¿½.
 	 */
 	public boolean hasItem(Item.Type type) {
 		Validate.notNull(type, "The given item type is null");
@@ -315,12 +315,12 @@ public abstract class BodyPart implements ChangeEventSource {
 	}
 
 	/**
-	 * Indique si l'objet donné peut être porté / pris par cette partie de
+	 * Indique si l'objet donnï¿½ peut ï¿½tre portï¿½ / pris par cette partie de
 	 * corps. Remarque: A ne pas confondre avec le concept "d'activation".
 	 * 
 	 * @param item
 	 *            une instance de {@link Item}.
-	 * @return si l'objet donné peut être porté / pris par cette partie de
+	 * @return si l'objet donnï¿½ peut ï¿½tre portï¿½ / pris par cette partie de
 	 *         corps.
 	 */
 	public boolean accepts(Item item) {
@@ -329,12 +329,12 @@ public abstract class BodyPart implements ChangeEventSource {
 		}
 
 		if (getType().isHand()) {
-			// Tous les objets peuvent être pris en main
+			// Tous les objets peuvent ï¿½tre pris en main
 			return true;
 		}
 
 		if (item.isActivatedBy(this)) {
-			// L'objet peut être "revêtu" si la partie du corps correspond
+			// L'objet peut ï¿½tre "revï¿½tu" si la partie du corps correspond
 			return true;
 		}
 

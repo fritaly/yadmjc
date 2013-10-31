@@ -21,10 +21,10 @@ package fr.ritaly.dungeonmaster.map;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 
 /**
- * Enumération des différents types d'évènements qui peuvent déclencher un
+ * Enumï¿½ration des diffï¿½rents types d'ï¿½vï¿½nements qui peuvent dï¿½clencher un
  * {@link Actuator}.
  *
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum EventType {
 	PARTY_STEPPED_ON,

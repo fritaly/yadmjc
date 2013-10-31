@@ -21,7 +21,7 @@ package fr.ritaly.dungeonmaster.champion.body;
 import fr.ritaly.dungeonmaster.item.CarryLocation;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Neck extends BodyPart {
 
@@ -41,7 +41,7 @@ public class Neck extends BodyPart {
 
 	@Override
 	public boolean isWoundable() {
-		// Le cou ne peut être blessé
+		// Le cou ne peut ï¿½tre blessï¿½
 		return false;
 	}
 }

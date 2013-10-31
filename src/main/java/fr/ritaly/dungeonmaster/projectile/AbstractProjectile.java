@@ -35,7 +35,7 @@ import fr.ritaly.dungeonmaster.map.Element;
 /**
  * Abstraction of {@link Projectile}.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 abstract class AbstractProjectile implements Projectile {
 
@@ -73,7 +73,7 @@ abstract class AbstractProjectile implements Projectile {
 	private State state = State.FLYING;
 
 	/**
-	 * La distance restante à parcourir par le projectile avant de disparaître
+	 * La distance restante ï¿½ parcourir par le projectile avant de disparaï¿½tre
 	 */
 	private int range;
 
@@ -91,7 +91,7 @@ abstract class AbstractProjectile implements Projectile {
 
 		this.dungeon = dungeon;
 
-		// Mémoriser la position de départ du projectile
+		// Mï¿½moriser la position de dï¿½part du projectile
 		this.position = position;
 
 		// ... sa direction
@@ -100,8 +100,8 @@ abstract class AbstractProjectile implements Projectile {
 		// ... et son emplacement
 		this.subCell = subCell;
 
-		// On mémorise la distance restante à parcourir par le projectile avant
-		// de disparaître
+		// On mï¿½morise la distance restante ï¿½ parcourir par le projectile avant
+		// de disparaï¿½tre
 		this.range = range;
 
 		// Installer le projectile dans le donjon
@@ -147,7 +147,7 @@ abstract class AbstractProjectile implements Projectile {
 		Validate.notNull(state, "The given state is null");
 
 		if (this.state != state) {
-			// On vérifie que la transition est autorisée
+			// On vï¿½rifie que la transition est autorisï¿½e
 			if (!this.state.isTransitionAllowed(state)) {
 				throw new IllegalArgumentException("Transition from "
 						+ this.state + " to " + state + " is forbidden");
@@ -157,7 +157,7 @@ abstract class AbstractProjectile implements Projectile {
 				log.debug(getId() + ".State: " + this.state + " -> " + state);
 			}
 
-			// FIXME Tester projectile dans un téléporteur
+			// FIXME Tester projectile dans un tï¿½lï¿½porteur
 			// FIXME Tester projectile dans un mur
 			// FIXME Tester projectile qui "meurt"
 			this.state = state;
@@ -177,8 +177,8 @@ abstract class AbstractProjectile implements Projectile {
 
 			switch (state) {
 			case FLYING: {
-				// Le projectile doit-il exploser car il est situé sur une porte
-				// fermée ?
+				// Le projectile doit-il exploser car il est situï¿½ sur une porte
+				// fermï¿½e ?
 				final Element currentElement = dungeon.getElement(position);
 
 				if (currentElement.getType().equals(Element.Type.DOOR)
@@ -227,12 +227,12 @@ abstract class AbstractProjectile implements Projectile {
 						&& !targetElement.getType().equals(Element.Type.DOOR)) {
 
 					// Si la cible est une porte, le projectile explose dans
-					// celle-ci pas à côté !
+					// celle-ci pas ï¿½ cï¿½tï¿½ !
 
-					// TODO Le sort POISON_CLOUD peut-il passer à travers une
+					// TODO Le sort POISON_CLOUD peut-il passer ï¿½ travers une
 					// grille ?
 
-					// Le projectile explose à sa position actuelle
+					// Le projectile explose ï¿½ sa position actuelle
 					setState(State.EXPLODING);
 
 					if (log.isDebugEnabled()) {
@@ -244,7 +244,7 @@ abstract class AbstractProjectile implements Projectile {
 					return true;
 				}
 
-				// --- Déplacer le projectile --- //
+				// --- Dï¿½placer le projectile --- //
 
 				// Le projectile quitte sa position actuelle
 				dungeon.getElement(position).projectileLeft(this, subCell);
@@ -265,7 +265,7 @@ abstract class AbstractProjectile implements Projectile {
 				// Il arrive sur la nouvelle position
 				targetElement.projectileArrived(this, targetSubCell);
 
-				// L'emplacement est-il occupé par une créature ?
+				// L'emplacement est-il occupï¿½ par une crï¿½ature ?
 				if (targetElement.getCreature(targetSubCell) != null) {
 					// Oui, le projectile explose
 					setState(State.EXPLODING);
@@ -281,7 +281,7 @@ abstract class AbstractProjectile implements Projectile {
 				}
 
 				if (this.range == 0) {
-					// Le projectile est arrivé en bout de course, il explose
+					// Le projectile est arrivï¿½ en bout de course, il explose
 					setState(State.EXPLODING);
 
 					if (log.isDebugEnabled()) {
@@ -307,12 +307,12 @@ abstract class AbstractProjectile implements Projectile {
 				return true;
 			}
 			case EXPLODED: {
-				// Le projectile disparaît
+				// Le projectile disparaï¿½t
 				if (log.isDebugEnabled()) {
 					log.debug(getId() + " vanishes into thin air");
 				}
 
-				// Le projectile disparaît du donjon
+				// Le projectile disparaï¿½t du donjon
 				dungeon.getElement(position).projectileLeft(this, subCell);
 
 				return false;

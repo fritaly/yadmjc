@@ -24,7 +24,7 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Location {
 	FRONT_LEFT,
@@ -64,7 +64,7 @@ public enum Location {
 		case WEST:
 			return isRight();
 		default:
-			// Ne marche que pour une direction de regard, pas de déplacement
+			// Ne marche que pour une direction de regard, pas de dï¿½placement
 			throw new UnsupportedOperationException();
 		}
 	}
@@ -85,7 +85,7 @@ public enum Location {
 		case WEST:
 			return isLeft();
 		default:
-			// Ne marche que pour une direction de regard, pas de déplacement
+			// Ne marche que pour une direction de regard, pas de dï¿½placement
 			throw new UnsupportedOperationException();
 		}
 	}
@@ -106,7 +106,7 @@ public enum Location {
 		case WEST:
 			return isRear();
 		default:
-			// Ne marche que pour une direction de regard, pas de déplacement
+			// Ne marche que pour une direction de regard, pas de dï¿½placement
 			throw new UnsupportedOperationException();
 		}
 	}
@@ -127,7 +127,7 @@ public enum Location {
 		case WEST:
 			return isFront();
 		default:
-			// Ne marche que pour une direction de regard, pas de déplacement
+			// Ne marche que pour une direction de regard, pas de dï¿½placement
 			throw new UnsupportedOperationException();
 		}
 	}

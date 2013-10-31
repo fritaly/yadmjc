@@ -19,16 +19,16 @@
 package fr.ritaly.dungeonmaster.audio;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum AudioClip {
 	/**
-	 * Son des pas quand le groupe se déplace
+	 * Son des pas quand le groupe se dï¿½place
 	 */
 	STEP("step.wav"),
 
 	/**
-	 * Son quand une porte est détruite
+	 * Son quand une porte est dï¿½truite
 	 */
 	DOOR_BROKEN("doorbreak.wav"),
 
@@ -43,12 +43,12 @@ public enum AudioClip {
 	CHAMPION_DIED("scream.wav"),
 
 	/**
-	 * Son quand on frappe sur une porte mais qu'elle ne cède pas
+	 * Son quand on frappe sur une porte mais qu'elle ne cï¿½de pas
 	 */
 	CLONK("thunk.wav"),
 
 	/**
-	 * Son d'un coup porté dans le vide
+	 * Son d'un coup portï¿½ dans le vide
 	 */
 	SWING("swing.wav"),
 
@@ -63,7 +63,7 @@ public enum AudioClip {
 	REFILL(null),
 
 	/**
-	 * Son de la téléportation
+	 * Son de la tï¿½lï¿½portation
 	 */
 	TELEPORT("teleport.wav"),
 

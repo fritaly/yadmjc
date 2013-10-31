@@ -27,7 +27,7 @@ import fr.ritaly.dungeonmaster.champion.inventory.AbstractItemContainer;
 import fr.ritaly.dungeonmaster.champion.inventory.ItemContainer;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Chest extends Item implements ItemContainer {
 
@@ -54,79 +54,79 @@ public final class Chest extends Item implements ItemContainer {
 
 	@Override
 	public int getCapacity() {
-		// Délégation
+		// Dï¿½lï¿½gation
 		return container.getCapacity();
 	}
 
 	@Override
 	public int getItemCount() {
-		// Délégation
+		// Dï¿½lï¿½gation
 		return container.getItemCount();
 	}
 
 	@Override
 	public List<Item> getItems() {
-		// Délégation
+		// Dï¿½lï¿½gation
 		return container.getItems();
 	}
 
 	@Override
 	public boolean isFull() {
-		// Délégation
+		// Dï¿½lï¿½gation
 		return container.isFull();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// Délégation
+		// Dï¿½lï¿½gation
 		return container.isEmpty();
 	}
 
 	@Override
 	public Item getRandom() {
-		// Délégation
+		// Dï¿½lï¿½gation
 		return container.getRandom();
 	}
 	
 	@Override
 	public Item removeRandom() {
-		// Délégation
+		// Dï¿½lï¿½gation
 		return container.removeRandom();
 	}
 
 	@Override
 	public int add(Item item) {
-		// Délégation
+		// Dï¿½lï¿½gation
 		return container.add(item);
 	}
 
 	@Override
 	public List<Item> removeAll() {
-		// Délégation
+		// Dï¿½lï¿½gation
 		return container.removeAll();
 	}
 
 	@Override
 	public Item remove(int index) {
-		// Délégation
+		// Dï¿½lï¿½gation
 		return container.remove(index);
 	}
 
 	@Override
 	public boolean remove(Item item) {
-		// Délégation
+		// Dï¿½lï¿½gation
 		return container.remove(item);
 	}
 
 	@Override
 	public Item set(int index, Item item) {
-		// Délégation
+		// Dï¿½lï¿½gation
 		return container.set(index, item);
 	}
 
 	@Override
 	public float getTotalWeight() {
-		// Prendre en compte le poids du coffre lui-même !
+		// Prendre en compte le poids du coffre lui-mï¿½me !
 		return 5.0f + container.getTotalWeight();
 	}
 

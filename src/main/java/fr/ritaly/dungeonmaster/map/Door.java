@@ -37,9 +37,9 @@ import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.audio.SoundSystem;
 import fr.ritaly.dungeonmaster.champion.Party;
 
-// FIXME Une porte peut se déclencher elle-même: implémenter HasActuator
+// FIXME Une porte peut se dï¿½clencher elle-mï¿½me: implï¿½menter HasActuator
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Door extends OrientedElement implements ClockListener,
 		Triggered {
@@ -49,7 +49,7 @@ public final class Door extends OrientedElement implements ClockListener,
 	private final Temporizer temporizer = new Temporizer("Temporizer.Door", 4);
 
 	/**
-	 * Enumération des différents degrés de résistance d'une porte.
+	 * Enumï¿½ration des diffï¿½rents degrï¿½s de rï¿½sistance d'une porte.
 	 */
 	public static enum Resistance {
 		LOW(0x2A),
@@ -73,7 +73,7 @@ public final class Door extends OrientedElement implements ClockListener,
 	}
 
 	/**
-	 * Enumération des différents styles de porte existantes.
+	 * Enumï¿½ration des diffï¿½rents styles de porte existantes.
 	 */
 	public static enum Style {
 		/**
@@ -92,7 +92,7 @@ public final class Door extends OrientedElement implements ClockListener,
 		IRON(Resistance.HIGH),
 
 		/**
-		 * Porte spéciale.
+		 * Porte spï¿½ciale.
 		 */
 		RA(Resistance.UNBREAKABLE);
 
@@ -108,34 +108,34 @@ public final class Door extends OrientedElement implements ClockListener,
 		}
 
 		/**
-		 * Indique si l'image affichée de la porte est inversée périodiquement.
+		 * Indique si l'image affichï¿½e de la porte est inversï¿½e pï¿½riodiquement.
 		 * 
-		 * @return si l'image affichée de la porte est inversée périodiquement.
+		 * @return si l'image affichï¿½e de la porte est inversï¿½e pï¿½riodiquement.
 		 */
 		public boolean isAnimated() {
 			return equals(RA);
 		}
 
 		/**
-		 * Indique si les objets lancés peuvent passer à travers la porte.
+		 * Indique si les objets lancï¿½s peuvent passer ï¿½ travers la porte.
 		 * 
-		 * @return si les objets lancés peuvent passer à travers la porte.
+		 * @return si les objets lancï¿½s peuvent passer ï¿½ travers la porte.
 		 */
 		public boolean itemsCanPassThrough() {
 			return equals(GRATE);
 		}
 
 		/**
-		 * Indique si les créatures peuvent voir à travers la porte.
+		 * Indique si les crï¿½atures peuvent voir ï¿½ travers la porte.
 		 * 
-		 * @return si les créatures peuvent voir à travers la porte.
+		 * @return si les crï¿½atures peuvent voir ï¿½ travers la porte.
 		 */
 		public boolean creaturesCanSeeThrough() {
 			return equals(GRATE) || equals(RA);
 		}
 
 		/**
-		 * Retourne la résistance aux dégâts de la porte.
+		 * Retourne la rï¿½sistance aux dï¿½gï¿½ts de la porte.
 		 * 
 		 * @return une instance de {@link Resistance}.
 		 */
@@ -258,7 +258,7 @@ public final class Door extends OrientedElement implements ClockListener,
 			log.debug("Trying to break door ...");
 		}
 
-		// Ne peut fonctionner que si porte fermée
+		// Ne peut fonctionner que si porte fermï¿½e
 		if (State.CLOSED.equals(state) && Motion.IDLE.equals(motion)) {
 			if (isBreakable()) {
 				// TODO Force de frappe ?
@@ -329,7 +329,7 @@ public final class Door extends OrientedElement implements ClockListener,
 				return false;
 			}
 			if (Motion.OPENING.equals(motion)) {
-				// Transition d'état
+				// Transition d'ï¿½tat
 				final State oldState = state;
 
 				state = state.next(motion);
@@ -351,7 +351,7 @@ public final class Door extends OrientedElement implements ClockListener,
 				return !open;
 			}
 			if (Motion.CLOSING.equals(motion)) {
-				// Transition d'état
+				// Transition d'ï¿½tat
 				final State oldState = state;
 
 				state = state.next(motion);
@@ -362,30 +362,30 @@ public final class Door extends OrientedElement implements ClockListener,
 
 				if (hasParty()) {
 					if (!State.THREE_FOURTH_OPEN.equals(state)) {
-						// On vérifie que l'état de la porte est cohérent
+						// On vï¿½rifie que l'ï¿½tat de la porte est cohï¿½rent
 						throw new IllegalStateException("Unexpected state <"
 								+ state + ">. Should be "
 								+ State.THREE_FOURTH_OPEN);
 					}
 
-					// TODO Cogner la tête des héros si présents dessous (+
-					// dégâts visibles) + si casque dégâts réduits
+					// TODO Cogner la tï¿½te des hï¿½ros si prï¿½sents dessous (+
+					// dï¿½gï¿½ts visibles) + si casque dï¿½gï¿½ts rï¿½duits
 
 					SoundSystem.getInstance().play(AudioClip.BONG);
 
 					// La porte rebondit
 					motion = Motion.OPENING_AFTER_REBOUND;
 				} else if (hasCreatures()) {
-					// Frapper les monstres. On détermine la hauteur de la plus
-					// grande des créatures
+					// Frapper les monstres. On dï¿½termine la hauteur de la plus
+					// grande des crï¿½atures
 					final Creature.Height height = getCreatureManager()
 							.getTallestCreatureHeight();
 
 					if ((height != null)
 							&& !Creature.Height.UNDEFINED.equals(height)) {
 
-						// Hauteur définie, la porte rebondit si la hauteur
-						// "matche" avec celle de la créature la plus grande
+						// Hauteur dï¿½finie, la porte rebondit si la hauteur
+						// "matche" avec celle de la crï¿½ature la plus grande
 						if (State.THREE_FOURTH_OPEN.equals(state)
 								&& Creature.Height.GIANT.equals(height)) {
 
@@ -423,11 +423,11 @@ public final class Door extends OrientedElement implements ClockListener,
 							motion = Motion.OPENING_AFTER_REBOUND;
 						} else {
 							// La porte se ferme simplement et rebondira au tour
-							// d'après
+							// d'aprï¿½s
 						}
 					} else {
-						// Pas de hauteur déterminée. Survient pour les
-						// créatures immatérielles
+						// Pas de hauteur dï¿½terminï¿½e. Survient pour les
+						// crï¿½atures immatï¿½rielles
 					}
 				}
 
@@ -444,7 +444,7 @@ public final class Door extends OrientedElement implements ClockListener,
 				return !closed;
 			}
 			if (Motion.OPENING_AFTER_REBOUND.equals(motion)) {
-				// Transition d'état
+				// Transition d'ï¿½tat
 				final State oldState = state;
 
 				// La porte rebondit
@@ -454,7 +454,7 @@ public final class Door extends OrientedElement implements ClockListener,
 					log.debug("Door.State: " + oldState + " -> " + state);
 				}
 
-				// La porte retombe au tour d'après
+				// La porte retombe au tour d'aprï¿½s
 				motion = Motion.CLOSING;
 
 				return true;
@@ -503,13 +503,13 @@ public final class Door extends OrientedElement implements ClockListener,
 
 	@Override
 	public boolean isTraversable(Party party) {
-		// Le résultat dépend de l'état de la porte
+		// Le rï¿½sultat dï¿½pend de l'ï¿½tat de la porte
 		return state.isTraversable(party);
 	}
 
 	@Override
 	public boolean isTraversableByProjectile() {
-		// Le résultat dépend de l'état de la porte
+		// Le rï¿½sultat dï¿½pend de l'ï¿½tat de la porte
 		return state.isTraversableByProjectile();
 	}
 
@@ -537,7 +537,7 @@ public final class Door extends OrientedElement implements ClockListener,
 		}
 
 		if (Materiality.IMMATERIAL.equals(creature.getMateriality()) && !Style.RA.equals(getStyle())) {
-			// Les créature immatérielles ne peuvent passer les portes RA !!!
+			// Les crï¿½ature immatï¿½rielles ne peuvent passer les portes RA !!!
 			return true;
 		}
 
@@ -561,20 +561,20 @@ public final class Door extends OrientedElement implements ClockListener,
 	}
 
 	/**
-	 * Indique si l'image affichée de la porte est inversée périodiquement.
+	 * Indique si l'image affichï¿½e de la porte est inversï¿½e pï¿½riodiquement.
 	 * 
-	 * @return si l'image affichée de la porte est inversée périodiquement.
+	 * @return si l'image affichï¿½e de la porte est inversï¿½e pï¿½riodiquement.
 	 */
 	public boolean isAnimated() {
 		return style.isAnimated();
 	}
 
-	// FIXME Implémenter un objet passant à travers une grille
+	// FIXME Implï¿½menter un objet passant ï¿½ travers une grille
 
 	/**
-	 * Indique si les créatures peuvent voir à travers la porte.
+	 * Indique si les crï¿½atures peuvent voir ï¿½ travers la porte.
 	 * 
-	 * @return si les créatures peuvent voir à travers la porte.
+	 * @return si les crï¿½atures peuvent voir ï¿½ travers la porte.
 	 */
 	public boolean creaturesCanSeeThrough() {
 		return style.creaturesCanSeeThrough();
@@ -591,7 +591,7 @@ public final class Door extends OrientedElement implements ClockListener,
 
 	@Override
 	public void validate() throws ValidationException {
-		// Une porte doit être entourée de deux murs
+		// Une porte doit ï¿½tre entourï¿½e de deux murs
 		final List<Element> surroundingElements = getSurroundingElements();
 
 		final Element element1 = surroundingElements.get(0);

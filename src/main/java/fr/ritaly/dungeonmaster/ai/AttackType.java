@@ -21,7 +21,7 @@ package fr.ritaly.dungeonmaster.ai;
 /**
  * Enumeration des types d'attaque possibles.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum AttackType {
 	/**

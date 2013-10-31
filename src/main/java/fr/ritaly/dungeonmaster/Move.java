@@ -22,7 +22,7 @@ package fr.ritaly.dungeonmaster;
  * Enumeration of possible moves. A {@link Move} is dependent on the current
  * look {@link Direction}.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Move {
 	FORWARD,

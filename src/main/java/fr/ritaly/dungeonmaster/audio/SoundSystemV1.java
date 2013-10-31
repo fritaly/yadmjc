@@ -44,7 +44,7 @@ import fr.ritaly.dungeonmaster.HasPosition;
 import fr.ritaly.dungeonmaster.Position;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SoundSystemV1 {
 
@@ -115,7 +115,7 @@ public class SoundSystemV1 {
 			log.debug("Initializing sound system ...");
 		}
 
-		// Lister les fichiers du répertoire
+		// Lister les fichiers du rï¿½pertoire
 		File[] files = directory.listFiles();
 
 		for (File file : files) {
@@ -196,7 +196,7 @@ public class SoundSystemV1 {
 			log.debug("Task submitted");
 		}
 
-		// TODO Calculer distance, pan, atténuation ...
+		// TODO Calculer distance, pan, attï¿½nuation ...
 	}
 
 	public final void play(AudioClip clip) {

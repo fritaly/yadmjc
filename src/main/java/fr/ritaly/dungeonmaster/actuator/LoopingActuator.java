@@ -24,7 +24,7 @@ import org.apache.commons.lang.Validate;
  * Implementation of {@link Actuator} used to repeatedly trigger a
  * {@link Triggered} up to a given number of times.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class LoopingActuator implements Actuator {
 
@@ -111,7 +111,7 @@ public class LoopingActuator implements Actuator {
 		}
 
 		if (!actuator.clockTicked()) {
-			// Déclenchement
+			// Dï¿½clenchement
 			current++;
 
 			actuator = null;

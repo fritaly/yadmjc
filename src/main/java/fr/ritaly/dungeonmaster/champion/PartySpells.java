@@ -27,7 +27,7 @@ import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.stat.Stat;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class PartySpells implements ClockListener {
 	
@@ -63,7 +63,7 @@ public class PartySpells implements ClockListener {
 		if (temporizer.trigger()) {
 			if (invisibility.actualValue() > 0) {
 				if (invisibility.dec() == 0) {
-					// TODO Lever un évènement
+					// TODO Lever un ï¿½vï¿½nement
 					if (log.isDebugEnabled()) {
 						log.debug("Party.Spells.Invisibility is now inactive");
 					}
@@ -71,7 +71,7 @@ public class PartySpells implements ClockListener {
 			}
 			if (antiMagic.actualValue() > 0) {
 				if (antiMagic.dec() == 0) {
-					// TODO Lever un évènement
+					// TODO Lever un ï¿½vï¿½nement
 					if (log.isDebugEnabled()) {
 						log.debug("Party.Spells.AntiMagic is now inactive");
 					}
@@ -79,7 +79,7 @@ public class PartySpells implements ClockListener {
 			}
 			if (shield.actualValue() > 0) {
 				if (shield.dec() == 0) {
-					// TODO Lever un évènement
+					// TODO Lever un ï¿½vï¿½nement
 					if (log.isDebugEnabled()) {
 						log.debug("Party.Spells.Shield is now inactive");
 					}
@@ -87,7 +87,7 @@ public class PartySpells implements ClockListener {
 			}
 			if (dispellIllusion.actualValue() > 0) {
 				if (dispellIllusion.dec() == 0) {
-					// TODO Lever un évènement
+					// TODO Lever un ï¿½vï¿½nement
 					if (log.isDebugEnabled()) {
 						log.debug("Party.Spells.DispellIllusion is now inactive");
 					}
@@ -95,7 +95,7 @@ public class PartySpells implements ClockListener {
 			}
 			if (seeThroughWalls.actualValue() > 0) {
 				if (seeThroughWalls.dec() == 0) {
-					// TODO Lever un évènement
+					// TODO Lever un ï¿½vï¿½nement
 					if (log.isDebugEnabled()) {
 						log.debug("Party.Spells.SeeThroughWalls is now inactive");
 					}

@@ -21,12 +21,12 @@ package fr.ritaly.dungeonmaster;
 import org.apache.commons.lang.Validate;
 
 /**
- * Définit une téléportation vers une {@link Position} cible. Lors de la
- * téléportation, la {@link Direction} peut également être modifiée. Une
- * {@link Teleport} représente une généralisation de la notion de déplacement /
+ * Dï¿½finit une tï¿½lï¿½portation vers une {@link Position} cible. Lors de la
+ * tï¿½lï¿½portation, la {@link Direction} peut ï¿½galement ï¿½tre modifiï¿½e. Une
+ * {@link Teleport} reprï¿½sente une gï¿½nï¿½ralisation de la notion de dï¿½placement /
  * mouvement.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Teleport {
 

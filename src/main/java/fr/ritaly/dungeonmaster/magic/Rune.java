@@ -19,39 +19,39 @@
 package fr.ritaly.dungeonmaster.magic;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface Rune {
 
 	/**
-	 * Enumération des différents types (familles) de runes existants.
+	 * Enumï¿½ration des diffï¿½rents types (familles) de runes existants.
 	 */
 	public static enum Type {
 		POWER, ELEMENT, FORM, ALIGNMENT;
 	}
 
 	/**
-	 * Retourne le coût (en nombre de points de mana) nécessaire à l'invocation
-	 * du rune. Cette méthode ne fonctionne que pour un {@link PowerRune}.
+	 * Retourne le coï¿½t (en nombre de points de mana) nï¿½cessaire ï¿½ l'invocation
+	 * du rune. Cette mï¿½thode ne fonctionne que pour un {@link PowerRune}.
 	 * 
-	 * @return un entier positif représentant un nombre de points de mana.
+	 * @return un entier positif reprï¿½sentant un nombre de points de mana.
 	 */
 	public int getCost();
 
 	/**
-	 * Retourne le coût (en nombre de points de mana) nécessaire à l'invocation
-	 * du rune pour le power rune donné. Cette méthode ne fonctionne que pour un
+	 * Retourne le coï¿½t (en nombre de points de mana) nï¿½cessaire ï¿½ l'invocation
+	 * du rune pour le power rune donnï¿½. Cette mï¿½thode ne fonctionne que pour un
 	 * {@link ElementRune}, {@link FormRune} ou {@link AlignmentRune}.
 	 * 
 	 * @param powerRune
-	 *            un {@link PowerRune} représentant la puissance d'invocation du
+	 *            un {@link PowerRune} reprï¿½sentant la puissance d'invocation du
 	 *            rune.
-	 * @return un entier positif représentant un nombre de points de mana.
+	 * @return un entier positif reprï¿½sentant un nombre de points de mana.
 	 */
 	public int getCost(PowerRune powerRune);
 
 	/**
-	 * Retourne le type du rune, c'est-à-dire la famille de runes à laquelle il
+	 * Retourne le type du rune, c'est-ï¿½-dire la famille de runes ï¿½ laquelle il
 	 * appartient.
 	 * 
 	 * @return une instance de {@link Type}.
@@ -59,7 +59,7 @@ public interface Rune {
 	public Type getType();
 
 	/**
-	 * Retourne l'identifiant du rune. La valeur retournée est située dans
+	 * Retourne l'identifiant du rune. La valeur retournï¿½e est situï¿½e dans
 	 * l'intervalle [1-6].
 	 * 
 	 * @return un entier identifiant le rune dans sa famille de runes.

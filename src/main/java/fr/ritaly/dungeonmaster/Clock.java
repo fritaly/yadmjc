@@ -28,24 +28,24 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Clock {
 
 	/**
-	 * Constante définissant le nombre de tics d'horloge équivalant à 1 seconde
+	 * Constante dï¿½finissant le nombre de tics d'horloge ï¿½quivalant ï¿½ 1 seconde
 	 * de temps de jeu.
 	 */
 	public static final int ONE_SECOND = 6;
 
 	/**
-	 * Constante définissant le nombre de tics d'horloge équivalant à 1 minute
+	 * Constante dï¿½finissant le nombre de tics d'horloge ï¿½quivalant ï¿½ 1 minute
 	 * de temps de jeu.
 	 */
 	public static final int ONE_MINUTE = ONE_SECOND * 60;
 
 	/**
-	 * La période de temps (en millisecondes) utilisée comme unité de base dans
+	 * La pï¿½riode de temps (en millisecondes) utilisï¿½e comme unitï¿½ de base dans
 	 * le jeu (1/6 de seconde dans Dungeon Master).
 	 */
 	private static final int DEFAULT_PERIOD = 166;
@@ -82,8 +82,8 @@ public class Clock {
 				}
 
 				try {
-					// Calculer le temps à attendre avant le prochain tick afin
-					// de "lisser" l'exécution
+					// Calculer le temps ï¿½ attendre avant le prochain tick afin
+					// de "lisser" l'exï¿½cution
 					final long duration = nextTick - System.currentTimeMillis();
 
 					if (duration > 0) {
@@ -96,7 +96,7 @@ public class Clock {
 						log.warn("Missed tick by " + duration + " ms");
 					}
 				} catch (InterruptedException e) {
-					// Arrêt demandé
+					// Arrï¿½t demandï¿½
 					break;
 				}
 
@@ -150,12 +150,12 @@ public class Clock {
 
 	private static final Clock INSTANCE = new Clock();
 
-	// Ne pas stocker deux fois la même instance -> Set
+	// Ne pas stocker deux fois la mï¿½me instance -> Set
 	private final Set<ClockListener> listeners = new HashSet<ClockListener>();
 
 	/**
 	 * Buffer de stockage des instances de {@link ClockListener} entre deux
-	 * ticks (permet d'éviter les modifications concurrentes lors de l'itération
+	 * ticks (permet d'ï¿½viter les modifications concurrentes lors de l'itï¿½ration
 	 * sur le membre {@link #listeners}).
 	 */
 	private final Set<ClockListener> buffer = Collections
@@ -163,7 +163,7 @@ public class Clock {
 	
 	/**
 	 * Buffer de stockage des instances de {@link ClockListener} entre deux
-	 * ticks (permet d'éviter les modifications concurrentes lors de l'itération
+	 * ticks (permet d'ï¿½viter les modifications concurrentes lors de l'itï¿½ration
 	 * sur le membre {@link #listeners}).
 	 */
 	private final Set<ClockListener> trash = Collections
@@ -176,7 +176,7 @@ public class Clock {
 	private State state = State.STOPPED;
 
 	/**
-	 * Période de temps entre deux tics d'horloge.
+	 * Pï¿½riode de temps entre deux tics d'horloge.
 	 */
 	private long period = DEFAULT_PERIOD;
 
@@ -256,7 +256,7 @@ public class Clock {
 
 		this.state = State.STARTED;
 
-		// Démarrer thread
+		// Dï¿½marrer thread
 		this.thread = new Thread(task);
 		this.thread.start();
 
@@ -270,7 +270,7 @@ public class Clock {
 			throw new IllegalStateException("The clock is already stopped");
 		}
 
-		// Arrêter thread
+		// Arrï¿½ter thread
 		thread.interrupt();
 		thread = null;
 
@@ -287,9 +287,9 @@ public class Clock {
 					+ " -----------]");
 		}
 
-		// Attention à l'ordre de prise en compte des deux Set<ClockListenr> !
+		// Attention ï¿½ l'ordre de prise en compte des deux Set<ClockListenr> !
 		if (!buffer.isEmpty()) {
-			// Déplacer les objets du buffer vers le set des listeners
+			// Dï¿½placer les objets du buffer vers le set des listeners
 			listeners.addAll(buffer);
 			buffer.clear();
 		}
@@ -310,7 +310,7 @@ public class Clock {
 				final ClockListener listener = it.next();
 
 				if (!listener.clockTicked()) {
-					// L'animation est terminée, supprimer cette entrée du Set
+					// L'animation est terminï¿½e, supprimer cette entrï¿½e du Set
 					it.remove();
 
 					if (log.isDebugEnabled()) {
@@ -361,7 +361,7 @@ public class Clock {
 	}
 
 	/**
-	 * Retourne l'identifiant du numéro de tic d'horloge.
+	 * Retourne l'identifiant du numï¿½ro de tic d'horloge.
 	 * 
 	 * @return un entier positif ou nul.
 	 */
@@ -370,7 +370,7 @@ public class Clock {
 	}
 	
 	/**
-	 * Supprimes toutes les instances de {@link ClockListener} enregistrées.
+	 * Supprimes toutes les instances de {@link ClockListener} enregistrï¿½es.
 	 */
 	public synchronized void reset() {
 		listeners.clear();

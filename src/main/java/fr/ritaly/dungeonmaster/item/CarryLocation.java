@@ -19,14 +19,14 @@
 package fr.ritaly.dungeonmaster.item;
 
 /**
- * Enumération des "endroits" où un {@link Item} peut être porté (cf
+ * Enumï¿½ration des "endroits" oï¿½ un {@link Item} peut ï¿½tre portï¿½ (cf
  * {@link #HEAD}, {@link #NECK}, {@link #TORSO}, {@link #LEGS}, {@link #FEET},
- * {@link #HANDS}), utilisé (cf {@link #CONSUMABLE}) ou rangé (cf
+ * {@link #HANDS}), utilisï¿½ (cf {@link #CONSUMABLE}) ou rangï¿½ (cf
  * {@link #QUIVER1}, {@link #QUIVER2}, {@link #POUCH}, {@link #CHEST},
- * {@link #BACKPACK}). Les différentes combinaisons possible de
- * {@link CarryLocation} sont énumérées sous forme de {@link CarryLocations}.
+ * {@link #BACKPACK}). Les diffï¿½rentes combinaisons possible de
+ * {@link CarryLocation} sont ï¿½numï¿½rï¿½es sous forme de {@link CarryLocations}.
  *
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum CarryLocation {
 	// --- Consommable --- //

@@ -25,7 +25,7 @@ import fr.ritaly.dungeonmaster.item.CarryLocation;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Pouch extends AbstractItemContainer {
 

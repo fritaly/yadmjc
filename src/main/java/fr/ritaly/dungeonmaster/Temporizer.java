@@ -24,10 +24,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Un {@link Temporizer} permet de retarder le déclenchement d'un évènement d'un
+ * Un {@link Temporizer} permet de retarder le dï¿½clenchement d'un ï¿½vï¿½nement d'un
  * nombre entier de cycles de {@link Clock}.
  *
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Temporizer {
 
@@ -65,14 +65,14 @@ public final class Temporizer {
 				log.debug("Temporizer timed-out");
 			}
 
-			// Réinitialiser le compte à rebours
+			// Rï¿½initialiser le compte ï¿½ rebours
 			current = max;
 
-			// Déclenchement
+			// Dï¿½clenchement
 			return true;
 		}
 
-		// Pas encore de déclenchement
+		// Pas encore de dï¿½clenchement
 		return false;
 	}
 }

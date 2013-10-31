@@ -22,11 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class ChangeEventSupport implements ChangeEventSource {
 
-	// Instancié à la demande uniquement si nécessaire
+	// Instanciï¿½ ï¿½ la demande uniquement si nï¿½cessaire
 	private List<ChangeListener> listeners;
 
 	@Override
@@ -57,7 +57,7 @@ public class ChangeEventSupport implements ChangeEventSource {
 		}
 
 		if (listeners != null) {
-			// Recopie de la liste avant itération
+			// Recopie de la liste avant itï¿½ration
 			for (ChangeListener listener : new ArrayList<ChangeListener>(
 					listeners)) {
 

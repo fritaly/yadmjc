@@ -34,9 +34,9 @@ import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 
 /**
- * Un projectile créé à l'aide d'un {@link Spell}.
+ * Un projectile crï¿½ï¿½ ï¿½ l'aide d'un {@link Spell}.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class SpellProjectile extends AbstractProjectile {
 
@@ -45,7 +45,7 @@ public final class SpellProjectile extends AbstractProjectile {
 	private final Spell spell;
 
 	public SpellProjectile(Spell spell, Champion champion) {
-		// TODO Distance à calculer
+		// TODO Distance ï¿½ calculer
 		super(champion.getParty().getDungeon(), champion.getParty()
 				.getPosition(), champion.getParty().getDirection(), champion
 				.getSubCell(), spell.getDuration());
@@ -62,7 +62,7 @@ public final class SpellProjectile extends AbstractProjectile {
 			final Position position, final Direction direction,
 			final SubCell subCell) {
 
-		// TODO Distance à calculer
+		// TODO Distance ï¿½ calculer
 		super(dungeon, position, direction, subCell, spell.getDuration());
 
 		Validate.notNull(spell, "The given spell is null");
@@ -86,14 +86,14 @@ public final class SpellProjectile extends AbstractProjectile {
 		} else if (Spell.Type.POISON_CLOUD.equals(spell.getType())) {
 			poisonCloudExplodes();
 		} else {
-			// TODO Implémenter les autres types de SpellProjectile
+			// TODO Implï¿½menter les autres types de SpellProjectile
 		}
 
-		// FIXME Appliquer les dégâts aux créatures / champions
+		// FIXME Appliquer les dï¿½gï¿½ts aux crï¿½atures / champions
 	}
 
 	private void poisonCloudExplodes() {
-		// Créer un nuage de poison sur place
+		// Crï¿½er un nuage de poison sur place
 		dungeon.getElement(getPosition()).createPoisonCloud();
 	}
 
@@ -103,21 +103,21 @@ public final class SpellProjectile extends AbstractProjectile {
 		final Element currentElement = dungeon.getElement(getPosition());
 
 		if (currentElement.getType().equals(Element.Type.DOOR)) {
-			// Exploser la porte si elle peut l'être
+			// Exploser la porte si elle peut l'ï¿½tre
 			final Door door = (Door) currentElement;
 
-			// On doit tester en amont si la porte n'est pas déjà
-			// cassée autrement ça lève une exception
+			// On doit tester en amont si la porte n'est pas dï¿½jï¿½
+			// cassï¿½e autrement ï¿½a lï¿½ve une exception
 			if (!door.isBroken()) {
 				if (door.destroy()) {
-					// La porte a explosé
-					// TODO Conditionner le son joué par le type
+					// La porte a explosï¿½
+					// TODO Conditionner le son jouï¿½ par le type
 					// d'attaque de la porte. Prendre en compte la
 					// force restante du sort
 				}
 			}
 		} else {
-			// TODO Faire des dégâts aux champions
+			// TODO Faire des dï¿½gï¿½ts aux champions
 		}
 	}
 
@@ -136,7 +136,7 @@ public final class SpellProjectile extends AbstractProjectile {
 					// Ouvrir la porte
 					door.open();
 				} else {
-					// Pas géré
+					// Pas gï¿½rï¿½
 					throw new IllegalStateException("Unexpected door state: "
 							+ door.getState());
 				}
@@ -147,7 +147,7 @@ public final class SpellProjectile extends AbstractProjectile {
 				// Fermer la porte
 				door.close();
 			} else {
-				// Pas géré
+				// Pas gï¿½rï¿½
 				throw new IllegalStateException("Unexpected door motion: "
 						+ door.getMotion());
 			}

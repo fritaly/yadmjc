@@ -49,40 +49,40 @@ import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.projectile.Projectile;
 
 /**
- * Un élément permettant de construire des niveaux de donjon.
+ * Un ï¿½lï¿½ment permettant de construire des niveaux de donjon.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public abstract class Element implements ChangeEventSource, HasPosition {
 
 	protected final Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * Enumération des différents types d'élément disponibles.
+	 * Enumï¿½ration des diffï¿½rents types d'ï¿½lï¿½ment disponibles.
 	 */
 	public static enum Type {
 		/**
-		 * Un élément de sol
+		 * Un ï¿½lï¿½ment de sol
 		 */
 		FLOOR,
 
 		/**
-		 * Une dalle de sol qui peut déclencher un {@link Actuator}.
+		 * Une dalle de sol qui peut dï¿½clencher un {@link Actuator}.
 		 */
 		FLOOR_SWITCH,
 
 		/**
-		 * Un mur avec un bouton qui peut déclencher un {@link Actuator}.
+		 * Un mur avec un bouton qui peut dï¿½clencher un {@link Actuator}.
 		 */
 		WALL_SWITCH,
 
 		/**
-		 * Un mur avec une serrure qui peut déclencher un {@link Actuator}.
+		 * Un mur avec une serrure qui peut dï¿½clencher un {@link Actuator}.
 		 */
 		WALL_LOCK,
 
 		/**
-		 * Un mur avec une fente (à pièces) qui peut déclencher un
+		 * Un mur avec une fente (ï¿½ piï¿½ces) qui peut dï¿½clencher un
 		 * {@link Actuator}.
 		 */
 		WALL_SLOT,
@@ -93,7 +93,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		WALL,
 
 		/**
-		 * Un mur qui peut disparaître lorsqu'on l'actionne.
+		 * Un mur qui peut disparaï¿½tre lorsqu'on l'actionne.
 		 */
 		RETRACTABLE_WALL,
 
@@ -131,7 +131,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		TORCH_WALL,
 
 		/**
-		 * Un autel pour réssusciter les champions
+		 * Un autel pour rï¿½ssusciter les champions
 		 */
 		ALTAR,
 
@@ -146,28 +146,28 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		PORTRAIT,
 
 		/**
-		 * Un mur avec une décoration
+		 * Un mur avec une dï¿½coration
 		 */
 		DECORATED_WALL,
 
 		/**
-		 * Une dalle de sol avec une décoration
+		 * Une dalle de sol avec une dï¿½coration
 		 */
 		DECORATED_FLOOR,
 
 		/**
-		 * Un générateur de monstres
+		 * Un gï¿½nï¿½rateur de monstres
 		 */
 		GENERATOR,
 		PROJECTILE_LAUNCHER;
 
 		/**
-		 * Indique si l'élément est "en dur". C'est le cas d'un mur au sens
-		 * large (mur simple, mur décoré) mais pas d'un mur invisible ou d'un
-		 * faux mur. Permet de déterminer si un élément peut être utilisé en
+		 * Indique si l'ï¿½lï¿½ment est "en dur". C'est le cas d'un mur au sens
+		 * large (mur simple, mur dï¿½corï¿½) mais pas d'un mur invisible ou d'un
+		 * faux mur. Permet de dï¿½terminer si un ï¿½lï¿½ment peut ï¿½tre utilisï¿½ en
 		 * bordure de niveau et d'en valider la structure.
 		 * 
-		 * @return si l'élément est "en dur".
+		 * @return si l'ï¿½lï¿½ment est "en dur".
 		 */
 		public boolean isConcrete() {
 			switch (this) {
@@ -207,22 +207,22 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Le niveau auquel appartient l'élément.
+	 * Le niveau auquel appartient l'ï¿½lï¿½ment.
 	 */
 	private Level level;
 
 	/**
-	 * La position de l'élément.
+	 * La position de l'ï¿½lï¿½ment.
 	 */
 	private Position position;
 
 	/**
-	 * Le type de l'élément.
+	 * Le type de l'ï¿½lï¿½ment.
 	 */
 	private final Type type;
 
 	/**
-	 * Le groupe de champions qui occupe l'élément (si c'est pertinent).
+	 * Le groupe de champions qui occupe l'ï¿½lï¿½ment (si c'est pertinent).
 	 */
 	private Party party;
 
@@ -240,8 +240,8 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	private FluxCage fluxCage;
 
 	/**
-	 * Les objets de l'élément (s'il peut en avoir). Ce membre est alimenté lors
-	 * du dépôt du premier objet et mis à null lors du ramassage du dernier
+	 * Les objets de l'ï¿½lï¿½ment (s'il peut en avoir). Ce membre est alimentï¿½ lors
+	 * du dï¿½pï¿½t du premier objet et mis ï¿½ null lors du ramassage du dernier
 	 * objet (optimisation).
 	 */
 	private Map<SubCell, Stack<Item>> items;
@@ -257,15 +257,15 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Dépose l'objet donné sur l'emplacement indiqué.
+	 * Dï¿½pose l'objet donnï¿½ sur l'emplacement indiquï¿½.
 	 * 
 	 * @param item
-	 *            l'objet à déposer.
+	 *            l'objet ï¿½ dï¿½poser.
 	 * @param subCell
-	 *            l'emplacement de dépôt.
+	 *            l'emplacement de dï¿½pï¿½t.
 	 */
 	public synchronized void itemDroppedDown(Item item, SubCell subCell) {
-		// Méthode non finale afin de permettre à certaines implémentations de
+		// Mï¿½thode non finale afin de permettre ï¿½ certaines implï¿½mentations de
 		// Element de la surcharger afin de lancer une
 		// UnsupportedOperationException
 		if (item == null) {
@@ -276,18 +276,18 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		}
 
 		if (items == null) {
-			// Créer la Map à la volée
+			// Crï¿½er la Map ï¿½ la volï¿½e
 			items = new EnumMap<SubCell, Stack<Item>>(SubCell.class);
 		}
 
 		Stack<Item> stack = items.get(subCell);
 
 		if (stack == null) {
-			// Créer l'instance à la volée
+			// Crï¿½er l'instance ï¿½ la volï¿½e
 			items.put(subCell, stack = new Stack<Item>());
 		}
 
-		// Déposer l'objet
+		// Dï¿½poser l'objet
 		stack.push(item);
 
 		if (log.isDebugEnabled()) {
@@ -305,11 +305,11 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Ramasse un objet situé à l'emplacement donné.
+	 * Ramasse un objet situï¿½ ï¿½ l'emplacement donnï¿½.
 	 * 
 	 * @param subCell
-	 *            l'emplacement d'où l'on tente de récupérer un objet.
-	 * @return une instance de {@link Item} représentant l'objet ramassé ou null
+	 *            l'emplacement d'oï¿½ l'on tente de rï¿½cupï¿½rer un objet.
+	 * @return une instance de {@link Item} reprï¿½sentant l'objet ramassï¿½ ou null
 	 *         s'il n'y en avait aucun.
 	 */
 	public synchronized Item pickItem(SubCell subCell) {
@@ -324,7 +324,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 				// Retirer l'objet au-dessus de la pile
 				final Item item = stack.pop();
 
-				// Optimisation mémoire
+				// Optimisation mï¿½moire
 				if (stack.isEmpty()) {
 					items.remove(subCell);
 
@@ -358,13 +358,13 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		return level;
 	}
 	
-	// FIXME Protéger l'appel à cette méthode par un aspect
-	// Cette méthode ne doit être appelée que depuis la classe Level. On ne peut
-	// cependant la déclarer package protected car on en a besoin dans l'algo A*
-	// de recherche de chemin lorsque l'on crée un faux élément de test afin de
-	// déterminer si le chemin en cours d'évaluation est meilleur que l'actuel
+	// FIXME Protï¿½ger l'appel ï¿½ cette mï¿½thode par un aspect
+	// Cette mï¿½thode ne doit ï¿½tre appelï¿½e que depuis la classe Level. On ne peut
+	// cependant la dï¿½clarer package protected car on en a besoin dans l'algo A*
+	// de recherche de chemin lorsque l'on crï¿½e un faux ï¿½lï¿½ment de test afin de
+	// dï¿½terminer si le chemin en cours d'ï¿½valuation est meilleur que l'actuel
 	public void setLevel(Level level) {
-		// level peut être null (retrait d'un élément de son niveau de
+		// level peut ï¿½tre null (retrait d'un ï¿½lï¿½ment de son niveau de
 		// rattachement)
 		this.level = level;
 	}
@@ -374,61 +374,61 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		return position;
 	}
 
-	// FIXME Protéger l'appel à cette méthode par un aspect
-	// Cette méthode ne doit être appelée que depuis la classe Level. On ne peut
-	// cependant la déclarer package protected car on en a besoin dans l'algo A*
-	// de recherche de chemin lorsque l'on crée un faux élément de test afin de
-	// déterminer si le chemin en cours d'évaluation est meilleur que l'actuel
+	// FIXME Protï¿½ger l'appel ï¿½ cette mï¿½thode par un aspect
+	// Cette mï¿½thode ne doit ï¿½tre appelï¿½e que depuis la classe Level. On ne peut
+	// cependant la dï¿½clarer package protected car on en a besoin dans l'algo A*
+	// de recherche de chemin lorsque l'on crï¿½e un faux ï¿½lï¿½ment de test afin de
+	// dï¿½terminer si le chemin en cours d'ï¿½valuation est meilleur que l'actuel
 	public void setPosition(Position position) {
-		// position peut être null (retrait d'un élément de son niveau de
+		// position peut ï¿½tre null (retrait d'un ï¿½lï¿½ment de son niveau de
 		// rattachement)
 		this.position = position;
 	}
 
 	/**
-	 * Indique si l'élément peut être traversé par le groupe de champions.
+	 * Indique si l'ï¿½lï¿½ment peut ï¿½tre traversï¿½ par le groupe de champions.
 	 * 
 	 * @param party
 	 *            le groupe de champions.
-	 * @return si l'élément peut être traversé par le groupe de champions.
+	 * @return si l'ï¿½lï¿½ment peut ï¿½tre traversï¿½ par le groupe de champions.
 	 */
 	public abstract boolean isTraversable(Party party);
 
 	/**
-	 * Indique si la {@link Creature} donnée peut traverse cet élément. Le
-	 * retour de la méthode dépend de la nature (matérielle, immatérielle) de la
-	 * créature donnée et / ou de l'état de l'élément.
+	 * Indique si la {@link Creature} donnï¿½e peut traverse cet ï¿½lï¿½ment. Le
+	 * retour de la mï¿½thode dï¿½pend de la nature (matï¿½rielle, immatï¿½rielle) de la
+	 * crï¿½ature donnï¿½e et / ou de l'ï¿½tat de l'ï¿½lï¿½ment.
 	 * 
 	 * @param creature
 	 *            une {@link Creature}.
-	 * @return si la {@link Creature} donnée peut traverse cet élément.
+	 * @return si la {@link Creature} donnï¿½e peut traverse cet ï¿½lï¿½ment.
 	 */
 	public abstract boolean isTraversable(Creature creature);
 
 	/**
-	 * Indique si l'élément peut être traversé par un projectile.
+	 * Indique si l'ï¿½lï¿½ment peut ï¿½tre traversï¿½ par un projectile.
 	 * 
-	 * @return si l'élément peut être traversé par un projectile.
+	 * @return si l'ï¿½lï¿½ment peut ï¿½tre traversï¿½ par un projectile.
 	 */
 	public abstract boolean isTraversableByProjectile();
 
 	/**
-	 * Notifie l'élement qu'un objet vient d'être déposé à l'emplacement donné.
+	 * Notifie l'ï¿½lement qu'un objet vient d'ï¿½tre dï¿½posï¿½ ï¿½ l'emplacement donnï¿½.
 	 * 
 	 * @param item
-	 *            l'objet déposé.
+	 *            l'objet dï¿½posï¿½.
 	 * @param subCell
-	 *            l'emplacement de dépôt.
+	 *            l'emplacement de dï¿½pï¿½t.
 	 */
 	protected void afterItemDropped(Item item, SubCell subCell) {
 	}
 
 	/**
-	 * Notifie l'élément qu'un objet vient d'être ramassé de l'emplacement
-	 * donné.
+	 * Notifie l'ï¿½lï¿½ment qu'un objet vient d'ï¿½tre ramassï¿½ de l'emplacement
+	 * donnï¿½.
 	 * 
 	 * @param item
-	 *            l'objet ramassé.
+	 *            l'objet ramassï¿½.
 	 * @param subCell
 	 *            l'emplacement de ramassage.
 	 */
@@ -448,8 +448,8 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 			throw new IllegalArgumentException("The given sub-cell is null");
 		}
 		if (!isTraversableByProjectile() && !Type.DOOR.equals(getType())) {
-			// Une porte peut accueillir un projectile même si celle-ci est
-			// fermée afin qu'il puisse exploser
+			// Une porte peut accueillir un projectile mï¿½me si celle-ci est
+			// fermï¿½e afin qu'il puisse exploser
 			throw new UnsupportedOperationException(
 					"The projectile can't arrive on " + getId());
 		}
@@ -460,11 +460,11 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		}
 
 		if (projectiles == null) {
-			// Créer la Map à la volée
+			// Crï¿½er la Map ï¿½ la volï¿½e
 			projectiles = new EnumMap<SubCell, Projectile>(SubCell.class);
 		}
 
-		// L'emplacement doit initialement être vide
+		// L'emplacement doit initialement ï¿½tre vide
 		if (projectiles.get(subCell) != null) {
 			throw new IllegalArgumentException("The cell " + subCell
 					+ " of element " + getId()
@@ -472,7 +472,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 					+ projectiles.get(subCell) + ")");
 		}
 
-		// Mémoriser le projectile
+		// Mï¿½moriser le projectile
 		projectiles.put(subCell, projectile);
 
 		afterProjectileArrived(projectile);
@@ -486,8 +486,8 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 			throw new IllegalArgumentException("The given sub-cell is null");
 		}
 		if (!isTraversableByProjectile() && !Type.DOOR.equals(getType())) {
-			// Une porte peut accueillir un projectile même si celle-ci est
-			// fermée afin qu'il puisse exploser
+			// Une porte peut accueillir un projectile mï¿½me si celle-ci est
+			// fermï¿½e afin qu'il puisse exploser
 			throw new UnsupportedOperationException("The projectile "
 					+ projectile.getId() + " can't leave " + getId());
 		}
@@ -505,7 +505,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		}
 
 		if (projectiles.isEmpty()) {
-			// Purger la Map à la volée
+			// Purger la Map ï¿½ la volï¿½e
 			projectiles = null;
 		}
 
@@ -552,11 +552,11 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Notifie l'élément que le groupe de champions vient d'arriver sur sa
+	 * Notifie l'ï¿½lï¿½ment que le groupe de champions vient d'arriver sur sa
 	 * position.
 	 * 
 	 * @param party
-	 *            une instance de {@link Party} représentant le groupe de
+	 *            une instance de {@link Party} reprï¿½sentant le groupe de
 	 *            champions.
 	 */
 	public final void partySteppedOn(Party party) {
@@ -572,7 +572,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 			log.debug("Party stepped on " + getId());
 		}
 
-		// Mémoriser la référence
+		// Mï¿½moriser la rï¿½fï¿½rence
 		this.party = party;
 
 		afterPartySteppedOn();
@@ -585,9 +585,9 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Notifie l'élément que le groupe de champions vient de tourner sur place.
-	 * Note: Cette méthode permet à un élement de type STAIRS de déplacer le
-	 * groupe de champions quand celui-ci tourne sur lui-même.
+	 * Notifie l'ï¿½lï¿½ment que le groupe de champions vient de tourner sur place.
+	 * Note: Cette mï¿½thode permet ï¿½ un ï¿½lement de type STAIRS de dï¿½placer le
+	 * groupe de champions quand celui-ci tourne sur lui-mï¿½me.
 	 */
 	public void partyTurned() {
 		if (party == null) {
@@ -600,7 +600,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Notifie l'élément que le groupe de champions vient de quitter sa
+	 * Notifie l'ï¿½lï¿½ment que le groupe de champions vient de quitter sa
 	 * position.
 	 */
 	public final void partySteppedOff() {
@@ -613,7 +613,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 					"The party can't step off element " + type);
 		}
 
-		// Réinitialiser la référence
+		// Rï¿½initialiser la rï¿½fï¿½rence
 		final Party backup = this.party;
 		this.party = null;
 
@@ -634,29 +634,29 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Indique si l'élément est occupé par au moins une créature.
+	 * Indique si l'ï¿½lï¿½ment est occupï¿½ par au moins une crï¿½ature.
 	 * 
-	 * @return si l'élément est occupé par au moins une créature.
+	 * @return si l'ï¿½lï¿½ment est occupï¿½ par au moins une crï¿½ature.
 	 */
 	public boolean hasCreatures() {
 		return creatureManager.hasCreatures();
 	}
 
 	/**
-	 * Indique si l'élément est occupé par au moins un projectile.
+	 * Indique si l'ï¿½lï¿½ment est occupï¿½ par au moins un projectile.
 	 * 
-	 * @return si l'élément est occupé par au moins un projectile.
+	 * @return si l'ï¿½lï¿½ment est occupï¿½ par au moins un projectile.
 	 */
 	public boolean hasProjectiles() {
 		return (projectiles != null) && !projectiles.isEmpty();
 	}
 
 	/**
-	 * Indique si l'élément est vide, c'est-à-dire non occupé par des créatures,
-	 * par le groupe de champions ou tout autre chose qui empêcherait de s'y
+	 * Indique si l'ï¿½lï¿½ment est vide, c'est-ï¿½-dire non occupï¿½ par des crï¿½atures,
+	 * par le groupe de champions ou tout autre chose qui empï¿½cherait de s'y
 	 * placer.
 	 * 
-	 * @return si l'élément est vide.
+	 * @return si l'ï¿½lï¿½ment est vide.
 	 */
 	public boolean isEmpty() {
 		return !hasParty() && !hasCreatures();
@@ -681,21 +681,21 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Retourne les créatures occupant cet élément sous forme de Map.
+	 * Retourne les crï¿½atures occupant cet ï¿½lï¿½ment sous forme de Map.
 	 * 
-	 * @return une Map&lt;SubCell, Creature&gt. Cette méthode ne retourne jamais
+	 * @return une Map&lt;SubCell, Creature&gt. Cette mï¿½thode ne retourne jamais
 	 *         null.
 	 */
 	public final Map<SubCell, Creature> getCreatureMap() {
-		// Ne pas utiliser en dehors des tests unitaires (accès trop bas niveau)
-		// Utiliser getCreatures() à la place
+		// Ne pas utiliser en dehors des tests unitaires (accï¿½s trop bas niveau)
+		// Utiliser getCreatures() ï¿½ la place
 		return creatureManager.getCreatureMap();
 	}
 
 	/**
-	 * Retourne les créatures occupant cet élément sous forme de {@link List}.
+	 * Retourne les crï¿½atures occupant cet ï¿½lï¿½ment sous forme de {@link List}.
 	 * 
-	 * @return une Set&lt;Creature&gt. Cette méthode ne retourne jamais null.
+	 * @return une Set&lt;Creature&gt. Cette mï¿½thode ne retourne jamais null.
 	 */
 	public final Set<Creature> getCreatures() {
 		return creatureManager.getCreatures();
@@ -706,16 +706,16 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 			return Collections.emptyMap();
 		}
 
-		// Recopie défensive
+		// Recopie dï¿½fensive
 		return Collections.unmodifiableMap(projectiles);
 	}
 
 	/**
-	 * Retourne la créature occupant l'emplacement donné s'il y a lieu.
+	 * Retourne la crï¿½ature occupant l'emplacement donnï¿½ s'il y a lieu.
 	 * 
 	 * @param subCell
-	 *            l'emplacement sur lequel rechercher la créature.
-	 * @return une instance de {@link Creature} ou null s'il n'y en a aucune à
+	 *            l'emplacement sur lequel rechercher la crï¿½ature.
+	 * @return une instance de {@link Creature} ou null s'il n'y en a aucune ï¿½
 	 *         cet emplacement.
 	 */
 	public final Creature getCreature(SubCell subCell) {
@@ -737,21 +737,21 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Indique si l'élément est "en dur". C'est le cas d'un mur au send large
-	 * (mur simple, mur décoré) mais pas d'un mur invisible ou d'un faux mur.
-	 * Permet de déterminer si un élément peut être utilisé en bordure de
+	 * Indique si l'ï¿½lï¿½ment est "en dur". C'est le cas d'un mur au send large
+	 * (mur simple, mur dï¿½corï¿½) mais pas d'un mur invisible ou d'un faux mur.
+	 * Permet de dï¿½terminer si un ï¿½lï¿½ment peut ï¿½tre utilisï¿½ en bordure de
 	 * niveau.
 	 * 
-	 * @return si l'élément est "en dur".
+	 * @return si l'ï¿½lï¿½ment est "en dur".
 	 */
 	public final boolean isConcrete() {
 		return type.isConcrete();
 	}
 
 	/**
-	 * Retourne l'identifiant de cet élément sous forme de {@link String}.
+	 * Retourne l'identifiant de cet ï¿½lï¿½ment sous forme de {@link String}.
 	 * 
-	 * @return un {@link String} identifiant cet élément.
+	 * @return un {@link String} identifiant cet ï¿½lï¿½ment.
 	 */
 	public abstract String getCaption();
 
@@ -764,13 +764,13 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Retourne tous les objets au sol sur cet élément.
+	 * Retourne tous les objets au sol sur cet ï¿½lï¿½ment.
 	 * 
-	 * @return une List&lt;Item&gt;. Cette méthode ne retourne jamais null.
+	 * @return une List&lt;Item&gt;. Cette mï¿½thode ne retourne jamais null.
 	 */
 	public final List<Item> getItems() {
 		if (items != null) {
-			// items != null -> Il y a forcément au moins un objet au sol
+			// items != null -> Il y a forcï¿½ment au moins un objet au sol
 			final List<Item> list = new ArrayList<Item>();
 
 			for (Stack<Item> stack : items.values()) {
@@ -786,7 +786,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 
 	public final int getItemCount() {
 		if (items != null) {
-			// items != null -> Il y a forcément au moins un objet au sol
+			// items != null -> Il y a forcï¿½ment au moins un objet au sol
 			int count = 0;
 
 			for (Stack<Item> stack : items.values()) {
@@ -818,11 +818,11 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Retourne les objets situés à l'emplacement donné s'il y a lieu.
+	 * Retourne les objets situï¿½s ï¿½ l'emplacement donnï¿½ s'il y a lieu.
 	 * 
 	 * @param subCell
-	 *            l'emplacement où sont situés les objets recherchés.
-	 * @return une List&lt;Item&gt; contenant les objets trouvés. Cette méthode
+	 *            l'emplacement oï¿½ sont situï¿½s les objets recherchï¿½s.
+	 * @return une List&lt;Item&gt; contenant les objets trouvï¿½s. Cette mï¿½thode
 	 *         ne retourne jamais null.
 	 */
 	public List<Item> getItems(SubCell subCell) {
@@ -832,7 +832,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 			final List<Item> list = items.get(subCell);
 
 			if (list != null) {
-				// Recopie défensive
+				// Recopie dï¿½fensive
 				return new ArrayList<Item>(list);
 			}
 		}
@@ -841,9 +841,9 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Indique si l'élément comporte des objets.
+	 * Indique si l'ï¿½lï¿½ment comporte des objets.
 	 * 
-	 * @return si l'élément comporte des objets.
+	 * @return si l'ï¿½lï¿½ment comporte des objets.
 	 */
 	public boolean hasItems() {
 		if (items != null) {
@@ -859,15 +859,15 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 
 	/**
 	 * Calcule et retourne une instance de {@link Teleport} indiquant comment
-	 * déplacer un groupe de champions se déplaçant dans la direction donnée.
-	 * Dans la majorité des cas, le groupe se retrouvera sur l'élément situé
-	 * dans la direction donnée mais pour certains éléments (téléporteurs,
-	 * escaliers) le déplacement du groupe n'est pas aussi simple.
+	 * dï¿½placer un groupe de champions se dï¿½plaï¿½ant dans la direction donnï¿½e.
+	 * Dans la majoritï¿½ des cas, le groupe se retrouvera sur l'ï¿½lï¿½ment situï¿½
+	 * dans la direction donnï¿½e mais pour certains ï¿½lï¿½ments (tï¿½lï¿½porteurs,
+	 * escaliers) le dï¿½placement du groupe n'est pas aussi simple.
 	 * 
 	 * @param direction
-	 *            la {@link Direction} dans laquelle se déplace le groupe de
+	 *            la {@link Direction} dans laquelle se dï¿½place le groupe de
 	 *            champions.
-	 * @return une instance de {@link Teleport} indiquant comment déplacer le
+	 * @return une instance de {@link Teleport} indiquant comment dï¿½placer le
 	 *         groupe de champions.
 	 */
 	public Teleport getTeleport(Direction direction) {
@@ -877,20 +877,20 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 			throw new IllegalStateException("The party isn't on this element");
 		}
 
-		// Dans le cas général, l'élément ne modifie pas la position finale
+		// Dans le cas gï¿½nï¿½ral, l'ï¿½lï¿½ment ne modifie pas la position finale
 		return new Teleport(getPosition().towards(direction), getParty()
 				.getLookDirection());
 	}
 
 	// /**
-	// * Notifie l'élément que le groupe de champions qui l'occupe est sur le
-	// * point de bouger dans la direction donnée et retourne la position finale
-	// * du groupe. Cette méthode est spécialement conçue pour la classe
+	// * Notifie l'ï¿½lï¿½ment que le groupe de champions qui l'occupe est sur le
+	// * point de bouger dans la direction donnï¿½e et retourne la position finale
+	// * du groupe. Cette mï¿½thode est spï¿½cialement conï¿½ue pour la classe
 	// * {@link Stairs} qui a un mode de fonctionnement un peu particulier.
 	// *
 	// * @param direction
-	// * la {@link Direction} de déplacement du groupe.
-	// * @return la {@link Position} finale après déplacement du groupe.
+	// * la {@link Direction} de dï¿½placement du groupe.
+	// * @return la {@link Position} finale aprï¿½s dï¿½placement du groupe.
 	// */
 	// public Position computeTargetPosition(Direction direction) {
 	// Validate.isTrue(direction != null, "The given direction is null");
@@ -898,7 +898,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	// throw new IllegalStateException("The party isn't on this element");
 	// }
 	//
-	// // Dans le cas général, l'élément ne modifie pas la position finale
+	// // Dans le cas gï¿½nï¿½ral, l'ï¿½lï¿½ment ne modifie pas la position finale
 	// return getPosition().towards(direction);
 	// }
 	//
@@ -908,16 +908,16 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	// throw new IllegalStateException("The party isn't on this element");
 	// }
 	//
-	// // Dans le cas général, l'élément ne modifie pas la direction du groupe
+	// // Dans le cas gï¿½nï¿½ral, l'ï¿½lï¿½ment ne modifie pas la direction du groupe
 	// return getParty().getLookDirection();
 	// }
 
 	/**
 	 * Calcule et retourne la place libre restante pour accueillir de nouvelles
-	 * {@link Creature}s sous forme d'un entier (représentant un nombre de
+	 * {@link Creature}s sous forme d'un entier (reprï¿½sentant un nombre de
 	 * {@link SubCell}s).
 	 * 
-	 * @return un entier dans l'intervalle [0-4] représentant le nombre de
+	 * @return un entier dans l'intervalle [0-4] reprï¿½sentant le nombre de
 	 *         {@link SubCell}s libres.
 	 */
 	public int getFreeRoom() {
@@ -925,8 +925,8 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Retourne les {@link SubCell}s occupées par les {@link Creature}s
-	 * présentes sur cet {@link Element}.
+	 * Retourne les {@link SubCell}s occupï¿½es par les {@link Creature}s
+	 * prï¿½sentes sur cet {@link Element}.
 	 * 
 	 * @return un EnumSet&lt;SubCell&gt;. Ne retourne jamais null.
 	 */
@@ -944,12 +944,12 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 
 	/**
-	 * Indique si cet {@link Element} peut accueillir la {@link Creature} donnée
+	 * Indique si cet {@link Element} peut accueillir la {@link Creature} donnï¿½e
 	 * compte tenu de sa taille et de la place restante.
 	 * 
 	 * @param creature
 	 *            une {@link Creature}.
-	 * @return si cet {@link Element} peut accueillir la {@link Creature} donnée
+	 * @return si cet {@link Element} peut accueillir la {@link Creature} donnï¿½e
 	 *         compte tenu de sa taille et de la place restante.
 	 */
 	public boolean canHost(Creature creature) {
@@ -959,13 +959,13 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		final int creatureSize = creature.getSize().value();
 
 		if (creatureSize > room) {
-			// Plus assez de place pour accueillir la créature
+			// Plus assez de place pour accueillir la crï¿½ature
 			return false;
 		}
 
-		// Dans le cas où la place restante est de 2 et la taille de la créature
-		// également de 2, il faut s'assurer qu'il s'agit de SubCell voisines
-		// qui permettent réellement d'accueillir la créature !
+		// Dans le cas oï¿½ la place restante est de 2 et la taille de la crï¿½ature
+		// ï¿½galement de 2, il faut s'assurer qu'il s'agit de SubCell voisines
+		// qui permettent rï¿½ellement d'accueillir la crï¿½ature !
 		if ((room == 2) && (creatureSize == 2)) {
 			final Iterator<SubCell> iterator = getFreeSubCells().iterator();
 
@@ -982,7 +982,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 
 	public abstract void validate() throws ValidationException;
 
-	// FIXME Créer méthode Element.setVisited(boolean) pour magic footprints
+	// FIXME Crï¿½er mï¿½thode Element.setVisited(boolean) pour magic footprints
 
 	protected final Position getPartyPosition() {
 		final Level level = getLevel();
@@ -1050,7 +1050,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		return 0;
 	}
 	
-	// TODO Prendre en compte la force du nuage de poison en paramètre
+	// TODO Prendre en compte la force du nuage de poison en paramï¿½tre
 	public void createPoisonCloud() {
 		if (this.poisonClouds == null) {
 			this.poisonClouds = new ArrayList<PoisonCloud>();
@@ -1062,7 +1062,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		
 		final PoisonCloud poisonCloud = new PoisonCloud(this);
 
-		// S'enregistrer pour savoir quand le nuage disparaît
+		// S'enregistrer pour savoir quand le nuage disparaï¿½t
 		poisonCloud.addChangeListener(new ChangeListener() {
 			@Override
 			public void onChangeEvent(ChangeEvent event) {
@@ -1078,7 +1078,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 			}
 		});
 		
-		// Mémoriser le nuage
+		// Mï¿½moriser le nuage
 		this.poisonClouds.add(poisonCloud);
 		
 		if (log.isDebugEnabled()) {
@@ -1094,9 +1094,9 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	}
 	
 	public void createFluxCage() {
-		// On ne peut créer une cage s'il y en a déjà une en place
+		// On ne peut crï¿½er une cage s'il y en a dï¿½jï¿½ une en place
 		if (hasFluxCage()) {
-			// TODO Gérer le cas d'une seconde cage qui renforce la première ?
+			// TODO Gï¿½rer le cas d'une seconde cage qui renforce la premiï¿½re ?
 			throw new IllegalStateException("There is already a flux cage on "
 					+ this);
 		}
@@ -1107,7 +1107,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		
 		final FluxCage fluxCage = new FluxCage(this);
 
-		// S'enregistrer pour savoir quand la cage disparaît
+		// S'enregistrer pour savoir quand la cage disparaï¿½t
 		fluxCage.addChangeListener(new ChangeListener() {
 			@Override
 			public void onChangeEvent(ChangeEvent event) {
@@ -1119,7 +1119,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 			}
 		});
 		
-		// Mémoriser la cage
+		// Mï¿½moriser la cage
 		this.fluxCage = fluxCage;
 		
 		if (log.isDebugEnabled()) {
@@ -1135,7 +1135,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		
 		for (Position position : getPosition().getSurroundingPositions()) {
 			if (!getLevel().contains(position)) {
-				// Position située en dehors des limites du niveau
+				// Position situï¿½e en dehors des limites du niveau
 				continue;
 			}
 			
@@ -1151,7 +1151,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		
 		for (Position position : getPosition().getAttackablePositions()) {
 			if (!getLevel().contains(position)) {
-				// Position située en dehors des limites du niveau
+				// Position situï¿½e en dehors des limites du niveau
 				continue;
 			}
 			

@@ -28,7 +28,7 @@ import fr.ritaly.dungeonmaster.Skill;
 /**
  * A helper class used to simplify the way a champion skills are defined.
  * 
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SkillMapBuilder {
 
@@ -50,10 +50,10 @@ public class SkillMapBuilder {
 		Validate.isTrue(clubLevel >= 0 && clubLevel <= 15);
 		Validate.isTrue(parryLevel >= 0 && parryLevel <= 15);
 
-		// Compétence basique
+		// Compï¿½tence basique
 		skills.put(Skill.FIGHTER, level);
 
-		// Compétences cachées
+		// Compï¿½tences cachï¿½es
 		skills.put(Skill.SWING, Champion.Level.values()[swingLevel]);
 		skills.put(Skill.THRUST, Champion.Level.values()[thrustLevel]);
 		skills.put(Skill.CLUB, Champion.Level.values()[clubLevel]);
@@ -71,10 +71,10 @@ public class SkillMapBuilder {
 		Validate.isTrue(influenceLevel >= 0 && influenceLevel <= 15);
 		Validate.isTrue(defendLevel >= 0 && defendLevel <= 15);
 
-		// Compétence basique
+		// Compï¿½tence basique
 		skills.put(Skill.PRIEST, level);
 
-		// Compétences cachées
+		// Compï¿½tences cachï¿½es
 		skills.put(Skill.IDENTIFY, Champion.Level.values()[identifyLevel]);
 		skills.put(Skill.HEAL, Champion.Level.values()[healLevel]);
 		skills.put(Skill.INFLUENCE, Champion.Level.values()[influenceLevel]);
@@ -92,10 +92,10 @@ public class SkillMapBuilder {
 		Validate.isTrue(throwLevel >= 0 && throwLevel <= 15);
 		Validate.isTrue(shootLevel >= 0 && shootLevel <= 15);
 
-		// Compétence basique
+		// Compï¿½tence basique
 		skills.put(Skill.NINJA, level);
 
-		// Compétences cachées
+		// Compï¿½tences cachï¿½es
 		skills.put(Skill.STEAL, Champion.Level.values()[stealLevel]);
 		skills.put(Skill.FIGHT, Champion.Level.values()[fightLevel]);
 		skills.put(Skill.THROW, Champion.Level.values()[throwLevel]);
@@ -113,10 +113,10 @@ public class SkillMapBuilder {
 		Validate.isTrue(earthLevel >= 0 && earthLevel <= 15);
 		Validate.isTrue(waterLevel >= 0 && waterLevel <= 15);
 
-		// Compétence basique
+		// Compï¿½tence basique
 		skills.put(Skill.WIZARD, level);
 
-		// Compétences cachées
+		// Compï¿½tences cachï¿½es
 		skills.put(Skill.FIRE, Champion.Level.values()[fireLevel]);
 		skills.put(Skill.AIR, Champion.Level.values()[airLevel]);
 		skills.put(Skill.EARTH, Champion.Level.values()[earthLevel]);
@@ -151,7 +151,7 @@ public class SkillMapBuilder {
 	}
 
 	public Map<Skill, Champion.Level> getSkills() {
-		// Recopie défensive
+		// Recopie dï¿½fensive
 		return new LinkedHashMap<Skill, Champion.Level>(skills);
 	}
 }

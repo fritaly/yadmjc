@@ -28,14 +28,14 @@ import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.item.CarryLocation;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class WeaponHand extends Hand implements ClockListener {
 
 	private final Log log = LogFactory.getLog(WeaponHand.class);
 
 	/**
-	 * Indique si la main est prête à être utilisée.
+	 * Indique si la main est prï¿½te ï¿½ ï¿½tre utilisï¿½e.
 	 */
 	private boolean enabled = true;
 
@@ -46,7 +46,7 @@ public class WeaponHand extends Hand implements ClockListener {
 	public WeaponHand(Body body) {
 		super(body);
 
-		// Mémoriser le nom de son "propriétaire"
+		// Mï¿½moriser le nom de son "propriï¿½taire"
 		this.owner = body.getChampion().getName();
 	}
 
@@ -84,8 +84,8 @@ public class WeaponHand extends Hand implements ClockListener {
 	}
 
 	/**
-	 * Utilise la main. Cela a pour effet de déclencher le time-out
-	 * d'indisponibilité de la main si elle était "disponible".
+	 * Utilise la main. Cela a pour effet de dï¿½clencher le time-out
+	 * d'indisponibilitï¿½ de la main si elle ï¿½tait "disponible".
 	 * 
 	 * @param duration
 	 */
@@ -93,7 +93,7 @@ public class WeaponHand extends Hand implements ClockListener {
 		Validate.isTrue(duration > 0, "The given duration <" + duration
 				+ "> must be positive");
 
-		// On ne peut utiliser la main que si elle est prête
+		// On ne peut utiliser la main que si elle est prï¿½te
 		if (isEnabled()) {
 			// La main n'est plus disponible
 			if (temporizer != null) {
@@ -124,7 +124,7 @@ public class WeaponHand extends Hand implements ClockListener {
 			}
 		}
 
-		// Continuer tant que la main n'est pas "prête"
+		// Continuer tant que la main n'est pas "prï¿½te"
 		return !isEnabled();
 	}
 

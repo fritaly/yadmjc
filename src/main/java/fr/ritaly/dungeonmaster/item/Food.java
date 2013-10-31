@@ -24,7 +24,7 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Food extends Item {
 
@@ -81,7 +81,7 @@ public final class Food extends Item {
 			champion.poison(getPoisonStrength());
 		}
 
-		// L'objet disparaît après utilisation
+		// L'objet disparaï¿½t aprï¿½s utilisation
 		return null;
 	}
 }

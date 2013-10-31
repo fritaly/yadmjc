@@ -36,7 +36,7 @@ import fr.ritaly.dungeonmaster.audio.SoundSystem;
 import fr.ritaly.dungeonmaster.champion.Party;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Lever extends DirectedElement implements HasActuator,
 		Triggered {
@@ -44,7 +44,7 @@ public final class Lever extends DirectedElement implements HasActuator,
 	private final Log log = LogFactory.getLog(Lever.class);
 
 	/**
-	 * Indique si le levier est en haut ou en bas. Par défaut, il est en haut.
+	 * Indique si le levier est en haut ou en bas. Par dï¿½faut, il est en haut.
 	 */
 	private boolean leverUp = true;
 
@@ -117,7 +117,7 @@ public final class Lever extends DirectedElement implements HasActuator,
 		// Jouer un son
 		SoundSystem.getInstance().play(getPartyPosition(), AudioClip.SWITCH);
 
-		// Déclenchement de la cible
+		// Dï¿½clenchement de la cible
 		if (actuator != null) {
 			Clock.getInstance().register(actuator);
 		}

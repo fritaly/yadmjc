@@ -27,7 +27,7 @@ import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * @author <a href="mailto:francois.ritaly@free.fr">Francois RITALY</a>
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class WaterSkin extends Item {
 
@@ -81,9 +81,9 @@ public class WaterSkin extends Item {
 	}
 
 	public void fill() {
-		// On peut reremplir une outre déjà pleine
+		// On peut reremplir une outre dï¿½jï¿½ pleine
 
-		// Jouer le son dédié
+		// Jouer le son dï¿½diï¿½
 		SoundSystem.getInstance().play(AudioClip.REFILL);
 		
 		count = MAX_COUNT;
@@ -96,13 +96,13 @@ public class WaterSkin extends Item {
 		Validate.notNull(champion, "The given champion is null");
 		
 		if (!isEmpty()) {
-			// Le héros boit une dose de l'outre
+			// Le hï¿½ros boit une dose de l'outre
 			drink();
 			
 			champion.getStats().getWater().inc(150);
 		}
 		
-		// L'objet peut être recyclé
+		// L'objet peut ï¿½tre recyclï¿½
 		return this;
 	}
 }
