@@ -18,38 +18,33 @@
  */
 package fr.ritaly.dungeonmaster;
 
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
 
 /**
+ * Utility class.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Utils {
 
 	/**
-	 * Tire une valeur au hasard dans l'intervalle [min-max] donn� et la
-	 * retourne.
-	 * 
+	 * Returns a random value within the specified range [min, max].
+	 *
 	 * @param min
+	 *            the range's lower bound. Can't be negative.
 	 * @param max
-	 * @return
+	 *            the range's upper bound. Can't be negative.
+	 * @return a random integer within the specified range.
 	 */
 	public static int random(int min, int max) {
-		if (min < 0) {
-			throw new IllegalArgumentException("The given min <" + min
-					+ "> must be positive");
-		}
-		if (max < 0) {
-			throw new IllegalArgumentException("The given max <" + max
-					+ "> must be positive");
-		}
-		if (min >= max) {
-			throw new IllegalArgumentException("The given min <" + min
-					+ "> must be greater than the max <" + max + ">");
-		}
+		Validate.isTrue(min >= 0, String.format("The given min %d must be positive", min));
+		Validate.isTrue(max >= 0, String.format("The given max %d must be positive", max));
+		Validate.isTrue(min < max, String.format("The given min %d must be lesser than the max %d", min, max));
 
 		return min + RandomUtils.nextInt(max + 1 - min);
 	}
-	
+
 	public static int random(int max) {
 		return random(0, max);
 	}
@@ -57,7 +52,7 @@ public class Utils {
 	/**
 	 * Borne la valeur donn�e dans l'intervalle d�fini par les valeurs min et
 	 * max donn�es.
-	 * 
+	 *
 	 * @param value
 	 *            la valeur � borner.
 	 * @param min
@@ -84,23 +79,38 @@ public class Utils {
 	}
 
 	/**
-	 * Indique si la valeur donn�e est situ�e dans l'intervalle de valeur min et
-	 * max donn�es.
-	 * 
+	 * Tells whether the given value is inside the specified range [min, max].
+	 *
 	 * @param value
+	 *            an integer representing the value to test.
 	 * @param min
+	 *            the range's lower bound.
 	 * @param max
-	 * @return
+	 *            the range's upper bound.
+	 * @return whether the given value is inside the specified range.
 	 */
 	public static boolean inside(int value, int min, int max) {
-		if (min >= max) {
-			throw new IllegalArgumentException("The given min <" + min
-					+ "> must be greater than the max <" + max + ">");
-		}
+		Validate.isTrue(min < max, String.format("The given min %d must be lesser than the given max %d", min, max));
 
 		return ((min <= value) && (value <= max));
 	}
 
+	/**
+	 * Returns the distance between 2 points whose respective coordinates are
+	 * [x1,y1] and [x2,y2] as a float.<br>
+	 * <br>
+	 * Note: The returned distance is <b>not</b> the Manhattan distance.
+	 *
+	 * @param x1
+	 *            the x coordinate for the first point.
+	 * @param y1
+	 *            the y coordinate for the first point.
+	 * @param x2
+	 *            the x coordinate for the second point.
+	 * @param y2
+	 *            the y coordinate for the second point.
+	 * @return the distance as a float.
+	 */
 	public static double distance(int x1, int y1, int x2, int y2) {
 		final int x = (x2 - x1);
 		final int y = (y2 - y1);
@@ -150,14 +160,5 @@ public class Utils {
 		} else {
 			return -Math.acos(x / hypothenus);
 		}
-	}
-
-	public static void main(String[] args) {
-		for (int i = 0; i < 6; i++) {
-			System.out.println(volume(i) + " - " + attenuation(i));
-		}
-
-		System.out.println(angle(0, 0, 5, 0));
-		System.out.println(angle(0, 0, 0, 5));
 	}
 }

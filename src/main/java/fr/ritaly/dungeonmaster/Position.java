@@ -26,13 +26,22 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
 
 /**
- * Repr�sente des coordonn�es en 3 dimensions dans un donjon.
- * 
+ * A position is a triplet of integers [x,y,z] representing a location inside
+ * the game. This class is immutable to avoid nasty side effects when sharing
+ * position objects.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Position {
-	
-	public final int x, y, z;
+
+	/** The x coordinate of this position. */
+	public final int x;
+
+	/** The y coordinate of this position. */
+	public final int y;
+
+	/** The z coordinate of this position. */
+	public final int z;
 
 	private final int hash;
 
@@ -43,7 +52,7 @@ public final class Position {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		
+
 		int hashCode = 17;
 
 		hashCode = (hashCode * 31) + x;
@@ -85,52 +94,46 @@ public final class Position {
 	}
 
 	/**
-	 * Indique si cette {@link Position} est align�e (le long de l'axe de X)
-	 * avec la {@link Position} donn�e.
-	 * 
+	 * Returns whether this position and the given one have the same x and z
+	 * coordinates.
+	 *
 	 * @param position
-	 *            une instance de {@link Position}.
-	 * @return si cette {@link Position} est align�e (le long de l'axe de X)
-	 *         avec la {@link Position} donn�e.
+	 *            a position to test. Can't be null.
+	 * @return whether this position and the given one have the same x and z
+	 *         coordinates.
 	 */
 	public boolean isAlignedX(Position position) {
-		if (position == null) {
-			throw new IllegalArgumentException("The given position is null");
-		}
+		Validate.notNull(position, "The given position is null");
 
 		return (this.z == position.z) && (this.x == position.x);
 	}
 
 	/**
-	 * Indique si cette {@link Position} est align�e (le long de l'axe de Y)
-	 * avec la {@link Position} donn�e.
-	 * 
+	 * Returns whether this position and the given one have the same y and z
+	 * coordinates.
+	 *
 	 * @param position
-	 *            une instance de {@link Position}.
-	 * @return si cette {@link Position} est align�e (le long de l'axe de Y)
-	 *         avec la {@link Position} donn�e.
+	 *            a position to test. Can't be null.
+	 * @return whether this position and the given one have the same y and z
+	 *         coordinates.
 	 */
 	public boolean isAlignedY(Position position) {
-		if (position == null) {
-			throw new IllegalArgumentException("The given position is null");
-		}
+		Validate.notNull(position, "The given position is null");
 
 		return (this.z == position.z) && (this.y == position.y);
 	}
-	
+
 	/**
-	 * Indique si cette {@link Position} est align�e avec la {@link Position}
-	 * donn�e.
-	 * 
+	 * Returns whether this position and the given one have the same z and (x or
+	 * y) coordinates.
+	 *
 	 * @param position
-	 *            une instance de {@link Position}.
-	 * @return si cette {@link Position} est align�e avec la {@link Position}
-	 *         donn�e.
+	 *            a position to test. Can't be null.
+	 * @return whether this position and the given one have the same z and (x or
+	 *         y) coordinates.
 	 */
 	public boolean isAligned(Position position) {
-		if (position == null) {
-			throw new IllegalArgumentException("The given position is null");
-		}
+		Validate.notNull(position, "The given position is null");
 
 		return (this.z == position.z)
 				&& ((this.x == position.x) || (this.y == position.y));
@@ -143,10 +146,9 @@ public final class Position {
 	}
 
 	/**
-	 * Retourne une liste contenant les 8 positions entourant cette
-	 * {@link Position}.
-	 * 
-	 * @return une {@link List} de {@link Position}s.
+	 * Returns a list containing the 8 positions surrounding this one.
+	 *
+	 * @return a list of 8 positions. Never returns null.
 	 */
 	public List<Position> getSurroundingPositions() {
 		// Rechercher les positions voisines dans un rayon de 1
@@ -154,18 +156,19 @@ public final class Position {
 	}
 
 	/**
-	 * Retourne une liste contenant les positions entourant cette
-	 * {@link Position} dans le rayon donn�.
-	 * 
+	 * Returns a list containing the surrounding positions within the given
+	 * radius.
+	 *
 	 * @param radius
-	 *            un entier repr�sentant le rayon en nombre de cases voisines.
-	 * 
-	 * @return une {@link List} de {@link Position}s.
+	 *            a positive integer representing the radius around this
+	 *            position used for selecting the surrounding positions.
+	 *
+	 * @return a list of surrounding positions. Never returns null.
 	 */
 	public List<Position> getSurroundingPositions(int radius) {
 		Validate.isTrue(radius >= 1, "The given radius must be positive");
-		
-		// Positions entourant la position P dans un rayon de 1 (8, +8)
+
+		// Positions surrounding the position P within a radius of 1 (8, +8)
 		// +---+---+---+
 		// | 1 | 1 | 1 |
 		// +---+---+---+
@@ -173,8 +176,8 @@ public final class Position {
 		// +---+---+---+
 		// | 1 | 1 | 1 |
 		// +---+---+---+
-		
-		// Positions entourant la position P dans un rayon de 2 (20, +12)
+
+		// Positions surrounding the position P within a radius of 2 (20, +12)
 		// +---+---+---+---+---+
 		// |   | 2 | 2 | 2 |   |
 		// +---+---+---+---+---+
@@ -186,8 +189,8 @@ public final class Position {
 		// +---+---+---+---+---+
 		// |   | 2 | 2 | 2 |   |
 		// +---+---+---+---+---+
-		
-		// Positions entourant la position P dans un rayon de 3 (36, +16)
+
+		// Positions surrounding the position P within a radius of 3 (36, +16)
 		// +---+---+---+---+---+---+---+
 		// |   |   | 3 | 3 | 3 |   |   |
 		// +---+---+---+---+---+---+---+
@@ -203,8 +206,8 @@ public final class Position {
 		// +---+---+---+---+---+---+---+
 		// |   |   | 3 | 3 | 3 |   |   |
 		// +---+---+---+---+---+---+---+
-		
-		// Positions entourant la position P dans un rayon de 4 (68, +32)
+
+		// Positions surrounding the position P within a radius of 4 (68, +32)
 		// +---+---+---+---+---+---+---+---+---+
 		// |   |   | 4 | 4 | 4 | 4 | 4 |   |   |
 		// +---+---+---+---+---+---+---+---+---+
@@ -224,15 +227,15 @@ public final class Position {
 		// +---+---+---+---+---+---+---+---+---+
 		// |   |   | 4 | 4 | 4 | 4 | 4 |   |   |
 		// +---+---+---+---+---+---+---+---+---+
-		
-		// On calcule les positions situ�es dans le rayon donn�
+
+		// Compute the positions inside the given radius
 		final List<Position> positions = new ArrayList<Position>(64);
-		
-//		// Premi�re version non optimis�e
+
+//		// First non-optimized version
 //		for (int x = this.x - radius; x <= this.x + radius; x++) {
 //			for (int y = this.y - radius; y <= this.y + radius; y++) {
 //				final Position position = new Position(x, y, 1);
-//				
+//
 //				if (this.equals(position)) {
 //					continue;
 //				}
@@ -245,38 +248,31 @@ public final class Position {
 //				}
 //			}
 //		}
-		
-//		// Optimisation: vu la sym�trie de l'espace explor�, on en explore 1/4
-//		// et si le point et dans le cercle de rayon donn�, on en d�duit les 3
-//		// points associ�s par sym�trie (C4)
+
+//		// Optimization: Use the symmetry to only explore 1/4th of the total
+//		// space. Test one point and if within the radius, infer the 3 others
 //		for (int x = 0; x <= radius; x++) {
 //			for (int y = 0; y <= radius; y++) {
 //				if ((x == 0) && (y == 0)) {
 //					// On ignore la position centrale
 //					continue;
 //				}
-//				
+//
 //				final double distance = Utils.distance(0, 0, x, y);
 //
 //				if (distance <= radius + 0.5d) {
 //					positions.add(new Position(this.x + x, this.y + y, this.z));
-//					
+//
 //					if (y != 0) {
-//						// Ne consid�rer les positions sym�triques que si les 2
-//						// ne sont pas confondues
 //						positions.add(new Position(this.x + x, this.y - y,
 //								this.z));
 //					}
-//					
+//
 //					if (x != 0) {
-//						// Ne consid�rer les positions sym�triques que si les 2
-//						// ne sont pas confondues
 //						positions.add(new Position(this.x - x, this.y + y,
 //								this.z));
-//						
+//
 //						if (y != 0) {
-//							// Ne consid�rer les positions sym�triques que si 
-//							// les 2 ne sont pas confondues
 //							positions.add(new Position(this.x - x, this.y - y,
 //									this.z));
 //						}
@@ -284,70 +280,60 @@ public final class Position {
 //				}
 //			}
 //		}
-		
-		// Optimisation 1: Vu la sym�trie de l'espace explor�, on en explore 1/4
-		// et si le point et dans le cercle de rayon donn�, on en d�duit les 3
-		// points associ�s par sym�trie (C4)
-		// Optimisation 2: On parcourt l'espace de l'ext�rieur vers l'int�rieur
-		// et d�s qu'on d�couvre un point dans le cercle, on prend de suite tous
-		// les points "plus proches" pour une m�me valeur de x
-		// Optimisation 3: M�thode Utils.distance(int, int, int, int) inlin�e
-		// Optimisation 4: Constructeur Position(int, int, int) optimis�
+
+		// Optimization: Use the symmetry to only explore 1/4th of the total
+		// space. Test one point and if within the radius, infer the 3 others
+		// Optimization 2: On parcourt l'espace de l'extèrieur vers l'intérieur
+		// et dès qu'on découvre un point dans le cercle, on prend de suite tous
+		// les points "plus proches" pour une même valeur de x
+		// Optimization 3: Méthode Utils.distance(int, int, int, int) inlinée
+		// Optimization 4: Constructeur Position(int, int, int) optimisé
 		for (int x = radius; x >= 0; x--) {
 			boolean inside = false;
-			
+
 			for (int y = radius; y >= 0; y--) {
 				if ((x == 0) && (y == 0)) {
 					// On ignore la position centrale
 					continue;
 				}
-				
+
 				if (!inside) {
 					final double distance = Math.sqrt((x * x) + (y * y));
-					
-					inside = (distance <= radius + 0.5d); 
+
+					inside = (distance <= radius + 0.5d);
 				}
-				
+
 				if (inside) {
 					positions.add(new Position(this.x + x, this.y + y, this.z));
-					
+
 					if (y != 0) {
-						// Ne consid�rer les positions sym�triques que si les 2
-						// ne sont pas confondues
-						positions.add(new Position(this.x + x, this.y - y,
-								this.z));
+						positions.add(new Position(this.x + x, this.y - y, this.z));
 					}
-					
+
 					if (x != 0) {
-						// Ne consid�rer les positions sym�triques que si les 2
-						// ne sont pas confondues
-						positions.add(new Position(this.x - x, this.y + y,
-								this.z));
-						
+						positions.add(new Position(this.x - x, this.y + y, this.z));
+
 						if (y != 0) {
-							// Ne consid�rer les positions sym�triques que si 
-							// les 2 ne sont pas confondues
-							positions.add(new Position(this.x - x, this.y - y,
-									this.z));
+							positions.add(new Position(this.x - x, this.y - y, this.z));
 						}
 					}
 				}
 			}
 		}
-		
+
 		return positions;
 	}
-	
+
 	/**
 	 * Retourne, pour cette {@link Position}, la liste des {@link Position}s qui
 	 * lui sont visibles en regardant dans la direction donn�e. L'impl�mentation
 	 * courante suppose que la port�e visuelle est de 3 lignes en profondeur.
-	 * 
+	 *
 	 * @param lookDirection
 	 *            la {@link Direction} de regard.
 	 * @return une {@link List} de {@link Position}s. Ne retourne jamais null.
 	 */
-	public List<Position> getVisiblePositions(Direction lookDirection) {
+	@Translate public List<Position> getVisiblePositions(Direction lookDirection) {
 		// FIXME Rajouter un param�tre sightRange
 		Validate.notNull(lookDirection, "The given direction is null");
 
@@ -450,14 +436,14 @@ public final class Position {
 
 		return positions;
 	}
-	
+
 	/**
 	 * Retourne les 4 {@link Position}s attaquables depuis cette
 	 * {@link Position}.
-	 * 
+	 *
 	 * @return une {@link List} de {@link Position}s.
 	 */
-	public List<Position> getAttackablePositions() {
+	@Translate public List<Position> getAttackablePositions() {
 		// Retourner les positions attaquables situ�es dans un rayon de 1 pas
 		return getAttackablePositions(1);
 	}
@@ -465,16 +451,16 @@ public final class Position {
 	/**
 	 * Retourne les {@link Position}s attaquables depuis cette {@link Position}
 	 * et situ�es dans un rayon de range pas dans les 4 directions.
-	 * 
+	 *
 	 * @return une {@link List} de {@link Position}s.
 	 */
-	public List<Position> getAttackablePositions(int range) {
+	@Translate public List<Position> getAttackablePositions(int range) {
 		Validate.isTrue(range >= 1, "The given range " + range
 				+ " must be positive");
-		
-		// Positions attaquables directement (range = 1) ou � distance 
+
+		// Positions attaquables directement (range = 1) ou � distance
 		// (range > 1) depuis la position P
-		
+
 		// +---+---+---+---+---+---+---+
 		// |   |   |   | 3 |   |   |   |
 		// +---+---+---+---+---+---+---+
@@ -490,29 +476,29 @@ public final class Position {
 		// +---+---+---+---+---+---+---+
 		// |   |   |   | 3 |   |   |   |
 		// +---+---+---+---+---+---+---+
-		
+
 		final List<Position> positions = new ArrayList<Position>(4 * range);
-		
+
 		for (int i = 1; i <= range; i++) {
 			positions.add(new Position(x-i, y, z));
 			positions.add(new Position(x+i, y, z));
 			positions.add(new Position(x, y-i, z));
 			positions.add(new Position(x, y+i, z));
 		}
-		
+
 		return positions;
 	}
 
 	/**
 	 * A partir de cette position, retourne la direction dans laquelle il faut
 	 * regarder / se tourner pour pointer vers la position cible donn�e.
-	 * 
+	 *
 	 * @param targetPosition
 	 *            la position cible vers laquelle il faut se tourner.
 	 * @return la direction dans laquelle il faut se tourner pour voir la
 	 *         position cible donn�e.
 	 */
-	public Direction getDirectionTowards(Position targetPosition) {
+	@Translate public Direction getDirectionTowards(Position targetPosition) {
 		Validate.notNull(targetPosition, "The given direction is null");
 
 		if (this.z != targetPosition.z) {
@@ -547,27 +533,27 @@ public final class Position {
 		} else {
 			// Les directions ne sont pas align�es. D�terminer une direction de
 			// pr�f�rence � une autre
-			
+
 			// Valeur de x du vecteur permettant d'aller de this � target
 			final int deltaX = targetPosition.x - this.x;
-			
+
 			// Valeur de y du vecteur permettant d'aller de this � target
 			final int deltaY = targetPosition.y - this.y;
-			
+
 			if (deltaX == deltaY) {
 				// Impossible de d�cider de mani�re non arbitraire, on tire une
 				// direction au hasard
 				final Direction[] directions = new Direction[2];
-				
+
 				// Rappel: deltaX ne peut �tre nul
-				directions[0] = (deltaX > 0) ? Direction.EAST: Direction.WEST; 
-				
+				directions[0] = (deltaX > 0) ? Direction.EAST: Direction.WEST;
+
 				// Rappel: deltaY ne peut �tre nul
 				directions[1] = (deltaY > 0) ? Direction.SOUTH: Direction.NORTH;
 
 				return directions[RandomUtils.nextInt(2)];
 			}
-			
+
 			if (Math.abs(deltaX) > Math.abs(deltaY)) {
 				// Direction de pr�f�rence le long de l'axe des X
 				return (deltaX > 0) ? Direction.EAST: Direction.WEST;
@@ -577,7 +563,7 @@ public final class Position {
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		for (int radius = 1; radius <= 15; radius++) {
 			final int width, height = width = (2 * radius) + 1;
@@ -593,15 +579,15 @@ public final class Position {
 				builder.append("+");
 				builder.append(StringUtils.repeat("---+", width));
 				builder.append("\n");
-				
+
 				builder.append("|");
-				
+
 				for (int y = 0; y < height; y++) {
 					final Position position = new Position(x, y, 1);
-					
+
 					if (center.equals(position)) {
 						builder.append(" P |");
-						
+
 						continue;
 					}
 
@@ -614,41 +600,41 @@ public final class Position {
 						builder.append(" ")
 								.append(Integer.toHexString((int) Math
 										.floor(distance))).append(" |");
-						
+
 						insideCount++;
 					} else {
 						builder.append("   |");
-						
+
 						outsideCount++;
 					}
 
 //					System.out.println("Position " + position + " (d: "
 //							+ distance + ") -> " + inside);
 				}
-				
+
 				builder.append("\n");
 			}
-			
+
 			builder.append("+");
 			builder.append(StringUtils.repeat("---+", width));
 			builder.append("\n");
-			
+
 			System.out.println(builder);
 			System.out.println();
 
 			System.out.println("Radius: " + radius + " -> Inside: "
 					+ insideCount + ", Outside: " + outsideCount);
 		}
-		
+
 //		for (int j = 0; j < 10; j++) {
 //			final long start = System.nanoTime();
-//			
+//
 //			final Position position = new Position(1,1,1);
-//			
+//
 //			for (int i = 0; i < 10000; i++) {
 //				position.getSurroundingPositions(6);
 //			}
-//			
+//
 //			System.out.println("Elapsed: "
 //					+ ((System.nanoTime() - start) / 1000000) + " ms");
 //		}

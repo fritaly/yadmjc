@@ -50,12 +50,8 @@ public class Main {
 		if (log.isInfoEnabled()) {
 			log.info("Start");
 		}
-		
-		SoundSystem
-				.getInstance()
-				.init(
-						new File(
-								"src\\main\\resources\\sound"));
+
+		SoundSystem.getInstance().init(new File("src/main/resources/sound"));
 
 		log.debug("Building dungeon ...");
 

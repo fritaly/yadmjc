@@ -19,6 +19,10 @@
 package fr.ritaly.dungeonmaster;
 
 /**
+ * The game defines 4 directions (North, South, East and West) but only 2
+ * orientations (North-South and West-East). An orientation is useful for
+ * describing how a door is "installed".
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Orientation {

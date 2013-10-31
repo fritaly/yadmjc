@@ -43,7 +43,6 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
 
-import fr.ritaly.dungeonmaster.Immutable;
 import fr.ritaly.dungeonmaster.Skill;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -69,11 +68,10 @@ import fr.ritaly.dungeonmaster.projectile.SpellProjectile;
  * <b>pas</b> de cr�er l'instance de {@link Spell}. Pour v�rifier la validit� du
  * sort, appeler la m�thode {@link #isValid()}. Pour identifier le sort, appeler
  * sa m�thode {@link #getType()}.
- * 
- * 
+ *
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-@Immutable
 public class Spell {
 
 	/**
@@ -91,7 +89,7 @@ public class Spell {
 		ANTIDOTE_POTION(VI, BRO, 26, 1),
 		SHIELD_POTION(YA, BRO, 25, 2),
 		ANTI_MAGIC(FUL, BRO, NETA, 28, 4),
-		
+
 		/**
 		 * Note: This spell is a party spell. The shield per champion is gained
 		 * by drinking spell potions.
@@ -136,9 +134,9 @@ public class Spell {
 		private final FormRune formRune;
 
 		private final AlignmentRune alignmentRune;
-		
+
 		private Type(final ElementRune elementRune, int duration, int difficulty) {
-			
+
 			Validate.isTrue(elementRune != null,
 					"The given element rune is null");
 			Validate.isTrue(duration >= 0, "The given duration <" + duration
@@ -197,26 +195,26 @@ public class Spell {
 			this.formRune = formRune;
 			this.alignmentRune = alignmentRune;
 		}
-		
+
 		public int getRuneCount() {
 			// Il y a forc�ment au moins un ElementRune
 			int count = 1;
-			
+
 			if (formRune != null) {
 				count++;
-				
+
 				if (alignmentRune != null) {
 					count++;
 				}
 			}
-			
+
 			return count;
 		}
-		
+
 		/**
 		 * Retourne l'instance de {@link Type} associ�e � l'identifiant de sort
 		 * donn�.
-		 * 
+		 *
 		 * @param id
 		 *            un entier repr�sentant un identifiant de sort.
 		 * @return une instance de {@link Type} ou null si l'identifiant donn�
@@ -234,7 +232,7 @@ public class Spell {
 
 		/**
 		 * Indique si ce type de sort produit un projectile (missile).
-		 * 
+		 *
 		 * @return si ce type de sort produit un projectile (missile).
 		 */
 		public boolean isProjectile() {
@@ -253,7 +251,7 @@ public class Spell {
 
 		/**
 		 * Indique si ce type de sort produit une potion.
-		 * 
+		 *
 		 * @return si ce type de sort produit une potion.
 		 */
 		public boolean isPotion() {
@@ -276,7 +274,7 @@ public class Spell {
 
 		/**
 		 * Indique si l'identifiant de sort donn� est valide.
-		 * 
+		 *
 		 * @param id
 		 *            un entier repr�sentant un identifiant de sort.
 		 * @return si l'identifiant de sort donn� est valide.
@@ -288,7 +286,7 @@ public class Spell {
 		/**
 		 * Retourne le niveau requis dans la comp�tence du sort (cf
 		 * {@link #getSkill()}) pour r�ussir celui-ci.
-		 * 
+		 *
 		 * @return une instance de {@link Level}. Ne retourne jamais null.
 		 */
 		public Champion.Level getRequiredLevel() {
@@ -339,7 +337,7 @@ public class Spell {
 		 * sort. Permet de faire gagner de l'exp�rience au champion qui r�ussit
 		 * le sort. Peut retourner null si aucune comp�tence particuli�re n'est
 		 * requise.
-		 * 
+		 *
 		 * @return une instance de {@link Skill} ou null.
 		 */
 		public Skill getSkill() {
@@ -394,7 +392,7 @@ public class Spell {
 		/**
 		 * Retourne les {@link Rune}s composant le sort (n'inclut pas le rune de
 		 * puissance).
-		 * 
+		 *
 		 * @return une {@link List} de {@link Rune}s. Ne retourne jamais null.
 		 */
 		public List<Rune> getRunes() {
@@ -414,7 +412,7 @@ public class Spell {
 
 		/**
 		 * Indique si l'invocation du sort requiert une fiole vide pour r�ussir.
-		 * 
+		 *
 		 * @return si l'invocation du sort requiert une fiole vide pour r�ussir.
 		 */
 		public boolean requiresEmptyFlask() {
@@ -446,7 +444,7 @@ public class Spell {
 		/**
 		 * Retourne le nom du sort � partir des {@link Rune}s le composant.
 		 * Exemple: "FUL", "FUL IR", etc.
-		 * 
+		 *
 		 * @return une {@link String} repr�sentant le nom complet du sort.
 		 */
 		public String getName() {
@@ -572,7 +570,7 @@ public class Spell {
 		this.id = computeId(elementRune, formRune, alignmentRune);
 		this.cost = computeCost(powerRune, elementRune, formRune, alignmentRune);
 	}
-	
+
 	// Le sort ainsi cr�� est forc�ment valide !
 	public Spell(PowerRune powerRune, Spell.Type type) {
 		if (powerRune == null) {
@@ -593,7 +591,7 @@ public class Spell {
 	/**
 	 * Calcule et retourne l'identifiant du sort sous forme d'entier � partir
 	 * des {@link Rune}s composant le sort.
-	 * 
+	 *
 	 * @param elementRune
 	 *            un {@link ElementRune}. Ne peut �tre null.
 	 * @param formRune
@@ -623,7 +621,7 @@ public class Spell {
 	/**
 	 * Calcule et retourne le nombre de points de mana n�cessaires pour invoquer
 	 * le sort sous forme d'entier � partir des {@link Rune}s composant le sort.
-	 * 
+	 *
 	 * @param powerRune
 	 *            un {@link PowerRune}. Ne peut �tre null.
 	 * @param elementRune
@@ -657,7 +655,7 @@ public class Spell {
 	/**
 	 * Retourne le nom du sort � partir des {@link Rune}s le composant. Exemple:
 	 * "LO FUL", "MON FUL IR", etc.
-	 * 
+	 *
 	 * @return une {@link String} repr�sentant le nom complet du sort.
 	 */
 	public String getName() {
@@ -687,7 +685,7 @@ public class Spell {
 	/**
 	 * Retourne le type du sort. Calcul� � partir des runes qui rentrent en jeu
 	 * pour le formuler.
-	 * 
+	 *
 	 * @return une instance de {@link Type} ou null si le sort n'est pas valide.
 	 */
 	public Type getType() {
@@ -700,7 +698,7 @@ public class Spell {
 	 * Permet de faire gagner de l'exp�rience au champion qui r�ussit le sort.
 	 * Peut retourner null si aucune comp�tence particuli�re n'est requise pour
 	 * invoquer le sort.
-	 * 
+	 *
 	 * @return une instance de {@link Skill} ou null si le sort est invalide ou
 	 *         si aucune comp�tence particuli�re n'est requise pour invoquer le
 	 *         sort.
@@ -713,7 +711,7 @@ public class Spell {
 
 	/**
 	 * Retourne le nombre de runes utilis� pour formuler ce sort.
-	 * 
+	 *
 	 * @return un entier.
 	 */
 	public int getRuneCount() {
@@ -733,7 +731,7 @@ public class Spell {
 
 	/**
 	 * Retourne les {@link Rune}s du sort (dont le rune de puissance).
-	 * 
+	 *
 	 * @return une {@link List} de {@link Rune}s. Ne retourne jamais null.
 	 */
 	public List<Rune> getRunes() {
@@ -754,7 +752,7 @@ public class Spell {
 
 	/**
 	 * Retourne le co�t (en nombre de points de mana) d'invocation du sort.
-	 * 
+	 *
 	 * @return un entier positif repr�sentant un nombre de points de mana.
 	 */
 	public int getCost() {
@@ -764,7 +762,7 @@ public class Spell {
 	/**
 	 * Retourne le nombre de points d'exp�rience gagn�s pour avoir r�ussi �
 	 * invoquer ce sort.
-	 * 
+	 *
 	 * @return un entier positif repr�sentant un nombre de points d'exp�rience
 	 *         ou z�ro si le sort n'est pas valide.
 	 */
@@ -789,7 +787,7 @@ public class Spell {
 
 	/**
 	 * Retourne la difficult� � invoquer ce sort sous forme d'un nombre.
-	 * 
+	 *
 	 * @return un entier positif ou -1 si le sort est non valide.
 	 */
 	public int getDifficulty() {
@@ -809,7 +807,7 @@ public class Spell {
 	/**
 	 * Retourne le temps en 1/6 de secondes pendant lequel le {@link Champion}
 	 * qui a lanc� ce sort ne peut en lancer un autre.
-	 * 
+	 *
 	 * @return un entier positif repr�sentant un nombre de "tics" d'horloge ou
 	 *         -1 si le sort est non valide.
 	 */
@@ -821,7 +819,7 @@ public class Spell {
 
 	/**
 	 * Indique si le sort formul� est valide.
-	 * 
+	 *
 	 * @return si le sort formul� est valide.
 	 */
 	public boolean isValid() {
@@ -833,7 +831,7 @@ public class Spell {
 	 * sort. Le r�sultat d�pend de la comp�tence du {@link Champion} dans la
 	 * comp�tence requise pour invoquer ce sort ainsi que de la difficult� du
 	 * sort !
-	 * 
+	 *
 	 * @param champion
 	 *            un {@link Champion} dont on cherche � savoir s'il est assez
 	 *            comp�tent pour invoquer ce sort.
@@ -845,12 +843,12 @@ public class Spell {
 		Validate.isTrue(isValid(), "The spell isn't valid");
 
 		final Skill skill = getSkill();
-		
+
 		if (skill == null) {
 			// Aucune comp�tence requise pour invoquer le sort
 			return true;
 		}
-		
+
 		final Champion.Level requiredLevel = getType().getRequiredLevel();
 		final Champion.Level actualLevel = champion.getLevel(skill);
 
@@ -859,7 +857,7 @@ public class Spell {
 
 	/**
 	 * Fait agir le {@link Spell} sur le {@link Champion} donn�.
-	 * 
+	 *
 	 * @param champion
 	 *            un {@link Champion} sur lequel faire agir le sort.
 	 * @throws EmptyFlaskNeededException

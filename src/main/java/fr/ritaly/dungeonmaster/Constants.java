@@ -19,6 +19,8 @@
 package fr.ritaly.dungeonmaster;
 
 /**
+ * Defines some global constants.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Constants {

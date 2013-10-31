@@ -19,19 +19,24 @@
 package fr.ritaly.dungeonmaster;
 
 /**
- * Enum�ration des "mat�rialit�s" support�es dans le jeu.
- * 
+ * Enumerates the possible "materialities".<br>
+ * <br>
+ * Some creatures are said "material" and can be wounded by using a regular
+ * weapon. Some others are said "immaterial" (for instance ghosts) and can only
+ * be killed by using special weapons.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Materiality {
+
 	/**
-	 * D�finit une entit� mat�rielle (la plupart des objets dans le jeu).
+	 * The materiality of a material creature (most objects and creatures in the game are material).
 	 */
 	MATERIAL,
 
 	/**
-	 * D�finit une entit� immat�rielle (les cr�atures de type GHOST, ZYTAZ, etc
-	 * qui peuvent passer � travers les murs, portes)
+	 * The materiality of an immaterial creature (for creatures like ghost,
+	 * zytaz, etc) which can traverse walls.
 	 */
 	IMMATERIAL;
 }

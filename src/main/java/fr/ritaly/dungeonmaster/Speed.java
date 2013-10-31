@@ -19,30 +19,30 @@
 package fr.ritaly.dungeonmaster;
 
 /**
+ * Enumerates the possible move speeds. Each speed is associated to a value
+ * representing the relative move speed.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Speed {
-	SLOW,
-	NORMAL,
-	FAST,
+	SLOW(8),
+	NORMAL(4),
+	FAST(2),
+
 	/**
-	 * Valeur sp�ciale signifiant vitesse "non d�finie" (dans le cas d'un
-	 * champion mort par exemple).
+	 * Special speed used for dead champions. A dead champion doesn't affect the
+	 * party's speed and is considered to be moving at (Faster Than) Light speed
+	 * :)
 	 */
-	UNDEFINED;
+	UNDEFINED(0);
+
+	private final int value;
+
+	private Speed(int value) {
+		this.value = value;
+	}
 
 	public int getValue() {
-		switch (this) {
-		case FAST:
-			return 2;
-		case NORMAL:
-			return 4;
-		case SLOW:
-			return 8;
-		case UNDEFINED:
-			return 0;
-		default:
-			throw new UnsupportedOperationException();
-		}
+		return value;
 	}
 }

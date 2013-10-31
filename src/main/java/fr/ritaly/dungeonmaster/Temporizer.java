@@ -24,8 +24,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Un {@link Temporizer} permet de retarder le d�clenchement d'un �v�nement d'un
- * nombre entier de cycles de {@link Clock}.
+ * A temporizer is responsible for delaying the triggering of an event for a
+ * specified number of clock "cycles". This class acts as a count down and is
+ * reusable: once a temporizer triggered, it can be reused endlessly.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
@@ -33,31 +34,43 @@ public final class Temporizer {
 
 	private final Log log = LogFactory.getLog(Temporizer.class);
 
-	private int max;
+	/**
+	 * Stores the number of clock cycles to wait before triggering.
+	 */
+	private final int max;
 
+	/**
+	 * The remaining number of clock cycles to wait before triggering.
+	 */
 	private int current;
 
+	/**
+	 * A label used mainly for debugging purposes.
+	 */
 	private final String label;
 
 	public Temporizer(String label, int max) {
-		Validate.isTrue(!StringUtils.isEmpty(label), "The given label <"
-				+ label + "> is blank");
-		Validate.isTrue(max > 0, "The given max value <" + max
-				+ "> must be positive");
+		Validate.isTrue(!StringUtils.isEmpty(label), String.format("The given label '%s' is blank", label));
+		Validate.isTrue(max > 0, String.format("The given max value %d must be positive", max));
 
 		this.label = label;
 		this.max = max;
 		this.current = max;
 	}
 
+	/**
+	 * Notifies the temporizer that a clock cycle elapsed and returns if the
+	 * temporiser triggered.
+	 *
+	 * @return whether the temporiser triggered.
+	 */
 	public final boolean trigger() {
 		final int oldCount = current;
 
 		current--;
 
 		if (log.isDebugEnabled()) {
-			log.debug("Temporizer[" + label + "].Count: " + oldCount + " -> "
-					+ current);
+			log.debug(String.format("Temporizer[%s].Count: %d -> %d", label, oldCount, current));
 		}
 
 		if (current == 0) {
@@ -65,14 +78,12 @@ public final class Temporizer {
 				log.debug("Temporizer timed-out");
 			}
 
-			// R�initialiser le compte � rebours
+			// Reset the count down
 			current = max;
 
-			// D�clenchement
 			return true;
 		}
 
-		// Pas encore de d�clenchement
 		return false;
 	}
 }

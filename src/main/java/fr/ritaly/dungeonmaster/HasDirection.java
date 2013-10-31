@@ -19,11 +19,23 @@
 package fr.ritaly.dungeonmaster;
 
 /**
+ * An object with a direction property.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface HasDirection {
 
+	/**
+	 * Returns the object's direction.
+	 *
+	 * @return a {@link Direction}.
+	 */
 	public Direction getDirection();
-	
+
+	/**
+	 * Sets the object's direction from the given value.
+	 *
+	 * @param direction the direction to set.
+	 */
 	public void setDirection(Direction direction);
 }

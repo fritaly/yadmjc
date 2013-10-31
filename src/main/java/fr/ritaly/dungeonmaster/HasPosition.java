@@ -19,9 +19,16 @@
 package fr.ritaly.dungeonmaster;
 
 /**
+ * An object with a position property.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface HasPosition {
 
+	/**
+	 * Returns the object's position.
+	 *
+	 * @return a {@link Position}.
+	 */
 	public Position getPosition();
 }

@@ -21,12 +21,19 @@ package fr.ritaly.dungeonmaster;
 import java.util.EnumSet;
 import java.util.Set;
 
+/**
+ * Enumerates the possible "sides".
+ *
+ * @author francois_ritaly
+ */
 public enum Side {
-	FRONT,
-	LEFT,
-	RIGHT,
-	REAR;
+	FRONT, LEFT, RIGHT, REAR;
 
+	/**
+	 * Returns the locations associated to this side as a set.
+	 *
+	 * @return a set locations associated to this side.
+	 */
 	public Set<Location> getLocations() {
 		switch (this) {
 		case FRONT:
@@ -38,8 +45,7 @@ public enum Side {
 		case REAR:
 			return EnumSet.of(Location.REAR_LEFT, Location.REAR_RIGHT);
 		default:
-			throw new UnsupportedOperationException("Unsupported method for "
-					+ this);
+			throw new UnsupportedOperationException("Unsupported method for " + this);
 		}
 	}
 }

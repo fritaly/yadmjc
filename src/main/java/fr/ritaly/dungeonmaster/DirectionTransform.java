@@ -21,60 +21,68 @@ package fr.ritaly.dungeonmaster;
 import org.apache.commons.lang.Validate;
 
 /**
- * Un {@link DirectionTransform} transforme une {@link Direction} en une autre.
- * Pourrait �galer s'appeler DirectionTransform.
- * 
+ * A transform turning a direction into another.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum DirectionTransform {
 	/**
-	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en elle-m�me.
+	 * The identify transform turns a direction into itself.
 	 */
 	IDENTITY,
+
 	/**
-	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en la {@link Direction} situ�e apr�s elle selon le sens des aiguilles
-	 * d'une montre.
+	 * Transform to turn a direction into the next clock-wise direction.
+	 * Example: {@link Direction#NORTH} will be turned into
+	 * {@link Direction#EAST}.
 	 */
 	NEXT_CLOCKWISE,
+
 	/**
-	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en la {@link Direction} situ�e apr�s elle selon le sens inverse des
-	 * aiguilles d'une montre.
+	 * Transform to turn a direction into the next anti clock-wise direction.
+	 * Example: {@link Direction#EAST} will be turned into
+	 * {@link Direction#NORTH}.
 	 */
 	NEXT_ANTI_CLOCKWISE,
+
 	/**
-	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en sa {@link Direction} oppos�e.
+	 * Transform to turn a direction into the opposite direction. Example:
+	 * {@link Direction#NORTH} will be turned into {@link Direction#SOUTH}.
 	 */
 	OPPOSITE,
+
 	/**
-	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en une autre {@link Direction} tir�e au hasard.
+	 * Transform to turn a direction into another random direction.
 	 */
 	RANDOM,
+
 	/**
-	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en la {@link Direction#NORTH}.
+	 * Transform to turn a direction into the {@link Direction#NORTH} direction.
 	 */
 	NORTH,
+
 	/**
-	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en la {@link Direction#SOUTH}.
+	 * Transform to turn a direction into the {@link Direction#SOUTH} direction.
 	 */
 	SOUTH,
+
 	/**
-	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en la {@link Direction#EAST}.
+	 * Transform to turn a direction into the {@link Direction#EAST} direction.
 	 */
 	EAST,
+
 	/**
-	 * Instance de {@link DirectionTransform} transformant une {@link Direction}
-	 * en la {@link Direction#WEST}.
+	 * Transform to turn a direction into the {@link Direction#WEST} direction.
 	 */
 	WEST;
 
+	/**
+	 * Transforms the given direction into another one and returns it.
+	 *
+	 * @param direction
+	 *            the direction to transform. Can't be null.
+	 * @return the transformed direction. Never returns null.
+	 */
 	public Direction transform(Direction direction) {
 		Validate.isTrue(direction != null, "The given direction is null");
 

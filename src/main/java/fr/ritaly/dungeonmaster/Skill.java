@@ -21,42 +21,62 @@ package fr.ritaly.dungeonmaster;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Enumeration of champion skills. A {@link Skill} is either basic or hidden.
- * There are 4 basic skills ({@link #FIGHTER}, {@link #NINJA}, {@link #PRIEST}
- * and {@link #WIZARD}) and 16 hidden skills (4 per basic skill).
- * 
+ * Enumerates the possible champion skills. A {@link Skill} is either "basic" or
+ * "hidden". There are 4 basic skills ({@link #FIGHTER}, {@link #NINJA},
+ * {@link #PRIEST} and {@link #WIZARD}) and 16 hidden skills (4 per basic
+ * skill).
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Skill {
-	// --- Comp�tences basiques --- //
+	/** Basic skill */
 	FIGHTER,
+	/** Basic skill */
 	NINJA,
+	/** Basic skill */
 	PRIEST,
+	/** Basic skill */
 	WIZARD,
-	// --- Comp�tences cach�es de FIGHTER --- //
+
+	/** Hidden fighter skills */
 	SWING,
+	/** Hidden fighter skills */
 	THRUST,
+	/** Hidden fighter skills */
 	CLUB,
+	/** Hidden fighter skills */
 	PARRY,
-	// --- Comp�tences cach�es de NINJA --- //
+
+	/** Hidden ninja skills */
 	STEAL,
+	/** Hidden ninja skills */
 	FIGHT,
+	/** Hidden ninja skills */
 	THROW,
+	/** Hidden ninja skills */
 	SHOOT,
-	// --- Comp�tences cach�es de PRIEST --- //
+
+	/** Hidden priest skills */
 	IDENTIFY,
+	/** Hidden priest skills */
 	HEAL,
+	/** Hidden priest skills */
 	INFLUENCE,
+	/** Hidden priest skills */
 	DEFEND,
-	// --- Comp�tences cach�es de WIZARD --- //
+
+	/** Hidden wizard skills */
 	FIRE,
+	/** Hidden wizard skills */
 	AIR,
+	/** Hidden wizard skills */
 	EARTH,
+	/** Hidden wizard skills */
 	WATER;
 
 	/**
 	 * Tells whether this {@link Skill} is basic (or hidden).
-	 * 
+	 *
 	 * @return whether this {@link Skill} is basic (or hidden).
 	 */
 	public boolean isBasic() {
@@ -73,7 +93,7 @@ public enum Skill {
 
 	/**
 	 * Tells whether this {@link Skill} is hidden (or basic).
-	 * 
+	 *
 	 * @return whether this {@link Skill} is hidden (or basic).
 	 */
 	public boolean isHidden() {
@@ -84,7 +104,7 @@ public enum Skill {
 	 * Returns the basic {@link Skill} mapped to this hidden {@link Skill}. This
 	 * method throws an {@link UnsupportedOperationException} if this skill
 	 * isn't basic.
-	 * 
+	 *
 	 * @return a {@link Skill}.
 	 */
 	public Skill getRelatedSkill() {
@@ -121,7 +141,7 @@ public enum Skill {
 	/**
 	 * Tells whether the champion's strength improves when the champion gains a
 	 * new level of this {@link Skill}.
-	 * 
+	 *
 	 * @return whether the champion's strength improves when the champion gains
 	 *         a new level of this {@link Skill}.
 	 */
@@ -132,7 +152,7 @@ public enum Skill {
 	/**
 	 * Tells whether the champion's dexterity improves when the champion gains a
 	 * new level of this {@link Skill}.
-	 * 
+	 *
 	 * @return whether the champion's dexterity improves when the champion gains
 	 *         a new level of this {@link Skill}.
 	 */
@@ -143,7 +163,7 @@ public enum Skill {
 	/**
 	 * Tells whether the champion's mana improves when the champion gains a new
 	 * level of this {@link Skill}.
-	 * 
+	 *
 	 * @return whether the champion's mana improves when the champion gains a
 	 *         new level of this {@link Skill}.
 	 */
@@ -154,7 +174,7 @@ public enum Skill {
 	/**
 	 * Tells whether the champion's wisdom improves when the champion gains a
 	 * new level of this {@link Skill}.
-	 * 
+	 *
 	 * @return whether the champion's wisdom improves when the champion gains a
 	 *         new level of this {@link Skill}.
 	 */
@@ -165,7 +185,7 @@ public enum Skill {
 	/**
 	 * Tells whether the champion's anti-magic improves when the champion gains
 	 * a new level of this {@link Skill}.
-	 * 
+	 *
 	 * @return whether the champion's anti-magic improves when the champion
 	 *         gains a new level of this {@link Skill}.
 	 */
@@ -176,7 +196,7 @@ public enum Skill {
 	/**
 	 * Tells whether the champion's health improves when the champion gains a
 	 * new level of this {@link Skill}.
-	 * 
+	 *
 	 * @return whether the champion's health improves when the champion gains a
 	 *         new level of this {@link Skill}.
 	 */
@@ -187,7 +207,7 @@ public enum Skill {
 	/**
 	 * Tells whether the champion's stamina improves when the champion gains a
 	 * new level of this {@link Skill}.
-	 * 
+	 *
 	 * @return whether the champion's stamina improves when the champion gains a
 	 *         new level of this {@link Skill}.
 	 */
@@ -198,7 +218,7 @@ public enum Skill {
 	/**
 	 * Tells whether the champion's vitality improves when the champion gains a
 	 * new level of this {@link Skill}.
-	 * 
+	 *
 	 * @return whether the champion's vitality improves when the champion gains
 	 *         a new level of this {@link Skill}.
 	 */
@@ -209,7 +229,7 @@ public enum Skill {
 	/**
 	 * Tells whether the champion's anti-fire improves when the champion gains a
 	 * new level of this {@link Skill}.
-	 * 
+	 *
 	 * @return whether the champion's anti-fire improves when the champion gains
 	 *         a new level of this {@link Skill}.
 	 */
@@ -220,7 +240,7 @@ public enum Skill {
 	/**
 	 * Returns this {@link Skill}'s label. Example: Returns "Ninja" for the
 	 * {@link #NINJA} skill.
-	 * 
+	 *
 	 * @return a {@link String}.
 	 */
 	public String getLabel() {

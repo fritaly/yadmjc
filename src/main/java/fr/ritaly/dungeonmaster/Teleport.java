@@ -19,24 +19,30 @@
 package fr.ritaly.dungeonmaster;
 
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * D�finit une t�l�portation vers une {@link Position} cible. Lors de la
- * t�l�portation, la {@link Direction} peut �galement �tre modifi�e. Une
- * {@link Teleport} repr�sente une g�n�ralisation de la notion de d�placement /
- * mouvement.
- * 
+ * A teleport defines an instant move from one position to another. During a
+ * teleportation, the subject's position and / or look direction can be changed.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Teleport {
 
+	/**
+	 * The final position after teleporting the subject.
+	 */
 	private final Position position;
 
+	/**
+	 * The final (look) direction after teleporting the subject.
+	 */
 	private final Direction direction;
 
 	public Teleport(Position position, Direction direction) {
-		Validate.isTrue(position != null);
-		Validate.isTrue(direction != null);
+		Validate.notNull(position, "The given position is null");
+		Validate.notNull(direction, "The given direction is null");
 
 		this.position = position;
 		this.direction = direction;
@@ -52,7 +58,7 @@ public class Teleport {
 
 	@Override
 	public String toString() {
-		return "Teleport[position=" + position + ",direction=" + direction
-				+ "]";
+		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("position", position)
+				.append("direction", direction).toString();
 	}
 }

@@ -38,7 +38,6 @@ import fr.ritaly.dungeonmaster.Constants;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Location;
 import fr.ritaly.dungeonmaster.Move;
-import fr.ritaly.dungeonmaster.NeverNull;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Side;
 import fr.ritaly.dungeonmaster.Speed;
@@ -64,7 +63,7 @@ import fr.ritaly.dungeonmaster.map.Element;
  */
 public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		ChangeListener {
-	
+
 	public static enum State {
 		NORMAL,
 		CLIMBING_DOWN;
@@ -95,7 +94,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	/**
 	 * La {@link Direction} dans laquelle le groupe regarde.
 	 */
-	@NeverNull private Direction lookDirection = Direction.NORTH;
+	private Direction lookDirection = Direction.NORTH;
 
 	/**
 	 * La {@link Position} actuelle du groupe.
@@ -125,7 +124,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	private final PartySpells spells = new PartySpells(this);
 
 	// FIXME Impl�menter Serialization !!
-	
+
 	private State state = State.NORMAL;
 
 	public Party() {
@@ -171,7 +170,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 	/**
 	 * Retourne les champions du groupe sous forme de {@link List}.
-	 * 
+	 *
 	 * @param all
 	 *            indique si tous les champions doivent �tre retourn�s dans la
 	 *            liste, c'est-�-dire ceux qui sont vivants ET morts.
@@ -194,10 +193,10 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 		return result;
 	}
-	
+
 	/**
 	 * Retourne la taille du groupe.
-	 * 
+	 *
 	 * @param all
 	 *            indique si tous les champions doivent �tre compt�s,
 	 *            c'est-�-dire ceux qui sont vivants ET morts.
@@ -218,7 +217,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	/**
 	 * Indique si le groupe est plein, c'est-�-dire qu'il compte 4
 	 * {@link Champion}s.
-	 * 
+	 *
 	 * @return si le groupe est plein, c'est-�-dire qu'il compte 4
 	 *         {@link Champion}s.
 	 */
@@ -229,36 +228,36 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	public boolean isEmpty(boolean all) {
 		return getChampions(all).isEmpty();
 	}
-	
+
 	public Set<Champion> getChampions(Side side, boolean all) {
 		Validate.notNull(side, "The given side is null");
-		
+
 		final Iterator<Location> iterator = side.getLocations().iterator();
-		
+
 		final Location location1 = iterator.next();
 		final Location location2 = iterator.next();
-		
+
 		final Set<Champion> set = new HashSet<Champion>();
-		
+
 		final Champion champion1 = getChampion(location1);
-		
+
 		if (champion1 != null) {
 			if (champion1.isAlive() || all) {
 				set.add(champion1);
 			}
 		}
-		
+
 		final Champion champion2 = getChampion(location2);
-		
+
 		if (champion2 != null) {
 			if (champion2.isAlive() || all) {
 				set.add(champion2);
 			}
 		}
-		
+
 		return set;
 	}
-	
+
 	public Champion getChampion(Location location) {
 		if (location == null) {
 			throw new IllegalArgumentException("The given location is null");
@@ -406,7 +405,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 	/**
 	 * D�finit le nouveau {@link Champion} du groupe.
-	 * 
+	 *
 	 * @param champion
 	 *            le {@link Champion} qui doit �tre �lu leader du groupe.
 	 */
@@ -463,7 +462,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 	/**
 	 * Echange les {@link Champion}s situ�s aux deux emplacements donn�s.
-	 * 
+	 *
 	 * @param location1
 	 *            une instance de {@link Location} repr�sentant le premier
 	 *            emplacement � �changer.
@@ -525,11 +524,11 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	public Position getPosition() {
 		return position;
 	}
-	
+
 	/**
 	 * Returns the {@link Position} next to the party's current position and in
 	 * its look {@link Direction}.
-	 * 
+	 *
 	 * @return a {@link Position} or null.
 	 */
 	public Position getFacingPosition() {
@@ -548,7 +547,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 	public void teleport(final Position position, final Direction direction,
 			final boolean silent) {
-		
+
 		Validate.isTrue(position != null, "The given position is null");
 		Validate.isTrue(direction != null, "The given direction is null");
 
@@ -717,7 +716,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	/**
 	 * Retourne la vitesse de d�placement du groupe sous forme d'une instance de
 	 * {@link Speed}.
-	 * 
+	 *
 	 * @return une instance de {@link Speed}. Ne retourne jamais null.
 	 */
 	public Speed getMoveSpeed() {
@@ -742,7 +741,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	/**
 	 * Place l'objet donn� dans la main du leader du groupe et retourne l'objet
 	 * qu'il portait pr�c�demment (s'il y en avait un) ou null.
-	 * 
+	 *
 	 * @param item
 	 *            un {@link Item} repr�sentant l'objet que le leader doit
 	 *            saisir.
@@ -801,7 +800,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 	/**
 	 * Indique si le leader du groupe porte un objet en main.
-	 * 
+	 *
 	 * @return si le leader du groupe porte un objet en main.
 	 */
 	public boolean hasItem() {
@@ -815,7 +814,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	/**
 	 * Lib�re l'objet que le leader du groupe porte (s'il y en a un) et le
 	 * retourne.
-	 * 
+	 *
 	 * @return une instance de {@link Item} ou null.
 	 */
 	public Item release() {
@@ -931,7 +930,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 	/**
 	 * Retourne la luminosit� g�n�r�e par les champions du groupe.
-	 * 
+	 *
 	 * @return un entier positif ou null repr�sentant la luminosit� g�n�r�e par
 	 *         les champions dans l'intervalle [0-255].
 	 */
@@ -982,25 +981,25 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 	/**
 	 * Indique si le groupe est invisible (du fait d'un sort).
-	 * 
+	 *
 	 * @return si le groupe est invisible.
 	 */
 	public final boolean isInvisible() {
 		return getSpells().isInvisibilityActive();
 	}
-	
+
 	/**
 	 * Tells whether the party can dispell illusions.
-	 * 
+	 *
 	 * @return whether the party can dispell illusions.
 	 */
 	public final boolean dispellsIllusions() {
 		return getSpells().isDispellIllusionActive();
 	}
-	
+
 	/**
 	 * Tells whether the party can see through walls.
-	 * 
+	 *
 	 * @return whether the party can see through walls.
 	 */
 	public final boolean seesThroughWalls() {
@@ -1010,7 +1009,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	/**
 	 * Retourne l'identifiant du dernier tic d'horloge pendant lequel le groupe
 	 * a �t� attaqu�.
-	 * 
+	 *
 	 * @return un entier positif ou nul ou -1 si le groupe n'a jamais �t�
 	 *         attaqu�.
 	 */
@@ -1029,7 +1028,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	/**
 	 * Retourne l'emplacement auquel est situ� le {@link Champion} donn� ou null
 	 * si celui-ci n'appartient pas au groupe.
-	 * 
+	 *
 	 * @param champion
 	 *            un {@link Champion} dont l'emplacement dans le groupe est
 	 *            demand�.
@@ -1066,19 +1065,19 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			}
 		}
 	}
-	
+
 	public State getState() {
 		return state;
 	}
 
 	public void setState(State state) {
 		Validate.notNull(state, "The given state is null");
-		
+
 		if (!this.state.equals(state)) {
 			if (log.isDebugEnabled()) {
 				log.debug("Party.State: " + this.state + " -> " + state);
 			}
-			
+
 			// Transition d'�tat forc�ment valide (seulement 2 �tats possibles)
 			this.state = state;
 		}

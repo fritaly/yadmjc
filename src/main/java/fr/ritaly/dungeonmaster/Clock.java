@@ -28,43 +28,59 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * The clock is the source of time ticks and broadcasts ticks to listening
+ * objects inside the game. The clock runs in a separate thread and can be
+ * paused / resumed.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Clock {
 
 	/**
-	 * Constante d�finissant le nombre de tics d'horloge �quivalant � 1 seconde
-	 * de temps de jeu.
+	 * The number of clock ticks within a second. This constant defines the
+	 * speed of the clock.
+	 *
+	 * @see #DEFAULT_PERIOD
 	 */
 	public static final int ONE_SECOND = 6;
 
 	/**
-	 * Constante d�finissant le nombre de tics d'horloge �quivalant � 1 minute
-	 * de temps de jeu.
+	 * The number of clock ticks within a minute.
 	 */
 	public static final int ONE_MINUTE = ONE_SECOND * 60;
 
 	/**
-	 * La p�riode de temps (en millisecondes) utilis�e comme unit� de base dans
-	 * le jeu (1/6 de seconde dans Dungeon Master).
+	 * The period (in milliseconds) between 2 clock ticks. This constant defines
+	 * the speed of the clock. In the original Dungeon Master game, the clock
+	 * ticked 6 times per second hence a period of roughly 166 ms.
+	 *
+	 * @See {@link #ONE_SECOND}
 	 */
 	private static final int DEFAULT_PERIOD = 166;
 
+	/**
+	 * Sequence representing the number of ticks since the clock started or was
+	 * reset.
+	 */
 	private int tickCount = 1;
 
 	private final class Task implements Runnable {
 
+		/**
+		 * Whether the clock is paused.
+		 */
 		private volatile boolean paused;
 
 		@Override
 		public void run() {
 			while (!Thread.interrupted()) {
-				// Calculer l'horodatage du prochian tick
+				// When should the next tick occur ?
 				final long nextTick = System.currentTimeMillis() + period;
 
 				_tick();
 
 				while (paused) {
+					// The clock has been paused, wait for the 'resume' signal
 					synchronized (this) {
 						try {
 							if (log.isDebugEnabled()) {
@@ -82,8 +98,7 @@ public class Clock {
 				}
 
 				try {
-					// Calculer le temps � attendre avant le prochain tick afin
-					// de "lisser" l'ex�cution
+					// How long should we wait before the next tick ?
 					final long duration = nextTick - System.currentTimeMillis();
 
 					if (duration > 0) {
@@ -96,11 +111,12 @@ public class Clock {
 						log.warn("Missed tick by " + duration + " ms");
 					}
 				} catch (InterruptedException e) {
-					// Arr�t demand�
+					// Stop requested
 					break;
 				}
 
 				while (paused) {
+					// The clock has been paused, wait for the 'resume' signal
 					synchronized (this) {
 						try {
 							if (log.isDebugEnabled()) {
@@ -119,6 +135,9 @@ public class Clock {
 			}
 		}
 
+		/**
+		 * Pauses the clock.
+		 */
 		private synchronized void pause() {
 			if (paused) {
 				throw new IllegalStateException("The timer is already paused");
@@ -129,6 +148,9 @@ public class Clock {
 			notifyAll();
 		}
 
+		/**
+		 * Resumes the clock.
+		 */
 		private synchronized void resume() {
 			if (!paused) {
 				throw new IllegalStateException("The timer must be paused");
@@ -140,6 +162,11 @@ public class Clock {
 		}
 	}
 
+	/**
+	 * Enumerates the possible states of the clock.
+	 *
+	 * @author francois_ritaly
+	 */
 	private static enum State {
 		STOPPED,
 		STARTED,
@@ -148,45 +175,70 @@ public class Clock {
 
 	private final Log log = LogFactory.getLog(Clock.class);
 
+	/**
+	 * There's only one instance of clock allowed in the game.
+	 */
 	private static final Clock INSTANCE = new Clock();
 
-	// Ne pas stocker deux fois la m�me instance -> Set
+	/**
+	 * Set containing the listeners to be notified of clock ticks.
+	 */
 	private final Set<ClockListener> listeners = new HashSet<ClockListener>();
 
 	/**
-	 * Buffer de stockage des instances de {@link ClockListener} entre deux
-	 * ticks (permet d'�viter les modifications concurrentes lors de l'it�ration
-	 * sur le membre {@link #listeners}).
+	 * Buffer set used for storing the clock listeners to be registered at the
+	 * next clock tick. Necessary to avoid concurrent modification exceptions
+	 * when notifying listeners.
 	 */
-	private final Set<ClockListener> buffer = Collections
-			.synchronizedSet(new HashSet<ClockListener>());
-	
-	/**
-	 * Buffer de stockage des instances de {@link ClockListener} entre deux
-	 * ticks (permet d'�viter les modifications concurrentes lors de l'it�ration
-	 * sur le membre {@link #listeners}).
-	 */
-	private final Set<ClockListener> trash = Collections
-			.synchronizedSet(new HashSet<ClockListener>());
+	private final Set<ClockListener> buffer = Collections.synchronizedSet(new HashSet<ClockListener>());
 
+	/**
+	 * Buffer set used for storing the clock listeners to be unregistered at the
+	 * next clock tick. Necessary to avoid concurrent modification exceptions
+	 * when notifying listeners.
+	 */
+	private final Set<ClockListener> trash = Collections.synchronizedSet(new HashSet<ClockListener>());
+
+	/**
+	 * The clock's thread.
+	 */
 	private Thread thread;
 
+	/**
+	 * The task responsible for pausing / resuming the clock.
+	 */
 	private final Task task = new Task();
 
+	/**
+	 * The clock's state. Should never be null.
+	 */
 	private State state = State.STOPPED;
 
 	/**
-	 * P�riode de temps entre deux tics d'horloge.
+	 * Period (in milliseconds) between 2 clock ticks.
 	 */
 	private long period = DEFAULT_PERIOD;
 
 	private Clock() {
 	}
 
+	/**
+	 * Returns the unique instance of {@link Clock}.
+	 *
+	 * @return the unique instance of {@link Clock}.
+	 */
 	public static Clock getInstance() {
 		return INSTANCE;
 	}
 
+	/**
+	 * Registers the given clock listener. The listener will be registered at
+	 * the next tick.
+	 *
+	 * @param listener
+	 *            an instance of {@link ClockListener} to register. Can't be
+	 *            null.
+	 */
 	public void register(ClockListener listener) {
 		Validate.notNull(listener, "The given clock listener is null");
 
@@ -196,7 +248,15 @@ public class Clock {
 			log.debug("Registered " + listener);
 		}
 	}
-	
+
+	/**
+	 * Unregisters the given clock listener. The listener will be unregistered
+	 * at the next tick.
+	 *
+	 * @param listener
+	 *            an instance of {@link ClockListener} to unregister. Can't be
+	 *            null.
+	 */
 	public void unregister(ClockListener listener) {
 		Validate.notNull(listener, "The given clock listener is null");
 
@@ -207,12 +267,15 @@ public class Clock {
 		}
 	}
 
+	/**
+	 * Pauses the clock.
+	 */
 	public synchronized void pause() {
 		if (!isStarted()) {
 			throw new IllegalStateException("The clock isn't started");
 		}
 
-		// Mettre le thread en pause
+		// Pause the thread
 		task.pause();
 
 		this.state = State.PAUSED;
@@ -222,20 +285,33 @@ public class Clock {
 		}
 	}
 
+	/**
+	 * Tells whether the clock is started.
+	 *
+	 * @return whether the clock is started.
+	 */
 	public synchronized boolean isStarted() {
 		return State.STARTED.equals(state);
 	}
 
+	/**
+	 * Tells whether the clock is stopped.
+	 *
+	 * @return whether the clock is stopped.
+	 */
 	public synchronized boolean isStopped() {
 		return State.STOPPED.equals(state);
 	}
 
+	/**
+	 * Resumes the clock.
+	 */
 	public synchronized void resume() {
 		if (!isPaused()) {
 			throw new IllegalStateException("The clock must be paused");
 		}
 
-		// Relancer le thread
+		// Resume the thread
 		task.resume();
 
 		this.state = State.STARTED;
@@ -245,10 +321,18 @@ public class Clock {
 		}
 	}
 
+	/**
+	 * Tells whether the clock is paused.
+	 *
+	 * @return whether the clock is paused.
+	 */
 	public synchronized boolean isPaused() {
 		return State.PAUSED.equals(state);
 	}
 
+	/**
+	 * Starts the clock.
+	 */
 	public synchronized void start() {
 		if (isStarted()) {
 			throw new IllegalStateException("The clock is already started");
@@ -256,7 +340,7 @@ public class Clock {
 
 		this.state = State.STARTED;
 
-		// D�marrer thread
+		// Start the clock's thread
 		this.thread = new Thread(task);
 		this.thread.start();
 
@@ -265,12 +349,15 @@ public class Clock {
 		}
 	}
 
+	/**
+	 * Stops the clock.
+	 */
 	public synchronized void stop() {
 		if (isStopped()) {
 			throw new IllegalStateException("The clock is already stopped");
 		}
 
-		// Arr�ter thread
+		// Stop the thread
 		thread.interrupt();
 		thread = null;
 
@@ -283,34 +370,32 @@ public class Clock {
 
 	private void _tick() {
 		if (log.isDebugEnabled()) {
-			log.debug("[----------- Tick #" + Integer.toString(tickCount)
-					+ " -----------]");
+			log.debug(String.format("[----------- Tick #%d -----------]", tickCount));
 		}
 
-		// Attention � l'ordre de prise en compte des deux Set<ClockListenr> !
+		// Careful with the order when adding / removing listeners
 		if (!buffer.isEmpty()) {
-			// D�placer les objets du buffer vers le set des listeners
+			// There are listeners pending for registration, add them to the live set
 			listeners.addAll(buffer);
 			buffer.clear();
 		}
 		if (!trash.isEmpty()) {
+			// There are listeners pending for unregistration, remove them from the live set
 			listeners.removeAll(trash);
 			trash.clear();
 		}
 
 		if (!listeners.isEmpty()) {
 			if (log.isDebugEnabled()) {
-				log.debug("Clock is notifying " + listeners.size()
-						+ " listener(s) ...");
+				log.debug(String.format("Clock is notifying %d listener(s) ...", listeners.size()));
 			}
 
-			for (Iterator<ClockListener> it = listeners.iterator(); it
-					.hasNext();) {
-
+			for (final Iterator<ClockListener> it = listeners.iterator(); it.hasNext();) {
 				final ClockListener listener = it.next();
 
 				if (!listener.clockTicked()) {
-					// L'animation est termin�e, supprimer cette entr�e du Set
+					// The listener is not interested any more in tick events,
+					// unregister it right away
 					it.remove();
 
 					if (log.isDebugEnabled()) {
@@ -328,56 +413,65 @@ public class Clock {
 	}
 
 	public synchronized void setPeriod(long period) {
-		Validate.isTrue(period > 0, "The given period <" + period
-				+ "> must be positive");
+		Validate.isTrue(period > 0, String.format("The given period %d must be positive", period));
 
 		this.period = period;
 	}
 
+	/**
+	 * Make the clock tick. Useful for manually controlling the clock (typically
+	 * for tests).
+	 */
 	public void tick() {
 		tick(1);
 	}
 
-	public void tick(int count) {
-		if (count <= 0) {
-			throw new IllegalArgumentException("The given tick count <" + count
-					+ "> must be positive");
-		}
+	/**
+	 * Make the clock tick n times. Useful for manually controlling the clock
+	 * (typically for tests).
+	 *
+	 * @param n
+	 *            the number of times the clock must tick. Must be positive.
+	 */
+	public void tick(final int n) {
+		Validate.isTrue(n > 0, String.format("The given tick count %d must be positive", n));
+
 		if (isStarted()) {
 			throw new IllegalStateException("The clock is started");
 		}
 
 		if (log.isDebugEnabled()) {
-			log.debug("Ticking " + count + " time(s) ...");
+			log.debug(String.format("Ticking %d time(s) ...", n));
 		}
 
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < n; i++) {
 			_tick();
 		}
 
 		if (log.isDebugEnabled()) {
-			log.debug("Ticked " + count + " time(s)");
+			log.debug(String.format("Ticked %d time(s)", n));
 		}
 	}
 
 	/**
-	 * Retourne l'identifiant du num�ro de tic d'horloge.
-	 * 
-	 * @return un entier positif ou nul.
+	 * Returns the number identifying the current clock tick.
+	 *
+	 * @return an integer identifying the clock tick.
 	 */
 	public int getTickId() {
 		return tickCount;
 	}
-	
+
 	/**
-	 * Supprimes toutes les instances de {@link ClockListener} enregistr�es.
+	 * Resets the clock as if it had just been instantiated.
 	 */
 	public synchronized void reset() {
 		listeners.clear();
 		buffer.clear();
-		
+		trash.clear();
+
 		tickCount = 1;
-		
+
 		if (log.isInfoEnabled()) {
 			log.info("Clock reset");
 		}
