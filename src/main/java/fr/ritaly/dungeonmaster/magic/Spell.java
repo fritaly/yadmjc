@@ -69,16 +69,19 @@ import fr.ritaly.dungeonmaster.projectile.SpellProjectile;
  * sort, appeler la m�thode {@link #isValid()}. Pour identifier le sort, appeler
  * sa m�thode {@link #getType()}.
  *
- *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Spell {
 
 	/**
-	 * Enum�ration des identifiants de sort.
+	 * Enumerates the different types of spell.
+	 *
+	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
 	 */
 	public static enum Type {
-		// Sorts de pr�tre //
+
+		// --- Priest spells --- //
+
 		HEALTH_POTION(VI, 32, 1),
 		STAMINA_POTION(YA, 15, 2),
 		MANA_POTION(ZO, BRO, RA, 63, 3),
@@ -92,12 +95,14 @@ public class Spell {
 
 		/**
 		 * Note: This spell is a party spell. The shield per champion is gained
-		 * by drinking spell potions.
+		 * by drinking shield potions.
 		 */
 		SHIELD(YA, IR, 30, 2),
 		DARKNESS(DES, IR, SAR, 12, 1),
 		DISPELL_ILLUSION(OH, GOR, ROS, 0, 0),
-		// Sorts de magicien //
+
+		// --- Wizard spells --- //
+
 		TORCH(FUL, 15, 1),
 		LIGHT(OH, IR, RA, 22, 4),
 		OPEN_DOOR(ZO, 15, 1),
@@ -136,13 +141,9 @@ public class Spell {
 		private final AlignmentRune alignmentRune;
 
 		private Type(final ElementRune elementRune, int duration, int difficulty) {
-
-			Validate.isTrue(elementRune != null,
-					"The given element rune is null");
-			Validate.isTrue(duration >= 0, "The given duration <" + duration
-					+ "> must be positive or zero");
-			Validate.isTrue(difficulty >= 0, "The given difficulty <"
-					+ difficulty + "> must be positive or zero");
+			Validate.notNull(elementRune, "The given element rune is null");
+			Validate.isTrue(duration >= 0, String.format("The given duration %d must be positive or zero", duration));
+			Validate.isTrue(difficulty >= 0, String.format("The given difficulty %d must be positive or zero", difficulty));
 
 			this.id = elementRune.getId();
 			this.duration = duration;
@@ -153,16 +154,11 @@ public class Spell {
 			this.alignmentRune = null;
 		}
 
-		private Type(final ElementRune elementRune, final FormRune formRune,
-				int duration, int difficulty) {
-
-			Validate.isTrue(elementRune != null,
-					"The given element rune is null");
-			Validate.isTrue(formRune != null, "The given form rune is null");
-			Validate.isTrue(duration >= 0, "The given duration <" + duration
-					+ "> must be positive or zero");
-			Validate.isTrue(difficulty >= 0, "The given difficulty <"
-					+ difficulty + "> must be positive or zero");
+		private Type(final ElementRune elementRune, final FormRune formRune, int duration, int difficulty) {
+			Validate.notNull(elementRune, "The given element rune is null");
+			Validate.notNull(formRune, "The given form rune is null");
+			Validate.isTrue(duration >= 0, String.format("The given duration %d must be positive or zero", duration));
+			Validate.isTrue(difficulty >= 0, String.format("The given difficulty %d must be positive or zero", difficulty));
 
 			this.id = elementRune.getId() * 10 + formRune.getId();
 			this.duration = duration;
@@ -173,18 +169,14 @@ public class Spell {
 			this.alignmentRune = null;
 		}
 
-		private Type(final ElementRune elementRune, final FormRune formRune,
-				final AlignmentRune alignmentRune, int duration, int difficulty) {
+		private Type(final ElementRune elementRune, final FormRune formRune, final AlignmentRune alignmentRune, int duration,
+				int difficulty) {
 
-			Validate.isTrue(elementRune != null,
-					"The given element rune is null");
-			Validate.isTrue(formRune != null, "The given form rune is null");
-			Validate.isTrue(alignmentRune != null,
-					"The given alignment rune is null");
-			Validate.isTrue(duration >= 0, "The given duration <" + duration
-					+ "> must be positive or zero");
-			Validate.isTrue(difficulty >= 0, "The given difficulty <"
-					+ difficulty + "> must be positive or zero");
+			Validate.notNull(elementRune, "The given element rune is null");
+			Validate.notNull(formRune, "The given form rune is null");
+			Validate.notNull(alignmentRune, "The given alignment rune is null");
+			Validate.isTrue(duration >= 0, String.format("The given duration %d must be positive or zero", duration));
+			Validate.isTrue(difficulty >= 0, String.format("The given difficulty %d must be positive or zero", difficulty));
 
 			this.id = (elementRune.getId() * 10 + formRune.getId()) * 10
 					+ alignmentRune.getId();
@@ -196,8 +188,52 @@ public class Spell {
 			this.alignmentRune = alignmentRune;
 		}
 
+		/**
+		 * Tells whether this spell is a priest spell.
+		 *
+		 * @return whether this spell is a priest spell.
+		 */
+		public boolean isPriestSpell() {
+			final int id = ordinal();
+
+			return (HEALTH_POTION.ordinal() <= id) && (id <= DISPELL_ILLUSION.ordinal());
+		}
+
+		/**
+		 * Tells whether this spell is a wizard spell.
+		 *
+		 * @return whether this spell is a wizard spell.
+		 */
+		public boolean isWizardSpell() {
+			return !isPriestSpell();
+		}
+
+		/**
+		 * Tells whether this spell is an attack spell.
+		 *
+		 * @return whether this spell is an attack spell.
+		 */
+		public boolean isAttackSpell() {
+			switch(this) {
+			case FIREBALL:
+			case LIGHTNING_BOLT:
+			case POISON_BOLT:
+			case POISON_CLOUD:
+			case WEAKEN_IMMATERIAL:
+				return true;
+			default:
+				return false;
+			}
+		}
+
+		/**
+		 * Returns the number of runes to cast this spell.
+		 *
+		 * @return a number of runes. Value within [1, 3] because the power rune
+		 *         doesn't identify a spell.
+		 */
 		public int getRuneCount() {
-			// Il y a forc�ment au moins un ElementRune
+			// The element rune is always present
 			int count = 1;
 
 			if (formRune != null) {
@@ -507,26 +543,15 @@ public class Spell {
 	private final int id;
 
 	/**
-	 * Le co�t (en nombre de points de mana) n�cessaires pour invoquer le sort.
+	 * The cost (in mana points) to cast the spell.
 	 */
 	private final int cost;
 
-	public Spell(PowerRune powerRune, ElementRune elementRune,
-			FormRune formRune, AlignmentRune alignmentRune) {
-
-		if (powerRune == null) {
-			throw new IllegalArgumentException("The given power rune is null");
-		}
-		if (elementRune == null) {
-			throw new IllegalArgumentException("The given element rune is null");
-		}
-		if (formRune == null) {
-			throw new IllegalArgumentException("The given form rune is null");
-		}
-		if (alignmentRune == null) {
-			throw new IllegalArgumentException(
-					"The given alignment rune is null");
-		}
+	public Spell(PowerRune powerRune, ElementRune elementRune, FormRune formRune, AlignmentRune alignmentRune) {
+		Validate.notNull(powerRune, "The given power rune is null");
+		Validate.notNull(elementRune, "The given element rune is null");
+		Validate.notNull(formRune, "The given form rune is null");
+		Validate.notNull(alignmentRune, "The given alignment rune is null");
 
 		this.powerRune = powerRune;
 		this.elementRune = elementRune;
@@ -537,72 +562,57 @@ public class Spell {
 	}
 
 	public Spell(PowerRune powerRune, ElementRune elementRune, FormRune formRune) {
-		if (powerRune == null) {
-			throw new IllegalArgumentException("The given power rune is null");
-		}
-		if (elementRune == null) {
-			throw new IllegalArgumentException("The given element rune is null");
-		}
-		if (formRune == null) {
-			throw new IllegalArgumentException("The given form rune is null");
-		}
+		Validate.notNull(powerRune, "The given power rune is null");
+		Validate.notNull(elementRune, "The given element rune is null");
+		Validate.notNull(formRune, "The given form rune is null");
 
 		this.powerRune = powerRune;
 		this.elementRune = elementRune;
 		this.formRune = formRune;
-		this.alignmentRune = null; // Rune non aliment�
+		this.alignmentRune = null; // No alignment rune
 		this.id = computeId(elementRune, formRune, alignmentRune);
 		this.cost = computeCost(powerRune, elementRune, formRune, alignmentRune);
 	}
 
 	public Spell(PowerRune powerRune, ElementRune elementRune) {
-		if (powerRune == null) {
-			throw new IllegalArgumentException("The given power rune is null");
-		}
-		if (elementRune == null) {
-			throw new IllegalArgumentException("The given element rune is null");
-		}
+		Validate.notNull(powerRune, "The given power rune is null");
+		Validate.notNull(elementRune, "The given element rune is null");
 
 		this.powerRune = powerRune;
 		this.elementRune = elementRune;
-		this.formRune = null; // Rune non aliment�
-		this.alignmentRune = null; // Rune non aliment�
+		this.formRune = null; // No form rune
+		this.alignmentRune = null; // No alignment rune
 		this.id = computeId(elementRune, formRune, alignmentRune);
 		this.cost = computeCost(powerRune, elementRune, formRune, alignmentRune);
 	}
 
-	// Le sort ainsi cr�� est forc�ment valide !
+	// The spell created by this constructor is necessarily valid
 	public Spell(PowerRune powerRune, Spell.Type type) {
-		if (powerRune == null) {
-			throw new IllegalArgumentException("The given power rune is null");
-		}
-		if (type == null) {
-			throw new IllegalArgumentException("The given spell type is null");
-		}
+		Validate.notNull(powerRune, "The given power rune is null");
+		Validate.notNull(type, "The given spell type is null");
 
 		this.powerRune = powerRune;
 		this.elementRune = type.getElementRune();
-		this.formRune = type.getFormRune(); // Peut retourner null
-		this.alignmentRune = type.getAlignmentRune(); // Peut retourner null
+		this.formRune = type.getFormRune(); // Can be null
+		this.alignmentRune = type.getAlignmentRune(); // Can be null
 		this.id = computeId(elementRune, formRune, alignmentRune);
 		this.cost = computeCost(powerRune, elementRune, formRune, alignmentRune);
 	}
 
 	/**
-	 * Calcule et retourne l'identifiant du sort sous forme d'entier � partir
-	 * des {@link Rune}s composant le sort.
+	 * Computes and returns an id from the given runes as an integer. This id
+	 * uniquely identifies the spell type. Examples: 64 (FUL IR).
 	 *
 	 * @param elementRune
-	 *            un {@link ElementRune}. Ne peut �tre null.
+	 *            an element rune. Can't be null.
 	 * @param formRune
-	 *            un {@link FormRune}. Peut �tre null.
+	 *            a form rune. Can be null.
 	 * @param alignmentRune
-	 *            un {@link AlignmentRune}. Peut �tre null.
-	 * @return un entier positif identifiant le sort. Example: 1, 64, etc.
+	 *            an alignment rune. Can be null if
+	 * @return a positive integer identifying the spell.
 	 */
-	private int computeId(ElementRune elementRune, FormRune formRune,
-			AlignmentRune alignmentRune) {
-
+	private int computeId(ElementRune elementRune, FormRune formRune, AlignmentRune alignmentRune) {
+		// The form and alignment runes can be null
 		Validate.notNull(elementRune, "The given element rune is null");
 
 		int id = elementRune.getId();
@@ -619,23 +629,22 @@ public class Spell {
 	}
 
 	/**
-	 * Calcule et retourne le nombre de points de mana n�cessaires pour invoquer
-	 * le sort sous forme d'entier � partir des {@link Rune}s composant le sort.
+	 * Computes and returns the number of mana points necessary for casting the
+	 * spell with given runes.
 	 *
 	 * @param powerRune
-	 *            un {@link PowerRune}. Ne peut �tre null.
+	 *            a power rune. Can't be null.
 	 * @param elementRune
-	 *            un {@link ElementRune}. Ne peut �tre null.
+	 *            an element rune. Can't be null.
 	 * @param formRune
-	 *            un {@link FormRune}. Peut �tre null.
+	 *            a form rune. Can be null.
 	 * @param alignmentRune
-	 *            un {@link AlignmentRune}. Peut �tre null.
-	 * @return un entier positif repr�sentant un nombre de points de mana (le
-	 *         "co�t" du sort).
+	 *            an alignment rune. Must be null if the form rune is null.
+	 * @return a positive integer representing a number of mana points for
+	 *         casting the spell.
 	 */
-	private int computeCost(PowerRune powerRune, ElementRune elementRune,
-			FormRune formRune, AlignmentRune alignmentRune) {
-
+	private int computeCost(PowerRune powerRune, ElementRune elementRune, FormRune formRune, AlignmentRune alignmentRune) {
+		// The form and alignment runes can be null
 		Validate.notNull(powerRune, "The given power rune is null");
 		Validate.notNull(elementRune, "The given element rune is null");
 
@@ -653,14 +662,13 @@ public class Spell {
 	}
 
 	/**
-	 * Retourne le nom du sort � partir des {@link Rune}s le composant. Exemple:
-	 * "LO FUL", "MON FUL IR", etc.
+	 * Returns the spell name from the invoked runes. Examples: "LO FUL",
+	 * "MON FUL IR", etc.
 	 *
-	 * @return une {@link String} repr�sentant le nom complet du sort.
+	 * @return a string representing the spell's full name.
 	 */
 	public String getName() {
 		final StringBuilder builder = new StringBuilder(32);
-
 		builder.append(powerRune.name());
 		builder.append(' ');
 		builder.append(elementRune.name());
@@ -678,30 +686,36 @@ public class Spell {
 		return builder.toString();
 	}
 
+	/**
+	 * Returns this spell's power rune.
+	 *
+	 * @return a power rune.
+	 */
 	public PowerRune getPower() {
 		return powerRune;
 	}
 
 	/**
-	 * Retourne le type du sort. Calcul� � partir des runes qui rentrent en jeu
-	 * pour le formuler.
+	 * Returns the type of this spell if the spell is valid or null if the spell
+	 * isn't valid.
 	 *
-	 * @return une instance de {@link Type} ou null si le sort n'est pas valide.
+	 * @return the spell type or null if the spell isn't valid.
 	 */
 	public Type getType() {
-		// Retourne null si le sort est invalide
+		// Returns null if the spell isn't valid
 		return Type.byValue(id);
 	}
 
 	/**
-	 * Retourne la comp�tence mise en oeuvre lors de l'invocation de ce sort.
-	 * Permet de faire gagner de l'exp�rience au champion qui r�ussit le sort.
-	 * Peut retourner null si aucune comp�tence particuli�re n'est requise pour
-	 * invoquer le sort.
+	 * Returns the skill used when casting this spell. This skill is necessary
+	 * to determine if a champion can cast a spell because some spells require a
+	 * minimal level in a given skill to be cast. When successfully cast, the
+	 * champion will gain some experience points in this skill. Not all spells
+	 * require a specific skill to be cast, in this case the method returns
+	 * null.
 	 *
-	 * @return une instance de {@link Skill} ou null si le sort est invalide ou
-	 *         si aucune comp�tence particuli�re n'est requise pour invoquer le
-	 *         sort.
+	 * @return the skill to cast this spell or null if the spell isn't valid or
+	 *         if it requires no specific skill.
 	 */
 	public Skill getSkill() {
 		final Type spellType = getType();
@@ -710,12 +724,13 @@ public class Spell {
 	}
 
 	/**
-	 * Retourne le nombre de runes utilis� pour formuler ce sort.
+	 * Returns the number of runes used for casting this spell (including the
+	 * power rune).
 	 *
-	 * @return un entier.
+	 * @return a positive integer within [2,4] representing a number of runes.
 	 */
 	public int getRuneCount() {
-		// Runes power + element forc�ment pr�sents
+		// The power and element runes are necessarily present
 		int count = 2;
 
 		if (formRune != null) {
@@ -730,9 +745,11 @@ public class Spell {
 	}
 
 	/**
-	 * Retourne les {@link Rune}s du sort (dont le rune de puissance).
+	 * Returns the runes used for casting this spell (including the power rune).
+	 * The returned list will contain at least 2 runes (power + element) and up
+	 * to 4 runes (power + element + form + alignment).
 	 *
-	 * @return une {@link List} de {@link Rune}s. Ne retourne jamais null.
+	 * @return a list of runes. Never returns null.
 	 */
 	public List<Rune> getRunes() {
 		final List<Rune> runes = new ArrayList<Rune>(4);
@@ -751,29 +768,33 @@ public class Spell {
 	}
 
 	/**
-	 * Retourne le co�t (en nombre de points de mana) d'invocation du sort.
+	 * Returns the cost (in number of mana points) to cast this spell as an
+	 * integer. This method never returns 0 even for an invalid spell as mana is
+	 * still consumed when casting an invalid spell.
 	 *
-	 * @return un entier positif repr�sentant un nombre de points de mana.
+	 * @return a positive integer representing the number of mana points
+	 *         necessary for casting this spell.
 	 */
 	public int getCost() {
 		return cost;
 	}
 
 	/**
-	 * Retourne le nombre de points d'exp�rience gagn�s pour avoir r�ussi �
-	 * invoquer ce sort.
+	 * Returns a (random) integer value representing the number of experience
+	 * points gained by a champion after successfully casting this spell. The
+	 * gained experience depends on the spell's difficulty (see
+	 * {@link #getDifficulty()}).
 	 *
-	 * @return un entier positif repr�sentant un nombre de points d'exp�rience
-	 *         ou z�ro si le sort n'est pas valide.
+	 * @return a positive integer representing a number of experience points or
+	 *         0 if the spell isn't valid.
 	 */
 	public int getEarnedExperience() {
 		if (isValid()) {
-			// Sort valide, l'exp�rience gagn�e d�pend de la difficult� du sort
-			// et de son co�t TODO A affiner
-
-			// Attention car la difficult� peut �tre nulle (cf ZO KATH RA)
+			// The spell is valid
+			// Note: the difficuly for the ZO_KATH_RA spell is zero
 			final int difficulty = getDifficulty();
 
+			// TODO Refine the following formulas
 			if (difficulty > 0) {
 				return 5 + RandomUtils.nextInt(difficulty);
 			}
@@ -781,35 +802,34 @@ public class Spell {
 			return 5;
 		}
 
-		// Sort rat�, aucune exp�rience gagn�e
+		// The spell isn't valid, no experience gained
 		return 0;
 	}
 
 	/**
-	 * Retourne la difficult� � invoquer ce sort sous forme d'un nombre.
+	 * Returns the difficulty to cast this spell as an integer. The difficulty
+	 * depends on the power rune (the more powerful, the more difficult) and
+	 * also on the spell's base difficulty.
 	 *
-	 * @return un entier positif ou -1 si le sort est non valide.
+	 * @return a positive integer or -1 if the spell isn't valid.
 	 */
 	public int getDifficulty() {
-		// La difficult� d�pend du rune de puissance et de la difficult� de base
-		// du sort
 		final Type spellType = getType();
 
 		if (spellType != null) {
-			return powerRune.getDifficultyMultiplier()
-					* spellType.getDifficulty();
+			return powerRune.getDifficultyMultiplier() * spellType.getDifficulty();
 		}
 
-		// Sort non valide
+		// The spell isn't valid
 		return -1;
 	}
 
 	/**
-	 * Retourne le temps en 1/6 de secondes pendant lequel le {@link Champion}
-	 * qui a lanc� ce sort ne peut en lancer un autre.
+	 * Returns how long (in number of clock ticks) the champion must wait before
+	 * attacking again.
 	 *
-	 * @return un entier positif repr�sentant un nombre de "tics" d'horloge ou
-	 *         -1 si le sort est non valide.
+	 * @return a positive integer representing a number of clock ticks or -1 if
+	 *         the spell isn't valid.
 	 */
 	public int getDuration() {
 		final Type spellType = getType();
@@ -818,25 +838,23 @@ public class Spell {
 	}
 
 	/**
-	 * Indique si le sort formul� est valide.
+	 * Tells whether the cast spell is valid.
 	 *
-	 * @return si le sort formul� est valide.
+	 * @return whether the cast spell is valid.
 	 */
 	public boolean isValid() {
 		return Type.isValid(id);
 	}
 
 	/**
-	 * Indique si le {@link Champion} donn� est assez comp�tent pour invoquer ce
-	 * sort. Le r�sultat d�pend de la comp�tence du {@link Champion} dans la
-	 * comp�tence requise pour invoquer ce sort ainsi que de la difficult� du
-	 * sort !
+	 * Tells whether the casting champion is skilled enough to cast this spell.
+	 * The outcome depends on the champion's level in the spell's required skill
+	 * and also on the spell's inherent difficulty.
 	 *
 	 * @param champion
-	 *            un {@link Champion} dont on cherche � savoir s'il est assez
-	 *            comp�tent pour invoquer ce sort.
-	 * @return si le {@link Champion} donn� est assez comp�tent pour invoquer ce
-	 *         sort.
+	 *            the champion casting the spell.
+	 * @return whether the casting champion is skilled enough to cast this
+	 *         spell.
 	 */
 	public boolean canBeCastBy(Champion champion) {
 		Validate.notNull(champion, "The given champion is null");
@@ -845,7 +863,7 @@ public class Spell {
 		final Skill skill = getSkill();
 
 		if (skill == null) {
-			// Aucune comp�tence requise pour invoquer le sort
+			// No skill required to cast this spell
 			return true;
 		}
 
@@ -866,10 +884,8 @@ public class Spell {
 	 *             si le sort demande que l'une des mains du {@link Champion}
 	 *             soit vide.
 	 */
-	public void actUpon(Champion champion) throws EmptyFlaskNeededException,
-			EmptyHandNeededException {
-
-		Validate.notNull(champion);
+	public void actUpon(Champion champion) throws EmptyFlaskNeededException, EmptyHandNeededException {
+		Validate.notNull(champion, "The given champion is null");
 		Validate.isTrue(isValid(), "The spell isn't valid");
 
 		switch (getType()) {
@@ -883,61 +899,52 @@ public class Spell {
 		case STRENGTH_POTION:
 		case VITALITY_POTION:
 		case WISDOM_POTION: {
-			// Premi�re fiole vide port�e par le champion ?
+			// Search for an empty flask in the champion's hands
 			final EmptyFlask emptyFlask;
-			final BodyPart bodyPart;
+			final BodyPart hand;
 
 			final Item item1 = champion.getBody().getWeaponHand().getItem();
 
-			if ((item1 != null)
-					&& item1.getType().equals(Item.Type.EMPTY_FLASK)) {
-
+			if ((item1 != null) && item1.getType().equals(Item.Type.EMPTY_FLASK)) {
 				emptyFlask = (EmptyFlask) item1;
-				bodyPart = champion.getBody().getWeaponHand();
+				hand = champion.getBody().getWeaponHand();
 			} else {
 				final Item item2 = champion.getBody().getShieldHand().getItem();
 
-				if ((item2 != null)
-						&& item2.getType().equals(Item.Type.EMPTY_FLASK)) {
-
+				if ((item2 != null) && item2.getType().equals(Item.Type.EMPTY_FLASK)) {
 					emptyFlask = (EmptyFlask) item2;
-					bodyPart = champion.getBody().getShieldHand();
+					hand = champion.getBody().getShieldHand();
 				} else {
 					emptyFlask = null;
-					bodyPart = null;
+					hand = null;
 				}
 			}
 
 			if (getType().requiresEmptyFlask() && (emptyFlask == null)) {
-				// N'arrive normalement pas car cette condition a �t� v�rifi�e
-				// en amont !
+				// SHouldn't happen as this condition has been checked before
 				throw new EmptyFlaskNeededException();
 			}
 
-			// Remplacer la fiole vide par une potion
-			bodyPart.putOn(new Potion(this));
+			// Replace the empty flask by the created potion
+			hand.putOn(new Potion(this));
 			break;
 		}
 		case TORCH:
-			// Augmenter la lumi�re g�n�r�e par le h�ros
-			champion.getSpells().getLight()
-					.inc(Utils.random(20, 30) * getPower().getPowerLevel());
+			// Strengthen the light generated by the champion
+			champion.getSpells().getLight().inc(Utils.random(20, 30) * getPower().getPowerLevel());
 			break;
 		case ZO_KATH_RA:
-			// L'une des mains du champion doit �tre vide
-			final boolean shieldHandEmpty = champion.getBody().getShieldHand()
-					.isEmpty();
-			final boolean weaponHandEmpty = champion.getBody().getWeaponHand()
-					.isEmpty();
+			// One of the champion's hands must be empty
+			final boolean shieldHandEmpty = champion.getBody().getShieldHand().isEmpty();
+			final boolean weaponHandEmpty = champion.getBody().getWeaponHand().isEmpty();
 
 			if (!shieldHandEmpty && !weaponHandEmpty) {
-				// Les deux mains sont pleines, le sort ne peut r�ussir
+				// Both hands are full, the spell can't succeed
 				throw new EmptyHandNeededException();
 			}
 
-			// Placer un item de type ZO_KATH_RA dans la main vide du champion
-			final Item zokathra = ItemFactory.getFactory().newItem(
-					Item.Type.ZOKATHRA_SPELL);
+			// Put a ZO_KATH_RA item in the champion's empty hand
+			final Item zokathra = ItemFactory.getFactory().newItem(Item.Type.ZOKATHRA_SPELL);
 
 			if (shieldHandEmpty) {
 				champion.getBody().getShieldHand().putOn(zokathra);
@@ -945,75 +952,66 @@ public class Spell {
 				champion.getBody().getWeaponHand().putOn(zokathra);
 			}
 
-			// FIXME G�rer le cas de la main vide: KICK, CRY, PUNCH !!
+			// FIXME Handle the empty hand use case: KICK, CRY, PUNCH actions !!
 			break;
 		case LIGHT:
-			// Augmenter la lumi�re g�n�r�e par le h�ros
-			champion.getSpells().getLight()
-					.inc(Utils.random(20, 30) * getPower().getPowerLevel());
+			// Strengthen the light generated by the champion
+			champion.getSpells().getLight().inc(Utils.random(20, 30) * getPower().getPowerLevel());
 			break;
 		case OPEN_DOOR: {
-			// FIXME Changer mani�re de cr�er un projectile
+			// FIXME Refactor the way a projectile spell is handled
 			final Projectile projectile = new SpellProjectile(this, champion);
 			break;
 		}
 		case DARKNESS:
-			// FIXME Impl�menter actUpon(Champion)
-			throw new UnsupportedOperationException("Unsupported spell <"
-					+ getType() + ">");
+			// FIXME Implement actUpon(Champion)
+			throw new UnsupportedOperationException("Unsupported spell <" + getType() + ">");
 		case DISPELL_ILLUSION:
-			champion.getParty().getSpells().getDispellIllusion()
-					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
+			champion.getParty().getSpells().getDispellIllusion().inc(powerRune.getPowerLevel() * Utils.random(10, 15));
 			break;
 		case ANTI_MAGIC:
-			champion.getParty().getSpells().getAntiMagic()
-					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
+			champion.getParty().getSpells().getAntiMagic().inc(powerRune.getPowerLevel() * Utils.random(10, 15));
 			break;
 		case FIREBALL: {
-			// Cr�er une boule de feu
-			// FIXME Changer mani�re de cr�er un projectile
+			// Create a fire ball projectile
+			// FIXME Refactor the way a projectile spell is handled
 			final Projectile projectile = new SpellProjectile(this, champion);
 			break;
 		}
 		case INVISIBILITY:
-			champion.getParty().getSpells().getInvisibility()
-					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
+			champion.getParty().getSpells().getInvisibility().inc(powerRune.getPowerLevel() * Utils.random(10, 15));
 			break;
 		case LIGHTNING_BOLT: {
-			// FIXME Changer mani�re de cr�er un projectile
+			// FIXME Refactor the way a projectile spell is handled
 			final Projectile projectile = new SpellProjectile(this, champion);
 			break;
 		}
 		case MAGIC_FOOTPRINTS:
-			// FIXME Impl�menter actUpon(Champion)
-			throw new UnsupportedOperationException("Unsupported spell <"
-					+ getType() + ">");
+			// FIXME Implement actUpon(Champion)
+			throw new UnsupportedOperationException("Unsupported spell <" + getType() + ">");
 		case POISON_BOLT: {
-			// FIXME Changer mani�re de cr�er un projectile
+			// FIXME Refactor the way a projectile spell is handled
 			final Projectile projectile = new SpellProjectile(this, champion);
 			break;
 		}
 		case POISON_CLOUD: {
-			// FIXME Changer mani�re de cr�er un projectile
+			// FIXME Refactor the way a projectile spell is handled
 			final Projectile projectile = new SpellProjectile(this, champion);
 			break;
 		}
 		case SEE_THROUGH_WALLS:
-			champion.getParty().getSpells().getSeeThroughWalls()
-					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
+			champion.getParty().getSpells().getSeeThroughWalls().inc(powerRune.getPowerLevel() * Utils.random(10, 15));
 			break;
 		case SHIELD:
-			champion.getParty().getSpells().getShield()
-					.inc(powerRune.getPowerLevel() * Utils.random(10, 15));
+			champion.getParty().getSpells().getShield().inc(powerRune.getPowerLevel() * Utils.random(10, 15));
 			break;
 		case WEAKEN_IMMATERIAL: {
-			// FIXME Changer mani�re de cr�er un projectile
+			// FIXME Refactor the way a projectile spell is handled
 			final Projectile projectile = new SpellProjectile(this, champion);
 			break;
 		}
 		default:
-			throw new UnsupportedOperationException("Unsupported spell <"
-					+ getType() + ">");
+			throw new UnsupportedOperationException("Unsupported spell <" + getType() + ">");
 		}
 	}
 }

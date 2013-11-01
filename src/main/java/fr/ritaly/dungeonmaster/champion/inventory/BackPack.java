@@ -24,14 +24,17 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
+ * The backpack is an item container with a capacity of 16. Any item can fit
+ * into a back pack.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class BackPack extends AbstractItemContainer {
-	
+
 	public BackPack(Champion champion) {
 		super(champion, 16);
 	}
-	
+
 	@Override
 	protected String getName() {
 		return "BackPack";
@@ -41,8 +44,8 @@ public final class BackPack extends AbstractItemContainer {
 	protected boolean accepts(int index, Item item) {
 		checkIndex(index);
 		Validate.notNull(item, "The given item is null");
-		
-		// Le sac � dos accepte n'importe quel objet quel que soit l'index
+
+		// The back pack can store any item at any index
 		return true;
 	}
 }

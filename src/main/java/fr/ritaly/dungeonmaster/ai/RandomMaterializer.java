@@ -22,53 +22,73 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.Utils;
 
+/**
+ * Custom implementation of {@link Materializer} that changes the materiality
+ * over time with random durations between changes.
+ *
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
+ */
 public class RandomMaterializer implements Materializer {
 
 	private final Log log = LogFactory.getLog(this.getClass());
 
+	/**
+	 * The temporizer responsible for counting down before changing the
+	 * materiality.
+	 */
 	private Temporizer temporizer;
 
+	/**
+	 * Whether the creature is currently material.
+	 */
 	private boolean material;
 
+	/**
+	 * The creature whose materiality is managed.
+	 */
 	private final Creature creature;
+
+	private static int randomDuration() {
+		return Utils.random(Clock.ONE_SECOND, 3 * Clock.ONE_SECOND);
+	}
 
 	public RandomMaterializer(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 
-		final int count = Utils.random(6, 6 * 3);
+		final int count = randomDuration();
 
 		this.creature = creature;
 		this.temporizer = new Temporizer(creature.getId() + ".", count);
 
 		if (log.isDebugEnabled()) {
-			log.debug(creature + " is now material for " + count + " ticks");
+			log.debug(String.format("%s is now material for %d ticks", creature, count));
 		}
 	}
 
 	@Override
 	public boolean clockTicked() {
 		if (temporizer.trigger()) {
+			// Change the materiality
 			this.material = !this.material;
 
-			// Recycler le temporizer
-			final int count = Utils.random(6, 6 * 3);
+			// Create a new temporizer
+			final int count = randomDuration();
 
 			this.temporizer = new Temporizer(creature.getId() + ".", count);
 
 			if (log.isDebugEnabled()) {
-				log.debug(creature + " is now "
-						+ (material ? "material" : "immaterial") + " for "
-						+ count + " ticks");
+				log.debug(String.format("%s is now %s for %d ticks", creature, (material ? "material" : "immaterial"), count));
 			}
 		}
 
 		return true;
 	}
-	
+
 	@Override
 	public Materiality getMateriality() {
 		return material ? Materiality.MATERIAL : Materiality.IMMATERIAL;

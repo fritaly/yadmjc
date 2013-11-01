@@ -18,6 +18,11 @@
  */
 package fr.ritaly.dungeonmaster.champion.body;
 
+/**
+ * Abstraction of a champion's hand.
+ *
+ * @author francois_ritaly
+ */
 public abstract class Hand extends BodyPart {
 
 	public Hand(Body body) {

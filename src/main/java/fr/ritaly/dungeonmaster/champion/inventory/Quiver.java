@@ -27,6 +27,9 @@ import fr.ritaly.dungeonmaster.item.CarryLocation;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
+ * The quiver is an item container with a capacity of 4. Not all items can fit
+ * into a quiver.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Quiver extends AbstractItemContainer {
@@ -34,7 +37,7 @@ public class Quiver extends AbstractItemContainer {
 	public Quiver(Champion champion) {
 		super(champion, 4);
 	}
-	
+
 	@Override
 	protected String getName() {
 		return "Quiver";
@@ -42,7 +45,6 @@ public class Quiver extends AbstractItemContainer {
 
 	@Override
 	protected boolean accepts(int index, Item item) {
-		// Attention � l'index pass� en param�tre ici !
 		checkIndex(index);
 		Validate.notNull(item, "The given item is null");
 

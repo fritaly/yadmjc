@@ -20,11 +20,26 @@ package fr.ritaly.dungeonmaster.actuator;
 
 /**
  * Enumeration of possible triggering actions.
- * 
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum TriggerAction {
+
+	/**
+	 * Action to enable an object implementing {@link Triggered}. That action is
+	 * idempotent.
+	 */
 	ENABLE,
+
+	/**
+	 * Action to disable an object implementing {@link Triggered}. That action
+	 * is idempotent.
+	 */
 	DISABLE,
+
+	/**
+	 * Action to toggle (that is enable / disable) an object implementing
+	 * {@link Triggered}. That action is not idempotent.
+	 */
 	TOGGLE;
 }

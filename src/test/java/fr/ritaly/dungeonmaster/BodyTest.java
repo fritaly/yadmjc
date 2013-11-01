@@ -65,7 +65,7 @@ public class BodyTest extends TestCase {
 			assertTrue(body.isWounded());
 		}
 
-		// Toutes les parties du corps sont déjà blessées
+		// Toutes les parties du corps sont dï¿½jï¿½ blessï¿½es
 		assertFalse(body.wound());
 		assertTrue(body.isWounded());
 	}
@@ -187,86 +187,86 @@ public class BodyTest extends TestCase {
 
 		// ---
 		assertFalse(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(7, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(7, body.getNonWoundedParts().size());
 
 		// ---
 		assertTrue(body.wound());
 		assertTrue(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(6, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(6, body.getNonWoundedParts().size());
 
 		// ---
 		assertTrue(body.wound());
 		assertTrue(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(5, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(5, body.getNonWoundedParts().size());
 
 		// ---
 		assertTrue(body.wound());
 		assertTrue(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(4, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(4, body.getNonWoundedParts().size());
 
 		// ---
 		assertTrue(body.wound());
 		assertTrue(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(3, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(3, body.getNonWoundedParts().size());
 
 		// ---
 		assertTrue(body.wound());
 		assertTrue(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(2, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(2, body.getNonWoundedParts().size());
 
 		// ---
 		assertTrue(body.wound());
 		assertTrue(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(1, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(1, body.getNonWoundedParts().size());
 
 		// ---
 		assertFalse(body.wound());
 		assertTrue(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(1, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(1, body.getNonWoundedParts().size());
 
 		// ---
 		assertTrue(body.heal());
 		assertTrue(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(2, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(2, body.getNonWoundedParts().size());
 
 		// ---
 		assertTrue(body.heal());
 		assertTrue(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(3, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(3, body.getNonWoundedParts().size());
 
 		// ---
 		assertTrue(body.heal());
 		assertTrue(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(4, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(4, body.getNonWoundedParts().size());
 
 		// ---
 		assertTrue(body.heal());
 		assertTrue(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(5, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(5, body.getNonWoundedParts().size());
 
 		// ---
 		assertTrue(body.heal());
 		assertTrue(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(6, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(6, body.getNonWoundedParts().size());
 
 		// ---
 		assertTrue(body.heal());
 		assertFalse(body.isWounded());
-		assertFalse(body.getNotWoundedParts().isEmpty());
-		assertEquals(7, body.getNotWoundedParts().size());
+		assertFalse(body.getNonWoundedParts().isEmpty());
+		assertEquals(7, body.getNonWoundedParts().size());
 
 	}
 

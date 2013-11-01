@@ -22,7 +22,6 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.event.ChangeEvent;
 import fr.ritaly.dungeonmaster.event.ChangeEventSource;
 import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
@@ -31,32 +30,36 @@ import fr.ritaly.dungeonmaster.item.CarryLocation;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * Une partie du corps d'un {@link Champion}.
- * 
+ * Abstraction representing a champion's body part.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public abstract class BodyPart implements ChangeEventSource {
 
 	private final Log log = LogFactory.getLog(this.getClass());
 
+	/**
+	 * The body this part is bound to.
+	 */
 	private final Body body;
 
 	/**
-	 * Indique si cette partie de corps est bless�e.
+	 * Whether this part is wounded.
 	 */
 	private boolean wounded;
 
+	/**
+	 * Support class to fire change events.
+	 */
 	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
 	/**
-	 * L'objet eventuellement port� par cette partie de corps.
+	 * The possible item carried by this body part.
 	 */
 	private Item item;
 
 	protected BodyPart(Body body) {
-		if (body == null) {
-			throw new IllegalArgumentException("The given body is null");
-		}
+		Validate.notNull(body, "The given body is null");
 
 		this.body = body;
 	}
@@ -76,55 +79,51 @@ public abstract class BodyPart implements ChangeEventSource {
 	}
 
 	/**
-	 * Enum�ration des diff�rents types de partie de corps.
+	 * Enumerates the different body part types.
+	 *
+	 * @author @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
 	 */
 	public static enum Type {
-		HEAD,
-		NECK,
-		TORSO,
-		LEGS,
-		FEET,
-		WEAPON_HAND,
-		SHIELD_HAND;
+		HEAD("Head"),
+		NECK("Neck"),
+		TORSO("Torso"),
+		LEGS("Legs"),
+		FEET("Feet"),
+		WEAPON_HAND("WeaponHand"),
+		SHIELD_HAND("ShieldHand");
+
+		private final String label;
+
+		private Type(String label) {
+			this.label = label;
+		}
 
 		/**
-		 * Indique si ce type de partie de corps d�signe une main.
+		 * Returns whether this body part is a hand.
+		 *
+		 * @return whether this body part is a hand.
 		 */
 		public boolean isHand() {
 			return equals(SHIELD_HAND) || equals(WEAPON_HAND);
 		}
 
+		/**
+		 * Returns this body part's label as a string. Mainly used for debugging.
+		 *
+		 * @return a string representing the body part's label.
+		 */
 		public String getLabel() {
-			switch (this) {
-			case FEET:
-				return "Feet";
-			case HEAD:
-				return "Head";
-			case LEGS:
-				return "Legs";
-			case NECK:
-				return "Neck";
-			case SHIELD_HAND:
-				return "ShieldHand";
-			case TORSO:
-				return "Torso";
-			case WEAPON_HAND:
-				return "WeaponHand";
-			default:
-				throw new UnsupportedOperationException();
-			}
+			return label;
 		}
 	}
 
+	/**
+	 * Returns the type of this body part.
+	 *
+	 * @return the body part type.
+	 */
 	public abstract Type getType();
 
-	/**
-	 * Retourne l'instance de {@link CarryLocation} associ�e � cette
-	 * {@link BodyPart}. Permet de savoir si un {@link Item} peut �tre �quip�
-	 * par une {@link BodyPart}.
-	 * 
-	 * @return une {@link CarryLocation}. Ne retourne jamais null.
-	 */
 	public abstract CarryLocation getCarryLocation();
 
 	public Body getBody() {
@@ -132,22 +131,26 @@ public abstract class BodyPart implements ChangeEventSource {
 	}
 
 	/**
-	 * Indique si cette {@link BodyPart} peut �tre bless�e.
-	 * 
-	 * @return si cette {@link BodyPart} peut �tre bless�e.
+	 * Returns whether this body part can be wounded.
+	 *
+	 * @return whether this body part can be wounded.
 	 */
 	public abstract boolean isWoundable();
 
+	/**
+	 * Try to wound this body part and returns whether the body part was wounded.
+	 *
+	 * @return whether the body part was wounded.
+	 */
 	public boolean wound() {
 		if (isWoundable() && !wounded) {
-			// TODO Force de blessure ?
+			// TODO Strength of wound ?
 			wounded = true;
 
 			fireChangeEvent();
 
 			if (log.isDebugEnabled()) {
-				log.debug(getBody().getChampion().getName() + "."
-						+ getType().getLabel() + ".Wounded: true");
+				log.debug(String.format("%s.%s.Wounded: true", getBody().getChampion().getName(), getType().getLabel()));
 			}
 
 			return true;
@@ -156,78 +159,67 @@ public abstract class BodyPart implements ChangeEventSource {
 		return false;
 	}
 
+	/**
+	 * Heals this body part if it's wounded.
+	 */
 	public void heal() {
 		if (isWoundable() && wounded) {
-			// TODO Force de gu�rison ?
+			// TODO Strength of healing ?
 			wounded = false;
 
 			fireChangeEvent();
 
 			if (log.isDebugEnabled()) {
-				log.debug(getBody().getChampion().getName() + "."
-						+ getType().getLabel() + ".Wounded: false");
+				log.debug(String.format("%s.%s.Wounded: false", getBody().getChampion().getName(), getType().getLabel()));
 			}
 		}
 	}
 
 	/**
-	 * Indique si cette {@link BodyPart} est bless�e.
-	 * 
-	 * @return si cette {@link BodyPart} est bless�e.
+	 * Returns whether this body part is wounded.
+	 *
+	 * @return whether this body part is wounded.
 	 */
 	public boolean isWounded() {
 		return wounded;
 	}
 
 	/**
-	 * Retourne l'objet port� par cette partie du corps ou null s'il n'y en a
-	 * aucun.
-	 * 
-	 * @return une instance de {@link Item}.
+	 * Returns the item carried by this body part or null if there's none.
+	 *
+	 * @return an item or null.
 	 */
 	public Item getItem() {
 		return item;
 	}
 
 	/**
-	 * Retourne le poids de l'objet port� par cette {@link BodyPart}.
-	 * 
-	 * @return un float repr�sentant un poids.
+	 * Returns the weight of the carried item or zero if there's none.
+	 *
+	 * @return a float representing the weight of the carried item.
 	 */
 	public float getWeight() {
 		return (item != null) ? item.getWeight() : 0.0f;
 	}
 
+	// TODO Rename into equip() ?
 	public Item putOn(Item item) {
-		if (item == null) {
-			throw new IllegalArgumentException("The given item is null");
-		}
+		Validate.notNull(item, "The given item is null");
 
 		if (accepts(item)) {
-			// if (log.isDebugEnabled()) {
-			// log.debug("Putting " + item.getType() + " on "
-			// + getBody().getChampion().getName() + "'s " + getType()
-			// + " ...");
-			// }
-
 			if (this.item != item) {
-				// Retirer l'objet actuel
+				// Remove the current item
 				final Item removed = takeOff(false, false);
 
 				this.item = item;
 
-				// Notifier l'objet qu'il vient d'�tre pris / rev�tu
+				// Notify the item that it's held
 				this.item.itemPutOn(this);
 
 				fireChangeEvent();
 
 				if (log.isDebugEnabled()) {
-					log.debug(getBody().getChampion().getName() + "."
-							+ getType().getLabel() + ".Item: [+] " + item);
-
-					// log.debug("Put " + item + " on "
-					// + getBody().getChampion().getName() + "'s "
-					// + getType());
+					log.debug(String.format("%s.%s.Item: [+] %s", getBody().getChampion().getName(), getType().getLabel(), item));
 				}
 
 				return removed;
@@ -252,14 +244,8 @@ public abstract class BodyPart implements ChangeEventSource {
 			return null;
 		}
 
-		// if (log.isDebugEnabled()) {
-		// log.debug("Taking " + this.item.getType() + " off "
-		// + getBody().getChampion().getName() + "'s " + getType()
-		// + " ...");
-		// }
-
 		if (!this.item.tryRemove() && !force) {
-			// Object non retirable
+			// The item can't be removed
 			if (log.isDebugEnabled()) {
 				log.debug(this.item + " can't be removed");
 			}
@@ -270,7 +256,7 @@ public abstract class BodyPart implements ChangeEventSource {
 		final Item removed = this.item;
 
 		if (removed != null) {
-			// Notifier l'objet qu'il vient d'�tre l�ch�
+			// Notify the item it has been released
 			removed.itemTakenOff();
 		}
 
@@ -281,32 +267,27 @@ public abstract class BodyPart implements ChangeEventSource {
 		}
 
 		if (log.isDebugEnabled()) {
-			log.debug(getBody().getChampion().getName() + "."
-					+ getType().getLabel() + ".Item: [-] " + removed);
-
-			// log.debug("Took " + removed + " off "
-			// + getBody().getChampion().getName() + "'s " + getType());
+			log.debug(String.format("%s.%s.Item: [-] %s", getBody().getChampion().getName(), getType().getLabel(), removed));
 		}
 
 		return removed;
 	}
 
 	/**
-	 * Indique si cette partie de corps porte un objet.
-	 * 
-	 * @return si cette partie de corps porte un objet.
+	 * Returns whether this body part is carrying an item.
+	 *
+	 * @return whether this body part is carrying an item.
 	 */
 	public boolean hasItem() {
 		return (this.item != null);
 	}
 
 	/**
-	 * Indique si cette partie du corps porte un objet du type donn�.
-	 * 
+	 * Returns whether this body part is carrying an item of the given type.
+	 *
 	 * @param type
-	 *            une instance de {@link fr.ritaly.dungeonmaster.item.Item.Type}
-	 *            .
-	 * @return si cette partie du corps porte un objet du type donn�.
+	 *            the type of item to test. Can't bve null. .
+	 * @return whether this body part is carrying an item of the given type.
 	 */
 	public boolean hasItem(Item.Type type) {
 		Validate.notNull(type, "The given item type is null");
@@ -315,26 +296,22 @@ public abstract class BodyPart implements ChangeEventSource {
 	}
 
 	/**
-	 * Indique si l'objet donn� peut �tre port� / pris par cette partie de
-	 * corps. Remarque: A ne pas confondre avec le concept "d'activation".
-	 * 
+	 * Returns whether this given item can be carried by this body part.
+	 *
 	 * @param item
-	 *            une instance de {@link Item}.
-	 * @return si l'objet donn� peut �tre port� / pris par cette partie de
-	 *         corps.
+	 *            the item to test. Can't be null.
+	 * @return whether this given item can be carried by this body part.
 	 */
 	public boolean accepts(Item item) {
-		if (item == null) {
-			throw new IllegalArgumentException("The given item is null");
-		}
+		Validate.notNull(item, "The given item is null");
 
 		if (getType().isHand()) {
-			// Tous les objets peuvent �tre pris en main
+			// All objects can be carried by a hand
 			return true;
 		}
 
 		if (item.isActivatedBy(this)) {
-			// L'objet peut �tre "rev�tu" si la partie du corps correspond
+			// The item is activated by this body part
 			return true;
 		}
 

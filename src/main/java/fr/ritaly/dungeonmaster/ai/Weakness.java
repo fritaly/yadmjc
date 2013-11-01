@@ -25,49 +25,89 @@ import fr.ritaly.dungeonmaster.item.Weapon;
 import fr.ritaly.dungeonmaster.magic.Spell;
 
 /**
+ * Enumerates the different types of "weaknesses". Some creatures can only be
+ * hurt / killed by some specific weapons or spells. This enumeration list the
+ * special weapons and spells that can only affect those creatures. Creatures
+ * can have one or several weaknesses.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Weakness {
-	// Armes
+
+	// --- Weaknesses to weapons --- //
+
+	/** Hurt by any weapon */
 	WEAPONS,
+
+	/** Hurt by the {@link Item.Type#VORPAL_BLADE} weapon */
 	VORPAL_BLADE,
+
+	/** Hurt by the {@link Item.Type#YEW_STAFF} weapon */
 	YEW_STAFF,
+
+	/** Hurt by the {@link Item.Type#STAFF_OF_MANAR} weapon */
 	STAFF_OF_MANAR,
+
+	/** Hurt by the {@link Item.Type#THE_FIRESTAFF} weapon */
 	THE_FIRESTAFF,
 
-	// Sorts
+	// --- Weaknesses to spells --- //
+
+	/** Hurt the {@link Spell.Type#POISON_BOLT} spell */
 	POISON_BOLT,
+
+	/** Hurt the {@link Spell.Type#FIREBALL} spell */
 	FIREBALL,
+
+	/** Hurt the {@link Spell.Type#LIGHTNING_BOLT} spell */
 	LIGHTNING_BOLT,
+
+	/** Hurt the {@link Spell.Type#WEAKEN_IMMATERIAL} spell */
 	WEAKEN_NON_MATERIAL_BEINGS_SPELL,
 
-	// Divers
+	// --- Miscellaneous --- //
+
+	/** Hurt when inside a poison cloud */
 	POISON_CLOUD;
 
+	/**
+	 * Tells whether the given weapon matches this weakness.
+	 *
+	 * @param weapon
+	 *            the weapon to test. Can't be null.
+	 * @return whether the given weapon matches this weakness.
+	 */
 	public boolean acceptsWeapon(Weapon weapon) {
 		Validate.notNull(weapon, "The given weapon is null");
 
 		switch (this) {
 		case WEAPONS:
-			// Toutes les armes fonctionnent
+			// Any weapon work
 			return true;
 		case VORPAL_BLADE:
-			// Seule l'arme du type donn� fonctionne
+			// Only the appropriate weapon works
 			return Item.Type.VORPAL_BLADE.equals(weapon.getType());
 		case YEW_STAFF:
-			// Seule l'arme du type donn� fonctionne
+			// Only the appropriate weapon works
 			return Item.Type.YEW_STAFF.equals(weapon.getType());
 		case STAFF_OF_MANAR:
-			// Seule l'arme du type donn� fonctionne
+			// Only the appropriate weapon works
 			return Item.Type.STAFF_OF_MANAR.equals(weapon.getType());
 		case THE_FIRESTAFF:
-			// Seule l'arme du type donn� fonctionne
+			// Only the appropriate weapon works
 			return Item.Type.THE_FIRESTAFF_COMPLETE.equals(weapon.getType());
 		default:
 			return false;
 		}
 	}
 
+	/**
+	 * Tells whether the given spell type matches this weakness.
+	 *
+	 * @param spellType
+	 *            the spell type to test. Can't be null.
+	 * @return whether the given spell type matches this weakness.
+	 */
 	public boolean acceptsSpell(Spell.Type spellType) {
 		Validate.notNull(spellType, "The given spell type is null");
 
@@ -85,6 +125,11 @@ public enum Weakness {
 		}
 	}
 
+	/**
+	 * Tells whether a poison cloud matches this weakness.
+	 *
+	 * @return whether a poison cloud matches this weakness.
+	 */
 	public boolean acceptsPoisonCloud() {
 		return equals(POISON_CLOUD);
 	}

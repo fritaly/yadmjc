@@ -21,6 +21,8 @@ package fr.ritaly.dungeonmaster.champion.body;
 import fr.ritaly.dungeonmaster.item.CarryLocation;
 
 /**
+ * The champion's hand that holds the shield.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class ShieldHand extends Hand {
@@ -33,7 +35,7 @@ public class ShieldHand extends Hand {
 	public Type getType() {
 		return Type.SHIELD_HAND;
 	}
-	
+
 	@Override
 	public final CarryLocation getCarryLocation() {
 		return CarryLocation.HANDS;

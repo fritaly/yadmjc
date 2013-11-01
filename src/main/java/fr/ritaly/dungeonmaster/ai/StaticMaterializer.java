@@ -18,22 +18,36 @@
  */
 package fr.ritaly.dungeonmaster.ai;
 
+import org.apache.commons.lang.Validate;
+
 import fr.ritaly.dungeonmaster.Materiality;
 
+/**
+ * Simple implementation of {@link Materializer} used for a creature with a
+ * static (that is, fixed) materiality that doesn't change over time.
+ *
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
+ */
 public class StaticMaterializer implements Materializer {
 
+	/**
+	 * The creature's static materiality.
+	 */
 	private final Materiality materiality;
 
 	public StaticMaterializer(Materiality materiality) {
+		Validate.notNull(materiality, "The given materiality is null");
+
 		this.materiality = materiality;
 	}
 
 	@Override
 	public boolean clockTicked() {
-		// Donnée statique non fonction du temps
+		// This implementation doesn't depend on clock ticks, no need to listen
+		// for clock ticks
 		return false;
 	}
-	
+
 	@Override
 	public Materiality getMateriality() {
 		return materiality;

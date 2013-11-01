@@ -34,7 +34,7 @@ import fr.ritaly.dungeonmaster.champion.body.BodyPart.Type;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * A champion's body is made of 7 parts:
+ * A champion's body is made of 7 body parts:
  * <ul>
  * <li>the head</li>
  * <li>the neck</li>
@@ -44,7 +44,7 @@ import fr.ritaly.dungeonmaster.item.Item;
  * <li>the weapon hand</li>
  * <li>the shield hand</li>
  * </ul>
- * 
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Body {
@@ -59,8 +59,7 @@ public class Body {
 	/**
 	 * The body parts stored by type.
 	 */
-	private final Map<BodyPart.Type, BodyPart> parts = new EnumMap<BodyPart.Type, BodyPart>(
-			BodyPart.Type.class);
+	private final Map<BodyPart.Type, BodyPart> parts = new EnumMap<BodyPart.Type, BodyPart>(BodyPart.Type.class);
 
 	private final Random random = new Random();
 
@@ -90,7 +89,7 @@ public class Body {
 
 	/**
 	 * Returns the body part with given type.
-	 * 
+	 *
 	 * @param type
 	 *            a instance of {@link Type} representing the type of the
 	 *            requested body part.
@@ -115,8 +114,7 @@ public class Body {
 		case WEAPON_HAND:
 			return getWeaponHand();
 		default:
-			throw new UnsupportedOperationException(
-					"Unexpected body part type " + type);
+			throw new UnsupportedOperationException("Unexpected body part type " + type);
 		}
 	}
 
@@ -151,8 +149,8 @@ public class Body {
 	/**
 	 * Collects (and removes) all the items worn by this body's parts and
 	 * returns them.
-	 * 
-	 * @return a List&lt;Item&gt;. Never returns null.
+	 *
+	 * @return a list of items. Never returns null.
 	 */
 	public List<Item> removeAllItems() {
 		final List<Item> items = new ArrayList<Item>();
@@ -169,8 +167,8 @@ public class Body {
 	/**
 	 * Collects (but doesn't remove) all the items worn by this body's parts and
 	 * returns them.
-	 * 
-	 * @return a List&lt;Item&gt;. Never returns null.
+	 *
+	 * @return a list of items. Never returns null.
 	 */
 	public List<Item> getItems() {
 		final List<Item> items = new ArrayList<Item>();
@@ -186,11 +184,10 @@ public class Body {
 
 	/**
 	 * Tells whether at least one part of this body is wounded.
-	 * 
+	 *
 	 * @return whether at least one part of this body is wounded.
 	 */
 	public boolean isWounded() {
-		// Version optimis�e
 		for (BodyPart bodyPart : parts.values()) {
 			if (bodyPart.isWounded()) {
 				return true;
@@ -202,7 +199,7 @@ public class Body {
 
 	/**
 	 * Tries to wound this body and returns whether the operation succeeded.
-	 * 
+	 *
 	 * @return whether at least one body part was wounded.
 	 */
 	public boolean wound() {
@@ -210,10 +207,11 @@ public class Body {
 			log.debug("Wounding " + getChampion().getName() + "'s body ...");
 		}
 
-		// TODO Force de blessure ? Nombre de blessures ?
-		final List<BodyPart> bodyParts = getNotWoundedParts();
+		// TODO Strength of wounds ? Number of wounds ?
+		final List<BodyPart> bodyParts = getNonWoundedParts();
 
 		if (!bodyParts.isEmpty()) {
+			// Randomly wound one of the non-wounded body parts
 			Collections.shuffle(bodyParts);
 
 			boolean wounded = false;
@@ -230,7 +228,7 @@ public class Body {
 
 	/**
 	 * Tries to heal this body and returns whether the operation succeeded.
-	 * 
+	 *
 	 * @return whether at least one body part was healed.
 	 */
 	public boolean heal() {
@@ -238,18 +236,17 @@ public class Body {
 			log.debug("Healing " + getChampion().getName() + "'s body ...");
 		}
 
-		// TODO Force de gu�rison ? Nombre de gu�risons ?
+		// TODO Strength of healing ? Number of healings ?
 		final List<BodyPart> bodyParts = getWoundedParts();
 
 		if (!bodyParts.isEmpty()) {
-			final BodyPart bodyPart = bodyParts.get(random.nextInt(bodyParts
-					.size()));
+			// Randomly heal one of the wounded body parts
+			final BodyPart bodyPart = bodyParts.get(random.nextInt(bodyParts.size()));
 
 			bodyPart.heal();
 
 			if (log.isDebugEnabled()) {
-				log.debug("Healed " + getChampion().getName() + "'s "
-						+ bodyPart.getType());
+				log.debug("Healed " + getChampion().getName() + "'s " + bodyPart.getType());
 			}
 
 			return true;
@@ -259,11 +256,10 @@ public class Body {
 	}
 
 	/**
-	 * Returns the parts of this body which are wounded.
-	 * 
-	 * @return a List&lt;BodyPart&gt; containing the wounded body parts. Never
-	 *         returns null.
-	 * @see #getNotWoundedParts()
+	 * Returns this body's wounded parts.
+	 *
+	 * @return a list of body parts. Never returns null.
+	 * @see #getNonWoundedParts()
 	 */
 	public List<BodyPart> getWoundedParts() {
 		final List<BodyPart> result = new ArrayList<BodyPart>(7);
@@ -278,13 +274,12 @@ public class Body {
 	}
 
 	/**
-	 * Returns the parts of this body which are NOT wounded.
-	 * 
-	 * @return a List&lt;BodyPart&gt; containing the not wounded body parts.
-	 *         Never returns null.
+	 * Returns this body's non-wounded parts.
+	 *
+	 * @return a list of body parts. Never returns null.
 	 * @see #getWoundedParts()
 	 */
-	public List<BodyPart> getNotWoundedParts() {
+	public List<BodyPart> getNonWoundedParts() {
 		final List<BodyPart> result = new ArrayList<BodyPart>(7);
 
 		for (BodyPart bodyPart : parts.values()) {
@@ -297,8 +292,8 @@ public class Body {
 	}
 
 	/**
-	 * Returns the total weight for all the items put on this body.
-	 * 
+	 * Returns the total weight for all the items carried by this body.
+	 *
 	 * @return a float representing a weight (in kilograms).
 	 */
 	public float getTotalWeight() {
@@ -313,7 +308,7 @@ public class Body {
 
 	/**
 	 * Returns the anti-magic bonus computed from the items worn by this body.
-	 * 
+	 *
 	 * @return a positive or null integer representing an anti-magic bonus.
 	 */
 	public int getAntiMagic() {
@@ -323,8 +318,8 @@ public class Body {
 			final Item item = bodyPart.getItem();
 
 			if (item != null) {
-				// Ne prendre en compte l'objet que s'il est sur la bonne partie
-				// du corps
+				// Only consider the item if it's carried by the relevant body
+				// part
 				if (item.isActivatedBy(bodyPart)) {
 					antiMagic += item.getAntiMagic();
 				}
@@ -336,7 +331,7 @@ public class Body {
 
 	/**
 	 * Returns the shield bonus computed from the items worn by this body.
-	 * 
+	 *
 	 * @return a positive or null integer representing a shield bonus.
 	 */
 	public int getShield() {
@@ -346,8 +341,8 @@ public class Body {
 			final Item item = bodyPart.getItem();
 
 			if (item != null) {
-				// Ne prendre en compte l'objet que s'il est sur la bonne partie
-				// du corps
+				// Only consider the item if it's carried by the relevant body
+				// part
 				if (item.isActivatedBy(bodyPart)) {
 					shield += item.getShield();
 				}

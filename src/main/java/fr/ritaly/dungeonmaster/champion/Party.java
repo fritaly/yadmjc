@@ -57,13 +57,17 @@ import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 
 /**
- * Un groupe de {@link Champion}s.
+ * A party of champions. A party has at least one champion and up to 4 champions.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public class Party implements ChangeEventSource, ClockListener, AudioListener,
-		ChangeListener {
+public class Party implements ChangeEventSource, ClockListener, AudioListener, ChangeListener {
 
+	/**
+	 * The possible states of a party. TODO Elaborate on why this is needed
+	 *
+	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
+	 */
 	public static enum State {
 		NORMAL,
 		CLIMBING_DOWN;
@@ -72,69 +76,75 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	private final Log log = LogFactory.getLog(Party.class);
 
 	/**
-	 * {@link Map} contenant les {@link Champion}s selon leur emplacement dans
-	 * le groupe.
+	 * Map storing the champions by their location inside the party.
 	 */
 	private final Map<Location, Champion> champions = new HashMap<Location, Champion>();
 
 	/**
-	 * Pool contenant les couleurs restantes que l'on peut assigner aux
-	 * {@link Champion}s qui rejoignent le groupe.
+	 * Set used for assigning a color to champions added to a party.
 	 */
 	private final Set<Color> colors = EnumSet.allOf(Color.class);
 
+	/**
+	 * Support class used for firing change events.
+	 */
 	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
 	/**
-	 * {@link List} des {@link DirectionChangeListener} que l'on doit notifier
-	 * quand le groupe change de direction.
+	 * The listeners to notify when the party's direction changes.
 	 */
 	private final List<DirectionChangeListener> directionChangeListeners = new ArrayList<DirectionChangeListener>();
 
 	/**
-	 * La {@link Direction} dans laquelle le groupe regarde.
+	 * The direction the party is currently looking into.
 	 */
 	private Direction lookDirection = Direction.NORTH;
 
 	/**
-	 * La {@link Position} actuelle du groupe.
+	 * The party's current position.
 	 */
 	private Position position;
 
 	/**
-	 * Le {@link Champion} d�sign� comme le leader du groupe.
+	 * The party's current leader. The leader is the champion that grabs the
+	 * items in the user interface.
 	 */
 	private Champion leader;
 
 	/**
-	 * L'�ventuel objet actuellement port� par le leader du groupe.
+	 * The possible item currently held by the party's leader.
 	 */
 	private Item item;
 
 	/**
-	 * Le donjon o� le groupe de {@link Champion}s est actuellement situ�.
+	 * The dungeon where the party is crawling.
 	 */
 	private Dungeon dungeon;
 
 	/**
-	 * Indique si le groupe est en train de dormir.
+	 * Whether the party is currently sleeping.
 	 */
 	private boolean sleeping;
 
+	/**
+	 * The spells currently acting on the party.
+	 */
 	private final PartySpells spells = new PartySpells(this);
 
-	// FIXME Impl�menter Serialization !!
+	// FIXME Implement serialization
 
+	/**
+	 * The party's current state. Never null.
+	 */
 	private State state = State.NORMAL;
 
 	public Party() {
 	}
 
 	public Party(Champion... champions) {
-		// Le param�tre champions peut �tre null
+		// The champions array can be null
 		if (champions != null) {
-			Validate.isTrue(champions.length <= 4,
-					"The given array of champions is too long (4 champions max)");
+			Validate.isTrue(champions.length <= 4, "The given array of champions is too long (4 champions max)");
 
 			for (Champion champion : champions) {
 				addChampion(champion);
@@ -157,35 +167,30 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	private void releaseColor(Color color) {
-		if (color == null) {
-			throw new IllegalArgumentException("The given color is null");
-		}
+		Validate.notNull(color, "The given color is null");
 		if (colors.contains(color)) {
-			throw new IllegalStateException("The given color <" + color
-					+ "> is already in the color set");
+			throw new IllegalStateException("The given color " + color + " is already in the color set");
 		}
 
 		colors.add(color);
 	}
 
 	/**
-	 * Retourne les champions du groupe sous forme de {@link List}.
+	 * Returns the champions in the party as a list. The given boolean
+	 * determines whether only living (false) or living and dead (true)
+	 * champions are returned.
 	 *
 	 * @param all
-	 *            indique si tous les champions doivent �tre retourn�s dans la
-	 *            liste, c'est-�-dire ceux qui sont vivants ET morts.
-	 * @return une List&lt;Champion&gt;. Ne retourne jamais null.
+	 *            whether dead champions are to be returned too.
+	 * @return a list of champions. Never returns null.
 	 */
 	public List<Champion> getChampions(boolean all) {
-		final ArrayList<Champion> result = new ArrayList<Champion>(
-				champions.values());
+		final ArrayList<Champion> result = new ArrayList<Champion>(champions.values());
 
 		if (!all) {
-			// Filtrer les champions morts
-			for (Iterator<Champion> it = result.iterator(); it.hasNext();) {
-				Champion champion = it.next();
-
-				if (champion.isDead()) {
+			// Filter out the dead champions
+			for (final Iterator<Champion> it = result.iterator(); it.hasNext();) {
+				if (it.next().isDead()) {
 					it.remove();
 				}
 			}
@@ -195,19 +200,20 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Retourne la taille du groupe.
+	 * Returns the party's size (that is, the number of champions in the party).
 	 *
 	 * @param all
-	 *            indique si tous les champions doivent �tre compt�s,
-	 *            c'est-�-dire ceux qui sont vivants ET morts.
-	 * @return un entier positif ou nul
+	 *            whether dead champions are to be counted too.
+	 * @return an integer representing a number of champions.
 	 */
 	public int getSize(boolean all) {
 		int size = champions.size();
 
-		for (Champion champion : champions.values()) {
-			if (champion.isDead()) {
-				size--;
+		if (!all) {
+			for (Champion champion : champions.values()) {
+				if (champion.isDead()) {
+					size--;
+				}
 			}
 		}
 
@@ -215,35 +221,52 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Indique si le groupe est plein, c'est-�-dire qu'il compte 4
-	 * {@link Champion}s.
+	 * Tells whether the party is full (that is it contains 4 champions).
 	 *
-	 * @return si le groupe est plein, c'est-�-dire qu'il compte 4
-	 *         {@link Champion}s.
+	 * @return whether the party is full.
 	 */
 	public boolean isFull() {
 		return (champions.size() == 4);
 	}
 
+	/**
+	 * Tells whether the party is empty (that is it contains no champion).
+	 *
+	 * @param all
+	 *            whether dead champions are to be counted too.
+	 * @return whether the party is empty.
+	 */
 	public boolean isEmpty(boolean all) {
 		return getChampions(all).isEmpty();
 	}
 
+	/**
+	 * Returns the champions located on the given side. The given boolean
+	 * determines whether only living (false) or living and dead (true)
+	 * champions are considered.
+	 *
+	 * @param side
+	 *            the side where requested champions are located. Can't be null.
+	 * @param all
+	 *            whether dead champions are to be counted too.
+	 * @return a set of champions. Never returns null.
+	 */
 	public Set<Champion> getChampions(Side side, boolean all) {
 		Validate.notNull(side, "The given side is null");
 
+		// A side corresponds to 2 locations
 		final Iterator<Location> iterator = side.getLocations().iterator();
 
 		final Location location1 = iterator.next();
 		final Location location2 = iterator.next();
 
-		final Set<Champion> set = new HashSet<Champion>();
+		final Set<Champion> result = new HashSet<Champion>();
 
 		final Champion champion1 = getChampion(location1);
 
 		if (champion1 != null) {
 			if (champion1.isAlive() || all) {
-				set.add(champion1);
+				result.add(champion1);
 			}
 		}
 
@@ -251,121 +274,127 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 		if (champion2 != null) {
 			if (champion2.isAlive() || all) {
-				set.add(champion2);
+				result.add(champion2);
 			}
 		}
 
-		return set;
+		return result;
 	}
 
+	/**
+	 * Returns the champion at the given location.
+	 *
+	 * @param location
+	 *            the location where the requested champion is. Can't be null.
+	 * @return a champion or null if there's no champion at this location.
+	 */
 	public Champion getChampion(Location location) {
-		if (location == null) {
-			throw new IllegalArgumentException("The given location is null");
-		}
+		Validate.notNull(location, "The given location is null");
 
 		return champions.get(location);
 	}
 
+	/**
+	 * Tries adding the given champion to the party and if the operation
+	 * succeeded returns the location where the champion was added.
+	 *
+	 * @param champion
+	 *            the champion to add to the party. Can't be null.
+	 * @return a location representing where the champion was successfully
+	 *         added.
+	 */
 	public Location addChampion(Champion champion) {
-		if (champion == null) {
-			throw new IllegalArgumentException("The given champion is null");
-		}
+		Validate.notNull(champion, "The given champion is null");
+		Validate.isTrue(!champions.containsValue(champion), "The given champion has already joined the party");
 		if (isFull()) {
 			throw new IllegalStateException("The party is already full");
 		}
-		if (champions.containsValue(champion)) {
-			throw new IllegalArgumentException(
-					"The given champion has already joined the party");
-		}
 
 		if (log.isDebugEnabled()) {
-			log.debug(champion.getName() + " is joigning the party ...");
+			log.debug(String.format("%s is joigning the party ...", champion.getName()));
 		}
 
 		final boolean wasEmpty = isEmpty(true);
 
-		// Emplacements d�j� occup�s
-		final EnumSet<Location> busy;
+		// Which locations are already occupied ?
+		final EnumSet<Location> occupied;
 
 		if (champions.isEmpty()) {
-			busy = EnumSet.noneOf(Location.class);
+			occupied = EnumSet.noneOf(Location.class);
 		} else {
-			busy = EnumSet.copyOf(champions.keySet());
+			occupied = EnumSet.copyOf(champions.keySet());
 		}
 
-		// if (log.isDebugEnabled()) {
-		// log.debug("Busy locations = " + busy);
-		// }
-
-		// Emplacements libres
-		final EnumSet<Location> free = EnumSet.complementOf(busy);
+		// Free locations ?
+		final EnumSet<Location> free = EnumSet.complementOf(occupied);
 
 		if (log.isDebugEnabled()) {
 			log.debug("Free locations = " + free);
 		}
 
-		// Ne peut �tre null
+		// Get the first free location
 		final Location location = free.iterator().next();
 
 		champions.put(location, champion);
 
-		// Ecouter les �v�nements lev�s par le champion
+		// Listen to the events fired by the champion
 		champion.addChangeListener(this);
 
 		if (log.isDebugEnabled()) {
-			log.debug(champion.getName() + ".Location: " + location);
+			log.debug(String.format("%s.Location: %s", champion.getName(), location));
 		}
 
+		// Assign a color to this champion
 		final Color color = pickColor();
 
 		if (log.isDebugEnabled()) {
-			log.debug(champion.getName() + ".Color: " + color);
+			log.debug(String.format("%s.Color: %s", champion.getName(), color));
 		}
 
 		champion.setColor(color);
 		champion.setParty(this);
 
 		if (wasEmpty) {
-			// Elire le nouveau leader
+			// This champion become the new leader
 			setLeader(champion);
 		}
 
 		fireChangeEvent();
 
 		if (log.isInfoEnabled()) {
-			log.info(champion.getName() + " joined the party");
+			log.info(String.format("%s joined the party", champion.getName()));
 		}
 
 		return location;
 	}
 
+	/**
+	 * Removes the given champion for this party and (if the operation
+	 * succeeded) returns the location where the champion was at.
+	 *
+	 * @param champion
+	 *            the champion to remove. Can't be null.
+	 * @return the removed champion or null if it wasn't in this party.
+	 */
 	public Location removeChampion(Champion champion) {
-		if (champion == null) {
-			throw new IllegalArgumentException("The given champion is null");
-		}
-		if (!champions.containsValue(champion)) {
-			throw new IllegalArgumentException("The given champion <"
-					+ champion.getName() + "> hasn't joined this party");
-		}
+		Validate.notNull(champion, "The given champion is null");
+		Validate.isTrue(champions.containsValue(champion), String.format("The given champion %s hasn't joined this party", champion.getName()));
 
 		if (log.isDebugEnabled()) {
-			log.debug(champion.getName() + " is leaving the party ...");
+			log.debug(String.format("%s is leaving the party ...", champion.getName()));
 		}
 
-		// Recherche du champion dans le groupe
+		// Where is the champion inside the party ?
 		for (Location location : Location.values()) {
 			if (champions.get(location) == champion) {
 				if (log.isDebugEnabled()) {
-					log.debug("Found " + champion.getName() + " at location "
-							+ location);
+					log.debug(String.format("Found %s at location %s", champion.getName(), location));
 				}
 
 				if (champion.isLeader()) {
 					if (getSize(false) >= 2) {
-						// Elire un nouveau leader avant de retirer ce champion
-						// du groupe
-						final Iterator<Champion> iterator = getChampions(false)
-								.iterator();
+						// Choose another leader before removing this champion
+						final Iterator<Champion> iterator = getChampions(false).iterator();
 
 						Champion newLeader = champion;
 
@@ -375,14 +404,16 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 						setLeader(newLeader);
 					} else {
+						// The party will be empty, unset the leader before
+						// removing the champion
 						setLeader(null, false);
 					}
 				}
 
-				// On peut maitenant retirer le champion du groupe
+				// Remove the champion
 				champions.remove(location);
 
-				// Ne plus �couter les �v�nements lev�s par le champion
+				// Stop listening to the champion's event
 				champion.removeChangeListener(this);
 
 				releaseColor(champion.getColor());
@@ -392,22 +423,22 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 				fireChangeEvent();
 
 				if (log.isInfoEnabled()) {
-					log.info(champion.getName() + " left the party");
+					log.info(String.format("%s left the party", champion.getName()));
 				}
 
 				return location;
 			}
 		}
 
-		// Champion non trouv�
+		// The champion couldn't be found
 		return null;
 	}
 
 	/**
-	 * D�finit le nouveau {@link Champion} du groupe.
+	 * Sets the party's new leader to the given champion.
 	 *
 	 * @param champion
-	 *            le {@link Champion} qui doit �tre �lu leader du groupe.
+	 *            the champion to define as new leader. Can't be null.
 	 */
 	public void setLeader(Champion champion) {
 		setLeader(champion, true);
@@ -420,8 +451,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			}
 		}
 		if (!champions.containsValue(champion) && check) {
-			throw new IllegalArgumentException(
-					"The given champion hasn't joined this party");
+			throw new IllegalArgumentException("The given champion hasn't joined this party");
 		}
 
 		final Champion previousLeader = this.leader;
@@ -432,59 +462,50 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			if (previousLeader != null) {
 				if (leader != null) {
 					if (log.isDebugEnabled()) {
-						log.debug(previousLeader.getName()
-								+ " lost the party leadership. New leader is "
-								+ leader.getName());
+						log.debug(String.format("%s lost the leadership. New leader is %s", previousLeader.getName(),
+								leader.getName()));
 					}
 				} else {
 					if (log.isDebugEnabled()) {
-						log.debug(previousLeader.getName()
-								+ " lost the party leadership");
+						log.debug(String.format("%s lost the leadership", previousLeader.getName()));
 					}
 				}
 			} else {
 				if (log.isDebugEnabled()) {
-					log.debug(leader.getName() + " gained the party leadership");
+					log.debug(String.format("%s gained the leadership", leader.getName()));
 				}
 			}
 
 			if (item != null) {
-				// Lever un �v�nement sur chaque champion (l'objet change de
-				// main)
+				// Fire a change event for the 2 champions (the item held was
+				// passed between 2 champions)
 				previousLeader.fireChangeEvent();
 				champion.fireChangeEvent();
 			}
 
-			// Ne lever un �v�nement que si strictement n�cessaire
+			// Fire an event to notify a change of leader
 			fireChangeEvent();
 		}
 	}
 
 	/**
-	 * Echange les {@link Champion}s situ�s aux deux emplacements donn�s.
+	 * Swaps the champions at the 2 given locations.
 	 *
 	 * @param location1
-	 *            une instance de {@link Location} repr�sentant le premier
-	 *            emplacement � �changer.
+	 *            the first location to swap. Can't be null.
 	 * @param location2
-	 *            une instance de {@link Location} repr�sentant le second
-	 *            emplacement � �changer.
+	 *            the second location to swap. Can't be null.
 	 */
 	public void swap(Location location1, Location location2) {
-		if (location1 == null) {
-			throw new IllegalArgumentException(
-					"The given first location is null");
-		}
-		if (location2 == null) {
-			throw new IllegalArgumentException(
-					"The given second location is null");
-		}
+		Validate.notNull(location1, "The given first location is null");
+		Validate.notNull(location2, "The given second location is null");
+		Validate.isTrue(location1 != location2, "The two given locations are equal");
 
-		// Retirer les deux champions
+		// Remove the 2 champions (can be null)
 		final Champion champion1 = champions.remove(location1);
 		final Champion champion2 = champions.remove(location2);
 
-		// Replacer les deux champions
+		// Add them back at the new location
 		if (champion2 != null) {
 			champions.put(location1, champion2);
 		}
@@ -493,6 +514,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		}
 
 		if ((champion1 != null) || (champion2 != null)) {
+			// Notify the change
 			fireChangeEvent();
 		}
 	}
@@ -511,6 +533,11 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		eventSupport.removeChangeListener(listener);
 	}
 
+	/**
+	 * Returns the direction where this party is looking at.
+	 *
+	 * @return a direction representing where the party is looking at.
+	 */
 	public Direction getLookDirection() {
 		return lookDirection;
 	}
@@ -532,6 +559,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	 * @return a {@link Position} or null.
 	 */
 	public Position getFacingPosition() {
+		// TODO Rename this method
 		if (position != null) {
 			// The look direction is never null
 			return position.towards(getLookDirection());
@@ -540,39 +568,61 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		return null;
 	}
 
+	/**
+	 * Teleports the party to the given target position.
+	 *
+	 * @param position
+	 *            the target position where to teleport the party. Can't be
+	 *            null.
+	 * @param silent
+	 *            if the teleport is silent. When false a specific sound will be
+	 *            played to hint a teleport occurred.
+	 */
 	public void teleport(Position position, boolean silent) {
-		// Conserver la direction de regard actuelle
+		// Keep the current look direction
 		teleport(position, this.lookDirection, silent);
 	}
 
-	public void teleport(final Position position, final Direction direction,
-			final boolean silent) {
-
-		Validate.isTrue(position != null, "The given position is null");
-		Validate.isTrue(direction != null, "The given direction is null");
+	/**
+	 * Teleports the party to the given target position, possibly also changing
+	 * the party's direction.
+	 *
+	 * @param position
+	 *            the target position where to teleport the party. Can't be
+	 *            null.
+	 * @param direction
+	 *            the new look direction. Can't be null.
+	 * @param silent
+	 *            if the teleport is silent. When false a specific sound will be
+	 *            played to hint a teleport occurred.
+	 */
+	public void teleport(final Position position, final Direction direction, final boolean silent) {
+		Validate.notNull(position, "The given position is null");
+		Validate.notNull(direction, "The given direction is null");
 
 		boolean notify = false;
 
 		if (!position.equals(this.position)) {
-			// D�placer le groupe
+			// Move the party
 			setPosition(position, false);
 
 			notify = true;
 		}
 
 		if (!direction.equals(this.lookDirection)) {
-			// Le faire changer de direction
+			// Change the direction
 			setLookDirection(direction, false);
 
 			notify = true;
 		}
 
 		if (!silent) {
-			// Jouer le son de la t�l�portation
+			// Play the teleport sound
 			SoundSystem.getInstance().play(getPosition(), AudioClip.TELEPORT);
 		}
 
 		if (notify) {
+			// Notify the change
 			fireChangeEvent();
 		}
 	}
@@ -596,13 +646,11 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 //		}
 //	}
 
-	public void turn(Move move) {
-		if (move == null) {
-			throw new IllegalArgumentException("The given move is null");
-		}
+	public void turn(final Move move) {
+		Validate.notNull(move, "The given move is null");
 
 		if (move.changesDirection()) {
-			// Le mouvement fait tourner le groupe
+			// This move changes the look direction
 			setLookDirection(move.changeDirection(this.lookDirection), true);
 		}
 	}
@@ -612,14 +660,18 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		setLookDirection(direction);
 	}
 
+	/**
+	 * Sets the party's look direction to the given value.
+	 *
+	 * @param direction
+	 *            the look direction to set. Can't be null.
+	 */
 	public void setLookDirection(Direction direction) {
 		setLookDirection(direction, true);
 	}
 
 	private void setLookDirection(Direction direction, boolean notify) {
-		if (direction == null) {
-			throw new IllegalArgumentException("The given direction is null");
-		}
+		Validate.notNull(direction, "The given direction is null");
 
 		if (this.lookDirection != direction) {
 			final Direction previousDirection = this.lookDirection;
@@ -627,15 +679,13 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			this.lookDirection = direction;
 
 			if (log.isDebugEnabled()) {
-				log.debug("Party.LookDirection: " + previousDirection + " -> "
-						+ direction);
+				log.debug(String.format("Party.LookDirection: %s -> %s", previousDirection, direction));
 			}
 
 			if (notify) {
 				fireChangeEvent();
 
-				// D�clencher un �v�nement sp�cifique pour notifier du
-				// changement de direction
+				// Fire a specific event to notify the change
 				fireDirectionChangeEvent();
 			}
 		}
@@ -650,7 +700,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			this.position = position;
 
 			if (log.isDebugEnabled()) {
-				log.debug("Party.Position: " + oldPosition + " -> " + position);
+				log.debug(String.format("Party.Position: %s -> %s", oldPosition, position));
 			}
 
 			if (notify) {
@@ -659,10 +709,20 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		}
 	}
 
+	/**
+	 * Sets the party's position to the given value.
+	 *
+	 * @param position the new party's position to set. Can't be null.
+	 */
 	public void setPosition(Position position) {
 		setPosition(position, true);
 	}
 
+	/**
+	 * Returns the party's current leader (that is, the one holding the possible item).
+	 *
+	 * @return a champion or null if the party has no current leader.
+	 */
 	public Champion getLeader() {
 		return leader;
 	}
@@ -672,17 +732,16 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			throw new IllegalStateException("The party is empty");
 		}
 		if (getSize(false) == 1) {
-			// Un seul champion vivant dans le groupe
+			// Only one living champion in the party
 			if (getChampions(false).iterator().next() != this.leader) {
-				// Le seul champion vivant du groupe n'est pas l'actuel leader.
-				// Cas o� le leader vient de mourir et qu'il faut en d�signer
-				// un nouveau � sa place !
+				// The only living champion is not the current leader. This happens
+				// when the leader just died and a new one has to be chosen
 			} else {
-				// Le seul champion vivant du groupe est d�j� l'actuel leader
+				// The only living champion is also the current leader
 				return this.leader;
 			}
 		} else if (getSize(false) == 0) {
-			// Tous les champions sont morts
+			// No living champion left
 			setLeader(null, false);
 		}
 
@@ -690,46 +749,45 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 			log.debug("Selecting new leader ...");
 		}
 
-		// Identifier les candidats au poste
+		// Identify possible leaders
 		final List<Champion> candidates = new ArrayList<Champion>();
 
-		// Ne conserver que les champions vivants qui ne sont pas d�j� leader
+		// Only consider the living champions that aren't the current leader
 		for (Champion champion : champions.values()) {
 			if (champion.isAlive() && (champion != this.leader)) {
 				candidates.add(champion);
 			}
 		}
 
-		// Choisir un leader au hasard
-		final Champion newLeader = candidates.get(RandomUtils
-				.nextInt(candidates.size()));
+		// Randomly chose a new leader
+		final Champion newLeader = candidates.get(RandomUtils.nextInt(candidates.size()));
 
 		setLeader(newLeader);
 
 		if (log.isInfoEnabled()) {
-			log.info(newLeader.getName() + " was elected leader");
+			log.info(String.format("%s was promoted leader", newLeader.getName()));
 		}
 
 		return newLeader;
 	}
 
 	/**
-	 * Retourne la vitesse de d�placement du groupe sous forme d'une instance de
-	 * {@link Speed}.
+	 * Returns the party's move speed. The overall speed is the speed of the
+	 * slowest champion !
 	 *
-	 * @return une instance de {@link Speed}. Ne retourne jamais null.
+	 * @return the party's speed. Never returns null.
 	 */
 	public Speed getMoveSpeed() {
-		// Vitesse de d�placement non d�finie
 		Speed speed = Speed.UNDEFINED;
 
-		// C'est le champion le plus lent qui d�termine la vitesse du groupe
+		// The slowest champion determines the party's speed
 		for (Champion champion : champions.values()) {
 			if (champion.isDead()) {
-				// Il est mort, ne pas le prendre en compte
+				// This one is dead, skip it
 				continue;
 			}
 
+			// The slowest move speed is the one with the highest value
 			if (champion.getMoveSpeed().getValue() > speed.getValue()) {
 				speed = champion.getMoveSpeed();
 			}
@@ -739,25 +797,20 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Place l'objet donn� dans la main du leader du groupe et retourne l'objet
-	 * qu'il portait pr�c�demment (s'il y en avait un) ou null.
+	 * Puts the given item into the (third) hand of the party's current leader
+	 * and returns the possible previously held item.
 	 *
 	 * @param item
-	 *            un {@link Item} repr�sentant l'objet que le leader doit
-	 *            saisir.
-	 * @return une instance de {@link Item} ou null.
+	 *            the item to put into the leader's (third) hand. Can't be null.
+	 * @return the previously held item or null if there was none.
 	 */
-	public Item grab(Item item) {
-		if (item == null) {
-			throw new IllegalArgumentException("The given item is null");
-		}
+	public Item grab(final Item item) {
+		Validate.notNull(item, "The given item is null");
 		if (isEmpty(false)) {
-			throw new IllegalStateException(
-					"Unable to grab item with an empty party");
+			throw new IllegalStateException("Unable to grab item with an empty party");
 		}
 		if (leader == null) {
-			throw new IllegalStateException(
-					"Unable to grab item for there is no leader");
+			throw new IllegalStateException("Unable to grab item for there is no leader");
 		}
 
 		final Item removed = this.item;
@@ -767,28 +820,27 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		if (removed != item) {
 			if (removed != null) {
 				if (removed instanceof DirectionChangeListener) {
-					// Supprimer le listener
+					// Unregister as a listener
 					removeDirectionChangeListener((DirectionChangeListener) this);
 				}
 			}
 			if (item != null) {
 				if (item instanceof DirectionChangeListener) {
-					// Enregistrer le listener
+					// Register as a listener
 					addDirectionChangeListener((DirectionChangeListener) this);
 				}
 			}
 
-			// Lever un �v�nement sur le leader du groupe
+			// Have the leader fire a change event
 			leader.fireChangeEvent();
 
 			if (removed != null) {
 				if (log.isDebugEnabled()) {
-					log.debug(leader.getName() + " released " + removed
-							+ " and grabbed " + this.item);
+					log.debug(String.format("%d released %s and grabbed %s", leader.getName(), removed, this.item));
 				}
 			} else {
 				if (log.isDebugEnabled()) {
-					log.debug(leader.getName() + " grabbed " + this.item);
+					log.debug(String.format("%s grabbed %s", leader.getName(), this.item));
 				}
 			}
 
@@ -799,35 +851,39 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Indique si le leader du groupe porte un objet en main.
+	 * Tells whether the party's current leader is holding an item.
 	 *
-	 * @return si le leader du groupe porte un objet en main.
+	 * @return whether the party's current leader is holding an item.
 	 */
 	public boolean hasItem() {
 		return (item != null);
 	}
 
+	/**
+	 * Returns the item currently held by the party's leader (if any).
+	 *
+	 * @return an item or null if the party's current leader isn't holding an
+	 *         item.
+	 */
 	public Item getItem() {
 		return item;
 	}
 
 	/**
-	 * Lib�re l'objet que le leader du groupe porte (s'il y en a un) et le
-	 * retourne.
+	 * Make the party's current leader drop the item currently held (if any) and returns it.
 	 *
-	 * @return une instance de {@link Item} ou null.
+	 * @return the dropped item or null if the leader isn't holding an item.
 	 */
 	public Item release() {
 		if (isEmpty(false)) {
-			throw new IllegalStateException(
-					"Unable to release an item for an empty party");
+			throw new IllegalStateException("Unable to release an item for an empty party");
 		}
 
 		final Item removed = this.item;
 
 		if (removed != null) {
 			if (removed instanceof DirectionChangeListener) {
-				// Supprimer le listener
+				// Unregister as a listener
 				removeDirectionChangeListener((DirectionChangeListener) this);
 			}
 		}
@@ -835,11 +891,11 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		this.item = null;
 
 		if (removed != item) {
-			// Lever un �v�nement sur le leader du groupe
+			// Have the leader fire a change event
 			leader.fireChangeEvent();
 
 			if (log.isDebugEnabled()) {
-				log.debug(leader.getName() + " released item " + removed);
+				log.debug(String.format("%s released item %s", leader.getName(), removed));
 			}
 
 			fireChangeEvent();
@@ -850,54 +906,82 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 	@Override
 	public boolean clockTicked() {
-		// Pas besoin de dispatcher l'appel aux champions car ils se sont d�j�
-		// enregistr�s de leur c�t�
+		// No need to dispatch the call to the champions as they're already
+		// listening to clock ticks on their own
 
-		// Traiter les sorts du groupe
+		// Propagate the call to the party's spells
 		spells.clockTicked();
 
-		// TODO Le groupe dort ?
+		// TODO Is the party sleeping ?
 
-		// Animer le groupe tant qu'il est rattach� � un donjon
+		// Keep listening as long as the party's inside a dungeon
 		return (dungeon != null);
 	}
 
+	/**
+	 * Returns the dungeon this party is inside.
+	 *
+	 * @return a dungeon or null if the party isn't inside a dungeon.
+	 */
 	public Dungeon getDungeon() {
 		return dungeon;
 	}
 
+	/**
+	 * Returns the current element where this party is at.
+	 *
+	 * @return an element or null if the party isn't inside a dungeon.
+	 */
 	public Element getElement() {
 		return (dungeon != null) ? dungeon.getElement(getPosition()) : null;
 	}
 
+	/**
+	 * Sets the dungeon inside which the party is.
+	 *
+	 * @param dungeon
+	 *            the dungeon where to "install" the party. Can be null to unset
+	 *            the dungeon.
+	 */
 	public void setDungeon(Dungeon dungeon) {
-		// dungeon peut �tre null
+		// The dungeon can be null
 		if ((this.dungeon != null) && (dungeon != null)) {
-			// On ne peut positionner deux fois de suite le donjon
+			// Not supposed to happen
 			throw new IllegalArgumentException("The dungeon is already set");
 		}
 
 		this.dungeon = dungeon;
 
 		if (this.dungeon != null) {
-			// Enregistrer le groupe
+			// Start listening to clock ticks
 			Clock.getInstance().register(this);
 		}
 	}
 
 	@Override
 	public String toString() {
-		return Party.class.getSimpleName() + "[position=" + position + "]";
+		return String.format("%s[position=%s]", Party.class.getSimpleName(), position);
 	}
 
+	/**
+	 * Tells whether the party is currently sleeping.
+	 *
+	 * @return whether the party is currently sleeping.
+	 */
 	public boolean isSleeping() {
 		return sleeping;
 	}
 
+	/**
+	 * Makes the party sleep.
+	 */
 	public void sleep() {
 		setSleeping(true);
 	}
 
+	/**
+	 * Wakes up the party if sleeping.
+	 */
 	public void awake() {
 		setSleeping(false);
 	}
@@ -908,14 +992,12 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		this.sleeping = sleeping;
 
 		if (!wasSleeping && sleeping) {
-			// Le groupe vient de s'endormir
 			if (log.isDebugEnabled()) {
 				log.debug("Party has just fallen asleep");
 			}
 
 			fireChangeEvent();
 		} else if (wasSleeping && !sleeping) {
-			// Le groupe vient de se r�veiller
 			if (log.isDebugEnabled()) {
 				log.debug("Party has just waken up");
 			}
@@ -924,39 +1006,49 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		}
 	}
 
+	/**
+	 * Returns the spells acting on this party.
+	 *
+	 * @return
+	 */
 	public PartySpells getSpells() {
 		return spells;
 	}
 
 	/**
-	 * Retourne la luminosit� g�n�r�e par les champions du groupe.
+	 * Returns the light generated by this party as an integer within [0,255].
+	 * The value returned takes into account the the light generated by each
+	 * living champion (FUL spells, illimulets, torches).
 	 *
-	 * @return un entier positif ou null repr�sentant la luminosit� g�n�r�e par
-	 *         les champions dans l'intervalle [0-255].
+	 * @return an integer within [0,255] representing the light generated by
+	 *         this party.
 	 */
 	public int getLight() {
 		int light = 0;
 
-		// Prendre en compte la contribution de chaque champion
+		// Contribution for this (living) champion ?
 		for (Champion champion : getChampions(false)) {
 			light += champion.getLight();
 		}
 
-		// Retourner une valeur dans l'intervalle [0-255]
+		// Ensure the final result is within [0,255]
 		return Utils.bind(light, 0, Constants.MAX_LIGHT);
 	}
 
+	/**
+	 * Tells whether all champions in the party are dead. This means a
+	 * "Game Over".
+	 *
+	 * @return whether all champions in the party are dead.
+	 */
 	public boolean allChampionsDead() {
-		boolean dead = true;
-
 		for (Champion champion : getChampions(true)) {
 			if (champion.isAlive()) {
-				dead = false;
-				break;
+				return false;
 			}
 		}
 
-		return dead;
+		return true;
 	}
 
 	public void addDirectionChangeListener(DirectionChangeListener listener) {
@@ -971,7 +1063,11 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 		}
 	}
 
+	/**
+	 * Fires an event to notify of a direction change.
+	 */
 	protected final void fireDirectionChangeEvent() {
+		// Reuse the immutable event among listeners
 		final DirectionChangeEvent event = new DirectionChangeEvent(this);
 
 		for (DirectionChangeListener listener : directionChangeListeners) {
@@ -980,9 +1076,9 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Indique si le groupe est invisible (du fait d'un sort).
+	 * Tells whether the party is invisible (because of the "Invisibility" spell).
 	 *
-	 * @return si le groupe est invisible.
+	 * @return whether the party is invisible.
 	 */
 	public final boolean isInvisible() {
 		return getSpells().isInvisibilityActive();
@@ -1007,11 +1103,11 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Retourne l'identifiant du dernier tic d'horloge pendant lequel le groupe
-	 * a �t� attaqu�.
+	 * Returns the id of the last clock tick during which the party was
+	 * attacked.
 	 *
-	 * @return un entier positif ou nul ou -1 si le groupe n'a jamais �t�
-	 *         attaqu�.
+	 * @return a positive integer identifying a clock tick id or -1 if the party
+	 *         has never been attacked.
 	 */
 	public int getLastAttackTick() {
 		int result = -1;
@@ -1026,13 +1122,12 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	}
 
 	/**
-	 * Retourne l'emplacement auquel est situ� le {@link Champion} donn� ou null
-	 * si celui-ci n'appartient pas au groupe.
+	 * Returns the location of the given champion inside the party.
 	 *
 	 * @param champion
-	 *            un {@link Champion} dont l'emplacement dans le groupe est
-	 *            demand�.
-	 * @return une instance de {@link Location} ou null.
+	 *            the champion whose location is requested. Can't be null.
+	 * @return the location where this champion is inside the party or null if
+	 *         the given champion couldn't be found.
 	 */
 	Location getLocation(Champion champion) {
 		Validate.notNull(champion, "The given champion is null");
@@ -1049,23 +1144,28 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 	@Override
 	public void onChangeEvent(ChangeEvent event) {
 		if (champions.containsValue(event.getSource())) {
-			// La source est l'un des champions du groupe
+			// The event source is one of our champions
 			final Champion champion = (Champion) event.getSource();
 
 			if (champion.isDead()) {
-				// Le champion est mort. S�lectionner un nouveau leader s'il
-				// reste des champions vivants !
+				// The champion just died. Select a new leader if there are
+				// living champions left
 				if (getChampions(false).isEmpty()) {
-					// Game over. Tous les champions sont morts
+					// All champions are dead. That's a "Game Over"
 					fireChangeEvent();
 				} else {
-					// Il reste au moins un champion vivant
+					// At least one champion still living
 					selectNewLeader();
 				}
 			}
 		}
 	}
 
+	/**
+	 * Returns the party's current state.
+	 *
+	 * @return the party state.
+	 */
 	public State getState() {
 		return state;
 	}
@@ -1075,10 +1175,10 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener,
 
 		if (!this.state.equals(state)) {
 			if (log.isDebugEnabled()) {
-				log.debug("Party.State: " + this.state + " -> " + state);
+				log.debug(String.format("Party.State: %s -> %s", this.state, state));
 			}
 
-			// Transition d'�tat forc�ment valide (seulement 2 �tats possibles)
+			// All state transitions are valid
 			this.state = state;
 		}
 	}

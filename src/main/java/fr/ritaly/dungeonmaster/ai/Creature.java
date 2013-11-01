@@ -45,9 +45,8 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.event.ChangeEvent;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.item.Action;
-import fr.ritaly.dungeonmaster.item.Food;
 import fr.ritaly.dungeonmaster.item.Item;
-import fr.ritaly.dungeonmaster.item.MiscItem;
+import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.item.Weapon;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
@@ -55,6 +54,8 @@ import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.stat.Stat;
 
 /**
+ * A creature (or a monster).
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Creature implements ChangeListener, ClockListener, HasDirection {
@@ -62,59 +63,70 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	private final Log log = LogFactory.getLog(this.getClass());
 
 	/**
-	 * Les diff�rents �tats possibles d'une {@link Creature}.
-	 * 
+	 * Enumerates the possible states of a {@link Creature}.
+	 *
 	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
 	 */
 	public static enum State {
-		IDLE,
-		
 		/**
-		 * Etat d'une cr�ature en train de patrouiller dans le niveau.
+		 * State of an idle creature.
+		 */
+		IDLE,
+
+		/**
+		 * State of a creature patrolling a level.
 		 */
 		PATROLLING,
 
 		/**
-		 * Etat d'une cr�ature ayant rep�r� des champions et en cours d'approche
-		 * pour attaquer.
+		 * State of a creature that detected a party and is tracking the
+		 * champions to attack them.
 		 */
 		TRACKING,
-		
+
 		/**
-		 * Etat d'une cr�ature en train d'attaquer
+		 * State of a creature attacking a party.
 		 */
 		ATTACKING;
 		// DYING,
 		// DEAD;
 	}
 
-	private static final EnumSet<Weakness> WEAKNESSES_MATERIAL_4 = EnumSet.of(
-			Weakness.WEAPONS, Weakness.POISON_BOLT, Weakness.FIREBALL,
-			Weakness.LIGHTNING_BOLT);
+	private static final EnumSet<Weakness> WEAKNESSES_MATERIAL_4 = EnumSet.of(Weakness.WEAPONS, Weakness.POISON_BOLT,
+			Weakness.FIREBALL, Weakness.LIGHTNING_BOLT);
 
-	private static final EnumSet<Weakness> WEAKNESSES_MATERIAL_5 = EnumSet.of(
-			Weakness.WEAPONS, Weakness.POISON_BOLT, Weakness.FIREBALL,
-			Weakness.LIGHTNING_BOLT, Weakness.POISON_CLOUD);
+	private static final EnumSet<Weakness> WEAKNESSES_MATERIAL_5 = EnumSet.of(Weakness.WEAPONS, Weakness.POISON_BOLT,
+			Weakness.FIREBALL, Weakness.LIGHTNING_BOLT, Weakness.POISON_CLOUD);
 
-	private static final EnumSet<Weakness> WEAKNESSES_IMMATERIAL = EnumSet.of(
-			Weakness.VORPAL_BLADE, Weakness.YEW_STAFF, Weakness.STAFF_OF_MANAR,
-			Weakness.WEAKEN_NON_MATERIAL_BEINGS_SPELL);
+	private static final EnumSet<Weakness> WEAKNESSES_IMMATERIAL = EnumSet.of(Weakness.VORPAL_BLADE, Weakness.YEW_STAFF,
+			Weakness.STAFF_OF_MANAR, Weakness.WEAKEN_NON_MATERIAL_BEINGS_SPELL);
 
-	private static final EnumSet<Weakness> WEAKNESSES_WEAPONS = EnumSet
-			.of(Weakness.WEAPONS);
+	private static final EnumSet<Weakness> WEAKNESSES_WEAPONS = EnumSet.of(Weakness.WEAPONS);
 
-	private static final EnumSet<Weakness> WEAKNESSES_FIRESTAFF = EnumSet
-			.of(Weakness.THE_FIRESTAFF);
+	private static final EnumSet<Weakness> WEAKNESSES_FIRESTAFF = EnumSet.of(Weakness.THE_FIRESTAFF);
 
 	/**
-	 * Defines the size of the {@link Creature} on the floor. Value 0 means
-	 * there can be 4 creatures per tile (like Screamers), value 1 means there
-	 * can be 2 creatures per tile (like Worms) and value 2 means there can be
-	 * only one creature per tile (like Dragon).
+	 * Defines the size of a {@link Creature} on the floor in terms of number of
+	 * subcells occupied.
 	 */
 	public static enum Size {
+
+		/**
+		 * Size of a creature occupying one sub-cell. There can be up to 4
+		 * creatures per floor tile. Example: screamers.
+		 */
 		ONE,
+
+		/**
+		 * Size of a creature occupying two sub-cells. There can be up to 2
+		 * creatures per floor tile. Example: worms.
+		 */
 		TWO,
+
+		/**
+		 * Size of a creature occupying four sub-cells. There can be only 1
+		 * creature per floor tile. Example: dragons.
+		 */
 		FOUR;
 
 		public int value() {
@@ -131,32 +143,31 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 	}
 
+	/**
+	 * Enumerates the different types of {@link Creature}.
+	 *
+	 * @author francois_ritaly
+	 */
 	public static enum Type {
 		MUMMY(17, 25, 33, 20, 0, 40, 3, 4, 2, 1, 4, 9, 1, 15, 12, 3, 4, 40),
 		SCREAMER(120, 5, 165, 5, 0, 5, 6, 1, 1, 1, 0, 15, 6, 7, 10, 2, 0, 5),
 		/** aka STONE_ROCK */
-		ROCK_PILE(185, 170, 50, 40, 5, 10, 4, 3, 4, 1, 5, 12, 14, 6, 15, 4, 5,
-				10),
+		ROCK_PILE(185, 170, 50, 40, 5, 10, 4, 3, 4, 1, 5, 12, 14, 6, 15, 4, 5, 10),
 		/** aka OGRE */
 		TROLIN(13, 28, 20, 25, 0, 41, 3, 3, 3, 1, 1, 4, 2, 3, 8, 2, 1, 41),
 		/** aka WORM */
-		MAGENTA_WORM(18, 72, 70, 45, 35, 35, 4, 1, 10, 1, 5, 10, 9, 11, 19, 3,
-				5, 35),
+		MAGENTA_WORM(18, 72, 70, 45, 35, 35, 4, 1, 10, 1, 5, 10, 9, 11, 19, 3, 5, 35),
 		/** aka WASP */
-		GIANT_WASP(1, 180, 8, 28, 20, 150, 4, 2, 4, 1, 9, 15, 0, 0, 16, 2, 9,
-				150),
+		GIANT_WASP(1, 180, 8, 28, 20, 150, 4, 2, 4, 1, 9, 15, 0, 0, 16, 2, 9, 150),
 		GHOST(11, 15, 30, 55, 0, 80, 6, 3, 4, 1, 6, 6, 12, 15, 16, 6, 6, 80),
 		/** aka TENTACLE */
-		SWAMP_SLIME(15, 20, 110, 80, 15, 20, 3, 2, 1, 3, 3, 10, 4, 14, 32, 4,
-				3, 20),
+		SWAMP_SLIME(15, 20, 110, 80, 15, 20, 3, 2, 1, 3, 3, 10, 4, 14, 32, 4, 3, 20),
 		/** aka SNAKE */
 		COUATL(5, 42, 39, 90, 100, 88, 4, 3, 4, 1, 7, 3, 3, 6, 10, 2, 7, 88),
 		/** aka EYE_BALL */
-		WIZARD_EYE(10, 30, 40, 58, 0, 80, 5, 10, 2, 3, 6, 10, 3, 11, 21, 3, 6,
-				80),
+		WIZARD_EYE(10, 30, 40, 58, 0, 80, 5, 10, 2, 3, 6, 10, 3, 11, 21, 3, 6, 80),
 		SKELETON(7, 22, 20, 22, 0, 80, 4, 3, 0, 1, 5, 9, 6, 15, 7, 2, 5, 80),
-		STONE_GOLEM(21, 240, 120, 219, 0, 35, 3, 3, 0, 1, 11, 15, 15, 15, 14,
-				3, 11, 35),
+		STONE_GOLEM(21, 240, 120, 219, 0, 35, 3, 3, 0, 1, 11, 15, 15, 15, 14, 3, 11, 35),
 		GIGGLER(3, 50, 10, 10, 0, 110, 0, 6, 3, 1, 1, 0, 3, 2, 5, 2, 1, 110),
 		/** aka GIANT_RAT */
 		PAIN_RAT(9, 45, 101, 90, 0, 65, 4, 4, 5, 1, 8, 15, 3, 10, 8, 3, 8, 65),
@@ -164,60 +175,50 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		VEXIRK(10, 45, 44, 75, 0, 90, 5, 5, 3, 4, 9, 5, 5, 3, 20, 3, 9, 90),
 		RUSTER(20, 100, 60, 30, 0, 30, 3, 2, 3, 1, 3, 3, 8, 5, 18, 5, 3, 30),
 		/** aka SCORPION */
-		GIANT_SCORPION(8, 55, 150, 150, 240, 55, 4, 3, 1, 1, 9, 9, 7, 8, 20, 4,
-				9, 55),
-		WATER_ELEMENTAL(25, 75, 144, 66, 0, 50, 3, 1, 3, 1, 6, 7, 10, 14, 25,
-				5, 6, 50),
+		GIANT_SCORPION(8, 55, 150, 150, 240, 55, 4, 3, 1, 1, 9, 9, 7, 8, 20, 4, 9, 55),
+		WATER_ELEMENTAL(25, 75, 144, 66, 0, 50, 3, 1, 3, 1, 6, 7, 10, 14, 25, 5, 6, 50),
 		/** aka KNIGHT or DEATH_KNIGHT */
-		ANIMATED_ARMOR(14, 140, 60, 105, 0, 70, 4, 5, 0, 1, 10, 15, 15, 15, 6,
-				3, 10, 70),
+		ANIMATED_ARMOR(14, 140, 60, 105, 0, 70, 4, 5, 0, 1, 10, 15, 15, 15, 6, 3, 10, 70),
 		/** aka SPIDER */
 		OITU(7, 33, 77, 130, 0, 60, 4, 2, 5, 1, 9, 6, 5, 8, 15, 4, 9, 60),
 		/** aka MATERIALIZER */
 		ZYTAZ(5, 15, 33, 61, 0, 65, 5, 8, 2, 3, 12, 7, 5, 15, 18, 7, 12, 65),
 		/** aka FIRE_ELEMENTAL */
-		BLACK_FLAME(255, 45, 80, 105, 0, 60, 1, 4, 3, 1, 5, 10, 15, 15, 8, 4,
-				5, 60),
+		BLACK_FLAME(255, 45, 80, 105, 0, 60, 1, 4, 3, 1, 5, 10, 15, 15, 8, 4, 5, 60),
 		DEMON(10, 68, 100, 100, 0, 75, 3, 4, 3, 4, 13, 15, 5, 10, 14, 4, 13, 75),
 		/** aka DRAGON */
-		RED_DRAGON(13, 110, 255, 255, 0, 70, 4, 5, 6, 2, 15, 7, 12, 6, 28, 5,
-				15, 70),
-		LORD_CHAOS(12, 255, 180, 210, 0, 130, 5, 9, 3, 6, 15, 3, 11, 15, 22, 4,
-				15, 130),
-		LORD_ORDER(12, 255, 180, 210, 0, 130, 5, 9, 3, 6, 15, 3, 11, 15, 22, 4,
-				15, 130),
-		GREY_LORD(12, 255, 180, 210, 0, 130, 5, 9, 3, 6, 15, 3, 11, 15, 22, 4,
-				15, 130);
+		RED_DRAGON(13, 110, 255, 255, 0, 70, 4, 5, 6, 2, 15, 7, 12, 6, 28, 5, 15, 70),
+		LORD_CHAOS(12, 255, 180, 210, 0, 130, 5, 9, 3, 6, 15, 3, 11, 15, 22, 4, 15, 130),
+		LORD_ORDER(12, 255, 180, 210, 0, 130, 5, 9, 3, 6, 15, 3, 11, 15, 22, 4, 15, 130),
+		GREY_LORD(12, 255, 180, 210, 0, 130, 5, 9, 3, 6, 15, 3, 11, 15, 22, 4, 15, 130);
 
 		/**
-		 * La valeur d'armure associ�e � la {@link Creature}. Valeur dans
-		 * l'intervalle [0-255]. La valeur sp�ciale 255 signifie que la
-		 * {@link Creature} est invincible.
+		 * The armor value is always within range [0,255]. The special value 255
+		 * means that the creature is invincible.
 		 */
 		private final int armor;
 
 		/**
-		 * La dur�e d'un d�placement de la {@link Creature} en 1/6 de seconde.
-		 * Valeur dans l'intervalle [0-255]. La valeur sp�ciale 255 signifie que
-		 * la {@link Creature} ne peut se d�placer.
+		 * Defines how long it takes for the creature to move from one position
+		 * to another (in number of clock ticks). Value within [0,255]. The
+		 * special value 255 means that the creature can't move.
 		 */
 		private final int moveDuration;
 
 		/**
-		 * This value is used to calculate the health of creatures generated
-		 * during the game.
+		 * The base health is used to calculate the health of creatures
+		 * generated during the game.
 		 */
 		private final int baseHealth;
 
 		/**
-		 * The chance each creature's attack has of hitting a {@link Champion}.
-		 * Valeur dans l'intervalle [0-255].
+		 * The odds of hitting a {@link Champion}. Value within [0,255].
 		 */
 		private final int hitProbability;
 
 		/**
-		 * The amount of poison the creature can inflict. Valeur dans
-		 * l'intervalle [0-255]. aka "Poison".
+		 * The strength of the creature's poisonous attack. Value within
+		 * [0,255].
 		 */
 		private final int poisonAmount;
 
@@ -227,7 +228,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		 * This "number" is used to determine what kind of attack the creature
 		 * executes. Changing this value will result in a different "protection"
 		 * to be used when calculating the damage:
-		 * 
+		 *
 		 * 1: Use Anti-Fire to determine damage 2: Half the hero's armor and do
 		 * physical damage 3: Unknown 4: Deal physical piercing damage 5: Use
 		 * Anti-Magic to determine damage 6: Use Wisdom to determine damage
@@ -252,40 +253,48 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		private final Champion.Level skill;
 
 		/**
-		 * Valeur dans l'intervalle [0-15]. FIXME Valeur sp�ciale 15 ?
+		 * Resistance to War Cry, Calm, Brandish and Blow Horn (maybe also
+		 * Confuse). Value within [0,15]. The special value 15 means the
+		 * creature can't be frightened.
 		 */
 		private final int bravery;
 
 		/**
-		 * Valeur dans l'intervalle [0-15]. La valeur sp�ciale 15 signifie que
-		 * la {@link Creature} est immunis�e contre le magie. aka "Fire
-		 * resistance".
+		 * Resistance to magical spells like Fireball. Value within [0,15]. The
+		 * special value 15 means the creature is immune to magic attacks. aka
+		 * "Fire resistance".
 		 */
 		private final int antiMagic;
 
 		/**
-		 * Valeur dans l'intervalle [0-15]. La valeur sp�ciale 15 signifie que
-		 * la {@link Creature} est immunis�e contre le poison.
+		 * Resistance to magical spells involving poison. Value within [0,15].
+		 * The special value 15 means the creature is immune to poison attacks.
 		 */
 		private final int poisonResistance;
 
 		/**
-		 * La dur�e � atteindre entre deux attaques de la {@link Creature} (en
-		 * 1/6 de seconde). Valeur dans l'intervalle [0-255].
+		 * This is the number of clock ticks per attack, defining the attack
+		 * speed of the creature. This is the minimum amount of time required
+		 * between two attacks. Value within [0,255].
 		 */
 		private final int attackDuration;
 
 		/**
-		 * La dur�e pendant laquelle l'image d'attaque de la {@link Creature}
-		 * est affich�e (en 1/6 de seconde). Valeur dans l'intervalle [0-255].
+		 * The number of clock ticks during which the picture of an attacking
+		 * creature should be displayed. Value within [0,255].
 		 */
 		private final int attackDisplayDuration;
 
+		/**
+		 * This value is used as a multiplier to compute the experience earned
+		 * by a champion killing this creature
+		 */
 		private final int experienceMultiplier;
 
 		/**
-		 * Valeur dans l'intervalle [0-255]. La valeur sp�ciale 255 signifie que
-		 * la {@link Creature} est intouchable.
+		 * Value within [0,255]. The special value 255 means the creature is
+		 * untouchable. This value represents the difficulty for champions to
+		 * hit the creature
 		 */
 		private final int shield;
 
@@ -370,26 +379,18 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		public int getShield() {
-			// This value represents the difficulty for champions to hit the
-			// creature
 			return shield;
 		}
 
 		public int getExperienceMultiplier() {
-			// This value is used as a multiplier to compute the experience
-			// earned by champions when killing the creature
 			return experienceMultiplier;
 		}
 
 		public int getAttackDisplayDuration() {
-			// The amount of time while the attack graphic is displayed
 			return attackDisplayDuration;
 		}
 
 		public int getAttackDuration() {
-			// This is the number of clock ticks (1/6th of a second) per
-			// attack, defining the attack speed of the creature. This is the
-			// minimum amount of time required between two attacks
 			return attackDuration;
 		}
 
@@ -434,20 +435,14 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		public int getPoisonResistance() {
-			// Resistance to magical spells involving poison. Value 15 means
-			// the creature is immune
 			return poisonResistance;
 		}
 
 		public int getAntiMagic() {
-			// Resistance to magical spells like Fireball. Value 15 means the
-			// creature is immune
 			return antiMagic;
 		}
 
 		public int getBravery() {
-			// Resistance to War Cry, Calm, Brandish and Blow Horn (maybe also
-			// Confuse). With a value of 15, the creature is never afraid
 			return bravery;
 		}
 
@@ -462,37 +457,37 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		/**
-		 * Indique si la {@link Creature} est immobile (elle ne peut bouger).
-		 * 
-		 * @return si la {@link Creature} est immobile (elle ne peut bouger).
+		 * Tells whether the creature is still (that is it can't move).
+		 *
+		 * @return whether the creature is still.
 		 */
 		public boolean isStill() {
 			return (255 == moveDuration);
 		}
-		
+
 		/**
-		 * Indique si la cr�ature peut bouger. Vaut true pour la plupart sauf
-		 * celles de type {@link #WATER_ELEMENTAL} et {@link #BLACK_FLAME}.
-		 * 
-		 * @return si la cr�ature peut bouger. 
+		 * Tells whether the creature can move. Returns true for most creatures
+		 * but {@link Type#WATER_ELEMENTAL} and {@link Type#BLACK_FLAME}.
+		 *
+		 * @return whether the creature can move.
 		 */
 		public boolean canMove() {
 			return !isStill();
 		}
 
 		/**
-		 * Indique si la {@link Creature} est invincible.
-		 * 
-		 * @return si la {@link Creature} est invincible.
+		 * Tells whether the creature is invincible.
+		 *
+		 * @return whether the creature is invincible.
 		 */
 		public boolean isInvincible() {
 			return (255 == armor);
 		}
 
 		/**
-		 * Indique si la {@link Creature} l�vite.
-		 * 
-		 * @return si la {@link Creature} l�vite.
+		 * Tells whether the creature levitates.
+		 *
+		 * @return whether the creature levitates.
 		 */
 		public boolean levitates() {
 			// cf http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244
@@ -514,6 +509,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 		}
 
+		// TODO isNyctalop() ?
 		public boolean canSeeInDarkness() {
 			// When this bit is set to '1', the creature can see the party in
 			// darkness because it ignores the sight range reduction caused by
@@ -572,43 +568,22 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 		public boolean canStealItems() {
 			// cf http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244
-			switch (this) {
-			case GIGGLER:
-				return true;
-			default:
-				return false;
-			}
+			return equals(GIGGLER);
 		}
 
 		public boolean canTeleport() {
 			// cf http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244
-			switch (this) {
-			case LORD_CHAOS:
-				return true;
-			default:
-				return false;
-			}
+			return equals(LORD_CHAOS);
 		}
 
 		public boolean isNearlyImmuneToSpells() {
 			// cf http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244
-			switch (this) {
-			case GHOST:
-			case BLACK_FLAME:
-				return true;
-			default:
-				return false;
-			}
+			return equals(GHOST) || equals(BLACK_FLAME);
 		}
 
 		public boolean canOnlyBeKilledWhenMaterialized() {
 			// cf http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244
-			switch (this) {
-			case ZYTAZ:
-				return true;
-			default:
-				return false;
-			}
+			return equals(ZYTAZ);
 		}
 
 		public boolean hitByWeakenNonmaterialBeingsSpell() {
@@ -651,10 +626,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				return false;
 			}
 		}
-		
+
 		/**
 		 * Retourne la mat�rialit� de la {@link Creature}.
-		 * 
+		 *
 		 * @return une instance de {@link Materiality}.
 		 */
 		public Materiality getMateriality() {
@@ -668,33 +643,53 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			case BLACK_FLAME:
 			case GHOST:
 			case WATER_ELEMENTAL:
-			case ZYTAZ: // <--- Cas sp�cial car tant�t mat�riel tant�t immat�riel 
+			case ZYTAZ: // <--- Cas sp�cial car tant�t mat�riel tant�t immat�riel
 				return Materiality.IMMATERIAL;
 			default:
 				return Materiality.MATERIAL;
 			}
 		}
 
+		private static final ItemFactory ITEM_FACTORY = ItemFactory.getFactory();
+
+		/**
+		 * Generates a random list with n (randomly chosen in [min, max]) items
+		 * with the given type.
+		 *
+		 * @param min
+		 *            the min number of items to generate.
+		 * @param max
+		 *            the max number of items to generate.
+		 * @param type
+		 *            the type of items to generate.
+		 * @return a list of items. Never returns null.
+		 */
+		private static List<Item> randomItems(int min, int max, Item.Type type) {
+			final List<Item> items = new ArrayList<Item>();
+
+			for (int i = 0; i < Utils.random(min, max); i++) {
+				items.add(ITEM_FACTORY.newItem(type));
+
+			}
+
+			return items;
+		}
+
+		/**
+		 * Generates and returns a list of items corresponding to the items
+		 * dropped by the creature when killed.
+		 *
+		 * @return a list of items. Never returns null.
+		 */
 		private List<Item> getItemsLeftWhenKilled() {
 			switch (this) {
 			case SCREAMER: {
-				final List<Item> items = new ArrayList<Item>();
-
-				for (int i = 0; i < Utils.random(1, 2); i++) {
-					items.add(new Food(Item.Type.SCREAMER_SLICE));
-				}
-
-				return items;
+				return randomItems(1, 2, Item.Type.SCREAMER_SLICE);
 			}
 			case ROCK_PILE: {
 				final List<Item> items = new ArrayList<Item>();
-
-				for (int i = 0; i < Utils.random(1, 2); i++) {
-					items.add(new MiscItem(Item.Type.BOULDER));
-				}
-				for (int i = 0; i < Utils.random(0, 2); i++) {
-					items.add(new MiscItem(Item.Type.ROCK));
-				}
+				items.addAll(randomItems(1, 2, Item.Type.BOULDER));
+				items.addAll(randomItems(0, 2, Item.Type.ROCK));
 
 				return items;
 			}
@@ -705,13 +700,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				return items;
 			}
 			case MAGENTA_WORM: {
-				final List<Item> items = new ArrayList<Item>();
-
-				for (int i = 0; i < Utils.random(1, 3); i++) {
-					items.add(new Food(Item.Type.WORM_ROUND));
-				}
-
-				return items;
+				return randomItems(1, 3, Item.Type.WORM_ROUND);
 			}
 			case SKELETON: {
 				final List<Item> items = new ArrayList<Item>();
@@ -727,16 +716,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				return items;
 			}
 			case PAIN_RAT: {
-				final List<Item> items = new ArrayList<Item>();
-
-				for (int i = 0; i < Utils.random(1, 2); i++) {
-					items.add(new Food(Item.Type.DRUMSTICK));
-				}
-
-				return items;
+				return randomItems(1, 2, Item.Type.DRUMSTICK);
 			}
 			case ANIMATED_ARMOR: {
-				// Les items sont envo�t�s !!!
+				// The dropped items are cursed !
 				final List<Item> items = new ArrayList<Item>();
 				items.add(new Weapon(Item.Type.ARMET, PowerRune.UM));
 				items.add(new Weapon(Item.Type.TORSO_PLATE, PowerRune.UM));
@@ -748,40 +731,35 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				return items;
 			}
 			case RED_DRAGON: {
-				final List<Item> items = new ArrayList<Item>();
-
-				for (int i = 0; i < Utils.random(8, 10); i++) {
-					items.add(new Food(Item.Type.DRAGON_STEAK));
-				}
-
-				return items;
+				return randomItems(8, 10, Item.Type.DRAGON_STEAK);
 			}
 			default:
 				return Collections.emptyList();
 			}
 		}
 
+		/**
+		 * Returns the spells the creature can cast.
+		 *
+		 * @return a list of spell types. Never returns null.
+		 */
 		public List<Spell.Type> getSpells() {
 			switch (this) {
 			case SWAMP_SLIME:
 				return Arrays.asList(Spell.Type.POISON_CLOUD);
 			case WIZARD_EYE:
-				return Arrays.asList(Spell.Type.OPEN_DOOR,
-						Spell.Type.LIGHTNING_BOLT);
+				return Arrays.asList(Spell.Type.OPEN_DOOR, Spell.Type.LIGHTNING_BOLT);
 			case VEXIRK:
-				return Arrays.asList(Spell.Type.OPEN_DOOR,
-						Spell.Type.LIGHTNING_BOLT, Spell.Type.POISON_CLOUD,
+				return Arrays.asList(Spell.Type.OPEN_DOOR, Spell.Type.LIGHTNING_BOLT, Spell.Type.POISON_CLOUD,
 						Spell.Type.FIREBALL);
 			case ZYTAZ:
-				return Arrays.asList(Spell.Type.POISON_CLOUD,
-						Spell.Type.FIREBALL);
+				return Arrays.asList(Spell.Type.POISON_CLOUD, Spell.Type.FIREBALL);
 			case DEMON:
 				return Arrays.asList(Spell.Type.FIREBALL);
 			case RED_DRAGON:
 				return Arrays.asList(Spell.Type.FIREBALL);
 			case LORD_CHAOS:
-				return Arrays.asList(Spell.Type.OPEN_DOOR,
-						Spell.Type.LIGHTNING_BOLT, Spell.Type.POISON_CLOUD,
+				return Arrays.asList(Spell.Type.OPEN_DOOR, Spell.Type.LIGHTNING_BOLT, Spell.Type.POISON_CLOUD,
 						Spell.Type.FIREBALL);
 			default:
 				return Collections.emptyList();
@@ -790,21 +768,24 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 		/**
 		 * Retourne la liste des sorts d'attaque de ce type de {@link Creature}.
-		 * 
+		 *
 		 * @return une {@link List} de {@link Spell.Type}. Ne retourne jamais
 		 *         null.
 		 */
 		public List<Spell.Type> getAttackSpells() {
 			final List<Spell.Type> spells = getSpells();
-			
-			if (!spells.isEmpty()) {
-				// On retire l'�ventuel sort OPEN_DOOR qui n'est pas un sort 
-				// d'attaque				
-				spells.remove(Spell.Type.OPEN_DOOR);
+
+			// Remove the possible non-attack spells (like OPEN_DOOR)
+			for (final Iterator<Spell.Type> it = spells.iterator(); it.hasNext();) {
+				final Spell.Type type = (Spell.Type) it.next();
+
+				if (!type.isAttackSpell()) {
+					it.remove();
+				}
 			}
-			
+
 			return spells;
-		} 
+		}
 
 		public boolean canCastSpell() {
 			switch (this) {
@@ -965,7 +946,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		/**
 		 * Tells whether the attack of a {@link Creature} against a
 		 * {@link Champion} succeeds.
-		 * 
+		 *
 		 * @return whether the attack of a {@link Creature} against a
 		 *         {@link Champion} succeeds.
 		 */
@@ -1214,7 +1195,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		/**
 		 * Indique si la {@link Creature} peut attaquer m�me si elle ne fait pas
 		 * face aux {@link Champion}s.
-		 * 
+		 *
 		 * @return si la {@link Creature} peut attaquer m�me si elle ne fait pas
 		 *         face aux {@link Champion}s.
 		 */
@@ -1238,7 +1219,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		/**
 		 * Indique si la {@link Creature} pr�f�re rester en arri�re-plan quand
 		 * d'autres {@link Creature}s attaquent les {@link Champion}s.
-		 * 
+		 *
 		 * @return si la {@link Creature} pr�f�re rester en arri�re-plan quand
 		 *         d'autres {@link Creature}s attaquent les {@link Champion}s.
 		 */
@@ -1265,7 +1246,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		 * Indique si la {@link Creature} peut attaquer n'importe quel
 		 * {@link Champion} du groupe, en particulier ceux situ�s derri�re dans
 		 * le groupe.
-		 * 
+		 *
 		 * @return si la {@link Creature} peut attaquer n'importe quel
 		 *         {@link Champion} du groupe, en particulier ceux situ�s
 		 *         derri�re dans le groupe.
@@ -1287,7 +1268,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 		}
 	}
-	
+
 	/**
 	 * La taille de la cr�ature. Permet de d�terminer de combien une porte doit
 	 * se fermer avant de frapper la cr�ature en rebondissant.
@@ -1316,7 +1297,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	private final Materializer materializer;
 
 	private Element element;
-	
+
 	private Direction direction = Direction.NORTH;
 
 	/**
@@ -1337,7 +1318,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	 * r�initialise.
 	 */
 	private final AtomicInteger attackTimer = new AtomicInteger();
-	
+
 	// Le param�tre multiplier peut repr�senter un "health multiplier" ou un
 	// "level experience multiplier"
 	public Creature(Type type, int multiplier, Direction direction) {
@@ -1365,24 +1346,24 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			this.materializer = new StaticMaterializer(getType()
 					.getMateriality());
 		}
-		
+
 		this.moveTimer.set(getType().getMoveDuration());
 
 		Clock.getInstance().register(this);
 	}
-	
+
 	public Creature(Type type, int multiplier) {
 		this(type, multiplier, Direction.NORTH);
 	}
-	
+
 	@Override
 	public Direction getDirection() {
 		return direction;
 	}
-	
+
 	public void setDirection(Direction direction) {
 		Validate.notNull(direction, "The given direction is null");
-		
+
 		if (this.direction != direction) {
 			final Direction initialDirection = this.direction;
 
@@ -1394,7 +1375,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 		}
 	}
-	
+
 	public final Materiality getMateriality() {
 		return materializer.getMateriality();
 	}
@@ -1460,7 +1441,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	/**
 	 * Indique si la {@link Creature} peut attaquer m�me si elle ne fait pas
 	 * face aux {@link Champion}s.
-	 * 
+	 *
 	 * @return si la {@link Creature} peut attaquer m�me si elle ne fait pas
 	 *         face aux {@link Champion}s.
 	 */
@@ -1471,7 +1452,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	/**
 	 * Indique si la {@link Creature} pr�f�re rester en arri�re-plan quand
 	 * d'autres {@link Creature}s attaquent les {@link Champion}s.
-	 * 
+	 *
 	 * @return si la {@link Creature} pr�f�re rester en arri�re-plan quand
 	 *         d'autres {@link Creature}s attaquent les {@link Champion}s.
 	 */
@@ -1483,7 +1464,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	 * Indique si la {@link Creature} peut attaquer n'importe quel
 	 * {@link Champion} du groupe, en particulier ceux situ�s derri�re dans le
 	 * groupe.
-	 * 
+	 *
 	 * @return si la {@link Creature} peut attaquer n'importe quel
 	 *         {@link Champion} du groupe, en particulier ceux situ�s derri�re
 	 *         dans le groupe.
@@ -1495,7 +1476,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	/**
 	 * Indique si la {@link Creature} l�che des {@link Item}s au sol quand elle
 	 * meurt.
-	 * 
+	 *
 	 * @return si la {@link Creature} l�che des {@link Item}s au sol quand elle
 	 *         meurt.
 	 */
@@ -1509,7 +1490,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	 * Indique si la {@link Creature} peut "absorber" les {@link Item}s qu'on
 	 * lui lance. Ces objets sont alors r�cup�r�s quand la {@link Creature}
 	 * meurt.
-	 * 
+	 *
 	 * @return si la {@link Creature} peut "absorber" les {@link Item}s qu'on
 	 *         lui lance.
 	 */
@@ -1520,7 +1501,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	/**
 	 * Indique si la {@link Creature} peut voir le groupe de {@link Champion}s
 	 * m�me si celui-ci utilise le sort d'invisibilit�.
-	 * 
+	 *
 	 * @return si la {@link Creature} peut voir le groupe de {@link Champion}s
 	 *         m�me si celui-ci utilise le sort d'invisibilit�.
 	 */
@@ -1532,7 +1513,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	 * Indique si la {@link Creature} peut voir dans le noir. Si c'est le cas,
 	 * la {@link Creature} n'est pas soumise � la baisse de lumi�re d�e � la
 	 * distance d'observation.
-	 * 
+	 *
 	 * @return si la {@link Creature} peut voir dans le noir.
 	 */
 	public final boolean canSeeInDarkness() {
@@ -1551,7 +1532,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	/**
 	 * Retourne la dur�e d'un d�placement de {@link Creature} (en 1/6 de
 	 * seconde).
-	 * 
+	 *
 	 * @return un entier positif repr�sentant la dur�e d'un d�placement.
 	 */
 	public final int getMoveDuration() {
@@ -1560,7 +1541,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	/**
 	 * Retourne le bonus d'armure de la {@link Creature} sous forme d'un entier.
-	 * 
+	 *
 	 * @return un entier positif ou nul repr�sentant un bonus d'armure.
 	 */
 	public final int getArmor() {
@@ -1664,7 +1645,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	/**
 	 * Retourne le son de la {@link Creature}.
-	 * 
+	 *
 	 * @return une instance de {@link AudioClip}.
 	 */
 	public AudioClip getSound() {
@@ -1674,7 +1655,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	/**
 	 * Retourne le type d'attaque de la {@link Creature}.
-	 * 
+	 *
 	 * @return une instance de {@link AttackType}.
 	 */
 	public final AttackType getAttackType() {
@@ -1708,7 +1689,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	public final boolean isInvincible() {
 		return getType().isInvincible();
 	}
-	
+
 	public final boolean canMove() {
 		return getType().canMove();
 	}
@@ -1827,10 +1808,10 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	public String toString() {
 		return getId();
 	}
-	
+
 	/**
 	 * Indique si la cr�ature peut voir la position donn�e.
-	 * 
+	 *
 	 * @return si la cr�ature peut voir la position donn�e.
 	 */
 	public boolean canSeePosition(Position targetPosition) {
@@ -1848,13 +1829,13 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		if (targetPosition.z != currentPosition.z) {
 			return false;
 		}
-		
+
 		// FIXME Prendre en compte la transparence des portes ou les obstacles!!
 
 		// Positions visibles de la cr�ature ?
 		final List<Position> visiblePositions = currentPosition
 				.getVisiblePositions(direction);
-		
+
 		final List<Element> visibleElements = getElement().getLevel()
 				.getElements(visiblePositions);
 
@@ -1866,11 +1847,11 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 		return false;
 	}
-	
+
 	/**
 	 * Indique si la cr�ature peut entendre un bruit provenant de la position
 	 * donn�e.
-	 * 
+	 *
 	 * @return si la cr�ature peut entendre un bruit provenant de la position
 	 *         donn�e.
 	 */
@@ -1889,14 +1870,14 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		if (targetPosition.z != currentPosition.z) {
 			return false;
 		}
-		
+
 		// FIXME Prendre en compte les obstacles !!
 
-		// Positions audibles de la cr�ature ? Cela d�pend de l'acuit� de la 
+		// Positions audibles de la cr�ature ? Cela d�pend de l'acuit� de la
 		// cr�ature
 		final List<Position> audiblePositions = currentPosition
 				.getSurroundingPositions(getType().getAwareness());
-		
+
 		final List<Element> audibleElements = getElement().getLevel()
 				.getElements(audiblePositions);
 
@@ -1908,11 +1889,11 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 		return false;
 	}
-	
+
 	/**
 	 * Indique si la {@link Creature} peut attaquer (directement) la
 	 * {@link Position} donn�e.
-	 * 
+	 *
 	 * @param targetPosition
 	 *            la {@link Position} attaqu�e.
 	 * @return si la {@link Creature} peut attaquer (directement) la
@@ -1933,16 +1914,16 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		if (targetPosition.z != currentPosition.z) {
 			return false;
 		}
-		
+
 		// FIXME Prendre en compte les obstacles !!
-		
+
 		final List<Position> attackablePositions;
-		
-		// Plut�t que d'appeler la m�thode canCastSpell() qui consid�re tous les 
-		// sorts (d'attaque ou non), on se base sur le retour de 
+
+		// Plut�t que d'appeler la m�thode canCastSpell() qui consid�re tous les
+		// sorts (d'attaque ou non), on se base sur le retour de
 		// getAttackSpells()
 		if (!getType().getAttackSpells().isEmpty()) {
-			// La cr�ature peut porter des attaques � distance, on consid�re 
+			// La cr�ature peut porter des attaques � distance, on consid�re
 			// toutes les positions qu'elle peut attaquer (au contact ou �
 			// distance). Port�e maximale du sort que peut lancer la cr�ature ?
 			attackablePositions = currentPosition
@@ -1959,36 +1940,36 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	private boolean isMoveAllowed() {
 		return (moveTimer.get() == 0);
 	}
-	
+
 	private boolean isAttackAllowed() {
 		return (attackTimer.get() == 0);
 	}
-	
+
 	private void resetMoveTimer() {
 		moveTimer.set(getType().getMoveDuration());
 	}
-	
+
 	private void resetAttackTimer() {
 		attackTimer.set(getType().getAttackDuration());
 	}
-	
+
 	@Override
 	public boolean clockTicked() {
 		// Permet de faire "clignoter" le ZYTAZ
 		this.materializer.clockTicked();
-		
+
 		// FIXME Pour l'instant, on ne g�re que les cr�atures de taille 4 !!
 		if (!Size.FOUR.equals(getSize())) {
 			log.warn("Method Creature.clockTicked() doesn't support creatures whose size is "
 					+ getSize() + " (for the moment)");
-			
+
 			return true;
 		}
-		
+
 		// TODO La vitesse de d�placement d'une cr�ature de taille 4 est-elle
-		// double car elle ne peut que se d�placer de 2 cases � la fois ? Quid 
+		// double car elle ne peut que se d�placer de 2 cases � la fois ? Quid
 		// pour une cr�ature de taille 2 ?
-		
+
 		// Remise � jour des compteurs
 		if (moveTimer.get() > 0) {
 			moveTimer.decrementAndGet();
@@ -1996,12 +1977,12 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		if (attackTimer.get() > 0) {
 			attackTimer.decrementAndGet();
 		}
-		
+
 		if (getElement() == null) {
 			// N�cessaire pour faire fonctionner les tests unitaires
 			return true;
 		}
-		
+
 		final Party party = getElement().getLevel().getDungeon().getParty();
 
 		if (isAttackAllowed()) {
@@ -2010,7 +1991,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				// vers eux avant d'attaquer dans la foul�e
 				final Direction directionTowardsParty = getElement()
 						.getPosition().getDirectionTowards(party.getPosition());
-				
+
 				if (directionTowardsParty != null) {
 					// Une direction a �t� trouv�e
 					if (!getDirection().equals(directionTowardsParty)) {
@@ -2018,7 +1999,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 						setDirection(directionTowardsParty);
 					}
 				}
-				
+
 				// Attaquer les champions
 				attackParty(party);
 
@@ -2041,7 +2022,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 					// le fait dans le m�me tour
 					if (isAttackAllowed()
 							&& canAttackPosition(party.getPosition())) {
-						
+
 						// Si la cr�ature ne fait pas face aux champions, elle
 						// se tourne vers eux avant d'attaquer dans la foul�e
 						final Direction directionTowardsParty = getElement()
@@ -2071,17 +2052,17 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		// TODO Animer Creature
 		return true;
 	}
-	
+
 	private void attackParty(Party party) {
 		// FIXME Impl�menter attackParty(Party) (dur�e d'attaque ?)
-		
+
 		// R�initialiser le compteur d'attaque
 		resetAttackTimer();
-		
+
 		// Transition vers l'�tat ATTACKING
 		setState(State.ATTACKING);
 	}
-	
+
 	private boolean moveTo(int x, int y) {
 		if (!getType().canMove()) {
 			// La cr�ature ne peut pas bouger
@@ -2103,29 +2084,29 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				getMateriality());
 		final List<Element> path = pathFinder.findBestPath(x, y, position.x,
 				position.y);
-		
+
 		if (path == null) {
 			// Aucun chemin possible pour atteindre la cible, sortir
 			return false;
 		}
-		
+
 		if (log.isDebugEnabled()) {
 			log.debug("Found path: " + path);
 		}
-		
+
 		// Se diriger vers la cible (Noeud en seconde position)
 		final Element node = path.get(1);
-		
+
 		// On calcule la direction dans laquelle la cr�ature doit se retrouver
 		// au final
 		final Direction directionTowardsTarget = getElement().getPosition()
 				.getDirectionTowards(
 						new Position(node.getPosition().x,
 								node.getPosition().y, position.z));
-		
+
 		// La cr�ature quitte la position source
 		element.creatureSteppedOff(this);
-		
+
 		if (directionTowardsTarget != null) {
 			// Tourner la cr�ature en cours de route
 			if (!getDirection().equals(directionTowardsTarget)) {
@@ -2133,28 +2114,28 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				setDirection(directionTowardsTarget);
 			}
 		}
-		
+
 		final Element targetElement = element.getLevel().getElement(
 				node.getPosition().x, node.getPosition().y);
-		
+
 		// La cr�ature occupe la position cible
 		targetElement.creatureSteppedOn(this);
-		
+
 		// R�initialiser le compteur de mouvement
 		resetMoveTimer();
 
 		// Transition vers l'�tat TRACKING
 		setState(State.TRACKING);
-		
+
 		return true;
 	}
-	
+
 	private void patrol() {
 		if (!getType().canMove()) {
 			// La cr�ature ne peut pas bouger
 			return;
 		}
-		
+
 		// La cr�ature peut bouger et se d�place. Element cible ?
 
 		// Positions cible possibles ?
@@ -2197,8 +2178,8 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				}
 			} else if (Element.Type.TELEPORTER.equals(element
 					.getType())) {
-				
-				// S'il s'agit d'un t�l�porteur, la cr�ature peut-elle le 
+
+				// S'il s'agit d'un t�l�porteur, la cr�ature peut-elle le
 				// prendre ?
 				if (!canTeleport()) {
 					it.remove();
@@ -2206,7 +2187,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 					continue;
 				}
 			} else if (Element.Type.PIT.equals(element.getType())) {
-				// S'il s'agit d'une oubliette, la cr�ature peut-elle s'y jeter 
+				// S'il s'agit d'une oubliette, la cr�ature peut-elle s'y jeter
 				// (si celle-ci est ouverte !) ?
 				// FIXME
 			}
@@ -2229,29 +2210,29 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 		if (State.IDLE.equals(getState())) {
 			// La cr�ature passe dans l'�tat PATROLLING
-			setState(State.PATROLLING);						
+			setState(State.PATROLLING);
 		}
 
 		// ... et on la d�place
 		Collections.shuffle(surroundingElements);
-		
+
 		final Element sourceElement = getElement();
 		final Element targetElement = surroundingElements.iterator().next();
-		
+
 		final Direction directionTowardsTarget = getElement().getPosition()
 				.getDirectionTowards(targetElement.getPosition());
-		
+
 		// La cr�ature quitte la position source
 		sourceElement.creatureSteppedOff(this);
-		
+
 		if (!getDirection().equals(directionTowardsTarget)) {
 			// On tourne la cr�ature dans le sens de la marche
 			setDirection(directionTowardsTarget);
 		}
-		
+
 		// La cr�ature occupe la position cible
 		targetElement.creatureSteppedOn(this);
-		
+
 		// R�initialiser le compteur de mouvement
 		resetMoveTimer();
 	}
@@ -2293,7 +2274,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		for (Creature.Type type : Creature.Type.values()) {
 			System.out.println("Creature " + type + ": Awareness = "

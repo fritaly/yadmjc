@@ -21,7 +21,22 @@ package fr.ritaly.dungeonmaster.ai;
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Materiality;
 
+/**
+ * Some (actually most) creatures are material whereas others are immaterial.
+ * However there's a special creature (the {@link Creature.Type#ZYTAZ}) that can
+ * be both depending on time (that is, material at instant T and immaterial at
+ * instant T+dt). A {@link Materializer} is responsible for telling what the
+ * {@link Materiality} of a creature is at a given time. That's the reason why
+ * this interface extends {@link ClockListener}.
+ *
+ * @author francois_ritaly
+ */
 public interface Materializer extends ClockListener {
 
+	/**
+	 * Returns the current materiality.
+	 *
+	 * @return the current materiality. Never returns null.
+	 */
 	public Materiality getMateriality();
 }

@@ -21,6 +21,8 @@ package fr.ritaly.dungeonmaster.champion.body;
 import fr.ritaly.dungeonmaster.item.CarryLocation;
 
 /**
+ * The head of a champion.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Head extends BodyPart {
@@ -33,7 +35,7 @@ public class Head extends BodyPart {
 	public Type getType() {
 		return Type.HEAD;
 	}
-	
+
 	@Override
 	public final CarryLocation getCarryLocation() {
 		return CarryLocation.HEAD;

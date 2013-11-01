@@ -34,6 +34,9 @@ import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
+ * A container of items with a fixed capacity. Each item inside the container
+ * can be accessed with a 0-based index.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public abstract class AbstractItemContainer implements ChangeEventSource,
@@ -41,20 +44,29 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 
 	private final Log log = LogFactory.getLog(this.getClass());
 
+	/**
+	 * The container's total capacity.
+	 */
 	private final int capacity;
 
+	/**
+	 * The array storing the items.
+	 */
 	private final Item[] items;
 
+	/**
+	 * Support class for firing change events.
+	 */
 	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
+	/**
+	 * The champion this container belongs to.
+	 */
 	private final Champion champion;
 
 	protected AbstractItemContainer(Champion champion, int capacity) {
 		Validate.notNull(champion, "The given champion is null");
-		if (capacity <= 0) {
-			throw new IllegalArgumentException("The given capacity <"
-					+ capacity + "> must be positive");
-		}
+		Validate.isTrue(capacity > 0, String.format("The given capacity %d must be positive", capacity));
 
 		this.capacity = capacity;
 		this.items = new Item[capacity];
@@ -62,10 +74,7 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 	}
 
 	protected AbstractItemContainer(int capacity) {
-		if (capacity <= 0) {
-			throw new IllegalArgumentException("The given capacity <"
-					+ capacity + "> must be positive");
-		}
+		Validate.isTrue(capacity > 0, String.format("The given capacity %d must be positive", capacity));
 
 		this.capacity = capacity;
 		this.items = new Item[capacity];
@@ -102,11 +111,11 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 
 	@Override
 	public List<Item> getItems() {
-		// On filtre les valeurs � null
 		final List<Item> list = new ArrayList<Item>(capacity);
 
 		for (Item item : items) {
 			if (item != null) {
+				// Ignore the null references
 				list.add(item);
 			}
 		}
@@ -144,42 +153,37 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 		final Item item = getRandom();
 
 		if ((item != null) && !remove(item)) {
-			throw new IllegalStateException("Unable to remove random item <"
-					+ item + "> from container");
+			throw new IllegalStateException(String.format("Unable to remove random item %s from container", item));
 		}
-		
+
 		itemRemoved(item);
 
 		return item;
 	}
 
 	private String getFullName() {
-		return (champion != null) ? champion.getName() + "." + getName()
-				: getName();
+		return (champion != null) ? champion.getName() + "." + getName() : getName();
 	}
 
 	/**
-	 * Tente d'ajouter l'objet donn� � cet {@link AbstractItemContainer} et
-	 * retourne l'index auquel a �t� ajout� l'objet si l'op�ration a r�ussi
-	 * autrement -1.
-	 * 
+	 * Tries adding the given item to this container and returns the index where
+	 * the item was added.
+	 *
 	 * @param item
-	 *            un {@link Item} � ajouter.
-	 * @return un entier repr�sentant l'index auquel a �t� ajout� l'objet si
-	 *         l'op�ration a r�ussi autrement -1.
+	 *            the item to add. Can't be null.
+	 * @return an integer representing the index where the item was added inside
+	 *         the container or -1 if the item couldn't be added.
 	 */
 	@Override
 	public int add(Item item) {
-		if (item == null) {
-			throw new IllegalArgumentException("The given item is null");
-		}
+		Validate.notNull(item, "The given item is null");
 
 		for (int i = 0; i < capacity; i++) {
 			if (items[i] == null) {
-				// D�terminer si l'objet est compatible avec le conteneur
+				// Is the item compatible with this container at this index ?
 				if (!accepts(i, item)) {
-					// On continue � it�rer car il est possible que la r�ponse
-					// soit true pour un autre index !
+					// Keep on iterating as the item can be rejected for an
+					// index but accepted for another
 					continue;
 				}
 
@@ -188,7 +192,7 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 				if (log.isDebugEnabled()) {
 					log.debug(getFullName() + ": [+] " + item.getType().name());
 				}
-				
+
 				itemAdded(item);
 
 				fireChangeEvent();
@@ -199,7 +203,7 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 
 		return -1;
 	}
-	
+
 	private void itemAdded(Item item) {
 		if ((item != null) && Item.Type.RABBIT_FOOT.equals(item.getType())) {
 			if (champion != null) {
@@ -207,7 +211,7 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 			}
 		}
 	}
-	
+
 	private void itemRemoved(Item item) {
 		if ((item != null) && Item.Type.RABBIT_FOOT.equals(item.getType())) {
 			if (champion != null) {
@@ -225,10 +229,9 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 				result.add(items[i]);
 
 				if (log.isDebugEnabled()) {
-					log.debug(getFullName() + ": [-] "
-							+ items[i].getType().name());
+					log.debug(getFullName() + ": [-] " + items[i].getType().name());
 				}
-				
+
 				itemRemoved(items[i]);
 
 				items[i] = null;
@@ -254,7 +257,7 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 			if (log.isDebugEnabled()) {
 				log.debug(getFullName() + ": [-] " + removed.getType().name());
 			}
-			
+
 			itemRemoved(removed);
 
 			fireChangeEvent();
@@ -274,7 +277,7 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 				if (log.isDebugEnabled()) {
 					log.debug(getFullName() + ": [-] " + item.getType().name());
 				}
-				
+
 				itemRemoved(item);
 
 				fireChangeEvent();
@@ -294,7 +297,7 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 			throw new IllegalArgumentException("The given item is null");
 		}
 
-		// D�terminer si l'objet est compatible avec le conteneur
+		// Is the item compatible with the container at this index ?
 		if (!accepts(index, item)) {
 			return item;
 		}
@@ -318,8 +321,7 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 
 	protected final void checkIndex(int index) {
 		if ((index < 0) || (index >= capacity)) {
-			throw new IllegalArgumentException("The given index <" + index
-					+ "> must be in range [0-" + (capacity - 1) + "]");
+			throw new IllegalArgumentException("The given index <" + index + "> must be in range [0-" + (capacity - 1) + "]");
 		}
 	}
 

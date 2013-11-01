@@ -21,6 +21,8 @@ package fr.ritaly.dungeonmaster.champion.body;
 import fr.ritaly.dungeonmaster.item.CarryLocation;
 
 /**
+ * The feet of a champion.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Feet extends BodyPart {
@@ -33,7 +35,7 @@ public class Feet extends BodyPart {
 	public Type getType() {
 		return Type.FEET;
 	}
-	
+
 	@Override
 	public final CarryLocation getCarryLocation() {
 		return CarryLocation.FEET;

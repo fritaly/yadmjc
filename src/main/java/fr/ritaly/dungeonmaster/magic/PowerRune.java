@@ -19,6 +19,8 @@
 package fr.ritaly.dungeonmaster.magic;
 
 /**
+ * Enumerates the 6 power runes from the weakest to the strongest rune.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum PowerRune implements Rune {
@@ -31,8 +33,7 @@ public enum PowerRune implements Rune {
 
 	@Override
 	public int getCost(PowerRune powerRune) {
-		// N'a pas de sens pour un PowerRune
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException("Method only supported for a non-power rune");
 	}
 
 	@Override
@@ -40,39 +41,30 @@ public enum PowerRune implements Rune {
 		return Type.POWER;
 	}
 
+	/**
+	 * TODO Javadoc this method
+	 */
 	public int getPowerLevel() {
 		return ordinal() + 1;
 	}
 
 	@Override
 	public int getId() {
-		// id dans l'intervalle [1-6]
+		// The id is always within [1,6]
 		return ordinal() + 1;
 	}
 
 	/**
-	 * Retourne le multiplicateur de difficult� appliqu� quand un sort est
-	 * invoqu� avec ce rune de puissance.
-	 * 
-	 * @return un entier positif.
+	 * Returns the difficulty multiplier associated to this power rune. The
+	 * stronger the power rune, the more difficult casting a spell. This method
+	 * quantifies how much more difficult it is to cast a spell depending on the
+	 * power rune used.
+	 *
+	 * @return a positive integer representing the relative difficulty to cast a
+	 *         spell when using this power rune.
 	 */
 	public int getDifficultyMultiplier() {
-		switch (this) {
-		case LO:
-			return 8;
-		case UM:
-			return 12;
-		case ON:
-			return 16;
-		case EE:
-			return 20;
-		case PAL:
-			return 24;
-		case MON:
-			return 28;
-
-		default:
-			throw new UnsupportedOperationException();
-		}
+		// LO (8), UM (12), ON (16), EE (20), PAL (24), MON (28)
+		return 8 + ordinal() * 4;
 	}
 }

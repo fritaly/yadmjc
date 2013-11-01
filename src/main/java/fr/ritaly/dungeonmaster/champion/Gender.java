@@ -19,6 +19,8 @@
 package fr.ritaly.dungeonmaster.champion;
 
 /**
+ * The gender of champions. Doesn't have any effects in game.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Gender {

@@ -20,6 +20,7 @@ package fr.ritaly.dungeonmaster.magic;
 
 import java.util.Stack;
 
+import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -30,25 +31,31 @@ import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 
 /**
+ * This object is responsible for storing the runes when casting a spell.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SpellCaster implements ChangeEventSource {
 
 	private final Log log = LogFactory.getLog(SpellCaster.class);
 
+	/**
+	 * The champion casting a spell.
+	 */
 	private final Champion champion;
 
 	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
+	/**
+	 * The runes invoked to cast a spell.
+	 */
+	private final Stack<Rune> runes = new Stack<Rune>();
+
 	public SpellCaster(Champion champion) {
-		if (champion == null) {
-			throw new IllegalArgumentException("The given champion is null");
-		}
+		Validate.notNull(champion, "The given champion is null");
 
 		this.champion = champion;
 	}
-
-	private final Stack<Rune> runes = new Stack<Rune>();
 
 	public Champion getChampion() {
 		return champion;
@@ -59,43 +66,35 @@ public class SpellCaster implements ChangeEventSource {
 	}
 
 	public void cast(Rune rune) {
-		if (rune == null) {
-			throw new IllegalArgumentException("The given rune is null");
-		}
+		Validate.notNull(rune, "The given rune is null");
 
 		if (log.isDebugEnabled()) {
-			log.debug(champion.getName() + " is invoking " + rune.getType()
-					+ " rune " + rune + " ...");
+			log.debug(String.format("%s is invoking %s rune %s ...", champion.getName(), rune.getType(), rune));
 		}
 
 		switch (getRuneCount()) {
 		case 0:
 			if (!(rune instanceof PowerRune)) {
-				throw new IllegalArgumentException("The given rune <" + rune
-						+ "> isn't a power rune");
+				throw new IllegalArgumentException(String.format("The given rune %d isn't a power rune", rune));
 			}
 			break;
 		case 1:
 			if (!(rune instanceof ElementRune)) {
-				throw new IllegalArgumentException("The given rune <" + rune
-						+ "> isn't an element rune");
+				throw new IllegalArgumentException(String.format("The given rune %d isn't an element rune", rune));
 			}
 			break;
 		case 2:
 			if (!(rune instanceof FormRune)) {
-				throw new IllegalArgumentException("The given rune <" + rune
-						+ "> isn't a form rune");
+				throw new IllegalArgumentException(String.format("The given rune %d isn't a form rune", rune));
 			}
 			break;
 		case 3:
 			if (!(rune instanceof AlignmentRune)) {
-				throw new IllegalArgumentException("The given rune <" + rune
-						+ "> isn't an alignment rune");
+				throw new IllegalArgumentException(String.format("The given rune %d isn't an alignment rune", rune));
 			}
 			break;
 		default:
-			throw new IllegalStateException(
-					"A spell can only have from 2 to 4 runes");
+			throw new IllegalStateException("A spell can only have from 2 to 4 runes");
 		}
 
 		runes.add(rune);
@@ -109,13 +108,13 @@ public class SpellCaster implements ChangeEventSource {
 		}
 
 		if (log.isDebugEnabled()) {
-			log.debug(champion.getName() + " is cancelling last rune ...");
+			log.debug(String.format("%s is cancelling last rune ...", champion.getName()));
 		}
 
 		final Rune cancelled = runes.pop();
 
 		if (log.isDebugEnabled()) {
-			log.debug(champion.getName() + " cancelled rune " + cancelled);
+			log.debug(String.format("%s cancelled rune %s", champion.getName(), cancelled));
 		}
 
 		fireChangeEvent();
@@ -130,7 +129,7 @@ public class SpellCaster implements ChangeEventSource {
 			fireChangeEvent();
 		}
 	}
-	
+
 	public Spell cast() {
 		return cast(false);
 	}
@@ -140,13 +139,11 @@ public class SpellCaster implements ChangeEventSource {
 			throw new IllegalStateException("There is no spell to cast");
 		}
 		if (runes.size() == 1) {
-			throw new IllegalStateException(
-					"Can't cast a spell with only a power rune");
+			throw new IllegalStateException("Can't cast a spell with only a power rune");
 		}
 
 		if (log.isDebugEnabled() && !preview) {
-			log.debug(champion.getName() + " is casting spell " + runes
-					+ " ...");
+			log.debug(String.format("%s is casting spell %s ...", champion.getName(), runes));
 		}
 
 		final PowerRune powerRune = (PowerRune) runes.get(0);
@@ -166,7 +163,7 @@ public class SpellCaster implements ChangeEventSource {
 			if (!preview) {
 				clear(); // --> event
 			}
-			
+
 			return new Spell(powerRune, elementRune, formRune);
 		}
 
@@ -176,12 +173,11 @@ public class SpellCaster implements ChangeEventSource {
 			if (!preview) {
 				clear(); // --> event
 			}
-			
+
 			return new Spell(powerRune, elementRune, formRune, alignmentRune);
 		}
 
-		throw new IllegalStateException("Unexpected rune count <"
-				+ runes.size() + ">");
+		throw new IllegalStateException(String.format("Unexpected rune count (%d)", runes.size()));
 	}
 
 	@Override
@@ -199,10 +195,9 @@ public class SpellCaster implements ChangeEventSource {
 	}
 
 	/**
-	 * Retourne le rune de puissance utilis� pour invoquer le sort courant.
-	 * 
-	 * @return un {@link PowerRune} ou null si le rune de puissance n'a pas
-	 *         encore �t� invoqu�.
+	 * Returns the power rune if available.
+	 *
+	 * @return a power rune or null if it hasn't yet been invoked.
 	 */
 	public PowerRune getPowerRune() {
 		if (runes.isEmpty()) {

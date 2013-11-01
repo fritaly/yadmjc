@@ -19,6 +19,8 @@
 package fr.ritaly.dungeonmaster.magic;
 
 /**
+ * Exception thrown when a spell fizzles.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SpellFizzlesException extends SpellException {

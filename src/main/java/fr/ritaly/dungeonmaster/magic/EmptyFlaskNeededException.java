@@ -19,6 +19,9 @@
 package fr.ritaly.dungeonmaster.magic;
 
 /**
+ * Exception thrown when the spell needs an empty flask to succeed and none can
+ * be found in the casting champion's hands.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class EmptyFlaskNeededException extends SpellException {

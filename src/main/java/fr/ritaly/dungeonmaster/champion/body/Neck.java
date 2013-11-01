@@ -21,6 +21,8 @@ package fr.ritaly.dungeonmaster.champion.body;
 import fr.ritaly.dungeonmaster.item.CarryLocation;
 
 /**
+ * The neck of a champion.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Neck extends BodyPart {
@@ -33,7 +35,7 @@ public class Neck extends BodyPart {
 	public Type getType() {
 		return Type.NECK;
 	}
-	
+
 	@Override
 	public final CarryLocation getCarryLocation() {
 		return CarryLocation.NECK;
@@ -41,7 +43,7 @@ public class Neck extends BodyPart {
 
 	@Override
 	public boolean isWoundable() {
-		// Le cou ne peut �tre bless�
+		// The neck can't be wounded
 		return false;
 	}
 }

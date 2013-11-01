@@ -25,6 +25,9 @@ import fr.ritaly.dungeonmaster.item.CarryLocation;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
+ * A pouch is an item container with a capacity of 2. Not all items can fit into
+ * a pouch.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Pouch extends AbstractItemContainer {
@@ -32,7 +35,7 @@ public final class Pouch extends AbstractItemContainer {
 	public Pouch(Champion champion) {
 		super(champion, 2);
 	}
-	
+
 	@Override
 	protected String getName() {
 		return "Pouch";
@@ -42,8 +45,8 @@ public final class Pouch extends AbstractItemContainer {
 	protected boolean accepts(int index, Item item) {
 		checkIndex(index);
 		Validate.notNull(item, "The given item is null");
-		
-		// Pas d'influence de l'index ici
+
+		// Only items fitting the pouch can be stored whatever the index
 		return item.getCarryLocations().contains(CarryLocation.POUCH);
 	}
 }

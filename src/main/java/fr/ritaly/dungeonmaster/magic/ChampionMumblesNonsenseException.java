@@ -19,6 +19,8 @@
 package fr.ritaly.dungeonmaster.magic;
 
 /**
+ * Exception thrown when spell cast by a champion isn't valid.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class ChampionMumblesNonsenseException extends SpellException {

@@ -21,12 +21,15 @@ package fr.ritaly.dungeonmaster.champion;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Skill;
 import fr.ritaly.dungeonmaster.champion.Champion.Level;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
+ * Factory of champions.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class ChampionFactory {
@@ -36,21 +39,29 @@ public class ChampionFactory {
 	private ChampionFactory() {
 	}
 
+	/**
+	 * Returns the unique instance of factory.
+	 *
+	 * @return the unique instance of factory.
+	 */
 	public static ChampionFactory getFactory() {
 		return FACTORY;
 	}
 
+	/**
+	 * Creates and returns a new champion from the given name.
+	 *
+	 * @param name
+	 *            the name of the champion to create. Can't be null.
+	 * @return a champion. Never returns null.
+	 */
 	public Champion newChampion(Champion.Name name) {
-		if (name == null) {
-			throw new IllegalArgumentException(
-					"The given champion name is null");
-		}
+		Validate.notNull(name, "The given champion name is null");
 
-		final Champion champion = new Champion(StringUtils.capitalize(name
-				.name().toLowerCase()));
+		final Champion champion = new Champion(StringUtils.capitalize(name.name().toLowerCase()));
 		champion.setGender(name.getGender());
 
-		// Positionner les comp�tences du champion
+		// Set the champion's skills
 		final Map<Skill, Level> skills = name.getSkills();
 
 		for (Skill skill : skills.keySet()) {
@@ -59,7 +70,7 @@ public class ChampionFactory {
 
 		final Stats stats = champion.getStats();
 
-		// TODO Objets dans inventaire
+		// TODO Add some items in the champion's inventory
 		switch (name) {
 		case ALEX:
 			stats.init(50, 57, 13, 47, 44, 55, 45, 40, 40, 35);

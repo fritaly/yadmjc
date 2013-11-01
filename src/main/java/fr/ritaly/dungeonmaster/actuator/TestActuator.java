@@ -19,17 +19,22 @@
 package fr.ritaly.dungeonmaster.actuator;
 
 /**
+ * Implementation of {@link Actuator} meant for testing.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class TestActuator implements Actuator {
-	
-	private boolean triggered = false;
+
+	/**
+	 * Whether the actuator was triggered.
+	 */
+	private boolean triggered;
 
 	@Override
 	public boolean clockTicked() {
 		triggered = true;
-		
-		// Arr�ter les notifications
+
+		// Stop listening for ticks
 		return false;
 	}
 
@@ -37,7 +42,7 @@ public class TestActuator implements Actuator {
 	public String getLabel() {
 		return "TestActuator";
 	}
-	
+
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return new TestActuator();
@@ -46,11 +51,14 @@ public class TestActuator implements Actuator {
 	public boolean isTriggered() {
 		return triggered;
 	}
-	
+
+	/**
+	 * Resets the actuator to its initial state.
+	 */
 	public void reset() {
 		triggered = false;
 	}
-	
+
 	@Override
 	public String toString() {
 		return getLabel();

@@ -28,6 +28,10 @@ import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.item.CarryLocation;
 
 /**
+ * The champion's hand that holds the weapon. The hand can be enabled or
+ * disabled. Every time the weapon is used, the hand becomes unusable for a
+ * given duration that depends on the weapon's action used.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class WeaponHand extends Hand implements ClockListener {
@@ -35,18 +39,23 @@ public class WeaponHand extends Hand implements ClockListener {
 	private final Log log = LogFactory.getLog(WeaponHand.class);
 
 	/**
-	 * Indique si la main est pr�te � �tre utilis�e.
+	 * Whether the hand can be used.
 	 */
 	private boolean enabled = true;
 
+	/**
+	 * The name of the hand's owner (the champion).
+	 */
 	private final String owner;
 
+	/**
+	 * Temporizer used for managing when the hand is usable.
+	 */
 	private Temporizer temporizer;
 
 	public WeaponHand(Body body) {
 		super(body);
 
-		// M�moriser le nom de son "propri�taire"
 		this.owner = body.getChampion().getName();
 	}
 
@@ -77,25 +86,24 @@ public class WeaponHand extends Hand implements ClockListener {
 		this.enabled = true;
 
 		if (log.isDebugEnabled()) {
-			log.debug(owner + ".WeaponHand.Enabled = " + enabled);
+			log.debug(String.format("%s.WeaponHand.Enabled = %s", owner, enabled))	;
 		}
 
 		// TODO Notification
 	}
 
 	/**
-	 * Utilise la main. Cela a pour effet de d�clencher le time-out
-	 * d'indisponibilit� de la main si elle �tait "disponible".
-	 * 
+	 * Disables the hand for the given number of clock ticks.
+	 *
 	 * @param duration
+	 *            a positive integer representing a duration in clock ticks.
 	 */
-	public void disable(int duration) {
-		Validate.isTrue(duration > 0, "The given duration <" + duration
-				+ "> must be positive");
+	public void disable(final int duration) {
+		Validate.isTrue(duration > 0, String.format("The given duration %d must be positive", duration));
 
-		// On ne peut utiliser la main que si elle est pr�te
+		// The hand can only be used if it's enabled
 		if (isEnabled()) {
-			// La main n'est plus disponible
+			// The hand isn't available any more
 			if (temporizer != null) {
 				throw new IllegalStateException("The temporizer must be null");
 			}
@@ -104,8 +112,7 @@ public class WeaponHand extends Hand implements ClockListener {
 			this.enabled = false;
 
 			if (log.isDebugEnabled()) {
-				log.debug(owner + ".WeaponHand.Enabled = false (for "
-						+ duration + " ticks)");
+				log.debug(String.format("%s.WeaponHand.Enabled = false (for %d ticks)", owner, duration));
 			}
 
 			this.temporizer = new Temporizer(owner + ".WeaponHand", duration);
@@ -124,7 +131,7 @@ public class WeaponHand extends Hand implements ClockListener {
 			}
 		}
 
-		// Continuer tant que la main n'est pas "pr�te"
+		//  Keep listening as long as the hand is still disabled
 		return !isEnabled();
 	}
 

@@ -19,6 +19,9 @@
 package fr.ritaly.dungeonmaster.magic;
 
 /**
+ * Exception thrown when a champion invokes a rune but this fails because he /
+ * she doesn't have enough mana.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class NotEnoughManaException extends SpellException {

@@ -24,14 +24,18 @@ import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
+ * A container of items with a fixed capacity. Each item inside the container
+ * can be accessed with a 0-based index.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface ItemContainer {
 
 	/**
-	 * Retourne le nombre d'objets que cet {@link ItemContainer} peut contenir.
-	 * 
-	 * @return un entier positif.
+	 * Returns the container's fixed capacity (that is, the number of items the
+	 * container can store).
+	 *
+	 * @return a positive integer.
 	 */
 	public int getCapacity();
 
@@ -40,50 +44,47 @@ public interface ItemContainer {
 	public void removeChangeListener(ChangeListener listener);
 
 	/**
-	 * Retourne le nombre actuel d'objets dans le conteneur.
-	 * 
-	 * @return un entier positif ou nul dans l'intervalle [0-capacity].
+	 * Returns the actual number of items inside the container.
+	 *
+	 * @return a positive integer within [0,capacity].
 	 */
 	public int getItemCount();
 
 	/**
-	 * Retourne les {@link Item} contenus par cet {@link ItemContainer} sous
-	 * forme de {@link List}.
-	 * 
-	 * @return une {@link List} de {@link Item}. Ne retourne jamais null.
+	 * Returns the items inside the container.
+	 *
+	 * @return a list of items. Never returns null.
 	 */
 	public List<Item> getItems();
 
 	/**
-	 * Indique si cet {@link ItemContainer} est plein.
-	 * 
-	 * @return si cet {@link ItemContainer} est plein.
+	 * Tells whether the container is full.
+	 *
+	 * @return whether the container is full.
 	 * @see #getCapacity()
 	 * @see #getItemCount()
 	 */
 	public boolean isFull();
 
 	/**
-	 * Indique si cet {@link ItemContainer} est vide.
-	 * 
-	 * @return si cet {@link ItemContainer} est vide.
+	 * Tells whether the container is empty.
+	 *
+	 * @return whether the container is empty.
 	 * @see #getItemCount()
 	 */
 	public boolean isEmpty();
 
 	/**
-	 * Retourne un {@link Item} tir� au hasard parmi ceux de cet
-	 * {@link ItemContainer}. Cette m�thode ne supprime pas l'objet du
-	 * conteneur.
-	 * 
-	 * @return un {@link Item} ou null si le conteneur est vide.
+	 * Returns a random item among those inside the container. This method doesn't remove the item.
+	 *
+	 * @return an item or null if the container is empty.
 	 */
 	public Item getRandom();
 
 	/**
 	 * Tente d'ajouter l'objet donn� � cet {@link ItemContainer} et retourne
 	 * l'index auquel a �t� ajout� l'objet si l'op�ration a r�ussi autrement -1.
-	 * 
+	 *
 	 * @param item
 	 *            un {@link Item} � ajouter.
 	 * @return un entier repr�sentant l'index auquel a �t� ajout� l'objet si
@@ -94,14 +95,14 @@ public interface ItemContainer {
 	/**
 	 * Supprime tous les objets de cet {@link ItemContainer} et les retourne
 	 * sous forme de {@link List}.
-	 * 
+	 *
 	 * @return une {@link List} de {@link Item}. Ne retourne jamais null.
 	 */
 	public List<Item> removeAll();
 
 	/**
 	 * Supprime l'objet d'index donn� et le retourne.
-	 * 
+	 *
 	 * @param index
 	 *            un entier positif ou nul repr�sentant l'index de l'objet �
 	 *            retirer.
@@ -113,14 +114,14 @@ public interface ItemContainer {
 	/**
 	 * Supprime un {@link Item} tir� au hasard parmi ceux de cet
 	 * {@link ItemContainer} et le retourne.
-	 * 
+	 *
 	 * @return un {@link Item} ou null si le conteneur est vide.
 	 */
 	public Item removeRandom();
 
 	/**
 	 * Tente de supprimer l'objet donn� et retourne si l'op�ration a r�ussi.
-	 * 
+	 *
 	 * @param item
 	 *            une instance de {@link Item} � supprimer du conteneur.
 	 * @return si l'op�ration a r�ussi.
@@ -131,7 +132,7 @@ public interface ItemContainer {
 
 	/**
 	 * Retourne le poids total des objets contenus par cet {@link Item}.
-	 * 
+	 *
 	 * @return un float repr�sentant le poids des objets en kilogrammes.
 	 */
 	public float getTotalWeight();

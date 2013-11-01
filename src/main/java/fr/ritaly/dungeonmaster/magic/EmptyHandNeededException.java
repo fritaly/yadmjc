@@ -19,6 +19,9 @@
 package fr.ritaly.dungeonmaster.magic;
 
 /**
+ * Exception thrown when a spell needs an empty hand to succeed but the
+ * champion's hands aren't empty.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class EmptyHandNeededException extends SpellException {

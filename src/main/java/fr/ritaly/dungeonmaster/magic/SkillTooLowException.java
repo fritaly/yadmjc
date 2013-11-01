@@ -19,6 +19,9 @@
 package fr.ritaly.dungeonmaster.magic;
 
 /**
+ * Exception thrown when a spell fails because the champion is not skilled
+ * enough.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SkillTooLowException extends SpellException {

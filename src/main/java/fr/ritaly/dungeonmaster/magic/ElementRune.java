@@ -21,6 +21,8 @@ package fr.ritaly.dungeonmaster.magic;
 import org.apache.commons.lang.Validate;
 
 /**
+ * Enumerates the 6 element runes.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum ElementRune implements Rune {
@@ -35,8 +37,7 @@ public enum ElementRune implements Rune {
 
 	private ElementRune(int... costs) {
 		if (costs.length != 6) {
-			throw new IllegalArgumentException(
-					"Invalid array length (6 expected)");
+			throw new IllegalArgumentException("Invalid array length (6 expected)");
 		}
 
 		this.costs = costs;
@@ -44,12 +45,12 @@ public enum ElementRune implements Rune {
 
 	@Override
 	public int getCost() {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException("Method only supported for a power rune");
 	}
 
 	@Override
 	public int getCost(final PowerRune powerRune) {
-		Validate.isTrue(powerRune != null, "The given power rune is null");
+		Validate.notNull(powerRune, "The given power rune is null");
 
 		return costs[powerRune.ordinal()];
 	}
@@ -61,7 +62,6 @@ public enum ElementRune implements Rune {
 
 	@Override
 	public int getId() {
-		// id dans l'intervalle [1-6]
 		return ordinal() + 1;
 	}
 }

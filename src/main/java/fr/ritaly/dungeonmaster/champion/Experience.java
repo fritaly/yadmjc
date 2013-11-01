@@ -18,6 +18,7 @@
  */
 package fr.ritaly.dungeonmaster.champion;
 
+import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -31,34 +32,50 @@ import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
+ * Handles the experience of a champion in for a given skill.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Experience implements ChangeEventSource {
 
 	private final Log log = LogFactory.getLog(Experience.class);
 
+	/**
+	 * The skill whose experience is managed.
+	 */
 	private final Skill skill;
 
+	/**
+	 * The current experience points.
+	 */
 	private int points;
 
+	/**
+	 * The current level in this skill.
+	 */
 	private Level level;
 
+	/**
+	 * The possible temporary (level) boost. This value can be positive, zero or
+	 * negative. A boost of "+1" means the level is boosted to the following
+	 * level.
+	 */
 	private int boost;
 
+	/**
+	 * Support class used for firing change events.
+	 */
 	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
+	/**
+	 * The champion whose experience is managed.
+	 */
 	private final Champion champion;
 
 	public Experience(Champion champion, Skill skill, Level level) {
-		if (champion == null) {
-			throw new IllegalArgumentException("The given champion is null");
-		}
-		if (skill == null) {
-			throw new IllegalArgumentException("The given skill is null");
-		}
-		if (level == null) {
-			throw new IllegalArgumentException("The given level is null");
-		}
+		Validate.notNull(champion, "The given champion is null");
+		Validate.notNull(skill, "The given skill is null");
+		Validate.notNull(level, "The given level is null");
 
 		this.champion = champion;
 		this.skill = skill;
@@ -66,75 +83,83 @@ public class Experience implements ChangeEventSource {
 		this.points = level.getStartRange();
 	}
 
+	/**
+	 * Returns the skill associated to this experience.
+	 *
+	 * @return a skill. Never returns null.
+	 */
 	public Skill getSkill() {
 		return skill;
 	}
 
+	/**
+	 * Returns the level corresponding to the current experience points. Note:
+	 * this level is not the actual level used in game as the level can be
+	 * temporarily boosted.
+	 *
+	 * @return a level. Never returns null.
+	 * @see #getActualLevel()
+	 */
 	public Champion.Level getLevel() {
 		return level;
 	}
 
+	/**
+	 * Sets the champion's experience level from the given value.
+	 *
+	 * @param level
+	 *            the level to set. Can't be null.
+	 */
 	public void setLevel(Champion.Level level) {
-		if (level == null) {
-			throw new IllegalArgumentException("The given level is null");
-		}
+		Validate.notNull(level, "The given level is null");
 
 		if (this.level != Level.NONE) {
-			// On n'autorise l'op�ration que si le level existant est � NONE !
-			throw new IllegalStateException(champion.getName() + "'s " + skill
-					+ " level is already defined");
+			// The level can be set only once from NONE to another value
+			throw new IllegalStateException(champion.getName() + "'s " + skill + " level is already defined");
 		}
 
 		if (this.level != level) {
-			// this.level vaut forc�ment NONE � ce stade
 			this.level = level;
 
-			// Initialiser le nombre de points de d�part
+			// Set the min xp points corresponding to the level set
 			this.points = level.getStartRange();
 
 			if (log.isDebugEnabled()) {
-				log.debug(champion.getName() + "." + skill.getLabel()
-						+ ".Level: " + level + " (xp: " + level.getStartRange()
-						+ " points)");
+				log.debug(String.format("%s.%s.Level: %s (xp: %d points)", champion.getName(), skill.getLabel(), level,
+						level.getStartRange()));
 			}
 		}
 	}
 
-	// Ne doit pouvoir �tre appel�e que depuis la classe Champion
-	void gain(int xp) {
-		if (xp <= 0) {
-			throw new IllegalArgumentException("The points must be positive");
-		}
+	// TODO Define an aspect to enforce the rule below
+	// This method should only be called from the champion's class
+	void gain(final int xp) {
+		Validate.isTrue(xp > 0, String.format("The experience points (%d) must be positive", points));
 
 		final int oldPoints = points;
 
 		points += xp;
 
-		// Delta forc�ment positif
-		final int delta = points - oldPoints;
-
 		if (log.isDebugEnabled()) {
-			log.debug(champion.getName() + "." + skill.getLabel()
-					+ ".Experience: " + oldPoints + " -> " + points + " [+"
-					+ delta + "]");
+			// Delta is always positive
+			log.debug(String.format("%s.%s.Experience: %d -> %d [+%d]", champion.getName(), skill.getLabel(), oldPoints, points, xp));
 		}
 
-		// ATTENTION ! La valeur de fin est exclue de l'intervalle !
+		// WARNING ! The end value if out of the range of points
 		if (points > level.getEndRange()) {
 			final Level oldLevel = this.level;
 
-			// Changement de niveau
+			// The champion levelled up
 			this.level = Level.fromExperience(points);
 
 			if (log.isDebugEnabled()) {
-				log.debug(champion.getName() + "." + skill.getLabel()
-						+ ".Level: " + oldLevel + " -> " + level + " [+"
-						+ (level.ordinal() - oldLevel.ordinal()) + "]");
+				log.debug(String.format("%s.%s.Level: %s -> %s [+%d]", champion.getName(), skill.getLabel(), oldLevel, level,
+						(level.ordinal() - oldLevel.ordinal())));
 			}
 
-			// Augmenter les stats du champion en fonction de la comp�tence
-			// am�lior�e. On augmente autant de fois les Stats que le
-			// champion a gagn� de niveau (pour les tests) !!!
+			// Randomly increase the champion's stats depending on the skill
+			// improved. Depending on the number of levels gained, we may need
+			// to increase the stats several times (hence the loop)
 			for (int i = 0; i < this.level.ordinal() - oldLevel.ordinal(); i++) {
 				final Stats stats = champion.getStats();
 
@@ -194,7 +219,7 @@ public class Experience implements ChangeEventSource {
 				}
 			}
 
-			// FIXME Lever un event "X gained a Y level"
+			// FIXME Fire an event "<champion> gained a <skill> level"
 			fireChangeEvent();
 		}
 	}
@@ -213,14 +238,33 @@ public class Experience implements ChangeEventSource {
 		eventSupport.fireChangeEvent(new ChangeEvent(this));
 	}
 
+	/**
+	 * Returns the current experience points.
+	 *
+	 * @return a positive integer representing some experience points.
+	 */
 	public int getPoints() {
 		return points;
 	}
 
+	/**
+	 * Returns the current level boost.
+	 *
+	 * @return an integer representing the current level boost. Zero means the
+	 *         level isn't boosted.
+	 */
 	public int getBoost() {
 		return boost;
 	}
 
+	/**
+	 * Increases the level boost by the given amount and returns the updated
+	 * level boost.
+	 *
+	 * @param n
+	 *            the amount added to the level boost.
+	 * @return the updated level boost.
+	 */
 	public int incBoost(int n) {
 		if (n != 0) {
 			final int oldValue = this.boost;
@@ -228,15 +272,24 @@ public class Experience implements ChangeEventSource {
 			this.boost += n;
 
 			if (log.isDebugEnabled()) {
-				log.debug(champion.getName() + "." + skill.getLabel()
-						+ ".Boost: " + oldValue + " -> " + this.boost + " "
-						+ (n < 0 ? "[" + n + "]" : "[+" + n + "]"));
+				log.debug(String.format("%s.%s.Boost: %d -> %d [%d]", champion.getName(), skill.getLabel(), oldValue, this.boost,
+						n));
 			}
+
+			// TODO Fire an event
 		}
 
 		return this.boost;
 	}
 
+	/**
+	 * Decreases the level boost by the given amount and returns the updated
+	 * level boost.
+	 *
+	 * @param n
+	 *            the amount removed from the level boost.
+	 * @return the updated level boost.
+	 */
 	public int decBoost(int n) {
 		if (n != 0) {
 			final int oldValue = this.boost;
@@ -244,33 +297,38 @@ public class Experience implements ChangeEventSource {
 			this.boost -= n;
 
 			if (log.isDebugEnabled()) {
-				log.debug(champion.getName() + "." + skill.getLabel()
-						+ ".Boost: " + oldValue + " -> " + this.boost + " "
-						+ (n < 0 ? "[" + n + "]" : "[+" + n + "]"));
+				log.debug(String.format("%s.%s.Boost: %d -> %d [%d]", champion.getName(), skill.getLabel(), oldValue, this.boost,
+						n));
 			}
+
+			// TODO Fire an event
 		}
 
 		return this.boost;
 	}
 
+	/**
+	 * Tells whether the level is currently boosted.
+	 *
+	 * @return whether the level is currently boosted.
+	 */
 	public boolean isBoosted() {
 		return (boost != 0);
 	}
 
 	/**
-	 * Retourne le niveau <b>r�el</b> dans la comp�tence associ�e. La valeur
-	 * retourn�e prend donc en compte l'�ventuel boost de comp�tence.
-	 * 
-	 * @return une instance de {@link Level}. Ne retourne jamais null.
+	 * Returns the actual experience level taking into account the possible level boost.
+	 *
+	 * @return the actual level. Never returns null.
 	 */
 	public Level getActualLevel() {
 		if (boost == 0) {
-			// Pas de bonus de comp�tence
+			// No boost, the actual level is the "base" level
 			return level;
 		}
 
-		// Prendre en compte le bonus de comp�tence. Attention le boost peut
-		// �tre n�gatif ! Retourner une valeur dans l'intervalle [0-15]
+		// Compute the actual level including the level boost (which can be negative)
+		// The final level must be in range [0,15].
 		final int index = Math.min(15, Math.max(0, level.ordinal() + boost));
 
 		return Level.values()[index];
