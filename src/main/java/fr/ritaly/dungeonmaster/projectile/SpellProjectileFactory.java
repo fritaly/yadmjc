@@ -26,23 +26,23 @@ import fr.ritaly.dungeonmaster.SubCell;
 import fr.ritaly.dungeonmaster.magic.Spell;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 
+/**
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
+ */
 public class SpellProjectileFactory implements ProjectileFactory {
 
 	private final Spell spell;
 
 	public SpellProjectileFactory(Spell spell) {
 		Validate.notNull(spell, "The given spell is null");
-		Validate.isTrue(spell.getType().isProjectile(), "The given spell "
-				+ spell.getName() + " isn't a projectile spell");
+		Validate.isTrue(spell.getType().isProjectile(),
+				String.format("The given spell %s isn't a projectile spell", spell.getName()));
 
 		this.spell = spell;
 	}
 
 	@Override
-	public Projectile createProjectile(Dungeon dungeon, Position position,
-			Direction direction, SubCell subCell) {
-
-		// Contrôles effectués par le constructeur de SpellProjectile
+	public Projectile createProjectile(Dungeon dungeon, Position position, Direction direction, SubCell subCell) {
 		return new SpellProjectile(spell, dungeon, position, direction, subCell);
 	}
 }

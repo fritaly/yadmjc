@@ -24,7 +24,10 @@ import org.apache.commons.lang.StringUtils;
  * Enumerates the possible champion skills. A {@link Skill} is either "basic" or
  * "hidden". There are 4 basic skills ({@link #FIGHTER}, {@link #NINJA},
  * {@link #PRIEST} and {@link #WIZARD}) and 16 hidden skills (4 per basic
- * skill).
+ * skill).<br>
+ * <br>
+ * Source: <a href="http://dmweb.free.fr/?q=node/691">Technical Documentation -
+ * Dungeon Master and Chaos Strikes Back Skills and Statistics</a>
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */

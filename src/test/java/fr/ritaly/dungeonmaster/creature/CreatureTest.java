@@ -45,9 +45,8 @@ public class CreatureTest extends TestCase {
 	}
 
 	public void testSpellMethodsMustBeConsistent() {
+		// If a creature can cast spells then its associated list of spells can't be empty
 		for (Creature.Type type : Creature.Type.values()) {
-			// Si une créature peut lancer des sorts alors la liste de sorts
-			// associée ne doit pas être vide
 			if (type.canCastSpell()) {
 				assertFalse(type.getSpells().isEmpty());
 			} else {
@@ -57,89 +56,100 @@ public class CreatureTest extends TestCase {
 	}
 
 	public void testCreatureIsAlive() {
+		// A newly created creature is alive
 		final Creature creature = new Creature(Creature.Type.MUMMY, 1);
-		
+
 		assertTrue(creature.isAlive());
 	}
-	
+
 	public void testCreatureCanBeKilled() {
+		// A newly created creature is alive
 		final Creature creature = new Creature(Creature.Type.MUMMY, 1);
-		
+
 		assertTrue(creature.isAlive());
 		assertFalse(creature.isDead());
-		
+
+		// Attack the creature until it dies
 		while (creature.isAlive()) {
 			final int health = creature.getHealth();
-			
+
 			final int hitPoints = creature.hit(AttackType.NORMAL);
-			
+
 			assertTrue(hitPoints > 0);
 			assertEquals(hitPoints, health - creature.getHealth());
 		}
-		
+
+		// The creature must be dead
 		assertFalse(creature.isAlive());
 		assertTrue(creature.isDead());
 	}
-	
+
 	public void testZytazMateriality() {
+		// The materiality of a zytaz changes over time
 		final Creature creature = new Creature(Creature.Type.ZYTAZ, 1);
-		
+
 		Materiality materiality = creature.getMateriality();
 		int count = 0;
-		
+
+		// In 20 clock ticks, the zytaz must change its materiality at least
+		// once
 		for (int i = 0; i < 20; i++) {
 			Clock.getInstance().tick();
-			
+
 			if (materiality != creature.getMateriality()) {
 				count++;
-				
+
 				materiality = creature.getMateriality();
 			}
 		}
-		
+
 		assertTrue(count > 0);
 	}
-	
+
 	public void testMummyMateriality() {
+		// The mummy's materiality doesn't change over time (it's always
+		// material)
 		final Creature creature = new Creature(Creature.Type.MUMMY, 1);
-		
+
 		Materiality materiality = creature.getMateriality();
 		int count = 0;
-		
+
 		for (int i = 0; i < 20; i++) {
 			Clock.getInstance().tick();
-			
+
 			if (materiality != creature.getMateriality()) {
 				count++;
-				
+
 				materiality = creature.getMateriality();
 			}
 		}
-		
+
 		assertTrue(count == 0);
 	}
-	
+
 	public void testInvincibleCreatureCantBeHurt() {
+		// Load Chaos is invincible and therefore can't be hurt
 		final Creature creature = new Creature(Creature.Type.LORD_CHAOS, 1);
-		
+
 		assertTrue(creature.isInvincible());
-		
+
 		for (int i = 0; i < 10; i++) {
+			// Every attack returns 0 damage points
 			assertEquals(0, creature.hit(AttackType.CRITICAL));
 		}
 	}
-	
+
 	private void assertOneCreature(Element element, Creature creature) {
 		assertTrue(element.hasCreatures());
 		assertEquals(1, element.getCreatureCount());
 		assertEquals(creature, element.getCreatures().iterator().next());
 	}
-	
+
 	private void assertNoCreature(Element element) {
 		assertFalse(element.hasCreatures());
 		assertEquals(0, element.getCreatureCount());
 	}
-	
+
 	public void testCreatureWhenIdle() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -157,32 +167,32 @@ public class CreatureTest extends TestCase {
 
 		final Level level1 = dungeon.createLevel(1, 5, 5);
 		final Element element = level1.getElement(2, 2);
-		
+
 		final Creature dragon = new Creature(Creature.Type.RED_DRAGON, 1);
 		element.addCreature(dragon);
-		
+
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 5; y++) {
 				if ((x == 2) && (y == 2)) {
-					// (2,2) a 1 créature
-					assertOneCreature(element, dragon);					
+					// Element (2,2) has 1 creature
+					assertOneCreature(element, dragon);
 				} else {
 					assertNoCreature(level1.getElement(x, y));
 				}
 			}
 		}
-		
+
 		assertEquals(Creature.State.IDLE, dragon.getState());
 		assertTrue(element.equals(dragon.getElement()));
-		
-		// Laisser le temps passer (suffisamment pour que le dragon se déplace)
+
+		// Laisser le temps passer (suffisamment pour que le dragon se dï¿½place)
 		Clock.getInstance().tick(dragon.getMoveDuration());
-		
-		// Le dragon doit avoir changé d'état et changé de place
+
+		// Le dragon doit avoir changï¿½ d'ï¿½tat et changï¿½ de place
 		assertEquals(Creature.State.PATROLLING, dragon.getState());
 		assertFalse(element.equals(dragon.getElement()));
 	}
-	
+
 	public void testCreatureCanSeePosition() {
 		// +---+---+---+---+---+---+---+---+---+
 		// | W | W | W | W | W | W | W | W | W |
@@ -208,11 +218,11 @@ public class CreatureTest extends TestCase {
 
 		final Level level1 = dungeon.createLevel(1, 9, 9);
 		final Element element = level1.getElement(4, 7);
-		
+
 		final Creature dragon = new Creature(Creature.Type.RED_DRAGON, 1);
 		dragon.setDirection(Direction.NORTH);
 		element.addCreature(dragon);
-		
+
 		final List<Position> visiblePositions = new ArrayList<Position>();
 		visiblePositions.add(new Position(3, 6, 1)); // 1
 		visiblePositions.add(new Position(4, 6, 1)); // 1
@@ -225,13 +235,13 @@ public class CreatureTest extends TestCase {
 		visiblePositions.add(new Position(4, 4, 1)); // 3
 		visiblePositions.add(new Position(5, 4, 1)); // 3
 		visiblePositions.add(new Position(6, 4, 1)); // 3
-		
+
 		assertEquals(Direction.NORTH, dragon.getDirection());
-		
+
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 9; y++) {
 				final Position position = new Position(x, y, 1);
-				
+
 				if (visiblePositions.contains(position)) {
 					assertTrue(dragon.canSeePosition(position));
 				} else {
@@ -241,7 +251,7 @@ public class CreatureTest extends TestCase {
 			}
 		}
 	}
-	
+
 	public void testMummyCanAttackPosition() {
 		// +---+---+---+---+---+---+---+---+---+
 		// | W | W | W | W | W | W | W | W | W |
@@ -267,20 +277,20 @@ public class CreatureTest extends TestCase {
 
 		final Level level1 = dungeon.createLevel(1, 9, 9);
 		final Element element = level1.getElement(4, 4);
-		
+
 		final Creature mummy = new Creature(Creature.Type.MUMMY, 1);
 		element.addCreature(mummy);
-		
+
 		final List<Position> attackablePositions = new ArrayList<Position>();
 		attackablePositions.add(new Position(3, 4, 1)); // 1
 		attackablePositions.add(new Position(5, 4, 1)); // 1
 		attackablePositions.add(new Position(4, 3, 1)); // 1
 		attackablePositions.add(new Position(4, 5, 1)); // 1
-		
+
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 9; y++) {
 				final Position position = new Position(x, y, 1);
-				
+
 				if (attackablePositions.contains(position)) {
 					assertTrue(mummy.canAttackPosition(position));
 				} else {
@@ -290,7 +300,7 @@ public class CreatureTest extends TestCase {
 			}
 		}
 	}
-	
+
 	public void testDragonCanAttackPosition() {
 		// +---+---+---+---+---+---+---+---+---+
 		// | W | W | W | W | W | W | W | W | W |
@@ -316,10 +326,10 @@ public class CreatureTest extends TestCase {
 
 		final Level level1 = dungeon.createLevel(1, 9, 9);
 		final Element element = level1.getElement(4, 4);
-		
+
 		final Creature dragon = new Creature(Creature.Type.RED_DRAGON, 1);
 		element.addCreature(dragon);
-		
+
 		final List<Position> attackablePositions = new ArrayList<Position>();
 		attackablePositions.add(new Position(4, 2, 1)); // 1
 		attackablePositions.add(new Position(4, 3, 1)); // 1
@@ -329,11 +339,11 @@ public class CreatureTest extends TestCase {
 		attackablePositions.add(new Position(3, 4, 1)); // 2
 		attackablePositions.add(new Position(5, 4, 1)); // 2
 		attackablePositions.add(new Position(6, 4, 1)); // 2
-		
+
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 9; y++) {
 				final Position position = new Position(x, y, 1);
-				
+
 				if (attackablePositions.contains(position)) {
 					assertTrue("Creature can't attack position " + position,
 							dragon.canAttackPosition(position));
@@ -344,13 +354,13 @@ public class CreatureTest extends TestCase {
 			}
 		}
 	}
-	
+
 	public void testScorpionMustMoveTowardsParty() {
 		/*
 		 * Le scorpion voit les champions en face de lui. Il doit se rapprocher
-		 * d'eux pour attaquer au contact 
+		 * d'eux pour attaquer au contact
 		 */
-		
+
 		// +---+---+---+---+---+---+---+---+---+
 		// | W | W | W | W | W | W | W | W | W |
 		// +---+---+---+---+---+---+---+---+---+
@@ -375,48 +385,48 @@ public class CreatureTest extends TestCase {
 
 		final Level level1 = dungeon.createLevel(1, 9, 9);
 		final Element element = level1.getElement(4, 4);
-		
+
 		final Creature scorpion = new Creature(Creature.Type.GIANT_SCORPION, 1);
 		element.addCreature(scorpion);
 
 		final Party party = new Party(ChampionFactory.getFactory().newChampion(
 				Name.WUUF));
-		
+
 		dungeon.setParty(4, 1, 1, party);
-		
+
 		// --- Etat initial
 		assertEquals(Creature.State.IDLE, scorpion.getState());
 		assertEquals(Direction.NORTH, scorpion.getDirection());
 		assertTrue(scorpion.canSeePosition(party.getPosition()));
 		assertEquals(new Position(4, 4, 1), scorpion.getElement().getPosition());
-		
-		// --- On laisse la créature se déplacer une fois (vers les champions)
+
+		// --- On laisse la crï¿½ature se dï¿½placer une fois (vers les champions)
 		Clock.getInstance().tick(Creature.Type.GIANT_SCORPION.getMoveDuration());
-		
-		// --- Contrôles sur nouvel état
+
+		// --- Contrï¿½les sur nouvel ï¿½tat
 		assertEquals(Creature.State.TRACKING, scorpion.getState());
 		assertEquals(Direction.NORTH, scorpion.getDirection());
 		assertTrue(scorpion.canSeePosition(party.getPosition()));
 		assertEquals(new Position(4, 3, 1), scorpion.getElement().getPosition());
-		
-		// --- On laisse la créature se déplacer une fois (vers les champions)
+
+		// --- On laisse la crï¿½ature se dï¿½placer une fois (vers les champions)
 		Clock.getInstance().tick(Creature.Type.GIANT_SCORPION.getMoveDuration());
-		
-		// --- Contrôles sur nouvel état
+
+		// --- Contrï¿½les sur nouvel ï¿½tat
 		assertEquals(Creature.State.ATTACKING, scorpion.getState());
 		assertEquals(Direction.NORTH, scorpion.getDirection());
 		assertTrue(scorpion.canSeePosition(party.getPosition()));
 		assertEquals(new Position(4, 2, 1), scorpion.getElement().getPosition());
 	}
-	
+
 	public void testDragonMustMoveAndTurnTowardsParty() {
 		/*
 		 * Le dragon regard au Nord. Il ne voit pas les champions mais doit les
-		 * détecter (awareness) et se mettre à les chasser. Pour cela, sa
+		 * dï¿½tecter (awareness) et se mettre ï¿½ les chasser. Pour cela, sa
 		 * direction doit changer pour pointer vers les champions. Quand il
-		 * parvient à portée, il attaque à distance par une boule de feu.
+		 * parvient ï¿½ portï¿½e, il attaque ï¿½ distance par une boule de feu.
 		 */
-		
+
 		// +---+---+---+---+---+---+---+---+---+
 		// | W | W | W | W | W | W | W | W | W |
 		// +---+---+---+---+---+---+---+---+---+
@@ -441,49 +451,49 @@ public class CreatureTest extends TestCase {
 
 		final Level level1 = dungeon.createLevel(1, 9, 9);
 		final Element element = level1.getElement(4, 1);
-		
+
 		final Creature dragon = new Creature(Creature.Type.RED_DRAGON, 1);
 		element.addCreature(dragon);
 
 		final Party party = new Party(ChampionFactory.getFactory().newChampion(
 				Name.WUUF));
-		
+
 		dungeon.setParty(4, 6, 1, party);
-		
+
 		// --- Etat initial
 		assertEquals(Creature.State.IDLE, dragon.getState());
 		assertEquals(Direction.NORTH, dragon.getDirection());
 		assertFalse(dragon.canSeePosition(party.getPosition()));
 		assertEquals(new Position(4, 1, 1), dragon.getElement().getPosition());
-		
-		// --- On laisse la créature se déplacer une fois (vers les champions)
+
+		// --- On laisse la crï¿½ature se dï¿½placer une fois (vers les champions)
 		Clock.getInstance().tick(Creature.Type.RED_DRAGON.getMoveDuration());
-		
-		// --- Contrôles sur nouvel état
+
+		// --- Contrï¿½les sur nouvel ï¿½tat
 		assertEquals(Creature.State.TRACKING, dragon.getState());
 		assertEquals(Direction.SOUTH, dragon.getDirection()); // <--- !!!
 		assertFalse(dragon.canSeePosition(party.getPosition()));
 		assertEquals(new Position(4, 2, 1), dragon.getElement().getPosition());
-		
-		// --- On laisse la créature se déplacer une fois (vers les champions)
+
+		// --- On laisse la crï¿½ature se dï¿½placer une fois (vers les champions)
 		Clock.getInstance().tick(Creature.Type.RED_DRAGON.getMoveDuration());
-		
-		// --- Contrôles sur nouvel état
+
+		// --- Contrï¿½les sur nouvel ï¿½tat
 		assertEquals(Creature.State.TRACKING, dragon.getState());
 		assertEquals(Direction.SOUTH, dragon.getDirection());
 		assertTrue(dragon.canSeePosition(party.getPosition())); // <--- !!!
 		assertEquals(new Position(4, 3, 1), dragon.getElement().getPosition());
-		
-		// --- On laisse la créature se déplacer une fois (vers les champions)
+
+		// --- On laisse la crï¿½ature se dï¿½placer une fois (vers les champions)
 		Clock.getInstance().tick(Creature.Type.RED_DRAGON.getMoveDuration());
-		
-		// --- Contrôles sur nouvel état
+
+		// --- Contrï¿½les sur nouvel ï¿½tat
 		assertEquals(Creature.State.ATTACKING, dragon.getState()); // <--- !!!
 		assertEquals(Direction.SOUTH, dragon.getDirection());
 		assertTrue(dragon.canSeePosition(party.getPosition()));
 		assertEquals(new Position(4, 4, 1), dragon.getElement().getPosition());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

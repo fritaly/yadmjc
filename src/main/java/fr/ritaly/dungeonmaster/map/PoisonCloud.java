@@ -36,6 +36,9 @@ import fr.ritaly.dungeonmaster.event.ChangeEventSource;
 import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 
+/**
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
+ */
 public class PoisonCloud implements ClockListener, ChangeEventSource {
 
 	private final Log log = LogFactory.getLog(PoisonCloud.class);
@@ -49,18 +52,20 @@ public class PoisonCloud implements ClockListener, ChangeEventSource {
 
 	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
-	// TODO Implémenter la notion de force du poison !
+	// TODO Handle the strengthening of a poison cloud
 
-	// La durée de vie d'un nuage restant constante (10 sec), seule sa force
-	// diffère selon la puissance du sort
+	/**
+	 * The remaining life time for this poison cloud. Defaults to 10 (seconds).
+	 * Only the strength of the poison changes with the spell power (not the
+	 * life time).
+	 */
 	private int lifeTime = 10;
 
 	public PoisonCloud(Element element) {
 		Validate.notNull(element, "The given element is null");
 
 		this.element = element;
-		this.temporizer = new Temporizer("PoisonCloud" + element.getPosition(),
-				Clock.ONE_SECOND);
+		this.temporizer = new Temporizer("PoisonCloud" + element.getPosition(), Clock.ONE_SECOND);
 	}
 
 	@Override
@@ -80,39 +85,36 @@ public class PoisonCloud implements ClockListener, ChangeEventSource {
 	@Override
 	public boolean clockTicked() {
 		if (temporizer.trigger()) {
-			// Le nuage attaque les champions / créatures présentes sur
-			// l'élément courant (les deux en même temps ne sont pas possibles
-			// !)
+			// The poison cloud attacks the champions and creatures inside
 			if (element.hasParty()) {
-				final List<Champion> champions = element.getParty()
-						.getChampions(false);
+				// Get all living champions
+				final List<Champion> champions = element.getParty().getChampions(false);
 
 				for (Champion champion : champions) {
-					// TODO Passer en paramètre le type de dommage (Poison),
-					// prendre en compte la force du nuage de poison
+					// TODO Pass as a parameter the damage type
+					// TODO Take into account the strength of the poison
 					champion.hit(Utils.random(5, 20));
 				}
 			} else if (element.hasCreatures()) {
 				final Set<Creature> creatures = element.getCreatures();
 
 				for (Creature creature : creatures) {
-					// TODO Attaquer la créature
-					// TODO Passer en paramètre le type de dommage (Poison)
+					// TODO Attack the creature
+					// TODO Pass as a parameter the damage type
+					// TODO Take into account the strength of the poison
 				}
 			}
 
-			// La durée de vie du nuage diminue
 			final int backup = lifeTime;
 
 			final boolean again = --lifeTime > 0;
 
 			if (log.isDebugEnabled()) {
-				log.debug(this + ".LifeTime: " + backup + " -> " + lifeTime
-						+ " [-1]");
+				log.debug(this + ".LifeTime: " + backup + " -> " + lifeTime + " [-1]");
 			}
 
 			if (!again) {
-				// Notifie la fin de vie du nuage
+				// Notify the end of the poison cloud
 				fireChangeEvent();
 			}
 		}

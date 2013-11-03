@@ -19,32 +19,39 @@
 package fr.ritaly.dungeonmaster.actuator;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.lang.Validate;
 
 /**
+ * A composite actuator used for triggering a sequence of actuators.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SequentialActuator implements Actuator {
 
+	/**
+	 * The actuators triggered.
+	 */
 	private final LinkedList<Actuator> actuators = new LinkedList<Actuator>();
 
 	/**
 	 * The actuator's label.
 	 */
 	private final String label;
-	
+
 	public SequentialActuator(Actuator... actuators) {
 		Validate.notNull(actuators, "The given array of actuators is null");
-		Validate.isTrue(actuators.length > 0,
-				"The given array of actuators is empty");
+		Validate.isTrue(actuators.length > 0, "The given array of actuators is empty");
 
 		this.actuators.addAll(Arrays.asList(actuators));
 
 		final StringBuilder builder = new StringBuilder(512);
 
 		boolean first = true;
+
 		for (Actuator actuator : actuators) {
 			if (!first) {
 				builder.append(",");
@@ -58,9 +65,7 @@ public class SequentialActuator implements Actuator {
 		this.label = getClass().getSimpleName() + "[" + builder + "]";
 	}
 
-	public SequentialActuator(SequentialActuator actuator)
-			throws CloneNotSupportedException {
-
+	public SequentialActuator(SequentialActuator actuator) throws CloneNotSupportedException {
 		Validate.notNull(actuator, "The given actuator is null");
 
 		for (Actuator a : actuator.actuators) {
@@ -69,10 +74,10 @@ public class SequentialActuator implements Actuator {
 
 		this.label = actuator.label;
 	}
-	
+
 	public void addActuator(Actuator actuator) {
 		Validate.notNull(actuator, "The given actuator is null");
-		
+
 		actuators.addLast(actuator);
 	}
 
@@ -81,13 +86,17 @@ public class SequentialActuator implements Actuator {
 		final Actuator actuator = actuators.getFirst();
 
 		if (!actuator.clockTicked()) {
-			// L'actuator a �t� utilis�
+			// The actuator has been used, remove it
 			actuators.removeFirst();
 		}
 
-		// Continuer � �tre notifi� des tics tant qu'il reste des actuators en
-		// file
+		// Keep on listening to clock ticks as long as there are actuators left
 		return !actuators.isEmpty();
+	}
+
+	public List<Actuator> getActuators() {
+		// Defensive recopy
+		return Collections.unmodifiableList(actuators);
 	}
 
 	@Override
@@ -99,7 +108,7 @@ public class SequentialActuator implements Actuator {
 	public String getLabel() {
 		return label;
 	}
-	
+
 	@Override
 	public String toString() {
 		return getLabel();

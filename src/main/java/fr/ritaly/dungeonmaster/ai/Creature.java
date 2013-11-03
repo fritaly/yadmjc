@@ -54,7 +54,10 @@ import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.stat.Stat;
 
 /**
- * A creature (or a monster).
+ * A creature (or a monster).<br>
+ * <br>
+ * Source: <a href="http://dmweb.free.fr/?q=node/1363">Technical Documentation -
+ * Dungeon Master and Chaos Strikes Back Creature Details</a>
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
@@ -107,7 +110,11 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	/**
 	 * Defines the size of a {@link Creature} on the floor in terms of number of
-	 * subcells occupied.
+	 * subcells occupied.<br>
+	 * <br>
+	 * Source: <a href="http://dmweb.free.fr/?q=node/1363">Technical
+	 * Documentation - Dungeon Master and Chaos Strikes Back Creature
+	 * Details</a>
 	 */
 	public static enum Size {
 

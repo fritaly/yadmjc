@@ -30,6 +30,9 @@ import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
 
 /**
+ * Source: <a href="http://dmweb.free.fr/?q=node/1198">Technical Documentation -
+ * Dungeon Master and Chaos Strikes Back Creature Generators</a>
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Generator extends Element implements ClockListener {

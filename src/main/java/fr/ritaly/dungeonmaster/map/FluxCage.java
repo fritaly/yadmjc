@@ -30,6 +30,9 @@ import fr.ritaly.dungeonmaster.event.ChangeEventSource;
 import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 
+/**
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
+ */
 public class FluxCage implements ClockListener, ChangeEventSource {
 
 	private final Log log = LogFactory.getLog(FluxCage.class);
@@ -43,15 +46,16 @@ public class FluxCage implements ClockListener, ChangeEventSource {
 
 	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
-	// 10 secondes
+	/**
+	 * The remaining life time for this flux cage. Defaults to 10 (seconds).
+	 */
 	private int lifeTime = 10;
 
 	public FluxCage(Element element) {
 		Validate.notNull(element, "The given element is null");
 
 		this.element = element;
-		this.temporizer = new Temporizer("FluxCage" + element.getPosition(),
-				Clock.ONE_SECOND);
+		this.temporizer = new Temporizer("FluxCage" + element.getPosition(), Clock.ONE_SECOND);
 	}
 
 	@Override
@@ -71,18 +75,17 @@ public class FluxCage implements ClockListener, ChangeEventSource {
 	@Override
 	public boolean clockTicked() {
 		if (temporizer.trigger()) {
-			// La durée de vie du nuage diminue
+			// The life time diminishes
 			final int backup = lifeTime;
 
 			final boolean again = --lifeTime > 0;
 
 			if (log.isDebugEnabled()) {
-				log.debug(this + ".LifeTime: " + backup + " -> " + lifeTime
-						+ " [-1]");
+				log.debug(this + ".LifeTime: " + backup + " -> " + lifeTime + " [-1]");
 			}
 
 			if (!again) {
-				// Notifie la fin de vie du nuage
+				// Notify the end of the flux cage
 				fireChangeEvent();
 			}
 		}

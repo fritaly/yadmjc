@@ -18,10 +18,11 @@
  */
 package fr.ritaly.dungeonmaster;
 
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
 
 /**
- * Enum�ration des diff�rentes {@link Direction}s de d�placement possibles.
+ * Enumerates the possible move directions.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
@@ -32,13 +33,17 @@ public enum Direction {
 	WEST,
 	UP,
 	DOWN;
-	
+
+	/**
+	 * The total number of directions.
+	 */
 	private static final int COUNT = values().length;
 
 	/**
-	 * Retourne la {@link Direction} oppos�e � cette {@link Direction}.
-	 * 
-	 * @return une instance de {@link Direction}.
+	 * Returns the direction opposed to this one. Example: if this is NORTH then
+	 * returns SOUTH.
+	 *
+	 * @return a direction. Never returns null.
 	 */
 	public Direction getOpposite() {
 		switch (this) {
@@ -60,10 +65,10 @@ public enum Direction {
 	}
 
 	/**
-	 * Retourne la {@link Direction} suivant cette {@link Direction} en tournant
-	 * dans le sens des aiguilles d'une montre.
-	 * 
-	 * @return une instance de {@link Direction}.
+	 * Returns the next clock-wise direction after this one. Example: if this is
+	 * NORTH then returns EAST.
+	 *
+	 * @return a direction. Never returns null.
 	 */
 	public Direction getClockwiseDirection() {
 		switch (this) {
@@ -85,10 +90,10 @@ public enum Direction {
 	}
 
 	/**
-	 * Retourne la {@link Direction} suivant cette {@link Direction} en tournant
-	 * dans le sens inverse des aiguilles d'une montre.
-	 * 
-	 * @return une instance de {@link Direction}.
+	 * Returns the next anti clock-wise direction after this one. Example: if
+	 * this is NORTH then returns WEST.
+	 *
+	 * @return a direction. Never returns null.
 	 */
 	public Direction getAntiClockwiseDirection() {
 		switch (this) {
@@ -110,18 +115,18 @@ public enum Direction {
 	}
 
 	/**
-	 * Retourne la {@link Position} cible atteinte � partir de la
-	 * {@link Position} donn�e quand on se d�place dans cette {@link Direction}.
-	 * 
+	 * Returns the target position reached when moving from the given position
+	 * in this direction. Example: if this direction is NORTH and the position
+	 * is (0,0,0) then the position reached by moving NORTH is (0,-1,0).
+	 *
 	 * @param position
-	 *            une {@link Position} de d�part. Ne peut �tre nul.
-	 * @return une instance de {@link Position} repr�sentant la {@link Position}
-	 *         cible atteinte.
+	 *            a position representing the start position before moving.
+	 *            Can't be null.
+	 * @return a position representing the target position reached when moving
+	 *         in this direction.
 	 */
-	public Position change(Position position) {
-		if (position == null) {
-			throw new IllegalArgumentException("The given position is null");
-		}
+	public Position change(final Position position) {
+		Validate.notNull(position, "The given position is null");
 
 		switch (this) {
 		case NORTH:
@@ -142,52 +147,67 @@ public enum Direction {
 	}
 
 	/**
-	 * Indique si cette {@link Direction} est l'oppos�e de celle donn�e.
-	 * 
+	 * Tells whether this direction is opposed to the given one.
+	 *
 	 * @param direction
-	 *            une instance de {@link Direction}. Ne peut �tre nul.
-	 * @return si cette {@link Direction} est l'oppos�e de celle donn�e.
+	 *            the direction to test. Can't be null.
+	 * @return whether this direction is opposed to the given one.
 	 */
 	public boolean isOpposite(Direction direction) {
-		if (direction == null) {
-			throw new IllegalArgumentException("The given direction is null");
-		}
+		Validate.notNull(direction, "The given direction is null");
 
 		return direction.equals(getOpposite());
 	}
 
+	/**
+	 * Tells whether this direction is the next clock-wise direction for the
+	 * given direction. Example: Returns true if this direction is NORTH and the
+	 * given direction is WEST.
+	 *
+	 * @param direction
+	 *            the direction to test. Can't be null.
+	 * @return whether this direction is the next clock-wise direction for the
+	 *         given direction.
+	 */
 	public boolean isClockWiseDirection(Direction direction) {
-		if (direction == null) {
-			throw new IllegalArgumentException("The given direction is null");
-		}
+		Validate.notNull(direction, "The given direction is null");
 
 		return direction.equals(getClockwiseDirection());
 	}
 
+	/**
+	 * Tells whether this direction is the next anti clock-wise direction for
+	 * the given direction. Example: Returns true if this direction is NORTH and
+	 * the given direction is EAST.
+	 *
+	 * @param direction
+	 *            the direction to test. Can't be null.
+	 * @return whether this direction is the next anti clock-wise direction for
+	 *         the given direction.
+	 */
 	public boolean isAntiClockWiseDirection(Direction direction) {
-		if (direction == null) {
-			throw new IllegalArgumentException("The given direction is null");
-		}
+		Validate.notNull(direction, "The given direction is null");
 
 		return direction.equals(getAntiClockwiseDirection());
 	}
 
 	/**
-	 * Retourne une {@link Direction} au hasard.
-	 * 
-	 * @return une instance de {@link Direction}.
+	 * Returns a random direction.
+	 *
+	 * @return a direction. Never returns null.
 	 */
 	public static Direction random() {
 		return values()[RandomUtils.nextInt(COUNT)];
 	}
 
 	/**
-	 * Retourne l'orientation associ�e � cette {@link Direction}.
-	 * 
-	 * @return une instance de {@link Orientation}.
+	 * Returns the orientation associated to this direction. Examples: Returns
+	 * {@link Orientation#NORTH_SOUTH} for the directions NORTH and SOUTH
+	 * otherwise returns {@link Orientation#WEST_EAST}
+	 *
+	 * @return an orientation. Never returns null.
 	 */
 	public Orientation getOrientation() {
-		return (NORTH.equals(this) || SOUTH.equals(this)) ? Orientation.NORTH_SOUTH
-				: Orientation.WEST_EAST;
+		return (equals(NORTH) || equals(SOUTH)) ? Orientation.NORTH_SOUTH : Orientation.WEST_EAST;
 	}
 }

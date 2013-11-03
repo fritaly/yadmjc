@@ -21,6 +21,8 @@ package fr.ritaly.dungeonmaster.stat;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.apache.commons.lang.Validate;
+
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Temporizer;
@@ -29,6 +31,11 @@ import fr.ritaly.dungeonmaster.event.ChangeEvent;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 
 /**
+ * Defines all the stats of a champion.<br>
+ * <br>
+ * Source: <a href="http://dmweb.free.fr/?q=node/691">Technical Documentation -
+ * Dungeon Master and Chaos Strikes Back Skills and Statistics</a>
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Stats implements ChangeListener, ClockListener {
@@ -56,7 +63,7 @@ public final class Stats implements ChangeListener, ClockListener {
 	public static final String PROPERTY_ANTI_MAGIC = "AntiMagic";
 
 	public static final String PROPERTY_LUCK = "Luck";
-	
+
 	public static final String PROPERTY_MAX_LOAD_BOOST = "MaxLoadBoost";
 
 	private final Champion champion;
@@ -98,7 +105,7 @@ public final class Stats implements ChangeListener, ClockListener {
 	 * Each spoken symbol will consume some Mana. You can regain Mana points by
 	 * sleeping and drinking Mana potions. Mana also naturally increases over
 	 * time, but slowly.
-	 * 
+	 *
 	 * The speed of the increase of mana while you sleep depends on the Wisdom
 	 * and the Priest and Wizard levels of the champion.
 	 */
@@ -143,7 +150,7 @@ public final class Stats implements ChangeListener, ClockListener {
 	 * This value determines a champion's resistance to fire damage.
 	 */
 	private final Stat antiFire;
-	
+
 	private final Stat maxLoadBoost;
 
 	private boolean initialized;
@@ -154,14 +161,10 @@ public final class Stats implements ChangeListener, ClockListener {
 	private final Temporizer temporizer;
 
 	public Stats(Champion champion) {
-		if (champion == null) {
-			throw new IllegalArgumentException("The given champion is null");
-		}
+		Validate.notNull(champion, "The given champion is null");
 
 		this.champion = champion;
 
-		// Instancier ces membres depuis le constructeur permet de passer aux
-		// instances de Stat le nom de son "propri�taire"
 		food = new Stat(champion.getName(), PROPERTY_FOOD, 1500, 1500);
 		water = new Stat(champion.getName(), PROPERTY_WATER, 1500, 1500);
 		health = new Stat(champion.getName(), PROPERTY_HEALTH);
@@ -176,7 +179,7 @@ public final class Stats implements ChangeListener, ClockListener {
 		luck = new Stat(champion.getName(), PROPERTY_LUCK);
 		maxLoadBoost = new Stat(champion.getName(), PROPERTY_MAX_LOAD_BOOST);
 
-		// Ecouter les �v�nements lev�s par les stats
+		// Listen to the events fire by those stats
 		food.addChangeListener(this);
 		water.addChangeListener(this);
 		health.addChangeListener(this);
@@ -191,15 +194,13 @@ public final class Stats implements ChangeListener, ClockListener {
 		luck.addChangeListener(this);
 		maxLoadBoost.addChangeListener(this);
 
-		// 5 secondes
-		temporizer = new Temporizer(champion.getName() + ".Stats",
-				5 * Clock.ONE_SECOND);
+		// Stats are updated every 5 seconds
+		temporizer = new Temporizer(champion.getName() + ".Stats", 5 * Clock.ONE_SECOND);
 	}
 
 	private void assertInitialized() {
 		if (!initialized) {
-			throw new IllegalStateException(
-					"The stats haven't been initialized");
+			throw new IllegalStateException("The stats haven't been initialized");
 		}
 	}
 
@@ -221,7 +222,7 @@ public final class Stats implements ChangeListener, ClockListener {
 
 	@Override
 	public void onChangeEvent(ChangeEvent event) {
-		// Convertir l'�v�nement de ChangeEvent en PropertyChangeEvent
+		// Propagate the event as a property change event
 		firePropertyChangeEvent(event.getSource());
 	}
 
@@ -236,8 +237,7 @@ public final class Stats implements ChangeListener, ClockListener {
 	protected void firePropertyChangeEvent(Object source) {
 		final Stat stat = (Stat) source;
 
-		changeSupport.firePropertyChange(stat.getName(), stat.getPrevious(),
-				stat.value());
+		changeSupport.firePropertyChange(stat.getName(), stat.getPrevious(), stat.value());
 	}
 
 	public Stat getHealth() {
@@ -264,16 +264,15 @@ public final class Stats implements ChangeListener, ClockListener {
 		return mana;
 	}
 
-	public void init(int health, int stamina, int mana, int luck, int strength,
-			int dexterity, int wisdom, int vitality, int antiFire, int antiMagic) {
+	public void init(int health, int stamina, int mana, int luck, int strength, int dexterity, int wisdom, int vitality,
+			int antiFire, int antiMagic) {
 
 		if (initialized) {
-			throw new IllegalStateException(
-					"The stats have already been initialized");
+			throw new IllegalStateException("The stats have already been initialized");
 		}
 
-		// On acc�de directement aux membres ce qui permet de ne pas passer par
-		// les assertions sur le flag initialized
+		// Directly access the properties not to execute the assertions inside
+		// the getters
 		this.health.maxValue(health);
 		this.health.value(health);
 
@@ -301,8 +300,8 @@ public final class Stats implements ChangeListener, ClockListener {
 		this.antiMagic.value(antiMagic);
 		this.antiMagic.maxValue(antiMagic);
 
-		// Il n'y a pas de bornes � la statistique "Luck" afin de pouvoir
-		// l'augmenter quand le champion porte une patte de lapin
+		// The luck stat isn't bounded by a max value because we need to be able
+		// to increase the luck when the champion wears a rabbit foot
 		this.luck.value(luck);
 		this.luck.maxValue(100);
 
@@ -332,40 +331,39 @@ public final class Stats implements ChangeListener, ClockListener {
 		assertInitialized();
 
 		if (temporizer.trigger()) {
-			// TODO Cr�er facteur quand mode sleeping
+			// TODO When the party is sleeping, make time elapse faster (speed factor ?)
 
-			// TODO Mise � jour des stats ?
+			// TODO Update the stats
 			// dexterity.inc(3);
 			// strength.inc(3);
 			// vitality.inc(3);
 			// wisdom.inc(3);
 
-			// TODO La mana se restaure avec le temps
+			// TODO Mana regenerates over time
 			mana.inc(3);
 
 			if (stamina.isLow() || food.isLow() || water.isLow()) {
-				// La sant� d�cro�t si la stamina est faible, le champion a faim
-				// ou soif
+				// If stamina, food or water is low, the health gets hit
 				health.dec(5);
 			} else {
-				// La sant� se r�g�n�re
+				// The health regenerates over time
 				health.inc(3);
 			}
 
 			if (health.actualValue() == 0) {
-				// Si le h�ros vient de mourir, on retourne de suite
+				// The champion just died, stop listening to clock ticks
 				return false;
 			}
 
-			// TODO La stamina d�cro�t avec le temps (et la charge port�e !)
+			// TODO The stamina decreases over time (and the load too)
 			stamina.dec(3);
 
-			// D�croissance constante avec le temps
+			// Food and water decrease linearly over time
 			food.dec(5);
 			water.dec(5);
 		}
 
-		// On n'arr�te jamais l'animation des stats
+		// Keep on listening to clock ticks until the champion dies
 		return true;
 	}
 
@@ -386,7 +384,7 @@ public final class Stats implements ChangeListener, ClockListener {
 
 		return luck;
 	}
-	
+
 	public Stat getMaxLoadBoost() {
 		assertInitialized();
 
@@ -395,19 +393,19 @@ public final class Stats implements ChangeListener, ClockListener {
 
 	public final float getActualMaxLoad() {
 		final float baseMaxLoad = (8.0f * strength.actualValue() + 100.0f) / 10.0f;
-		
-		// Prendre en compte le bonus de charge s'il y en a un
+
+		// The max load can be temporarily boosted
 		final float actualBaseMaxLoad = baseMaxLoad + maxLoadBoost.value();
 
 		final Integer curStamina = stamina.actualValue();
 		final Integer maxStamina = stamina.actualMaxValue();
 
 		if (curStamina >= (maxStamina / 2.0f)) {
+			// Stamina is good, no penalty to the max load
 			return actualBaseMaxLoad;
 		} else {
-			// Champion � la peine
-			return (actualBaseMaxLoad / 2)
-					+ ((actualBaseMaxLoad * curStamina) / (maxStamina / 2.0f));
+			// Stamina is low, the champion's max load has a malus
+			return (actualBaseMaxLoad / 2) + ((actualBaseMaxLoad * curStamina) / (maxStamina / 2.0f));
 		}
 	}
 }

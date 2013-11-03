@@ -38,7 +38,7 @@ public enum AlignmentRune implements Rune {
 	private AlignmentRune(int... costs) {
 		if (costs.length != 6) {
 			throw new IllegalArgumentException("Invalid array length (6 expected)");
-	}
+		}
 
 		this.costs = costs;
 	}

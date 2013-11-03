@@ -23,7 +23,10 @@ import java.util.EnumSet;
 /**
  * Enumerates the possible combinations of {@link CarryLocation}s. Each item is
  * associated to one and only one combination which defines where the item can
- * be carried / stored / used.
+ * be carried / stored / used.<br>
+ * <br>
+ * Source: <a href="http://dmweb.free.fr/?q=node/886">Technical Documentation -
+ * Dungeon Master and Chaos Strikes Back Items properties</a>
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */

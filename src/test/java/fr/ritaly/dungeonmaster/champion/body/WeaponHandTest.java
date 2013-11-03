@@ -36,35 +36,33 @@ public class WeaponHandTest extends TestCase {
 	public WeaponHandTest(String name) {
 		super(name);
 	}
-	
-	public void testHandTimeOut() throws Exception {
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		Party party = new Party();
+	public void testHandTimeOut() throws Exception {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+
+		final Party party = new Party();
 		party.addChampion(tiggy);
 
-		// --- Initialement la main est utilisable
+		// --- The weapon hand is initially usable
 		final WeaponHand hand = tiggy.getBody().getWeaponHand();
 
 		assertTrue(hand.isEnabled());
 
-		// --- Lancer un sort afin de rendre la main indisponible
+		// --- Casting a spell makes the hand unavailable
 		final Spell spell = tiggy.cast(PowerRune.LO, ElementRune.FUL);
 
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
 		assertFalse(hand.isEnabled());
 
-		// --- Attendre suffisamment longtemps pour que la main redevienne
-		// disponible
+		// --- Wait long enough to have the hand usable again
 		Clock.getInstance().tick(60);
 
 		assertTrue(hand.isEnabled());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

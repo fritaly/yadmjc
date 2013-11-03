@@ -30,7 +30,10 @@ import fr.ritaly.dungeonmaster.champion.Champion.Level;
 
 /**
  * Enumerates the possible combinations of item actions. Combinations are
- * associated to items.
+ * associated to items.<br>
+ * <br>
+ * Source: <a href="http://dmweb.free.fr/?q=node/690">Technical Documentation -
+ * Dungeon Master and Chaos Strikes Back Actions and Combos</a>
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */

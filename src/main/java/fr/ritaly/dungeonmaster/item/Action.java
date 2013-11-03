@@ -36,7 +36,10 @@ import fr.ritaly.dungeonmaster.projectile.ItemProjectile;
 /**
  * Enumerates the actions that can be attached to items. Actions are never
  * individually tied to an item. Instead actions are grouped into combos and
- * combos are attached to items.
+ * combos are attached to items.<br>
+ * <br>
+ * Source: <a href="http://dmweb.free.fr/?q=node/690">Technical Documentation -
+ * Dungeon Master and Chaos Strikes Back Actions and Combos</a>
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */

@@ -27,14 +27,12 @@ import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 
 public class ItemProjectile extends AbstractProjectile {
-	
+
 	private final Item item;
 
-	public ItemProjectile(Item item, Dungeon dungeon, Position position,
-			Direction direction, SubCell subCell, int range) {
-		
+	public ItemProjectile(Item item, Dungeon dungeon, Position position, Direction direction, SubCell subCell, int range) {
 		super(dungeon, position, direction, subCell, range);
-		
+
 		Validate.notNull(item);
 
 		this.item = item;
@@ -42,12 +40,12 @@ public class ItemProjectile extends AbstractProjectile {
 
 	@Override
 	protected void projectileDied() {
-		// TODO Jouer le son de l'objet qui tombe à terre (dépend de l'objet !)
+		// TODO Play the sound of an item falling on the floor (depends on the item type)
 		// SoundSystem.getInstance().play(clip);
 
-		// Déposer l'objet au sol (TODO Attention au sens pour les flèches !!)
+		// Drop the item on the floor (TODO Arrows need to point towards the relevant direction !)
 		dungeon.getElement(getPosition()).itemDroppedDown(item, getSubCell());
 	}
-	
-	// TODO La portée du projectile dépend du type de l'objet
+
+	// TODO The range of a projectile depends on the item type (its weight)
 }

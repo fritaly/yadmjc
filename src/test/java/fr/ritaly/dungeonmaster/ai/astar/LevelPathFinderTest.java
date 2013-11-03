@@ -40,7 +40,7 @@ public class LevelPathFinderTest extends TestCase {
 	}
 
 	public void testFindPathWhenMaterial() {
-		// La créature (matérielle) doit atteindre la cible X
+		// The material creature in S must reach target X
 		// +---+---+---+---+---+---+---+---+---+
 		// | W | W | W | W | W | W | W | W | W |
 		// +---+---+---+---+---+---+---+---+---+
@@ -75,16 +75,15 @@ public class LevelPathFinderTest extends TestCase {
 		rows.add("WWWWWWWWW");
 
 		final Level level1 = DungeonUtils.parse(rows, dungeon, 1);
-		final List<Element> nodes = new PathFinder(level1, Materiality.MATERIAL)
-				.findBestPath(1, 1, 7, 1);
-		
-		// La solution passe par 31 noeuds
+		final List<Element> nodes = new PathFinder(level1, Materiality.MATERIAL).findBestPath(1, 1, 7, 1);
+
+		// The returned solution must contain 31 nodes
 		assertNotNull(nodes);
 		assertEquals(31, nodes.size());
 	}
-	
+
 	public void testFindPathWhenImmaterial() {
-		// La créature (immatérielle) doit atteindre la cible X
+		// The immaterial creature in S must reach target X
 		// +---+---+---+---+---+---+---+---+---+
 		// | W | W | W | W | W | W | W | W | W |
 		// +---+---+---+---+---+---+---+---+---+
@@ -120,17 +119,15 @@ public class LevelPathFinderTest extends TestCase {
 
 		final Level level1 = DungeonUtils.parse(rows, dungeon, 1);
 
-		final List<Element> nodes = new PathFinder(level1,
-				Materiality.IMMATERIAL).findBestPath(1, 1, 7, 1);
-		
-		// La solution passe par 7 noeuds
+		final List<Element> nodes = new PathFinder(level1, Materiality.IMMATERIAL).findBestPath(1, 1, 7, 1);
+
+		// The returned solution must contain 7 nodes
 		assertNotNull(nodes);
 		assertEquals(7, nodes.size());
 	}
 
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

@@ -50,23 +50,22 @@ public class PoisonCloudTest extends TestCase {
 
 		final Floor floor = (Floor) dungeon.getElement(2, 1, 1);
 
-		// --- Situation initiale
+		// --- No poison could initially
 		assertFalse(floor.hasPoisonClouds());
 
-		// Créer un nuage de poison en 1:2,1
+		// Create a poison cloud in 1:2,1
 		floor.createPoisonCloud();
 
-		// --- Un nuage de poison doit être apparu
+		// --- There must be a poison cloud
 		assertTrue(floor.hasPoisonClouds());
 		assertEquals(1, floor.getPoisonCloudCount());
 
-		// --- Si on attend suffisamment longtemps, le nuage va disparaître de
-		// lui-même
+		// --- Wait long enough to let the poison cloud disappear
 		Clock.getInstance().tick(60);
 
 		assertFalse(floor.hasPoisonClouds());
 	}
-	
+
 	public void testPoisonCloudMustAttackChampionsWhenInsideIt() throws Exception {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -83,43 +82,39 @@ public class PoisonCloudTest extends TestCase {
 		final Dungeon dungeon = new Dungeon();
 		dungeon.createLevel(1, 5, 5);
 
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 		tiggy.getStats().getHealth().maxValue(500);
 		tiggy.getStats().getHealth().value(500);
 
 		final int health = tiggy.getStats().getHealth().value();
-		
-		final Party party = new Party();
-		party.addChampion(tiggy);
+
+		final Party party = new Party(tiggy);
 
 		dungeon.setParty(new Position(2, 1, 1), party);
 
 		final Floor floor = (Floor) dungeon.getElement(2, 1, 1);
 
-		// --- Situation initiale
+		// --- No poison cloud initially
 		assertFalse(floor.hasPoisonClouds());
 
-		// Créer un nuage de poison
+		// Create the poison cloud
 		floor.createPoisonCloud();
 
-		// --- Un nuage de poison doit être apparu
+		// --- There must be a poison cloud
 		assertTrue(floor.hasPoisonClouds());
 		assertEquals(1, floor.getPoisonCloudCount());
 
-		// --- Si on attend suffisamment longtemps, le nuage va disparaître de
-		// lui-même
+		// --- Wait long enough to let the poison cloud disappear
 		Clock.getInstance().tick(60);
 
 		assertFalse(floor.hasPoisonClouds());
-		
-		// --- La santé du champion doit avoir diminué du fait du poison
+
+		// --- The champion's health must be lesser than initially
 		assertTrue(health > tiggy.getStats().getHealth().value().intValue());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

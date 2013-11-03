@@ -44,7 +44,10 @@ import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
- * An item. There are different types of items in the game.
+ * An item. There are different types of items in the game.<br>
+ * <br>
+ * Source: <a href="http://dmweb.free.fr/?q=node/886">Technical Documentation -
+ * Dungeon Master and Chaos Strikes Back Items properties</a>
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
@@ -133,7 +136,11 @@ public abstract class Item implements ChangeEventSource {
 	 * Le nombre d'objets dans chaque {@link Category} n'est pas le m�me que
 	 * dans la sp�cification de dmweb.free.fr car certains objets partagent les
 	 * m�mes caract�ristiques mais pas les m�mes images, du coup il y a deux
-	 * valeurs distinctes d'enum�ration pour ces objets-l�.
+	 * valeurs distinctes d'enum�ration pour ces objets-l�.<br>
+	 * <br>
+	 * Source: <a href="http://dmweb.free.fr/?q=node/886">Technical
+	 * Documentation - Dungeon Master and Chaos Strikes Back Items
+	 * properties</a>
 	 */
 	public static enum Type {
 		SCROLL(

@@ -27,6 +27,9 @@ import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 
+/**
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
+ */
 public class ItemProjectileFactory implements ProjectileFactory {
 
 	private final ItemFactory factory;
@@ -42,17 +45,9 @@ public class ItemProjectileFactory implements ProjectileFactory {
 	}
 
 	@Override
-	public Projectile createProjectile(Dungeon dungeon, Position position,
-			Direction direction, SubCell subCell) {
+	public Projectile createProjectile(Dungeon dungeon, Position position, Direction direction, SubCell subCell) {
+		// TODO Compute how far the projectile will go (depends on the champion's strength)
 
-		// TODO Calculer la distance de jet de l'objet (fonction du champion si
-		// besoin)
-
-		// Créer un nouvel objet à chaque appel
-		final Item item = factory.newItem(type);
-
-		// Contrôles effectués par le constructeur de ItemProjectile
-		return new ItemProjectile(item, dungeon, position, direction, subCell,
-				30);
+		return new ItemProjectile(factory.newItem(type), dungeon, position, direction, subCell, 30);
 	}
 }

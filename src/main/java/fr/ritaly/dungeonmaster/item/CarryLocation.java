@@ -20,7 +20,10 @@ package fr.ritaly.dungeonmaster.item;
 
 /**
  * Enumerates the locations where items can be carried (or used) by a champion.
- * Those locations are grouped into combos known as {@link CarryLocations}.
+ * Those locations are grouped into combos known as {@link CarryLocations}.<br>
+ * <br>
+ * Source: <a href="http://dmweb.free.fr/?q=node/886">Technical Documentation -
+ * Dungeon Master and Chaos Strikes Back Items properties</a>
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */

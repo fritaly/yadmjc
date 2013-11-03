@@ -23,7 +23,7 @@ import org.apache.commons.lang.Validate;
 /**
  * Implementation of {@link Actuator} used to repeatedly trigger a
  * {@link Triggered} up to a given number of times.
- * 
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class LoopingActuator implements Actuator {
@@ -54,45 +54,33 @@ public class LoopingActuator implements Actuator {
 	 */
 	private final String label;
 
-	public LoopingActuator(int max, Actuator actuator)
-			throws CloneNotSupportedException {
-
+	public LoopingActuator(int max, Actuator actuator) throws CloneNotSupportedException {
 		Validate.notNull(actuator, "The given actuator is null");
-		Validate.isTrue(max >= 0, "The given max count <" + max
-				+ "> must be positive or zero");
+		Validate.isTrue(max >= 0, "The given max count <" + max + "> must be positive or zero");
 
 		this.prototype = actuator;
 		this.max = max;
-		this.label = getClass().getSimpleName() + "[" + max + " x "
-				+ actuator.getLabel() + "]";
+		this.label = getClass().getSimpleName() + "[" + max + " x " + actuator.getLabel() + "]";
 	}
 
-	public LoopingActuator(Actuator... actuators)
-			throws CloneNotSupportedException {
-
+	public LoopingActuator(Actuator... actuators) throws CloneNotSupportedException {
 		this(Integer.MAX_VALUE, actuators);
 	}
 
-	public LoopingActuator(int max, Actuator... actuators)
-			throws CloneNotSupportedException {
-
+	public LoopingActuator(int max, Actuator... actuators) throws CloneNotSupportedException {
 		Validate.notNull(actuators, "The given array of actuators is null");
-		Validate.isTrue(actuators.length > 0,
-				"The given array of actuators is empty");
+		Validate.isTrue(actuators.length > 0, "The given array of actuators is empty");
 
 		this.prototype = new SequentialActuator(actuators);
 		this.max = max;
-		this.label = getClass().getSimpleName() + "[" + max + " x "
-				+ prototype.getLabel() + "]";
+		this.label = getClass().getSimpleName() + "[" + max + " x " + prototype.getLabel() + "]";
 	}
 
 	public LoopingActuator(Actuator actuator) throws CloneNotSupportedException {
 		this(Integer.MAX_VALUE, actuator);
 	}
 
-	public LoopingActuator(LoopingActuator actuator)
-			throws CloneNotSupportedException {
-
+	public LoopingActuator(LoopingActuator actuator) throws CloneNotSupportedException {
 		Validate.notNull(actuator, "The given actuator is null");
 
 		this.prototype = (Actuator) actuator.prototype.clone();
@@ -111,13 +99,13 @@ public class LoopingActuator implements Actuator {
 		}
 
 		if (!actuator.clockTicked()) {
-			// D�clenchement
+			// Triggering
 			current++;
 
 			actuator = null;
 		}
 
-		return current < max;
+		return (current < max);
 	}
 
 	@Override

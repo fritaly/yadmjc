@@ -16,9 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster;
+package fr.ritaly.dungeonmaster.magic;
 
 import junit.framework.TestCase;
+import fr.ritaly.dungeonmaster.Clock;
+import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.Orientation;
+import fr.ritaly.dungeonmaster.Position;
+import fr.ritaly.dungeonmaster.Skill;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
@@ -46,36 +51,34 @@ public class SpellTest extends TestCase {
 	}
 
 	public void testTorchSpell() throws Exception {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		// Test the TORCH spell
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		final Party party = new Party();
-		party.addChampion(tiggy);
-
-		// Booster le niveau du champion pour pouvoir lancer tous les sorts
+		// Boost all the champion's skills to be able to cast any spell
 		for (Skill skill : Skill.values()) {
 			tiggy.gainExperience(skill, 1000000);
 		}
 
+		// Backup the initial light value
 		final int light = tiggy.getLight();
 
+		// Cast a TORCH spell
 		tiggy.cast(PowerRune.LO, Spell.Type.TORCH);
+
 		final Spell spell = tiggy.castSpell();
 
+		// Casting must have succeeded
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
 
+		// The spell must have generated some light
 		assertTrue(tiggy.getLight() > light);
 	}
 
 	public void testZoKathRaSpellEmptyHands() throws Exception {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		final Party party = new Party();
-		party.addChampion(tiggy);
-
-		// Booster le niveau du champion pour pouvoir lancer tous les sorts
+		// Boost all the champion's skills to be able to cast any spell
 		for (Skill skill : Skill.values()) {
 			tiggy.gainExperience(skill, 1000000);
 		}
@@ -83,23 +86,26 @@ public class SpellTest extends TestCase {
 		final WeaponHand weaponHand = tiggy.getBody().getWeaponHand();
 		final Hand shieldHand = tiggy.getBody().getShieldHand();
 
-		// Les 2 mains doivent initialement être vides
+		// Both hands must be empty
 		assertTrue(weaponHand.isEmpty());
 		assertTrue(shieldHand.isEmpty());
 
+		// Cast ZO KATH RA
 		tiggy.cast(PowerRune.LO, Spell.Type.ZO_KATH_RA);
+
 		final Spell spell = tiggy.castSpell();
 
+		// Casting must have succeeded
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
 
 		final Item item1 = weaponHand.getItem();
 		final Item item2 = shieldHand.getItem();
 
-		// L'une des deux mains doit contenir un item de type ZO_KATH_RA
-		assertTrue(((item1 == null) && (item2 != null))
-				|| ((item1 != null) && (item2 == null)));
+		// Either two hands must hold a ZO_KATH_RA item
+		assertTrue(((item1 == null) && (item2 != null)) || ((item1 != null) && (item2 == null)));
 
+		// The item must have the correct type
 		if (item1 != null) {
 			assertEquals(Item.Type.ZOKATHRA_SPELL, item1.getType());
 		} else if (item2 != null) {
@@ -110,13 +116,9 @@ public class SpellTest extends TestCase {
 	}
 
 	public void testZoKathRaSpellEmptyWeaponHand() throws Exception {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		final Party party = new Party();
-		party.addChampion(tiggy);
-
-		// Booster le niveau du champion pour pouvoir lancer tous les sorts
+		// Boost all the champion's skills to be able to cast any spell
 		for (Skill skill : Skill.values()) {
 			tiggy.gainExperience(skill, 1000000);
 		}
@@ -126,7 +128,7 @@ public class SpellTest extends TestCase {
 		final Hand shieldHand = tiggy.getBody().getShieldHand();
 		shieldHand.putOn(new Torch());
 
-		// Une seule main vide initialement
+		// One empty hand initially
 		assertTrue(weaponHand.isEmpty());
 		assertFalse(shieldHand.isEmpty());
 
@@ -136,7 +138,7 @@ public class SpellTest extends TestCase {
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
 
-		// Les deux mains doivent être remplies
+		// Both hands must be holding an item
 		assertFalse(weaponHand.isEmpty());
 		assertEquals(Item.Type.ZOKATHRA_SPELL, weaponHand.getItem().getType());
 
@@ -145,13 +147,9 @@ public class SpellTest extends TestCase {
 	}
 
 	public void testZoKathRaSpellEmptyShieldHand() throws Exception {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		final Party party = new Party();
-		party.addChampion(tiggy);
-
-		// Booster le niveau du champion pour pouvoir lancer tous les sorts
+		// Boost all the champion's skills to be able to cast any spell
 		for (Skill skill : Skill.values()) {
 			tiggy.gainExperience(skill, 1000000);
 		}
@@ -171,7 +169,7 @@ public class SpellTest extends TestCase {
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
 
-		// Les deux mains doivent être remplies
+		// Les deux mains doivent ï¿½tre remplies
 		assertFalse(weaponHand.isEmpty());
 		assertEquals(Item.Type.TORCH, weaponHand.getItem().getType());
 
@@ -573,17 +571,17 @@ public class SpellTest extends TestCase {
 		// Laisser le temps au projectile de "mourir"
 		Clock.getInstance().tick(18);
 
-		// --- Un nuage de poison doit être apparu
+		// --- Un nuage de poison doit ï¿½tre apparu
 		assertTrue(floor.hasPoisonClouds());
 		assertEquals(1, floor.getPoisonCloudCount());
 
-		// --- Si on attend suffisamment longtemps, le nuage va disparaître de
-		// lui-même
+		// --- Si on attend suffisamment longtemps, le nuage va disparaï¿½tre de
+		// lui-mï¿½me
 		Clock.getInstance().tick(60);
 
 		assertFalse(floor.hasPoisonClouds());
 	}
-	
+
 	public void testPoisonCloudSpellWhenPartyNearWall() throws Exception {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -626,23 +624,23 @@ public class SpellTest extends TestCase {
 
 		// Laisser le temps au projectile de "mourir"
 		Clock.getInstance().tick(18);
-		
+
 		final int health = tiggy.getStats().getHealth().value();
 
-		// --- Un nuage de poison doit être apparu
+		// --- Un nuage de poison doit ï¿½tre apparu
 		assertTrue(floor.hasPoisonClouds());
 		assertEquals(1, floor.getPoisonCloudCount());
 
-		// --- Si on attend suffisamment longtemps, le nuage va disparaître de
-		// lui-même
+		// --- Si on attend suffisamment longtemps, le nuage va disparaï¿½tre de
+		// lui-mï¿½me
 		Clock.getInstance().tick(60);
 
 		assertFalse(floor.hasPoisonClouds());
-		
-		// --- La santé du champion doit avoir diminué du fait du poison
+
+		// --- La santï¿½ du champion doit avoir diminuï¿½ du fait du poison
 		assertTrue(health > tiggy.getStats().getHealth().value().intValue());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

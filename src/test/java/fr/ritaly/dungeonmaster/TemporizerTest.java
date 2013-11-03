@@ -28,8 +28,9 @@ public class TemporizerTest extends TestCase {
 
 	public void testNegativeCount() {
 		try {
-			Temporizer temporizer = new Temporizer("Test", -1);
-			fail();
+			new Temporizer("Test", -1);
+
+			fail("A temporizer can't be created with a negative count");
 		} catch (IllegalArgumentException e) {
 			// OK
 		}
@@ -37,25 +38,28 @@ public class TemporizerTest extends TestCase {
 
 	public void testNullCount() {
 		try {
-			Temporizer temporizer = new Temporizer("Test", 0);
-			fail();
+			new Temporizer("Test", 0);
+
+			fail("A temporizer can't be created with a count of zero");
 		} catch (IllegalArgumentException e) {
 			// OK
 		}
 	}
 
 	public void testPositiveCount() {
-		Temporizer temporizer = new Temporizer("Test", 2);
+		final Temporizer temporizer = new Temporizer("Test", 2);
 
 		for (int i = 0; i < 5; i++) {
+			// odd triggerings return false
 			assertFalse(temporizer.trigger());
+
+			// even triggerings return true
 			assertTrue(temporizer.trigger());
 		}
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

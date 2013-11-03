@@ -288,7 +288,7 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener, C
 	 *            the location where the requested champion is. Can't be null.
 	 * @return a champion or null if there's no champion at this location.
 	 */
-	public Champion getChampion(Location location) {
+	public Champion getChampion(final Location location) {
 		Validate.notNull(location, "The given location is null");
 
 		return champions.get(location);
@@ -1037,11 +1037,17 @@ public class Party implements ChangeEventSource, ClockListener, AudioListener, C
 
 	/**
 	 * Tells whether all champions in the party are dead. This means a
-	 * "Game Over".
+	 * "Game Over". Returns false if the party has no champions.
 	 *
-	 * @return whether all champions in the party are dead.
+	 * @return whether the party has some champions and all champions in the
+	 *         party are dead.
 	 */
 	public boolean allChampionsDead() {
+		if (champions.isEmpty()) {
+			// The champions can't be dead since there are none !
+			return false;
+		}
+
 		for (Champion champion : getChampions(true)) {
 			if (champion.isAlive()) {
 				return false;

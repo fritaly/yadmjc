@@ -28,7 +28,7 @@ import fr.ritaly.dungeonmaster.Temporizer;
 
 /**
  * A simple {@link Actuator} used to trigger a {@link Triggered}.
- * 
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SimpleActuator implements Actuator {
@@ -60,9 +60,7 @@ public class SimpleActuator implements Actuator {
 	private final int max;
 
 	public SimpleActuator(int count, TriggerAction action, Triggered... targets) {
-
-		Validate.isTrue(count > 0, "The given tick count <" + count
-				+ "> must be positive");
+		Validate.isTrue(count > 0, "The given tick count <" + count + "> must be positive");
 		Validate.notNull(action, "The given trigger action is null");
 		Validate.notNull(targets, "The given array is null");
 		Validate.isTrue(targets.length > 0, "The given array is empty");
@@ -100,7 +98,7 @@ public class SimpleActuator implements Actuator {
 	@Override
 	public boolean clockTicked() {
 		if (temporizer.trigger()) {
-			// D�clenchement de chaque cible
+			// Trigger each target
 			for (Triggered triggered : targets) {
 				triggered.trigger(action);
 			}

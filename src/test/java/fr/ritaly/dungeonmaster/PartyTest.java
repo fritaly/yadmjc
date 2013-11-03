@@ -31,62 +31,63 @@ public class PartyTest extends TestCase {
 	}
 
 	public void testAutomaticLeaderSelectionWhenLeaderDies() {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
-		final Champion wuuf = ChampionFactory.getFactory().newChampion(
-				Name.WUUF);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+		final Champion wuuf = ChampionFactory.getFactory().newChampion(Name.WUUF);
 
 		final Party party = new Party();
 
-		// --- Vérifier l'état initial
+		// The party has no leader initially
 		assertNull(party.getLeader());
 
-		// --- Test quand le leader meurt
+		// Add 2 champions
 		party.addChampion(tiggy);
 		party.addChampion(wuuf);
 
+		// The leader is the first champion added
 		assertEquals(tiggy, party.getLeader());
+
+		// When the leader dies, the remaining champion is promoted leader
 		assertTrue(tiggy.die());
 		assertEquals(wuuf, party.getLeader());
 	}
-	
+
 	public void testAutomaticLeaderSelectionWhenRemovingLeader() {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
-		final Champion wuuf = ChampionFactory.getFactory().newChampion(
-				Name.WUUF);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+		final Champion wuuf = ChampionFactory.getFactory().newChampion(Name.WUUF);
 
 		final Party party = new Party();
 
-		// --- Vérifier l'état initial
+		// The party has no leader initially
 		assertNull(party.getLeader());
 
-		// --- Ajouter un champion au groupe
+		// Add one champion to the party
 		party.addChampion(tiggy);
 
+		// The leader is the first champion added
 		assertEquals(tiggy, party.getLeader());
 
-		// --- Ajouter un autre champion au groupe
+		// Add another champion
 		party.addChampion(wuuf);
 
+		// The leader is still the first champion added
 		assertEquals(tiggy, party.getLeader());
 
-		// --- Supprimer tiggy du groupe, wuuf devient leader
+		// Remove the first champion, the second becomes leader
 		party.removeChampion(tiggy);
 
 		assertEquals(wuuf, party.getLeader());
 
-		// --- Supprimer wuuf
+		// Remove the last champion, there's no more leader left
 		party.removeChampion(wuuf);
 
 		assertNull(party.getLeader());
 	}
-	
-	public void testChampionAddedToParty() {
-		Party party = new Party();
 
-		// --- Ajouter Tiggy
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+	public void testChampionAddedToParty() {
+		final Party party = new Party();
+
+		// Create a champion and add it to the party
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		party.addChampion(tiggy);
 
@@ -96,10 +97,11 @@ public class PartyTest extends TestCase {
 		assertEquals(1, party.getSize(true));
 		assertEquals(1, party.getSize(false));
 
-		// --- Ajouter deux fois le même champion doit échouer
 		try {
+			// Adding the same champion twice must fail
 			party.addChampion(tiggy);
-			fail();
+
+			fail("Adding the same champion twice should fail");
 		} catch (IllegalArgumentException e) {
 			// OK
 		}
@@ -110,8 +112,8 @@ public class PartyTest extends TestCase {
 		assertEquals(1, party.getSize(true));
 		assertEquals(1, party.getSize(false));
 
-		// --- Ajouter daroou
-		Champion daroou = ChampionFactory.getFactory().newChampion(Name.DAROOU);
+		// Add another champion
+		final Champion daroou = ChampionFactory.getFactory().newChampion(Name.DAROOU);
 
 		party.addChampion(daroou);
 
@@ -121,8 +123,8 @@ public class PartyTest extends TestCase {
 		assertEquals(2, party.getSize(true));
 		assertEquals(2, party.getSize(false));
 
-		// --- Ajouter chani
-		Champion chani = ChampionFactory.getFactory().newChampion(Name.CHANI);
+		// Add a third champion
+		final Champion chani = ChampionFactory.getFactory().newChampion(Name.CHANI);
 
 		party.addChampion(chani);
 
@@ -132,8 +134,8 @@ public class PartyTest extends TestCase {
 		assertEquals(3, party.getSize(true));
 		assertEquals(3, party.getSize(false));
 
-		// --- Ajouter wuuf
-		Champion wuuf = ChampionFactory.getFactory().newChampion(Name.WUUF);
+		// Add a fourth champion
+		final Champion wuuf = ChampionFactory.getFactory().newChampion(Name.WUUF);
 
 		party.addChampion(wuuf);
 
@@ -143,20 +145,20 @@ public class PartyTest extends TestCase {
 		assertEquals(4, party.getSize(true));
 		assertEquals(4, party.getSize(false));
 
-		// --- Ajouter un 5ème champion doit échouer
 		try {
-			party.addChampion(ChampionFactory.getFactory().newChampion(
-					Name.ALEX));
-			fail();
+			// Adding a fifth champion should fail
+			party.addChampion(ChampionFactory.getFactory().newChampion(Name.ALEX));
+
+			fail("Adding more than 4 champions to a party should fail");
 		} catch (IllegalStateException e) {
 			// OK
 		}
 	}
-	
-	public void testChampionRemovedFromParty() {
-		Party party = new Party();
 
-		// --- Ajouter Tiggy
+	public void testChampionRemovedFromParty() {
+		final Party party = new Party();
+
+		// Add a champion
 		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		party.addChampion(tiggy);
@@ -167,11 +169,10 @@ public class PartyTest extends TestCase {
 		assertEquals(1, party.getSize(true));
 		assertEquals(1, party.getSize(false));
 
-		// --- Retirer un champion inconnu doit échouer
 		try {
-			party.removeChampion(ChampionFactory.getFactory().newChampion(
-					Name.ALEX));
-			fail();
+			party.removeChampion(ChampionFactory.getFactory().newChampion(Name.ALEX));
+
+			fail("Removing an unknown champion from a party should fail");
 		} catch (IllegalArgumentException e) {
 			// OK
 		}
@@ -182,10 +183,10 @@ public class PartyTest extends TestCase {
 		assertEquals(1, party.getSize(true));
 		assertEquals(1, party.getSize(false));
 
-		// --- Ajouter daroou, chani & wuuf
-		Champion daroou = ChampionFactory.getFactory().newChampion(Name.DAROOU);
-		Champion chani = ChampionFactory.getFactory().newChampion(Name.CHANI);
-		Champion wuuf = ChampionFactory.getFactory().newChampion(Name.WUUF);
+		// --- Add 3 other champions
+		final Champion daroou = ChampionFactory.getFactory().newChampion(Name.DAROOU);
+		final Champion chani = ChampionFactory.getFactory().newChampion(Name.CHANI);
+		final Champion wuuf = ChampionFactory.getFactory().newChampion(Name.WUUF);
 
 		party.addChampion(daroou);
 		party.addChampion(chani);
@@ -197,7 +198,7 @@ public class PartyTest extends TestCase {
 		assertEquals(4, party.getSize(true));
 		assertEquals(4, party.getSize(false));
 
-		// --- Retirer daroou
+		// Remove a champion
 		final Location location1 = party.removeChampion(daroou);
 
 		assertNotNull(location1);
@@ -208,7 +209,7 @@ public class PartyTest extends TestCase {
 		assertEquals(3, party.getSize(true));
 		assertEquals(3, party.getSize(false));
 
-		// --- Retirer wuuf
+		// Remove another champion
 		final Location location2 = party.removeChampion(wuuf);
 
 		assertNotNull(location2);
@@ -219,7 +220,7 @@ public class PartyTest extends TestCase {
 		assertEquals(2, party.getSize(true));
 		assertEquals(2, party.getSize(false));
 
-		// --- Retirer tiggy
+		// Remove another champion
 		final Location location3 = party.removeChampion(tiggy);
 
 		assertNotNull(location3);
@@ -230,7 +231,7 @@ public class PartyTest extends TestCase {
 		assertEquals(1, party.getSize(true));
 		assertEquals(1, party.getSize(false));
 
-		// --- Retirer chani
+		// Remove the last champion
 		final Location location4 = party.removeChampion(chani);
 
 		assertNotNull(location4);
@@ -241,17 +242,124 @@ public class PartyTest extends TestCase {
 		assertEquals(0, party.getSize(true));
 		assertEquals(0, party.getSize(false));
 	}
-	
+
 	public void testPartyEmptiness() {
-		Party party = new Party();
+		final Party party = new Party();
 
 		assertTrue(party.isEmpty(true));
 		assertTrue(party.isEmpty(false));
 	}
-	
+
+	// --- addChampion(Champion) --- //
+
+	public void testAddChampion_Null() {
+		final Party party = new Party();
+
+		try {
+			party.addChampion(null);
+
+			fail("Adding a null champion should fail");
+		} catch (IllegalArgumentException e) {
+			// OK
+		}
+	}
+
+	public void testAddChampion_NewChampion() {
+		final Party party = new Party();
+		final Location location = party.addChampion(ChampionFactory.getFactory().newChampion(Champion.Name.ALEX));
+
+		assertNotNull(location);
+	}
+
+	public void testAddChampion_ExistingChampion() {
+		final Party party = new Party();
+		final Champion champion = ChampionFactory.getFactory().newChampion(Champion.Name.ALEX);
+		final Location location = party.addChampion(champion);
+
+		assertNotNull(location);
+
+		try {
+			party.addChampion(champion);
+
+			fail("Adding an existing champion should fail");
+		} catch (IllegalArgumentException e) {
+			// OK
+		}
+	}
+
+	public void testAddChampion_PartyFull() {
+		final Party party = new Party();
+		final ChampionFactory factory = ChampionFactory.getFactory();
+		party.addChampion(factory.newChampion(Champion.Name.ALEX));
+		party.addChampion(factory.newChampion(Champion.Name.AZIZI));
+		party.addChampion(factory.newChampion(Champion.Name.BORIS));
+		party.addChampion(factory.newChampion(Champion.Name.CHANI));
+
+		assertEquals(4, party.getSize(true));
+
+		try {
+			party.addChampion(factory.newChampion(Champion.Name.ZED));
+
+			fail("Adding a champion to a full party should fail");
+		} catch (IllegalStateException e) {
+			// OK
+		}
+	}
+
+	// --- allChampionsDead() --- //
+
+	public void testAllChampionsDead() {
+		final ChampionFactory factory = ChampionFactory.getFactory();
+
+		final Party party = new Party();
+		assertFalse(party.allChampionsDead());
+
+		final Champion alex = factory.newChampion(Champion.Name.ALEX);
+		final Champion azizi = factory.newChampion(Champion.Name.AZIZI);
+		final Champion boris = factory.newChampion(Champion.Name.BORIS);
+		final Champion chani = factory.newChampion(Champion.Name.CHANI);
+
+		party.addChampion(alex);
+		assertFalse(party.allChampionsDead());
+
+		party.addChampion(azizi);
+		assertFalse(party.allChampionsDead());
+
+		party.addChampion(boris);
+		assertFalse(party.allChampionsDead());
+
+		party.addChampion(chani);
+		assertFalse(party.allChampionsDead());
+
+		alex.die();
+		assertFalse(party.allChampionsDead());
+
+		azizi.die();
+		assertFalse(party.allChampionsDead());
+
+		boris.die();
+		assertFalse(party.allChampionsDead());
+
+		chani.die();
+		assertTrue(party.allChampionsDead()); // <---
+	}
+
+	// --- awake() --- //
+
+	public void testAwake() {
+		final Party party = new Party();
+
+		assertFalse(party.isSleeping());
+		party.sleep();
+		assertTrue(party.isSleeping());
+		party.awake();
+		assertFalse(party.isSleeping());
+	}
+
+	// --- //
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

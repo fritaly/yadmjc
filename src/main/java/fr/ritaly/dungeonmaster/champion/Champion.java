@@ -121,7 +121,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 		/**
 		 * Retourne le sexe du {@link Champion}.
-		 * 
+		 *
 		 * @return une instance de {@link Gender}. Ne retourne jamais null.
 		 */
 		public Gender getGender() {
@@ -164,7 +164,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		/**
 		 * Retourne les comp�tences du {@link Champion} sous forme d'une
 		 * {@link Map}.
-		 * 
+		 *
 		 * @return une {@link Map} contenant les comp�tences et leur niveau
 		 *         associ�. Ne retourne jamais null.
 		 */
@@ -465,7 +465,13 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * Niveau d'exp�rience d'un {@link Champion} dans une {@link Skill} donn�e.
 	 * Chaque {@link Level} est associ� � un intervalle de points d'exp�rience.
 	 * Quand l'exp�rience d�passe ce seuil, le {@link Champion} change
-	 * automatiquent de {@link Level}.
+	 * automatiquent de {@link Level}.<br>
+	 * <br>
+	 * Sources: <a href="http://dmweb.free.fr/?q=node/692">Technical
+	 * Documentation - Dungeon Master and Chaos Strikes Back Experience and
+	 * Training</a>, <a href="http://dmweb.free.fr/?q=node/691">Technical
+	 * Documentation - Dungeon Master and Chaos Strikes Back Skills and
+	 * Statistics</a>
 	 */
 	public static enum Level {
 		// Niveaux possibles class�s du plus faible au plus fort
@@ -517,7 +523,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		 * Retourne la "largeur" de l'intervalle de points d'exp�rience associ�
 		 * � ce niveau de comp�tence. Repr�sente le nombre de points
 		 * d'exp�rience que le champion doit acqu�rir pour monter de niveau.
-		 * 
+		 *
 		 * @return un nombre de points d'exp�rience.
 		 */
 		public int getRangeSpan() {
@@ -527,7 +533,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		/**
 		 * Indique si le nombre de points d'exp�rience donn�s est contenu dans
 		 * l'intervalle de points associ� � ce {@link Level}.
-		 * 
+		 *
 		 * @param experience
 		 *            un nombre de points d'exp�rience.
 		 * @return si le nombre de points d'exp�rience donn�s est contenu dans
@@ -540,7 +546,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		/**
 		 * Retourne la valeur associ�e au {@link Level}. Correspond � la valeur
 		 * ordinale de l'enum.
-		 * 
+		 *
 		 * @return un entier positif ou nul.
 		 */
 		public int getValue() {
@@ -551,7 +557,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		 * Convertit le nombre de points d'exp�rience donn� en une instance de
 		 * {@link Level}. L�ve une {@link IllegalArgumentException} si la
 		 * conversion est impossible.
-		 * 
+		 *
 		 * @param points
 		 *            un entier positif repr�sentant un nombre de points
 		 *            d'exp�rience.
@@ -675,7 +681,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * Augmente du nombre de points d'exp�rience donn�s la comp�tence du
 	 * {@link Champion}. Promeut automatiquement le {@link Champion} si sa
 	 * comp�tence est suffisante.
-	 * 
+	 *
 	 * @param skill
 	 *            la {@link Skill} dont l'exp�rience doit augmenter.
 	 * @param points
@@ -706,7 +712,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 	/**
 	 * Retourne les comp�tences du {@link Champion} sous forme de {@link List}.
-	 * 
+	 *
 	 * @return une {@link List} de {@link Skill}. Ne retourne jamais null.
 	 */
 	public List<Skill> getSkills() {
@@ -718,7 +724,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * D�finit le niveau de comp�tence <b>de base</b> du h�ros dans la
 	 * {@link Skill} donn�e, c'est-�-dire le niveau ind�pendant du bonus de
 	 * comp�tence.
-	 * 
+	 *
 	 * @param skill
 	 *            la {@link Skill} dont le niveau doit �tre positionn�.
 	 * @param level
@@ -739,7 +745,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	/**
 	 * Retourne l'exp�rience associ�e � la {@link Skill} donn�e du
 	 * {@link Champion}.
-	 * 
+	 *
 	 * @param skill
 	 *            la {@link Skill} pour laquelle on demande l'exp�rience.
 	 * @return une instance de {@link Experience}. Ne retourne jamais null.
@@ -763,7 +769,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * Fait invoquer le {@link Rune} donn� au {@link Champion}. Cette m�thode
 	 * g�re la consommation de mana, la coh�rence de la s�quence de {@link Rune}
 	 * s invoqu�s, etc.
-	 * 
+	 *
 	 * @param rune
 	 *            le {@link Rune} que le {@link Champion} doit invoquer.
 	 * @throws NotEnoughManaException
@@ -894,7 +900,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * Lance le sort en cours d'invocation par le {@link Champion}. L'exp�rience
 	 * du {@link Champion} augmente si le sort r�ussit et sa main est rendue
 	 * indisponible pendant un temps fonction du sort invoqu�.
-	 * 
+	 *
 	 * @return une instance de {@link Spell} repr�sentant le sort invoqu�.
 	 * @throws ChampionMumblesNonsenseException
 	 *             si le sort n'est pas valide.
@@ -962,16 +968,16 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 		// Comp�tence mise en oeuvre par le sort (peut �tre nul !)
 		final Skill skill = spell.getSkill();
-		
+
 		if (skill != null) {
 			// Le champion gagne de l'exp�rience. Nombre de points gagn�s ?
-			gainExperience(skill, spell.getEarnedExperience());			
+			gainExperience(skill, spell.getEarnedExperience());
 		}
 
 		final int duration = spell.getDuration();
-		
+
 		if (duration > 0) {
-			// Rendre la main du champion indisponible (uniquement si le sort a 
+			// Rendre la main du champion indisponible (uniquement si le sort a
 			// une "dur�e" d'indisponibilit�)
 			body.getWeaponHand().disable(duration);
 		}
@@ -1042,7 +1048,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 	/**
 	 * Indique si le {@link Champion} est le leader de son groupe.
-	 * 
+	 *
 	 * @return si le {@link Champion} est le leader de son groupe.
 	 */
 	public boolean isLeader() {
@@ -1052,7 +1058,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	/**
 	 * Retourne la charge maximale (en kilogrammes) que peut porter ce
 	 * {@link Champion}.
-	 * 
+	 *
 	 * @return un float repr�sentant un nombre de kilogrammes.
 	 */
 	public final float getMaxLoad() {
@@ -1063,7 +1069,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * Retourne le niveau <b>r�el</b> du champion pour la {@link Skill} donn�e,
 	 * c'est-�-dire que la valeur retourn�e comprend l'�ventuel bonus de
 	 * comp�tence.
-	 * 
+	 *
 	 * @param skill
 	 *            une instance de {@link Skill} dont le niveau associ� est
 	 *            demand�.
@@ -1081,7 +1087,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * Retourne la charge actuellement port�e par le {@link Champion}. S'il est
 	 * leader de son groupe, cela inclut l'�ventuel {@link Item} que le leader
 	 * porte en main.
-	 * 
+	 *
 	 * @return un float repr�sentant un nombre de kilogrammes.
 	 */
 	public float getLoad() {
@@ -1100,7 +1106,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * Retourne la vitesse de d�placement du champion compte tenu de son �tat
 	 * actuel. Le retour de la m�thode d�pend de si le h�ros est bless�,
 	 * surcharg�, etc.
-	 * 
+	 *
 	 * @return une instance de {@link Speed}.
 	 */
 	public Speed getMoveSpeed() {
@@ -1132,7 +1138,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	/**
 	 * Fait mourir le {@link Champion} (s'il est vivant) et retourne si
 	 * l'op�ration a r�ussi.
-	 * 
+	 *
 	 * @return si le {@link Champion} �tait vivant et qu'il vient de mourir.
 	 */
 	public boolean die() {
@@ -1147,7 +1153,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 	/**
 	 * Indique si le {@link Champion} est vivant.
-	 * 
+	 *
 	 * @return si le {@link Champion} est vivant.
 	 */
 	public boolean isAlive() {
@@ -1156,7 +1162,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 	/**
 	 * Indique si le {@link Champion} est mort.
-	 * 
+	 *
 	 * @return si le {@link Champion} est mort.
 	 */
 	public final boolean isDead() {
@@ -1166,7 +1172,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	/**
 	 * Retourne le bonus de r�sistance au feu du {@link Champion} calcul� �
 	 * partir des objets qu'il porte sur lui et des sorts actifs.
-	 * 
+	 *
 	 * @return un entier positif ou nul repr�sentant un bonus de r�sistance au
 	 *         feu.
 	 */
@@ -1185,7 +1191,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	/**
 	 * Retourne le bonus de d�fense du {@link Champion} calcul� � partir des
 	 * objets qu'il porte sur lui et des sorts actifs.
-	 * 
+	 *
 	 * @return un entier positif ou nul repr�sentant un bonus de d�fense.
 	 */
 	public int getShield() {
@@ -1209,7 +1215,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * param�tre tel quel. Autrement consomme l'objet et retourne null si
 	 * celui-ci est d�truit par l'op�ration ou retourne un autre objet dans
 	 * lequel il s'est chang� (Ex: Vidage d'une fiole d'eau -> Fiole vide).
-	 * 
+	 *
 	 * @param item
 	 *            un {@link Item} que le {@link Champion} doit consommer (boire
 	 *            ou manger).
@@ -1227,7 +1233,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 	/**
 	 * Gu�rit le {@link Champion} avec la puissance du {@link PowerRune} donn�.
-	 * 
+	 *
 	 * @param powerRune
 	 *            un {@link PowerRune} qui d�termine la puissance de la gu�rison
 	 *            appliqu�e au {@link Champion}.
@@ -1245,7 +1251,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 	/**
 	 * Diminue les points de vie du {@link Champion} du nombre donn�.
-	 * 
+	 *
 	 * @param points
 	 *            un entier positif ou nul repr�sentant un nombre de points de
 	 *            vie.
@@ -1382,7 +1388,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 	/**
 	 * Indique si le {@link Champion} a faim.
-	 * 
+	 *
 	 * @return si le {@link Champion} a faim.
 	 */
 	public boolean isStarving() {
@@ -1392,7 +1398,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 	/**
 	 * Indique si le {@link Champion} a soif.
-	 * 
+	 *
 	 * @return si le {@link Champion} a soif.
 	 */
 	public boolean isThirsty() {
@@ -1402,7 +1408,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 	/**
 	 * Empoisonne le {@link Champion} avec un poison de force donn�e.
-	 * 
+	 *
 	 * @param powerRune
 	 *            un {@link PowerRune} d�terminant la force de l'empoisonnement.
 	 */
@@ -1417,7 +1423,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	/**
 	 * Gu�rit le {@link Champion} avec un anti-dote (anti-poison) de force
 	 * donn�e.
-	 * 
+	 *
 	 * @param powerRune
 	 *            un {@link PowerRune} d�terminant la force de la gu�rison.
 	 */
@@ -1431,7 +1437,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 	/**
 	 * Indique si le {@link Champion} est empoisonn�.
-	 * 
+	 *
 	 * @return si le {@link Champion} est empoisonn�.
 	 */
 	public boolean isPoisoned() {
@@ -1468,7 +1474,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	/**
 	 * Retourne la lumi�re g�n�r�e par le {@link Champion}. Inclut les objets
 	 * port�s par le {@link Champion}, les amulettes et les sorts.
-	 * 
+	 *
 	 * @return un entier positif ou nul dans l'intervalle [0-255].
 	 */
 	public int getLight() {
@@ -1502,7 +1508,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 
 	/**
 	 * Retourne les objets port�s par le {@link Champion}.
-	 * 
+	 *
 	 * @return une {@link List} de {@link Item}. Ne retourne jamais null.
 	 */
 	public List<Item> getItems() {
@@ -1533,13 +1539,13 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	/**
 	 * Retourne l'emplacement auquel est situ� ce {@link Champion} dans son
 	 * groupe ou null s'il n'appartient � aucun groupe.
-	 * 
+	 *
 	 * @return une instance de {@link Location} ou null.
 	 */
 	public Location getLocation() {
 		return (party != null) ? party.getLocation(this) : null;
 	}
-	
+
 	public SubCell getSubCell() {
 		return (party != null) ? getLocation().toSubCell(
 				getParty().getDirection()) : null;

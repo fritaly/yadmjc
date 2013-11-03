@@ -17,7 +17,7 @@ import fr.ritaly.dungeonmaster.map.Level;
 
 /**
  * See http://memoization.com/2008/11/30/a-star-algorithm-in-java/ for the web
- * page where the original source code comes from. The code was refactored so as 
+ * page where the original source code comes from. The code was refactored so as
  * to make the maze stateless.
  */
 public class PathFinder {
@@ -50,19 +50,18 @@ public class PathFinder {
 
 		for (Element adjacency : start.getReachableElements()) {
 			if (Materiality.IMMATERIAL.equals(materiality)) {
-				// Tous les noeuds peuvent être traversés
+				// All nodes can be traversed
 			} else {
-				// Seuls les noeuds "non concrets" peuvent être traversés
+				// Only non-concrete nodes can be traversed
 				if (adjacency.isConcrete()) {
-					// Ignorer ce noeud
+					// Ignore this node
 					continue;
 				}
 			}
 
 			parents.put(adjacency, start);
 
-			if (!((adjacency.getPosition().x == startX) && (adjacency
-					.getPosition().y == startY))) {
+			if (!((adjacency.getPosition().x == startX) && (adjacency.getPosition().y == startY))) {
 				opened.add(adjacency);
 			}
 		}
@@ -73,15 +72,15 @@ public class PathFinder {
 			opened.remove(best);
 			closed.add(best);
 
-			if ((best.getPosition().x == endX)
-					&& (best.getPosition().y == endY)) {
+			if ((best.getPosition().x == endX) && (best.getPosition().y == endY)) {
 				System.out.println("Found Goal");
 				populateBestList(goal, startX, startY);
 
-				// Rajouter la position de départ à la solution
+				// Add the start position to the solution
 				bestList.add(start);
 
-				// Inverser la liste pour aller de la position de départ au but
+				// Reverse the traversed node to list from the start position
+				// to the goal
 				Collections.reverse(bestList);
 
 				System.out.println(level.draw(bestList));
@@ -92,12 +91,11 @@ public class PathFinder {
 
 				for (Element neighbor : neighbors) {
 					if (Materiality.IMMATERIAL.equals(materiality)) {
-						// Tous les noeuds peuvent être traversés
+						// All nodes can be traversed
 					} else {
-						// Seuls les noeuds "non concrets" peuvent être
-						// traversés
+						// Only non-concrete nodes can be traversed
 						if (neighbor.isConcrete()) {
-							// Ignorer ce noeud
+							// Ignore this node
 							continue;
 						}
 					}
@@ -109,9 +107,7 @@ public class PathFinder {
 
 						parents.put(temp, best);
 
-						if (getPassThrough(temp, goal, startX, startY) >= getPassThrough(
-								neighbor, goal, startX, startY)) {
-
+						if (getPassThrough(temp, goal, startX, startY) >= getPassThrough(neighbor, goal, startX, startY)) {
 							continue;
 						}
 					}
@@ -123,9 +119,7 @@ public class PathFinder {
 
 						parents.put(temp, best);
 
-						if (getPassThrough(temp, goal, startX, startY) >= getPassThrough(
-								neighbor, goal, startX, startY)) {
-
+						if (getPassThrough(temp, goal, startX, startY) >= getPassThrough(neighbor, goal, startX, startY)) {
 							continue;
 						}
 					}
@@ -144,10 +138,9 @@ public class PathFinder {
 
 	private Element findBestPassThrough(Element goal, int startX, int startY) {
 		Element best = null;
+
 		for (Element square : opened) {
-			if (best == null
-					|| getPassThrough(square, goal, startX, startY) < getPassThrough(
-							best, goal, startX, startY)) {
+			if (best == null || getPassThrough(square, goal, startX, startY) < getPassThrough(best, goal, startX, startY)) {
 				best = square;
 			}
 		}
@@ -179,8 +172,7 @@ public class PathFinder {
 		}
 
 		// cost of getting from this square to goal
-		return 1.0 * (Math.abs(x - goal.getPosition().x) + Math.abs(y
-				- goal.getPosition().y));
+		return 1.0 * (Math.abs(x - goal.getPosition().x) + Math.abs(y - goal.getPosition().y));
 	}
 
 	private double getParentCost(Element square, int x, int y) {
@@ -211,8 +203,7 @@ public class PathFinder {
 				goalY = random.nextInt(10);
 			} while (goalX == startX && goalY == startY);
 
-			path = new PathFinder(level, Materiality.MATERIAL).findBestPath(
-					startX, startY, goalX, goalY);
+			path = new PathFinder(level, Materiality.MATERIAL).findBestPath(startX, startY, goalX, goalY);
 		} while (path == null);
 	}
 }

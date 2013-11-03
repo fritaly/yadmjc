@@ -82,58 +82,67 @@ public interface ItemContainer {
 	public Item getRandom();
 
 	/**
-	 * Tente d'ajouter l'objet donn� � cet {@link ItemContainer} et retourne
-	 * l'index auquel a �t� ajout� l'objet si l'op�ration a r�ussi autrement -1.
+	 * Adds the given itme to this container and returns the index where the
+	 * item was added.
 	 *
 	 * @param item
-	 *            un {@link Item} � ajouter.
-	 * @return un entier repr�sentant l'index auquel a �t� ajout� l'objet si
-	 *         l'op�ration a r�ussi autrement -1.
+	 *            the item to add. Can't be null.
+	 * @return an integer representing the index where the item was added to the
+	 *         container or -1 if the operation failed.
 	 */
 	public int add(Item item);
 
 	/**
-	 * Supprime tous les objets de cet {@link ItemContainer} et les retourne
-	 * sous forme de {@link List}.
+	 * Removes all the items from this container and returns them as a list.
 	 *
-	 * @return une {@link List} de {@link Item}. Ne retourne jamais null.
+	 * @return a list containing the removed items. Never returns null.
 	 */
 	public List<Item> removeAll();
 
 	/**
-	 * Supprime l'objet d'index donn� et le retourne.
+	 * Removes the item located at the given index (if any) and returns it.
 	 *
 	 * @param index
-	 *            un entier positif ou nul repr�sentant l'index de l'objet �
-	 *            retirer.
-	 * @return une instance de {@link Item} ou null s'il n'y a aucun objet �
-	 *         l'index donn�.
+	 *            an integer representing the index of item to remove. Must be a
+	 *            positive or zero value.
+	 * @return the removed item or null if there was no item at the given index.
 	 */
 	public Item remove(int index);
 
 	/**
-	 * Supprime un {@link Item} tir� au hasard parmi ceux de cet
-	 * {@link ItemContainer} et le retourne.
+	 * Removes a random item from this container and returns it.
 	 *
-	 * @return un {@link Item} ou null si le conteneur est vide.
+	 * @return the removed item or null if the container is empty.
 	 */
 	public Item removeRandom();
 
 	/**
-	 * Tente de supprimer l'objet donn� et retourne si l'op�ration a r�ussi.
+	 * Removes the given item from this container and returns whether the
+	 * operation succeeded.
 	 *
 	 * @param item
-	 *            une instance de {@link Item} � supprimer du conteneur.
-	 * @return si l'op�ration a r�ussi.
+	 *            the item to remove. Can't be null.
+	 * @return whether the removal operation succeeded.
 	 */
 	public boolean remove(Item item);
 
+	/**
+	 * Sets the item at the given index and returns the item that was possibly
+	 * removed by this operation.
+	 *
+	 * @param index
+	 *            an integer representing the index where to set the item.
+	 * @param item
+	 *            the item to set. Can't be null.
+	 * @return the item previously at this index or null if there was none.
+	 */
 	public Item set(int index, Item item);
 
 	/**
-	 * Retourne le poids total des objets contenus par cet {@link Item}.
+	 * Returns the weight of all items in this container.
 	 *
-	 * @return un float repr�sentant le poids des objets en kilogrammes.
+	 * @return a float representing the total weight (in Kg) of all the
+	 *         contained items.
 	 */
 	public float getTotalWeight();
 }

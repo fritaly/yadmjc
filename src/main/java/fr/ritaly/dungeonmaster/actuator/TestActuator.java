@@ -34,7 +34,7 @@ public class TestActuator implements Actuator {
 	public boolean clockTicked() {
 		triggered = true;
 
-		// Stop listening for ticks
+		// Stop listening to clock ticks
 		return false;
 	}
 

@@ -13,6 +13,10 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'CP1252'
 }
 
+configurations {
+  ajc
+}
+
 dependencies {
 	compile 'commons-collections:commons-collections:3.2'
 	compile 'commons-lang:commons-lang:2.3'
@@ -21,7 +25,26 @@ dependencies {
 	compile 'org.aspectj:aspectjrt:1.6.9'
 	compile files('src/lib/joal.jar')
 
+	// AspectJ dependency used for compiling only
+	ajc 'org.aspectj:aspectjtools:1.6.9'
+
 	testCompile 'junit:junit:3.8.1'
+}
+
+compileJava {
+	doLast {
+		// Configuration to weave the aspects
+		ant.taskdef( resource:"org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties", classpath: configurations.ajc.asPath)
+		ant.iajc(source:"1.6", target:"1.6", destDir:sourceSets.main.output.classesDir.absolutePath, maxmem:"512m", fork:"true",
+			sourceRootCopyFilter:"**/*.java",classpath:configurations.compile.asPath){
+
+ 			sourceroots{
+				sourceSets.main.java.srcDirs.each{
+					pathelement(location:it.absolutePath)
+				}
+			}
+		}
+	}
 }
 
 test {
