@@ -40,6 +40,7 @@ public final class Cloth extends Item {
 		case CAPE:
 		case CLOAK_OF_NIGHT:
 			return BodyPart.Type.NECK;
+
 		case BARBARIAN_HIDE:
 		case ROBE_LEGS:
 		case FINE_ROBE_LEGS:
@@ -56,6 +57,7 @@ public final class Cloth extends Item {
 		case POLEYN_OF_DARC:
 		case POWERTOWERS:
 			return BodyPart.Type.LEGS;
+
 		case SANDALS:
 		case LEATHER_BOOTS:
 		case ELVEN_BOOTS:
@@ -66,6 +68,7 @@ public final class Cloth extends Item {
 		case GREAVE_OF_DARC:
 		case BOOTS_OF_SPEED:
 			return BodyPart.Type.FEET;
+
 		case ROBE_BODY:
 		case FINE_ROBE_BODY:
 		case KIRTLE:
@@ -82,6 +85,7 @@ public final class Cloth extends Item {
 		case FLAMEBAIN:
 		case HALTER:
 			return BodyPart.Type.TORSO;
+
 		case CALISTA:
 		case CROWN_OF_NERRA:
 		case BEZERKER_HELM:
@@ -93,6 +97,7 @@ public final class Cloth extends Item {
 		case HELM_OF_DARC:
 		case DEXHELM:
 			return BodyPart.Type.HEAD;
+
 		case BUCKLER:
 		case HIDE_SHIELD:
 		case WOODEN_SHIELD:
@@ -101,6 +106,7 @@ public final class Cloth extends Item {
 		case SHIELD_OF_LYTE:
 		case SHIELD_OF_DARC:
 			return BodyPart.Type.SHIELD_HAND;
+
 		default:
 			throw new UnsupportedOperationException();
 		}

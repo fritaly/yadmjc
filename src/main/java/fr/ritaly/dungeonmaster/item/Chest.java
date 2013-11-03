@@ -27,10 +27,15 @@ import fr.ritaly.dungeonmaster.champion.inventory.AbstractItemContainer;
 import fr.ritaly.dungeonmaster.champion.inventory.ItemContainer;
 
 /**
+ * A chest is a special item because it's also an item container.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Chest extends Item implements ItemContainer {
 
+	/**
+	 * The underlying item container managing the chest's content.
+	 */
 	private final ItemContainer container = new AbstractItemContainer(8) {
 		@Override
 		protected String getName() {
@@ -42,8 +47,7 @@ public final class Chest extends Item implements ItemContainer {
 			checkIndex(index);
 			Validate.notNull(item, "The given item is null");
 
-			// Le coffre accepte n'importe quel objet s'il est compatible avec
-			// le coffre
+			// The chest can store any item compatible with the chest
 			return item.getCarryLocations().contains(CarryLocation.CHEST);
 		}
 	};
@@ -54,79 +58,67 @@ public final class Chest extends Item implements ItemContainer {
 
 	@Override
 	public int getCapacity() {
-		// D�l�gation
 		return container.getCapacity();
 	}
 
 	@Override
 	public int getItemCount() {
-		// D�l�gation
 		return container.getItemCount();
 	}
 
 	@Override
 	public List<Item> getItems() {
-		// D�l�gation
 		return container.getItems();
 	}
 
 	@Override
 	public boolean isFull() {
-		// D�l�gation
 		return container.isFull();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// D�l�gation
 		return container.isEmpty();
 	}
 
 	@Override
 	public Item getRandom() {
-		// D�l�gation
 		return container.getRandom();
 	}
-	
+
 	@Override
 	public Item removeRandom() {
-		// D�l�gation
 		return container.removeRandom();
 	}
 
 	@Override
 	public int add(Item item) {
-		// D�l�gation
 		return container.add(item);
 	}
 
 	@Override
 	public List<Item> removeAll() {
-		// D�l�gation
 		return container.removeAll();
 	}
 
 	@Override
 	public Item remove(int index) {
-		// D�l�gation
 		return container.remove(index);
 	}
 
 	@Override
 	public boolean remove(Item item) {
-		// D�l�gation
 		return container.remove(item);
 	}
 
 	@Override
 	public Item set(int index, Item item) {
-		// D�l�gation
 		return container.set(index, item);
 	}
 
 	@Override
 	public float getTotalWeight() {
-		// Prendre en compte le poids du coffre lui-m�me !
+		// Take into account the chest's weight (5.0 Kg)
 		return 5.0f + container.getTotalWeight();
 	}
 

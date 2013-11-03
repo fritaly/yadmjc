@@ -44,39 +44,60 @@ import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
- * Un objet.
- * 
+ * An item. There are different types of items in the game.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public abstract class Item implements ChangeEventSource {
 
 	private final Log log = LogFactory.getLog(this.getClass());
 
+	/**
+	 * Sequence used for assigning unique ids to items upon creation.
+	 */
 	private static final AtomicInteger SEQUENCE = new AtomicInteger();
 
 	/**
-	 * Enum�ration des cat�gories d'objets du jeu.
+	 * Enumerates the possible categories of items.
+	 *
+	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
 	 */
 	public static enum Category {
-		SCROLL(
-			EnumSet.of(Type.SCROLL)),
-		CONTAINER(
-			EnumSet.of(Type.CHEST)),
-		POTION(
-			EnumSet.range(Type.MON_POTION, Type.EMPTY_FLASK)),
-		WEAPON(
-			EnumSet.range(Type.EYE_OF_TIME, Type.THE_FIRESTAFF_COMPLETE)),
-		CLOTH(
-			EnumSet.range(Type.CAPE, Type.HALTER)),
-		MISCELLANEOUS(
-			EnumSet.range(Type.COMPASS, Type.ZOKATHRA_SPELL));
-
-		private static final EnumSet<Item.Type> FOOD_TYPES = EnumSet.range(
-				Item.Type.APPLE, Item.Type.DRAGON_STEAK);
+		/**
+		 * The scroll category contains only 1 item type (scroll).
+		 */
+		SCROLL(EnumSet.of(Type.SCROLL)),
 
 		/**
-		 * {@link EnumSet} de {@link Type} contenant le type des objets associ�s
-		 * � cette {@link Category}.
+		 * The container category contains only 1 item type (chest).
+		 */
+		CONTAINER(EnumSet.of(Type.CHEST)),
+
+		/**
+		 * The category of potion items.
+		 */
+		POTION(EnumSet.range(Type.MON_POTION, Type.EMPTY_FLASK)),
+
+		/**
+		 * The category of weapon items.
+		 */
+		WEAPON(EnumSet.range(Type.EYE_OF_TIME, Type.THE_FIRESTAFF_COMPLETE)),
+
+		/**
+		 * The category of cloth items.
+		 */
+		CLOTH(EnumSet.range(Type.CAPE, Type.HALTER)),
+
+		/**
+		 * The category of other miscellaneous items.
+		 */
+		MISCELLANEOUS(EnumSet.range(Type.COMPASS, Type.ZOKATHRA_SPELL));
+
+		// TODO This is a sub-type of MISCELLANEOUS. Make this more consistent
+		private static final EnumSet<Item.Type> FOOD_TYPES = EnumSet.range(Item.Type.APPLE, Item.Type.DRAGON_STEAK);
+
+		/**
+		 * Set containing the item types associated to this category.
 		 */
 		private final EnumSet<Type> types;
 
@@ -86,15 +107,20 @@ public abstract class Item implements ChangeEventSource {
 			this.types = types;
 		}
 
+		/**
+		 * Returns the item types associated to this category.
+		 *
+		 * @return a set of item types. Never returns null.
+		 */
 		public EnumSet<Type> getTypes() {
 			return types;
 		}
 
 		/**
-		 * Retourne le {@link Type} des objets de type nourriture (un
-		 * sous-ensemble de la category {@link #MISCELLANEOUS}).
-		 * 
-		 * @return un {@link EnumSet} de {@link Type}.
+		 * Returns the item types corresponding to the food items. Note: The
+		 * food items are included in the {@link #MISCELLANEOUS} category.
+		 *
+		 * @return a set of item types. Never returns null.
 		 */
 		public static EnumSet<Type> getFoodItems() {
 			return FOOD_TYPES;
@@ -242,12 +268,12 @@ public abstract class Item implements ChangeEventSource {
 			CarryLocations.QUIVER1), // Idem pr�c�dent
 		FURY(
 			4.7f,
-			55, 20, 0, 0, 
+			55, 20, 0, 0,
 			Combo.COMBO_10,
 			CarryLocations.QUIVER1),
 		RA_BLADE(
 			4.7f,
-			55, 20, 0, 0, 
+			55, 20, 0, 0,
 			Combo.COMBO_10,
 			CarryLocations.QUIVER1), // Idem pr�c�dent
 		THE_FIRESTAFF(
@@ -262,7 +288,7 @@ public abstract class Item implements ChangeEventSource {
 			CarryLocations.CHEST_POUCH_QUIVER2),
 		FALCHION(
 			3.3f,
-			30, 8, 0, 0, 
+			30, 8, 0, 0,
 			Combo.COMBO_13,
 			CarryLocations.QUIVER1),
 		SWORD(
@@ -287,7 +313,7 @@ public abstract class Item implements ChangeEventSource {
 			CarryLocations.QUIVER1), // Idem pr�c�dent
 		SAMURAI_SWORD(
 			3.6f,
-			46, 12, 0, 0, 
+			46, 12, 0, 0,
 			Combo.COMBO_15,
 			CarryLocations.QUIVER1),
 		DELTA(
@@ -302,7 +328,7 @@ public abstract class Item implements ChangeEventSource {
 			CarryLocations.QUIVER1), // Idem pr�c�dent
 		DIAMOND_EDGE(
 			3.7f,
-			62, 14, 0, 0, 
+			62, 14, 0, 0,
 			Combo.COMBO_17,
 			CarryLocations.QUIVER1),
 		VORPAL_BLADE(
@@ -391,7 +417,7 @@ public abstract class Item implements ChangeEventSource {
 			Combo.COMBO_27,
 			CarryLocations.CHEST_QUIVER1),
 		ROCK(
-			1.0f, 
+			1.0f,
 			6, 18, 0, 11,
 			Combo.COMBO_42,
 			CarryLocations.CHEST_POUCH_QUIVER2),
@@ -421,7 +447,7 @@ public abstract class Item implements ChangeEventSource {
 			Combo.COMBO_28,
 			CarryLocations.CHEST_POUCH_QUIVER1),
 		TEOWAND(
-			0.2f, 
+			0.2f,
 			1, 20, 0, 12,
 			Combo.COMBO_29,
 			CarryLocations.CHEST_POUCH_QUIVER1),
@@ -1014,16 +1040,16 @@ public abstract class Item implements ChangeEventSource {
 		private final int damage;
 
 		/**
-		 * This value determines how far the item will go when thrown. If a 
-		 * weapon is used to "Shoot", this will be a part of how far the item 
-		 * being shot will travel. The farther the projectile goes, the more 
-		 * damage it does (Damage is decreased as it flies). Valeur dans 
+		 * This value determines how far the item will go when thrown. If a
+		 * weapon is used to "Shoot", this will be a part of how far the item
+		 * being shot will travel. The farther the projectile goes, the more
+		 * damage it does (Damage is decreased as it flies). Valeur dans
 		 * l'intervalle [0-255].
 		 */
 		private final int distance;
 
 		/**
-		 * The amount of damage associated with fired projectiles. Valeur dans 
+		 * The amount of damage associated with fired projectiles. Valeur dans
 		 * l'intervalle [0-255].
 		 */
 		private final int shootDamage;
@@ -1040,7 +1066,7 @@ public abstract class Item implements ChangeEventSource {
 		// http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244
 		// FIXME Prendre en compte distance, shootDamage, deltaEnergy
 		// Constructeur sp�cial pour les objets de type arme
-		private Type(float weight, int damage, int distance, int shootDamage, 
+		private Type(float weight, int damage, int distance, int shootDamage,
 				int deltaEnergy, Combo combo, CarryLocations carryLocations) {
 
 			Validate.isTrue(weight >= 0.0f, "The given weight " + weight
@@ -1085,7 +1111,7 @@ public abstract class Item implements ChangeEventSource {
 
 		/**
 		 * Retourne la {@link Combo} associ�e au type d'item.
-		 * 
+		 *
 		 * @return une instance de {@link Combo}. Ne retourne jamais null.
 		 */
 		public Combo getCombo() {
@@ -1094,7 +1120,7 @@ public abstract class Item implements ChangeEventSource {
 
 		/**
 		 * Retourne la {@link Category} associ�e � ce type d'objet.
-		 * 
+		 *
 		 * @return une instance de {@link Category}. Ne retourne jamais null.
 		 */
 		public Category getCategory() {
@@ -1118,7 +1144,7 @@ public abstract class Item implements ChangeEventSource {
 		/**
 		 * Retourne la liste des {@link Effect}s caus�s sur un {@link Champion}
 		 * quand ce type d'objet est activ�.
-		 * 
+		 *
 		 * @return une {@link List} de {@link Effect}s. Ne retourne jamais null.
 		 */
 		public List<Effect> getEffects() {
@@ -1204,7 +1230,7 @@ public abstract class Item implements ChangeEventSource {
 		 * dommage une attaque cause. Pertinent uniquement pour une objet de
 		 * type arme (cf {@link #getCategory()}) auquel cas la valeur est
 		 * positive ou nulle autrement vaut -1.
-		 * 
+		 *
 		 * @return un entier positif ou nul si l'objet est une arme autrement
 		 *         -1.
 		 */
@@ -1214,7 +1240,7 @@ public abstract class Item implements ChangeEventSource {
 
 		/**
 		 * Indique si ce type d'objet est une cl�.
-		 * 
+		 *
 		 * @return si ce type d'objet est une cl�.
 		 */
 		public boolean isKey() {
@@ -1304,7 +1330,7 @@ public abstract class Item implements ChangeEventSource {
 
 		/**
 		 * Applique l'effet sur le {@link Champion} donn�.
-		 * 
+		 *
 		 * @param champion
 		 *            un {@link Champion} sur lequel appliquer l'effet.
 		 */
@@ -1328,7 +1354,7 @@ public abstract class Item implements ChangeEventSource {
 				break;
 			case MAX_LOAD:
 				// MaxLoad est une statistique � part pour laquelle le boost est
-				// g�r� s�parement de la valeur de base (qui est calcul�e 
+				// g�r� s�parement de la valeur de base (qui est calcul�e
 				// dynamiquement)
 				stats.getMaxLoadBoost().inc(value);
 				break;
@@ -1372,7 +1398,7 @@ public abstract class Item implements ChangeEventSource {
 
 		/**
 		 * Annule l'effet sur le {@link Champion} donn�.
-		 * 
+		 *
 		 * @param champion
 		 *            un {@link Champion} sur lequel annuler l'effet.
 		 */
@@ -1396,7 +1422,7 @@ public abstract class Item implements ChangeEventSource {
 				break;
 			case MAX_LOAD:
 				// MaxLoad est une statistique � part pour laquelle le boost est
-				// g�r� s�parement de la valeur de base (qui est calcul�e 
+				// g�r� s�parement de la valeur de base (qui est calcul�e
 				// dynamiquement)
 				stats.getMaxLoadBoost().dec(value);
 				break;
@@ -1507,7 +1533,7 @@ public abstract class Item implements ChangeEventSource {
 
 	/**
 	 * Indique si l'item peut �tre consomm� (mang� ou bu).
-	 * 
+	 *
 	 * @return si l'item peut �tre consomm� (mang� ou bu).
 	 */
 	public final boolean isConsumable() {
@@ -1516,7 +1542,7 @@ public abstract class Item implements ChangeEventSource {
 
 	/**
 	 * Retourne le poids de l'objet.
-	 * 
+	 *
 	 * @return le poids de l'objet.
 	 */
 	public float getWeight() {
@@ -1532,7 +1558,7 @@ public abstract class Item implements ChangeEventSource {
 	 * �tre plac� afin d'�tre "activ�". Peut retourner null s'il n'y en a
 	 * aucune. Exemple: retourne NECK pour une amulette, WEAPON_HAND pour une
 	 * arme, etc.
-	 * 
+	 *
 	 * @return une instance de
 	 *         {@link fr.ritaly.dungeonmaster.champion.body.BodyPart.Type} ou
 	 *         null.
@@ -1541,7 +1567,7 @@ public abstract class Item implements ChangeEventSource {
 
 	/**
 	 * Indique si cet {@link Item} est activ� par la partie du corps donn�e.
-	 * 
+	 *
 	 * @param bodyPart
 	 *            une instance de {@link BodyPart}.
 	 * @return si cet {@link Item} est activ� par la partie du corps donn�e.
@@ -1559,7 +1585,7 @@ public abstract class Item implements ChangeEventSource {
 	/**
 	 * Retourne l'ensemble de {@link CarryLocation} associ�es � cet {@link Item}
 	 * .
-	 * 
+	 *
 	 * @return un {@link EnumSet} de {@link CarryLocation}. Ne retourne jamais
 	 *         null.
 	 */
@@ -1569,7 +1595,7 @@ public abstract class Item implements ChangeEventSource {
 
 	/**
 	 * Indique si l'objet est envo�t�.
-	 * 
+	 *
 	 * @return si l'objet est envo�t�.
 	 */
 	public boolean isCursed() {
@@ -1579,7 +1605,7 @@ public abstract class Item implements ChangeEventSource {
 	/**
 	 * Indique si l'envo�tement de l'objet a �t� d�tect�. Ne retourne true que
 	 * si l'objet est actuellement envo�t�.
-	 * 
+	 *
 	 * @return si l'envo�tement de l'objet a �t� d�tect�.
 	 */
 	public boolean isCurseDetected() {
@@ -1588,7 +1614,7 @@ public abstract class Item implements ChangeEventSource {
 
 	/**
 	 * Envo�te (ou renforce l'envo�tement de) l'objet avec la puissance donn�e.
-	 * 
+	 *
 	 * @param powerRune
 	 *            un {@link PowerRune} repr�sentant la force de l'envo�tement.
 	 */
@@ -1615,7 +1641,7 @@ public abstract class Item implements ChangeEventSource {
 
 	/**
 	 * Conjure l'envo�tement de l'objet avec la puissance donn�e.
-	 * 
+	 *
 	 * @param powerRune
 	 *            un {@link PowerRune} repr�sentant la force de conjuration.
 	 */
@@ -1644,7 +1670,7 @@ public abstract class Item implements ChangeEventSource {
 	 * Indique si l'objet quand il est port� (rev�tu par un champion) peut �tre
 	 * retir�. La m�thode pourrait aussi s'appeler isRemovable(). La m�thode ne
 	 * tente pas de retirer l'objet juste de savoir si c'est possible.
-	 * 
+	 *
 	 * @return si l'objet quand il est port� (rev�tu par un champion) peut �tre
 	 *         retir�.
 	 */
@@ -1693,7 +1719,7 @@ public abstract class Item implements ChangeEventSource {
 
 	/**
 	 * Retourne le {@link Champion} porteur de l'objet.
-	 * 
+	 *
 	 * @return un {@link Champion} ou null.
 	 */
 	protected final Champion getCarrier() {
@@ -1702,7 +1728,7 @@ public abstract class Item implements ChangeEventSource {
 
 	/**
 	 * Retourne la partie du corps qui porte l'objet.
-	 * 
+	 *
 	 * @return une {@link BodyPart} ou null.
 	 */
 	protected final BodyPart getBodyPart() {
@@ -1710,44 +1736,40 @@ public abstract class Item implements ChangeEventSource {
 	}
 
 	/**
-	 * Notifie l'objet qu'il vient d'�tre plac� / activ� sur la partie du corps
-	 * pass�e en param�tre. Permet d'activer l'objet et de m�moriser la
-	 * {@link BodyPart} ainsi que le {@link Champion} associ�.
-	 * 
+	 * Notifies the item that it has just been taken / put on the given body
+	 * part. This will activate the object (if possible).
+	 *
 	 * @param bodyPart
-	 *            une {@link BodyPart} sur laquelle l'objet vient d'�tre plac�.
+	 *            the body part on which the item was put. Can't be null.
 	 */
 	public final void itemPutOn(final BodyPart bodyPart) {
-		Validate.isTrue(bodyPart != null, "The given body part is null");
-		
+		Validate.notNull(bodyPart, "The given body part is null");
+
 		if (this.bodyPart != null) {
-			// L'objet ne doit pas d�j� �tre port�e par un champion
-			throw new IllegalStateException(this + " is already worn by "
-					+ this.bodyPart);
+			// The item is already carried by a champion
+			throw new IllegalStateException(this + " is already worn by " + this.bodyPart);
 		}
 		if (this.champion != null) {
-			// L'objet ne doit pas d�j� �tre port�e par un champion
-			throw new IllegalStateException(this + " is already worn by "
-					+ this.champion.getName());
+			// The item is already carried by a champion
+			throw new IllegalStateException(this + " is already worn by " + this.champion.getName());
 		}
 
-		// M�moriser le champion qui porte l'objet
+		// Store the champion that carries the item
 		this.champion = bodyPart.getBody().getChampion();
 		this.bodyPart = bodyPart;
 
 		if (this instanceof DirectionChangeListener) {
-			// Ecouter les changements de direction
-			this.champion.getParty().addDirectionChangeListener(
-					(DirectionChangeListener) this);
+			// Listen to direction changes
+			this.champion.getParty().addDirectionChangeListener((DirectionChangeListener) this);
 		}
 
-		// Si l'objet est ensorcel�, la chance diminue de 3 points
+		// If the item is cursed, the luck decreases by 3 points
 		if (isCursed()) {
 			champion.getStats().getLuck().dec(3);
 		}
 
 		if (hasEffects() && (bodyPart != null) && isActivatedBy(bodyPart)) {
-			// Appliquer les effets de l'objet sur le champion !
+			// Apply the item effects to the champion
 			for (Effect effect : effects) {
 				effect.affect(champion);
 			}
@@ -1757,270 +1779,271 @@ public abstract class Item implements ChangeEventSource {
 		putOn();
 	}
 
+	/**
+	 * Tells whether items has some effects.
+	 *
+	 * @return whether items has some effects.
+	 */
 	public boolean hasEffects() {
 		return !effects.isEmpty();
 	}
 
 	/**
-	 * M�thode de callback � surcharger dans les sous-classes pour impl�menter
-	 * un comportement sp�cial quand l'objet est port� / "activ�".
+	 * Callback method to notify this item that it has been grabbed / put on.
+	 * Meant to be overridden in subclasses to implement a custom behavior.
 	 */
 	protected void putOn() {
 		if (log.isDebugEnabled()) {
-			log.debug(champion.getName() + "." + bodyPart.getType().getLabel()
-					+ ".Item: [+] " + this);
-			// log.debug("Item " + this + " put on " + champion.getName() +
-			// "'s "
-			// + bodyPart.getType());
+			log.debug(String.format("%s.%s.Item: [+] %s", champion.getName(), bodyPart.getType().getLabel(), this));
 		}
 	}
 
 	/**
-	 * Notifie l'objet qu'il vient d'�tre retir� / d�sactiv� de la partie du
-	 * corps pass�e en param�tre.
+	 * Notifies the item that it has just been taken off / removed.
 	 */
 	public final void itemTakenOff() {
 		// Callback
 		takeOff();
 
 		if (hasEffects() && (bodyPart != null) && isActivatedBy(bodyPart)) {
-			// Annuler les effets de l'objet sur le champion !
+			// Neutralize the item's effects
 			for (Effect effect : effects) {
 				effect.unaffect(champion);
 			}
 		}
 
-		// Si l'objet est ensorcel�, la chance remonte de 3 points
+		// If the item is cursed, luck increases by 3 points
 		if (isCursed()) {
 			champion.getStats().getLuck().inc(3);
 		}
 
 		if (this instanceof DirectionChangeListener) {
-			// Supprimer le listener
-			this.champion.getParty().removeDirectionChangeListener(
-					(DirectionChangeListener) this);
+			// Unregister the listener
+			this.champion.getParty().removeDirectionChangeListener((DirectionChangeListener) this);
 		}
 
-		// R�initialiser le champion qui porte l'objet
+		// Reset the champion and body part
 		this.champion = null;
 		this.bodyPart = null;
 	}
 
 	/**
-	 * M�thode de callback � surcharger dans les sous-classes pour impl�menter
-	 * un comportement sp�cial quand l'objet est retir� / "d�sactiv�".
+	 * Callback method to notify this item that it has been taken off. Meant to
+	 * be overridden in subclasses to implement a custom behavior.
 	 */
 	protected void takeOff() {
 		if (log.isDebugEnabled()) {
-			log.debug(champion.getName() + "." + bodyPart.getType().getLabel()
-					+ ".Item: [-] " + this);
-			// log.debug("Item " + this + " taken off " + champion.getName()
-			// + "'s " + bodyPart.getType());
+			log.debug(String.format("%s.%s.Item: [-] %s", champion.getName(), bodyPart.getType().getLabel(), this));
 		}
 	}
 
 	/**
-	 * Indique si l'objet est actuellement activ�.
-	 * 
-	 * @return si l'objet est actuellement activ�.
+	 * Tells whether the item is currently activated.
+	 *
+	 * @return whether the item is currently activated.
 	 */
 	public final boolean isActivated() {
-		// On est objet est activ� quand il est port� par un champion et sur la
-		// bonne partie du corps !
+		// The item is activated when it's carried by a champion and on the
+		// relevant (activating) body part
 		return (champion != null);
 	}
 
 	/**
-	 * Retourne le bonus de r�sistance au feu conf�r� par l'objet.
-	 * 
-	 * @return un entier positif ou nul repr�sentant un bonus de r�sistance au
-	 *         feu.
+	 * Returns the fire resistance bonus bestowed by this item when activated.
+	 *
+	 * @return an integer representing a fire resistance bonus. Returns zero if
+	 *         the item doesn't bestow any bonus.
 	 */
 	public abstract int getAntiMagic();
 
 	/**
-	 * Retourne le bonus de d�fense conf�r� par l'objet.
-	 * 
-	 * @return un entier positif ou nul repr�sentant un bonus de d�fense.
+	 * Returns the defense bonus bestowed by this item when activated.
+	 *
+	 * @return an integer representing a defense bonus. Returns zero if the item
+	 *         doesn't bestow any bonus.
 	 */
 	public abstract int getShield();
 
 	@Override
 	public String toString() {
-		// Le nom de l'item est donn� par son type
-		return getType().name() + "[" + id + "]";
+		return String.format("%s[%s]", getType().name(), id);
 	}
 
 	/**
-	 * Indique si l'objet est empoisonn�. Permet d'empoisonner de la nourriture
-	 * par exemple (ce qui est diff�rent du poison d'une fl�che).
-	 * 
-	 * @return si l'objet est empoisonn�.
+	 * Returns whether this item is poisonous. In Dungeon Master, food can be poisonous.
+	 *
+	 * @return whether this item is poisonous.
 	 */
-	public boolean isPoisoned() {
+	public boolean isPoisonous() {
 		return (poisonStrength != null);
 	}
 
 	/**
-	 * Retourne la force de l'empoisonnement induit par l'objet (s'il y en a
-	 * un).
-	 * 
-	 * @return un {@link PowerRune} repr�sentant la force du poison ou null si
-	 *         l'objet n'est pas empoisonn�.
+	 * Returns the strength of poison induced by this object (if poisonous).
+	 *
+	 * @return a power rune representing the strength of poison for this item or
+	 *         null it the item isn't poisonous.
 	 */
 	public PowerRune getPoisonStrength() {
-		// Force de l'empoisonnement ? null si pas empoisonn�
 		return poisonStrength;
 	}
 
-	public void setPoisonStrength(PowerRune strength) {
-		// Le param�tre peut �tre null
-		this.poisonStrength = strength;
+	/**
+	 * Sets the strength of poison induced by this object (if poisonous) from
+	 * the given power rune.
+	 *
+	 * @param powerRune
+	 *            a power rune representing the strength of poison for this item
+	 *            or null it the item isn't poisonous.
+	 */
+	public void setPoisonStrength(PowerRune powerRune) {
+		// The strength can be null
+		this.poisonStrength = powerRune;
 	}
 
 	/**
-	 * Notifie l'objet qu'il vient d'�tre consomm� (mang� ou bu) par le
-	 * {@link Champion} donn� et retourne l'objet tel quel si l'op�ration a
-	 * �chou� ou si l'op�ration a r�ussi, l'objet dans lequel il s'est
-	 * transform� ou null si l'objet a �t� d�truit par l'op�ration.
-	 * 
+	 * Notifies this object that it has been consumed (eaten or drunk) by the
+	 * given champion and returns the object itself (if the consumption failed),
+	 * a new item (if the consumption succeeded and the item turned into a new
+	 * one) or null (if the item was destroyed after consumption).
+	 *
 	 * @param champion
-	 *            un {@link Champion} repr�sentant le champion qui a consomm�
-	 *            l'objet.
-	 * @return une instance de {@link Item} ou null.
+	 *            the champion that is consuming the item. Can't be null.
+	 * @return an item (see above) or null.
 	 */
 	public final Item itemConsumed(Champion champion) {
-		Validate.isTrue(champion != null, "The given champion is null");
+		Validate.notNull(champion, "The given champion is null");
 
 		if (isConsumable()) {
 			return consume(champion);
 		}
 
-		// Objet non consommable, retourn� tel quel
+		// This object isn't consumable, return the item as is
 		return this;
 	}
 
 	/**
-	 * M�thode de callback � surcharger dans les classes filles si l'objet peut
-	 * �tre consomm� (mang� ou bu).
-	 * 
+	 * Callback method to be overriden by subclasses for a consumable item. Most
+	 * items will simply disappear after being consumed. Some others will turn
+	 * into a new object. This method can turn an object into another one after
+	 * consumption. The default implementation will simply raise an exception.
+	 *
 	 * @param champion
-	 *            le {@link Champion} qui consomme l'objet.
-	 * @return l'objet retourn� � l'issu de l'op�ration.
+	 *            the champion that consumed the item.
+	 * @return an item corresponding to the consumed item.
 	 */
 	protected Item consume(Champion champion) {
 		Validate.notNull(champion, "The given champion is null");
 		if (!isConsumable()) {
-			throw new UnsupportedOperationException("Item " + getType().name()
-					+ " isn't consumable");
+			throw new UnsupportedOperationException(String.format("Item %s isn't consumable", getType().name()));
 		}
 
-		// Tout item consommable doit surcharger cette m�thode, s'il oublie de
-		// le faire la lev�e de UOE nous le mettra en �vidence
+		// Any consumable item must override this method
 		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 * Utilise l'action donn�e de l'objet. Celui-ci doit �tre actuellement port�
-	 * par un {@link Champion}.
-	 * 
+	 * Uses the given action from this item and returns whether the operation
+	 * succeeded. Note: The item must be carried / held by a champion.
+	 *
 	 * @param action
-	 *            une {@link Action} � utiliser.
-	 * @return si l'op�ration a r�ussi.
+	 *            the action to perform. Can't be null.
+	 * @return whether the action was successfully used.
 	 */
 	public boolean perform(Action action) {
-		Validate.isTrue(action != null, "The given action is null");
+		Validate.notNull(action, "The given action is null");
 
 		if (champion == null) {
-			throw new IllegalStateException(
-					"There is no champion holding this item");
-		}
-		// L'objet doit �tre dans la bonne main du champion !
-		if (!champion.getBody().getWeaponHand().getItem().equals(this)) {
-			throw new UnsupportedOperationException("This item isn't held in "
-					+ champion.getName() + "'s weapon hand");
+			throw new IllegalStateException("The item isn't currently held by a champion");
 		}
 
+		// The item must be in the proper (weapon) hand !
+		if (!champion.getBody().getWeaponHand().getItem().equals(this)) {
+			throw new UnsupportedOperationException(String.format("This item isn't held in %s's weapon hand", champion.getName()));
+		}
+
+		// Search for the action
 		for (Combo.Entry entry : getType().getCombo().getEntries()) {
 			final Action curAction = entry.getAction();
 
 			if (curAction.equals(action)) {
+				// Action found
 				if (!entry.isUsable(champion)) {
-					// Le champion ne peut pas l'utiliser (pas assez fort)
+					// The champion isn't skilled enough to use this action
 					return false;
 				}
 
-				// Utiliser l'action (rend la main du champion indisponible)
+				// The champion can use the action. Let it operate (this will
+				// disable the weapon hand-
 				return action.perform(champion.getParty().getDungeon(), champion);
 			}
 		}
 
-		throw new IllegalArgumentException("The given action <" + action
-				+ "> isn't among this item's actions");
+		throw new IllegalArgumentException(String.format("The given action %s isn't among this item's actions", action));
 	}
 
 	/**
-	 * Retourne la liste des {@link Action}s autoris�es par l'objet pour le
-	 * champion donn�. Cette liste d�pend de la {@link Combo} qui lui est
-	 * associ�e et des comp�tences du {@link Champion}.
-	 * 
+	 * Returns the actions available for this item by taking into account the
+	 * skills of the given champion. In Dungeon Master, some advanced item
+	 * actions can only be used by experienced champions.
+	 *
 	 * @param champion
-	 *            le champion qui veut utiliser les actions de l'objet.
-	 * @return une List&lt;Action&gt;.
+	 *            the champion to test. Can't be null.
+	 * @return a list of item actions. Never returns null.
 	 */
 	public final List<Action> getActions(Champion champion) {
-		Validate.isTrue(champion != null, "The given champion is null");
+		Validate.notNull(champion, "The given champion is null");
 
-		final List<Action> actions = new ArrayList<Action>();
+		final List<Action> result = new ArrayList<Action>();
 
-		// Ne retourner que les actions utilisables par le champion
+		// Only return the actions available for this champion
 		for (Entry entry : getType().getCombo().getEntries()) {
 			if (!entry.isUsable(champion)) {
-				// Champion pas assez comp�tent pour utiliser l'action
+				// The champion isn't skilled enough to use this action
 				continue;
 			}
 
-			// L'action est-elle limit�e par un nombre de charges ?
+			// Is the action limited by a number of charges ?
 			if (entry.useCharges()) {
-				// Nombre de charges restantes
+				// What's the remaining charges ?
 				final int chargeCount = charges.get(entry.getAction());
 
 				if (chargeCount == 0) {
-					// Plus de charges disponibles
+					// Charges depleted
 					continue;
 				}
 			}
 
-			// L'action peut �tre utilis�e par le champion
-			actions.add(entry.getAction());
+			// The champion can use this action
+			result.add(entry.getAction());
 		}
 
-		return actions;
+		return result;
 	}
 
 	/**
-	 * Retourne la {@link Category} � laquelle appartient ce type d'objet.
-	 * 
-	 * @return une instance de {@link Category}. Ne retourne jamais null.
+	 * Returns the category this item belongs to.
+	 *
+	 * @return the item category. Never returns null.
 	 */
 	public final Category getCategory() {
 		return getType().getCategory();
 	}
 
 	/**
-	 * Retourne les effets g�n�r�s par cet {@link Item}.
-	 * 
-	 * @return une {@link List} de {@link Effect}. Ne retourne jamais null.
+	 * Returns the effects caused by this item.
+	 *
+	 * @return a list of effects. Never returns null.
 	 */
 	public List<Effect> getEffects() {
-		// Recopie d�fensive
+		// Defensive recopy
 		return new ArrayList<Item.Effect>(effects);
 	}
 
 	/**
-	 * Indique si cet {@link Item} repr�sente de la nourriture.
-	 * 
-	 * @return si cet {@link Item} repr�sente de la nourriture.
+	 * Tells whether this item is a food item.
+	 *
+	 * @return whether this item is a food item.
 	 */
 	public final boolean isFood() {
 		return Category.getFoodItems().contains(getType());

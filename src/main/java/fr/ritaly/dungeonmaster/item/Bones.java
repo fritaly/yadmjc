@@ -24,16 +24,21 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 
 /**
+ * The bones of a dead champion.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Bones extends MiscItem {
 
+	/**
+	 * The champion those bones belong to.
+	 */
 	private final Champion champion;
 
 	public Bones(Champion champion) {
 		super(Type.BONES);
 
-		Validate.isTrue(champion != null, "The given champion is null");
+		Validate.notNull(champion, "The given champion is null");
 
 		this.champion = champion;
 	}
@@ -62,14 +67,13 @@ public class Bones extends MiscItem {
 	public Champion getChampion() {
 		return champion;
 	}
-	
+
 	public boolean hasChampion() {
 		return (champion != null);
 	}
 
 	@Override
 	public String toString() {
-		return (champion != null) ? champion.getName() + "'s "
-				+ Type.BONES.name() : Type.BONES.name();
+		return (champion != null) ? champion.getName() + "'s " + Type.BONES.name() : Type.BONES.name();
 	}
 }

@@ -29,11 +29,13 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Level;
 
 /**
- * Une combinaison d'actions assign�es � un item.
- * 
+ * Enumerates the possible combinations of item actions. Combinations are
+ * associated to items.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Combo {
+	// TODO Rename those constants
 	COMBO_0(),
 	COMBO_1(
 		new Entry(Action.INVOKE, false, 0),
@@ -187,15 +189,26 @@ public enum Combo {
 		new Entry(Action.PUNCH, false, 0),
 		new Entry(Action.FREEZE_LIFE, true, 0));
 
+	// TODO Document this class
 	public static final class Entry {
 
+		/**
+		 * The item action this entry pertains to.
+		 */
 		private final Action action;
 
+		/**
+		 * Whether the use of this action is limited by a number of available
+		 * charges.
+		 */
 		private final boolean useCharges;
 
+		/**
+		 * The minimum skill level necessary for using this action.
+		 */
 		private final int minimumSkillLevel;
 
-		// FIXME Rajouter param�tre damage ?
+		// FIXME Add a damage property ?
 		private Entry(Action action, boolean useCharges, int minimumSkillLevel) {
 			this.action = action;
 			this.useCharges = useCharges;
@@ -214,37 +227,41 @@ public enum Combo {
 			return Level.values()[minimumSkillLevel];
 		}
 
+		/**
+		 * Tells whether the given champion can use this action.
+		 *
+		 * @param champion
+		 *            the champion to test. Can't be null.
+		 * @return whether the given champion can use this action.
+		 */
 		public boolean isUsable(Champion champion) {
-			Validate.isTrue(champion != null, "The given champion is null");
+			Validate.notNull(champion, "The given champion is null");
 
-			// Niveau minimum requis ?
+			// What's the minimal level required to use this skill ?
 			final Level level = getMinimumSkillLevel();
 
-			// Dans la plupart des cas, le niveau minimum est de z�ro, on le
-			// traite en 1er
 			if (Level.NONE.equals(level)) {
+				// In most cases, there's no min skill level required
 				return true;
-			} else {
-				// Skill associ�e ?
-				final Skill skill = action.getImprovedSkill();
-
-				// Niveau suffisant pour que le champion l'utilise ?
-				if (champion.getLevel(skill).compareTo(level) >= 0) {
-					return true;
-				}
-
-				return false;
 			}
+
+			// What's the skill involved ?
+			final Skill skill = action.getImprovedSkill();
+
+			// Is the champion skilled enough to use this action ?
+			return (champion.getLevel(skill).compareTo(level) >= 0);
 		}
 	}
 
+	// TODO Document this property
 	private final List<Entry> entries;
 
 	private Combo(Entry... entries) {
 		this.entries = Arrays.asList(entries);
 	}
 
-	public List<Entry> getEntries() {
+	// Visibility package protected on purpose
+	List<Entry> getEntries() {
 		return Collections.unmodifiableList(entries);
 	}
 }

@@ -21,6 +21,8 @@ package fr.ritaly.dungeonmaster.item;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 
 /**
+ * An empty flask.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class EmptyFlask extends Item {

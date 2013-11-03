@@ -22,6 +22,9 @@ import fr.ritaly.dungeonmaster.event.DirectionChangeEvent;
 import fr.ritaly.dungeonmaster.event.DirectionChangeListener;
 
 /**
+ * A compass (useful for findind one's path inside a dungeon and detecting
+ * silent teleports).
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Compass extends MiscItem implements DirectionChangeListener {
@@ -32,8 +35,8 @@ public final class Compass extends MiscItem implements DirectionChangeListener {
 
 	@Override
 	public void directionChanged(DirectionChangeEvent event) {
-		// Quand la direction change, lever un �v�nement afin de forcer le
-		// redessin du compas
+		// Fire a direction changed event when the party's look direction
+		// changes
 		fireChangeEvent();
 	}
 }

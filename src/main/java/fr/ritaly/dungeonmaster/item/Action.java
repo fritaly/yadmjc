@@ -34,10 +34,10 @@ import fr.ritaly.dungeonmaster.map.Pit;
 import fr.ritaly.dungeonmaster.projectile.ItemProjectile;
 
 /**
- * Une {@link Action} qu'un champion peut r�aliser � l'aide d'un {@link Item}.
- * Les {@link Action}s ne sont jamais utilis�es individuellement mais regroup�es
- * au sein de {@link Combo} assign�es � un item.
- * 
+ * Enumerates the actions that can be attached to items. Actions are never
+ * individually tied to an item. Instead actions are grouped into combos and
+ * combos are attached to items.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Action {
@@ -85,24 +85,46 @@ public enum Action {
 	THROW(Skill.THROW, 5, 0, 0, 0, 0, 0),
 	FUSE(Skill.WIZARD, 1, 8, 2, 0, 0, 2);
 
+	/**
+	 * The skill attached to this action and improved every time the action is
+	 * used.
+	 */
 	private final Skill improvedSkill;
 
+	/**
+	 * The experience gained by a champion when successfully using this action.
+	 */
 	private final int experienceGain;
 
+	/**
+	 * The shield protection provided by this action.
+	 */
 	private final int shieldModifier;
 
+	/**
+	 * The amount of stamina consumed when the champion uses this action.
+	 */
 	private final int stamina;
 
+	/**
+	 * The base probability of hitting an enemy when using this action.
+	 */
 	private final int hitProbability;
 
+	/**
+	 * The base damage points inflicted when the action succeeds.
+	 */
 	private final int damage;
 
+	/**
+	 * The fatigue generated when using this action. The higher the value, the
+	 * longer the weapon hand will be unavailable. This value actually
+	 * represents a duration in number of clock ticks.
+	 */
 	private final int fatigue;
 
-	private Action(Skill improvedSkill, int experienceGain, int shieldModifier,
-			int stamina, int hitProbability, int damage, int fatigue) {
-
-		Validate.isTrue(improvedSkill != null, "The given skill is null");
+	private Action(Skill improvedSkill, int experienceGain, int shieldModifier, int stamina, int hitProbability, int damage, int fatigue) {
+		Validate.notNull(improvedSkill, "The given skill is null");
 
 		this.improvedSkill = improvedSkill;
 		this.experienceGain = experienceGain;
@@ -142,41 +164,38 @@ public enum Action {
 	}
 
 	private int computeEarnedExperience(Dungeon dungeon) {
-		// Calculer l'exp�rience gagn�e
+		// How much experience was gained ?
 		int xp = experienceGain;
 
+		// We need to know when the champion was attacked for the last time
 		final int currentTick = Clock.getInstance().getTickId();
 		final int lastAttackTick = dungeon.getParty().getLastAttackTick();
 
-		// Indique si le groupe a �t� attaqu� dans les 150 derniers tics par un
-		// monstre
+		// Whether the party was attacked in the latest 150 clock ticks by a
+		// creature
 		final boolean attackedDuringLast150Ticks = (currentTick - lastAttackTick) <= 150;
 
-		// Indique si le groupe a �t� attaqu� dans les 25 derniers tics par un
-		// monstre
+		// Whether the party was attacked in the latest 25 clock ticks by a
+		// creature
 		final boolean attackedDuringLast25Ticks = (currentTick - lastAttackTick) <= 25;
 
 		if (improvedSkill.isHidden()) {
-			// Comp�tence associ�e � cette comp�tence cach�e ?
+			// The improved skill is hidden, what's the related skill improved ?
 			final Skill relatedSkill = improvedSkill.getRelatedSkill();
 
-			if (Skill.FIGHTER.equals(relatedSkill)
-					|| Skill.NINJA.equals(relatedSkill)) {
-
+			if (Skill.FIGHTER.equals(relatedSkill) || Skill.NINJA.equals(relatedSkill)) {
 				if (!attackedDuringLast150Ticks) {
 					xp = xp / 2;
 				}
 			}
 		}
 
-		// Multiplicateur d'exp�rience du niveau courant ?
-		final int experienceMultiplier = dungeon.getCurrentLevel()
-				.getExperienceMultiplier();
+		// Take into account the current level's xp multiplier
+		final int experienceMultiplier = dungeon.getCurrentLevel().getExperienceMultiplier();
 
 		if (experienceMultiplier != 0) {
 			xp = xp * experienceMultiplier;
 		}
-
 		if (improvedSkill.isHidden() && attackedDuringLast25Ticks) {
 			xp = xp * 2;
 		}
@@ -184,94 +203,99 @@ public enum Action {
 		return xp;
 	}
 
-	// FIXME Impl�menter les actions -> Cr�er squelettes de m�thode de test
+	// TODO Refactor the following code (use a template method to clean this up)
+
+	/**
+	 * Performs the action with the given context (dungeon and champion) and
+	 * returns whether the operation succeeded.
+	 *
+	 * @param dungeon
+	 *            the dungeon where the action is used. Can't be null.
+	 * @param champion
+	 *            the champion using the action. Can be null depending on the
+	 *            action.
+	 * @return whether the action was successfully performed or if the action
+	 *         failed.
+	 */
 	public boolean perform(Dungeon dungeon, Champion champion) {
-		// Le champion peut �tre � null selon les actions
-		Validate.isTrue(dungeon != null, "The given dungeon is null");
+		// The champion can be null depending on the action
+		Validate.notNull(dungeon, "The given dungeon is null");
 
 		if (champion != null) {
+			// If there's a champion, it must be alive
 			Validate.isTrue(champion.isAlive(), "The given champion is dead");
 		}
 
-		// D�terminer l'objet utilis� en r�cup�rant celui tenu par le champion
+		// What's the item that triggered this action ? It's in the champion's
+		// weapon hand by definition
 		final Item item = champion.getBody().getWeaponHand().getItem();
 
-		// L'objet r�cup�r� ne peut pas �tre null !
 		if (item == null) {
-			throw new IllegalStateException("The given champion "
-					+ champion.getName()
+			// Can't happen
+			throw new IllegalStateException("The given champion " + champion.getName()
 					+ " doesn't hold any item in its weapon hand");
 		}
 
-		// TODO Refactoriser ce code
 		if (Action.CLIMB_DOWN.equals(this)) {
-			// Le groupe doit �tre face � une oubliette. Position cible visible
-			// ?
+			// The party must be facing a pit. What's the position facing the
+			// party ?
 			final Position target = dungeon.getParty().getFacingPosition();
 
-			// Element cible visible ?
+			// Retrieve the element at this position
 			final Element facingElement = dungeon.getElement(target);
 
 			if (!(facingElement instanceof Pit)) {
-				// Le groupe ne peut descendre dans l'oubliette
+				// The party can't go down into the pit
 				return false;
 			}
 
 			final Pit pit = (Pit) facingElement;
 
-			// L'oubliette ne doit pas �tre une illusion
 			if (pit.isIllusion()) {
+				// The pit is a fake, the action fails
 				return false;
 			}
 
-			// L'oubliette doit �tre ouverte
 			if (pit.isClosed()) {
+				// The pit must be open
 				return false;
 			}
 
-			// Le groupe peut descendre (pas de son � jouer). Attention de bien
-			// faire avancer de une position vers l'avant le groupe !!! Le cas
-			// de plusieurs oubliettes "empil�es" est trait� par la m�thode
-			// Dungeon.teleportParty()
-
-			// Passer le groupe dans l'�tat CLIMBING_DOWN le temps de la
-			// descente
+			// Set the state to CLIMBING_DOWN to distinguish from a plain fall
 			champion.getParty().setState(Party.State.CLIMBING_DOWN);
 
-			dungeon.teleportParty(target, // target.towards(Direction.DOWN),
-					dungeon.getParty().getLookDirection(), true);
+			// Move forward to the pit. The pit will teleport the party to the
+			// level below as the party's not falling. If there are several
+			// "stacked" pits, this use case is managed by method
+			// Dungeon.teleportParty()
+			dungeon.teleportParty(target, dungeon.getParty().getLookDirection(), true);
 
-			// Sortir de l'�tat CLIMBING_DOWN
+			// Restore the initial state
 			champion.getParty().setState(Party.State.NORMAL);
 
-			// Le champion gagne de l'exp�rience
-			champion.gainExperience(improvedSkill,
-					computeEarnedExperience(dungeon));
+			// The champion gained some experience
+			champion.gainExperience(improvedSkill, computeEarnedExperience(dungeon));
 		} else if (Action.HEAL.equals(this)) {
-			// TODO Gu�rir le groupe ou seulement le porteur de l'objet ?
+			// TODO Should we heal the whole party or just the champion ?
 			final int healPoints = Utils.random(10, 30);
 
-			// On ne peut soigner que les h�ros vivants (les morts doivent �tre
-			// ressuscit�s avant via un autel)
-			for (Champion aChampion : dungeon.getParty().getChampions(false)) {
+			// Only living champions can be healed. Dead champions have to be
+			// resurrected first
+			for (final Champion aChampion : dungeon.getParty().getChampions(false)) {
 				aChampion.getStats().getHealth().inc(healPoints);
 			}
 
-			// Le champion gagne de l'exp�rience
-			champion.gainExperience(improvedSkill,
-					computeEarnedExperience(dungeon));
+			// The champion gained some experience
+			champion.gainExperience(improvedSkill, computeEarnedExperience(dungeon));
 		} else if (Action.THROW.equals(this)) {
-			// TODO Impl�menter lancer d'objet sans passer par une action (UI)
-			// avec gain d'exp�rience
-			// TODO Calculer la port�e du projectile (fonction de la force du
-			// champion, etc)
+			// TODO Implement the throwing of objects without resorting to this action (Clicking in the UI throws an object and casts a projectile)
+			// TODO How far can the projectile go before dying ?
 
-			// Lancer l'objet dans la main du champion
-			final Direction direction = champion.getParty()
-					.getDirection();
-			
+			// Determine the direction towards which the item is thrown
+			final Direction direction = champion.getParty().getDirection();
+
 			final SubCell subCell;
-			
+
 			switch (direction) {
 			case EAST:
 				if (champion.getSubCell().isTowardsNorth()) {
@@ -304,49 +328,45 @@ public enum Action {
 				default:
 					throw new RuntimeException();
 			}
-			
-			// Le projectile appara�t sur la position voisine 
-			new ItemProjectile(item, dungeon, champion.getParty()
-					.getFacingPosition(), direction, subCell, 30);
+
+			// TODO Refactor this code (that's ugly)
+			// The projectile is created on the neighbor position
+			new ItemProjectile(item, dungeon, champion.getParty().getFacingPosition(), direction, subCell, 30);
 		} else if (Action.FLUX_CAGE.equals(this)) {
-			// Cr�er une flux cage sur la position face au champion
-			final Element element = dungeon.getElement(dungeon.getParty()
-					.getFacingPosition());
-			
-			// TODO Tester que l'�l�ment peut accueillir une flux cage ?
+			// Create a flux cage on the neighbor position in front of the party
+			final Element element = dungeon.getElement(dungeon.getParty().getFacingPosition());
+
+			// TODO Ensure the target element can contain a flux cage !
 			element.createFluxCage();
 
-			// Le champion gagne de l'exp�rience
-			champion.gainExperience(improvedSkill,
-					computeEarnedExperience(dungeon));
+			// The champion gained some experience
+			champion.gainExperience(improvedSkill, computeEarnedExperience(dungeon));
 		} else {
-			// FIXME Quelles sont les actions qui doivent passer par ce else ?
-			// Les identifier
-			
-			// TODO Calculer si le coup a port�
+			// FIXME Identify the remaining actions to implement
+
+			// TODO Compute if the action succeeds
 			final boolean success = true;
 
 			if (success) {
-				// TODO Calculer les points de dommage inflig�s
+				// TODO Compute the damage points
 
-				// Le champion gagne de l'exp�rience
-				champion.gainExperience(improvedSkill,
-						computeEarnedExperience(dungeon));
+				// The champion gained some experience
+				champion.gainExperience(improvedSkill, computeEarnedExperience(dungeon));
 			}
 
-			// TODO La d�fense du champion est modifi�e
-
-			// TODO Son
+			// TODO Change the champion's defense (he's vulnerable for a short time)
+			// TODO Play a sound
 		}
 
-		// Le champion consomme de la stamina
+		// The champion consumed some stamina
 		champion.getStats().getStamina().dec(stamina);
 
 		if (fatigue > 0) {
-			// Main indisponible en fonction de la fatigue associ�e � l'action
-			champion.getBody().getWeaponHand().disable(fatigue);			
+			// The weapon hand is unavailable for a short time depending on the
+			// item's fatigue
+			champion.getBody().getWeaponHand().disable(fatigue);
 		} else {
-			// Quid des actions dont la fatigue est nulle (THROW par ex) ?
+			// TODO What about actions whose fatigue is zero (ex: THROW) ?
 		}
 
 		return true;

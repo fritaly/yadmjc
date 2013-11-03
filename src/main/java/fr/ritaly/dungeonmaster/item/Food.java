@@ -24,6 +24,8 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 
 /**
+ * Some food.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Food extends Item {
@@ -33,7 +35,7 @@ public final class Food extends Item {
 
 		Validate.isTrue(Item.Category.getFoodItems().contains(type));
 	}
-	
+
 	@Override
 	public final int getShield() {
 		return 0;
@@ -49,6 +51,13 @@ public final class Food extends Item {
 		return null;
 	}
 
+	/**
+	 * Returns the "nutritive value" of this food as an integer. The higher the
+	 * value, the more nutritive.
+	 *
+	 * @return a positive integer representing the "nutritive value" of this
+	 *         food.
+	 */
 	private int getFoodValue() {
 		switch (getType()) {
 		case APPLE:
@@ -76,12 +85,12 @@ public final class Food extends Item {
 	protected final Item consume(Champion champion) {
 		champion.getStats().getFood().inc(getFoodValue());
 
-		// Empoisonnement ?
-		if (isPoisoned()) {
+		if (isPoisonous()) {
+			// The food is poisoned
 			champion.poison(getPoisonStrength());
 		}
 
-		// L'objet dispara�t apr�s utilisation
+		// The item is consumed after use (return nothing)
 		return null;
 	}
 }

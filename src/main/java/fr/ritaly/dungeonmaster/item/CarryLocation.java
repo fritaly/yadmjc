@@ -19,27 +19,39 @@
 package fr.ritaly.dungeonmaster.item;
 
 /**
- * Enum�ration des "endroits" o� un {@link Item} peut �tre port� (cf
- * {@link #HEAD}, {@link #NECK}, {@link #TORSO}, {@link #LEGS}, {@link #FEET},
- * {@link #HANDS}), utilis� (cf {@link #CONSUMABLE}) ou rang� (cf
- * {@link #QUIVER1}, {@link #QUIVER2}, {@link #POUCH}, {@link #CHEST},
- * {@link #BACKPACK}). Les diff�rentes combinaisons possible de
- * {@link CarryLocation} sont �num�r�es sous forme de {@link CarryLocations}.
+ * Enumerates the locations where items can be carried (or used) by a champion.
+ * Those locations are grouped into combos known as {@link CarryLocations}.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum CarryLocation {
-	// --- Consommable --- //
+
+	/**
+	 * Special carry location corresponding to the champion's mouth. An item
+	 * stored here is eaten / swallowed by the champion.
+	 */
 	CONSUMABLE,
-	// --- Parties du corps --- //
+
+	// --- Locations corresponding to the champion's body parts --- //
+
 	HEAD,
 	NECK,
 	TORSO,
 	LEGS,
 	FEET,
-	// --- Inventaire --- //
+
+	// --- Locations corresponding to the champion's inventory --- //
+
+	/**
+	 * There are 2 distinct locations for the quiver because those 2 locations cannot accept the same items.
+	 */
 	QUIVER1,
+
+	/**
+	 * There are 2 distinct locations for the quiver because those 2 locations cannot accept the same items.
+	 */
 	QUIVER2,
+
 	POUCH,
 	HANDS,
 	CHEST,
