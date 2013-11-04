@@ -23,4 +23,4 @@ To mount the project in Eclipse, first generate the Eclipse files (.project, .cl
 Credits
 =====
 
-Credits go to Nerthing for his [Dungeon Master Guide](http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244) and Christophe Fontanel for his [technical documentation](http://dmweb.free.fr/?q=taxonomy/term/39).
+Credits go to Nerthing for his [Dungeon Master Guide](http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244) and Christophe Fontanel for his [technical documentation](http://dmweb.free.fr/?q=taxonomy/term/39) about Dungeon Master.

@@ -51,6 +51,10 @@ test {
 	ignoreFailures = true
 }
 
+check {
+	dependsOn jacocoTestReport
+}
+
 task wrapper(type: Wrapper) {
 	gradleVersion = '1.8'
 }

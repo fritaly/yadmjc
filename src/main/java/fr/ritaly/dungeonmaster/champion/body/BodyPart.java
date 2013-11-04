@@ -244,7 +244,7 @@ public abstract class BodyPart implements ChangeEventSource {
 			return null;
 		}
 
-		if (!this.item.tryRemove() && !force) {
+		if (!this.item.isRemovable() && !force) {
 			// The item can't be removed
 			if (log.isDebugEnabled()) {
 				log.debug(this.item + " can't be removed");

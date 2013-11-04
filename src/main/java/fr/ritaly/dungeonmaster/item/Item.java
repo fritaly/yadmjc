@@ -1605,74 +1605,80 @@ public abstract class Item implements ChangeEventSource {
 	}
 
 	/**
-	 * Retourne la partie du corps du {@link Champion} sur lequel l'objet doit
-	 * �tre plac� afin d'�tre "activ�". Peut retourner null s'il n'y en a
-	 * aucune. Exemple: retourne NECK pour une amulette, WEAPON_HAND pour une
-	 * arme, etc.
+	 * Returns the body part that activates this item (if any). Returns null if
+	 * the item can't be activated. When activated an item provides (in general)
+	 * a bonus to the champion (be it a defense bonus, a stat bonus, etc).
+	 * Examples: This method returns {@link BodyPart.Type#NECK} for an amulet,
+	 * {@link BodyPart.Type#WEAPON_HAND} for a weapon item.
 	 *
-	 * @return une instance de
-	 *         {@link fr.ritaly.dungeonmaster.champion.body.BodyPart.Type} ou
-	 *         null.
+	 * @return the body part which activates this item (if any) or null.
 	 */
 	protected abstract BodyPart.Type getActivationBodyPart();
 
 	/**
-	 * Indique si cet {@link Item} est activ� par la partie du corps donn�e.
+	 * Tells whether this item can be activated by the given body part.
 	 *
 	 * @param bodyPart
-	 *            une instance de {@link BodyPart}.
-	 * @return si cet {@link Item} est activ� par la partie du corps donn�e.
+	 *            the body part to test. Can't be null.
+	 * @return whether this item can be activated by the given body part.
 	 */
 	public final boolean isActivatedBy(BodyPart bodyPart) {
 		Validate.notNull(bodyPart, "The given body part is null");
 
-		// Le pied de lapin est activ� par les deux mains ou l'inventaire !!!
-		return bodyPart.getType().equals(getActivationBodyPart())
-				|| (Item.Type.RABBIT_FOOT.equals(getType()) && (bodyPart
-						.getType().equals(BodyPart.Type.WEAPON_HAND) || bodyPart
-						.getType().equals(BodyPart.Type.SHIELD_HAND)));
+		if (bodyPart.getType().equals(getActivationBodyPart())) {
+			return true;
+		}
+
+		// Special case: the rabbit foot can be activated by both hands and when
+		// stored the inventory
+		if (Item.Type.RABBIT_FOOT.equals(getType())) {
+			return (bodyPart.getType().equals(BodyPart.Type.WEAPON_HAND) || bodyPart.getType().equals(BodyPart.Type.SHIELD_HAND));
+		}
+
+		return false;
 	}
 
 	/**
-	 * Retourne l'ensemble de {@link CarryLocation} associ�es � cet {@link Item}
-	 * .
+	 * Returns all the carry locations where this item can be stored.
 	 *
-	 * @return un {@link EnumSet} de {@link CarryLocation}. Ne retourne jamais
-	 *         null.
+	 * @return a set containing the carry locations compatible with this item.
+	 *         Never returns null.
 	 */
 	public final EnumSet<CarryLocation> getCarryLocations() {
 		return getType().getCarryLocations().getLocations();
 	}
 
 	/**
-	 * Indique si l'objet est envo�t�.
+	 * Tells whether this item is cursed. Note: When grabbed, a cursed item
+	 * can't be released unless conjured.
 	 *
-	 * @return si l'objet est envo�t�.
+	 * @return whether this item is cursed.
 	 */
 	public boolean isCursed() {
 		return (curse != null) && curse.isActive();
 	}
 
 	/**
-	 * Indique si l'envo�tement de l'objet a �t� d�tect�. Ne retourne true que
-	 * si l'objet est actuellement envo�t�.
+	 * Tells whether this item is cursed <b>and</b> if the curse has been detected.
 	 *
-	 * @return si l'envo�tement de l'objet a �t� d�tect�.
+	 * @return whether this item is cursed <b>and</b> if the curse has been detected.
 	 */
 	public boolean isCurseDetected() {
 		return isCursed() && curse.isDetected();
 	}
 
 	/**
-	 * Envo�te (ou renforce l'envo�tement de) l'objet avec la puissance donn�e.
+	 * Curses this item (or strengthens the item's curse) with the given power.
 	 *
 	 * @param powerRune
-	 *            un {@link PowerRune} repr�sentant la force de l'envo�tement.
+	 *            the power rune representing the strength of the curse. Can't
+	 *            be null.
 	 */
 	public void curse(final PowerRune powerRune) {
-		Validate.isTrue(powerRune != null, "The given power rune is null");
+		Validate.notNull(powerRune, "The given power rune is null");
 
 		if (curse == null) {
+			// Create the curse only when strictly necessary
 			curse = new Curse();
 		}
 
@@ -1681,7 +1687,7 @@ public abstract class Item implements ChangeEventSource {
 		curse.curse(powerRune.getPowerLevel());
 
 		if (!wasActive && curse.isActive()) {
-			// La chance du champion qui porte l'objet diminue de +3
+			// When holding a cursed item, the champion's luck decreases by 3 points
 			if (champion != null) {
 				champion.getStats().getLuck().dec(3);
 			}
@@ -1691,13 +1697,13 @@ public abstract class Item implements ChangeEventSource {
 	}
 
 	/**
-	 * Conjure l'envo�tement de l'objet avec la puissance donn�e.
+	 * Conjures the item's curse with the given power.
 	 *
 	 * @param powerRune
-	 *            un {@link PowerRune} repr�sentant la force de conjuration.
+	 *            a power rune representing the strength of the conjuration.
 	 */
 	public void conjure(PowerRune powerRune) {
-		Validate.isTrue(powerRune != null, "The given power rune is null");
+		Validate.notNull(powerRune, "The given power rune is null");
 
 		if (curse != null) {
 			final boolean wasActive = curse.isActive();
@@ -1705,7 +1711,7 @@ public abstract class Item implements ChangeEventSource {
 			curse.conjure(powerRune);
 
 			if (wasActive && !curse.isActive()) {
-				// La chance du champion qui porte l'objet remonte de +3
+				// Once conjured, the champion's luck increases by 3 points
 				if (champion != null) {
 					champion.getStats().getLuck().inc(3);
 				}
@@ -1714,29 +1720,32 @@ public abstract class Item implements ChangeEventSource {
 
 				curse = null;
 			}
+		} else {
+			// The item isn't cursed, do nothing
 		}
 	}
 
 	/**
-	 * Indique si l'objet quand il est port� (rev�tu par un champion) peut �tre
-	 * retir�. La m�thode pourrait aussi s'appeler isRemovable(). La m�thode ne
-	 * tente pas de retirer l'objet juste de savoir si c'est possible.
+	 * Tells whether this item (when put on / grabbed) can be removed from the
+	 * champion's body part. The cursed items can't be removed.
 	 *
-	 * @return si l'objet quand il est port� (rev�tu par un champion) peut �tre
-	 *         retir�.
+	 * @return whether this item can be removed.
 	 */
-	public boolean tryRemove() {
+	public boolean isRemovable() {
 		if (isCursed()) {
-			// On ne peut retirer un objet envout�
 			if (!curse.isDetected()) {
+				// The curse is now detected
 				curse.setDetected(true);
 
+				// Fire a change event to notify the detection
 				fireChangeEvent();
 			}
 
+			// A curse item can't be removed
 			return false;
 		}
 
+		// Any other item can be removed
 		return true;
 	}
 
@@ -1750,37 +1759,24 @@ public abstract class Item implements ChangeEventSource {
 		eventSupport.removeChangeListener(listener);
 	}
 
-	/**
-	 * Notifie les {@link ChangeListener} que l'objet vient de changer d'�tat
-	 * afin de permettre de le redessiner.
-	 */
 	protected final void fireChangeEvent() {
 		eventSupport.fireChangeEvent(new ChangeEvent(this));
 	}
 
 	/**
-	 * Le champion qui tient l'item (s'il y en a un).
+	 * The champion currently holding / wearing the item (if any).
 	 */
 	private Champion champion;
 
 	/**
-	 * La partie du corps sur lequel l'objet est port� (s'il y en a une).
+	 * The body part on which this item is currently worn (if any).
 	 */
 	private BodyPart bodyPart;
 
 	/**
-	 * Retourne le {@link Champion} porteur de l'objet.
+	 * Returns the body part on which this item is currently worn (if any).
 	 *
-	 * @return un {@link Champion} ou null.
-	 */
-	protected final Champion getCarrier() {
-		return champion;
-	}
-
-	/**
-	 * Retourne la partie du corps qui porte l'objet.
-	 *
-	 * @return une {@link BodyPart} ou null.
+	 * @return a body part or null.
 	 */
 	protected final BodyPart getBodyPart() {
 		return bodyPart;
@@ -1831,9 +1827,9 @@ public abstract class Item implements ChangeEventSource {
 	}
 
 	/**
-	 * Tells whether items has some effects.
+	 * Tells whether items has some effects when activated.
 	 *
-	 * @return whether items has some effects.
+	 * @return whether items has some effects when activated.
 	 */
 	public boolean hasEffects() {
 		return !effects.isEmpty();
