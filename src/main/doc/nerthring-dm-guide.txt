@@ -1,0 +1,2180 @@
+    #####   #    #  ##    #  #####   #####   #####  ##    #
+   #    #  #    #  # #   #  #       #       #   #  # #   #
+  #    #  #    #  #  #  #  #  ###  ###     #   #  #  #  #
+ #    #  #    #  #   # #  #    #  #       #   #  #   # #
+#####   #####   #    ##   #####  ######  #####  #    ##
+
+    ###.###   #####   #####  #####  #####  ####
+   # # # #  #     #  #        #    #      #   #
+  # ### #  #######  #####    #    ###    ####
+ #     #  #     #      #    #    #      #   #
+#     #  #     #  #####    #    #####  #    #
+
+Item/Creature/Skill/Spell Guide
+By:  Nerthing
+E-mail:  Nerthing@GMail.com
+Created:  November 7, 2004
+Last Updated:  May 7, 2005
+Current Version:  1.5
+
+-----------------
+Table of Contents
+-----------------
+
+1.  Heroes
+2.  Items
+ 2a.  Potions
+ 2b.  Chest Locations
+ 2c.  Scrolls
+ 2d.  Miscellaneous
+3.  Equipment
+ 3a.  Weapons
+ 3b.  Armor
+4.  Creatures
+ 4a.  Creature Statistics
+5.  Skills
+ 5a.  Levels
+ 5b.  Statistics
+ 5c.  Experience
+ 5d.  Training
+ 5e.  Actions
+6.  Spells
+ 6a.  Rune Levels
+ 6b.  Priest Spells
+ 6c.  Wizard Spells
+7.  Hints
+8.  Glitches
+ - Ghost Mode
+ - Duplicate Items
+9.  Updates
+ - 1.0
+ - 1.1
+ - 1.2
+ - 1.3
+ - 1.4
+ - 1.5
+10.  Legal Stuff
+
+----------
+1.  Heroes
+----------
+
+Iaido Ruyito Chiburi
+--------------------
+Apprentice Fighter (2 3 0 2)
+Novice Priest (1 1 1 2)
+Health: 48
+Stamina: 68
+Mana: 11
+Luck: 40
+Strength: 43
+Dexterity: 55
+Wisdom: 40
+Vitality: 35
+Anti-Magic: 45
+Anti-Fire: 50
+Load: 45
+Starting Equipment: Ghi,
+Ghi Trousers,
+Samurai Sword
+
+Zed Duke Of Banville
+--------------------
+Novice Fighter (2 1 1 2)
+Novice Ninja (2 1 2 1)
+Novice Priest (1 2 1 1)
+Novice Wizard (1 2 1 1)
+Health: 60
+Stamina: 60
+Mana: 10
+Luck: 58
+Strength: 40
+Dexterity: 40
+Wisdom: 40
+Vitality: 50
+Anti-Magic: 40
+Anti-Fire: 40
+Load: 42
+Starting Equipment: Mail Aketon,
+Blue Pants,
+Hosen,
+Torch
+
+Chani Sayyadina Sihaya
+----------------------
+Novice Fighter (1 3 0 2)
+Apprentice Wizard (3 2 3 1)
+Health: 47
+Stamina: 67
+Mana: 17
+Luck: 57
+Strength: 37
+Dexterity: 47
+Wisdom: 57
+Vitality: 37
+Anti-Magic: 47
+Anti-Fire: 37
+Load: 40
+Starting Equipment: Silk Shirt,
+Gunna,
+Sandals,
+Moonstone
+
+Hawk The Fearless
+-----------------
+Novice Fighter (2 0 0 2)
+Apprentice Priest (0 3 0 3)
+Health: 70
+Stamina: 85
+Mana: 10
+Luck: 40
+Strength: 45
+Dexterity: 35
+Wisdom: 38
+Vitality: 55
+Anti-Magic: 35
+Anti-Fire: 35
+Load: 46
+Starting Equipment: Leather Jerkin,
+Leather Pants,
+Suede Boots,
+Arrow (2)
+
+Boris Wizard Of Baldor
+----------------------
+Novice Ninja (3 2 1 0)
+Apprentice Wizard (2 3 3 3)
+Health: 35
+Stamina: 65
+Mana: 28
+Luck: 25
+Strength: 35
+Dexterity: 45
+Wisdom: 55
+Vitality: 40
+Anti-Magic: 45
+Anti-Fire: 40
+Load: 38
+Starting Equipment: Tunic,
+Leather Pants,
+Leather Boots,
+Rabbit's Foot
+
+Alex Ander
+----------
+Apprentice Ninja (3 2 3 2)
+Novice Wizard (2 2 1 2)
+Health: 50
+Stamina: 57
+Mana: 13
+Luck: 47
+Strength: 44
+Dexterity: 55
+Wisdom: 45
+Vitality: 40
+Anti-Magic: 35
+Anti-Fire: 40
+Load: 46
+Starting Equipment: Leather Jerkin,
+Leather Pants,
+Suede Boots,
+Sling
+
+Nabi The Prophet
+----------------
+Apprentice Priest (1 1 4 2)
+Novice Wizard (1 1 1 1)
+Health: 55
+Stamina: 65
+Mana: 13
+Luck: 40
+Strength: 41
+Dexterity: 36
+Wisdom: 45
+Vitality: 45
+Anti-Magic: 55
+Anti-Fire: 55
+Load: 43
+Starting Equipment: Tunic,
+Blue Pants,
+Sandals,
+Staff
+
+Hissssa Lizar Of Makan
+----------------------
+Apprentice Fighter (4 3 0 0)
+Novice Ninja (0 3 1 0)
+Health: 80
+Stamina: 61
+Mana: 5
+Luck: 40
+Strength: 58
+Dexterity: 48
+Wisdom: 35
+Vitality: 35
+Anti-Magic: 43
+Anti-Fire: 55
+Load: 57
+Starting Equipment: None
+
+Gothmog
+-------
+Journeyman Wizard (4 3 2 2)
+Health: 60
+Stamina: 55
+Mana: 18
+Luck: 30
+Strength: 40
+Dexterity: 43
+Wisdom: 48
+Vitality: 34
+Anti-Magic: 50
+Anti-Fire: 59
+Load: 42
+Starting Equipment: Cloak of Night
+
+Sonja She Devil
+---------------
+Journeyman Fighter (3 4 2 3)
+Health: 65
+Stamina: 70
+Mana: 2
+Luck: 40
+Strength: 54
+Dexterity: 45
+Wisdom: 39
+Vitality: 49
+Anti-Magic: 40
+Anti-Fire: 40
+Load: 54
+Starting Equipment: Halter,
+Gunna,
+Sandals,
+Choker,
+Sword
+
+Leyla Shadowseek
+----------------
+Journeyman Ninja (3 3 3 4)
+Health: 48
+Stamina: 60
+Mana: 3
+Luck: 50
+Strength: 40
+Dexterity: 53
+Wisdom: 45
+Vitality: 47
+Anti-Magic: 45
+Anti-Fire: 35
+Load: 42
+Starting Equipment: Silk Shirt,
+Leather Pants,
+Leather Boots,
+Rope
+
+Mophus The Healer
+-----------------
+Journeyman Priest (2 4 3 2)
+Health: 55
+Stamina: 55
+Mana: 19
+Luck: 40
+Strength: 42
+Dexterity: 35
+Wisdom: 40
+Vitality: 48
+Anti-Magic: 40
+Anti-Fire: 45
+Load: 44
+Starting Equipment: Robe (Body),
+Robe (Legs),
+Sandals,
+Bread,
+Cheese,
+Apple
+
+Wuuf The Bika
+-------------
+Apprentice Ninja (1 2 3 4)
+Novice Priest (0 3 2 1)
+Health: 40
+Stamina: 50
+Mana: 30
+Luck: 60
+Strength: 33
+Dexterity: 57
+Wisdom: 45
+Vitality: 40
+Anti-Magic: 35
+Anti-Fire: 40
+Load: 37
+Starting Equipment: Leather Jerkin,
+Empty Flask
+
+Stamm Bladecaster
+-----------------
+Journeyman Fighter (3 4 2 2)
+Health: 75
+Stamina: 80
+Mana: 0
+Luck: 35
+Strength: 52
+Dexterity: 43
+Wisdom: 35
+Vitality: 50
+Anti-Magic: 35
+Anti-Fire: 55
+Load: 52
+Starting Equipment: Tunic,
+Leather Pants,
+Suede Boots,
+Axe
+
+Azizi Johari
+------------
+Novice Fighter (2 1 3 0)
+Apprentice Ninja (2 2 3 3)
+Health: 61
+Stamina: 77
+Mana: 7
+Luck: 47
+Strength: 47
+Dexterity: 48
+Wisdom: 42
+Vitality: 45
+Anti-Magic: 30
+Anti-Fire: 35
+Load: 48
+Starting Equipment: Halter,
+Barbarian Hide,
+Hide Shield,
+Dagger (2)
+
+Leif The Valiant
+----------------
+Apprentice Fighter (3 2 2 0)
+Novice Priest (0 2 1 1)
+Health: 75
+Stamina: 70
+Mana: 7
+Luck: 35
+Strength: 46
+Dexterity: 40
+Wisdom: 39
+Vitality: 50
+Anti-Magic: 45
+Anti-Fire: 45
+Load: 47
+Starting Equipment: Leather Jerkin,
+Leather Pants,
+Leather Boots
+
+Tiggy Tamal
+-----------
+Novice Ninja (1 3 1 1)
+Apprentice Wizard (2 3 3 2)
+Health: 25
+Stamina: 45
+Mana: 35
+Luck: 45
+Strength: 30
+Dexterity: 45
+Wisdom: 50
+Vitality: 35
+Anti-Magic: 59
+Anti-Fire: 40
+Load: 34
+Starting Equipment: Kirtle,
+Gunna,
+Sandals,
+Wand
+
+Wu Tse Son Of Heaven
+--------------------
+Novice Ninja (1 2 0 3)
+Apprentice Priest (2 1 4 3)
+Health: 45
+Stamina: 47
+Mana: 20
+Luck: 40
+Strength: 38
+Dexterity: 35
+Wisdom: 53
+Vitality: 45
+Anti-Magic: 47
+Anti-Fire: 40
+Load: 41
+Starting Equipment: Silk Shirt,
+Tabard,
+Sandals,
+Throwing Star (3)
+
+Daroou
+------
+Apprentice Fighter (3 0 3 0)
+Neophyte Wizard (0 0 1 1)
+Health: 100
+Stamina: 65
+Mana: 6
+Luck: 35
+Strength: 50
+Dexterity: 30
+Wisdom: 35
+Vitality: 45
+Anti-Magic: 30
+Anti-Fire: 45
+Load: 50
+Starting Equipment: None
+
+Halk The Barbarian
+------------------
+Journeyman Fighter (4 0 4 0)
+Health: 90
+Stamina: 75
+Mana: 0
+Luck: 40
+Strength: 55
+Dexterity: 43
+Wisdom: 30
+Vitality: 46
+Anti-Magic: 38
+Anti-Fire: 48
+Load: 54
+Starting Equipment: Bezerker Helm,
+Barbarian Hide,
+Sandals,
+Club
+
+Syra Child Of Nature
+--------------------
+Novice Priest (0 3 1 1)
+Apprentice Wizard (0 2 3 3)
+Health: 53
+Stamina: 72
+Mana: 15
+Luck: 55
+Strength: 38
+Dexterity: 35
+Wisdom: 43
+Vitality: 45
+Anti-Magic: 42
+Anti-Fire: 40
+Load: 41
+Starting Equipment: Elven Doublet,
+Tabard,
+Apple
+
+Gando Thurfoot
+--------------
+Apprentice Ninja (3 0 2 3)
+Novice Wizard (1 2 1 2)
+Health: 39
+Stamina: 63
+Mana: 26
+Luck: 50
+Strength: 39
+Dexterity: 45
+Wisdom: 47
+Vitality: 33
+Anti-Magic: 48
+Anti-Fire: 43
+Load: 42
+Starting Equipment: Leather Jerkin,
+Blue Pants,
+Leather Boots,
+Poison Dart (2)
+
+Linflas
+-------
+Apprentice Fighter (0 1 2 4)
+Novice Wizard (0 1 2 2)
+Health: 65
+Stamina: 50
+Mana: 12
+Luck: 45
+Strength: 45
+Dexterity: 45
+Wisdom: 47
+Vitality: 35
+Anti-Magic: 50
+Anti-Fire: 35
+Load: 49
+Starting Equipment: Elven Doublet,
+Elven Huke,
+Elven Boots,
+Bow
+
+Elija Lion Of Yaitopya
+----------------------
+Novice Fighter (1 1 2 0)
+Apprentice Priest (2 1 4 2)
+Health: 60
+Stamina: 58
+Mana: 22
+Luck: 50
+Strength: 42
+Dexterity:40 
+Wisdom: 42
+Vitality: 36
+Anti-Magic: 53
+Anti-Fire: 40
+Load: 44
+Starting Equipment: Robe (Body),
+Robe (Legs),
+Sandals,
+Magical Box (Blue)
+
+---------
+2.  Items
+---------
+
+Items are the main key to surviving in the dungeons.
+These are the items you can find in the game.
+
+------------
+2a.  Potions
+------------
+
+Item       |Effect
+-----------|------------------------
+Empty Flask|Required to make potions
+Ven Potion |Poison Cloud
+Ros Potion |Dexterity
+Ku Potion  |Strength
+Dane Potion|Wisdom
+Neta Potion|Vitality
+Bro Potion |Cure Poison
+Ma Potion  |Stamina
+Ya Potion  |Magic Shield
+Ee Potion  |Mana
+Vi Potion  |Health
+Water Flask|Water
+Ful Bomb   |Fireball
+Des Potion |None
+Kath Bomb  |None
+Mon Potion |None
+Pew Bomb   |None
+Sar Potion |None
+Um Potion  |None
+Zo Potion  |None
+Des Potion |None
+Kath Bomb  |None
+Mon Potion |None
+Pew Bomb   |None
+Ra Bomb    |None
+Sar Potion |None
+Um Potion  |None
+Zo Potion  |None
+
+--------------------
+2b.  Chest Locations
+--------------------
+
+Locations are done by (Z[Level],X,Y) 
+
+(01,27,43)
+----------
+Scroll ("Drink these to gain magical defense")
+Ya potion (2)
+
+(01,02,45)
+----------
+Drumstick
+Corn
+Cheese
+Bread (2)
+Magical box (Blue) 
+Scroll ("Des Ven will conjure a poison spell")
+Empty flask
+
+(02,21,23)
+----------
+Apple
+Cheese
+Scroll ("Ya will create a stamina potion")
+Scroll ("Some doors can be opened with a Zo spell")
+Gold coin (2)
+
+(02,05,34)
+----------
+Mirror of dawn
+
+(02,05,23)
+----------
+Silver coin
+Copper coin (3)
+Magical box (Blue)
+
+(04,12,10)
+----------
+Bro Potion
+Magical Box (Blue)
+Ful Bomb
+
+(05,14,33)
+----------
+Slayer
+Water Flask
+Drumstick
+
+(07,23,13)
+----------
+Skeleton Key
+
+(07,25,32)
+----------
+Ya Potion
+Scroll ("The spell Ya Bro Ros leaves a trail of magic footprints.")
+
+(08,40,05)
+----------
+Green Gem
+Scroll ("Put the gem back...")
+
+(10,21,16)
+----------
+Solid Key
+
+(10,37,37)
+----------
+Drumstick (4)
+Cheese (2)
+Bread (2)
+
+-----------
+2c. Scrolls
+-----------
+
+Locations are done by (Z[Level],X,Y) 
+
+(00,04,15)
+----------
+"Invoke Ful for a magic torch"
+
+(00,04,17)
+----------
+"New lives for old bones"
+
+(01,06,17)
+----------
+"Small details can hide great rewards"
+
+(01,19,25)
+----------
+"Casting Vi into a flask creates a serum that heals wounds"
+"Casting Vi Bro into a flask creates a serum for curing poison"
+
+(01,02,45)
+----------
+"Des Ven will conjure a poison spell"
+
+(01,27,43)
+----------
+"Drink these to gain magical defense"
+
+(02,21,23)
+----------
+"Ya will create a stamina potion" 
+"Some doors can be opened with a Zo spell"
+
+(02,32,38)
+----------
+"The spell Des Ew weakens nonmaterial beings"
+
+(03,26,20)
+----------
+"Ya Bro creates a magical shield potion" 
+"The spell Oh Ven cast a cloud of poison."
+
+(06,33,28)
+----------
+"Fireball Ful Ir. Fire Shield Ful Bro Neta."
+
+(06,33,29)
+----------
+"Light Oh Ir Ra. Darkness Des Ir Sar."
+
+(06,31,25)
+----------
+"The keys to passage lie hidden deep."
+
+(06,10,07)
+----------
+"Neither Chaos nor Order is truly balanced" 
+"The Firestaff can restore balance or destroy it."
+"The power gem is sealed in the mountain by a strange magical force."
+
+(06,29,08)
+----------
+"Balance is the ultimate good"
+
+(06,33,12)
+----------
+"I fear for the people of the world should the power gem and the Firestaff
+get in the wrong hands."
+"I have given the Firestaff much power. Power to do and undo.
+Power to break and mend."
+"The Firestaff can contain a being of pure alignment with its fluxcage."
+"Once fluxcaged a being can be transmuted by the power of the staff 
+which should always be used for balance."
+"Zokathra might create a plasma that could burn through the
+amalgam encasing the gem."
+
+(07,35,39)
+----------
+"Four potions for boosting skills Ful Bro Ku Oh Bro Ros 
+Ya Bro Dain Ya Bro Neta"
+
+(07,25,32)
+----------
+"The spell Ya Bro Ros leaves a trail of magic footprints."
+
+(08,22,28)
+----------
+"Lightning bolt Oh Kath Ra"
+
+(08,40,05)
+----------
+"Put the gem back..."
+
+(08,30,19)
+----------
+"The spell Oh Ew Ra bestows magic vision."
+
+(09,32,40)
+----------
+"Shield potion Ya Bro. Magic shield Ya Ir."
+
+(09,33,16)
+----------
+"Mana potion Zo Bro Ra creates a pure mana potion."
+
+(10,26,35)
+----------
+"The only way out is another way in."
+
+(11,48,27)
+----------
+"Invisibility Oh Ew Sar"
+
+(13,49,36)
+----------
+"Only the touch of the proper spell will free the gem and 
+only the Firestaff can possess it."
+
+------------------
+2d.  Miscellaneous
+------------------
+
+Item               |Effect
+-------------------|-----------------------------
+Apple              |500 food
+Corn               |600 food
+Bread              |650 food
+Cheese             |820 food
+Screamer Slice     |550 food
+Worm Round         |350 food
+Drumstick          |990 food
+Dragon Steak       |1400 food
+Gem of Ages        |+1 Skill 13
+Ekkhard Cross      |+1 Skill 15
+Moonstone          |+3 Mana/+1 Skill 14
+The Hellion        |None
+Pendant Feral      |+1 Wizard Skill
+Magical Box (Blue) |Less power than green
+Magical Box (Green)|More power than blue
+Mirror of Dawn     |None
+Rope               |No damage on pits when used
+Rabbit's Foot      |+10 Luck
+Corbamite          |None
+Choker             |None
+Lock Picks         |None
+Magnifier          |None
+Zokathra Spell     |None
+Bones              |None
+Compass            |None
+Water              |Fills up Water (3 uses)
+Waterskin          |Use on water sources to refill
+Jewel Symal        |+15 Anti-Magic
+Illumulet          |Light
+Ashes              |None
+(Name) Bones       |Revive at Vi Altar
+Copper Coin        |None
+Silver Coin        |None
+Gold Coin          |None
+Iron Key           |None
+Key of B           |None
+Solid Key          |None
+Square Key         |None
+Turquoise Key      |None
+Cross Key          |None
+Onyx Key           |None
+Skeleton Key       |None
+Gold Key           |None
+Winged Key         |None
+Topaz Key          |None
+Sapphire Key       |None
+Emerald Key        |None
+Ruby Key           |None
+Ra Key             |None
+Master Key         |None
+Boulder            |None
+Blue Gem           |None
+Orange Gem         |None
+Green Gem          |None
+Lock Picks         |None
+Bones              |None
+Onyx Key           |None
+Sapphire Key       |None
+
+-------------
+3.  Equipment
+-------------
+
+ - Armor Strength (AS): The armor value (0..200) associated with the 
+item. Some items (Shields) have the "Ignored" keyword, meaning that 
+the item's Armor Strength will be ignored when calculating armor.  
+This value can go up to 200.
+ - Sharp Resistance (SR): A 0..7 value which is used when monsters 
+have a "sharp" attack. Sharp attacks use the following format to 
+calculate armor: (Sharp Resistance / 7) * Armor Strength, so if the 
+Sharp Resistance value is 0, a creature having a Sharp attack will 
+ignore your armor.
+ - Damage: The base number used to calculate how much damage your
+ attack does.
+ - Distance: This value determines how far the item will go when 
+thrown. If a weapon is used to "Shoot", this will be a part of how 
+far the item being shot will travel. The farther the projectile 
+goes, the more damage it does (Damage is decreased as it flies).
+ - Shoot Damage: The amount of damage associated with fired projectiles.
+ - Delta energy: Delta energy lost for each room the projectile travels.
+ - -??% Enemy Armor (ER) is the reduction of the enemies armor.
+
+------------
+3a.  Weapons
+------------
+
+Item                    |Damage|Distance|Shoot Damage|Delta Energy|Effect(s)
+------------------------|------|--------|------------|------------|----------
+Eye of Time             |2     |0       |0           |2           |None
+Stormring               |2     |0       |0           |3           |None
+Torch                   |8     |2       |0           |0           |Light
+Flamitt                 |10    |80      |30          |0           |None
+Staff of Claws          |16    |7       |0           |1           |+4 Mana
+Bolt Blade              |49    |110     |66          |1           |None
+Fury                    |55    |20      |0           |0           |None
+The Firestaff           |25    |1       |255         |15          |+1 Skills 
+Dagger                  |10    |19      |0           |2           |None
+Falchion                |30    |8       |0           |0           |None
+Sword                   |34    |10      |0           |0           |None
+Rapier                  |38    |10      |0           |0           |None
+Sabre                   |42    |11      |0           |0           |None
+Samurai Sword           |46    |12      |0           |0           |None
+Delta                   |50    |14      |0           |0           |+1 Mana
+Diamond Edge            |62    |14      |0           |0           |-25% ER
+Vorpal Blade            |48    |13      |0           |0           |+4 Mana
+The Inquisitor          |58    |15      |0           |0           |+2 Mana
+Axe                     |49    |33      |0           |2           |None
+Hardcleave              |70    |44      |0           |2           |-12.5% ER
+Mace                    |32    |10      |0           |0           |None
+Mace of Order           |42    |13      |0           |0           |+5 Strength
+Morningstar             |60    |15      |0           |0           |None
+Club                    |19    |10      |0           |0           |None
+Stone Club              |44    |22      |0           |0           |None
+Bow                     |1     |50      |50          |4           |None
+Crossbow                |1     |180     |120         |14          |None
+Arrow                   |2     |10      |0           |10          |None
+Slayer                  |2     |28      |0           |10          |None
+Sling                   |5     |20      |50          |7           |None
+Rock                    |6     |18      |0           |11          |None
+Poison Dart             |7     |23      |0           |12          |None
+Throwing Star           |3     |19      |0           |1           |None
+Stick                   |4     |4       |0           |0           |None
+Staff                   |12    |4       |0           |1           |+2 Mana
+Wand                    |0     |0       |0           |2           |+1 Mana
+Teowand                 |1     |20      |0           |12          |+6 Mana
+Yew Staff               |18    |6       |0           |0           |+4 Mana
+Staff of Manar          |0     |4       |0           |15          |+10 Mana
+Snake Staff             |0     |3       |0           |3           |+8 Mana
+The Conduit             |0     |7       |0           |8           |+15-17 Mana
+Dragon Spit             |3     |1       |0           |4           |+7 Mana
+Sceptre of Lyf          |9     |4       |0           |3           |+3-5 Mana
+Horn of Fear            |1     |1       |0           |0           |Scare
+Speedbow                |1     |220     |125         |10          |None
+The Firestaff (Complete)|100   |50      |255         |15          |+2 Skills
+Stick                   |4     |4       |0           |0           |None
+The Conduit             |0     |7       |0           |8           |+15-17 Mana
+
+----------
+3b.  Armor
+----------
+
+Item            |AS/SR|Effect(s) 
+----------------|-----|-----------
+Cape            |5/1  |None
+Cloak of Night  |10/1 |+8 Dexterity
+Barbarian Hide  |4/1  |None
+Sandals         |5/2  |None
+Leather Boots   |25/4 |None
+Robe (Body)     |5/0  |None
+Robe (Legs)     |5/0  |None
+Fine Robe (Body)|7/1  |None
+Fine Robe (Legs)|7/1  |None
+Kirtle          |6/1  |None
+Silk Shirt      |4/0  |None
+Tabard          |5/1  |None
+Gunna           |7/1  |None
+Elven Doublet   |11/2 |None
+Elven Huke      |13/2 |None
+Elven Boots     |13/2 |+1-14 Load 
+Leather Jerkin  |17/3 |None
+Leather Pants   |20/3 |None
+Suede Boots     |20/3 |None
+Blue Pants      |12/2 |None
+Tunic           |9/1  |None
+Ghi             |8/1  |None
+Ghi Trousers    |9/1  |None
+Calista         |1/4  |None
+Crown of Nerra  |5/4  |+10 Wisdom
+Bezerker Helm   |12/5 |None
+Helmet          |17/5 |None
+Basinet         |20/5 |None
+Buckler         |22/5 |None
+Hide Shield     |16/2 |None
+Wooden Shield   |20/3 |None
+Small Shield    |35/4 |None
+Mail Aketon     |35/5 |None
+Leg Mail        |35/5 |None
+Mithral Aketon  |70/7 |None
+Mithral Mail    |55/7 |None
+Casque'n Coif   |25/6 |None
+Hosen           |30/6 |None
+Armet           |40/7 |None
+Torso Plate     |65/4 |None
+Leg Plate       |56/4 |None
+Foot Plate      |37/5 |None
+Large Shield    |56/4 |None
+Helm of Lyte    |62/5 |None
+Plate of Lyte   |125/4|None
+Poleyn of Lyte  |90/4 |None
+Greave of Lyte  |50/5 |None
+Shield of Lyte  |85/4 |None
+Helm of Darc    |76/4 |None
+Plate of Darc   |160/4|None
+Poleyn of Darc  |101/4|None
+Greave of Darc  |60/4 |None
+Shield of Darc  |54/6 |None
+Dexhelm         |54/6 |+10 Dexterity
+Flamebain       |60/7 |+12 Anti-Fire
+Powertowers     |88/4 |+10 Strength
+Boots of Speed  |16/2 |Speeds up moves
+Halter          |3/3  |None
+Cape            |5/1  |None
+Dexhelm         |54/6 |+10 Dexterity
+Powertowers     |88/4 |+10 Strength
+
+-------------
+4.  Creatures
+-------------
+
+There are 27 kinds of creatures, and many generators
+triggered by walking in the dungeon.
+
+ - Speed:  The amount of time between each move (1/6ths of a second). 
+Value 255 means the creature does not move.
+ - Armor:  The armor value associated with the creature.
+ - Base health:  This value is used to calculate the health of creatures
+generated during the game.
+ - Hit probability:  The chance each creature's attack has of hitting a hero.
+ - Poison amount:  The amount of poison the creature can inflict.
+ - Attack power:  The power of the creature's attacks
+ - Attack type:  This number is used to determine what kind of attack the
+creature executes. Changing this value will result in a different 
+"protection" to be used when calculating the damage:
+
+1: Use Anti-Fire to determine damage 
+2: Half the hero's armor and do physical damage 
+3: Unknown 
+4: Deal physical piercing damage 
+5: Use Anti-Magic to determine damage 
+6: Use Wisdom to determine damage
+
+------------------------
+4a.  Creature Statistics
+------------------------
+
+Mummy
+-----
+Speed: 17
+Armor: 25/255
+Base health: 33
+Hit probability: 20/255
+Poison amount: 0/255
+Attack power: 40
+Attack type: 3
+Sight range: 4/15
+Awareness: 2/15
+Spell range: 1/15
+Skill: 4
+Bravery: 9/15
+Magic resistance: 1/15
+Poison resistance: 15/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Absorbs projectiles / Can see in darkness
+Groups: 1-4
+Spells: None
+Item(s) left when killed: None
+Killed by: Weapons, Poison Bolt, Fireball, Lightning Bolt
+
+Screamer
+--------
+Speed: 120
+Armor: 5/255
+Base health: 165
+Hit probability: 5/255
+Poison amount: 0/255
+Attack power: 5
+Attack type: 6
+Sight range: 1/15
+Awareness: 1/15
+Spell range: 1/15
+Skill: 0
+Bravery: 15/15
+Magic resistance: 6/15
+Poison resistance: 7/15
+Special abilities: Absorbs projectiles
+Groups: 1-4
+Spells: None
+Item(s) left when killed: Screamer Slice (1-2)
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Rockpile
+--------
+Speed: 185
+Armor: 170/255
+Base health: 50
+Hit probability: 40/255
+Poison amount: 5/255
+Attack power: 10
+Attack type: 4
+Sight range: 3/15
+Awareness: 4/15
+Spell range: 1/15
+Skill: 5
+Bravery: 12/15
+Magic resistance: 14/15
+Poison resistance: 6/15
+Special abilities: None
+Groups: 1-4
+Spells: None
+Item(s) left when killed: Rock (0-2), Boulder (1-2)
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Trolin
+------
+Speed: 13
+Armor: 28/255
+Base health: 20
+Hit probability: 25/255
+Poison amount: 0/255
+Attack power: 41
+Attack type: 3
+Sight range: 3/15
+Awareness: 3/15
+Spell range: 1/15
+Skill: 1
+Bravery: 4/15
+Magic resistance: 2/15
+Poison resistance: 3/15
+Special abilities: Absorbs projectiles
+Groups: 1-4
+Spells: None
+Item(s) left when killed: Club
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Magenta Worm
+------------
+Speed: 18
+Armor: 72/255
+Base health: 70
+Hit probability: 45/255
+Poison amount: 35/255
+Attack power: 35
+Attack type: 4
+Sight range: 1/15
+Awareness: 10/15
+Spell range: 1/15
+Skill: 5
+Bravery: 10/15
+Magic resistance: 9/15
+Poison resistance: 11/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Groups: 1-2
+Spells: None
+Item(s) left when killed: Worm Round (1-3)
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Giant Wasp
+----------
+Speed: 1
+Armor: 180/255
+Base health: 8
+Hit probability: 28/255
+Poison amount: 20/255
+Attack power: 150
+Attack type: 4
+Sight range: 2/15
+Awareness: 4/15
+Spell range: 1/15
+Skill: 9
+Bravery: 15/15
+Magic resistance: 0/15
+Poison resistance: 0/15
+Special abilities: Levitates / Hit by Weaken Nonmaterial Beings spell 
+Absorbs projectiles
+Groups: 1-4
+Spells: None
+Item(s) left when killed: None
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Ghost
+-----
+Speed: 11
+Armor: 15/255
+Base health: 30
+Hit probability: 55/255
+Poison amount: 0/255
+Attack power: 80
+Attack type: 6
+Sight range: 3/15
+Awareness: 4/15
+Spell range: 1/15
+Skill: 6
+Bravery: 6/15
+Magic resistance: 12/15
+Poison resistance: 15/15
+Special abilities: Levitates / Hit by Disrupt attack (Vorpal Blade) 
+Can see invisible / Can see in darkness / Can pass through wooden and
+iron doors (but not through porticullis and Ra doors) doors,
+Nearly immune to spells (excepted Weaken Nonmaterial Beings)
+Groups: 1-4
+Spells: None
+Item(s) left when killed: None
+Killed by: Vorpal Blade, Yew Staff, Staff Of Manar, 
+Weaken Nonmaterial Beings
+
+Swamp Slime
+-----------
+Speed: 15
+Armor: 20/255
+Base health: 110
+Hit probability: 80/255
+Poison amount: 15/255
+Attack power: 20
+Attack type: 3
+Sight range: 2/15
+Awareness: 1/15
+Spell range: 3/15
+Skill: 3
+Bravery: 10/15
+Magic resistance: 4/15
+Poison resistance: 14/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Absorbs projectiles
+Groups: 1-4
+Spells: Slime
+Item(s) left when killed: None
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Couatl
+------
+Speed: 5
+Armor: 42/255
+Base health: 39
+Hit probability: 90/255
+Poison amount: 100/255
+Attack power: 88
+Attack type: 4
+Sight range: 3/15
+Awareness: 4/15
+Spell range: 1/15
+Skill: 7
+Bravery: 3/15
+Magic resistance: 3/15
+Poison resistance: 6/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Absorbs projectiles / Levitates / Can see in darkness
+Groups: 1
+Spells: None
+Item(s) left when killed: None
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Wizard Eye
+----------
+Speed: 10
+Armor: 30/255
+Base health: 40
+Hit probability: 58/255
+Poison amount: 0/255
+Attack power: 80
+Attack type: 5
+Sight range: 10/15
+Awareness: 2/15
+Spell range: 3/15
+Skill: 6
+Bravery: 10/15
+Magic resistance: 3/15
+Poison resistance: 11/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Absorbs projectiles / Levitates
+Groups: 1-4
+Spells: Lightning Bolt, Open Door
+Item(s) left when killed: None
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Skeleton
+--------
+Speed: 7
+Armor: 22/255
+Base health: 20
+Hit probability: 22/255
+Poison amount: 0/255
+Attack power: 80
+Attack type: 4
+Sight range: 3/15
+Awareness: 0/15
+Spell range: 1/15
+Skill: 5
+Bravery: 9/15
+Magic resistance: 6/15
+Poison resistance: 15/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Can see in darkness
+Groups: 1-4
+Spells: None
+Item(s) left when killed: Wooden Shield, Falchion
+Killed by: Weapons, Poison Bolt, Fireball, Lightning Bolt
+
+Stone Golem
+-----------
+Speed: 21
+Armor: 240/255
+Base health: 120
+Hit probability: 219/255
+Poison amount: 0/255
+Attack power: 35
+Attack type: 3
+Sight range: 3/15
+Awareness: 0/15
+Spell range: 1/15
+Skill: 11
+Bravery: 15/15
+Magic resistance: 15/15
+Poison resistance: 15/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Groups: 1
+Spells: None
+Item(s) left when killed: Stone Club
+Killed by: Weapons
+
+Giggler
+-------
+Speed: 3
+Armor: 50/255
+Base health: 10
+Hit probability: 10/255
+Poison amount: 0/255
+Attack power: 110
+Attack type: 0
+Sight range: 6/15
+Awareness: 3/15
+Spell range: 1/15
+Skill: 1
+Bravery: 0/15
+Magic resistance: 3/15
+Poison resistance: 2/15
+Special abilities: Absorbs projectiles, Can steal items in heroes' hands
+Groups: 1-4
+Spells: None
+Item(s) left when killed: None
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Pain Rat
+--------
+Speed: 9
+Armor: 45/255
+Base health: 101
+Hit probability: 90/255
+Poison amount: 0/255
+Attack power: 65
+Attack type: 4
+Sight range: 4/15
+Awareness: 5/15
+Spell range: 1/15
+Skill: 8
+Bravery: 15/15
+Magic resistance: 3/15
+Poison resistance: 10/15
+Special abilities: Absorbs projectiles
+Groups: 1-2
+Spells: None
+Item(s) left when killed: Drumstick (1-2)
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Vexirk
+------
+Speed: 10
+Armor: 47/255
+Base health: 44
+Hit probability: 75/255
+Poison amount: 0/255
+Attack power: 90
+Attack type: 5
+Sight range: 5/15
+Awareness: 3/15
+Spell range: 4/15
+Skill: 9
+Bravery: 5/15
+Magic resistance: 5/15
+Poison resistance: 3/15
+Special abilities: Levitates / Absorbs projectiles
+Hit by Weaken Nonmaterial Beings spell
+Groups: 1-4
+Spells: Open Door, Poison Cloud, Fireball, Lightning Bolt
+Item(s) left when killed: None
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Ruster
+------
+Speed: 20
+Armor: 100/255
+Base health: 60
+Hit probability: 30/255
+Poison amount: 0/255
+Attack power: 30
+Attack type: 3
+Sight range: 2/15
+Awareness: 3/15
+Spell range: 1/15
+Skill: 3
+Bravery: 3/15
+Magic resistance: 8/15
+Poison resistance: 5/15
+Special abilities: Absorbs projectiles
+Hit by Weaken Nonmaterial
+Beings spell
+Groups: 1-2
+Spells: None
+Item(s) left when killed: None
+Killed by: any weapons or offensive spells
+
+Giant Scorpion
+--------------
+Speed: 8
+Armor: 55/255
+Base health: 150
+Hit probability: 150/255
+Poison amount: 240/255
+Attack power: 55
+Attack type: 4
+Sight range: 3/15
+Awareness: 1/15
+Spell range: 1/15
+Skill: 9
+Bravery: 9/15
+Magic resistance: 7/15
+Poison resistance: 8/15
+Special abilities: Absorbs projectiles
+Hit by Weaken Nonmaterial
+Beings spell
+Groups: 1
+Spells: None
+Item(s) left when killed: None
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Water Elemental
+---------------
+Speed: 25
+Armor: 75/255
+Base health: 144
+Hit probability: 66/255
+Poison amount: 0/255
+Attack power: 50
+Attack type: 3
+Sight range: 1/15
+Awareness: 3/15
+Spell range: 1/15
+Skill: 6
+Bravery: 7/15
+Magic resistance: 10/15
+Poison resistance: 14/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Can see in darkness / Hit by Disrupt attack (Vorpal Blade)
+Can pass through wooden and iron doors
+(but not through porticullis and Ra doors)
+Groups: 1
+Spells: None
+Item(s) left when killed: None
+Killed by: Vorpal Blade, Yew Staff, Staff Of Manar, Weaken Nonmaterial
+Beings, Destroyed when standing over a floor grate
+
+Animated Armour
+---------------
+Speed: 14
+Armor: 140/255
+Base health: 60
+Hit probability: 105/255
+Poison amount: 0/255
+Attack power: 70
+Attack type: 4
+Sight range: 5/15
+Awareness: 0/15
+Spell range: 1/15
+Skill: 10
+Bravery: 15/15
+Magic resistance: 15/15
+Poison resistance: 15/15
+Special abilities: None
+Groups: 1-4
+Spells: None
+Item(s) left when killed: Armet, Torso Plate, Leg Plate, Foot Plate,
+Sword (2)
+Killed by: Weapons, Poison Bolt, Fireball, Lightning Bolt
+
+Oitu
+----
+Speed: 7
+Armor: 33/255
+Base health: 77
+Hit probability: 130/255
+Poison amount: 0/255
+Attack power: 60
+Attack type: 4
+Sight range: 2/15
+Awareness: 5/15
+Spell range: 1/15
+Skill: 9
+Bravery: 6/15
+Magic resistance: 5/15
+Poison resistance: 8/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Groups: 1
+Spells: None
+Item(s) left when killed: None
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Materializer
+------------
+Speed: 5
+Armor: 15/255
+Base health: 33
+Hit probability: 61/255
+Poison amount: 0/255
+Attack power: 65
+Attack type: 5
+Sight range: 8/15
+Awareness: 2/15
+Spell range: 3/15
+Skill: 12
+Bravery: 7/15
+Magic resistance: 5/15
+Poison resistance: 15/15
+Special abilities: Levitates / Hit by Disrupt attack (Vorpal Blade)
+Can pass through wooden and iron doors (but not through porticullis
+and Ra doors) / Can only be killed when materialized
+Groups: 1-4
+Spells: Poison Cloud, Fireball
+Item(s) left when killed: None
+Killed by: Vorpal Blade, Yew Staff, Staff Of Manar,
+Weaken Nonmaterial Beings
+
+Black Flame
+-----------
+Speed: 255
+Armor: 45/255
+Base health: 80
+Hit probability: 105/255
+Poison amount: 0/255
+Attack power: 60
+Attack type: 1
+Sight range: 4/15
+Awareness: 3/15
+Spell range: 1/15
+Skill: 5
+Bravery: 10/15
+Magic resistance: 15/15
+Poison resistance: 15/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Hit by Disrupt attack (Vorpal Blade) / Can see invisible
+Can see in darkness / Nearly immune to spells (except Weaken 
+Nonmaterial Beings)
+Groups: 1
+Spells: None
+Item(s) left when killed: None
+Killed by: Vorpal Blade, Yew Staff, Staff Of Manar,
+Weaken Nonmaterial Beings
+
+Demon
+-----
+Speed: 10
+Armor: 68/255
+Base health: 100
+Hit probability: 100/255
+Poison amount: 0/255
+Attack power: 75
+Attack type: 3
+Sight range: 4/15
+Awareness: 3/15
+Spell range: 4/15
+Skill: 13
+Bravery: 15/15
+Magic resistance: 5/15
+Poison resistance: 10/15
+Special abilities: Can see in darkness
+Hit by Weaken Nonmaterial Beings spell / Absorbs projectiles
+Groups: 1-4
+Spells: Fireball
+Item(s) left when killed: None
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Red Dragon
+----------
+Speed: 13
+Armor: 110/255
+Base health: 255
+Hit probability: 255/255
+Poison amount: 0/255
+Attack power: 70
+Attack type: 4
+Sight range: 5/15
+Awareness: 6/15
+Spell range: 2/15
+Skill: 15
+Bravery: 7/15
+Magic resistance: 12/15
+Poison resistance: 6/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Absorbs projectiles
+Groups: 1
+Spells: Fireball
+Item(s) left when killed: Dragon Steak (8-10)
+Killed by: Weapons, Poison Bolt, Poison Cloud, Fireball, Lightning Bolt
+
+Lord Chaos
+----------
+Speed: 12
+Armor: 255/255 (invincible)
+Base health: 180
+Hit probability: 210/255
+Poison amount: 0/255
+Attack power: 130
+Attack type: 5
+Sight range: 9/15
+Awareness: 3/15
+Spell range: 6/15
+Skill: 15
+Bravery: 3/15
+Magic resistance: 11/15
+Poison resistance: 15/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Can see invisible / Can see in darkness / Levitates / Teleportation
+Groups: 1
+Spells: Fireball, Lightning Bolt, Poison Cloud, Open Door
+Item(s) left when killed: None
+Killed by: The Firestaff
+
+Lord Order
+----------
+Speed: 12
+Armor: 255/255 (invincible)
+Base health: 180
+Hit probability: 210/255
+Poison amount: 0/255
+Attack power: 130
+Attack type: 5
+Sight range: 9/15
+Awareness: 3/15
+Spell range: 6/15
+Skill: 15
+Bravery: 3/15
+Magic resistance: 11/15
+Poison resistance: 15/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Can see invisible / Can see in darkness / Levitates
+
+Grey Lord
+---------
+Speed: 12
+Armor: 255/255 (invincible)
+Base health: 180
+Hit probability: 210/255
+Poison amount: 0/255
+Attack power: 130
+Attack type: 5
+Sight range: 9/15
+Awareness: 3/15
+Spell range: 6/15
+Skill: 15
+Bravery: 3/15
+Magic resistance: 11/15
+Poison resistance: 15/15
+Special abilities: Hit by Weaken Nonmaterial Beings spell
+Can see invisible / Can see in darkness / Levitates
+
+----------
+5.  Skills
+----------
+
+There are twenty skills that each hero can use and in which
+they gain experience. The first four skills (0 to 3) are the
+"basic skills" displayed in the character statistics sheet screen
+(Fighter, Ninja, Priest, Wizard). When experience is gained in any
+of the hidden skills 4 through 19 then that experience is also added
+to the experience in the associated "basic skill".
+For example, experience added to skill number 10 is also added to
+skill number 1.
+
+Basic skills:
+
+0: Fighter 
+1: Ninja 
+2: Priest 
+3: Wizard
+
+Hidden skills:
+
+4, 5, 6, 7: Hidden Fighter skills 
+8, 9, 10, 11: Hidden Ninja skills 
+12, 13, 14, 15: Hidden Priest skills 
+16, 17, 18, 19: Hidden Wizard skills
+
+Each of the skills has two components: a permanent "experience"
+component that can only increase and a temporary adjustment which
+can be negative as a result of battle injuries and such.
+
+Heroes earn experience points in each of these skills in many ways
+during their adventure in the dungeon. Once enough experience has
+been acquired in a skill, heroes gain a level in that skill, and
+some of their statistics are increased.
+
+-----------
+5a.  Levels
+-----------
+
+To determine a heroes's level in any of the skills look at
+the following algorithm:
+
+0. - (0) 
+1.  Neophyte (500) 
+2.  Novice (1,000) 
+3.  Apprentice (2,000) 
+4.  Journeyman (4,000) 
+5.  Craftsman (8,000) 
+6.  Artisan (16,000) 
+7.  Adept (32,000) 
+8.  Expert (64,000) 
+9.   Lo Master (128,000) 
+10.  Um Master (256,000) 
+11.  On Master (512,000) 
+12.  Ee Master (1,024,000) 
+13.  Pal Master (2,048,000) 
+14.  Mon Master (4,096,000) 
+15.  Archmaster (8,192,000)
+
+---------------
+5b.  Statistics
+---------------
+
+Health
+------
+This value represents how much damage a hero can take before dying.
+You can regain Health points by sleeping and drinking healing potions.
+Health also naturally increases over time, but slowly.
+
+Stamina
+-------
+This value represents the heroes's ability to overcome fatigue.
+It decreases when you walk and fight and also when you are
+hungry or thirsty.
+If this value is equal to zero, any more activity will decrease health.
+You can regain Stamina points by sleeping and drinking Stamina potions.
+Stamina also naturally increases over time, but slowly.
+
+Mana
+----
+This value represents the magical energy a hero has to cast spells.
+Each spoken rune will consume some Mana.
+You can regain Mana points by sleeping and drinking Mana potions.
+Mana also naturally increases over time, but slowly.
+
+The speed of the increase of mana while you sleep depends on the Wisdom
+and the Priest and Wizard levels of the hero.
+
+Load
+----
+This value represents the weight a hero can carry.
+The more a hero is carrying, the more stamina is consumed.
+When this value is displayed in yellow, this is a warning that
+the heroes carries a lot of things. When it is displayed in red,
+the hero is overloaded and his actions will consume a lot of stamina.
+
+The maximum load a hero can carry is based on the Strength value.
+
+Strength
+--------
+This value determines the load a hero can carry, how far items can
+be thrown and how much damage is done by melee attacks.
+
+Dexterity
+---------
+This value determines the accuracy of missiles and the odds of
+hitting opponents in combat. It also helps the hero to avoid or
+reduce physical damage.
+
+Wisdom
+------
+This value is important for spellcasters as it determines their
+ability to master Magic. It also determines the speed of Mana recovery.
+
+Vitality
+--------
+This value determines how quickly a hero heals and regains Stamina
+as well as his poison resistance. It also helps to reduce damage.
+
+Anti-Magic
+----------
+This value determines a hero's resistance to magic attacks.
+
+Anti-Fire
+---------
+This value determines a hero's resistance to fire damage.
+
+Food and Water
+-------------
+These two values represent how hungry and thirsty a hero is.
+Food and Water values are decreased to regenerate Stamina and Health.
+When these values reach zero, the hero is starving: his Stamina and
+health decrease until he eats, drinks or dies.
+
+Luck (hidden statistic)
+-----------------------
+This value is not visible through the game user interface.
+It is used during combat and its value is changed each time you use it.
+The value increases when you are unlucky and decreases when you are lucky.
+For example, if a hero would miss a hit, his
+Luck can help him still succeed.
+In this case, the Luck value is decreased.
+This value is modified by some items: a Rabbit's Foot will
+increase it by 10,
+while cursed items will decrease it by 3.
+
+Resurrect and Reincarnate
+-------------------------
+Resurrection: Heroes return to life exactly as they were:
+they will remember all their previous skills and statistics.
+This option is better in the short
+term as you start the game with heroes already having a basic training.
+
+Reincarnation: Heroes lose memory and skills, but some statistics are
+slightly increased. Reincarnation gives you a couple of advantages:
+
+- You can rename your heroes 
+- You will find that, at equivalent levels, you will have more Health and
+Mana then if the same hero had been resurrected
+
+This option is better in the long term because as you train your hero
+yourself, they will end up with higher skills and statistics.
+However, this makes the beginning of the game a little harder.
+
+Statistics increase
+-------------------
+When a hero has gained enough experience in one skill to reach a new level
+ some of the hero's statistics are increased based on which skill he
+progressed in:
+
+- All skills increase Health and Stamina. 
+- Fighter skills increase Strength and Dexterity. 
+- Ninja skills increase Strength and Dexterity. 
+- Priest skills increase Mana, Wisdom and Anti-Magic. 
+- Wizard skills increase Mana and Wisdom.
+
+---------------
+5c.  Experience
+---------------
+
+The most efficient way to earn experience points is to fight creatures
+with weapons and spells. But you can also use your weapons and spells
+without any enemy, and still earn some experience points (but only half).
+
+Moreover, each level has an associated experience multiplier.
+In Dungeon Master, the deeper you are in the dungeon, the more
+experience you will gain for any given action.
+
+Here is the simplified algorithm used to determine the experience you will
+earn by performing an action:
+
+ - Experience = Experience Gain associated to the action you perform
+ - If the Improved Skill associated to the action you perform is between
+04 and 11 (hidden Fighter and Ninja skills) and if no creature has attacked
+the party for at least 150 clock ticks (25 seconds), then Experience is
+divided by 2. 
+ - If the Experience Multiplier of the current level is not 0,
+then Experience is multiplied by the Experience Multiplier 
+ - If the Improved Skill associated to the action you perform is above 04
+(any hidden skill) and if a creature has attacked the party less then 25
+clock ticks ago (about 4.17 seconds), then Experience is multiplied by 2.
+
+The computed Experience value is added to the Improved Skill associated
+to the action you performed. If this Improved Skill is one of the hidden
+skills, then the experience is also added to the basic skill.
+
+-------------
+5d.  Training
+-------------
+
+You can develop the Priest and Wizard skills of heroes that have no
+mana at the beginning by giving them items that magically increase mana,
+so that they can cast low mana cost spells and gain levels.
+
+Low skilled heroes might not be able to use certain actions on some
+items until they reach a minimum skill level. In that case, the action
+name does not appear when you try to use the item.
+
+Here are some ways to train:
+
+Fighter
+-------
+- Let yourself get hit by creatures 
+- Bash
+- Berzerk
+- Block
+- Chop
+- Cleave
+- Jab
+- Melee
+- Parry
+- Slash
+- Stun
+- Swing
+- Thrust
+- War Cry
+
+Ninja
+-----
+- Climb Down 
+- Hit
+- Kick
+- Punch
+- Shoot
+- Stab
+- Throw
+
+Priest
+------
+- Cast priest spells 
+- Blow Horn
+- Brandish
+- Calm
+- Fireshield
+- Freeze Life
+- Heal
+- Spellshield
+- War Cry
+
+Wizard
+------
+- Cast wizard spells
+- Dispell
+- Disrupt
+- Fireball
+- Fluxcage
+- Fuse
+- Invoke
+- Light
+- Lightning
+- Window
+
+------------
+5e.  Actions
+------------
+
+These are all of the actions in the game.
+
+Actions      |Improved Skill|Experience 
+-------------|--------------|----------
+N            |00 Fighter 1  |0
+Block        |07 Fighter 5  |8
+Chop         |06 Fighter 4  |10
+X            |00 Fighter 1  |0
+Blow Horn    |14 Priest 4   |0
+Flip         |12 Priest 2   |0
+Punch        |09 Ninja 3    |8
+Kick         |09 Ninja 3    |13
+War Cry      |14 Priest 4   |7
+Stab         |09 Ninja 3    |15
+Climb Down   |08 Ninja 2    |15
+Freeze Life  |14 Priest 4   |22
+Hit          |09 Ninja 3    |10
+Swing        |04 Fighter 2  |6
+Stab (unused)|05 Fighter 3  |12
+Thrust       |05 Fighter 3  |19
+Jab          |05 Fighter 3  |11
+Parry        |07 Fighter 5  |17
+Hack         |04 Fighter 2  |9
+Berzerk      |04 Fighter 2  |40
+Fireball     |16 Wizard 2   |35
+Dispell      |17 Wizard 3   |25
+Confuse      |14 Priest 4   |0
+Lightning    |17 Wizard 3   |30
+Disrupt      |17 Wizard 3   |10
+Melee        |06 Fighter 4  |24
+X            |08 Ninja 2    |0
+Invoke       |03 Wizard 1   |25
+Slash        |04 Fighter 2  |9
+Cleave       |04 Fighter 2  |12
+Bash         |06 Fighter 4  |11
+Stun         |06 Fighter 4  |10
+Shoot        |11 Ninja 5    |9
+Spellshield  |15 Priest 5   |20
+Fireshield   |15 Priest 5   |20
+Fluxcage     |03 Wizard 1   |12
+Heal         |13 Priest 3   |0
+Calm         |14 Priest 4   |0
+Light        |17 Wizard 3   |20
+Window       |18 Wizard 4   |30
+Spit         |16 Wizard 2   |25
+Brandish     |14 Priest 4   |0
+Throw        |10 Ninja 4    |5
+Fuse         |03 Wizard 1   |1
+
+----------
+6.  Spells
+----------
+
+Spells are made of 2 to 4 runes. The first rune is the "power" of the
+spell (which affects the strength, duration, and mana cost).
+The other 1 to 3 rune(s) designate the spell itself.
+High power spells cannot be cast by low skilled heroes.
+
+Each rune costs mana points, depending on the selected power.
+If a hero has not enough mana points, the rune cannot be used.
+You have to wait, sleep, drink mana potions, or equip items that
+increase your mana.
+
+----------------
+6a.  Rune Levels
+----------------
+
+Rune Levels are determined by Symbol/Name/Mana Cost/Power Multiplier
+
+Power
+-----
+<</Lo/1/x8
+Square/Um/2/x12
+=/On/3/x16
+Diamond/Ee/4/x20
+Fork/Pal/5/x24
+Corner Triangle/Mon/6/x28
+
+Elemental
+---------
+Four squares/Ya/2,3,4,5,6,7
+Two ~/Vi/3,4,6,7,9,10
+Four diamond-like dots/Oh/4,6,8,10,12,14
+Backwards N/Ful/5,7,10,12,15,17
+Line with degree sign on top/Des/6,9,12,15,18,21
+Face/Zo/7,10,14,17,21,24
+
+Form
+----
+Hourglass/Ven/4,6,8,10,12,14
+Unlocked lock/Ew/5,7,10,12,15,17
+Arrows going upright/Kath/6,9,12,15,18,21
+E/Ir/7,10,14,17,21,24
+O/Bro/7,10,14,17,21,24
+Lightning Bolt/Gor/9,13,18,22,27,31
+
+Class
+-----
+Sword/Ku/2,3,4,5,6,7
+Eye/Ros/2,3,4,5,6,7
+Bent Cross/Dain/3,4,6,7,9,10
+Grave/Neta/4,6,8,10,12,14
+Sun/Ra/6,9,12,15,18,21
+Glass/Sar/7,10,14,17,21,24
+
+------------------
+6b.  Priest Spells
+------------------
+
+Casting these spells will increase your experience with the Priest class:
+
+Rune(s)     |Effect            |Difficulty|Duration  |Improved Skill
+------------|------------------|----------|----------|--------------
+Vi          |Health Potion     |1         |32 seconds|13 Priest 3
+Ya          |Stamina Potion    |2         |15 seconds|13 Priest 3
+Zo/Bro/Ra   |Mana Potion       |3         |63 seconds|02 Priest 1
+Ful/Bro/Ku  |Strength Potion   |4         |15 seconds|13 Priest 3
+Oh/Bro/Ros  |Dexterity Potion  |4         |15 seconds|13 Priest 3
+Ya/Bro/Dain |Wisdom Potion     |4         |15 seconds|13 Priest 3
+Ya/Bro/Neta |Vitality Potion   |4         |15 seconds|13 Priest 3
+Vi/Bro      |Cure Poison Potion|1         |26 seconds|13 Priest 3
+Ya Bro      |Shield Potion     |2         |25 seconds|15 Priest 5
+Ful/Bro/Neta|Fire Shield       |4         |28 seconds|15 Priest 5
+Ya/Ir       |Shield            |2         |30 seconds|15 Priest 5
+Des/Ir/Sar  |Darkness          |1         |12 seconds|15 Priest 5
+Oh/Ew/Ra    |See Through Walls |3         |33 seconds|15 Priest 5
+
+------------------
+6c.  Wizard Spells
+------------------
+
+Casting these spells will increase your experience with the Wizard class:
+
+Rune(s)   |Effect                   |Difficulty|Duration  |Improved Skill
+----------|-------------------------|----------|----------|--------------
+Ful       |Torch                    |1         |15 seconds|16 Wizard 2
+Oh/Ir/Ra  |Light                    |4         |22 seconds|17 Wizard 3
+Zo        |Open Door                |1         |15 seconds|17 Wizard 3
+Ya/Bro/Ros|Magic Footprints         |1         |18 seconds|18 Wizard 4
+Oh/Ew/Sar |Invisibility             |3         |45 seconds|17 Wizard 3
+Zo/Ven    |Poison Potion            |2         |30 seconds|19 Wizard 5
+Des/Ven   |Poison Bolt              |1         |16 seconds|19 Wizard 5
+Oh/Ven    |Poison Cloud             |3         |27 seconds|19 Wizard 5
+Des/Ew    |Weaken Nonmaterial Beings|1         |20 seconds|18 Wizard 4
+Ful/Ir    |Fireball                 |3         |42 seconds|16 Wizard 2
+Oh/Kath/Ra|Lightning Bolt           |4         |30 seconds|17 Wizard 3
+Zo/Kath/Ra|Zokathra Spell           |0         |15 seconds|03 Wizard 1
+
+---------
+7.  Hints
+---------
+
+You can easily kill Creatures by having them walk up to you and stand in
+a doorway with a switch.  All you have to do to kill it is to just push the
+switch or lever.  The door will continuously try to close, constantly squishing
+the Creature and damaging it.
+
+Another easy way to kill Creatures is to have them run into traps.  This is a
+good method to use on the Red Dragon, which will save you the trouble of having
+to kill it.
+
+There is a method of killing Lord Chaos automatically, as with all other
+Creatures.  You can kill anything instantly by teleporting over it.
+
+An easy method to trap Lord Chaos in the Fluxcage is by using WarCry on it,
+which will cause it to run away, letting you easily trap it in a corner.
+
+Gigglers only steal what are in your hands.  If you don't want to go through
+the trouble of having them steal from you, drop what's in your hands and
+cast spells to kill them.
+
+Cast the Zokathra spell in mazes so you don't get lost.
+
+The Diamond Edge is the best normal weapon. Use its "stab" option.
+It does more damage per minute than any other weapon. 
+
+The completed Firestaff's "fuse" option has the same effect on 
+nonmaterial beings as a powerful des ew spell. 
+
+The number of items in the dungeon is limited.  If you run around and kill 
+a lot of monsters that leave items behind, things will start to disapear 
+to make room for the new items.  This does not effect things that already 
+existed at the start of the game, things in your inventory and things in 
+chests.  Put your hunting trophies and the poison darts from the 
+launcher on level 10 in a chest if you want to keep them. 
+
+Go to level 10, coordinates (30,38), and get a single trolin to follow you.
+You should be facing the door to the "enlarge my view" puzzle, while the
+trolin is standing next to you.  The trolin will start hitting you
+(use some vi potions when things get out of control, but do not kill it).
+It will also prevent water elementals from reaching you.
+You will now get experience points very fast because you are on a deep dungeon
+level and a monster is attacking you. Kick the door for ninja levels and 
+berzerk the door for fighter levels.
+When running out of food or water, just open the door and go to the rats'
+level via the skeleton-key stairwell. 
+
+Go to level 12, coordinates (32,30) or (33,31).  The Black Flame in front of
+you must be active.  Cast Fireshields so it can't harm you any more.
+(2 mon fireshields will protect you for about 3 minutes.)
+You will now get experience points very fast because you are on a deep 
+dungeon level and a monster is attacking you.  Even if the black flame can't 
+harm you, you still get fighter points for getting hit by it.  The skeleton-key
+stairwell is nearby, so you can go to the rats' level to get food and water
+quickly. 
+
+Get a rope.  Climb down where there is no pit.  The climb down action 
+will fail and there will be no recovery time.  But you did get the experience 
+points for climbing down.  You can go from nothing to archmaster 
+ninja in just 3 hours.  Remember to keep an eye on the character's stamina 
+when doing this. 
+
+------------
+8.  Glitches
+------------
+
+Ghost Mode
+---------------
+When choosing a hero, pick one that can cast Poison Cloud
+(Level 3 Wizard Spell).  Resurrect this hero and run into the wall until
+the hero almost dead.  Then walk up to another hero's mirror.
+Cast Poison Cloud (Multiplier+Oh+Ven) and immediately pick the mirror in front
+of you.  Wait until your hero dies.  Then exit out of the mirror.
+You will now have a dead hero, but not get Game Over.
+You can go by the gate in the beginning without getting another hero.
+Monsters won't attack you, but they will block your way, trying to attack you
+(though they can't hurt you).  All you can do is open and throw things and
+hold one item.
+
+Duplicate Items
+---------------
+On Level 2 at (09,38) there is a blinking teleporter.
+Use the completed Firestaff to cast Fluxcage in that teleporter.
+It is then teleported to (15,38).  After a while, the teleported Fluxcage
+starts to look like there is also something else there.
+At that point the duplicator is ready and can be used by putting items
+on ground and picking them up.  They will still exist on ground after you
+pick them up.
+
+-----------
+9.  Updates
+-----------
+
+Version 1.0 (11/7/04)
+-----------
+Started Guide
+Has all Spells/Items/Skills/Equipment/Creatures
+
+Version 1.1 (11/10/04)
+-----------
+Scroll and Chest format changed
+Spelling/grammar errors fixed
+
+Version 1.2 (11/19/04) 
+-----------
+Fixed capitalization errors
+
+Version 1.3 (12/4/04)
+-----------
+Added 'Hints' section
+Added 'Glitches' section
+
+Version 1.4 (2/14/05)
+-----------
+Added more hints to 'Hints' section
+Added new glitch to 'Glitches' section
+Fixed errors in 'Hints' section
+
+Version 1.5 (5/7/05)
+-----------
+Added 'Heroes' Section
+
+---------------
+10.  Legal Stuff
+---------------
+
+This guide may be distributed anywhere as long as you give me (Nerthing)
+credit for all of the work. If distributed, it also must be unedited.
+No responsibility is to be taken by me if anything happens to you or
+your computer. By reading this guide, you are agreeing to this.

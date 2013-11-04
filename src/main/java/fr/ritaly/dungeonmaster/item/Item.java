@@ -46,8 +46,10 @@ import fr.ritaly.dungeonmaster.stat.Stats;
 /**
  * An item. There are different types of items in the game.<br>
  * <br>
- * Source: <a href="http://dmweb.free.fr/?q=node/886">Technical Documentation -
- * Dungeon Master and Chaos Strikes Back Items properties</a>
+ * Sources: <a href="http://dmweb.free.fr/?q=node/886">Technical Documentation -
+ * Dungeon Master and Chaos Strikes Back Items properties</a>, <a
+ * href="http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244"
+ * >Nerthring's Dungeon Master Guide</a>
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
@@ -131,6 +133,8 @@ public abstract class Item implements ChangeEventSource {
 	}
 
 	/**
+	 * TODO Translate this javadoc comment to english
+	 *
 	 * Enum�ration des types d'objets. ATTENTION !! L'ordre des �num�rations est
 	 * importante car il d�termine la {@link Category} de chaque type d'objet.
 	 * Le nombre d'objets dans chaque {@link Category} n'est pas le m�me que
@@ -143,16 +147,14 @@ public abstract class Item implements ChangeEventSource {
 	 * properties</a>
 	 */
 	public static enum Type {
-		SCROLL(
-			0.5f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
+		SCROLL(0.5f, Combo.COMBO_0, CarryLocations.CHEST_POUCH),
+
 		// --- Chest --- //
-		CHEST(
-			5.0f,
-			Combo.COMBO_0,
-			CarryLocations.HANDS_BACKPACK),
+
+		CHEST(5.0f, Combo.COMBO_0, CarryLocations.HANDS_BACKPACK),
+
 		// --- Potions --- //
+
 		MON_POTION(
 			0.3f,
 			Combo.COMBO_0,
@@ -237,7 +239,9 @@ public abstract class Item implements ChangeEventSource {
 			0.1f,
 			Combo.COMBO_0,
 			CarryLocations.CHEST_POUCH),
+
 		// --- Weapons --- //
+
 		EYE_OF_TIME(
 			0.1f,
 			2, 0, 0, 2,
@@ -272,7 +276,7 @@ public abstract class Item implements ChangeEventSource {
 			3.0f,
 			49, 110, 66, 1,
 			Combo.COMBO_9,
-			CarryLocations.QUIVER1), // Idem pr�c�dent
+			CarryLocations.QUIVER1), // Same as previous
 		FURY(
 			4.7f,
 			55, 20, 0, 0,
@@ -282,7 +286,7 @@ public abstract class Item implements ChangeEventSource {
 			4.7f,
 			55, 20, 0, 0,
 			Combo.COMBO_10,
-			CarryLocations.QUIVER1), // Idem pr�c�dent
+			CarryLocations.QUIVER1), // Same as previous
 		THE_FIRESTAFF(
 			2.4f,
 			25, 1, 255, 15,
@@ -317,7 +321,7 @@ public abstract class Item implements ChangeEventSource {
 			3.5f,
 			42, 11, 0, 0,
 			Combo.COMBO_15,
-			CarryLocations.QUIVER1), // Idem pr�c�dent
+			CarryLocations.QUIVER1), // Same as previous
 		SAMURAI_SWORD(
 			3.6f,
 			46, 12, 0, 0,
@@ -332,7 +336,7 @@ public abstract class Item implements ChangeEventSource {
 			3.3f,
 			50, 14, 0, 0,
 			Combo.COMBO_16,
-			CarryLocations.QUIVER1), // Idem pr�c�dent
+			CarryLocations.QUIVER1), // Same as previous
 		DIAMOND_EDGE(
 			3.7f,
 			62, 14, 0, 0,
@@ -352,7 +356,7 @@ public abstract class Item implements ChangeEventSource {
 			3.4f,
 			58, 15, 0, 0,
 			Combo.COMBO_19,
-			CarryLocations.QUIVER1), // Idem pr�c�dent
+			CarryLocations.QUIVER1), // Same as previous
 		AXE(
 			4.3f,
 			49, 33, 0, 2,
@@ -367,7 +371,7 @@ public abstract class Item implements ChangeEventSource {
 			6.5f,
 			70, 44, 0, 2,
 			Combo.COMBO_21,
-			CarryLocations.QUIVER1), // Idem pr�c�dent
+			CarryLocations.QUIVER1), // Same as previous
 		MACE(
 			3.1f,
 			32, 10, 0, 0,
@@ -402,7 +406,7 @@ public abstract class Item implements ChangeEventSource {
 			2.0f,
 			1, 50, 50, 4,
 			Combo.COMBO_27,
-			CarryLocations.QUIVER1), // Idem pr�c�dent
+			CarryLocations.QUIVER1), // Same as previous
 		CROSSBOW(
 			2.8f,
 			1, 180, 120, 14,
@@ -472,7 +476,7 @@ public abstract class Item implements ChangeEventSource {
 			2.9f,
 			0, 4, 0, 15,
 			Combo.COMBO_31,
-			CarryLocations.QUIVER1), // Idem pr�c�dent
+			CarryLocations.QUIVER1), // Same as previous
 		SNAKE_STAFF(
 			2.1f,
 			0, 3, 0, 3,
@@ -482,7 +486,7 @@ public abstract class Item implements ChangeEventSource {
 			2.1f,
 			0, 3, 0, 3,
 			Combo.COMBO_32,
-			CarryLocations.QUIVER1), // Idem pr�c�dent
+			CarryLocations.QUIVER1), // Same as previous
 		THE_CONDUIT(
 			3.3f,
 			0, 7, 0, 8,
@@ -492,7 +496,7 @@ public abstract class Item implements ChangeEventSource {
 			3.3f,
 			0, 7, 0, 8,
 			Combo.COMBO_33,
-			CarryLocations.QUIVER1), // Idem pr�c�dent
+			CarryLocations.QUIVER1), // Same as previous
 		DRAGON_SPIT(
 			0.8f,
 			3, 1, 0, 4,
@@ -518,8 +522,10 @@ public abstract class Item implements ChangeEventSource {
 			100, 50, 255, 15,
 			Combo.COMBO_1,
 			CarryLocations.QUIVER1),
+
 		// --- Clothes --- //
-		CAPE(
+
+			CAPE(
 			0.3f,
 			Combo.COMBO_0,
 			CarryLocations.CHEST_NECK_TORSO),
@@ -534,7 +540,7 @@ public abstract class Item implements ChangeEventSource {
 		TATTERED_PANTS(
 			0.3f,
 			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS), // Idem pr�c�dent
+			CarryLocations.CHEST_LEGS), // Same as previous
 		SANDALS(
 			0.6f,
 			Combo.COMBO_0,
@@ -550,7 +556,7 @@ public abstract class Item implements ChangeEventSource {
 		TATTERED_SHIRT(
 			0.4f,
 			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO), // Idem pr�c�dent
+			CarryLocations.CHEST_TORSO), // Same as previous
 		ROBE_LEGS(
 			0.4f,
 			Combo.COMBO_0,
@@ -646,7 +652,7 @@ public abstract class Item implements ChangeEventSource {
 		NETA_SHIELD(
 			1.1f,
 			Combo.COMBO_41,
-			CarryLocations.CHEST), // Idem pr�c�dent
+			CarryLocations.CHEST), // Same as previous
 		HIDE_SHIELD(
 			1.0f,
 			Combo.COMBO_41,
@@ -654,7 +660,7 @@ public abstract class Item implements ChangeEventSource {
 		CRYSTAL_SHIELD(
 			1.0f,
 			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK), // Idem pr�c�dent
+			CarryLocations.HANDS_BACKPACK), // Same as previous
 		WOODEN_SHIELD(
 			1.4f,
 			Combo.COMBO_41,
@@ -710,7 +716,7 @@ public abstract class Item implements ChangeEventSource {
 		SAR_SHIELD(
 			5.0f,
 			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK), // Idem pr�c�dent
+			CarryLocations.HANDS_BACKPACK), // Same as previous
 		HELM_OF_LYTE(
 			1.7f,
 			Combo.COMBO_0,
@@ -718,7 +724,7 @@ public abstract class Item implements ChangeEventSource {
 		HELM_OF_RA(
 			2.5f,
 			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD), // Idem pr�c�dent
+			CarryLocations.CHEST_HEAD), // Same as previous
 		PLATE_OF_LYTE(
 			10.8f,
 			Combo.COMBO_0,
@@ -726,7 +732,7 @@ public abstract class Item implements ChangeEventSource {
 		PLATE_OF_RA(
 			12.1f,
 			Combo.COMBO_0,
-			CarryLocations.TORSO), // Idem pr�c�dent
+			CarryLocations.TORSO), // Same as previous
 		POLEYN_OF_LYTE(
 			7.2f,
 			Combo.COMBO_0,
@@ -734,7 +740,7 @@ public abstract class Item implements ChangeEventSource {
 		POLEYN_OF_RA(
 			8.0f,
 			Combo.COMBO_0,
-			CarryLocations.LEGS), // Idem pr�c�dent
+			CarryLocations.LEGS), // Same as previous
 		GREAVE_OF_LYTE(
 			2.4f,
 			Combo.COMBO_0,
@@ -742,7 +748,7 @@ public abstract class Item implements ChangeEventSource {
 		GREAVE_OF_RA(
 			2.8f,
 			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET), // Idem pr�c�dent
+			CarryLocations.CHEST_FEET), // Same as previous
 		SHIELD_OF_LYTE(
 			3.0f,
 			Combo.COMBO_41,
@@ -750,7 +756,7 @@ public abstract class Item implements ChangeEventSource {
 		SHIELD_OF_RA(
 			3.4f,
 			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK), // Idem pr�c�dent
+			CarryLocations.HANDS_BACKPACK), // Same as previous
 		HELM_OF_DARC(
 			3.5f,
 			Combo.COMBO_0,
@@ -758,7 +764,7 @@ public abstract class Item implements ChangeEventSource {
 		DRAGON_HELM(
 			3.5f,
 			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD), // Idem pr�c�dent
+			CarryLocations.CHEST_HEAD), // Same as previous
 		PLATE_OF_DARC(
 			14.1f,
 			Combo.COMBO_0,
@@ -766,7 +772,7 @@ public abstract class Item implements ChangeEventSource {
 		DRAGON_PLATE(
 			14.1f,
 			Combo.COMBO_0,
-			CarryLocations.TORSO), // Idem pr�c�dent
+			CarryLocations.TORSO), // Same as previous
 		POLEYN_OF_DARC(
 			9.0f,
 			Combo.COMBO_0,
@@ -774,7 +780,7 @@ public abstract class Item implements ChangeEventSource {
 		DRAGON_POLEYN(
 			9.0f,
 			Combo.COMBO_0,
-			CarryLocations.LEGS), // Idem pr�c�dent
+			CarryLocations.LEGS), // Same as previous
 		GREAVE_OF_DARC(
 			3.1f,
 			Combo.COMBO_0,
@@ -782,7 +788,7 @@ public abstract class Item implements ChangeEventSource {
 		DRAGON_GREAVE(
 			3.1f,
 			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET), // Idem pr�c�dent
+			CarryLocations.CHEST_FEET), // Same as previous
 		SHIELD_OF_DARC(
 			4.0f,
 			Combo.COMBO_41,
@@ -790,7 +796,7 @@ public abstract class Item implements ChangeEventSource {
 		DRAGON_SHIELD(
 			4.0f,
 			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK), // Idem pr�c�dent
+			CarryLocations.HANDS_BACKPACK), // Same as previous
 		DEXHELM(
 			1.4f,
 			Combo.COMBO_0,
@@ -811,7 +817,9 @@ public abstract class Item implements ChangeEventSource {
 			0.2f,
 			Combo.COMBO_0,
 			CarryLocations.CHEST_TORSO),
+
 		// --- Miscellaneous --- //
+
 		COMPASS(
 			0.1f,
 			Combo.COMBO_0,
@@ -819,7 +827,7 @@ public abstract class Item implements ChangeEventSource {
 		WATER_SKIN(
 			1.2f, // Outre vide (0.3f) + 3 rations d'eau (3 * 0.3f)
 			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE), // Idem pr�c�dent
+			CarryLocations.CHEST_POUCH_CONSUMABLE), // Same as previous
 		JEWEL_SYMAL(
 			0.2f,
 			Combo.COMBO_0,
@@ -843,11 +851,11 @@ public abstract class Item implements ChangeEventSource {
 		SAR_COIN(
 			0.1f,
 			Combo.COMBO_37,
-			CarryLocations.CHEST_POUCH), // Idem pr�c�dent
+			CarryLocations.CHEST_POUCH), // Same as previous
 		SILVER_COIN(
 			0.1f,
 			Combo.COMBO_37,
-			CarryLocations.CHEST_POUCH), // Idem pr�c�dent
+			CarryLocations.CHEST_POUCH), // Same as previous
 		GOLD_COIN(
 			0.1f,
 			Combo.COMBO_37,
@@ -855,7 +863,7 @@ public abstract class Item implements ChangeEventSource {
 		GOR_COIN(
 			0.1f,
 			Combo.COMBO_37,
-			CarryLocations.CHEST_POUCH), // Idem pr�c�dent
+			CarryLocations.CHEST_POUCH), // Same as previous
 		IRON_KEY(
 			0.1f,
 			Combo.COMBO_0,
@@ -1040,9 +1048,9 @@ public abstract class Item implements ChangeEventSource {
 		private final Combo combo;
 
 		/**
-		 * Le nombre de base utilis� pour calculer combien de points de dommage
-		 * une attaque cause. Pertinent uniquement pour une objet de type arme
-		 * auquel cas la valeur est positive ou nulle autrement vaut -1.
+		 * The base value used for computing the damages caused by an attack
+		 * with this item. Relevant only for a weapon item for which the value
+		 * is positive. For other items, the value is set to -1.
 		 */
 		private final int damage;
 
@@ -1056,39 +1064,39 @@ public abstract class Item implements ChangeEventSource {
 		private final int distance;
 
 		/**
-		 * The amount of damage associated with fired projectiles. Valeur dans
-		 * l'intervalle [0-255].
+		 * The amount of damage associated with fired projectiles. Value within
+		 * [0,255].
 		 */
 		private final int shootDamage;
 
 		/**
-		 * Delta energy lost for each room the projectile travels.
+		 * The amount of energy lost by the projectile every time it moves.
 		 */
 		private final int deltaEnergy;
 
+		/**
+		 * The carry locations where this item can be stored.
+		 */
 		private final CarryLocations carryLocations;
 
+		/**
+		 * The item's weight (in Kg) as a float.
+		 */
 		private final float weight;
 
-		// http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244
-		// FIXME Prendre en compte distance, shootDamage, deltaEnergy
-		// Constructeur sp�cial pour les objets de type arme
-		private Type(float weight, int damage, int distance, int shootDamage,
-				int deltaEnergy, Combo combo, CarryLocations carryLocations) {
+		// FIXME Take into account distance, shootDamage, deltaEnergy
 
-			Validate.isTrue(weight >= 0.0f, "The given weight " + weight
-					+ " must be positive or zero");
-			Validate.isTrue(damage >= 0, "The given damage " + damage
-					+ " must be positive or zero");
-			Validate.isTrue(distance >= 0, "The given distance " + distance
-					+ " must be positive or zero");
-			Validate.isTrue(shootDamage >= 0, "The given shoot damage " + shootDamage
-					+ " must be positive or zero");
-			Validate.isTrue(deltaEnergy >= 0, "The given delta energy " + deltaEnergy
-					+ " must be positive or zero");
+		// Special constructor for weapon items
+		private Type(float weight, int damage, int distance, int shootDamage, int deltaEnergy, Combo combo,
+				CarryLocations carryLocations) {
+
+			Validate.isTrue(weight >= 0.0f, "The given weight " + weight + " must be positive or zero");
+			Validate.isTrue(damage >= 0, "The given damage " + damage + " must be positive or zero");
+			Validate.isTrue(distance >= 0, "The given distance " + distance + " must be positive or zero");
+			Validate.isTrue(shootDamage >= 0, "The given shoot damage " + shootDamage + " must be positive or zero");
+			Validate.isTrue(deltaEnergy >= 0, "The given delta energy " + deltaEnergy + " must be positive or zero");
 			Validate.notNull(combo, "The given combo is null");
-			Validate.notNull(carryLocations,
-					"The given carry locations is null");
+			Validate.notNull(carryLocations, "The given carry locations is null");
 
 			this.weight = weight;
 			this.damage = damage;
@@ -1099,13 +1107,11 @@ public abstract class Item implements ChangeEventSource {
 			this.carryLocations = carryLocations;
 		}
 
-		// Constructeur sp�cial pour les objets n'�tant pas des armes
+		// Special constructor for non-weapon items
 		private Type(float weight, Combo combo, CarryLocations carryLocations) {
-			Validate.isTrue(weight >= 0.0f, "The given weight " + weight
-					+ " must be positive or zero");
+			Validate.isTrue(weight >= 0.0f, "The given weight " + weight + " must be positive or zero");
 			Validate.notNull(combo, "The given combo is null");
-			Validate.notNull(carryLocations,
-					"The given carry locations is null");
+			Validate.notNull(carryLocations, "The given carry locations is null");
 
 			this.weight = weight;
 			this.damage = -1;
@@ -1117,18 +1123,18 @@ public abstract class Item implements ChangeEventSource {
 		}
 
 		/**
-		 * Retourne la {@link Combo} associ�e au type d'item.
+		 * Returns the action combo associated to this item.
 		 *
-		 * @return une instance de {@link Combo}. Ne retourne jamais null.
+		 * @return an instance of {@link Combo}. Never returns null.
 		 */
 		public Combo getCombo() {
 			return combo;
 		}
 
 		/**
-		 * Retourne la {@link Category} associ�e � ce type d'objet.
+		 * Returns the category this item belongs to.
 		 *
-		 * @return une instance de {@link Category}. Ne retourne jamais null.
+		 * @return an item category. Never returns null.
 		 */
 		public Category getCategory() {
 			for (Category category : Category.values()) {
@@ -1137,102 +1143,99 @@ public abstract class Item implements ChangeEventSource {
 				}
 			}
 
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Method unsupported for item " + this);
 		}
 
+		/**
+		 * Returns the carry locations where this item can be stored.
+		 *
+		 * @return an instance of {@link CarryLocations}. Never returns null.
+		 */
 		public CarryLocations getCarryLocations() {
 			return carryLocations;
 		}
 
+		/**
+		 * Returns the item's weight as a float.
+		 *
+		 * @return a float representing a weight in Kg.
+		 */
 		public float getWeight() {
 			return weight;
 		}
 
 		/**
-		 * Retourne la liste des {@link Effect}s caus�s sur un {@link Champion}
-		 * quand ce type d'objet est activ�.
+		 * Returns the effects bestowed by this item to a champion when activated.
 		 *
-		 * @return une {@link List} de {@link Effect}s. Ne retourne jamais null.
+		 * @return a list of effects. Never returns null.
 		 */
 		public List<Effect> getEffects() {
 			switch (this) {
 			case STAFF_OF_CLAWS:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +4));
+				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +4));
 			case THE_FIRESTAFF:
-				return Arrays.asList(new Effect(AffectedStatistic.ALL_SKILLS,
-						+1));
+				return Collections.singletonList(new Effect(AffectedStatistic.ALL_SKILLS, +1));
 			case DELTA:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +1));
+				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +1));
 			case VORPAL_BLADE:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +4));
+				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +4));
 			case THE_INQUISITOR:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +2));
+				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +2));
 			case MACE_OF_ORDER:
-				return Arrays
-						.asList(new Effect(AffectedStatistic.STRENGTH, +5));
+				return Collections.singletonList(new Effect(AffectedStatistic.STRENGTH, +5));
 			case STAFF:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +2));
+				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +2));
 			case WAND:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +1));
+				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +1));
 			case TEOWAND:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +6));
+				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +6));
 			case YEW_STAFF:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +4));
+				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +4));
 			case STAFF_OF_MANAR:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +10));
+				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +10));
 			case SNAKE_STAFF:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +8));
+				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +8));
 			case THE_CONDUIT:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +17));
+				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +17));
 			case DRAGON_SPIT:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +7));
+				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +7));
 			case SCEPTRE_OF_LYT:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +5),
-						new Effect(AffectedStatistic.HEAL_SKILL, +1));
+				return Arrays.asList(new Effect(AffectedStatistic.MANA, +5), new Effect(AffectedStatistic.HEAL_SKILL, +1));
 			case THE_FIRESTAFF_COMPLETE:
-				return Arrays.asList(new Effect(AffectedStatistic.ALL_SKILLS,
-						+2));
+				return Collections.singletonList(new Effect(AffectedStatistic.ALL_SKILLS, +2));
 			case CLOAK_OF_NIGHT:
-				return Arrays
-						.asList(new Effect(AffectedStatistic.DEXTERITY, +8));
+				return Collections.singletonList(new Effect(AffectedStatistic.DEXTERITY, +8));
 			case ELVEN_BOOTS:
 				// +14 Load (Should be actually +1-14)
-				return Arrays
-						.asList(new Effect(AffectedStatistic.MAX_LOAD, 14));
+				return Collections.singletonList(new Effect(AffectedStatistic.MAX_LOAD, 14));
 			case CROWN_OF_NERRA:
-				return Arrays.asList(new Effect(AffectedStatistic.WISDOM, +10));
+				return Collections.singletonList(new Effect(AffectedStatistic.WISDOM, +10));
 			case DEXHELM:
-				return Arrays.asList(new Effect(AffectedStatistic.DEXTERITY,
-						+10));
+				return Collections.singletonList(new Effect(AffectedStatistic.DEXTERITY, +10));
 			case FLAMEBAIN:
-				return Arrays.asList(new Effect(AffectedStatistic.ANTI_FIRE,
-						+12));
+				return Collections.singletonList(new Effect(AffectedStatistic.ANTI_FIRE, +12));
 			case POWERTOWERS:
-				return Arrays
-						.asList(new Effect(AffectedStatistic.STRENGTH, +10));
+				return Collections.singletonList(new Effect(AffectedStatistic.STRENGTH, +10));
 			case GEM_OF_AGES:
-				return Arrays.asList(new Effect(AffectedStatistic.HEAL_SKILL,
-						+1));
+				return Collections.singletonList(new Effect(AffectedStatistic.HEAL_SKILL, +1));
 			case EKKHARD_CROSS:
-				return Arrays.asList(new Effect(AffectedStatistic.DEFEND_SKILL,
-						+1));
+				return Collections.singletonList(new Effect(AffectedStatistic.DEFEND_SKILL, +1));
 			case MOONSTONE:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +3),
-						new Effect(AffectedStatistic.INFLUENCE_SKILL, +3));
+				return Arrays.asList(new Effect(AffectedStatistic.MANA, +3), new Effect(AffectedStatistic.INFLUENCE_SKILL, +3));
 			case PENDANT_FERAL:
-				return Arrays.asList(new Effect(AffectedStatistic.WIZARD_LEVEL,
-						+1));
+				return Collections.singletonList(new Effect(AffectedStatistic.WIZARD_LEVEL, +1));
 			case RABBIT_FOOT:
-				return Arrays.asList(new Effect(AffectedStatistic.LUCK, +10));
+				return Collections.singletonList(new Effect(AffectedStatistic.LUCK, +10));
 			case JEWEL_SYMAL:
-				return Arrays.asList(new Effect(AffectedStatistic.ANTI_MAGIC,
-						+15));
+				return Collections.singletonList(new Effect(AffectedStatistic.ANTI_MAGIC, +15));
 			default:
 				return Collections.emptyList();
 			}
 		}
 
 		/**
+		 * TODO Translate this javadoc comment to english
+		 *
 		 * Retourne le nombre de base utilis� pour calculer combien de points de
 		 * dommage une attaque cause. Pertinent uniquement pour une objet de
 		 * type arme (cf {@link #getCategory()}) auquel cas la valeur est
@@ -1246,9 +1249,9 @@ public abstract class Item implements ChangeEventSource {
 		}
 
 		/**
-		 * Indique si ce type d'objet est une cl�.
+		 * Tells whether this item is a key.
 		 *
-		 * @return si ce type d'objet est une cl�.
+		 * @return whether this item is a key.
 		 */
 		public boolean isKey() {
 			switch (this) {
@@ -1269,28 +1272,45 @@ public abstract class Item implements ChangeEventSource {
 			case RA_KEY:
 			case MASTER_KEY:
 				return true;
+
 			default:
 				return false;
 			}
 		}
 
+		/**
+		 * TODO Javadoc this method
+		 *
+		 * @return
+		 */
 		public int getDistance() {
 			return distance;
 		}
 
+		/**
+		 * TODO Javadoc this method
+		 *
+		 * @return
+		 */
 		public int getShootDamage() {
 			return shootDamage;
 		}
 
+		/**
+		 * TODO Javadoc this method
+		 *
+		 * @return
+		 */
 		public int getDeltaEnergy() {
 			return deltaEnergy;
 		}
 	}
 
 	/**
-	 * Enum�ration des "statistiques" qui peuvent �tre affect�es positivement ou
-	 * n�gativement par un effet d'objet. Liste d�duite de la liste des objets
-	 * de Dungeon Master.
+	 * Enumerates the champion statistics that can be affected (positively or
+	 * negatively) by an item effect.
+	 *
+	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
 	 */
 	public static enum AffectedStatistic {
 		MANA,
@@ -1310,36 +1330,54 @@ public abstract class Item implements ChangeEventSource {
 	}
 
 	/**
-	 * Un effet d'objet qui agit sur une statistique de {@link Champion} de
-	 * mani�re positive ou n�gative.
+	 * An item effect can provide a bonus or a malus to a champion's stat.
+	 *
+	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
 	 */
 	public static final class Effect {
 
+		/**
+		 * The statistic affected by this effect.
+		 */
 		private final AffectedStatistic affectedStatistic;
 
+		/**
+		 * The strength of this effect.
+		 */
 		private final int value;
 
 		public Effect(AffectedStatistic affectedStatistic, int value) {
-			Validate.notNull(affectedStatistic);
-			Validate.isTrue(value != 0);
+			Validate.notNull(affectedStatistic, "The given affected statistic is null");
+			Validate.isTrue(value != 0, "The given effect strength is zero");
 
 			this.affectedStatistic = affectedStatistic;
 			this.value = value;
 		}
 
+		/**
+		 * Returns the statistic affected by this effect.
+		 *
+		 * @return the affected statistic. Never returns null.
+		 */
 		public AffectedStatistic getAffectedStatistic() {
 			return affectedStatistic;
 		}
 
+		/**
+		 * Returns the strength of this effect as an integer.
+		 *
+		 * @return an integer value representing the effect's strength. Can be
+		 *         positive or negative.
+		 */
 		public int getValue() {
 			return value;
 		}
 
 		/**
-		 * Applique l'effet sur le {@link Champion} donn�.
+		 * Applies the effect to the given champion
 		 *
 		 * @param champion
-		 *            un {@link Champion} sur lequel appliquer l'effet.
+		 *            the champion to who apply the effect. Can't be null.
 		 */
 		public void affect(Champion champion) {
 			Validate.notNull(champion, "The given champion is null");
@@ -1360,9 +1398,9 @@ public abstract class Item implements ChangeEventSource {
 				stats.getStrength().inc(value);
 				break;
 			case MAX_LOAD:
-				// MaxLoad est une statistique � part pour laquelle le boost est
-				// g�r� s�parement de la valeur de base (qui est calcul�e
-				// dynamiquement)
+				// MaxLoad is a special stat for which the boost is handled
+				// separately from the base value (this value is computed
+				// dynamically)
 				stats.getMaxLoadBoost().inc(value);
 				break;
 			case WISDOM:
@@ -1399,15 +1437,15 @@ public abstract class Item implements ChangeEventSource {
 				}
 				break;
 			default:
-				throw new UnsupportedOperationException();
+				throw new UnsupportedOperationException("Unsupported statistic " + affectedStatistic);
 			}
 		}
 
 		/**
-		 * Annule l'effet sur le {@link Champion} donn�.
+		 * Neutralizes the effect for the given champion.
 		 *
 		 * @param champion
-		 *            un {@link Champion} sur lequel annuler l'effet.
+		 *            the champion to who neutralize the effect. Can't be null.
 		 */
 		public void unaffect(Champion champion) {
 			Validate.notNull(champion, "The given champion is null");
@@ -1428,9 +1466,9 @@ public abstract class Item implements ChangeEventSource {
 				stats.getStrength().decMax(value);
 				break;
 			case MAX_LOAD:
-				// MaxLoad est une statistique � part pour laquelle le boost est
-				// g�r� s�parement de la valeur de base (qui est calcul�e
-				// dynamiquement)
+				// MaxLoad is a special stat for which the boost is handled
+				// separately from the base value (this value is computed
+				// dynamically)
 				stats.getMaxLoadBoost().dec(value);
 				break;
 			case WISDOM:
@@ -1467,32 +1505,28 @@ public abstract class Item implements ChangeEventSource {
 				}
 				break;
 			default:
-				throw new UnsupportedOperationException();
+				throw new UnsupportedOperationException("Unsupported statistic " + affectedStatistic);
 			}
 		}
 	}
 
 	protected Item(Type type) {
-		if (type == null) {
-			throw new IllegalArgumentException("The given item type is null");
-		}
+		Validate.notNull(type, "The given item type is null");
 
 		this.type = type;
 
-		// M�moriser le nombre de charges associ�es � l'objet pour diminuer
-		// celui-ci quand il est utilis�
+		// Store the number of charges associated to this item to decrease this
+		// number when the item's used
 		Map<Action, Integer> map = null;
 
 		for (Combo.Entry entry : type.getCombo().getEntries()) {
 			if (entry.useCharges()) {
-				// Cette action est limit�e par le nombre de charges
+				// This action is limited by a number of charges
 				if (map == null) {
-					// Instancier la Map uniquement si c'est n�cessaire
 					map = new EnumMap<Action, Integer>(Action.class);
 				}
 
-				// FIXME Comment savoir le nombre de charges associ�es � chaque
-				// action ? Cela d�pend de chaque type d'objet...
+				// FIXME How to determine the number of charges ? This differs from one object to another
 				map.put(entry.getAction(), 3);
 			}
 		}
@@ -1503,34 +1537,42 @@ public abstract class Item implements ChangeEventSource {
 			this.charges = null;
 		}
 
-		// M�moriser les effets de l'objet
 		this.effects = type.getEffects();
 	}
 
+	/**
+	 * The item's type. Can't be null.
+	 */
 	private final Type type;
 
+	/**
+	 * Sequence used for generating unique ids for items.
+	 */
 	private final int id = SEQUENCE.incrementAndGet();
 
 	/**
-	 * {@link Map} contenant le nombre de charges restantes pour l'action donn�e
-	 * de l'objet. Vaut null si aucune charge autoris�e.
+	 * Map storing the remaining charges per action. Set to null if no charges
+	 * allowed.
 	 */
 	private final Map<Action, Integer> charges;
 
 	/**
-	 * L'envo�tement associ� � l'objet.
+	 * The possible item curse.
 	 */
 	private Curse curse;
 
+	/**
+	 * Support class used for firing change events.
+	 */
 	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
 	/**
-	 * La force du poison de l'objet.
+	 * The strength of this (poisonous) item as a power rune.
 	 */
 	private PowerRune poisonStrength;
 
 	/**
-	 * Les effets g�n�r�s par un {@link Item} (s'il y a lieu).
+	 * The effects bestowed by this item (if any).
 	 */
 	private final List<Effect> effects;
 
@@ -1539,24 +1581,26 @@ public abstract class Item implements ChangeEventSource {
 	}
 
 	/**
-	 * Indique si l'item peut �tre consomm� (mang� ou bu).
+	 * Tells whether this item can be consumed (that is, eaten or drunk).
 	 *
-	 * @return si l'item peut �tre consomm� (mang� ou bu).
+	 * @return whether this item can be consumed (that is, eaten or drunk).
 	 */
 	public final boolean isConsumable() {
 		return getCarryLocations().contains(CarryLocation.CONSUMABLE);
 	}
 
 	/**
-	 * Retourne le poids de l'objet.
+	 * Returns the item's weight as a float.
 	 *
-	 * @return le poids de l'objet.
+	 * @return a float representing a weight in Kg.
 	 */
 	public float getWeight() {
-		// L'impl�mentation par d�faut retourne le "poids de base" de l'objet.
-		// Si celui-ci varie en fonction de certaines conditions (cf fioles
-		// vides / remplies), c'est � la sous-classe de surcharger cette m�thode
-		// pour calculer le poids r�el de l'objet en fonction de son �tat !
+		// The default implementation returns the base weight for the item.
+		// In general this implementation is fine however some items have a
+		// dynamic weight that depends on their state. For instance, the
+		// weight of a flask (or water skin) depends on whether the item
+		// contains water. In this case, the sub-class has to override
+		// this default implementation to provide a relevant one
 		return getType().getWeight();
 	}
 

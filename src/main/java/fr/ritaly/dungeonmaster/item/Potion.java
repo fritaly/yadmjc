@@ -28,17 +28,21 @@ import fr.ritaly.dungeonmaster.magic.Spell;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
+ * A potion item. This type of item is consumable.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Potion extends Item {
 
+	/**
+	 * The strength of the potion as a power rune. Never null.
+	 */
 	private final PowerRune powerRune;
 
 	public Potion(Type type, PowerRune powerRune) {
 		super(type);
 
-		Validate.isTrue(Category.POTION.getTypes().contains(type),
-				"The given item type " + type + " isn't a potion");
+		Validate.isTrue(Category.POTION.getTypes().contains(type), "The given item type " + type + " isn't a potion");
 		Validate.notNull(powerRune, "The given power rune is null");
 
 		this.powerRune = powerRune;
@@ -48,10 +52,18 @@ public final class Potion extends Item {
 		this(type, PowerRune.LO);
 	}
 
-	private static Item.Type getItemType(Spell.Type spellType) {
+	/**
+	 * Returns the type for the potion item associated to the given spell type.
+	 *
+	 * @param spellType
+	 *            the spell type whose associated potion type is requested.
+	 *            Can't be null.
+	 * @return an item type corresponding to the potion associated to the given
+	 *         spell type.
+	 */
+	private static Item.Type getItemType(final Spell.Type spellType) {
 		Validate.notNull(spellType, "The given spell type is null");
-		Validate.isTrue(spellType.isPotion(), "The given spell type <"
-				+ spellType + "> doesn't yield a potion");
+		Validate.isTrue(spellType.isPotion(), "The given spell type <" + spellType + "> doesn't create a potion");
 
 		switch (spellType) {
 		case ANTIDOTE_POTION:
@@ -75,17 +87,15 @@ public final class Potion extends Item {
 		case WISDOM_POTION:
 			return Item.Type.WISDOM_POTION;
 		default:
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Unsupported spell type " + spellType);
 		}
 	}
 
 	/**
-	 * Constructeur sp�cial permettant d'instancier une {@link Potion}
-	 * directement � partir du sort.
-	 * 
+	 * Special constructor to create a potion item from the given spell.
+	 *
 	 * @param spell
-	 *            une instance de {@link Spell} repr�sentant un sort de cr�ation
-	 *            de {@link Potion}.
+	 *            a potion spell. Can't be null.
 	 */
 	public Potion(Spell spell) {
 		this(getItemType(spell.getType()), spell.getPower());
@@ -93,7 +103,7 @@ public final class Potion extends Item {
 
 	@Override
 	protected BodyPart.Type getActivationBodyPart() {
-		// Les potions ne s'activent jamais
+		// Potions are never activated
 		return null;
 	}
 
@@ -108,15 +118,16 @@ public final class Potion extends Item {
 	}
 
 	@Override
-	protected Item consume(Champion champion) {
+	protected Item consume(final Champion champion) {
 		Validate.notNull(champion, "The given champion is null");
 
 		final Stats stats = champion.getStats();
 
-		// FIXME Bornes du tirage ?
+		// FIXME Refine the values below ?
 		final int points = Utils.random(3, 15) * powerRune.getPowerLevel();
-		final int duration = powerRune.getPowerLevel() * Utils.random(60, 90); 
+		final int duration = powerRune.getPowerLevel() * Utils.random(60, 90);
 
+		// Change the champion's stats depending on the consumed potion
 		switch (getType()) {
 		case DEXTERITY_POTION:
 			stats.getDexterity().incBoost(points, duration);
@@ -149,7 +160,7 @@ public final class Potion extends Item {
 			throw new UnsupportedOperationException();
 		}
 
-		// Consommer une potion retourne une fiole vide
+		// Consuming a potion "creates" an empty flask
 		return new EmptyFlask();
 	}
 

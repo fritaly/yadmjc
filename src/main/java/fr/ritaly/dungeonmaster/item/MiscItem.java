@@ -23,6 +23,8 @@ import org.apache.commons.lang.Validate;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 
 /**
+ * Class for representing miscellaneous items.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class MiscItem extends Item {
@@ -30,8 +32,7 @@ public class MiscItem extends Item {
 	public MiscItem(Type type) {
 		super(type);
 
-		Validate.isTrue(Item.Category.MISCELLANEOUS.getTypes().contains(type)
-				&& !isFood(), "The given item type " + type
+		Validate.isTrue(Item.Category.MISCELLANEOUS.getTypes().contains(type) && !isFood(), "The given item type " + type
 				+ " isn't a misc item");
 	}
 
@@ -47,12 +48,14 @@ public class MiscItem extends Item {
 		case JEWEL_SYMAL:
 		case ILLUMULET:
 			return BodyPart.Type.NECK;
+
 		case MAGICAL_BOX_BLUE:
 		case MAGICAL_BOX_GREEN:
 		case ROPE:
 		case LOCK_PICKS:
 		case WATER_SKIN:
 			return BodyPart.Type.WEAPON_HAND;
+
 		case MIRROR_OF_DAWN:
 		case RABBIT_FOOT:
 		case CORBAMITE:
@@ -85,8 +88,9 @@ public class MiscItem extends Item {
 		case ORANGE_GEM:
 		case GREEN_GEM:
 			return null;
+
 		default:
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Unsupported item type " + getType());
 		}
 	}
 

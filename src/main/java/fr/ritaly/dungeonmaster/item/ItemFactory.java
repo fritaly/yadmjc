@@ -20,9 +20,14 @@ package fr.ritaly.dungeonmaster.item;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang.Validate;
+
 import fr.ritaly.dungeonmaster.item.Item.Category;
 
 /**
+ * Factory of items. This factory provides factory methods more convenient to
+ * use than the constructors of item classes.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class ItemFactory {
@@ -36,16 +41,21 @@ public class ItemFactory {
 		return FACTORY;
 	}
 
-	public Item newItem(Item.Type type) {
-		if (type == null) {
-			throw new IllegalArgumentException("The given item type is null");
-		}
+	/**
+	 * Creates and returns a new item with the given type.
+	 *
+	 * @param type
+	 *            the type of item to create. Can't be null.
+	 * @return a new item.
+	 */
+	public Item newItem(final Item.Type type) {
+		Validate.notNull(type, "The given item type is null");
 
 		if (type.getCategory().equals(Category.POTION)) {
 			return new Potion(type);
 		}
 		if (Item.Type.TORCH.equals(type)) {
-			// Cas particulier � traiter avant les "Weapons" !
+			// Special use case to be handled before the WEAPON category
 			return new Torch();
 		}
 		if (type.getCategory().equals(Category.WEAPON)) {
@@ -55,14 +65,14 @@ public class ItemFactory {
 			return new Cloth(type);
 		}
 		if (Category.getFoodItems().contains(type)) {
-			// Cas particulier � traiter avant les "MiscItems" !
+			// Special use case to be handled before the MISC category
 			return new Food(type);
 		}
 		if (Item.Type.COMPASS.equals(type)) {
-			// Cas particulier � traiter avant les "MiscItems" !
+			// Special use case to be handled before the MISC category
 			return new Compass();
 		} else if (Item.Type.BONES.equals(type)) {
-			// Cas particulier � traiter avant les "MiscItems" !
+			// Special use case to be handled before the MISC category
 			return new Bones();
 		}
 		if (type.getCategory().equals(Category.MISCELLANEOUS)) {
@@ -75,8 +85,7 @@ public class ItemFactory {
 		case CHEST:
 			return new Chest();
 		default:
-			throw new UnsupportedOperationException(
-					"Unable to create new item " + type);
+			throw new UnsupportedOperationException("Unsupporte item type " + type);
 		}
 	}
 }

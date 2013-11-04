@@ -27,18 +27,23 @@ import org.apache.commons.lang.Validate;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 
 /**
+ * A scroll. Scrolls provide hints during the game to solve riddles.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Scroll extends Item {
-	
+
+	/**
+	 * The scroll's lines of text.
+	 */
 	private final List<String> text;
 
 	public Scroll(final List<String> text) {
 		super(Type.SCROLL);
-		
-		Validate.isTrue(text != null, "The given text is null");
-		Validate.isTrue(!text.isEmpty(), "The given list is empty");
-		
+
+		Validate.notNull(text, "The given list of text lines is null");
+		Validate.isTrue(!text.isEmpty(), "The given list of text lines is empty");
+
 		this.text = new ArrayList<String>(text);
 	}
 
