@@ -19,3 +19,8 @@ This project needs Gradle 1.8 to build. It's preconfigured to use the "Gradle wr
 To build the project, simply issue a "gradlew clean build" (Unix / OSX) or a "gradlew.bat clean build" (Windows).
 
 To mount the project in Eclipse, first generate the Eclipse files (.project, .classpath and .settings) with "gradlew eclipse" then import the projects into Eclipse.
+
+Credits
+=====
+
+Credits go to Nerthing for his [Dungeon Master Guide](http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244) and Christophe Fontanel for his [technical documentation](http://dmweb.free.fr/?q=taxonomy/term/39).
