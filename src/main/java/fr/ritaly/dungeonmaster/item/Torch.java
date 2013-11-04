@@ -27,21 +27,34 @@ import fr.ritaly.dungeonmaster.Constants;
 import fr.ritaly.dungeonmaster.Temporizer;
 
 /**
+ * A torch. The torch is useful for providing light. The torch decays over time.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Torch extends Weapon implements ClockListener {
 
-	public static final int TICK_COUNT = 4;
-
 	private final Log log = LogFactory.getLog(Torch.class);
 
+	/**
+	 * The remaining light provided by this torch. This value decreases over
+	 * time. value within range [0,255].
+	 */
 	private int light = Constants.MAX_LIGHT;
 
+	/**
+	 * Whether the torch is currently burning (and therefore providing light).
+	 */
 	private boolean burning;
 
+	/**
+	 * The name of the champion currently using the torch.
+	 */
 	private String owner;
 
-	private final Temporizer temporizer = new Temporizer("Torch", TICK_COUNT);
+	/**
+	 * The temporizer managing the decay of this torch.
+	 */
+	private final Temporizer temporizer = new Temporizer("Torch", 4);
 
 	public Torch() {
 		super(Type.TORCH);
@@ -55,33 +68,31 @@ public class Torch extends Weapon implements ClockListener {
 				light--;
 
 				if (log.isDebugEnabled()) {
-					log.debug(owner + "." + this + ".Light: " + oldLight
-							+ " -> " + light);
-					// log.debug(owner + "'s torch is burning [light=" + light
-					// + "] ...");
+					log.debug(String.format("%s.%s.Light: %d -> %d", owner, this, oldLight, light));
 				}
 
-				// TODO Limiter la lev�e des events (7 �tats possibles)
+				// TODO Limit the events raised (there are only 7 states possible for a torch)
 				fireChangeEvent();
 			}
 		}
 
-		// Continuer tant que la torche n'a pas compl�tement br�l�
+		// Listen as long as the torch isn't depleted
 		return isBurning() && (light > 0);
-	};
+	}
 
 	@Override
 	protected void putOn() {
-		// M�moriser le nom du champion
+		// Store the name of the champion (for debugging logs)
 		this.owner = getBodyPart().getBody().getChampion().getName();
 
-		// Allumer la torche
+		// Light the torch
 		light();
 
-		// Enregistrer la torche
+		// Register the torch and listen to clock ticks
 		Clock.getInstance().register(this);
 	}
 
+	@Override
 	public void takeOff() {
 		if (burning) {
 			burning = false;
@@ -89,14 +100,22 @@ public class Torch extends Weapon implements ClockListener {
 			fireChangeEvent();
 		}
 
-		// R�initialiser le nom du champion
+		// Reset the name of the champion
 		this.owner = null;
 	}
 
+	/**
+	 * Tells whether the torch is currently burning.
+	 *
+	 * @return whether the torch is currently burning.
+	 */
 	public boolean isBurning() {
 		return burning;
 	}
 
+	/**
+	 * Lights the torch.
+	 */
 	public void light() {
 		if (burning) {
 			throw new IllegalStateException("The torch is already burning");
@@ -107,6 +126,12 @@ public class Torch extends Weapon implements ClockListener {
 		fireChangeEvent();
 	}
 
+	/**
+	 * Returns the remaining light for this torch as an integer.
+	 *
+	 * @return an integer value within range [0,255] representing the remaining
+	 *         light.
+	 */
 	public int getLight() {
 		return light;
 	}

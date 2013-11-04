@@ -24,6 +24,9 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 
 /**
+ * Inside a party, champions are located at 4 different locations. The location
+ * can be (front or rear) and (left or right).
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Location {
@@ -32,27 +35,50 @@ public enum Location {
 	REAR_LEFT,
 	REAR_RIGHT;
 
+	/**
+	 * Tells whether this location is at the front of the party.
+	 *
+	 * @return whether this location is at the front of the party.
+	 */
 	public boolean isFront() {
 		return equals(FRONT_LEFT) || equals(FRONT_RIGHT);
 	}
 
+	/**
+	 * Tells whether this location is at the rear of the party.
+	 *
+	 * @return whether this location is at the rear of the party.
+	 */
 	public boolean isRear() {
 		return equals(REAR_LEFT) || equals(REAR_RIGHT);
 	}
 
+	/**
+	 * Tells whether this location is on the left of the party.
+	 *
+	 * @return whether this location is on the left of the party.
+	 */
 	public boolean isLeft() {
 		return equals(FRONT_LEFT) || equals(REAR_LEFT);
 	}
 
+	/**
+	 * Tells whether this location is on the right of the party.
+	 *
+	 * @return whether this location is on the right of the party.
+	 */
 	public boolean isRight() {
 		return equals(FRONT_RIGHT) || equals(REAR_RIGHT);
 	}
 
+	/**
+	 * TODO Document this method
+	 *
+	 * @param lookDirection
+	 * @return
+	 */
 	public boolean isNorth(Direction lookDirection) {
-		if (lookDirection == null) {
-			throw new IllegalArgumentException(
-					"The given look direction is null");
-		}
+		Validate.notNull(lookDirection, "The given look direction is null");
 
 		switch (lookDirection) {
 		case EAST:
@@ -64,16 +90,18 @@ public enum Location {
 		case WEST:
 			return isRight();
 		default:
-			// Ne marche que pour une direction de regard, pas de d�placement
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Unsupported location " + this);
 		}
 	}
 
+	/**
+	 * TODO Document this method
+	 *
+	 * @param lookDirection
+	 * @return
+	 */
 	public boolean isSouth(Direction lookDirection) {
-		if (lookDirection == null) {
-			throw new IllegalArgumentException(
-					"The given look direction is null");
-		}
+		Validate.notNull(lookDirection, "The given look direction is null");
 
 		switch (lookDirection) {
 		case EAST:
@@ -85,16 +113,18 @@ public enum Location {
 		case WEST:
 			return isLeft();
 		default:
-			// Ne marche que pour une direction de regard, pas de d�placement
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Unsupported location " + this);
 		}
 	}
 
+	/**
+	 * TODO Document this method
+	 *
+	 * @param lookDirection
+	 * @return
+	 */
 	public boolean isEast(Direction lookDirection) {
-		if (lookDirection == null) {
-			throw new IllegalArgumentException(
-					"The given look direction is null");
-		}
+		Validate.notNull(lookDirection, "The given look direction is null");
 
 		switch (lookDirection) {
 		case EAST:
@@ -106,16 +136,18 @@ public enum Location {
 		case WEST:
 			return isRear();
 		default:
-			// Ne marche que pour une direction de regard, pas de d�placement
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Unsupported location " + this);
 		}
 	}
 
+	/**
+	 * TODO Document this method
+	 *
+	 * @param lookDirection
+	 * @return
+	 */
 	public boolean isWest(Direction lookDirection) {
-		if (lookDirection == null) {
-			throw new IllegalArgumentException(
-					"The given look direction is null");
-		}
+		Validate.notNull(lookDirection, "The given look direction is null");
 
 		switch (lookDirection) {
 		case EAST:
@@ -127,20 +159,30 @@ public enum Location {
 		case WEST:
 			return isFront();
 		default:
-			// Ne marche que pour une direction de regard, pas de d�placement
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Unsupported location " + this);
 		}
 	}
 
+	/**
+	 * TODO Document this method
+	 *
+	 * @param direction
+	 * @return
+	 */
 	public SubCell toSubCell(Direction direction) {
 		return SubCell.fromLocation(direction, this);
 	}
 
-	public static Location fromSubCell(final Direction direction,
-			final SubCell subCell) {
-		
-		Validate.isTrue(direction != null, "The given direction is null");
-		Validate.isTrue(subCell != null, "The given sub-cell is null");
+	/**
+	 * TODO Document this method
+	 *
+	 * @param direction
+	 * @param subCell
+	 * @return
+	 */
+	public static Location fromSubCell(final Direction direction, final SubCell subCell) {
+		Validate.notNull(direction, "The given direction is null");
+		Validate.notNull(subCell, "The given sub-cell is null");
 
 		switch (direction) {
 		case NORTH:
@@ -192,18 +234,38 @@ public enum Location {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Returns the locations at the front of the party.
+	 *
+	 * @return a list of locations. Never returns null.
+	 */
 	public static List<Location> getFront() {
 		return Arrays.asList(FRONT_LEFT, FRONT_RIGHT);
 	}
 
+	/**
+	 * Returns the locations at the rear of the party.
+	 *
+	 * @return a list of locations. Never returns null.
+	 */
 	public static List<Location> getRear() {
 		return Arrays.asList(REAR_LEFT, REAR_RIGHT);
 	}
 
+	/**
+	 * Returns the locations on the left of the party.
+	 *
+	 * @return a list of locations. Never returns null.
+	 */
 	public static List<Location> getLeft() {
 		return Arrays.asList(FRONT_LEFT, REAR_LEFT);
 	}
 
+	/**
+	 * Returns the locations on the right of the party.
+	 *
+	 * @return a list of locations. Never returns null.
+	 */
 	public static List<Location> getRight() {
 		return Arrays.asList(FRONT_RIGHT, REAR_RIGHT);
 	}

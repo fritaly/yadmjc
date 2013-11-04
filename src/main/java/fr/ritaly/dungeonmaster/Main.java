@@ -35,11 +35,12 @@ import fr.ritaly.dungeonmaster.item.Torch;
 import fr.ritaly.dungeonmaster.magic.ElementRune;
 import fr.ritaly.dungeonmaster.magic.FormRune;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
-import fr.ritaly.dungeonmaster.magic.Spell;
 import fr.ritaly.dungeonmaster.map.Door;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 
 /**
+ * Main class.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Main {
@@ -71,26 +72,24 @@ public class Main {
 		if (true) {
 			log.debug("Creating party ...");
 
-			final Champion champion = ChampionFactory.getFactory().newChampion(
-					Name.WUUF);
-			champion.getStats().getHealth().value(10);
-			champion.getStats().getMana().value(10);
+			final Champion wuuf = ChampionFactory.getFactory().newChampion(Name.WUUF);
+			wuuf.getStats().getHealth().value(10);
+			wuuf.getStats().getMana().value(10);
 
-			final Champion champion2 = ChampionFactory.getFactory()
-					.newChampion(Name.TIGGY);
+			final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 			final Party party = new Party();
-			party.addChampion(champion);
-			party.addChampion(champion2);
+			party.addChampion(wuuf);
+			party.addChampion(tiggy);
 
-			champion.getBody().getWeaponHand().putOn(new Torch());
+			wuuf.getBody().getWeaponHand().putOn(new Torch());
 
 			if (true) {
 				// champion.getBody().getWeaponHand().disable();
 
-				log.info("Max load = " + champion.getMaxLoad() + " Kg");
+				log.info("Max load = " + wuuf.getMaxLoad() + " Kg");
 
-				champion2.getStats().getHealth().value(200);
+				tiggy.getStats().getHealth().value(200);
 
 				log.info("Party created");
 
@@ -105,21 +104,15 @@ public class Main {
 
 				// party.removeChampion(champion);
 
-				champion2.getBody().getShieldHand().putOn(
-						ItemFactory.getFactory().newItem(Item.Type.TORCH));
-				champion2.getBody().getShieldHand()
-						.putOn(
-								ItemFactory.getFactory().newItem(
-										Item.Type.WATER_FLASK));
+				tiggy.getBody().getShieldHand().putOn(ItemFactory.getFactory().newItem(Item.Type.TORCH));
+				tiggy.getBody().getShieldHand().putOn(ItemFactory.getFactory().newItem(Item.Type.WATER_FLASK));
 
 				for (int i = 0; i < 50; i++) {
-					champion.gainExperience(Skill.NINJA, 50);
+					wuuf.gainExperience(Skill.NINJA, 50);
 				}
 
-				Spell spell = champion2.cast(PowerRune.LO, ElementRune.FUL,
-						FormRune.IR);
-
-				spell = champion.cast(PowerRune.LO, ElementRune.FUL);
+				tiggy.cast(PowerRune.LO, ElementRune.FUL, FormRune.IR);
+				wuuf.cast(PowerRune.LO, ElementRune.FUL);
 			}
 		}
 

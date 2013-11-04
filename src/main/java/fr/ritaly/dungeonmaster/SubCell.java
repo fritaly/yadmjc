@@ -28,6 +28,8 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.map.Element;
 
 /**
+ * TODO Document this class.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum SubCell {
@@ -36,40 +38,48 @@ public enum SubCell {
 	SOUTH_WEST,
 	SOUTH_EAST;
 
+	/**
+	 * The total number of existing sub-cells.
+	 */
 	private static final int COUNT = values().length;
 
+	/**
+	 * Returns a random sub-cell.
+	 *
+	 * @return a sub-cell. Never returns null.
+	 */
 	public static SubCell random() {
 		return SubCell.values()[RandomUtils.nextInt(COUNT)];
 	}
 
 	/**
+	 * TODO Translate this javadoc to english
 	 * Tire au hasard parmi les deux {@link SubCell}s visibles de la
 	 * {@link Direction} de regard donn�e et le retourne.
-	 * 
+	 *
 	 * @param direction
 	 *            une {@link Direction} de regard.
 	 * @return une instance de {@link SubCell}.
 	 */
 	public static SubCell randomVisible(Direction direction) {
-		Validate.notNull(direction);
+		Validate.notNull(direction, "The given direction is null");
 
 		return getVisibleSubCells(direction).get(RandomUtils.nextInt(2));
 	}
 
 	/**
+	 * TODO Translate this javadoc to english
 	 * Compte tenu de la {@link Direction} de regard donn�e, retourne les deux
 	 * instances de {@link SubCell} visibles de celle-ci. Permet de savoir quand
 	 * la {@link Party} est situ�e sur un {@link Element} quelles sont les deux
 	 * {@link SubCell}s visibles.
-	 * 
+	 *
 	 * @param direction
 	 *            une {@link Direction} de regard.
 	 * @return une {@link List} contenant les deux {@link SubCell}s visibles.
 	 */
 	public static List<SubCell> getVisibleSubCells(Direction direction) {
-		if (direction == null) {
-			throw new IllegalArgumentException("The given direction is null");
-		}
+		Validate.notNull(direction, "The given direction is null");
 
 		switch (direction) {
 		case EAST:
@@ -85,27 +95,52 @@ public enum SubCell {
 		}
 	}
 
+	/**
+	 * Returns the sub-cells towards south as a list.
+	 *
+	 * @return a list of sub-cells. Never returns null.
+	 */
 	public static List<SubCell> getSouthernSubCells() {
 		return Arrays.asList(SOUTH_EAST, SOUTH_WEST);
 	}
 
+	/**
+	 * Returns the sub-cells towards west as a list.
+	 *
+	 * @return a list of sub-cells. Never returns null.
+	 */
 	public static List<SubCell> getWesternSubCells() {
 		return Arrays.asList(NORTH_WEST, SOUTH_WEST);
 	}
 
+	/**
+	 * Returns the sub-cells towards north as a list.
+	 *
+	 * @return a list of sub-cells. Never returns null.
+	 */
 	public static List<SubCell> getNorthernSubCells() {
 		return Arrays.asList(NORTH_EAST, NORTH_WEST);
 	}
 
+	/**
+	 * Returns the sub-cells towards east as a list.
+	 *
+	 * @return a list of sub-cells. Never returns null.
+	 */
 	public static List<SubCell> getEasternSubCells() {
 		return Arrays.asList(NORTH_EAST, SOUTH_EAST);
 	}
 
-	public static SubCell fromLocation(final Direction direction,
-			final Location location) {
-		
-		Validate.isTrue(direction != null, "The given direction is null");
-		Validate.isTrue(location != null, "The given location is null");
+	/**
+	 * TODO Document this method
+	 *
+	 * @param direction
+	 * @param location
+	 * @return
+	 */
+	public static SubCell fromLocation(final Direction direction, final Location location) {
+		Validate.notNull(direction, "The given direction is null");
+		Validate.notNull(location, "The given location is null");
 
 		switch (direction) {
 		case NORTH:
@@ -154,36 +189,64 @@ public enum SubCell {
 			}
 		}
 
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException("Unsupported direction " + direction);
 	}
 
+	/**
+	 * TODO Document this method
+	 *
+	 * @param direction
+	 * @return
+	 */
 	public Location toLocation(Direction direction) {
-		Validate.notNull(direction);
+		Validate.notNull(direction, "The given direction is null");
 
 		return Location.fromSubCell(direction, this);
 	}
 
+	/**
+	 * Tells whether this sub-cell is towards east.
+	 *
+	 * @return whether this sub-cell is towards east.
+	 */
 	public boolean isTowardsEast() {
 		return equals(NORTH_EAST) || equals(SOUTH_EAST);
 	}
 
+	/**
+	 * Tells whether this sub-cell is towards west.
+	 *
+	 * @return whether this sub-cell is towards west.
+	 */
 	public boolean isTowardsWest() {
 		return equals(NORTH_WEST) || equals(SOUTH_WEST);
 	}
 
+	/**
+	 * Tells whether this sub-cell is towards north.
+	 *
+	 * @return whether this sub-cell is towards north.
+	 */
 	public boolean isTowardsNorth() {
 		return equals(NORTH_EAST) || equals(NORTH_WEST);
 	}
 
+	/**
+	 * Tells whether this sub-cell is towards south.
+	 *
+	 * @return whether this sub-cell is towards south.
+	 */
 	public boolean isTowardsSouth() {
 		return equals(SOUTH_WEST) || equals(SOUTH_EAST);
 	}
 
 	/**
+	 * TODO Translate this javadoc to english
+	 *
 	 * Indique si la {@link SubCell} donn�e est voisine de cette {@link SubCell}
 	 * . Pour �tre voisine, les deux {@link SubCell}s doivent partager une ar�te
 	 * commune.
-	 * 
+	 *
 	 * @param subCell
 	 *            une instance de {@link SubCell}.
 	 * @return si cette {@link SubCell} est voisine de celle donn�e en
@@ -207,10 +270,12 @@ public enum SubCell {
 	}
 
 	/**
+	 * TODO Translate this javadoc to english
+	 *
 	 * Indique si lorsqu'on avance dans la {@link Direction} donn�e, on quitte
 	 * la position actuelle en se d�pla�ant sur une position voisine ou si on
 	 * reste sur la m�me position.
-	 * 
+	 *
 	 * @param direction
 	 *            une instance de {@link Direction}.
 	 * @return si lorsqu'on avance dans la {@link Direction} donn�e, on quitte
@@ -221,22 +286,23 @@ public enum SubCell {
 
 		switch (this) {
 		case NORTH_EAST:
-			return Direction.NORTH.equals(direction)
-					|| Direction.EAST.equals(direction);
+			return Direction.NORTH.equals(direction) || Direction.EAST.equals(direction);
 		case NORTH_WEST:
-			return Direction.NORTH.equals(direction)
-					|| Direction.WEST.equals(direction);
+			return Direction.NORTH.equals(direction) || Direction.WEST.equals(direction);
 		case SOUTH_EAST:
-			return Direction.SOUTH.equals(direction)
-					|| Direction.EAST.equals(direction);
+			return Direction.SOUTH.equals(direction) || Direction.EAST.equals(direction);
 		case SOUTH_WEST:
-			return Direction.SOUTH.equals(direction)
-					|| Direction.WEST.equals(direction);
+			return Direction.SOUTH.equals(direction) || Direction.WEST.equals(direction);
 		default:
 			throw new UnsupportedOperationException();
 		}
 	}
 
+	/**
+	 * TODO Document this method
+	 *
+	 * @return
+	 */
 	public SubCell towardsNorth() {
 		switch (this) {
 		case NORTH_EAST:
@@ -252,6 +318,11 @@ public enum SubCell {
 		}
 	}
 
+	/**
+	 * TODO Document this method
+	 *
+	 * @return
+	 */
 	public SubCell towardsSouth() {
 		switch (this) {
 		case NORTH_EAST:
@@ -267,6 +338,11 @@ public enum SubCell {
 		}
 	}
 
+	/**
+	 * TODO Document this method
+	 *
+	 * @return
+	 */
 	public SubCell towardsWest() {
 		switch (this) {
 		case NORTH_EAST:
@@ -282,6 +358,11 @@ public enum SubCell {
 		}
 	}
 
+	/**
+	 * TODO Document this method
+	 *
+	 * @return
+	 */
 	public SubCell towardsEast() {
 		switch (this) {
 		case NORTH_EAST:
@@ -297,6 +378,12 @@ public enum SubCell {
 		}
 	}
 
+	/**
+	 * TODO Document this method
+	 *
+	 * @param direction
+	 * @return
+	 */
 	public SubCell towards(Direction direction) {
 		Validate.notNull(direction, "The given direction is null");
 

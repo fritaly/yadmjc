@@ -19,7 +19,7 @@
 package fr.ritaly.dungeonmaster;
 
 /**
- * An object with a direction property.
+ * An object with a (mutable) direction property.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */

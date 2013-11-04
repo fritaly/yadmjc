@@ -23,14 +23,16 @@ package fr.ritaly.dungeonmaster;
  * <br>
  * Some creatures are said "material" and can be wounded by using a regular
  * weapon. Some others are said "immaterial" (for instance ghosts) and can only
- * be killed by using special weapons.
+ * be killed by using special weapons. There's at least one creature (the zytaz)
+ * that can be both but not at the same time.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum Materiality {
 
 	/**
-	 * The materiality of a material creature (most objects and creatures in the game are material).
+	 * The materiality of a material creature (most objects and creatures in the
+	 * game are material).
 	 */
 	MATERIAL,
 

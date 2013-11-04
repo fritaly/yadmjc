@@ -325,6 +325,8 @@ public final class Position {
 	}
 
 	/**
+	 * TODO Translate this javadoc comment to english
+	 *
 	 * Retourne, pour cette {@link Position}, la liste des {@link Position}s qui
 	 * lui sont visibles en regardant dans la direction donn�e. L'impl�mentation
 	 * courante suppose que la port�e visuelle est de 3 lignes en profondeur.
@@ -333,7 +335,7 @@ public final class Position {
 	 *            la {@link Direction} de regard.
 	 * @return une {@link List} de {@link Position}s. Ne retourne jamais null.
 	 */
-	@Translate public List<Position> getVisiblePositions(Direction lookDirection) {
+	public List<Position> getVisiblePositions(Direction lookDirection) {
 		// FIXME Rajouter un param�tre sightRange
 		Validate.notNull(lookDirection, "The given direction is null");
 
@@ -438,23 +440,27 @@ public final class Position {
 	}
 
 	/**
+	 * TODO Translate this javadoc comment to english
+	 *
 	 * Retourne les 4 {@link Position}s attaquables depuis cette
 	 * {@link Position}.
 	 *
 	 * @return une {@link List} de {@link Position}s.
 	 */
-	@Translate public List<Position> getAttackablePositions() {
+	public List<Position> getAttackablePositions() {
 		// Retourner les positions attaquables situ�es dans un rayon de 1 pas
 		return getAttackablePositions(1);
 	}
 
 	/**
+	 * TODO Translate this javadoc comment to english
+	 *
 	 * Retourne les {@link Position}s attaquables depuis cette {@link Position}
 	 * et situ�es dans un rayon de range pas dans les 4 directions.
 	 *
 	 * @return une {@link List} de {@link Position}s.
 	 */
-	@Translate public List<Position> getAttackablePositions(int range) {
+	public List<Position> getAttackablePositions(int range) {
 		Validate.isTrue(range >= 1, "The given range " + range
 				+ " must be positive");
 
@@ -490,6 +496,8 @@ public final class Position {
 	}
 
 	/**
+	 * TODO Translate this javadoc comment to english
+	 *
 	 * A partir de cette position, retourne la direction dans laquelle il faut
 	 * regarder / se tourner pour pointer vers la position cible donn�e.
 	 *
@@ -498,7 +506,7 @@ public final class Position {
 	 * @return la direction dans laquelle il faut se tourner pour voir la
 	 *         position cible donn�e.
 	 */
-	@Translate public Direction getDirectionTowards(Position targetPosition) {
+	public Direction getDirectionTowards(Position targetPosition) {
 		Validate.notNull(targetPosition, "The given direction is null");
 
 		if (this.z != targetPosition.z) {

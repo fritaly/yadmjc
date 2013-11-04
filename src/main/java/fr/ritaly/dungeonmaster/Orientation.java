@@ -21,7 +21,7 @@ package fr.ritaly.dungeonmaster;
 /**
  * The game defines 4 directions (North, South, East and West) but only 2
  * orientations (North-South and West-East). An orientation is typically useful
- * for describing how a door is "oriented".
+ * for describing how a door is "oriented", how a projectile moves on a level.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */

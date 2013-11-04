@@ -28,7 +28,7 @@ dependencies {
 	// AspectJ dependency used for compiling only
 	ajc 'org.aspectj:aspectjtools:1.6.9'
 
-	testCompile 'junit:junit:3.8.1'
+	testCompile 'junit:junit:4.7'
 }
 
 compileJava {

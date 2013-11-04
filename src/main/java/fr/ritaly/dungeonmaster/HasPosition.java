@@ -19,7 +19,7 @@
 package fr.ritaly.dungeonmaster;
 
 /**
- * An object with a position property.
+ * An object with a (read-only) position property.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */

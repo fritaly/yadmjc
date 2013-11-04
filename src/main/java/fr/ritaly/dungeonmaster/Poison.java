@@ -23,33 +23,62 @@ import org.apache.commons.lang.Validate;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 
 /**
+ * Manages the effects of poison over time.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Poison implements ClockListener {
 
+	/**
+	 * The current strength of poison. The value decreases over time. When the
+	 * value reaches zero, the poisoning stops. Value is positive or zero.
+	 */
 	private int strength;
 
-	private final Temporizer temporizer = new Temporizer("Poison",
-			10 * Clock.ONE_SECOND);
+	/**
+	 * Temporizer used for managing the poison decay over time. Triggers every
+	 * 10 seconds.
+	 */
+	private final Temporizer temporizer = new Temporizer("Poison", 10 * Clock.ONE_SECOND);
 
+	/**
+	 * Tells whether the poison is still active.
+	 *
+	 * @return whether the poison is still active.
+	 */
 	public boolean isActive() {
 		return (strength > 0);
 	}
 
+	/**
+	 * Cures the poisoning with the given power rune.
+	 *
+	 * @param powerRune
+	 *            a power rune representing the strength of the cure. Can't be
+	 *            null.
+	 */
 	public void cure(final PowerRune powerRune) {
-		Validate.isTrue(powerRune != null, "The given power rune is null");
+		Validate.notNull(powerRune, "The given power rune is null");
 
 		this.strength = Math.max(0, strength - powerRune.getPowerLevel());
 	}
 
+	/**
+	 * Strenghtens the poisoning with the given power rune.
+	 *
+	 * @param powerRune
+	 *            a power rune representing the strength of the poisoning. Can't
+	 *            be null.
+	 */
 	public void strengthen(final PowerRune powerRune) {
-		Validate.isTrue(powerRune != null, "The given power rune is null");
+		Validate.notNull(powerRune, "The given power rune is null");
 
 		final boolean wasActive = isActive();
 
 		this.strength += powerRune.getPowerLevel();
 
 		if (!wasActive && isActive()) {
+			// Listen to clock ticks
 			Clock.getInstance().register(this);
 		}
 	}
@@ -57,11 +86,11 @@ public class Poison implements ClockListener {
 	@Override
 	public boolean clockTicked() {
 		if (temporizer.trigger()) {
-			// Le poison se dissipe
+			// The poison naturally decays over time
 			cure(PowerRune.LO);
 		}
 
-		// Continuer tant que le poison est actif
+		// Listen as long as the poison is active
 		return isActive();
 	}
 }

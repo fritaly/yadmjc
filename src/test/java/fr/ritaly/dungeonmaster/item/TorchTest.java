@@ -40,7 +40,7 @@ public class TorchTest extends TestCase {
 
 		final Torch torch = new Torch();
 
-		// --- La torche est initialement éteinte et neuve
+		// --- La torche est initialement ï¿½teinte et neuve
 		assertFalse(torch.isBurning());
 		assertEquals(Constants.MAX_LIGHT, torch.getLight());
 
@@ -51,13 +51,13 @@ public class TorchTest extends TestCase {
 		assertEquals(Constants.MAX_LIGHT, torch.getLight());
 
 		// --- Laisser la torche se consumer (1 fois)
-		Clock.getInstance().tick(Torch.TICK_COUNT);
+		Clock.getInstance().tick(4);
 
 		assertTrue(torch.isBurning());
 		assertTrue(torch.getLight() < Constants.MAX_LIGHT);
 		assertEquals(Constants.MAX_LIGHT - 1, torch.getLight());
 
-		// --- Le champion lâche la torche, elle s'éteint automatiquement
+		// --- Le champion lï¿½che la torche, elle s'ï¿½teint automatiquement
 		final Item removed = tiggy.getBody().getWeaponHand().takeOff();
 
 		assertNotNull(removed);
@@ -73,32 +73,32 @@ public class TorchTest extends TestCase {
 		final Body body = tiggy.getBody();
 		final Torch torch = new Torch();
 
-		// --- Mettre la torche sur la tête (doit échouer)
+		// --- Mettre la torche sur la tï¿½te (doit ï¿½chouer)
 		assertEquals(torch, body.getHead().putOn(torch));
 
-		// --- Mettre la torche sur le cou (doit échouer)
+		// --- Mettre la torche sur le cou (doit ï¿½chouer)
 		assertEquals(torch, body.getNeck().putOn(torch));
 
-		// --- Mettre la torche sur le torse (doit échouer)
+		// --- Mettre la torche sur le torse (doit ï¿½chouer)
 		assertEquals(torch, body.getTorso().putOn(torch));
 
-		// --- Mettre la torche sur les jambes (doit échouer)
+		// --- Mettre la torche sur les jambes (doit ï¿½chouer)
 		assertEquals(torch, body.getLegs().putOn(torch));
 
-		// --- Mettre la torche sur les pieds (doit échouer)
+		// --- Mettre la torche sur les pieds (doit ï¿½chouer)
 		assertEquals(torch, body.getFeet().putOn(torch));
 
-		// --- Mettre la torche dans une main (doit réussir)
+		// --- Mettre la torche dans une main (doit rï¿½ussir)
 		assertNull(body.getShieldHand().putOn(torch));
 
-		// --- Retirer la torche de la main qui le tient (doit réussir)
+		// --- Retirer la torche de la main qui le tient (doit rï¿½ussir)
 		assertEquals(torch, body.getShieldHand().takeOff());
 
-		// --- Mettre la torche dans l'autre main (doit réussir)
+		// --- Mettre la torche dans l'autre main (doit rï¿½ussir)
 		assertNull(body.getWeaponHand().putOn(torch));
 
-		// --- On ne peut mettre dans l'autre main la torche si elle est déjà
-		// portée
+		// --- On ne peut mettre dans l'autre main la torche si elle est dï¿½jï¿½
+		// portï¿½e
 		try {
 			body.getShieldHand().putOn(torch);
 			fail();

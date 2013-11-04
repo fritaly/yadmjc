@@ -24,6 +24,8 @@ import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 
 /**
+ * A weapon item. A weapon is activated when put in the champion's weapon hand.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Weapon extends Item {
@@ -31,10 +33,9 @@ public class Weapon extends Item {
 	public Weapon(Type type) {
 		super(type);
 
-		Validate.isTrue(Item.Category.WEAPON.getTypes().contains(type),
-				"The given item type " + type + " isn't a weapon");
+		Validate.isTrue(Item.Category.WEAPON.getTypes().contains(type), "The given item type " + type + " isn't a weapon");
 	}
-	
+
 	public Weapon(Type type, PowerRune curse) {
 		this(type);
 

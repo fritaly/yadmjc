@@ -42,6 +42,12 @@ public enum Speed {
 		this.value = value;
 	}
 
+	/**
+	 * Returns the integer value associated to this move speed. The higher the
+	 * value, the slower the speed.
+	 *
+	 * @return an integer value.
+	 */
 	public int getValue() {
 		return value;
 	}
