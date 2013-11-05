@@ -48,7 +48,6 @@ import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Level;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
-import fr.ritaly.dungeonmaster.item.EmptyFlask;
 import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.item.Potion;
@@ -900,19 +899,19 @@ public class Spell {
 		case VITALITY_POTION:
 		case WISDOM_POTION: {
 			// Search for an empty flask in the champion's hands
-			final EmptyFlask emptyFlask;
+			final Item emptyFlask;
 			final BodyPart hand;
 
 			final Item item1 = champion.getBody().getWeaponHand().getItem();
 
 			if ((item1 != null) && item1.getType().equals(Item.Type.EMPTY_FLASK)) {
-				emptyFlask = (EmptyFlask) item1;
+				emptyFlask = item1;
 				hand = champion.getBody().getWeaponHand();
 			} else {
 				final Item item2 = champion.getBody().getShieldHand().getItem();
 
 				if ((item2 != null) && item2.getType().equals(Item.Type.EMPTY_FLASK)) {
-					emptyFlask = (EmptyFlask) item2;
+					emptyFlask = item2;
 					hand = champion.getBody().getShieldHand();
 				} else {
 					emptyFlask = null;

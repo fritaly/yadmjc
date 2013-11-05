@@ -63,9 +63,7 @@ public final class Position {
 		hashCode = (hashCode * 31) + z;
 
 		this.hash = hashCode;
-
-		this.toString = new StringBuilder(16).append('[').append(z).append(':')
-				.append(x).append(',').append(y).append(']').toString();
+		this.toString = String.format("[%d:%d,%d]", z, x, y);
 	}
 
 	@Override
@@ -84,8 +82,7 @@ public final class Position {
 		if (obj instanceof Position) {
 			final Position position = (Position) obj;
 
-			return (this.x == position.x) && (this.y == position.y)
-					&& (this.z == position.z);
+			return (this.x == position.x) && (this.y == position.y) && (this.z == position.z);
 		}
 
 		return false;
@@ -138,8 +135,7 @@ public final class Position {
 	public boolean isAligned(Position position) {
 		Validate.notNull(position, "The given position is null");
 
-		return (this.z == position.z)
-				&& ((this.x == position.x) || (this.y == position.y));
+		return (this.z == position.z) && ((this.x == position.x) || (this.y == position.y));
 	}
 
 	public Position towards(Direction direction) {
@@ -154,7 +150,7 @@ public final class Position {
 	 * @return a list of 8 positions. Never returns null.
 	 */
 	public List<Position> getSurroundingPositions() {
-		// Rechercher les positions voisines dans un rayon de 1
+		// Return the surrounding positions within 1 step
 		return getSurroundingPositions(1);
 	}
 

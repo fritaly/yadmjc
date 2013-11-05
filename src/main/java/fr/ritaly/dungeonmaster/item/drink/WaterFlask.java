@@ -24,20 +24,20 @@ import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.audio.SoundSystem;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
-import fr.ritaly.dungeonmaster.item.EmptyFlask;
 import fr.ritaly.dungeonmaster.item.Item;
+import fr.ritaly.dungeonmaster.item.ItemFactory;
 
 /**
  * A flask of water. Contains one dose of water.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public class WaterFlask extends Item {
+final class WaterFlask extends Item {
 
 	/**
 	 * Creates a new water flask.
 	 */
-	public WaterFlask() {
+	WaterFlask() {
 		super(Type.WATER_FLASK);
 	}
 
@@ -59,7 +59,7 @@ public class WaterFlask extends Item {
 	/**
 	 * Drinks the water from this flask.
 	 */
-	public void drink() {
+	private void drink() {
 		// Play the associated sound
 		SoundSystem.getInstance().play(AudioClip.GLOUPS);
 
@@ -77,6 +77,6 @@ public class WaterFlask extends Item {
 		champion.getStats().getWater().inc(150);
 
 		// The water flask turns into an empty flask
-		return new EmptyFlask();
+		return ItemFactory.getFactory().newItem(Item.Type.EMPTY_FLASK);
 	}
 }

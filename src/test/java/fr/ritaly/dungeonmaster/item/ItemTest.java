@@ -55,24 +55,22 @@ public class ItemTest extends TestCase {
 	}
 
 	public void testItemCategories() {
-		// Tester que chaque type est bien catégorisé
+		// Tester que chaque type est bien catï¿½gorisï¿½
 		for (Item.Type type : Item.Type.values()) {
 			assertNotNull(type.getCategory());
 		}
 
-		// Tester le nombre de type dans chaque catégorie
-		assertEquals(1, Item.Category.SCROLL.getTypes().size());
-		assertEquals(1, Item.Category.CONTAINER.getTypes().size());
-		assertEquals(21, Item.Category.POTION.getTypes().size());
+		// Tester le nombre de type dans chaque catï¿½gorie
+		assertEquals(20, Item.Category.POTION.getTypes().size());
 		assertEquals(56, Item.Category.WEAPON.getTypes().size());
 		assertEquals(73, Item.Category.CLOTH.getTypes().size());
-		assertEquals(56, Item.Category.MISCELLANEOUS.getTypes().size());
+		assertEquals(59, Item.Category.MISCELLANEOUS.getTypes().size());
 	}
 
 	public void testFoodItemsAreConsumable() {
 		final EnumSet<Item.Type> foodItems = Item.Category.getFoodItems();
 
-		// Tous les objets de type nourriture doivent être consommables
+		// Tous les objets de type nourriture doivent ï¿½tre consommables
 		for (Item.Type type : Item.Type.values()) {
 			if (foodItems.contains(type)) {
 				final boolean consumable = type.getCarryLocations()
@@ -83,7 +81,7 @@ public class ItemTest extends TestCase {
 			}
 		}
 	}
-	
+
 	public void testEffectOfItemOnChampion() {
 		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
@@ -95,27 +93,27 @@ public class ItemTest extends TestCase {
 		final int initialDexterity = tiggy.getStats().getDexterity()
 				.actualValue();
 
-		// --- Mettre la cape en main -> pas d'effet constaté
+		// --- Mettre la cape en main -> pas d'effet constatï¿½
 		assertNull(tiggy.getBody().getWeaponHand().putOn(cloak));
 		assertEquals(initialDexterity, tiggy.getStats().getDexterity()
 				.actualValue().intValue());
 
-		// --- Retirer la cape -> pas d'effet constaté
+		// --- Retirer la cape -> pas d'effet constatï¿½
 		assertEquals(cloak, tiggy.getBody().getWeaponHand().takeOff());
 		assertEquals(initialDexterity, tiggy.getStats().getDexterity()
 				.actualValue().intValue());
 
-		// --- Mettre la cape sur le dos -> effet constaté
+		// --- Mettre la cape sur le dos -> effet constatï¿½
 		assertNull(tiggy.getBody().getNeck().putOn(cloak));
 		assertEquals(initialDexterity + 8, tiggy.getStats().getDexterity()
 				.actualValue().intValue());
 
-		// --- Retirer la cape -> effet constaté
+		// --- Retirer la cape -> effet constatï¿½
 		assertEquals(cloak, tiggy.getBody().getNeck().takeOff());
 		assertEquals(initialDexterity, tiggy.getStats().getDexterity()
 				.actualValue().intValue());
 	}
-	
+
 	public void testInfluenceOfElvenBootsOnMaxLoad() {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(
 				Name.TIGGY);
@@ -142,12 +140,12 @@ public class ItemTest extends TestCase {
 
 		assertNotNull(item);
 		assertEquals(elvenBoots, item);
-		
+
 		assertEquals(0, maxLoadBoost.actualValue().intValue());
 		assertEquals(maxLoad1, tiggy.getStats().getActualMaxLoad(), 0.00001f);
 		assertEquals(maxLoad2, tiggy.getMaxLoad(), 0.00001f);
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

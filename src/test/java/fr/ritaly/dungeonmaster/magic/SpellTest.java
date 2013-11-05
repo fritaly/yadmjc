@@ -31,6 +31,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.champion.body.Hand;
 import fr.ritaly.dungeonmaster.champion.body.WeaponHand;
 import fr.ritaly.dungeonmaster.item.Item;
+import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.item.Torch;
 import fr.ritaly.dungeonmaster.magic.EmptyHandNeededException;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
@@ -49,6 +50,68 @@ public class SpellTest extends TestCase {
 	public SpellTest(String name) {
 		super(name);
 	}
+
+	private void testCastPotion(Spell.Type spellType, Item.Type expectedItem) throws Exception {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+		tiggy.getBody().getWeaponHand().putOn(ItemFactory.getFactory().newItem(Item.Type.EMPTY_FLASK));
+
+		// Boost all the champion's skills to be able to cast any spell
+		for (Skill skill : Skill.values()) {
+			tiggy.gainExperience(skill, 1000000);
+		}
+
+		tiggy.cast(PowerRune.LO);
+
+		for (Rune rune : spellType.getRunes()) {
+			tiggy.cast(rune);
+		}
+
+		assertTrue(tiggy.getBody().getWeaponHand().hasItem(Item.Type.EMPTY_FLASK));
+
+		final Spell spell = tiggy.castSpell();
+
+		assertNotNull(spell);
+		assertTrue(spell.isValid());
+		assertTrue(tiggy.getBody().getWeaponHand().hasItem(expectedItem));
+	}
+
+	public void testCastPotion_Health() throws Exception {
+		testCastPotion(Spell.Type.HEALTH_POTION, Item.Type.HEALTH_POTION);
+	}
+
+	public void testCastPotion_Stamina() throws Exception {
+		testCastPotion(Spell.Type.STAMINA_POTION, Item.Type.STAMINA_POTION);
+	}
+
+	public void testCastPotion_Mana() throws Exception {
+		testCastPotion(Spell.Type.MANA_POTION, Item.Type.MANA_POTION);
+	}
+
+	public void testCastPotion_Strength() throws Exception {
+		testCastPotion(Spell.Type.STRENGTH_POTION, Item.Type.STRENGTH_POTION);
+	}
+
+	public void testCastPotion_Dexterity() throws Exception {
+		testCastPotion(Spell.Type.DEXTERITY_POTION, Item.Type.DEXTERITY_POTION);
+	}
+
+	public void testCastPotion_Wisdom() throws Exception {
+		testCastPotion(Spell.Type.WISDOM_POTION, Item.Type.WISDOM_POTION);
+	}
+
+	public void testCastPotion_Vitality() throws Exception {
+		testCastPotion(Spell.Type.VITALITY_POTION, Item.Type.VITALITY_POTION);
+	}
+
+	public void testCastPotion_AntiDote() throws Exception {
+		testCastPotion(Spell.Type.ANTIDOTE_POTION, Item.Type.ANTIDOTE_POTION);
+	}
+
+	public void testCastPotion_Shield() throws Exception {
+		testCastPotion(Spell.Type.SHIELD_POTION, Item.Type.ANTI_MAGIC_POTION);
+	}
+
+	// --- //
 
 	public void testTorchSpell() throws Exception {
 		// Test the TORCH spell
@@ -75,7 +138,9 @@ public class SpellTest extends TestCase {
 		assertTrue(tiggy.getLight() > light);
 	}
 
-	public void testZoKathRaSpellEmptyHands() throws Exception {
+	// --- ZO KATH RA --- //
+
+	public void testZoKathRaSpell_EmptyHands() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		// Boost all the champion's skills to be able to cast any spell
@@ -115,7 +180,7 @@ public class SpellTest extends TestCase {
 		}
 	}
 
-	public void testZoKathRaSpellEmptyWeaponHand() throws Exception {
+	public void testZoKathRaSpell_EmptyWeaponHand() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		// Boost all the champion's skills to be able to cast any spell
@@ -146,7 +211,7 @@ public class SpellTest extends TestCase {
 		assertEquals(Item.Type.TORCH, shieldHand.getItem().getType());
 	}
 
-	public void testZoKathRaSpellEmptyShieldHand() throws Exception {
+	public void testZoKathRaSpell_EmptyShieldHand() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		// Boost all the champion's skills to be able to cast any spell
@@ -159,17 +224,18 @@ public class SpellTest extends TestCase {
 
 		final Hand shieldHand = tiggy.getBody().getShieldHand();
 
-		// Une seule main vide initialement
+		// Only one hand empty initially
 		assertFalse(weaponHand.isEmpty());
 		assertTrue(shieldHand.isEmpty());
 
 		tiggy.cast(PowerRune.LO, Spell.Type.ZO_KATH_RA);
+
 		final Spell spell = tiggy.castSpell();
 
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
 
-		// Les deux mains doivent �tre remplies
+		// Both hands must hold an item
 		assertFalse(weaponHand.isEmpty());
 		assertEquals(Item.Type.TORCH, weaponHand.getItem().getType());
 
@@ -177,14 +243,10 @@ public class SpellTest extends TestCase {
 		assertEquals(Item.Type.ZOKATHRA_SPELL, shieldHand.getItem().getType());
 	}
 
-	public void testZoKathRaSpellNoEmptyHand() throws Exception {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+	public void testZoKathRaSpell_NoEmptyHand() throws Exception {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		final Party party = new Party();
-		party.addChampion(tiggy);
-
-		// Booster le niveau du champion pour pouvoir lancer tous les sorts
+		// Boost all the champion's skills to be able to cast any spell
 		for (Skill skill : Skill.values()) {
 			tiggy.gainExperience(skill, 1000000);
 		}
@@ -195,7 +257,7 @@ public class SpellTest extends TestCase {
 		final Hand shieldHand = tiggy.getBody().getShieldHand();
 		shieldHand.putOn(new Torch());
 
-		// Aucune main vide initialement
+		// No empty hand initially
 		assertFalse(weaponHand.isEmpty());
 		assertFalse(shieldHand.isEmpty());
 
@@ -204,22 +266,20 @@ public class SpellTest extends TestCase {
 		try {
 			tiggy.castSpell();
 
-			fail();
+			fail("Casting ZO KATH RA with no empty hand should fail");
 		} catch (EmptyHandNeededException e) {
-			// Erreur attendue
+			// Expected error
 		}
 	}
 
+	// --- //
+
 	public void testLightSpell() throws Exception {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 		tiggy.getStats().getMana().maxValue(200);
 		tiggy.getStats().getMana().value(200);
 
-		final Party party = new Party();
-		party.addChampion(tiggy);
-
-		// --- Lancer le sort
+		// --- Cast the spell LIGHT
 		tiggy.cast(PowerRune.LO, Spell.Type.LIGHT);
 
 		assertEquals(0, tiggy.getSpells().getLight().value().intValue());
@@ -228,7 +288,6 @@ public class SpellTest extends TestCase {
 
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
-
 		assertTrue(tiggy.getSpells().getLight().value().intValue() > 0);
 	}
 

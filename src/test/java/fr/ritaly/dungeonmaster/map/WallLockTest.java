@@ -23,7 +23,7 @@ import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.actuator.TestActuator;
 import fr.ritaly.dungeonmaster.item.Item;
-import fr.ritaly.dungeonmaster.item.MiscItem;
+import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.item.Torch;
 
 public class WallLockTest extends TestCase {
@@ -64,31 +64,31 @@ public class WallLockTest extends TestCase {
 		assertFalse(actuator.isTriggered());
 		assertFalse(wallLock.isUnlocked());
 
-		// --- Tenter avec une clé du mauvais type
-		assertFalse(wallLock.unlock(new MiscItem(Item.Type.KEY_OF_B)));
+		// --- Tenter avec une clï¿½ du mauvais type
+		assertFalse(wallLock.unlock(ItemFactory.getFactory().newItem(Item.Type.KEY_OF_B)));
 		Clock.getInstance().tick(1);
 		assertFalse(actuator.isTriggered());
 		assertFalse(wallLock.isUnlocked());
 
-		// --- Tenter avec un objet qui n'est pas une clé
+		// --- Tenter avec un objet qui n'est pas une clï¿½
 		assertFalse(wallLock.unlock(new Torch()));
 		Clock.getInstance().tick(1);
 		assertFalse(actuator.isTriggered());
 		assertFalse(wallLock.isUnlocked());
 
-		// --- Tenter avec le bon type de clé
-		assertTrue(wallLock.unlock(new MiscItem(Item.Type.IRON_KEY)));
+		// --- Tenter avec le bon type de clï¿½
+		assertTrue(wallLock.unlock(ItemFactory.getFactory().newItem(Item.Type.IRON_KEY)));
 		Clock.getInstance().tick(1);
 		assertTrue(actuator.isTriggered());
 		assertTrue(wallLock.isUnlocked());
 
-		// --- On ne peut réutiliser une serrure déjà utilisée
-		assertFalse(wallLock.unlock(new MiscItem(Item.Type.IRON_KEY)));
+		// --- On ne peut rï¿½utiliser une serrure dï¿½jï¿½ utilisï¿½e
+		assertFalse(wallLock.unlock(ItemFactory.getFactory().newItem(Item.Type.IRON_KEY)));
 		Clock.getInstance().tick(1);
 		assertTrue(actuator.isTriggered());
 		assertTrue(wallLock.isUnlocked());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

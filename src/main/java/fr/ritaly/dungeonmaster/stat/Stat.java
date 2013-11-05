@@ -612,7 +612,8 @@ public final class Stat implements ChangeEventSource {
 		return builder.toString();
 	}
 
-	public Integer getPrevious() {
+	// Visibility package protected on purpose
+	Integer getPrevious() {
 		return previous;
 	}
 

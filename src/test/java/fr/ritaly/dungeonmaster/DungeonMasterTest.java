@@ -47,7 +47,7 @@ public class DungeonMasterTest extends TestCase {
 		Dungeon dungeon = new Dungeon();
 		dungeon.createLevel(1, 5, 5);
 
-		// --- Le donjon créé doit être valide
+		// --- Le donjon crï¿½ï¿½ doit ï¿½tre valide
 		dungeon.validate();
 	}
 
@@ -94,7 +94,7 @@ public class DungeonMasterTest extends TestCase {
 	}
 
 	/**
-	 * Test de déplacement d'un groupe dans le donjon.
+	 * Test de dï¿½placement d'un groupe dans le donjon.
 	 */
 	public void testPartyMoved() {
 		Dungeon dungeon = new Dungeon();
@@ -117,18 +117,18 @@ public class DungeonMasterTest extends TestCase {
 		assertEquals(initialPosition.towards(Direction.NORTH),
 				party.getPosition());
 
-		// --- Pas en arrière
+		// --- Pas en arriï¿½re
 		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 
 		assertEquals(initialPosition, party.getPosition());
 
-		// --- Pas à gauche
+		// --- Pas ï¿½ gauche
 		assertTrue(dungeon.moveParty(Move.LEFT, true, AudioClip.STEP));
 
 		assertEquals(initialPosition.towards(Direction.WEST),
 				party.getPosition());
 
-		// --- Pas à droite
+		// --- Pas ï¿½ droite
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 
 		assertEquals(initialPosition, party.getPosition());
@@ -179,7 +179,7 @@ public class DungeonMasterTest extends TestCase {
 	}
 
 	/**
-	 * Un mur doit empêcher le groupe de se déplacer.
+	 * Un mur doit empï¿½cher le groupe de se dï¿½placer.
 	 */
 	public void testPartyBlockedByWalls() {
 		// +---+---+---+
@@ -270,10 +270,6 @@ public class DungeonMasterTest extends TestCase {
 		assertEquals(partyPosition, party.getPosition());
 	}
 
-	public void testAntiMagicPotionCasting() throws Throwable {
-		fail("Not yet implemented");
-	}
-
 	public void testItemHandling() {
 		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
@@ -312,7 +308,7 @@ public class DungeonMasterTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		log.info("--- Running test " + getName() + " ---");
-		
+
 		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
@@ -352,7 +348,7 @@ public class DungeonMasterTest extends TestCase {
 	//
 	// Clock.getInstance().register(actuator);
 	//
-	// // --- Porte fermée
+	// // --- Porte fermï¿½e
 	// assertEquals(Door.State.CLOSED, door.getState());
 	//
 	// Clock.getInstance().tick(20);
@@ -367,7 +363,7 @@ public class DungeonMasterTest extends TestCase {
 	//
 	// Clock.getInstance().tick(20);
 	//
-	// // --- Porte fermée
+	// // --- Porte fermï¿½e
 	// assertEquals(Door.State.CLOSED, door.getState());
 	// }
 
@@ -407,7 +403,7 @@ public class DungeonMasterTest extends TestCase {
 	// FIXME testActuatorTriggeredWhenPushingDoorButton
 	// FIXME testActuatorTriggeredWhenUsingDoorLock
 	// FIXME Tester l'effet des sorts (FUL, Potions)
-	
+
 	public void testChampionsHurtWhenHittingConcreteWalls() {
 		// +---+---+---+
 		// | W | W | W |
@@ -424,17 +420,17 @@ public class DungeonMasterTest extends TestCase {
 				Name.TIGGY);
 		tiggy.getStats().getHealth().maxValue(500);
 		tiggy.getStats().getHealth().value(500);
-		
+
 		final Champion daroou = ChampionFactory.getFactory().newChampion(
 				Name.DAROOU);
 		daroou.getStats().getHealth().maxValue(500);
 		daroou.getStats().getHealth().value(500);
-		
+
 		final Champion halk = ChampionFactory.getFactory().newChampion(
 				Name.HALK);
 		halk.getStats().getHealth().maxValue(500);
 		halk.getStats().getHealth().value(500);
-		
+
 		final Champion wuuf = ChampionFactory.getFactory().newChampion(
 				Name.WUUF);
 		wuuf.getStats().getHealth().maxValue(500);
@@ -451,59 +447,59 @@ public class DungeonMasterTest extends TestCase {
 		dungeon.setParty(new Position(1, 1, 1), party);
 
 		assertEquals(Direction.NORTH, party.getLookDirection());
-		
-		// --- FORWARD. Seuls deux héros sont blessés
+
+		// --- FORWARD. Seuls deux hï¿½ros sont blessï¿½s
 		final int tiggyHealth1 = tiggy.getStats().getHealth().value();
 		final int daroouHealth1 = daroou.getStats().getHealth().value();
 		final int halkHealth1 = halk.getStats().getHealth().value();
 		final int wuufHealth1 = wuuf.getStats().getHealth().value();
-		
+
 		assertFalse(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
-		
+
 		assertTrue(tiggy.getStats().getHealth().value() < tiggyHealth1);
 		assertTrue(daroou.getStats().getHealth().value() < daroouHealth1);
 		assertEquals(halkHealth1, halk.getStats().getHealth().value().intValue());
 		assertEquals(wuufHealth1, wuuf.getStats().getHealth().value().intValue());
-		
-		// --- BACKWARD. Seuls deux héros sont blessés
+
+		// --- BACKWARD. Seuls deux hï¿½ros sont blessï¿½s
 		final int tiggyHealth2 = tiggy.getStats().getHealth().value();
 		final int daroouHealth2 = daroou.getStats().getHealth().value();
 		final int halkHealth2 = halk.getStats().getHealth().value();
 		final int wuufHealth2 = wuuf.getStats().getHealth().value();
-		
+
 		assertFalse(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
-		
+
 		assertEquals(tiggyHealth2, tiggy.getStats().getHealth().value().intValue());
 		assertEquals(daroouHealth2, daroou.getStats().getHealth().value().intValue());
 		assertTrue(halk.getStats().getHealth().value() < halkHealth2);
 		assertTrue(wuuf.getStats().getHealth().value() < wuufHealth2);
-		
-		// --- LEFT. Seuls deux héros sont blessés
+
+		// --- LEFT. Seuls deux hï¿½ros sont blessï¿½s
 		final int tiggyHealth3 = tiggy.getStats().getHealth().value();
 		final int daroouHealth3 = daroou.getStats().getHealth().value();
 		final int halkHealth3 = halk.getStats().getHealth().value();
 		final int wuufHealth3 = wuuf.getStats().getHealth().value();
-		
+
 		assertFalse(dungeon.moveParty(Move.LEFT, true, AudioClip.STEP));
-		
+
 		assertTrue(tiggy.getStats().getHealth().value() < tiggyHealth3);
 		assertEquals(daroouHealth3, daroou.getStats().getHealth().value().intValue());
 		assertTrue(halk.getStats().getHealth().value() < halkHealth3);
 		assertEquals(wuufHealth3, wuuf.getStats().getHealth().value().intValue());
 
-		// --- RIGHT. Seuls deux héros sont blessés
+		// --- RIGHT. Seuls deux hï¿½ros sont blessï¿½s
 		final int tiggyHealth4 = tiggy.getStats().getHealth().value();
 		final int daroouHealth4 = daroou.getStats().getHealth().value();
 		final int halkHealth4 = halk.getStats().getHealth().value();
 		final int wuufHealth4 = wuuf.getStats().getHealth().value();
-		
+
 		assertFalse(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
-		
+
 		assertEquals(tiggyHealth4, tiggy.getStats().getHealth().value().intValue());
 		assertTrue(daroou.getStats().getHealth().value() < daroouHealth4);
 		assertEquals(halkHealth4, halk.getStats().getHealth().value().intValue());
 		assertTrue(wuuf.getStats().getHealth().value() < wuufHealth4);
 	}
-	
-	// FIXME Implémenter le nombre de charges par item + utilisation limitée
+
+	// FIXME Implï¿½menter le nombre de charges par item + utilisation limitï¿½e
 }

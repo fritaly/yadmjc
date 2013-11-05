@@ -43,7 +43,6 @@ public class StatTest extends TestCase {
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 0);
-		assertTrue(stat.getPrevious() == 0);
 	}
 
 	public void testStatStringInteger() {
@@ -51,7 +50,6 @@ public class StatTest extends TestCase {
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 10);
-		assertTrue(stat.getPrevious() == 10);
 	}
 
 	public void testStatStringIntegerIntegerInteger() {
@@ -59,7 +57,6 @@ public class StatTest extends TestCase {
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 10);
-		assertTrue(stat.getPrevious() == 10);
 	}
 
 	public void testStatStringIntegerInteger() {
@@ -67,7 +64,6 @@ public class StatTest extends TestCase {
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 10);
-		assertTrue(stat.getPrevious() == 10);
 	}
 
 	public void testAddChangeListener() {
@@ -108,7 +104,7 @@ public class StatTest extends TestCase {
 
 		assertTrue(stat.value() == 20);
 
-		// Il ne faut pas dépasser la valeur max définie
+		// Il ne faut pas dï¿½passer la valeur max dï¿½finie
 		stat.inc(20);
 
 		assertTrue(stat.value() == 30);
@@ -124,7 +120,7 @@ public class StatTest extends TestCase {
 
 		assertTrue(stat.value() == 0);
 
-		// Il ne faut pas dépasser la valeur min définie
+		// Il ne faut pas dï¿½passer la valeur min dï¿½finie
 		stat.dec(20);
 
 		assertTrue(stat.value() == 0);
@@ -140,12 +136,12 @@ public class StatTest extends TestCase {
 
 		assertTrue(stat.value() == 20);
 
-		// Il ne faut pas dépasser la valeur max définie
+		// Il ne faut pas dï¿½passer la valeur max dï¿½finie
 		stat.value(40);
 
 		assertTrue(stat.value() == 30);
 
-		// Il ne faut pas dépasser la valeur min définie
+		// Il ne faut pas dï¿½passer la valeur min dï¿½finie
 		stat.value(-10);
 
 		assertTrue(stat.value() == 0);
@@ -162,23 +158,20 @@ public class StatTest extends TestCase {
 
 		assertEquals("Name", stat.getName());
 		assertTrue(stat.value() == 10);
-		assertTrue(stat.getPrevious() == 10);
 
 		stat.value(20);
 
 		assertTrue(stat.value() == 20);
-		assertTrue(stat.getPrevious() == 10);
 
 		stat.value(30);
 
 		assertTrue(stat.value() == 30);
-		assertTrue(stat.getPrevious() == 20);
 	}
-	
+
 	public void testStatBoostWearsOff() {
 		final Stat stat = new Stat("Test", "Stat", 1);
 
-		// --- Vérifier l'état initial
+		// --- Vï¿½rifier l'ï¿½tat initial
 		assertEquals(1, stat.actualValue().intValue());
 		assertEquals(1, stat.value().intValue());
 		assertEquals(0, stat.boostValue().intValue());
@@ -203,7 +196,7 @@ public class StatTest extends TestCase {
 		assertEquals(1, stat.value().intValue());
 		assertEquals(0, stat.boostValue().intValue()); // <---
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

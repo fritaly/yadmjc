@@ -176,7 +176,7 @@ public final class Potion extends Item {
 		}
 
 		// Consuming a potion "creates" an empty flask
-		return new EmptyFlask();
+		return ItemFactory.getFactory().newItem(Item.Type.EMPTY_FLASK);
 	}
 
 	/**

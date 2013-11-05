@@ -22,8 +22,8 @@ import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.actuator.TestActuator;
-import fr.ritaly.dungeonmaster.item.Cloth;
 import fr.ritaly.dungeonmaster.item.Item;
+import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.item.Torch;
 
 public class AlcoveTest extends TestCase {
@@ -62,19 +62,19 @@ public class AlcoveTest extends TestCase {
 		// --- Situation initiale
 		assertFalse(actuator.isTriggered());
 
-		// --- Déposer un objet dans l'alcove
+		// --- Dï¿½poser un objet dans l'alcove
 		alcove.dropItem(new Torch(), Direction.NORTH);
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 		actuator.reset();
 
-		// --- Déposer un second objet ne doit pas déclencher l'actuator !!
+		// --- Dï¿½poser un second objet ne doit pas dï¿½clencher l'actuator !!
 		assertFalse(actuator.isTriggered());
 		alcove.dropItem(new Torch(), Direction.NORTH);
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 	}
-	
+
 	public void testActuatorTriggeredWhenItemOfGivenTypeDropped() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -102,31 +102,31 @@ public class AlcoveTest extends TestCase {
 		// --- Situation initiale
 		assertFalse(actuator.isTriggered());
 
-		// --- Déposer un objet du mauvais type dans l'alcove
+		// --- Dï¿½poser un objet du mauvais type dans l'alcove
 		alcove.dropItem(new Torch(), Direction.NORTH);
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 		actuator.reset();
 
-		// --- Récupérer l'objet
+		// --- Rï¿½cupï¿½rer l'objet
 		assertNotNull(alcove.pickItem(Direction.NORTH));
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 		actuator.reset();
 
-		// --- Déposer un objet du bon type dans l'alcove
-		alcove.dropItem(new Cloth(Item.Type.PLATE_OF_RA), Direction.NORTH);
+		// --- Dï¿½poser un objet du bon type dans l'alcove
+		alcove.dropItem(ItemFactory.getFactory().newItem(Item.Type.PLATE_OF_RA), Direction.NORTH);
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 		actuator.reset();
 
-		// --- Récupérer l'objet
+		// --- Rï¿½cupï¿½rer l'objet
 		assertNotNull(alcove.pickItem(Direction.NORTH));
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 		actuator.reset();
 	}
-	
+
 	public void testActuatorTriggeredWhenItemPickedUp() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -163,20 +163,20 @@ public class AlcoveTest extends TestCase {
 		actuator.reset();
 		assertFalse(actuator.isTriggered());
 
-		// --- Prendre un objet qui n'est pas le dernier ne doit pas déclencher
+		// --- Prendre un objet qui n'est pas le dernier ne doit pas dï¿½clencher
 		// l'actuator !!
 		assertEquals(torch2, alcove.pickItem(Direction.NORTH));
 		assertEquals(1, level1.getElement(2, 2).getItemCount());
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 
-		// --- Prendre le dernier objet de l'alcove déclenche l'actuator
+		// --- Prendre le dernier objet de l'alcove dï¿½clenche l'actuator
 		assertEquals(torch1, alcove.pickItem(Direction.NORTH));
 		assertEquals(0, level1.getElement(2, 2).getItemCount());
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

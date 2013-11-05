@@ -27,9 +27,9 @@ import fr.ritaly.dungeonmaster.event.DirectionChangeListener;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class Compass extends MiscItem implements DirectionChangeListener {
+final class Compass extends MiscItem implements DirectionChangeListener {
 
-	public Compass() {
+	Compass() {
 		super(Type.COMPASS);
 	}
 

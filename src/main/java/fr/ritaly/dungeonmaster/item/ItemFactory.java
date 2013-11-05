@@ -18,8 +18,6 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
-import java.util.Arrays;
-
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.item.Item.Category;
@@ -51,41 +49,49 @@ public class ItemFactory {
 	public Item newItem(final Item.Type type) {
 		Validate.notNull(type, "The given item type is null");
 
-		if (type.getCategory().equals(Category.POTION)) {
+		final Category category = type.getCategory();
+
+		if (category.equals(Category.POTION)) {
+			if (Item.Type.EMPTY_FLASK.equals(type)) {
+				// There's a dedicated class for the empty flask
+				return new MiscItem(Item.Type.EMPTY_FLASK);
+			}
+
 			return new Potion(type);
 		}
-		if (Item.Type.TORCH.equals(type)) {
-			// Special use case to be handled before the WEAPON category
-			return new Torch();
-		}
-		if (type.getCategory().equals(Category.WEAPON)) {
+		if (category.equals(Category.WEAPON)) {
+			if (Item.Type.TORCH.equals(type)) {
+				// There's a dedicated class for the torch
+				return new Torch();
+			}
+
 			return new Weapon(type);
 		}
-		if (type.getCategory().equals(Category.CLOTH)) {
+		if (category.equals(Category.CLOTH)) {
 			return new Cloth(type);
 		}
 		if (Category.getFoodItems().contains(type)) {
 			// Special use case to be handled before the MISC category
 			return new Food(type);
 		}
-		if (Item.Type.COMPASS.equals(type)) {
-			// Special use case to be handled before the MISC category
-			return new Compass();
-		} else if (Item.Type.BONES.equals(type)) {
-			// Special use case to be handled before the MISC category
-			return new Bones();
-		}
-		if (type.getCategory().equals(Category.MISCELLANEOUS)) {
+		if (category.equals(Category.MISCELLANEOUS)) {
+			if (Item.Type.COMPASS.equals(type)) {
+				// There's a dedicated class for the compass
+				return new Compass();
+			} else if (Item.Type.BONES.equals(type)) {
+				// There's a dedicated class for the bones
+				return new Bones();
+			} else if (Item.Type.SCROLL.equals(type)) {
+				// There's a dedicated class for the scroll
+				return new Scroll();
+			} else if (Item.Type.CHEST.equals(type)) {
+				// There's a dedicated class for the chest
+				return new Chest();
+			}
+
 			return new MiscItem(type);
 		}
 
-		switch (type) {
-		case SCROLL:
-			return new Scroll(Arrays.asList(""));
-		case CHEST:
-			return new Chest();
-		default:
-			throw new UnsupportedOperationException("Unsupporte item type " + type);
-		}
+		throw new UnsupportedOperationException("Unsupporte item type " + type);
 	}
 }

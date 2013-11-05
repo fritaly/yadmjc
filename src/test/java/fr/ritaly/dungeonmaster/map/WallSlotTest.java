@@ -23,7 +23,7 @@ import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.actuator.TestActuator;
 import fr.ritaly.dungeonmaster.item.Item;
-import fr.ritaly.dungeonmaster.item.MiscItem;
+import fr.ritaly.dungeonmaster.item.ItemFactory;
 
 public class WallSlotTest extends TestCase {
 
@@ -49,13 +49,13 @@ public class WallSlotTest extends TestCase {
 
 
 		final TestActuator actuator = new TestActuator();
-		
+
 		final WallSlot wallSlot = new WallSlot(Direction.EAST,
 				Item.Type.GOLD_COIN, 2);
 		wallSlot.setActuator(actuator);
-		
+
 		final Dungeon dungeon = new Dungeon();
-		
+
 		final Level level1 = dungeon.createLevel(1, 5, 5);
 		level1.setElement(2, 2, wallSlot);
 
@@ -64,30 +64,30 @@ public class WallSlotTest extends TestCase {
 		assertFalse(wallSlot.isUsed());
 
 		// --- Tenter avec un objet du mauvais type
-		assertFalse(wallSlot.unlock(new MiscItem(Item.Type.KEY_OF_B)));
+		assertFalse(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.KEY_OF_B)));
 		Clock.getInstance().tick(1);
 		assertFalse(actuator.isTriggered());
 		assertFalse(wallSlot.isUsed());
 
-		// --- Tenter avec le bon type d'objet (1ère fois)
-		assertTrue(wallSlot.unlock(new MiscItem(Item.Type.GOLD_COIN)));
+		// --- Tenter avec le bon type d'objet (1ï¿½re fois)
+		assertTrue(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.GOLD_COIN)));
 		Clock.getInstance().tick(1);
-		assertTrue(actuator.isTriggered()); // <-- Déclenchement 1x
-		assertFalse(wallSlot.isUsed()); // <-- Pas encore utilisé
-		
-		// --- Tenter avec le bon type d'objet (2nde fois)
-		assertTrue(wallSlot.unlock(new MiscItem(Item.Type.GOLD_COIN)));
-		Clock.getInstance().tick(1);
-		assertTrue(actuator.isTriggered()); // <-- Déclenchement 2x
-		assertTrue(wallSlot.isUsed()); // <-- Utilisé
+		assertTrue(actuator.isTriggered()); // <-- Dï¿½clenchement 1x
+		assertFalse(wallSlot.isUsed()); // <-- Pas encore utilisï¿½
 
-		// --- On ne peut réutiliser une fente déjà utilisée
-		assertFalse(wallSlot.unlock(new MiscItem(Item.Type.GOLD_COIN)));
+		// --- Tenter avec le bon type d'objet (2nde fois)
+		assertTrue(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.GOLD_COIN)));
+		Clock.getInstance().tick(1);
+		assertTrue(actuator.isTriggered()); // <-- Dï¿½clenchement 2x
+		assertTrue(wallSlot.isUsed()); // <-- Utilisï¿½
+
+		// --- On ne peut rï¿½utiliser une fente dï¿½jï¿½ utilisï¿½e
+		assertFalse(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.GOLD_COIN)));
 		Clock.getInstance().tick(1);
 		assertTrue(actuator.isTriggered());
 		assertTrue(wallSlot.isUsed());
 	}
-	
+
 	public void testActuatorTriggeredWhenUsingWallSlot() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -118,24 +118,24 @@ public class WallSlotTest extends TestCase {
 		assertFalse(wallSlot.isUsed());
 
 		// --- Tenter avec un objet du mauvais type
-		assertFalse(wallSlot.unlock(new MiscItem(Item.Type.KEY_OF_B)));
+		assertFalse(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.KEY_OF_B)));
 		Clock.getInstance().tick(1);
 		assertFalse(actuator.isTriggered());
 		assertFalse(wallSlot.isUsed());
 
 		// --- Tenter avec le bon type d'objet
-		assertTrue(wallSlot.unlock(new MiscItem(Item.Type.GOLD_COIN)));
+		assertTrue(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.GOLD_COIN)));
 		Clock.getInstance().tick(1);
 		assertTrue(actuator.isTriggered());
 		assertTrue(wallSlot.isUsed());
 
-		// --- On ne peut réutiliser une fente déjà utilisée
-		assertFalse(wallSlot.unlock(new MiscItem(Item.Type.GOLD_COIN)));
+		// --- On ne peut rï¿½utiliser une fente dï¿½jï¿½ utilisï¿½e
+		assertFalse(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.GOLD_COIN)));
 		Clock.getInstance().tick(1);
 		assertTrue(actuator.isTriggered());
 		assertTrue(wallSlot.isUsed());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

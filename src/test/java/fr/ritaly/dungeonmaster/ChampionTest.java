@@ -20,15 +20,14 @@ package fr.ritaly.dungeonmaster;
 
 import java.util.List;
 
+import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.champion.Champion;
+import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Experience;
 import fr.ritaly.dungeonmaster.champion.Party;
-import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.body.Body;
 import fr.ritaly.dungeonmaster.item.Bones;
-import fr.ritaly.dungeonmaster.item.EmptyFlask;
-import fr.ritaly.dungeonmaster.item.Food;
 import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.magic.AlignmentRune;
@@ -44,7 +43,6 @@ import fr.ritaly.dungeonmaster.magic.SkillTooLowException;
 import fr.ritaly.dungeonmaster.magic.Spell;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
-import junit.framework.TestCase;
 
 public class ChampionTest extends TestCase {
 
@@ -82,10 +80,10 @@ public class ChampionTest extends TestCase {
 			fail();
 		}
 
-		// --- Main qui tient une fiole vide --> sort doit réussir
-		tiggy.getBody().getWeaponHand().putOn(new EmptyFlask());
+		// --- Main qui tient une fiole vide --> sort doit rï¿½ussir
+		tiggy.getBody().getWeaponHand().putOn(ItemFactory.getFactory().newItem(Item.Type.EMPTY_FLASK));
 
-		// Les runes ont été conservés de l'invocation précédente
+		// Les runes ont ï¿½tï¿½ conservï¿½s de l'invocation prï¿½cï¿½dente
 		tiggy.castSpell();
 
 		// La main doit contenir une fiole remplie
@@ -93,7 +91,7 @@ public class ChampionTest extends TestCase {
 		assertEquals(itemType, tiggy.getBody().getWeaponHand().getItem()
 				.getType());
 	}
-	
+
 	public void testDexterityPotionCasting() throws Throwable {
 		testPotionCasting(Spell.Type.DEXTERITY_POTION,
 				Item.Type.DEXTERITY_POTION);
@@ -114,7 +112,7 @@ public class ChampionTest extends TestCase {
 	public void testStaminaPotionCasting() throws Throwable {
 		testPotionCasting(Spell.Type.STAMINA_POTION, Item.Type.STAMINA_POTION);
 	}
-	
+
 	public void testManaPotionCasting() throws Throwable {
 		testPotionCasting(Spell.Type.MANA_POTION, Item.Type.MANA_POTION);
 	}
@@ -122,11 +120,11 @@ public class ChampionTest extends TestCase {
 	public void testHealthPotionCasting() throws Throwable {
 		testPotionCasting(Spell.Type.HEALTH_POTION, Item.Type.HEALTH_POTION);
 	}
-	
+
 	public void testCurePoisonPotionCasting() throws Throwable {
 		testPotionCasting(Spell.Type.ANTIDOTE_POTION, Item.Type.ANTIDOTE_POTION);
 	}
-	
+
 	public void testSpellCasting() throws Exception {
 		Dungeon dungeon = new Dungeon();
 		dungeon.createLevel(1, 10, 10);
@@ -218,7 +216,7 @@ public class ChampionTest extends TestCase {
 		assertEquals(Spell.Type.ZO_KATH_RA, spell.getType());
 		assertTrue(experience.getPoints() > initialXp);
 	}
-	
+
 	public void testChampionDeath() {
 		// +---+---+---+
 		// | W | W | W |
@@ -240,7 +238,7 @@ public class ChampionTest extends TestCase {
 
 		dungeon.setParty(1, 1, 1, party);
 
-		// Equiper tiggy avec différents objets (x7)
+		// Equiper tiggy avec diffï¿½rents objets (x7)
 		final ItemFactory factory = ItemFactory.getFactory();
 
 		final Item torch = factory.newItem(Item.Type.TORCH);
@@ -315,14 +313,14 @@ public class ChampionTest extends TestCase {
 
 		assertEquals(tiggy, bones.getChampion());
 	}
-	
+
 	public void testChampionNotSkilledEnoughToCastSpell() throws Throwable {
 		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		Party party = new Party();
 		party.addChampion(tiggy);
 
-		// --- Requiert niveau 5 de compétence #15
+		// --- Requiert niveau 5 de compï¿½tence #15
 		tiggy.cast(PowerRune.LO, Spell.Type.SHIELD_POTION);
 
 		try {
@@ -332,27 +330,27 @@ public class ChampionTest extends TestCase {
 			// Erreur attendue
 		}
 	}
-	
+
 	public void testChampionPoisonedWhenEatingPoisonedFood() {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(
 				Name.TIGGY);
-		
+
 		// Test avec pomme saine
-		final Food apple = new Food(Item.Type.APPLE);
-		
+		final Item apple = ItemFactory.getFactory().newItem(Item.Type.APPLE);
+
 		assertFalse(tiggy.isPoisoned());
 		assertNull(tiggy.consume(apple));
 		assertFalse(tiggy.isPoisoned());
 
-		// Test avec pomme empoisonnée
-		final Food poisonedApple = new Food(Item.Type.APPLE);
+		// Test avec pomme empoisonnï¿½e
+		final Item poisonedApple = ItemFactory.getFactory().newItem(Item.Type.APPLE);
 		poisonedApple.setPoisonStrength(PowerRune.ON);
 
 		assertFalse(tiggy.isPoisoned());
 		assertNull(tiggy.consume(poisonedApple));
 		assertTrue(tiggy.isPoisoned());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

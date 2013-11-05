@@ -69,19 +69,9 @@ public abstract class Item implements ChangeEventSource {
 	 */
 	public static enum Category {
 		/**
-		 * The scroll category contains only 1 item type (scroll).
-		 */
-		SCROLL(EnumSet.of(Type.SCROLL)),
-
-		/**
-		 * The container category contains only 1 item type (chest).
-		 */
-		CONTAINER(EnumSet.of(Type.CHEST)),
-
-		/**
 		 * The category of potion items.
 		 */
-		POTION(EnumSet.range(Type.MON_POTION, Type.EMPTY_FLASK)),
+		POTION(EnumSet.range(Type.MON_POTION, Type.FUL_BOMB)),
 
 		/**
 		 * The category of weapon items.
@@ -96,7 +86,7 @@ public abstract class Item implements ChangeEventSource {
 		/**
 		 * The category of other miscellaneous items.
 		 */
-		MISCELLANEOUS(EnumSet.range(Type.COMPASS, Type.ZOKATHRA_SPELL));
+		MISCELLANEOUS(EnumSet.range(Type.EMPTY_FLASK, Type.ZOKATHRA_SPELL));
 
 		// TODO This is a sub-type of MISCELLANEOUS. Make this more consistent
 		private static final EnumSet<Item.Type> FOOD_TYPES = EnumSet.range(Item.Type.APPLE, Item.Type.DRAGON_STEAK);
@@ -147,11 +137,6 @@ public abstract class Item implements ChangeEventSource {
 	 * properties</a>
 	 */
 	public static enum Type {
-		SCROLL(0.5f, Combo.COMBO_0, CarryLocations.CHEST_POUCH),
-
-		// --- Chest --- //
-
-		CHEST(5.0f, Combo.COMBO_0, CarryLocations.HANDS_BACKPACK),
 
 		// --- Potions --- //
 
@@ -234,10 +219,6 @@ public abstract class Item implements ChangeEventSource {
 		FUL_BOMB(
 			0.3f,
 			Combo.COMBO_42,
-			CarryLocations.CHEST_POUCH),
-		EMPTY_FLASK(
-			0.1f,
-			Combo.COMBO_0,
 			CarryLocations.CHEST_POUCH),
 
 		// --- Weapons --- //
@@ -525,7 +506,7 @@ public abstract class Item implements ChangeEventSource {
 
 		// --- Clothes --- //
 
-			CAPE(
+		CAPE(
 			0.3f,
 			Combo.COMBO_0,
 			CarryLocations.CHEST_NECK_TORSO),
@@ -820,6 +801,9 @@ public abstract class Item implements ChangeEventSource {
 
 		// --- Miscellaneous --- //
 
+		EMPTY_FLASK(0.1f, Combo.COMBO_0, CarryLocations.CHEST_POUCH),
+		CHEST(5.0f, Combo.COMBO_0, CarryLocations.HANDS_BACKPACK),
+		SCROLL(0.5f, Combo.COMBO_0, CarryLocations.CHEST_POUCH),
 		COMPASS(
 			0.1f,
 			Combo.COMBO_0,
@@ -1679,12 +1663,12 @@ public abstract class Item implements ChangeEventSource {
 
 		if (curse == null) {
 			// Create the curse only when strictly necessary
-			curse = new Curse();
+			curse = new Curse(this);
 		}
 
 		final boolean wasActive = curse.isActive();
 
-		curse.curse(powerRune.getPowerLevel());
+		curse.curse(powerRune);
 
 		if (!wasActive && curse.isActive()) {
 			// When holding a cursed item, the champion's luck decreases by 3 points
@@ -1913,7 +1897,7 @@ public abstract class Item implements ChangeEventSource {
 
 	@Override
 	public String toString() {
-		return String.format("%s[%s]", getType().name(), id);
+		return String.format("%s#%d", getType().name(), id);
 	}
 
 	/**

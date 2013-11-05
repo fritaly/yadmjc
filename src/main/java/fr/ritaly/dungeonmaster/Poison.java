@@ -41,6 +41,9 @@ public class Poison implements ClockListener {
 	 */
 	private final Temporizer temporizer = new Temporizer("Poison", 10 * Clock.ONE_SECOND);
 
+	public Poison() {
+	}
+
 	/**
 	 * Tells whether the poison is still active.
 	 *

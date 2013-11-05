@@ -27,9 +27,9 @@ import fr.ritaly.dungeonmaster.champion.body.BodyPart;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public class MiscItem extends Item {
+class MiscItem extends Item {
 
-	public MiscItem(Type type) {
+	MiscItem(Type type) {
 		super(type);
 
 		Validate.isTrue(Item.Category.MISCELLANEOUS.getTypes().contains(type) && !isFood(), "The given item type " + type
@@ -87,6 +87,7 @@ public class MiscItem extends Item {
 		case BLUE_GEM:
 		case ORANGE_GEM:
 		case GREEN_GEM:
+		case EMPTY_FLASK:
 			return null;
 
 		default:

@@ -34,84 +34,134 @@ import fr.ritaly.dungeonmaster.map.Element;
 
 /**
  * Abstraction of {@link Projectile}.
- * 
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 abstract class AbstractProjectile implements Projectile {
 
+	/**
+	 * Enumerates the possible states of a projectile. The state transitions
+	 * allowed are {@link #FLYING} -> {@link #EXPLODING} -> {@link #EXPLODED}.
+	 *
+	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
+	 */
 	private static enum State {
+		/**
+		 * State when the projectile is moving.
+		 */
 		FLYING,
+
+		/**
+		 * When the projectile hits an obstacle, a creature, a champion or
+		 * disappears, the state changes from {@link #FLYING} to
+		 * {@link #EXPLODING}. The end animation starts.
+		 */
 		EXPLODING,
+
+		/**
+		 * The state of a projectile after the end animation. That's the
+		 * terminal state.
+		 */
 		EXPLODED;
 
+		/**
+		 * Tells whether the transition from this initial state to the given
+		 * target state is allowed.
+		 *
+		 * @param state
+		 *            the target state of the transition to validate. Can't be
+		 *            null.
+		 * @return whether the transition from this initial state to the given
+		 *         target state is allowed.
+		 */
 		private boolean isTransitionAllowed(State state) {
+			Validate.notNull(state, "The given state is null");
+
 			switch (this) {
 			case FLYING:
 				return EXPLODING.equals(state);
 			case EXPLODING:
 				return EXPLODED.equals(state);
 			default:
-				throw new UnsupportedOperationException();
+				throw new UnsupportedOperationException(String.format("The transition from %s to %s is forbidden", this, state));
 			}
 		}
 	}
 
 	private final Log log = LogFactory.getLog(this.getClass());
 
+	/**
+	 * Sequence used for generating unique identifiers for projectiles.
+	 */
 	private static final AtomicInteger SEQUENCE = new AtomicInteger(0);
 
+	/**
+	 * The projectile's unique id.
+	 */
 	private final int id = SEQUENCE.incrementAndGet();
 
+	/**
+	 * The temporizer that manages the move of projectiles.
+	 */
 	private final Temporizer temporizer = new Temporizer("Projectile", 3);
 
+	/**
+	 * The direction this projectile is currently flying towards.
+	 */
 	private Direction direction = Direction.NORTH;
 
+	/**
+	 * The projectile's current position.
+	 */
 	private Position position;
 
+	/**
+	 * The projectile's current sub-cell.
+	 */
 	private SubCell subCell;
 
+	/**
+	 * The projectile's current state. Never null.
+	 */
 	private State state = State.FLYING;
 
 	/**
-	 * La distance restante � parcourir par le projectile avant de dispara�tre
+	 * The remaining fly distance before the projectile explodes.
 	 */
 	private int range;
 
+	/**
+	 * The dungeon where the projectile is.
+	 */
 	protected final Dungeon dungeon;
 
-	public AbstractProjectile(final Dungeon dungeon, final Position position,
-			final Direction direction, final SubCell subCell, int range) {
+	public AbstractProjectile(final Dungeon dungeon, final Position position, final Direction direction, final SubCell subCell,
+			int range) {
 
 		Validate.notNull(dungeon, "The given dungeon is null");
 		Validate.notNull(position, "The given position is null");
 		Validate.notNull(direction, "The given direction is null");
 		Validate.notNull(subCell, "The given sub-cell is null");
-		Validate.isTrue(range > 0, "The given range " + range
-				+ " must be positive");
+		Validate.isTrue(range > 0, "The given range " + range + " must be positive");
 
 		this.dungeon = dungeon;
 
-		// M�moriser la position de d�part du projectile
+		// Store the start position, direction and sub-cell
 		this.position = position;
-
-		// ... sa direction
 		this.direction = direction;
-
-		// ... et son emplacement
 		this.subCell = subCell;
 
-		// On m�morise la distance restante � parcourir par le projectile avant
-		// de dispara�tre
+		// Store the remaining distance to travel
 		this.range = range;
 
-		// Installer le projectile dans le donjon
+		// Install the projectile in the dungeon
 		this.dungeon.getElement(position).projectileArrived(this, subCell);
 
-		// Enregistrer le projectile
+		// Listen to clock ticks (to animate the projectile)
 		Clock.getInstance().register(this);
 
 		if (log.isDebugEnabled()) {
-			log.debug(getId() + " created at " + position);
+			log.debug(String.format("%s created at %s", getId(), position));
 		}
 	}
 
@@ -126,8 +176,7 @@ abstract class AbstractProjectile implements Projectile {
 
 		if (!this.direction.equals(direction)) {
 			if (log.isDebugEnabled()) {
-				log.debug(getId() + ".Direction: " + this.direction + " -> "
-						+ direction);
+				log.debug(String.format("%s.Direction: %s -> %s", getId(), this.direction, direction));
 			}
 
 			this.direction = direction;
@@ -139,6 +188,7 @@ abstract class AbstractProjectile implements Projectile {
 		return position;
 	}
 
+	@Override
 	public int getRange() {
 		return this.range;
 	}
@@ -147,60 +197,60 @@ abstract class AbstractProjectile implements Projectile {
 		Validate.notNull(state, "The given state is null");
 
 		if (this.state != state) {
-			// On v�rifie que la transition est autoris�e
+			// Ensure the transition is allowed
 			if (!this.state.isTransitionAllowed(state)) {
-				throw new IllegalArgumentException("Transition from "
-						+ this.state + " to " + state + " is forbidden");
+				throw new IllegalArgumentException("Transition from " + this.state + " to " + state + " is forbidden");
 			}
 
 			if (log.isDebugEnabled()) {
-				log.debug(getId() + ".State: " + this.state + " -> " + state);
+				log.debug(String.format("%s.State: %s -> %s", getId(), this.state, state));
 			}
 
-			// FIXME Tester projectile dans un t�l�porteur
-			// FIXME Tester projectile dans un mur
-			// FIXME Tester projectile qui "meurt"
+			// FIXME Test a projectile entering a teleport
+			// FIXME Test a projectile hitting a wall
+			// FIXME Test a projectile that dies
 			this.state = state;
 		}
 	}
 
+	@Override
 	public String getId() {
-		return getClass().getSimpleName() + "[" + id + "]";
+		return String.format("%s[%s]", getClass().getSimpleName(), id);
 	}
 
 	@Override
 	public boolean clockTicked() {
 		if (temporizer.trigger()) {
 			if (log.isDebugEnabled()) {
-				log.debug("Moving " + getId() + " ...");
+				log.debug(String.format("Moving %s ...", getId()));
 			}
+
+			// The door is a special element because contrary to other elements
+			// when hit by a projectile, the projectile explodes on the door and
+			// possibly explodes it. For others elements, the projectile
+			// explodes next to the hit element
 
 			switch (state) {
 			case FLYING: {
-				// Le projectile doit-il exploser car il est situ� sur une porte
-				// ferm�e ?
+				// Should the projectile explode because it's hitting a closed
+				// door ?
 				final Element currentElement = dungeon.getElement(position);
 
-				if (currentElement.getType().equals(Element.Type.DOOR)
-						&& !currentElement.isTraversableByProjectile()) {
-
-					// C'est une porte non traversable par le projectile,
-					// celui-ci explose
+				if (currentElement.getType().equals(Element.Type.DOOR) && !currentElement.isTraversableByProjectile()) {
+					// It's a non-traversable door, the projectile explodes
 					setState(State.EXPLODING);
 
 					if (log.isDebugEnabled()) {
-						log.debug(getId() + " is about to explode in "
-								+ currentElement.getId());
+						log.debug(String.format("%s is about to explode in %s", getId(), currentElement.getId()));
 					}
 
 					return true;
 				}
 
-				// Le projectile "avance". Change-t-il de position ?
-				final boolean changesPosition = subCell
-						.changesPosition(direction);
+				// The projectile moves, does the position change ?
+				final boolean changesPosition = subCell.changesPosition(direction);
 
-				// Futur emplacement ?
+				// What's the next position ?
 				final Position targetPosition;
 
 				if (changesPosition) {
@@ -209,47 +259,37 @@ abstract class AbstractProjectile implements Projectile {
 					targetPosition = position;
 				}
 
-				// Subcell cible ?
+				// What's the next sub-cell ?
 				final SubCell targetSubCell = subCell.towards(direction);
 
-				final Element targetElement = dungeon
-						.getElement(targetPosition);
+				final Element targetElement = dungeon.getElement(targetPosition);
 
 				if (targetElement == null) {
-					// Ne doit pas arriver
-					throw new IllegalStateException(
-							"Unable to determine element with position "
-									+ targetPosition);
+					// Shouldn't happen
+					throw new IllegalStateException("Unable to determine element with position " + targetPosition);
 				}
 
-				// Emplacement traversable par un projectile ?
-				if (!targetElement.isTraversableByProjectile()
-						&& !targetElement.getType().equals(Element.Type.DOOR)) {
+				// TODO Can the poison cloud spell traverse a grate ?
+				// Is this element traversable by the projectile ?
+				if (!targetElement.isTraversableByProjectile() && !targetElement.getType().equals(Element.Type.DOOR)) {
+					// If the target is a door, the projectile explodes on it
 
-					// Si la cible est une porte, le projectile explose dans
-					// celle-ci pas � c�t� !
-
-					// TODO Le sort POISON_CLOUD peut-il passer � travers une
-					// grille ?
-
-					// Le projectile explose � sa position actuelle
+					// The projectile explodes on its current position
 					setState(State.EXPLODING);
 
 					if (log.isDebugEnabled()) {
-						log.debug(getId()
-								+ " is about to explode because of facing "
-								+ targetElement.getId());
+						log.debug(String.format("%s is about to explode because of facing %s", getId(), targetElement.getId()));
 					}
 
 					return true;
 				}
 
-				// --- D�placer le projectile --- //
+				// --- Move the projectile --- //
 
-				// Le projectile quitte sa position actuelle
+				// The projectile leaves its current position
 				dungeon.getElement(position).projectileLeft(this, subCell);
 
-				// Le projectile avance, la distance restante diminue
+				// The projectile moves, the remaining distance decreases
 				this.position = targetPosition;
 				this.subCell = targetSubCell;
 
@@ -258,48 +298,45 @@ abstract class AbstractProjectile implements Projectile {
 				this.range--;
 
 				if (log.isDebugEnabled()) {
-					log.debug(getId() + ".Range: " + backup + " -> " + range
-							+ " [-1]");
+					log.debug(String.format("%s.Range: %s -> %s [-1]", getId(), backup, + range));
 				}
 
-				// Il arrive sur la nouvelle position
+				// The projectile enters the new position
 				targetElement.projectileArrived(this, targetSubCell);
 
-				// L'emplacement est-il occup� par une cr�ature ?
+				// Is the target element occupied by a creature ?
 				if (targetElement.getCreature(targetSubCell) != null) {
-					// Oui, le projectile explose
+					// Yes, the projectile explodes
 					setState(State.EXPLODING);
 
 					if (log.isDebugEnabled()) {
-						log.debug(getId()
-								+ " is about to explode because of facing "
-								+ targetElement.getCreature(targetSubCell)
-										.getId());
+						log.debug(String.format("%s is about to explode because of facing %s", getId(), targetElement
+								.getCreature(targetSubCell).getId()));
 					}
 
 					return true;
 				}
 
 				if (this.range == 0) {
-					// Le projectile est arriv� en bout de course, il explose
+					// The projectile can move any further, it explodes
 					setState(State.EXPLODING);
 
 					if (log.isDebugEnabled()) {
-						log.debug(getId()
-								+ " is about to explode because it wore off");
+						log.debug(String.format("%s is about to explode because it wore off", getId()));
 					}
 
 					return true;
 				}
 
-				// Le projectile continue de voler
+				// The projectile keeps on moving
 				return true;
 			}
 			case EXPLODING: {
 				if (log.isDebugEnabled()) {
-					log.debug(getId() + " is exploding ...");
+					log.debug(String.format("%s is exploding ...", getId()));
 				}
 
+				// Let the projectile operate
 				projectileDied();
 
 				setState(State.EXPLODED);
@@ -307,28 +344,30 @@ abstract class AbstractProjectile implements Projectile {
 				return true;
 			}
 			case EXPLODED: {
-				// Le projectile dispara�t
+				// The projectile disappears
 				if (log.isDebugEnabled()) {
-					log.debug(getId() + " vanishes into thin air");
+					log.debug(String.format("%s vanishes into thin air", getId()));
 				}
 
-				// Le projectile dispara�t du donjon
+				// Remove the projectile
 				dungeon.getElement(position).projectileLeft(this, subCell);
 
 				return false;
 			}
 
 			default:
-				throw new UnsupportedOperationException();
+				throw new UnsupportedOperationException("Unsupported state " + state);
 			}
 		}
 
 		return true;
 	}
 
+	/**
+	 * Callback method used to notify the projectile that it exploded. This
+	 * allows the projectile to "operate" on the final position.
+	 */
 	protected abstract void projectileDied();
-
-	// public abstract String toString();
 
 	protected SubCell getSubCell() {
 		return subCell;

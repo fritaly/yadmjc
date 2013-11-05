@@ -30,11 +30,10 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
-import fr.ritaly.dungeonmaster.item.Food;
 import fr.ritaly.dungeonmaster.item.Item;
+import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.item.Torch;
 import fr.ritaly.dungeonmaster.item.Weapon;
-import fr.ritaly.dungeonmaster.item.drink.WaterFlask;
 
 public class PitTest extends TestCase {
 
@@ -87,11 +86,11 @@ public class PitTest extends TestCase {
 		// --- Situation initiale
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe tombe à travers l'oubliette
+		// --- Le groupe tombe ï¿½ travers l'oubliette
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
 	}
-	
+
 	public void testPartyFallingThroughSeveralStackedOpenPit() {
 		// Level1:
 		// +---+---+---+---+---+
@@ -118,7 +117,7 @@ public class PitTest extends TestCase {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
-		
+
 		// Level3:
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -139,7 +138,7 @@ public class PitTest extends TestCase {
 
 		final Level level2 = dungeon.createLevel(2, 5, 5);
 		level2.setElement(3, 2, new Pit());
-		
+
 		dungeon.createLevel(3, 5, 5);
 
 		Party party = new Party();
@@ -150,11 +149,11 @@ public class PitTest extends TestCase {
 		// --- Situation initiale
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe tombe à travers l'oubliette
+		// --- Le groupe tombe ï¿½ travers l'oubliette
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 3), dungeon.getParty().getPosition());
 	}
-	
+
 	public void testFakePit() {
 		// Level1:
 		// +---+---+---+---+---+
@@ -197,11 +196,11 @@ public class PitTest extends TestCase {
 		// --- Situation initiale
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe ne tombe pas à travers l'oubliette (car fausse)
+		// --- Le groupe ne tombe pas ï¿½ travers l'oubliette (car fausse)
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 1), dungeon.getParty().getPosition());
 	}
-	
+
 	public void testPartyFallingThroughPitWhenOpened() {
 		// Level1:
 		// +---+---+---+---+---+
@@ -245,11 +244,11 @@ public class PitTest extends TestCase {
 		// --- Situation initiale
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe ne tombe pas à travers l'oubliette (car fermée)
+		// --- Le groupe ne tombe pas ï¿½ travers l'oubliette (car fermï¿½e)
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Quand l'oubliette s'ouvre, le groupe tombe à travers
+		// --- Quand l'oubliette s'ouvre, le groupe tombe ï¿½ travers
 		pit.open();
 		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
 	}
@@ -290,9 +289,9 @@ public class PitTest extends TestCase {
 		final Level level2 = dungeon.createLevel(2, 5, 5);
 
 		final Torch torch = new Torch();
-		final Food apple = new Food(Item.Type.APPLE);
+		final Item apple = ItemFactory.getFactory().newItem(Item.Type.APPLE);
 		final Weapon sword = new Weapon(Item.Type.SWORD);
-		final WaterFlask waterFlask = new WaterFlask();
+		final Item waterFlask = ItemFactory.getFactory().newItem(Item.Type.WATER_FLASK);
 
 		final Element element1 = level1.getElement(3, 2);
 		final Element element2 = level2.getElement(3, 2);
@@ -322,7 +321,7 @@ public class PitTest extends TestCase {
 		assertEquals(0, element2.getItemCount(SubCell.SOUTH_EAST));
 		assertEquals(0, element2.getItemCount(SubCell.SOUTH_WEST));
 
-		// --- L'oubliette s'ouvre, les objets tombent au niveau inférieur
+		// --- L'oubliette s'ouvre, les objets tombent au niveau infï¿½rieur
 		assertTrue(pit.open());
 		assertEquals(0, element1.getItemCount());
 		assertEquals(0, element1.getItemCount(SubCell.NORTH_EAST));
@@ -380,9 +379,9 @@ public class PitTest extends TestCase {
 		final Level level2 = dungeon.createLevel(2, 5, 5);
 
 		final Torch torch = new Torch();
-		final Food apple = new Food(Item.Type.APPLE);
+		final Item apple = ItemFactory.getFactory().newItem(Item.Type.APPLE);
 		final Weapon sword = new Weapon(Item.Type.SWORD);
-		final WaterFlask waterFlask = new WaterFlask();
+		final Item waterFlask = ItemFactory.getFactory().newItem(Item.Type.WATER_FLASK);
 
 		final Element element1 = level1.getElement(3, 2);
 		final Element element2 = level2.getElement(3, 2);
@@ -398,7 +397,7 @@ public class PitTest extends TestCase {
 		element1.itemDroppedDown(sword, SubCell.SOUTH_WEST);
 		element1.itemDroppedDown(waterFlask, SubCell.SOUTH_EAST);
 
-		// --- L'oubliette s'ouvre, les objets sont tombés au niveau inférieur
+		// --- L'oubliette s'ouvre, les objets sont tombï¿½s au niveau infï¿½rieur
 		assertEquals(0, element1.getItemCount());
 		assertEquals(0, element1.getItemCount(SubCell.NORTH_EAST));
 		assertEquals(0, element1.getItemCount(SubCell.NORTH_WEST));
@@ -474,8 +473,8 @@ public class PitTest extends TestCase {
 		element1.creatureSteppedOn(rockPile, SubCell.SOUTH_WEST);
 		element1.creatureSteppedOn(giggler, SubCell.SOUTH_EAST);
 
-		// --- L'oubliette était ouverte, les créatures sont tombés au niveau
-		// inférieur
+		// --- L'oubliette ï¿½tait ouverte, les crï¿½atures sont tombï¿½s au niveau
+		// infï¿½rieur
 		assertEquals(0, element1.getCreatureCount());
 		assertNull(element1.getCreature(SubCell.NORTH_EAST));
 		assertNull(element1.getCreature(SubCell.NORTH_WEST));
@@ -539,8 +538,8 @@ public class PitTest extends TestCase {
 		element1.creatureSteppedOn(worm, Direction.NORTH);
 		element1.creatureSteppedOn(painRat, Direction.SOUTH);
 
-		// --- L'oubliette était ouverte, les créatures sont tombés au niveau
-		// inférieur
+		// --- L'oubliette ï¿½tait ouverte, les crï¿½atures sont tombï¿½s au niveau
+		// infï¿½rieur
 		assertEquals(0, element1.getCreatureCount());
 		assertNull(element1.getCreature(SubCell.NORTH_EAST));
 		assertNull(element1.getCreature(SubCell.NORTH_WEST));
@@ -602,8 +601,8 @@ public class PitTest extends TestCase {
 
 		element1.creatureSteppedOn(dragon);
 
-		// --- L'oubliette était ouverte, les créatures sont tombés au niveau
-		// inférieur
+		// --- L'oubliette ï¿½tait ouverte, les crï¿½atures sont tombï¿½s au niveau
+		// infï¿½rieur
 		assertEquals(0, element1.getCreatureCount());
 		assertNull(element1.getCreature(SubCell.NORTH_EAST));
 		assertNull(element1.getCreature(SubCell.NORTH_WEST));
@@ -684,7 +683,7 @@ public class PitTest extends TestCase {
 		assertNull(element2.getCreature(SubCell.SOUTH_EAST));
 		assertNull(element2.getCreature(SubCell.SOUTH_WEST));
 
-		// --- L'oubliette s'ouvre, les créatures tombent au niveau inférieur
+		// --- L'oubliette s'ouvre, les crï¿½atures tombent au niveau infï¿½rieur
 		assertTrue(pit.open());
 
 		assertEquals(0, element1.getCreatureCount());
@@ -763,7 +762,7 @@ public class PitTest extends TestCase {
 		assertNull(element2.getCreature(SubCell.SOUTH_EAST));
 		assertNull(element2.getCreature(SubCell.SOUTH_WEST));
 
-		// --- L'oubliette s'ouvre, les créatures tombent au niveau inférieur
+		// --- L'oubliette s'ouvre, les crï¿½atures tombent au niveau infï¿½rieur
 		assertTrue(pit.open());
 
 		assertEquals(0, element1.getCreatureCount());
@@ -840,7 +839,7 @@ public class PitTest extends TestCase {
 		assertNull(element2.getCreature(SubCell.SOUTH_EAST));
 		assertNull(element2.getCreature(SubCell.SOUTH_WEST));
 
-		// --- L'oubliette s'ouvre, les créatures tombent au niveau inférieur
+		// --- L'oubliette s'ouvre, les crï¿½atures tombent au niveau infï¿½rieur
 		assertTrue(pit.open());
 
 		assertEquals(0, element1.getCreatureCount());
@@ -855,7 +854,7 @@ public class PitTest extends TestCase {
 		assertEquals(dragon, element2.getCreature(SubCell.SOUTH_EAST));
 		assertEquals(dragon, element2.getCreature(SubCell.SOUTH_WEST));
 	}
-	
+
 	public void testChampionsHurtWhenFallingThroughOpenPit() {
 		// Level1:
 		// +---+---+---+---+---+
@@ -885,7 +884,7 @@ public class PitTest extends TestCase {
 
 
 		final Dungeon dungeon = new Dungeon();
-		
+
 		final Level level1 = dungeon.createLevel(1, 5, 5);
 		level1.setElement(3, 2, new Pit());
 
@@ -895,22 +894,22 @@ public class PitTest extends TestCase {
 				Name.TIGGY);
 		tiggy.getStats().getHealth().maxValue(500);
 		tiggy.getStats().getHealth().value(500);
-		
+
 		final Champion daroou = ChampionFactory.getFactory().newChampion(
 				Name.DAROOU);
 		daroou.getStats().getHealth().maxValue(500);
 		daroou.getStats().getHealth().value(500);
-		
+
 		final Champion halk = ChampionFactory.getFactory().newChampion(
 				Name.HALK);
 		halk.getStats().getHealth().maxValue(500);
 		halk.getStats().getHealth().value(500);
-		
+
 		final Champion wuuf = ChampionFactory.getFactory().newChampion(
 				Name.WUUF);
 		wuuf.getStats().getHealth().maxValue(500);
 		wuuf.getStats().getHealth().value(500);
-		
+
 		final Party party = new Party();
 		party.addChampion(tiggy);
 		party.addChampion(daroou);
@@ -922,22 +921,22 @@ public class PitTest extends TestCase {
 		// --- Situation initiale
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe tombe à travers l'oubliette
+		// --- Le groupe tombe ï¿½ travers l'oubliette
 		final int tiggyHealth = tiggy.getStats().getHealth().value();
 		final int daroouHealth = daroou.getStats().getHealth().value();
 		final int halkHealth = halk.getStats().getHealth().value();
 		final int wuufHealth = wuuf.getStats().getHealth().value();
-		
+
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
-		
+
 		// --- Les champions doivent avoir perdu de la vie
 		assertTrue(tiggy.getStats().getHealth().value().intValue() < tiggyHealth);
 		assertTrue(daroou.getStats().getHealth().value().intValue() < daroouHealth);
 		assertTrue(halk.getStats().getHealth().value().intValue() < halkHealth);
 		assertTrue(wuuf.getStats().getHealth().value().intValue() < wuufHealth);
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

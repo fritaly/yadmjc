@@ -27,7 +27,7 @@ import fr.ritaly.dungeonmaster.champion.body.BodyPart;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class Cloth extends Item {
+final class Cloth extends Item {
 
 	/**
 	 * Creates a new cloth from the given item type.
@@ -35,7 +35,7 @@ public final class Cloth extends Item {
 	 * @param type
 	 *            the type of cloth to create. Can't be null.
 	 */
-	public Cloth(Type type) {
+	Cloth(Type type) {
 		super(type);
 
 		Validate.isTrue(Item.Category.CLOTH.getTypes().contains(type), "The given item type " + type + " isn't a cloth");
@@ -115,7 +115,7 @@ public final class Cloth extends Item {
 			return BodyPart.Type.SHIELD_HAND;
 
 		default:
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Unsupported item type " + getType());
 		}
 	}
 

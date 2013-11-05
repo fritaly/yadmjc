@@ -28,7 +28,7 @@ import fr.ritaly.dungeonmaster.champion.body.BodyPart;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class Food extends Item {
+final class Food extends Item {
 
 	/**
 	 * Creates a new food item with the given type.
@@ -36,7 +36,7 @@ public final class Food extends Item {
 	 * @param type
 	 *            the type of food to create. Can't be null.
 	 */
-	public Food(Type type) {
+	Food(Type type) {
 		super(type);
 
 		Validate.isTrue(Item.Category.getFoodItems().contains(type));

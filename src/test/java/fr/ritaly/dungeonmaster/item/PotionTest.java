@@ -19,11 +19,9 @@
 package fr.ritaly.dungeonmaster.item;
 
 import junit.framework.TestCase;
-import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
-import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.stat.Stat;
 
@@ -36,117 +34,79 @@ public class PotionTest extends TestCase {
 		super(name);
 	}
 
-	private void testPotion(Champion tiggy, Stat statistic,
-			fr.ritaly.dungeonmaster.item.Item.Type itemType) {
-
-		final Stat stat = statistic;
-
+	private void testPotion(Champion tiggy, Stat stat, Item.Type itemType) {
 		stat.value(1);
+
 		assertEquals(1, stat.actualValue().intValue());
 		assertEquals(1, stat.value().intValue());
 		assertEquals(0, stat.boostValue().intValue());
 
-		// Consommer une potion augmente le boost de la statistique de manière
-		// temporaire !
+		// Consuming a potion temporarily increases the boost of the stat
 		tiggy.consume(ItemFactory.getFactory().newItem(itemType));
 
-		assertTrue(stat.actualValue().intValue() > 1); // <--- Effet du boost
+		assertTrue(stat.actualValue().intValue() > 1);
 		assertEquals(1, stat.value().intValue());
-		assertTrue(stat.boostValue().intValue() > 0); // <--- Boost changé
+		assertTrue(stat.boostValue().intValue() > 0);
 	}
-	
-	public void testDexterityPotion() {
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		Party party = new Party();
-		party.addChampion(tiggy);
+	public void testPotion_Dexterity() {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		testPotion(tiggy, tiggy.getStats().getDexterity(),
-				Item.Type.DEXTERITY_POTION);
+		testPotion(tiggy, tiggy.getStats().getDexterity(), Item.Type.DEXTERITY_POTION);
 	}
-	
-	public void testStrengthPotion() {
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		Party party = new Party();
-		party.addChampion(tiggy);
+	public void testPotion_Strength() {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		testPotion(tiggy, tiggy.getStats().getStrength(),
-				Item.Type.STRENGTH_POTION);
+		testPotion(tiggy, tiggy.getStats().getStrength(), Item.Type.STRENGTH_POTION);
 	}
-	
-	public void testWisdomPotion() {
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		Party party = new Party();
-		party.addChampion(tiggy);
+	public void testPotion_Wisdom() {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		testPotion(tiggy, tiggy.getStats().getWisdom(), Item.Type.WISDOM_POTION);
 	}
-	
-	public void testVitalityPotion() {
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		Party party = new Party();
-		party.addChampion(tiggy);
+	public void testPotion_Vitality() {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		testPotion(tiggy, tiggy.getStats().getVitality(),
-				Item.Type.VITALITY_POTION);
+		testPotion(tiggy, tiggy.getStats().getVitality(), Item.Type.VITALITY_POTION);
 	}
-	
-	public void testStaminaPotion() {
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		Party party = new Party();
-		party.addChampion(tiggy);
+	public void testPotion_Stamina() {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		testPotion(tiggy, tiggy.getStats().getStamina(),
-				Item.Type.STAMINA_POTION);
+		testPotion(tiggy, tiggy.getStats().getStamina(), Item.Type.STAMINA_POTION);
 	}
-	
-	public void testAntiMagicPotion() {
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		Party party = new Party();
-		party.addChampion(tiggy);
+	public void testPotion_AntiMagic() {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		testPotion(tiggy, tiggy.getStats().getAntiMagic(),
-				Item.Type.ANTI_MAGIC_POTION);
+		testPotion(tiggy, tiggy.getStats().getAntiMagic(), Item.Type.ANTI_MAGIC_POTION);
 	}
-	
-	public void testManaPotion() {
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		Party party = new Party();
-		party.addChampion(tiggy);
+	public void testPotion_Mana() {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		testPotion(tiggy, tiggy.getStats().getMana(), Item.Type.MANA_POTION);
 	}
-	
-	public void testHealthPotion() {
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		Party party = new Party();
-		party.addChampion(tiggy);
+	public void testPotion_Health() {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		testPotion(tiggy, tiggy.getStats().getHealth(), Item.Type.HEALTH_POTION);
 	}
-	
-	public void testCurePoisonPotion() {
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
+	public void testPotion_CurePoison() {
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+
+		// Poison the champion
 		assertFalse(tiggy.isPoisoned());
 		tiggy.poison(PowerRune.LO);
 		assertTrue(tiggy.isPoisoned());
 
-		tiggy.consume(ItemFactory.getFactory().newItem(
-				Item.Type.ANTIDOTE_POTION));
+		// Ensure the antidote potion cures the poison
+		tiggy.consume(ItemFactory.getFactory().newItem(Item.Type.ANTIDOTE_POTION));
 		assertFalse(tiggy.isPoisoned());
-	}
-	
-	@Override
-	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
-		Clock.getInstance().reset();
 	}
 }

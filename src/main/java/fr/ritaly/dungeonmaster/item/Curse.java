@@ -34,7 +34,6 @@ public class Curse {
 
 	private final Log log = LogFactory.getLog(Curse.class);
 
-	// TODO Should strength be a power rune or an int ?
 	/**
 	 * The strength of the curse stored as an integer.
 	 */
@@ -47,7 +46,16 @@ public class Curse {
 	 */
 	private boolean detected;
 
-	// TODO Store the reference to the cursed item and use its name in the logs
+	/**
+	 * The cursed item. Can't be null.
+	 */
+	private final Item item;
+
+	public Curse(Item item) {
+		Validate.notNull(item, "The given item is null");
+
+		this.item = item;
+	}
 
 	/**
 	 * Returns the curse's strength.
@@ -66,10 +74,12 @@ public class Curse {
 	 */
 	void setStrength(int strength) {
 		if (this.strength != strength) {
+			final int backup = this.strength;
+
 			this.strength = strength;
 
 			if (log.isDebugEnabled()) {
-				log.debug(String.format("Curse's strength set to %d", strength));
+				log.debug(String.format("%s.Curse: %d -> %d [%+d]", item, backup, strength, (strength - backup)));
 			}
 		}
 	}
@@ -101,22 +111,21 @@ public class Curse {
 		setStrength(Math.max(0, this.strength - powerRune.getPowerLevel()));
 	}
 
-	// TODO Use a power rune instead of an int
 	/**
-	 * Strengthens the curse with the force with as a power rune.
+	 * Strengthens the curse with the force of the given power rune.
 	 *
-	 * @param strength
-	 *            an integer representing to force to strengthen the curse. Must
-	 *            be positive.
+	 * @param powerRune
+	 *            a power rune representing the force to strengthen the curse.
+	 *            Can't be null.
 	 */
-	public void curse(int strength) {
-		Validate.isTrue(strength > 0, String.format("The given strength %d must be positive", strength));
+	public void curse(PowerRune powerRune) {
+		Validate.notNull(powerRune, "The given power rune is null");
 
 		if (log.isDebugEnabled()) {
 			log.debug("Strengthening curse ...");
 		}
 
-		setStrength(this.strength + strength);
+		setStrength(this.strength + powerRune.getPowerLevel());
 	}
 
 	/**
