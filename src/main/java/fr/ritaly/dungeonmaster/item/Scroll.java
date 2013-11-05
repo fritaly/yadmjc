@@ -19,6 +19,7 @@
 package fr.ritaly.dungeonmaster.item;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,6 +39,20 @@ public final class Scroll extends Item {
 	 */
 	private final List<String> text;
 
+	/**
+	 * Creates a new blank scroll.
+	 */
+	public Scroll() {
+		this(Arrays.asList(""));
+	}
+
+	/**
+	 * Creates a scroll with the given text.
+	 *
+	 * @param text
+	 *            a list of strings representing the scroll's text. Can't be
+	 *            null or empty.
+	 */
 	public Scroll(final List<String> text) {
 		super(Type.SCROLL);
 
@@ -62,6 +77,11 @@ public final class Scroll extends Item {
 		return null;
 	}
 
+	/**
+	 * Returns the scroll's text as a list.
+	 *
+	 * @return a list of strings. Never returns null.
+	 */
 	public List<String> getText() {
 		return Collections.unmodifiableList(text);
 	}

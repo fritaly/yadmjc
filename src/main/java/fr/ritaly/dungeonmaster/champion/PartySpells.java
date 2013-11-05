@@ -24,31 +24,60 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Temporizer;
+import fr.ritaly.dungeonmaster.event.ChangeEvent;
+import fr.ritaly.dungeonmaster.event.ChangeEventSource;
+import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
+import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.stat.Stat;
 
 /**
+ * Class responsible for managing the spells acting on the whole party.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public class PartySpells implements ClockListener {
-	
+public class PartySpells implements ClockListener, ChangeEventSource {
+
 	private final Log log = LogFactory.getLog(this.getClass());
 
+	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
+
+	/**
+	 * The party whose spells are managed.
+	 */
 	private final Party party;
 
+	/**
+	 * The stat pertaining to the "invisibility" spell.
+	 */
 	private final Stat invisibility;
-	
+
+	/**
+	 * The stat pertaining to the "anti-magic" spell.
+	 */
 	private final Stat antiMagic;
-	
+
+	/**
+	 * The stat pertaining to the "shield" spell.
+	 */
 	private final Stat shield;
-	
+
+	/**
+	 * The stat pertaining to the "dispell illusions" spell.
+	 */
 	private final Stat dispellIllusion;
-	
+
+	/**
+	 * The stat pertaining to the "see through walls" spell.
+	 */
 	private final Stat seeThroughWalls;
 
+	/**
+	 * The temporizer used to manage the decay of those spells over time.
+	 */
 	private final Temporizer temporizer = new Temporizer("Party.Spells", 4);
 
 	public PartySpells(Party party) {
-		Validate.isTrue(party != null, "The given party is null");
+		Validate.notNull(party, "The given party is null");
 
 		this.party = party;
 		this.invisibility = new Stat("Party.Spells", "Invisibility");
@@ -63,7 +92,9 @@ public class PartySpells implements ClockListener {
 		if (temporizer.trigger()) {
 			if (invisibility.actualValue() > 0) {
 				if (invisibility.dec() == 0) {
-					// TODO Lever un �v�nement
+					// Notify the change of state
+					fireChangeEvent();
+
 					if (log.isDebugEnabled()) {
 						log.debug("Party.Spells.Invisibility is now inactive");
 					}
@@ -71,7 +102,9 @@ public class PartySpells implements ClockListener {
 			}
 			if (antiMagic.actualValue() > 0) {
 				if (antiMagic.dec() == 0) {
-					// TODO Lever un �v�nement
+					// Notify the change of state
+					fireChangeEvent();
+
 					if (log.isDebugEnabled()) {
 						log.debug("Party.Spells.AntiMagic is now inactive");
 					}
@@ -79,7 +112,9 @@ public class PartySpells implements ClockListener {
 			}
 			if (shield.actualValue() > 0) {
 				if (shield.dec() == 0) {
-					// TODO Lever un �v�nement
+					// Notify the change of state
+					fireChangeEvent();
+
 					if (log.isDebugEnabled()) {
 						log.debug("Party.Spells.Shield is now inactive");
 					}
@@ -87,7 +122,9 @@ public class PartySpells implements ClockListener {
 			}
 			if (dispellIllusion.actualValue() > 0) {
 				if (dispellIllusion.dec() == 0) {
-					// TODO Lever un �v�nement
+					// Notify the change of state
+					fireChangeEvent();
+
 					if (log.isDebugEnabled()) {
 						log.debug("Party.Spells.DispellIllusion is now inactive");
 					}
@@ -95,7 +132,9 @@ public class PartySpells implements ClockListener {
 			}
 			if (seeThroughWalls.actualValue() > 0) {
 				if (seeThroughWalls.dec() == 0) {
-					// TODO Lever un �v�nement
+					// Notify the change of state
+					fireChangeEvent();
+
 					if (log.isDebugEnabled()) {
 						log.debug("Party.Spells.SeeThroughWalls is now inactive");
 					}
@@ -103,33 +142,48 @@ public class PartySpells implements ClockListener {
 			}
 		}
 
+		// Always listen to the clock ticks
 		return true;
 	}
 
+	/**
+	 * Tells whether the "invisibility" spell is currently active.
+	 *
+	 * @return whether the "invisibility" spell is currently active.
+	 */
 	public boolean isInvisibilityActive() {
 		return (invisibility.actualValue() > 0);
 	}
-	
+
+	/**
+	 * Tells whether the "dispell illusions" spell is currently active.
+	 *
+	 * @return whether the "dispell illusions" spell is currently active.
+	 */
 	public boolean isDispellIllusionActive() {
 		return (dispellIllusion.actualValue() > 0);
 	}
-	
+	/**
+	 * Tells whether the "see through walls" spell is currently active.
+	 *
+	 * @return whether the "see through walls" spell is currently active.
+	 */
 	public boolean isSeeThroughWallsActive() {
 		return (seeThroughWalls.actualValue() > 0);
 	}
-	
+
 	public Party getParty() {
 		return party;
 	}
-	
+
 	public Stat getAntiMagic() {
 		return antiMagic;
 	}
-	
+
 	public Stat getShield() {
 		return shield;
 	}
-	
+
 	public Stat getInvisibility() {
 		return invisibility;
 	}
@@ -140,5 +194,19 @@ public class PartySpells implements ClockListener {
 
 	public Stat getSeeThroughWalls() {
 		return seeThroughWalls;
+	}
+
+	@Override
+	public void addChangeListener(ChangeListener listener) {
+		eventSupport.addChangeListener(listener);
+	}
+
+	@Override
+	public void removeChangeListener(ChangeListener listener) {
+		eventSupport.removeChangeListener(listener);
+	}
+
+	private void fireChangeEvent() {
+		eventSupport.fireChangeEvent(new ChangeEvent(this));
 	}
 }

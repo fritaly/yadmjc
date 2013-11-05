@@ -80,7 +80,7 @@ public class Experience implements ChangeEventSource {
 		this.champion = champion;
 		this.skill = skill;
 		this.level = level;
-		this.points = level.getStartRange();
+		this.points = level.getLowerBound();
 	}
 
 	/**
@@ -122,11 +122,11 @@ public class Experience implements ChangeEventSource {
 			this.level = level;
 
 			// Set the min xp points corresponding to the level set
-			this.points = level.getStartRange();
+			this.points = level.getLowerBound();
 
 			if (log.isDebugEnabled()) {
 				log.debug(String.format("%s.%s.Level: %s (xp: %d points)", champion.getName(), skill.getLabel(), level,
-						level.getStartRange()));
+						level.getLowerBound()));
 			}
 		}
 	}
@@ -146,7 +146,7 @@ public class Experience implements ChangeEventSource {
 		}
 
 		// WARNING ! The end value if out of the range of points
-		if (points > level.getEndRange()) {
+		if (points > level.getUpperBound()) {
 			final Level oldLevel = this.level;
 
 			// The champion levelled up
@@ -276,7 +276,8 @@ public class Experience implements ChangeEventSource {
 						n));
 			}
 
-			// TODO Fire an event
+			// Notify the change
+			fireChangeEvent();
 		}
 
 		return this.boost;
@@ -301,7 +302,8 @@ public class Experience implements ChangeEventSource {
 						n));
 			}
 
-			// TODO Fire an event
+			// Notify the change
+			fireChangeEvent();
 		}
 
 		return this.boost;

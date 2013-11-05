@@ -21,6 +21,8 @@ package fr.ritaly.dungeonmaster.event;
 import java.util.EventObject;
 
 /**
+ * An event fired to notify when the direction of an object changes.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class DirectionChangeEvent extends EventObject {

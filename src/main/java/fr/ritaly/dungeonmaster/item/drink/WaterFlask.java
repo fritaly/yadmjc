@@ -28,10 +28,15 @@ import fr.ritaly.dungeonmaster.item.EmptyFlask;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
+ * A flask of water. Contains one dose of water.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class WaterFlask extends Item {
 
+	/**
+	 * Creates a new water flask.
+	 */
 	public WaterFlask() {
 		super(Type.WATER_FLASK);
 	}
@@ -51,23 +56,27 @@ public class WaterFlask extends Item {
 		return null;
 	}
 
+	/**
+	 * Drinks the water from this flask.
+	 */
 	public void drink() {
-		// Jouer le son "gloups"
+		// Play the associated sound
 		SoundSystem.getInstance().play(AudioClip.GLOUPS);
-		
+
 		fireChangeEvent();
 	}
 
 	@Override
 	protected Item consume(Champion champion) {
 		Validate.notNull(champion, "The given champion is null");
-		
-		// Le h�ros boit la fiole
+
+		// The champion drinks
 		drink();
-		
+
+		// The champion's water stat increases by 150 points
 		champion.getStats().getWater().inc(150);
-		
-		// Retourner une fiole vide
+
+		// The water flask turns into an empty flask
 		return new EmptyFlask();
 	}
 }

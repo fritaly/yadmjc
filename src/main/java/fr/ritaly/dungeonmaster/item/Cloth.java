@@ -23,15 +23,22 @@ import org.apache.commons.lang.Validate;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 
 /**
+ * A cloth item.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Cloth extends Item {
 
+	/**
+	 * Creates a new cloth from the given item type.
+	 *
+	 * @param type
+	 *            the type of cloth to create. Can't be null.
+	 */
 	public Cloth(Type type) {
 		super(type);
 
-		Validate.isTrue(Item.Category.CLOTH.getTypes().contains(type),
-				"The given item type " + type + " isn't a cloth");
+		Validate.isTrue(Item.Category.CLOTH.getTypes().contains(type), "The given item type " + type + " isn't a cloth");
 	}
 
 	@Override

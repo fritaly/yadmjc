@@ -26,115 +26,114 @@ import org.apache.commons.lang.Validate;
 import fr.ritaly.dungeonmaster.Skill;
 
 /**
- * A helper class used to simplify the way a champion skills are defined.
- * 
+ * A builder class used for simplifying the way champion skills are defined.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SkillMapBuilder {
 
 	/**
-	 * A Map&lt;Skill, Level&gt; containing the {@link Skill}s currently being
-	 * built.
+	 * Map containing the skills being configured and their associated level.
 	 */
 	private final Map<Skill, Champion.Level> skills = new LinkedHashMap<Skill, Champion.Level>();
 
 	public SkillMapBuilder() {
 	}
 
-	private SkillMapBuilder setFighterSkills(Champion.Level level, int swingLevel,
-			int thrustLevel, int clubLevel, int parryLevel) {
+	private void validateLevel(final String name, final int level) {
+		Validate.isTrue((0 <= level) && (level <= 15), String.format("The given %s level (%d) must be in [0,15]", name, level));
+	}
 
-		Validate.notNull(level);
-		Validate.isTrue(swingLevel >= 0 && swingLevel <= 15);
-		Validate.isTrue(thrustLevel >= 0 && thrustLevel <= 15);
-		Validate.isTrue(clubLevel >= 0 && clubLevel <= 15);
-		Validate.isTrue(parryLevel >= 0 && parryLevel <= 15);
+	private Champion.Level getLevel(int level) {
+		return Champion.Level.values()[level];
+	}
 
-		// Comp�tence basique
+	private SkillMapBuilder setFighterSkills(Champion.Level level, int swingLevel, int thrustLevel, int clubLevel, int parryLevel) {
+		Validate.notNull(level, "The given level is null");
+		validateLevel("swing", swingLevel);
+		validateLevel("thrust", thrustLevel);
+		validateLevel("club", clubLevel);
+		validateLevel("parry", parryLevel);
+
+		// Set the basic skill
 		skills.put(Skill.FIGHTER, level);
 
-		// Comp�tences cach�es
-		skills.put(Skill.SWING, Champion.Level.values()[swingLevel]);
-		skills.put(Skill.THRUST, Champion.Level.values()[thrustLevel]);
-		skills.put(Skill.CLUB, Champion.Level.values()[clubLevel]);
-		skills.put(Skill.PARRY, Champion.Level.values()[parryLevel]);
+		// ... and its associated hidden skills
+		skills.put(Skill.SWING, getLevel(swingLevel));
+		skills.put(Skill.THRUST, getLevel(thrustLevel));
+		skills.put(Skill.CLUB, getLevel(clubLevel));
+		skills.put(Skill.PARRY, getLevel(parryLevel));
 
 		return this;
 	}
 
-	private SkillMapBuilder setPriestSkills(Champion.Level level, int identifyLevel,
-			int healLevel, int influenceLevel, int defendLevel) {
+	private SkillMapBuilder setPriestSkills(Champion.Level level, int identifyLevel, int healLevel, int influenceLevel,
+			int defendLevel) {
 
-		Validate.notNull(level);
-		Validate.isTrue(identifyLevel >= 0 && identifyLevel <= 15);
-		Validate.isTrue(healLevel >= 0 && healLevel <= 15);
-		Validate.isTrue(influenceLevel >= 0 && influenceLevel <= 15);
-		Validate.isTrue(defendLevel >= 0 && defendLevel <= 15);
+		Validate.notNull(level, "The given level is null");
+		validateLevel("identify", identifyLevel);
+		validateLevel("heal", healLevel);
+		validateLevel("influence", influenceLevel);
+		validateLevel("defend", defendLevel);
 
-		// Comp�tence basique
+		// Set the basic skill
 		skills.put(Skill.PRIEST, level);
 
-		// Comp�tences cach�es
-		skills.put(Skill.IDENTIFY, Champion.Level.values()[identifyLevel]);
-		skills.put(Skill.HEAL, Champion.Level.values()[healLevel]);
-		skills.put(Skill.INFLUENCE, Champion.Level.values()[influenceLevel]);
-		skills.put(Skill.DEFEND, Champion.Level.values()[defendLevel]);
+		// ... and its associated hidden skills
+		skills.put(Skill.IDENTIFY, getLevel(identifyLevel));
+		skills.put(Skill.HEAL, getLevel(healLevel));
+		skills.put(Skill.INFLUENCE, getLevel(influenceLevel));
+		skills.put(Skill.DEFEND, getLevel(defendLevel));
 
 		return this;
 	}
 
-	private SkillMapBuilder setNinjaSkills(Champion.Level level, int stealLevel,
-			int fightLevel, int throwLevel, int shootLevel) {
+	private SkillMapBuilder setNinjaSkills(Champion.Level level, int stealLevel, int fightLevel, int throwLevel, int shootLevel) {
+		Validate.notNull(level, "The given level is null");
+		validateLevel("steal", stealLevel);
+		validateLevel("fight", fightLevel);
+		validateLevel("throw", throwLevel);
+		validateLevel("shoot", shootLevel);
 
-		Validate.notNull(level);
-		Validate.isTrue(stealLevel >= 0 && stealLevel <= 15);
-		Validate.isTrue(fightLevel >= 0 && fightLevel <= 15);
-		Validate.isTrue(throwLevel >= 0 && throwLevel <= 15);
-		Validate.isTrue(shootLevel >= 0 && shootLevel <= 15);
-
-		// Comp�tence basique
+		// Set the basic skill
 		skills.put(Skill.NINJA, level);
 
-		// Comp�tences cach�es
-		skills.put(Skill.STEAL, Champion.Level.values()[stealLevel]);
-		skills.put(Skill.FIGHT, Champion.Level.values()[fightLevel]);
-		skills.put(Skill.THROW, Champion.Level.values()[throwLevel]);
-		skills.put(Skill.SHOOT, Champion.Level.values()[shootLevel]);
+		// ... and its associated hidden skills
+		skills.put(Skill.STEAL, getLevel(stealLevel));
+		skills.put(Skill.FIGHT, getLevel(fightLevel));
+		skills.put(Skill.THROW, getLevel(throwLevel));
+		skills.put(Skill.SHOOT, getLevel(shootLevel));
 
 		return this;
 	}
 
-	private SkillMapBuilder setWizardSkills(Champion.Level level, int fireLevel,
-			int airLevel, int earthLevel, int waterLevel) {
+	private SkillMapBuilder setWizardSkills(Champion.Level level, int fireLevel, int airLevel, int earthLevel, int waterLevel) {
+		Validate.notNull(level, "The given level is null");
+		validateLevel("fire", fireLevel);
+		validateLevel("air", airLevel);
+		validateLevel("earth", earthLevel);
+		validateLevel("water", waterLevel);
 
-		Validate.notNull(level);
-		Validate.isTrue(fireLevel >= 0 && fireLevel <= 15);
-		Validate.isTrue(airLevel >= 0 && airLevel <= 15);
-		Validate.isTrue(earthLevel >= 0 && earthLevel <= 15);
-		Validate.isTrue(waterLevel >= 0 && waterLevel <= 15);
-
-		// Comp�tence basique
+		// Set the basic skill
 		skills.put(Skill.WIZARD, level);
 
-		// Comp�tences cach�es
-		skills.put(Skill.FIRE, Champion.Level.values()[fireLevel]);
-		skills.put(Skill.AIR, Champion.Level.values()[airLevel]);
-		skills.put(Skill.EARTH, Champion.Level.values()[earthLevel]);
-		skills.put(Skill.WATER, Champion.Level.values()[waterLevel]);
+		// ... and its associated hidden skills
+		skills.put(Skill.FIRE, getLevel(fireLevel));
+		skills.put(Skill.AIR, getLevel(airLevel));
+		skills.put(Skill.EARTH, getLevel(earthLevel));
+		skills.put(Skill.WATER, getLevel(waterLevel));
 
 		return this;
 	}
 
-	public SkillMapBuilder setSkills(Skill skill, Champion.Level level, int level1,
-			int level2, int level3, int level4) {
-
-		Validate.notNull(skill);
+	public SkillMapBuilder setSkills(Skill skill, Champion.Level level, int level1, int level2, int level3, int level4) {
+		Validate.notNull(skill, "The given skill is null");
 		Validate.isTrue(skill.isBasic());
-		Validate.notNull(level);
-		Validate.isTrue(level1 >= 0 && level1 <= 15);
-		Validate.isTrue(level2 >= 0 && level2 <= 15);
-		Validate.isTrue(level3 >= 0 && level3 <= 15);
-		Validate.isTrue(level4 >= 0 && level4 <= 15);
+		Validate.notNull(level, "The given level is null");
+		validateLevel("first", level1);
+		validateLevel("second", level2);
+		validateLevel("third", level3);
+		validateLevel("fourth", level4);
 
 		switch (skill) {
 		case FIGHTER:
@@ -151,7 +150,7 @@ public class SkillMapBuilder {
 	}
 
 	public Map<Skill, Champion.Level> getSkills() {
-		// Recopie d�fensive
+		// Defensive recopy
 		return new LinkedHashMap<Skill, Champion.Level>(skills);
 	}
 }

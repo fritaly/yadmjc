@@ -30,12 +30,27 @@ import fr.ritaly.dungeonmaster.magic.PowerRune;
  */
 public class Weapon extends Item {
 
+	/**
+	 * Creates a new weapon with the given type.
+	 *
+	 * @param type
+	 *            the type of weapon to create. Can't be null.
+	 */
 	public Weapon(Type type) {
 		super(type);
 
 		Validate.isTrue(Item.Category.WEAPON.getTypes().contains(type), "The given item type " + type + " isn't a weapon");
 	}
 
+	/**
+	 * Creates a new cursed weapon with the given type.
+	 *
+	 * @param type
+	 *            the type of weapon to create. Can't be null.
+	 * @param curse
+	 *            a power rune representing the strength of the curse. Can't be
+	 *            null.
+	 */
 	public Weapon(Type type, PowerRune curse) {
 		this(type);
 

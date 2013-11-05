@@ -37,17 +37,32 @@ public final class Potion extends Item {
 	/**
 	 * The strength of the potion as a power rune. Never null.
 	 */
-	private final PowerRune powerRune;
+	private final PowerRune strength;
 
-	public Potion(Type type, PowerRune powerRune) {
+	/**
+	 * Creates a new potion with the given type and strength.
+	 *
+	 * @param type
+	 *            the type of potion to create. Can't be null.
+	 * @param strength
+	 *            a power rune representing the strength of the potion. Can't be
+	 *            null.
+	 */
+	public Potion(Type type, PowerRune strength) {
 		super(type);
 
 		Validate.isTrue(Category.POTION.getTypes().contains(type), "The given item type " + type + " isn't a potion");
-		Validate.notNull(powerRune, "The given power rune is null");
+		Validate.notNull(strength, "The given power rune is null");
 
-		this.powerRune = powerRune;
+		this.strength = strength;
 	}
 
+	/**
+	 * Creates a new potion with the given type and with strength LO.
+	 *
+	 * @param type
+	 *            the type of potion to create. Can't be null.
+	 */
 	public Potion(Type type) {
 		this(type, PowerRune.LO);
 	}
@@ -92,7 +107,7 @@ public final class Potion extends Item {
 	}
 
 	/**
-	 * Special constructor to create a potion item from the given spell.
+	 * Creates a new potion from the given spell.
 	 *
 	 * @param spell
 	 *            a potion spell. Can't be null.
@@ -124,8 +139,8 @@ public final class Potion extends Item {
 		final Stats stats = champion.getStats();
 
 		// FIXME Refine the values below ?
-		final int points = Utils.random(3, 15) * powerRune.getPowerLevel();
-		final int duration = powerRune.getPowerLevel() * Utils.random(60, 90);
+		final int points = Utils.random(3, 15) * strength.getPowerLevel();
+		final int duration = strength.getPowerLevel() * Utils.random(60, 90);
 
 		// Change the champion's stats depending on the consumed potion
 		switch (getType()) {
@@ -142,7 +157,7 @@ public final class Potion extends Item {
 			stats.getVitality().incBoost(points, duration);
 			break;
 		case ANTIDOTE_POTION:
-			champion.cure(powerRune);
+			champion.cure(strength);
 			break;
 		case STAMINA_POTION:
 			stats.getStamina().incBoost(points, duration);
@@ -157,14 +172,19 @@ public final class Potion extends Item {
 			stats.getHealth().incBoost(points, duration);
 			break;
 		default:
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Unsupported potion type " + getType());
 		}
 
 		// Consuming a potion "creates" an empty flask
 		return new EmptyFlask();
 	}
 
-	public PowerRune getPowerRune() {
-		return powerRune;
+	/**
+	 * Returns the strength of this potion as a power rune.
+	 *
+	 * @return a power rune. Never returns null.
+	 */
+	public PowerRune getStrength() {
+		return strength;
 	}
 }

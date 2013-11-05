@@ -44,12 +44,12 @@ public class PositionTest extends TestCase {
 		final Position positionS = new Position(2, 4, 1);
 		final Position positionW = new Position(0, 2, 1);
 		final Position positionE = new Position(4, 2, 1);
-		
+
 		assertEquals(Direction.NORTH, positionX.getDirectionTowards(positionN));
 		assertEquals(Direction.SOUTH, positionX.getDirectionTowards(positionS));
 		assertEquals(Direction.WEST, positionX.getDirectionTowards(positionW));
 		assertEquals(Direction.EAST, positionX.getDirectionTowards(positionE));
-		
+
 		final Position position1 = new Position(1, 0, 1);
 		final Position position2 = new Position(3, 0, 1);
 		final Position position3 = new Position(4, 1, 1);
@@ -58,7 +58,7 @@ public class PositionTest extends TestCase {
 		final Position position6 = new Position(1, 4, 1);
 		final Position position7 = new Position(0, 3, 1);
 		final Position position8 = new Position(0, 1, 1);
-		
+
 		assertEquals(Direction.NORTH, positionX.getDirectionTowards(position1));
 		assertEquals(Direction.NORTH, positionX.getDirectionTowards(position2));
 		assertEquals(Direction.EAST, positionX.getDirectionTowards(position3));
@@ -68,7 +68,7 @@ public class PositionTest extends TestCase {
 		assertEquals(Direction.WEST, positionX.getDirectionTowards(position7));
 		assertEquals(Direction.WEST, positionX.getDirectionTowards(position8));
 	}
-	
+
 	public void testGetSurroundingPositionsInt() throws Exception {
 		// 1.
 		// +---+---+---+
@@ -78,9 +78,9 @@ public class PositionTest extends TestCase {
 		// +---+---+---+
 		// | 1 | 1 | 1 |
 		// +---+---+---+
-		
+
 		assertEquals(8, new Position(1,1,1).getSurroundingPositions(1).size());
-		
+
 		// 2.
 		// +---+---+---+---+---+
 		// |   | 2 | 2 | 2 |   |
@@ -93,9 +93,9 @@ public class PositionTest extends TestCase {
 		// +---+---+---+---+---+
 		// |   | 2 | 2 | 2 |   |
 		// +---+---+---+---+---+
-		
+
 		assertEquals(20, new Position(1,1,1).getSurroundingPositions(2).size());
-		
+
 		// 3.
 		// +---+---+---+---+---+---+---+
 		// |   |   | 3 | 3 | 3 |   |   |
@@ -112,9 +112,9 @@ public class PositionTest extends TestCase {
 		// +---+---+---+---+---+---+---+
 		// |   |   | 3 | 3 | 3 |   |   |
 		// +---+---+---+---+---+---+---+
-		
+
 		assertEquals(36, new Position(1,1,1).getSurroundingPositions(3).size());
-		
+
 		// 4.
 		// +---+---+---+---+---+---+---+---+---+
 		// |   |   | 4 | 4 | 4 | 4 | 4 |   |   |
@@ -135,9 +135,9 @@ public class PositionTest extends TestCase {
 		// +---+---+---+---+---+---+---+---+---+
 		// |   |   | 4 | 4 | 4 | 4 | 4 |   |   |
 		// +---+---+---+---+---+---+---+---+---+
-		
+
 		assertEquals(68, new Position(1,1,1).getSurroundingPositions(4).size());
-		
+
 		// 5.
 		// +---+---+---+---+---+---+---+---+---+---+---+
 		// |   |   |   | 5 | 5 | 5 | 5 | 5 |   |   |   |
@@ -162,9 +162,9 @@ public class PositionTest extends TestCase {
 		// +---+---+---+---+---+---+---+---+---+---+---+
 		// |   |   |   | 5 | 5 | 5 | 5 | 5 |   |   |   |
 		// +---+---+---+---+---+---+---+---+---+---+---+
-		
+
 		assertEquals(96, new Position(1,1,1).getSurroundingPositions(5).size());
-		
+
 		// 6.
 		// +---+---+---+---+---+---+---+---+---+---+---+---+---+
 		// |   |   |   |   | 6 | 6 | 6 | 6 | 6 |   |   |   |   |
@@ -193,7 +193,7 @@ public class PositionTest extends TestCase {
 		// +---+---+---+---+---+---+---+---+---+---+---+---+---+
 		// |   |   |   |   | 6 | 6 | 6 | 6 | 6 |   |   |   |   |
 		// +---+---+---+---+---+---+---+---+---+---+---+---+---+
-		
+
 		assertEquals(136, new Position(1,1,1).getSurroundingPositions(6).size());
 	}
 }

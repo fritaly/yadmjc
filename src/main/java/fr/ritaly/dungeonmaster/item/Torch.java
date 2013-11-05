@@ -56,10 +56,14 @@ public class Torch extends Weapon implements ClockListener {
 	 */
 	private final Temporizer temporizer = new Temporizer("Torch", 4);
 
+	/**
+	 * Creates a new torch.
+	 */
 	public Torch() {
 		super(Type.TORCH);
 	}
 
+	@Override
 	public boolean clockTicked() {
 		if (temporizer.trigger()) {
 			if (isBurning()) {

@@ -24,7 +24,8 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 
 /**
- * The bones of a dead champion.
+ * Some bones. Those can be plain bones or the bones of a dead champion. The
+ * bones are used for resurrecting a dead champion in an altar.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
@@ -35,6 +36,12 @@ public class Bones extends MiscItem {
 	 */
 	private final Champion champion;
 
+	/**
+	 * Creates new bones associated to the given champion.
+	 *
+	 * @param champion
+	 *            a champion whose bones those are. Can't be null.
+	 */
 	public Bones(Champion champion) {
 		super(Type.BONES);
 
@@ -43,6 +50,9 @@ public class Bones extends MiscItem {
 		this.champion = champion;
 	}
 
+	/**
+	 * Creates new bones with no associated champion.
+	 */
 	public Bones() {
 		super(Type.BONES);
 
@@ -64,10 +74,20 @@ public class Bones extends MiscItem {
 		return null;
 	}
 
+	/**
+	 * Returns the champion associated to those bones.
+	 *
+	 * @return a champion or null if none is associated to those bones.
+	 */
 	public Champion getChampion() {
 		return champion;
 	}
 
+	/**
+	 * Tells whether those bones are associated to a dead champion.
+	 *
+	 * @return whether those bones are associated to a dead champion.
+	 */
 	public boolean hasChampion() {
 		return (champion != null);
 	}

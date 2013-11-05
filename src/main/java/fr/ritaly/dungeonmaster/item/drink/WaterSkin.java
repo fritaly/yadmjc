@@ -27,14 +27,25 @@ import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
+ * A water skin contains 0 up to 3 doses of water.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class WaterSkin extends Item {
 
-	private static final int MAX_COUNT = 3;
+	/**
+	 * The maximum number of water doses in the water skin.
+	 */
+	private static final int MAX_DOSES = 3;
 
-	private int count;
+	/**
+	 * The remaining water doses in the water skin. Within range [0,3].
+	 */
+	private int doses;
 
+	/**
+	 * Creates a new full water skin.
+	 */
 	public WaterSkin() {
 		super(Type.WATER_SKIN);
 	}
@@ -56,37 +67,52 @@ public class WaterSkin extends Item {
 
 	@Override
 	public float getWeight() {
-		return 0.3f + (count * 0.3f);
+		return 0.3f + (doses * 0.3f);
 	}
 
+	/**
+	 * Tells whether the water skin is empty.
+	 *
+	 * @return whether the water skin is empty.
+	 */
 	public boolean isEmpty() {
-		return (count == 0);
+		return (doses == 0);
 	}
 
+	/**
+	 * Tells whether the water skin is full.
+	 *
+	 * @return whether the water skin is full.
+	 */
 	public boolean isFull() {
-		return (count == MAX_COUNT);
+		return (doses == MAX_DOSES);
 	}
 
+	/**
+	 * Drinks one dose of water from the water skin.
+	 */
 	public void drink() {
 		if (isEmpty()) {
 			throw new IllegalStateException("The water skin is empty");
 		}
 
-		// Jouer le son "gloups"
+		// Play the associated sound
 		SoundSystem.getInstance().play(AudioClip.GLOUPS);
-		
-		count--;
+
+		doses--;
 
 		fireChangeEvent();
 	}
 
+	/**
+	 * Fills the water skin. After this call, the water skin has
+	 * {@value #MAX_DOSES} doses. Won't fail if the water skin is already full.
+	 */
 	public void fill() {
-		// On peut reremplir une outre d�j� pleine
-
-		// Jouer le son d�di�
+		// Play the associated sound
 		SoundSystem.getInstance().play(AudioClip.REFILL);
-		
-		count = MAX_COUNT;
+
+		doses = MAX_DOSES;
 
 		fireChangeEvent();
 	}
@@ -94,15 +120,16 @@ public class WaterSkin extends Item {
 	@Override
 	protected Item consume(Champion champion) {
 		Validate.notNull(champion, "The given champion is null");
-		
+
 		if (!isEmpty()) {
-			// Le h�ros boit une dose de l'outre
+			// The champion drinks
 			drink();
-			
+
+			// The champion's water stat increases by 150 points
 			champion.getStats().getWater().inc(150);
 		}
-		
-		// L'objet peut �tre recycl�
+
+		// The item can be refilled contrary to a water flask
 		return this;
 	}
 }

@@ -22,6 +22,10 @@ import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Temporizer;
+import fr.ritaly.dungeonmaster.event.ChangeEvent;
+import fr.ritaly.dungeonmaster.event.ChangeEventSource;
+import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
+import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.stat.Stat;
 
 /**
@@ -29,7 +33,9 @@ import fr.ritaly.dungeonmaster.stat.Stat;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public class ChampionSpells implements ClockListener {
+public class ChampionSpells implements ClockListener, ChangeEventSource {
+
+	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
 	/**
 	 * The champion affected by the spells.
@@ -71,7 +77,8 @@ public class ChampionSpells implements ClockListener {
 		if (temporizer.trigger()) {
 			if (light.actualValue() > 0) {
 				if (light.dec() == 0) {
-					// TODO Fire an event
+					// Notify the change
+					fireChangeEvent();
 				}
 			}
 //			if (shield.actualValue() > 0) {
@@ -88,4 +95,18 @@ public class ChampionSpells implements ClockListener {
 //	public Stat getShield() {
 //		return shield;
 //	}
+
+	@Override
+	public void addChangeListener(ChangeListener listener) {
+		eventSupport.addChangeListener(listener);
+	}
+
+	@Override
+	public void removeChangeListener(ChangeListener listener) {
+		eventSupport.removeChangeListener(listener);
+	}
+
+	private void fireChangeEvent() {
+		eventSupport.fireChangeEvent(new ChangeEvent(this));
+	}
 }

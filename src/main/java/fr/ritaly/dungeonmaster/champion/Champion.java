@@ -74,15 +74,20 @@ import fr.ritaly.dungeonmaster.stat.Stat;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
+ * A champion.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public class Champion implements ChangeEventSource, PropertyChangeListener,
-		ClockListener {
+public class Champion implements ChangeEventSource, PropertyChangeListener, ClockListener {
 
 	private final Log log = LogFactory.getLog(Champion.class);
 
 	/**
-	 * Enum�ration des {@link Champion}s de Dungeon Master.
+	 * Enumerates the 24 Dungeon Master champions.<br>
+	 * <br>
+	 * Source: <a href="http://dmweb.free.fr/?q=node/199">Dungeon Master Encyclopaedia</a>
+	 *
+	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
 	 */
 	public static enum Name {
 		ALEX("Alex Ander"),
@@ -110,19 +115,21 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		WUUF("Wuuf The Bika"),
 		ZED("Zed Duke Of Banville");
 
+		/**
+		 * The champion's full name (that is, presentation name).
+		 */
 		private final String fullName;
 
-		private Name(String fullName) {
-			Validate.isTrue(!StringUtils.isBlank(fullName),
-					"The given full name <" + fullName + "> is blank");
+		private Name(final String fullName) {
+			Validate.isTrue(!StringUtils.isBlank(fullName), String.format("The given full name '%s' is blank", fullName));
 
 			this.fullName = fullName;
 		}
 
 		/**
-		 * Retourne le sexe du {@link Champion}.
+		 * Returns this champion's gender.
 		 *
-		 * @return une instance de {@link Gender}. Ne retourne jamais null.
+		 * @return the gender. Never returns null.
 		 */
 		public Gender getGender() {
 			switch (this) {
@@ -143,6 +150,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 			case LINFLAS:
 			case ELIJA:
 				return Gender.MALE;
+
 			case CHANI:
 			case SONJA:
 			case LEYLA:
@@ -152,21 +160,26 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 			case WUTSE:
 			case SYRA:
 				return Gender.FEMALE;
+
 			default:
-				throw new UnsupportedOperationException();
+				throw new UnsupportedOperationException("Unsupported method for " + this);
 			}
 		}
 
+		/**
+		 * Returns the champion's full name (presentation name).
+		 *
+		 * @return a string representing the champion's full name.
+		 */
 		public String getFullName() {
 			return fullName;
 		}
 
 		/**
-		 * Retourne les comp�tences du {@link Champion} sous forme d'une
-		 * {@link Map}.
+		 * Returns the champion's skills and their associated levels.
 		 *
-		 * @return une {@link Map} contenant les comp�tences et leur niveau
-		 *         associ�. Ne retourne jamais null.
+		 * @return a map containing the level by skill for this champion. Never
+		 *         returns null.
 		 */
 		public Map<Skill, Level> getSkills() {
 			switch (this) {
@@ -214,25 +227,20 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 						.setSkills(Skill.NINJA, Level.NOVICE, 0, 3, 1, 0)
 						.getSkills();
 			case GOTHMOG:
-				return new SkillMapBuilder().setSkills(Skill.WIZARD,
-						Level.JOURNEYMAN, 4, 3, 2, 2).getSkills();
+				return new SkillMapBuilder().setSkills(Skill.WIZARD, Level.JOURNEYMAN, 4, 3, 2, 2).getSkills();
 			case SONJA:
-				return new SkillMapBuilder().setSkills(Skill.FIGHTER,
-						Level.JOURNEYMAN, 3, 4, 2, 3).getSkills();
+				return new SkillMapBuilder().setSkills(Skill.FIGHTER, Level.JOURNEYMAN, 3, 4, 2, 3).getSkills();
 			case LEYLA:
-				return new SkillMapBuilder().setSkills(Skill.NINJA,
-						Level.JOURNEYMAN, 3, 3, 3, 4).getSkills();
+				return new SkillMapBuilder().setSkills(Skill.NINJA, Level.JOURNEYMAN, 3, 3, 3, 4).getSkills();
 			case MOPHUS:
-				return new SkillMapBuilder().setSkills(Skill.PRIEST,
-						Level.JOURNEYMAN, 2, 4, 3, 2).getSkills();
+				return new SkillMapBuilder().setSkills(Skill.PRIEST, Level.JOURNEYMAN, 2, 4, 3, 2).getSkills();
 			case WUUF:
 				return new SkillMapBuilder()
 						.setSkills(Skill.NINJA, Level.APPRENTICE, 1, 2, 3, 4)
 						.setSkills(Skill.PRIEST, Level.NOVICE, 0, 3, 2, 1)
 						.getSkills();
 			case STAMM:
-				return new SkillMapBuilder().setSkills(Skill.FIGHTER,
-						Level.JOURNEYMAN, 3, 4, 2, 2).getSkills();
+				return new SkillMapBuilder().setSkills(Skill.FIGHTER, Level.JOURNEYMAN, 3, 4, 2, 2).getSkills();
 			case AZIZI:
 				return new SkillMapBuilder()
 						.setSkills(Skill.FIGHTER, Level.NOVICE, 2, 1, 3, 0)
@@ -260,8 +268,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 						.setSkills(Skill.WIZARD, Level.NEOPHYTE, 0, 0, 1, 1)
 						.getSkills();
 			case HALK:
-				return new SkillMapBuilder().setSkills(Skill.FIGHTER,
-						Level.JOURNEYMAN, 4, 0, 4, 0).getSkills();
+				return new SkillMapBuilder().setSkills(Skill.FIGHTER, Level.JOURNEYMAN, 4, 0, 4, 0).getSkills();
 			case SYRA:
 				return new SkillMapBuilder()
 						.setSkills(Skill.PRIEST, Level.NOVICE, 0, 3, 1, 1)
@@ -285,11 +292,19 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 						.setSkills(Skill.PRIEST, Level.APPRENTICE, 2, 1, 4, 2)
 						.getSkills();
 			default:
-				throw new UnsupportedOperationException();
+				throw new UnsupportedOperationException("Method unsupported for champion " + this);
 			}
 		}
 
-		public void populateItems(Champion champion) {
+		/**
+		 * Generates some items for the given champion and adds them to the
+		 * champion's inventory.
+		 *
+		 * @param champion
+		 *            the champion that will be given the generated items (if
+		 *            any). Can't be null.
+		 */
+		public void populateItems(final Champion champion) {
 			Validate.notNull(champion, "The given champion is null");
 
 			final ItemFactory factory = ItemFactory.getFactory();
@@ -444,15 +459,16 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 				weaponHand.putOn(factory.newItem(Item.Type.MAGICAL_BOX_BLUE));
 				break;
 			default:
-				throw new UnsupportedOperationException(
-						"Unsupported champion <" + this + ">");
+				throw new UnsupportedOperationException("Method unsupported for champion " + this);
 			}
 		}
 	}
 
 	/**
-	 * Enum�ration des couleurs attribu�es aux {@link Champion}s quand ils
-	 * rejoignent une {@link Party}.
+	 * Enumerates the 4 colors used for visually distinguishing the champions
+	 * inside the party.
+	 *
+	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
 	 */
 	public static enum Color {
 		RED,
@@ -462,10 +478,12 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Niveau d'exp�rience d'un {@link Champion} dans une {@link Skill} donn�e.
-	 * Chaque {@link Level} est associ� � un intervalle de points d'exp�rience.
-	 * Quand l'exp�rience d�passe ce seuil, le {@link Champion} change
-	 * automatiquent de {@link Level}.<br>
+	 * Enumerates the possible levels of experience for a given skill. Each
+	 * level is associated to a range of experience points. When the champion's
+	 * experience points are inside this range, the champion has the associated
+	 * level of experience. When experience points increase and are out of
+	 * range, the level is promoted to the new level. There are 16 distinct
+	 * levels.<br>
 	 * <br>
 	 * Sources: <a href="http://dmweb.free.fr/?q=node/692">Technical
 	 * Documentation - Dungeon Master and Chaos Strikes Back Experience and
@@ -474,7 +492,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	 * Statistics</a>
 	 */
 	public static enum Level {
-		// Niveaux possibles class�s du plus faible au plus fort
+		// Those levels are sorted from lowest to highest. Don't change the ordering !
 		NONE,
 		NEOPHYTE,
 		NOVICE,
@@ -493,75 +511,49 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		ARCH_MASTER;
 
 		/**
-		 * Valeur du d�but de l'intervalle d'exp�rience associ� au {@link Level}
+		 * The lower bound of the range of points associated to this experience level.
 		 */
-		private final int startRange;
+		private final int lowerBound;
 
 		/**
-		 * Valeur de fin de l'intervalle d'exp�rience associ� au {@link Level}
+		 * The upper bound of the range of points associated to this experience level.
 		 */
-		private final int endRange;
-
-		private final int span;
+		private final int upperBound;
 
 		private Level() {
-			// La largeur de l'intervalle double � chaque niveau
-			this.startRange = 500 << (ordinal() - 1);
-			this.endRange = (500 << ordinal());
-			this.span = endRange - startRange;
+			// The span of the range of points doubles with every level
+			this.lowerBound = 500 << (ordinal() - 1);
+			this.upperBound = (500 << ordinal());
 		}
 
-		public int getStartRange() {
-			return startRange;
+		public int getLowerBound() {
+			return lowerBound;
 		}
 
-		public int getEndRange() {
-			return endRange;
-		}
-
-		/**
-		 * Retourne la "largeur" de l'intervalle de points d'exp�rience associ�
-		 * � ce niveau de comp�tence. Repr�sente le nombre de points
-		 * d'exp�rience que le champion doit acqu�rir pour monter de niveau.
-		 *
-		 * @return un nombre de points d'exp�rience.
-		 */
-		public int getRangeSpan() {
-			return span;
+		public int getUpperBound() {
+			return upperBound;
 		}
 
 		/**
-		 * Indique si le nombre de points d'exp�rience donn�s est contenu dans
-		 * l'intervalle de points associ� � ce {@link Level}.
+		 * Tells whether the given experience points are within the range of
+		 * points associated to this level.
 		 *
 		 * @param experience
-		 *            un nombre de points d'exp�rience.
-		 * @return si le nombre de points d'exp�rience donn�s est contenu dans
-		 *         l'intervalle de points associ� � ce {@link Level}.
+		 *            an integer representing a number of experience points.
+		 * @return whether the given experience points corresponds to this
+		 *         level.
 		 */
 		public boolean contains(int experience) {
-			return (startRange <= experience) && (experience <= endRange);
+			return (lowerBound <= experience) && (experience <= upperBound);
 		}
 
 		/**
-		 * Retourne la valeur associ�e au {@link Level}. Correspond � la valeur
-		 * ordinale de l'enum.
-		 *
-		 * @return un entier positif ou nul.
-		 */
-		public int getValue() {
-			return ordinal();
-		}
-
-		/**
-		 * Convertit le nombre de points d'exp�rience donn� en une instance de
-		 * {@link Level}. L�ve une {@link IllegalArgumentException} si la
-		 * conversion est impossible.
+		 * Returns the level associated to the given experience points. Throws
+		 * an {@link IllegalArgumentException} if the level can't be found.
 		 *
 		 * @param points
-		 *            un entier positif repr�sentant un nombre de points
-		 *            d'exp�rience.
-		 * @return une instance de {@link Level}. Ne retourne jamais null.
+		 *            an integer representing a number of experience points.
+		 * @return the associated level. Never returns null.
 		 */
 		public static Level fromExperience(int points) {
 			for (Level level : values()) {
@@ -570,192 +562,183 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 				}
 			}
 
-			throw new IllegalArgumentException(
-					"Unable to find a level for experience points <" + points
-							+ ">");
-		}
-
-		public static void main(String[] args) {
-			for (Level level : values()) {
-				System.out.println("Level " + level + ": "
-						+ level.getStartRange() + " -> " + level.getEndRange()
-						+ " [" + level.getRangeSpan() + "]");
-			}
+			throw new IllegalArgumentException(String.format("Unable to find the level for experience points %d", points));
 		}
 	}
 
+	/**
+	 * The champion's name.
+	 */
 	private final String name;
 
-	private Gender gender;
+	/**
+	 * The champion's gender.
+	 */
+	private final Gender gender;
 
 	/**
-	 * Le groupe auquel est rattach� le {@link Champion}.
+	 * The party this champion is attached to (if any).
 	 */
 	private Party party;
 
 	/**
-	 * La {@link Color} assign�e au {@link Champion} lorsqu'il a rejoint le
-	 * groupe.
+	 * The color used to represent the champion when member of a party. Can be
+	 * null if not in a party.
 	 */
 	private Color color;
 
+	/**
+	 * The champion's body.
+	 */
 	private final Body body;
 
+	/**
+	 * The champion's inventory.
+	 */
 	private final Inventory inventory;
 
 	/**
-	 * L'identifiant du dernier num�ro de tic d'horloge pendant lequel le
-	 * {@link Champion} a �t� attaqu� ou -1 si le {@link Champion} n'a jamais
-	 * �t� attaqu�.
+	 * Stores the identifier of the last clock tick when this champion was
+	 * attacked or -1 if the champion has never been attacked.
 	 */
 	private int lastAttackTick = -1;
 
 	/**
-	 * L'instance de {@link SpellCaster} associ�e au {@link Champion} et lui
-	 * permettant de lancer des sorts.
+	 * The spell caster managing the spells cast by this champion.
 	 */
 	private final SpellCaster spellCaster = new SpellCaster(this);
 
 	/**
-	 * La Map contenant l'exp�rience du {@link Champion} dans chacune de ses
-	 * {@link Skill}s.
+	 * The champion's skills stored as a map. The key is the skill and the
+	 * associated value represents the level in this skill.
 	 */
 	private final Map<Skill, Experience> skills;
 
+	/**
+	 * Support class to fire change events.
+	 */
 	private final ChangeEventSupport eventSupport = new ChangeEventSupport();
 
+	/**
+	 * The champion's stats (health, mana, water, etc).
+	 */
 	private final Stats stats;
 
 	/**
-	 * Permet de g�rer l'empoisonnement du {@link Champion}.
+	 * The object managing the effect of poison when the champion is poisoned.
 	 */
 	private final Poison poison = new Poison();
 
 	/**
-	 * Les sorts lanc�s par le {@link Champion}.
+	 * The object managing the effects of spells cast by this champion.
 	 */
 	private final ChampionSpells spells;
 
+	/**
+	 * The temporizer used to update the champion's spells, stats, etc.
+	 */
 	private final Temporizer temporizer;
 
-	// Il faut passer par la fabrique ChampionFactory afin de cr�er des
-	// champions "complets"
-	Champion(String name) {
-		if (StringUtils.isBlank(name)) {
-			throw new IllegalArgumentException("The given name <" + name
-					+ "> is blank");
-		}
+	// TODO Enforce the below rule with a development time aspect
+	// This constructor is only meant to be invoked from the ChampionFactory
+	Champion(String name, Gender gender) {
+		Validate.isTrue(!StringUtils.isBlank(name), String.format("The given name '%s' is blank", name));
+		Validate.notNull(gender, "The given gender is null");
 
 		this.name = name;
+		this.gender = gender;
 
-		// L'inventaire doit �tre instanci� apr�s avoir m�moris� le nom du
-		// champion
+		// The following objects must be created after setting the champion's
+		// name
 		this.inventory = new Inventory(this);
 
-		// Les stats doivent �tre instanci�es apr�s avoir m�moris� le nom du
-		// champion
 		this.stats = new Stats(this);
 		this.stats.addPropertyChangeListener(this);
 
-		// Le corps doit �tre instanci� apr�s pour la m�me raison
 		this.body = new Body(this);
 
-		// Idem
 		this.spells = new ChampionSpells(this);
 
-		// Idem
+		// Trigger every 5 clock ticks
 		this.temporizer = new Temporizer(name, 5);
 
-		// Initialiser toutes les skills du champion � NONE
+		// Initialize the champion's skills to NONE
 		final Map<Skill, Experience> map = new HashMap<Skill, Experience>();
 
-		for (Skill skill : Skill.values()) {
+		for (final Skill skill : Skill.values()) {
 			map.put(skill, new Experience(this, skill, Level.NONE));
 		}
 
-		// Figer la map skills
+		// Freeze the map of skills
 		this.skills = Collections.unmodifiableMap(map);
 	}
 
 	/**
-	 * Augmente du nombre de points d'exp�rience donn�s la comp�tence du
-	 * {@link Champion}. Promeut automatiquement le {@link Champion} si sa
-	 * comp�tence est suffisante.
+	 * Increases the experience associated to the given skill by the given
+	 * amount of points. This method will automatically promote the champion to
+	 * the next level if the experience is sufficient.
 	 *
 	 * @param skill
-	 *            la {@link Skill} dont l'exp�rience doit augmenter.
+	 *            the skill whose experience is to be increased. Can't be null.
 	 * @param points
-	 *            un entier positif ou nul repr�sentant le nombre de points
-	 *            d'exp�rience acquis par le {@link Champion}.
+	 *            a positive integer representing the number of experience
+	 *            points to be added to the skill's associated experience.
 	 */
 	public void gainExperience(Skill skill, int points) {
-		if (skill == null) {
-			throw new IllegalArgumentException("The given skill is null");
-		}
-		if (points <= 0) {
-			throw new IllegalArgumentException("The given points " + points
-					+ " must be positive");
-		}
+		Validate.notNull(skill, "The given skill is null");
+		Validate.isTrue(points > 0, String.format("The given points %d must be positive", points));
 		assertAlive();
 
 		if (skill.isBasic()) {
-			// Traiter la comp�tence basique
+			// Improve the basic skill
 			getExperience(skill).gain(points);
 		} else {
-			// Traiter la comp�tence cach�e
+			// Improve the hidden skill first
 			getExperience(skill).gain(points);
 
-			// puis la comp�tence basique associ�e
+			// ... then the associated basic skill
 			getExperience(skill.getRelatedSkill()).gain(points);
 		}
 	}
 
 	/**
-	 * Retourne les comp�tences du {@link Champion} sous forme de {@link List}.
+	 * Returns the champion's skills as a list.
 	 *
-	 * @return une {@link List} de {@link Skill}. Ne retourne jamais null.
+	 * @return a list containing the champion's skills. Never returns null.
 	 */
 	public List<Skill> getSkills() {
-		// Recopie d�fensive
+		// Defensive recopy
 		return new ArrayList<Skill>(skills.keySet());
 	}
 
 	/**
-	 * D�finit le niveau de comp�tence <b>de base</b> du h�ros dans la
-	 * {@link Skill} donn�e, c'est-�-dire le niveau ind�pendant du bonus de
-	 * comp�tence.
+	 * Defines the champion's level for the given skill.
 	 *
 	 * @param skill
-	 *            la {@link Skill} dont le niveau doit �tre positionn�.
+	 *            the skill whose level is to be set. Can't be null.
 	 * @param level
-	 *            le {@link Level} � d�finir pour la {@link Skill}.
+	 *            the level to set. Can't be null.
 	 */
 	public void setSkill(Skill skill, Level level) {
-		if (skill == null) {
-			throw new IllegalArgumentException("The given skill is null");
-		}
-		if (level == null) {
-			throw new IllegalArgumentException("The given level is null");
-		}
+		Validate.notNull(skill, "The given skill is null");
+		Validate.notNull(level, "The given level is null");
 
-		// Ne peut pas retourner null
+		// This map contains an entry for every possible skills and can't return null
 		skills.get(skill).setLevel(level);
 	}
 
 	/**
-	 * Retourne l'exp�rience associ�e � la {@link Skill} donn�e du
-	 * {@link Champion}.
+	 * Returns the champion's experience for the given skill.
 	 *
 	 * @param skill
-	 *            la {@link Skill} pour laquelle on demande l'exp�rience.
-	 * @return une instance de {@link Experience}. Ne retourne jamais null.
+	 *            the skill whose associated experience is requested. Can't be
+	 *            null.
+	 * @return the experience for the given skill. Never returns null.
 	 */
 	public Experience getExperience(Skill skill) {
-		if (skill == null) {
-			throw new IllegalArgumentException("The given skill is null");
-		}
+		Validate.notNull(skill, "The given skill is null");
 
-		// Ne peut pas retourner null
+		// Can't return null
 		return skills.get(skill);
 	}
 
@@ -766,122 +749,133 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Fait invoquer le {@link Rune} donn� au {@link Champion}. Cette m�thode
-	 * g�re la consommation de mana, la coh�rence de la s�quence de {@link Rune}
-	 * s invoqu�s, etc.
+	 * Have this champion cast the given rune. This method will handle the
+	 * consumption of mana, validate the rune to ensure its type is consistent
+	 * with the runes already cast.
 	 *
 	 * @param rune
-	 *            le {@link Rune} que le {@link Champion} doit invoquer.
+	 *            the rune to cast by the champion. Can't be null.
 	 * @throws NotEnoughManaException
-	 *             si le {@link Champion} ne dispose pas d'assez de mana pour
-	 *             invoquer le {@link Rune}.
+	 *             if the champion doesn't have enough mana to cast the given
+	 *             rune.
 	 */
 	public void cast(Rune rune) throws NotEnoughManaException {
-		if (rune == null) {
-			throw new IllegalArgumentException("The given rune is null");
-		}
+		Validate.notNull(rune, "The given rune is null");
 		assertAlive();
 
-		// V�rifier que le champion a assez de mana pour invoquer ce rune
+		// Ensure the champion has enough mana to cast the rune
 		final Stat mana = getStats().getMana();
 
 		final int cost;
 
-		// D�terminer le co�t d'invocation du rune
+		// How costly is this rune in mana points ?
 		if (Rune.Type.POWER.equals(rune.getType())) {
 			cost = rune.getCost();
 		} else {
-			// R�cup�rer le power rune pr�c�demment invoqu�
+			// Retrieve the power rune previously cast
 			final PowerRune powerRune = spellCaster.getPowerRune();
 
 			if (powerRune == null) {
-				throw new IllegalStateException(
-						"There is no defined power rune");
+				// Shouldn't happen
+				throw new IllegalStateException("There is no previously cast power rune");
 			}
 
 			cost = rune.getCost(powerRune);
 		}
 
-		if (mana.actualValue() >= cost) {
-			// Invoquer le rune (contr�le la s�quence d'appel des runes)
-			spellCaster.cast(rune);
-
-			// D�cr�menter la mana
-			mana.dec(cost);
-
-			// Le champion gagne de l'exp�rience uniquement si le sort r�ussit
-			// pas au moment o� il invoque le rune
-		} else {
-			// Pas assez de mana, le signaler
+		if (mana.actualValue() < cost) {
+			// Not enough mana to cast the rune
 			throw new NotEnoughManaException();
 		}
+
+		// The champion has enough mana, cast the rune. The spell caster will
+		// validate the sequence of runes (Power > Element > Form > Alignment)
+		spellCaster.cast(rune);
+
+		// Consume the mana
+		mana.dec(cost);
+
+		// At this point, the champion doesn't gain any experience. This happens
+		// only when the champion casts the complete spell and the casting succeds
 	}
 
-	public void cast(PowerRune powerRune, Spell.Type spellType)
-			throws NotEnoughManaException, ChampionMumblesNonsenseException,
-			EmptyFlaskNeededException, SkillTooLowException {
+	/**
+	 * Have the champion cast the given spell type with the given power rune.
+	 *
+	 * @param powerRune
+	 *            a power rune representing the power of the spell to cast.
+	 *            Can't be null.
+	 * @param spellType
+	 *            the type of spell to cast. Can't be null.
+	 * @throws NotEnoughManaException
+	 *             if the champion doesn't have enough mana to cast this spell.
+	 * @throws EmptyFlaskNeededException
+	 *             if the spell required an empty flask and none can be found in
+	 *             the champion's hands.
+	 * @throws SkillTooLowException
+	 *             if the champion isn't skilled enough to cast the spell.
+	 */
+	public void cast(PowerRune powerRune, Spell.Type spellType) throws NotEnoughManaException, EmptyFlaskNeededException,
+			SkillTooLowException {
 
 		Validate.notNull(powerRune, "The given power rune is null");
 		Validate.notNull(spellType, "The given spell type is null");
 
-		// Rune de puissance
+		// Cast first the power rune
 		cast(powerRune);
 
-		// Runes composant le sort (1 � 3)
-		for (Rune rune : spellType.getRunes()) {
+		// ... then the runes composing this spell
+		for (final Rune rune : spellType.getRunes()) {
 			cast(rune);
 		}
 	}
 
-	public Spell cast(PowerRune powerRune, ElementRune elementRune)
-			throws NotEnoughManaException, ChampionMumblesNonsenseException,
-			EmptyFlaskNeededException, SkillTooLowException,
-			EmptyHandNeededException {
+	public Spell cast(PowerRune powerRune, ElementRune elementRune) throws NotEnoughManaException,
+			ChampionMumblesNonsenseException, EmptyFlaskNeededException, SkillTooLowException, EmptyHandNeededException {
 
 		return castConcrete(powerRune, elementRune, null, null, 2);
 	}
 
-	public Spell cast(PowerRune powerRune, ElementRune elementRune,
-			FormRune formRune) throws NotEnoughManaException,
-			ChampionMumblesNonsenseException, EmptyFlaskNeededException,
-			SkillTooLowException, EmptyHandNeededException {
+	public Spell cast(PowerRune powerRune, ElementRune elementRune, FormRune formRune) throws NotEnoughManaException,
+			ChampionMumblesNonsenseException, EmptyFlaskNeededException, SkillTooLowException, EmptyHandNeededException {
 
 		return castConcrete(powerRune, elementRune, formRune, null, 3);
 	}
 
-	public Spell cast(PowerRune powerRune, ElementRune elementRune,
-			FormRune formRune, AlignmentRune alignmentRune)
-			throws NotEnoughManaException, ChampionMumblesNonsenseException,
-			EmptyFlaskNeededException, SkillTooLowException,
+	public Spell cast(PowerRune powerRune, ElementRune elementRune, FormRune formRune, AlignmentRune alignmentRune)
+			throws NotEnoughManaException, ChampionMumblesNonsenseException, EmptyFlaskNeededException, SkillTooLowException,
 			EmptyHandNeededException {
 
 		return castConcrete(powerRune, elementRune, formRune, alignmentRune, 4);
 	}
 
-	private Spell castConcrete(PowerRune powerRune, ElementRune elementRune,
-			FormRune formRune, AlignmentRune alignmentRune, int count)
-			throws NotEnoughManaException, ChampionMumblesNonsenseException,
-			EmptyFlaskNeededException, SkillTooLowException,
-			EmptyHandNeededException {
+	private Spell castConcrete(PowerRune powerRune, ElementRune elementRune, FormRune formRune, AlignmentRune alignmentRune,
+			int count) throws NotEnoughManaException, ChampionMumblesNonsenseException, EmptyFlaskNeededException,
+			SkillTooLowException, EmptyHandNeededException {
 
-		Validate.isTrue(powerRune != null, "The given power rune is null");
-		Validate.isTrue(elementRune != null, "The given element rune is null");
+		// The power and element runes can't be null
+		Validate.notNull(powerRune, "The given power rune is null");
+		Validate.notNull(elementRune, "The given element rune is null");
+		Validate.isTrue(count >= 2 && count <= 4, String.format("The given count (%d) must be within [2,4]", count));
 
-		if (count >= 3) {
-			Validate.isTrue(formRune != null, "The given form rune is null");
-
-			if (count == 4) {
-				Validate.isTrue(alignmentRune != null,
-						"The given alignment rune is null");
-			}
+		if (count == 2) {
+			Validate.isTrue(formRune == null, "The given form rune must be null");
+			Validate.isTrue(alignmentRune == null, "The given alignment rune must be null");
+		} else if (count == 3) {
+			Validate.notNull(formRune, "The given form rune is null");
+			Validate.isTrue(alignmentRune == null, "The given alignment rune must be null");
+		} else if (count == 4) {
+			Validate.notNull(formRune, "The given form rune is null");
+			Validate.notNull(alignmentRune, "The given alignment rune is null");
 		}
 
 		if (spellCaster.getRuneCount() > 0) {
-			// Il ne doit y avoir aucun rune d�j� invoqu�
-			throw new IllegalStateException("There are "
-					+ spellCaster.getRuneCount() + " already invoked");
+			// There can't be any previously cast rune
+			throw new IllegalStateException(String.format("There are %d rune(s) already invoked (expected: 0)",
+					spellCaster.getRuneCount()));
 		}
 
+		// Cast the runes
 		cast(powerRune);
 		cast(elementRune);
 
@@ -897,92 +891,88 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Lance le sort en cours d'invocation par le {@link Champion}. L'exp�rience
-	 * du {@link Champion} augmente si le sort r�ussit et sa main est rendue
-	 * indisponible pendant un temps fonction du sort invoqu�.
+	 * Finalizes the spell currently being cast by the champion and returns the
+	 * cast spell if the casting succeeds. This method will validate that the
+	 * invoked runes form a valid spell. If successful, the champion's
+	 * experience for the relevant skill will be automatically improved. Also
+	 * the champion's weapon hand will become unavailable for a duration that
+	 * depends on the spell cast.
 	 *
-	 * @return une instance de {@link Spell} repr�sentant le sort invoqu�.
+	 * @return the cast spell if the operation succeeds. Never returns null.
 	 * @throws ChampionMumblesNonsenseException
-	 *             si le sort n'est pas valide.
+	 *             if the spell fails because the spell isn't valid.
 	 * @throws EmptyFlaskNeededException
-	 *             si le sort requiert une fiole vide qui n'est pas pr�sente.
+	 *             is the spell requires an empty flask and none can be found in
+	 *             the champion's hands.
 	 * @throws SkillTooLowException
-	 *             si le {@link Champion} n'est pas assez comp�tent pour
-	 *             invoquer le sort.
+	 *             if the champion isn't skilled enough to cast the spell.
 	 * @throws EmptyHandNeededException
-	 *             si le sort demande que l'une des mains du {@link Champion}
-	 *             soit vide.
+	 *             if the spell requires an empty hand and none is free.
 	 */
-	public Spell castSpell() throws ChampionMumblesNonsenseException,
-			EmptyFlaskNeededException, SkillTooLowException,
+	public Spell castSpell() throws ChampionMumblesNonsenseException, EmptyFlaskNeededException, SkillTooLowException,
 			EmptyHandNeededException {
 
 		assertAlive();
 
-		// On cr�e juste l'instance de Spell sans effacer les runes pour g�rer
-		// le cas sp�cial de la cr�ation de potions (cf plus bas)
+		// First create the spell without clearing the runes (special use case
+		// when creating potions, see below)
 		final Spell spell = spellCaster.cast(true);
 
-		// Le sort invoqu� est-il valide ?
+		// Is the spell valid ?
 		if (!spell.isValid()) {
-			// Non. Supprimer les runes formul�s
+			// No, clear the runes and throw an error
 			spellCaster.clear();
 
 			throw new ChampionMumblesNonsenseException();
 		}
 
-		// Le champion a-t-il assez de comp�tence pour invoquer ce sort ?
+		// Is the champion skilled enough to cast this spell ?
 		if (!spell.canBeCastBy(this)) {
-			// Non. Supprimer les runes formul�s
+			// No, clear the runes
 			spellCaster.clear();
 
-			throw new SkillTooLowException("The champion's skill "
-					+ spell.getSkill() + " is too low to cast spell "
-					+ spell.getName() + " (actual: "
-					+ getLevel(spell.getSkill()) + ", minimum: "
-					+ spell.getType().getRequiredLevel() + ")");
+			throw new SkillTooLowException(String.format(
+					"The champion's skill %s is too low to cast spell %s (actual: %s, minimum: %s)", spell.getSkill(),
+					spell.getName(), getLevel(spell.getSkill()), spell.getType().getRequiredLevel()));
 		}
 
-		// Pr�requis pour que le sort fonctionne ?
+		// Prerequisites for the spell to succeed ?
 		if (spell.getType().requiresEmptyFlask()) {
-			// Le sort requiert une fiole vide pour �tre invoqu�
+			// The champion must hold an empty flask
 
-			// Le champion tient-il une fiole vide dans l'une de ses mains ?
+			// Is an empty flask available ?
 			final Item item1 = getBody().getWeaponHand().getItem();
 			final Item item2 = getBody().getShieldHand().getItem();
 
-			final boolean emptyFlask1 = (item1 != null)
-					&& item1.getType().equals(Item.Type.EMPTY_FLASK);
-			final boolean emptyFlask2 = (item2 != null)
-					&& item2.getType().equals(Item.Type.EMPTY_FLASK);
+			final boolean emptyFlask1 = (item1 != null) && item1.getType().equals(Item.Type.EMPTY_FLASK);
+			final boolean emptyFlask2 = (item2 != null) && item2.getType().equals(Item.Type.EMPTY_FLASK);
 
 			if (!emptyFlask1 && !emptyFlask2) {
-				// Aucune fiole vide, lever une erreur en conservant les runes
-				// d�j� formul�s
+				// No empty flask, throw an error WITHOUT clearing the runes
 				throw new EmptyFlaskNeededException();
 			}
 		}
 
-		// Supprimer les runes formul�s
+		// At this stage, the runes will always be cleared
 		spellCaster.clear();
 
-		// Comp�tence mise en oeuvre par le sort (peut �tre nul !)
+		// Skill involved for this spell (can be null) ?
 		final Skill skill = spell.getSkill();
 
 		if (skill != null) {
-			// Le champion gagne de l'exp�rience. Nombre de points gagn�s ?
+			// The spell succeeded so the champion gains some experience
 			gainExperience(skill, spell.getEarnedExperience());
 		}
 
+		// How long will the weapon hand be unavailable ? Can return zero
 		final int duration = spell.getDuration();
 
 		if (duration > 0) {
-			// Rendre la main du champion indisponible (uniquement si le sort a
-			// une "dur�e" d'indisponibilit�)
+			// The weapon hand becomes unavailable for a given duration
 			body.getWeaponHand().disable(duration);
 		}
 
-		// Laisser le sort "agir" sur le champion
+		// Let the spell operate on the champion
 		spell.actUpon(this);
 
 		return spell;
@@ -996,21 +986,17 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 		return gender;
 	}
 
-	void setGender(Gender gender) {
-		if (this.gender != null) {
-			// On ne peut positionner le sexe qu'une seule fois
-			throw new IllegalStateException(
-					"The champion's gender is already defined");
-		}
-
-		this.gender = gender;
-	}
-
+	/**
+	 * Returns the party this champion belongs to (if any).
+	 *
+	 * @return a party or null if the champion isn't in a party.
+	 */
 	public Party getParty() {
 		return party;
 	}
 
-	// Cette m�thode ne doit �tre appel�e que depuis la classe Party
+	// TODO Enforce the rule below with a development time aspect
+	// This method should only be called by the class Party
 	void setParty(Party party) {
 		this.party = party;
 
@@ -1023,7 +1009,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 				log.debug(getName() + " joined the party");
 			}
 
-			// Enregistrer le champion
+			// Register this champion
 			Clock.getInstance().register(this);
 		}
 	}
@@ -1033,8 +1019,9 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	void setColor(Color color) {
-		// color peut �tre null (quand le h�ros quitte le groupe). Cette m�thode
-		// ne doit �tre appel�e que depuis la classe Party
+		// TODO Enforce the rule below with a development time aspect
+		// The color argument can be null (when the champion leaves the party).
+		// This method should only be called from the class Party
 		this.color = color;
 	}
 
@@ -1047,55 +1034,55 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Indique si le {@link Champion} est le leader de son groupe.
+	 * Tells whether the champion is currently the leader of his / her group.
 	 *
-	 * @return si le {@link Champion} est le leader de son groupe.
+	 * @return whether the champion is currently the leader of his / her group.
 	 */
 	public boolean isLeader() {
 		return (party != null) && (party.getLeader() == this);
 	}
 
 	/**
-	 * Retourne la charge maximale (en kilogrammes) que peut porter ce
-	 * {@link Champion}.
+	 * Returns the maximum load the champion can carry.
 	 *
-	 * @return un float repr�sentant un nombre de kilogrammes.
+	 * @return a float representing a number of Kg.
 	 */
 	public final float getMaxLoad() {
 		return getStats().getActualMaxLoad();
 	}
 
 	/**
-	 * Retourne le niveau <b>r�el</b> du champion pour la {@link Skill} donn�e,
-	 * c'est-�-dire que la valeur retourn�e comprend l'�ventuel bonus de
-	 * comp�tence.
+	 * Returns the champion's actual level for the given skill. Remainder: the
+	 * level of a skill can be temporarily boosted. This method takes into
+	 * account the possible boost.
 	 *
 	 * @param skill
-	 *            une instance de {@link Skill} dont le niveau associ� est
-	 *            demand�.
-	 * @return une instance de {@link Level}. Ne retourne jamais null.
+	 *            the skill whose actual level is requested. Can't be null.
+	 * @return a level. Never returns null.
 	 */
 	public Level getLevel(Skill skill) {
-		if (skill == null) {
-			throw new IllegalArgumentException("The given skill is null");
-		}
+		Validate.notNull(skill, "The given skill is null");
 
 		return skills.get(skill).getActualLevel();
 	}
 
 	/**
-	 * Retourne la charge actuellement port�e par le {@link Champion}. S'il est
-	 * leader de son groupe, cela inclut l'�ventuel {@link Item} que le leader
-	 * porte en main.
+	 * Returns the load currently carried by the champion as a float. This
+	 * method takes into account:
+	 * <ul>
+	 * <li>the items inside the champion's inventory.</li>
+	 * <li>the items worn by the champion (armor, weapons, clothes, etc).</li>
+	 * <li>if the champion is the leader of his / her group and the champion is
+	 * holding an item</li>
+	 * </ul>
 	 *
-	 * @return un float repr�sentant un nombre de kilogrammes.
+	 * @return a float representing a number of Kg.
 	 */
 	public float getLoad() {
 		float weight = inventory.getTotalWeight() + body.getTotalWeight();
 
 		if ((party != null) && isLeader() && party.hasItem()) {
-			// Prendre en compte aussi l'objet qu'il porte s'il est leader du
-			// groupe
+			// Take into account the leader's held item
 			weight += getParty().getItem().getWeight();
 		}
 
@@ -1103,43 +1090,43 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Retourne la vitesse de d�placement du champion compte tenu de son �tat
-	 * actuel. Le retour de la m�thode d�pend de si le h�ros est bless�,
-	 * surcharg�, etc.
+	 * Returns the champion's move speed. The method takes into account:
+	 * <ul>
+	 * <li>if the champion is dead</li>
+	 * <li>if the champion is overloaded</li>
+	 * <li>if the champion is wounded at the feet or legs</li>
+	 * <li>if the champion is wearing the "Boots of Speed"</li>
+	 * </ul>
 	 *
-	 * @return une instance de {@link Speed}.
+	 * @return the move speed for this champion. Never returns null.
 	 */
 	public Speed getMoveSpeed() {
 		if (isDead()) {
-			// Champion mort, vitesse non d�finie
+			// For a dead champion, the speed is "undefined" (same as infinite)
 			return Speed.UNDEFINED;
 		}
 		if (getLoad() >= getMaxLoad()) {
-			// Champion en surcharge
+			// The overload slows down the champion
 			return Speed.SLOW;
 		}
 		if (getBody().getFeet().isWounded() || getBody().getLegs().isWounded()) {
-			// Pieds ou jambes bless�(e)s. Une blessure ailleurs ne ralentit
-			// pas le champion
+			// The champion is wounded at the feet or legs. A wound somewhere
+			// else doesn't slow down the champion
 			return Speed.SLOW;
 		}
 		if (getBody().getFeet().hasItem(Item.Type.BOOTS_OF_SPEED)) {
-			// Bottes de vitesse
+			// Those special boots boost the speed
 			return Speed.FAST;
 		}
 
-		// FIXME G�rer les combinatoires de vitesse: bottes de vitesse mais
-		// bless�, etc.
-
-		// Vitesse de d�placement normale
+		// FIXME Need a better handling of possible combinations (Boots of Speed + wounded ?)
 		return Speed.NORMAL;
 	}
 
 	/**
-	 * Fait mourir le {@link Champion} (s'il est vivant) et retourne si
-	 * l'op�ration a r�ussi.
+	 * Make the champion die (if alive) and returns whether the operation succeeded.
 	 *
-	 * @return si le {@link Champion} �tait vivant et qu'il vient de mourir.
+	 * @return whether the champion was alive and just died.
 	 */
 	public boolean die() {
 		if (isAlive()) {
@@ -1152,36 +1139,35 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Indique si le {@link Champion} est vivant.
+	 * Tells whether the champion is alive.
 	 *
-	 * @return si le {@link Champion} est vivant.
+	 * @return whether the champion is alive.
 	 */
 	public boolean isAlive() {
 		return (getStats().getHealth().actualValue() > 0);
 	}
 
 	/**
-	 * Indique si le {@link Champion} est mort.
+	 * Tells whether the champion is dead.
 	 *
-	 * @return si le {@link Champion} est mort.
+	 * @return whether the champion is dead.
 	 */
 	public final boolean isDead() {
 		return !isAlive();
 	}
 
 	/**
-	 * Retourne le bonus de r�sistance au feu du {@link Champion} calcul� �
-	 * partir des objets qu'il porte sur lui et des sorts actifs.
+	 * Returns the overall anti-magic bonus for this champion. The returned
+	 * value depends on: the worn items (armor) and the active spells.
 	 *
-	 * @return un entier positif ou nul repr�sentant un bonus de r�sistance au
-	 *         feu.
+	 * @return an integer (positive or zero) representing the anti-magic bonus.
 	 */
 	public int getAntiMagic() {
-		// Prendre en compte le bonus conf�r� par les objets port�s
+		// Bonus bestowed by the items worn ?
 		int antiMagic = body.getAntiMagic();
 
 		if (party != null) {
-			// ... et les sorts (du groupe)
+			// ... and the party spells ?
 			antiMagic += party.getSpells().getAntiMagic().actualValue();
 		}
 
@@ -1189,20 +1175,20 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Retourne le bonus de d�fense du {@link Champion} calcul� � partir des
-	 * objets qu'il porte sur lui et des sorts actifs.
+	 * Returns the overall shield bonus for this champion. The returned
+	 * value depends on: the worn items (armor) and the active spells.
 	 *
-	 * @return un entier positif ou nul repr�sentant un bonus de d�fense.
+	 * @return an integer (positive or zero) representing the shield bonus.
 	 */
 	public int getShield() {
-		// Prendre en compte le bonus conf�r� par les objets port�s
+		/// Bonus bestowed by the items worn ?
 		int shield = body.getShield();
 
-		// Prendre en compte le bonus de d�fense du sort associ� au champion
+		// Take into account the champion's shield spell
 		// shield += spells.getShield().actualValue();
 
 		if (party != null) {
-			// ... et les sorts (du groupe)
+			// ... and the party spells ?
 			shield += party.getSpells().getShield().actualValue();
 		}
 
@@ -1210,43 +1196,38 @@ public class Champion implements ChangeEventSource, PropertyChangeListener,
 	}
 
 	/**
-	 * Fait consommer l'objet donn� au {@link Champion} et retourne l'objet
-	 * r�sultant de l'op�ration. Si l'objet n'est pas consommable, retourne le
-	 * param�tre tel quel. Autrement consomme l'objet et retourne null si
-	 * celui-ci est d�truit par l'op�ration ou retourne un autre objet dans
-	 * lequel il s'est chang� (Ex: Vidage d'une fiole d'eau -> Fiole vide).
+	 * Have the champion consume (that is, eat or drink) the given item and
+	 * returns the new item (if any) resulting from the consumption. In most
+	 * cases, consuming food destroys the item so the method returns null.
+	 * However there are situations where consuming an item turns it into a new
+	 * item (water flask -> empty flask). If the item isn't consumable, returns
+	 * int input item.
 	 *
 	 * @param item
-	 *            un {@link Item} que le {@link Champion} doit consommer (boire
-	 *            ou manger).
-	 * @return l'objet dans lequel l'objet pass� en param�tre s'est chang� s'il
-	 *         y a lieu, null selon les cas ou alors l'objet en param�tre
-	 *         lui-m�me.
+	 *            the item to consume. Can't be null.
+	 * @return the input item if the operation failed or null if the item was
+	 *         consumed and destroy in the process or another item representing
+	 *         the item after consumption.
 	 */
 	public Item consume(Item item) {
-		if (item == null) {
-			throw new IllegalArgumentException("The given item is null");
-		}
+		Validate.notNull(item, "The given item is null");
 
 		return item.itemConsumed(this);
 	}
 
 	/**
-	 * Gu�rit le {@link Champion} avec la puissance du {@link PowerRune} donn�.
+	 * Restores the champion's health with the given "strength".
 	 *
 	 * @param powerRune
-	 *            un {@link PowerRune} qui d�termine la puissance de la gu�rison
-	 *            appliqu�e au {@link Champion}.
+	 *            a power rune representing the strength of the healing. Can't
+	 *            be null.
 	 */
 	public void heal(PowerRune powerRune) {
-		if (powerRune == null) {
-			throw new IllegalArgumentException("The given power rune is null");
-		}
+		Validate.notNull(powerRune, "The given power rune is null");
 		assertAlive();
 
-		// TODO D�terminer le nombre de points de sant� restaur�s
-		getStats().getHealth().inc(
-				powerRune.getPowerLevel() * Utils.random(7, 15));
+		// TODO Refine the formula for the number of health points restored
+		getStats().getHealth().inc(powerRune.getPowerLevel() * Utils.random(7, 15));
 	}
 
 	/**

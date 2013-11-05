@@ -22,9 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Materiality;
-import fr.ritaly.dungeonmaster.ai.astar.PathFinder;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.DungeonUtils;
 import fr.ritaly.dungeonmaster.map.Element;
@@ -40,7 +38,8 @@ public class LevelPathFinderTest extends TestCase {
 	}
 
 	public void testFindPathWhenMaterial() {
-		// The material creature in S must reach target X
+		// The material creature in S must reach target X in 31 moves (it can't
+		// traverse walls)
 		// +---+---+---+---+---+---+---+---+---+
 		// | W | W | W | W | W | W | W | W | W |
 		// +---+---+---+---+---+---+---+---+---+
@@ -83,7 +82,8 @@ public class LevelPathFinderTest extends TestCase {
 	}
 
 	public void testFindPathWhenImmaterial() {
-		// The immaterial creature in S must reach target X
+		// The immaterial creature in S must reach target X in 7 moves (it can
+		// traverse walls)
 		// +---+---+---+---+---+---+---+---+---+
 		// | W | W | W | W | W | W | W | W | W |
 		// +---+---+---+---+---+---+---+---+---+
@@ -124,10 +124,5 @@ public class LevelPathFinderTest extends TestCase {
 		// The returned solution must contain 7 nodes
 		assertNotNull(nodes);
 		assertEquals(7, nodes.size());
-	}
-
-	@Override
-	protected void setUp() throws Exception {
-		Clock.getInstance().reset();
 	}
 }

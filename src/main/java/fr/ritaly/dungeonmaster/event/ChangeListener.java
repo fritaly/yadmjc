@@ -19,9 +19,17 @@
 package fr.ritaly.dungeonmaster.event;
 
 /**
+ * A listener of change events.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface ChangeListener {
 
+	/**
+	 * Notifies the listener that the given change event was just fired.
+	 *
+	 * @param event
+	 *            the change event to notify.
+	 */
 	public void onChangeEvent(ChangeEvent event);
 }

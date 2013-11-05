@@ -58,8 +58,7 @@ public class ChampionFactory {
 	public Champion newChampion(Champion.Name name) {
 		Validate.notNull(name, "The given champion name is null");
 
-		final Champion champion = new Champion(StringUtils.capitalize(name.name().toLowerCase()));
-		champion.setGender(name.getGender());
+		final Champion champion = new Champion(StringUtils.capitalize(name.name().toLowerCase()), name.getGender());
 
 		// Set the champion's skills
 		final Map<Skill, Level> skills = name.getSkills();

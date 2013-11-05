@@ -24,12 +24,18 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 
 /**
- * Some food.
+ * Some food. Food is useful for fighting hunger.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Food extends Item {
 
+	/**
+	 * Creates a new food item with the given type.
+	 *
+	 * @param type
+	 *            the type of food to create. Can't be null.
+	 */
 	public Food(Type type) {
 		super(type);
 
@@ -77,7 +83,7 @@ public final class Food extends Item {
 		case DRAGON_STEAK:
 			return 1400;
 		default:
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Unsupported food item " + getType());
 		}
 	}
 

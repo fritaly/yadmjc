@@ -49,6 +49,7 @@ public class TemporizerTest extends TestCase {
 	public void testPositiveCount() {
 		final Temporizer temporizer = new Temporizer("Test", 2);
 
+		// A temporizer is reusable
 		for (int i = 0; i < 5; i++) {
 			// odd triggerings return false
 			assertFalse(temporizer.trigger());
@@ -56,10 +57,5 @@ public class TemporizerTest extends TestCase {
 			// even triggerings return true
 			assertTrue(temporizer.trigger());
 		}
-	}
-
-	@Override
-	protected void setUp() throws Exception {
-		Clock.getInstance().reset();
 	}
 }

@@ -21,18 +21,25 @@ package fr.ritaly.dungeonmaster.event;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
+
 /**
+ * Helper class used for simplifying the notification of change events.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class ChangeEventSupport implements ChangeEventSource {
 
-	// Instanci� � la demande uniquement si n�cessaire
+	/**
+	 * Lists the listeners to be notified of change events.
+	 */
 	private List<ChangeListener> listeners;
 
 	@Override
 	public void addChangeListener(ChangeListener listener) {
 		if (listener != null) {
 			if (listeners == null) {
+				// Create the list only when strictly necessary
 				listeners = new ArrayList<ChangeListener>();
 			}
 
@@ -46,21 +53,25 @@ public class ChangeEventSupport implements ChangeEventSource {
 			listeners.remove(listener);
 
 			if (listeners.isEmpty()) {
+				// Get rid of the unnecessary list
 				listeners = null;
 			}
 		}
 	}
 
-	public void fireChangeEvent(ChangeEvent event) {
-		if (event == null) {
-			throw new IllegalArgumentException("The given event is null");
-		}
+	/**
+	 * Notifies the registered listeners of the given change event.
+	 *
+	 * @param event
+	 *            a change event to be notified to registered listeners. Can't
+	 *            be null.
+	 */
+	public void fireChangeEvent(final ChangeEvent event) {
+		Validate.notNull(event, "The given change event is null");
 
 		if (listeners != null) {
-			// Recopie de la liste avant it�ration
-			for (ChangeListener listener : new ArrayList<ChangeListener>(
-					listeners)) {
-
+			// Clone the list to avoid concurrent modifications
+			for (ChangeListener listener : new ArrayList<ChangeListener>(listeners)) {
 				listener.onChangeEvent(event);
 			}
 		}

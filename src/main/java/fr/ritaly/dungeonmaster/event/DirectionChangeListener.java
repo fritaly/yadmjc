@@ -19,9 +19,18 @@
 package fr.ritaly.dungeonmaster.event;
 
 /**
+ * A listener of direction change events.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface DirectionChangeListener {
 
+	/**
+	 * Notifies the listener that the given direction change event was just
+	 * fired.
+	 *
+	 * @param event
+	 *            the direction change event to notify.
+	 */
 	public void directionChanged(DirectionChangeEvent event);
 }

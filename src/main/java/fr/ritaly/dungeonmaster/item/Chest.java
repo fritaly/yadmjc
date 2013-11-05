@@ -52,6 +52,9 @@ public final class Chest extends Item implements ItemContainer {
 		}
 	};
 
+	/**
+	 * Creates a new empty chest.
+	 */
 	public Chest() {
 		super(Item.Type.CHEST);
 	}

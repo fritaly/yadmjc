@@ -1904,9 +1904,9 @@ public abstract class Item implements ChangeEventSource {
 	public abstract int getAntiMagic();
 
 	/**
-	 * Returns the defense bonus bestowed by this item when activated.
+	 * Returns the shield bonus bestowed by this item when activated.
 	 *
-	 * @return an integer representing a defense bonus. Returns zero if the item
+	 * @return an integer representing a shield bonus. Returns zero if the item
 	 *         doesn't bestow any bonus.
 	 */
 	public abstract int getShield();

@@ -19,11 +19,25 @@
 package fr.ritaly.dungeonmaster.event;
 
 /**
+ * An object acting as the source of change events.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface ChangeEventSource {
 
+	/**
+	 * Registers the given change listener.
+	 *
+	 * @param listener
+	 *            a change listener to notify of future change events.
+	 */
 	public void addChangeListener(ChangeListener listener);
 
+	/**
+	 * Unregisters the given change listener.
+	 *
+	 * @param listener
+	 *            a change listener to unregister.
+	 */
 	public void removeChangeListener(ChangeListener listener);
 }

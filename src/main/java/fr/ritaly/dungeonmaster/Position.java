@@ -40,14 +40,17 @@ public final class Position {
 	/** The y coordinate of this position. */
 	public final int y;
 
-	/** The z coordinate of this position. */
+	/**
+	 * The z coordinate of this position. Represents the level this position is
+	 * on.
+	 */
 	public final int z;
 
 	private final int hash;
 
 	private final String toString;
 
-	// FIXME Masquer ce constructeur pour r�utiliser les instances -> valueOf(x, y, z)
+	// FIXME Create a factory method valueOf(x,y,z) to reuse instances ?
 	public Position(int x, int y, int z) {
 		this.x = x;
 		this.y = y;
@@ -325,23 +328,74 @@ public final class Position {
 	}
 
 	/**
-	 * TODO Translate this javadoc comment to english
-	 *
-	 * Retourne, pour cette {@link Position}, la liste des {@link Position}s qui
-	 * lui sont visibles en regardant dans la direction donn�e. L'impl�mentation
-	 * courante suppose que la port�e visuelle est de 3 lignes en profondeur.
+	 * Returns the positions visible from this position when looking at towards
+	 * the given direction. The sight range for champions is typically 3 steps
+	 * forward. The returned list always contains 11 positions corresponding to
+	 * the theorically visible positions. Nothing guarantees those positions do
+	 * exist in the actual dungeon (for instance if the party is looking at a
+	 * wall).<br>
+	 * <br>
+	 * Example when looking north:<br>
+	 * <br>
+	 * <table cellspacing="1" cellpadding="5" border="1">
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>V</td>
+	 * <td>V</td>
+	 * <td>V</td>
+	 * <td>V</td>
+	 * <td>V</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>V</td>
+	 * <td>V</td>
+	 * <td>V</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>V</td>
+	 * <td>V</td>
+	 * <td>V</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>P</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * </table>
 	 *
 	 * @param lookDirection
-	 *            la {@link Direction} de regard.
-	 * @return une {@link List} de {@link Position}s. Ne retourne jamais null.
+	 *            the direction of look. Can't be null.
+	 * @return a list of 11 positions. Never returns null.
 	 */
 	public List<Position> getVisiblePositions(Direction lookDirection) {
-		// FIXME Rajouter un param�tre sightRange
+		// FIXME Add a sightRange parameter ? Because creatures can have a longer sight range
 		Validate.notNull(lookDirection, "The given direction is null");
 
-		final List<Position> positions = new ArrayList<Position>();
+		final List<Position> positions = new ArrayList<Position>(11);
 
-		// Positions visibles depuis la position P en regardant vers le nord
+		// The positions visible from P when looking towards North
 		// +---+---+---+---+---+---+---+---+---+
 		// |   |   |   |   |   |   |   |   |   |
 		// +---+---+---+---+---+---+---+---+---+
@@ -356,8 +410,6 @@ public final class Position {
 
 		switch (lookDirection) {
 		case NORTH:
-			// La cr�ature voit sur 3 rang�es de profondeur et sur une rang�e de
-			// chaque c�t�
 			positions.add(new Position(x - 1, y - 1, z));
 			positions.add(new Position(x, y - 1, z));
 			positions.add(new Position(x + 1, y - 1, z));
@@ -366,8 +418,6 @@ public final class Position {
 			positions.add(new Position(x, y - 2, z));
 			positions.add(new Position(x + 1, y - 2, z));
 
-			// Pour la derni�re rang�e, la cr�ature voit sur 2 rang�es de chaque
-			// c�t�
 			positions.add(new Position(x - 2, y - 3, z));
 			positions.add(new Position(x - 1, y - 3, z));
 			positions.add(new Position(x, y - 3, z));
@@ -375,8 +425,6 @@ public final class Position {
 			positions.add(new Position(x + 2, y - 3, z));
 			break;
 		case SOUTH:
-			// La cr�ature voit sur 3 rang�es de profondeur et sur une rang�e de
-			// chaque c�t�
 			positions.add(new Position(x - 1, y + 1, z));
 			positions.add(new Position(x, y + 1, z));
 			positions.add(new Position(x + 1, y + 1, z));
@@ -385,8 +433,6 @@ public final class Position {
 			positions.add(new Position(x, y + 2, z));
 			positions.add(new Position(x + 1, y + 2, z));
 
-			// Pour la derni�re rang�e, la cr�ature voit sur 2 rang�es de chaque
-			// c�t�
 			positions.add(new Position(x - 2, y + 3, z));
 			positions.add(new Position(x - 1, y + 3, z));
 			positions.add(new Position(x, y + 3, z));
@@ -394,8 +440,6 @@ public final class Position {
 			positions.add(new Position(x + 2, y + 3, z));
 			break;
 		case WEST:
-			// La cr�ature voit sur 3 rang�es de profondeur et sur une rang�e de
-			// chaque c�t�
 			positions.add(new Position(x - 1, y - 1, z));
 			positions.add(new Position(x - 1, y, z));
 			positions.add(new Position(x - 1, y + 1, z));
@@ -404,8 +448,6 @@ public final class Position {
 			positions.add(new Position(x - 2, y, z));
 			positions.add(new Position(x - 2, y + 1, z));
 
-			// Pour la derni�re rang�e, la cr�ature voit sur 2 rang�es de chaque
-			// c�t�
 			positions.add(new Position(x - 3, y - 2, z));
 			positions.add(new Position(x - 3, y - 1, z));
 			positions.add(new Position(x - 3, y, z));
@@ -413,8 +455,6 @@ public final class Position {
 			positions.add(new Position(x - 3, y + 2, z));
 			break;
 		case EAST:
-			// La cr�ature voit sur 3 rang�es de profondeur et sur une rang�e de
-			// chaque c�t�
 			positions.add(new Position(x + 1, y - 1, z));
 			positions.add(new Position(x + 1, y, z));
 			positions.add(new Position(x + 1, y + 1, z));
@@ -423,8 +463,6 @@ public final class Position {
 			positions.add(new Position(x + 2, y, z));
 			positions.add(new Position(x + 2, y + 1, z));
 
-			// Pour la derni�re rang�e, la cr�ature voit sur 2 rang�es de chaque
-			// c�t�
 			positions.add(new Position(x + 3, y - 2, z));
 			positions.add(new Position(x + 3, y - 1, z));
 			positions.add(new Position(x + 3, y, z));
@@ -432,40 +470,143 @@ public final class Position {
 			positions.add(new Position(x + 3, y + 2, z));
 			break;
 		default:
-			throw new UnsupportedOperationException("Unsupported direction "
-					+ lookDirection);
+			throw new UnsupportedOperationException("Unsupported direction " + lookDirection);
 		}
 
 		return positions;
 	}
 
 	/**
-	 * TODO Translate this javadoc comment to english
+	 * Returns the 4 neighbour positions that can be directly attacked from this
+	 * position.
 	 *
-	 * Retourne les 4 {@link Position}s attaquables depuis cette
-	 * {@link Position}.
+	 * Schematically:<br>
+	 * <br>
+	 * <table cellspacing="1" cellpadding="5" border="1">
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>X</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>X</td>
+	 * <td>P</td>
+	 * <td>X</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>X</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * </table>
 	 *
-	 * @return une {@link List} de {@link Position}s.
+	 * @return a list of 4 positions. Never returns null.
 	 */
 	public List<Position> getAttackablePositions() {
-		// Retourner les positions attaquables situ�es dans un rayon de 1 pas
+		// Returns the attackable positions within a range of 1
 		return getAttackablePositions(1);
 	}
 
 	/**
-	 * TODO Translate this javadoc comment to english
+	 * Returns the positions that can be attacked from this position within the
+	 * given range.
 	 *
-	 * Retourne les {@link Position}s attaquables depuis cette {@link Position}
-	 * et situ�es dans un rayon de range pas dans les 4 directions.
+	 * Schematically for a range of 3 steps:<br>
+	 * <br>
+	 * <table cellspacing="1" cellpadding="5" border="1">
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>3</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>2</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>1</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>3</td>
+	 * <td>2</td>
+	 * <td>1</td>
+	 * <td>P</td>
+	 * <td>1</td>
+	 * <td>2</td>
+	 * <td>3</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>1</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>2</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * <tr>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>3</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * <td>&nbsp;</td>
+	 * </tr>
+	 * </table>
 	 *
-	 * @return une {@link List} de {@link Position}s.
+	 * @param range
+	 *            an integer representing a range as a number of steps. Must be
+	 *            positive.
+	 *
+	 * @return a list of 4 positions. Never returns null.
 	 */
 	public List<Position> getAttackablePositions(int range) {
-		Validate.isTrue(range >= 1, "The given range " + range
-				+ " must be positive");
-
-		// Positions attaquables directement (range = 1) ou � distance
-		// (range > 1) depuis la position P
+		Validate.isTrue(range >= 1, String.format("The given range %d must be positive", range));
 
 		// +---+---+---+---+---+---+---+
 		// |   |   |   | 3 |   |   |   |
@@ -496,77 +637,75 @@ public final class Position {
 	}
 
 	/**
-	 * TODO Translate this javadoc comment to english
-	 *
-	 * A partir de cette position, retourne la direction dans laquelle il faut
-	 * regarder / se tourner pour pointer vers la position cible donn�e.
+	 * From this position, returns the direction into which one should look to
+	 * point towards the given position.
 	 *
 	 * @param targetPosition
-	 *            la position cible vers laquelle il faut se tourner.
-	 * @return la direction dans laquelle il faut se tourner pour voir la
-	 *         position cible donn�e.
+	 *            the target position to look at. Can't be null.
+	 * @return a direction (north, south, etc) where the given target position
+	 *         is relative to this position or null if both positions aren't
+	 *         located on the same level or are equal.
 	 */
 	public Direction getDirectionTowards(Position targetPosition) {
 		Validate.notNull(targetPosition, "The given direction is null");
 
 		if (this.z != targetPosition.z) {
-			// Positions situ�es sur des niveaux diff�rents, cas non support�
+			// The 2 positions aren't on the same level
 			return null;
 		}
 
 		if (isAlignedX(targetPosition)) {
-			// Positions align�es le long de l'axe des X
+			// The positions have the same x coordinate
 			if (this.y < targetPosition.y) {
-				// Target situ�e en bas de this
+				// The target is below this position
 				return Direction.SOUTH;
 			} else if (this.y > targetPosition.y) {
-				// Target situ�e en haut de this
+				// The target is above this position
 				return Direction.NORTH;
 			} else {
-				// this et target sont confondus
+				// Same (x,y,z) coordinates
 				return null;
 			}
 		} else if (isAlignedY(targetPosition)) {
-			// Positions align�es le long de l'axe des Y
+			// The positions have the same y coordinate
 			if (this.x < targetPosition.x) {
-				// Target situ�e � droite de this
+				// The target is on the right of this position
 				return Direction.EAST;
 			} else if (this.x > targetPosition.x) {
-				// Target situ�e � gauche de this
+				// The target is on the left of this position
 				return Direction.WEST;
 			} else {
-				// this et target sont confondus
+				// Same (x,y,z) coordinates
 				return null;
 			}
 		} else {
-			// Les directions ne sont pas align�es. D�terminer une direction de
-			// pr�f�rence � une autre
+			// The 2 positions aren't aligned. Choose one preferred direction
 
-			// Valeur de x du vecteur permettant d'aller de this � target
+			// Difference of x between the 2 positions ?
 			final int deltaX = targetPosition.x - this.x;
 
-			// Valeur de y du vecteur permettant d'aller de this � target
+			// Difference of y between the 2 positions ?
 			final int deltaY = targetPosition.y - this.y;
 
 			if (deltaX == deltaY) {
-				// Impossible de d�cider de mani�re non arbitraire, on tire une
-				// direction au hasard
+				// We can't decide, pick one direction randomly
 				final Direction[] directions = new Direction[2];
 
-				// Rappel: deltaX ne peut �tre nul
+				// Rappel: deltaX can't be zero
 				directions[0] = (deltaX > 0) ? Direction.EAST: Direction.WEST;
 
-				// Rappel: deltaY ne peut �tre nul
+				// Rappel: deltaY can't be zero
 				directions[1] = (deltaY > 0) ? Direction.SOUTH: Direction.NORTH;
 
+				// Toss one direction
 				return directions[RandomUtils.nextInt(2)];
 			}
 
 			if (Math.abs(deltaX) > Math.abs(deltaY)) {
-				// Direction de pr�f�rence le long de l'axe des X
+				// The preferred direction is along the x axis
 				return (deltaX > 0) ? Direction.EAST: Direction.WEST;
 			} else {
-				// Direction de pr�f�rence le long de l'axe des Y
+				// The preferred direction is along the y axis
 				return (deltaY > 0) ? Direction.SOUTH: Direction.NORTH;
 			}
 		}

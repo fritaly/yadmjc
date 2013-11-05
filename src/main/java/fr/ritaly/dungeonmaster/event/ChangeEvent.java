@@ -21,6 +21,8 @@ package fr.ritaly.dungeonmaster.event;
 import java.util.EventObject;
 
 /**
+ * A change event fired to notify when an object's state changed.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class ChangeEvent extends EventObject {
