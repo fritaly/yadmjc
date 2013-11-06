@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster.item.drink;
+package fr.ritaly.dungeonmaster.item;
 
 import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
@@ -24,6 +24,7 @@ import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.item.Item;
+import fr.ritaly.dungeonmaster.item.WaterFlask;
 
 public class WaterFlaskTest extends TestCase {
 
@@ -46,7 +47,7 @@ public class WaterFlaskTest extends TestCase {
 		// --- Tiggy boit la fiole
 		final Item emptyFlask = tiggy.consume(waterFlask);
 
-		// --- On récupère une fiole vide
+		// --- On rï¿½cupï¿½re une fiole vide
 		assertNotNull(emptyFlask);
 		assertEquals(0.1f, emptyFlask.getWeight(), 0.0001f);
 	}

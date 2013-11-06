@@ -20,8 +20,6 @@ package fr.ritaly.dungeonmaster.item;
 
 import org.apache.commons.lang.Validate;
 
-import fr.ritaly.dungeonmaster.item.Item.Category;
-
 /**
  * Factory of items. This factory provides factory methods more convenient to
  * use than the constructors of item classes.
@@ -49,49 +47,6 @@ public class ItemFactory {
 	public Item newItem(final Item.Type type) {
 		Validate.notNull(type, "The given item type is null");
 
-		final Category category = type.getCategory();
-
-		if (category.equals(Category.POTION)) {
-			if (Item.Type.EMPTY_FLASK.equals(type)) {
-				// There's a dedicated class for the empty flask
-				return new MiscItem(Item.Type.EMPTY_FLASK);
-			}
-
-			return new Potion(type);
-		}
-		if (category.equals(Category.WEAPON)) {
-			if (Item.Type.TORCH.equals(type)) {
-				// There's a dedicated class for the torch
-				return new Torch();
-			}
-
-			return new Weapon(type);
-		}
-		if (category.equals(Category.CLOTH)) {
-			return new Cloth(type);
-		}
-		if (Category.getFoodItems().contains(type)) {
-			// Special use case to be handled before the MISC category
-			return new Food(type);
-		}
-		if (category.equals(Category.MISCELLANEOUS)) {
-			if (Item.Type.COMPASS.equals(type)) {
-				// There's a dedicated class for the compass
-				return new Compass();
-			} else if (Item.Type.BONES.equals(type)) {
-				// There's a dedicated class for the bones
-				return new Bones();
-			} else if (Item.Type.SCROLL.equals(type)) {
-				// There's a dedicated class for the scroll
-				return new Scroll();
-			} else if (Item.Type.CHEST.equals(type)) {
-				// There's a dedicated class for the chest
-				return new Chest();
-			}
-
-			return new MiscItem(type);
-		}
-
-		throw new UnsupportedOperationException("Unsupporte item type " + type);
+		return type.newItem();
 	}
 }

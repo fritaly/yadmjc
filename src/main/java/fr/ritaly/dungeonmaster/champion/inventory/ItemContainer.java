@@ -145,4 +145,13 @@ public interface ItemContainer {
 	 *         contained items.
 	 */
 	public float getTotalWeight();
+
+	/**
+	 * Tells whether this container contains the given item.
+	 *
+	 * @param item
+	 *            the item to test. Can't be null.
+	 * @return whether this container contains the given item.
+	 */
+	public boolean contains(Item item);
 }

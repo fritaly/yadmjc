@@ -18,16 +18,15 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
-import java.util.EnumSet;
+import java.util.Set;
 
+import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
+import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
-import fr.ritaly.dungeonmaster.champion.Champion.Name;
-import fr.ritaly.dungeonmaster.item.Item.Category;
 import fr.ritaly.dungeonmaster.stat.Stat;
-import junit.framework.TestCase;
 
 public class ItemTest extends TestCase {
 
@@ -46,7 +45,7 @@ public class ItemTest extends TestCase {
 
 	public void testAllWeaponItemsHaveDamagePointsDefined() {
 		for (Item.Type type : Item.Type.values()) {
-			if (type.getCategory().equals(Category.WEAPON)) {
+			if (Item.Type.getWeaponTypes().contains(type)) {
 				assertTrue(type.getDamage() >= 0);
 			} else {
 				assertTrue(type.getDamage() == -1);
@@ -54,30 +53,28 @@ public class ItemTest extends TestCase {
 		}
 	}
 
-	public void testItemCategories() {
-		// Tester que chaque type est bien cat�goris�
-		for (Item.Type type : Item.Type.values()) {
-			assertNotNull(type.getCategory());
-		}
-
-		// Tester le nombre de type dans chaque cat�gorie
-		assertEquals(20, Item.Category.POTION.getTypes().size());
-		assertEquals(56, Item.Category.WEAPON.getTypes().size());
-		assertEquals(73, Item.Category.CLOTH.getTypes().size());
-		assertEquals(59, Item.Category.MISCELLANEOUS.getTypes().size());
-	}
+//	public void testItemCategories() {
+//		// Tester que chaque type est bien cat�goris�
+//		for (Item.Type type : Item.Type.values()) {
+//			assertNotNull(type.getCategory());
+//		}
+//
+//		// Tester le nombre de type dans chaque cat�gorie
+//		assertEquals(20, Item.Category.POTION.getTypes().size());
+//		assertEquals(56, Item.Category.WEAPON.getTypes().size());
+//		assertEquals(73, Item.Category.CLOTH.getTypes().size());
+//		assertEquals(59, Item.Category.MISCELLANEOUS.getTypes().size());
+//	}
 
 	public void testFoodItemsAreConsumable() {
-		final EnumSet<Item.Type> foodItems = Item.Category.getFoodItems();
+		final Set<Item.Type> foodTypes = Item.Type.getFoodTypes();
 
 		// Tous les objets de type nourriture doivent �tre consommables
 		for (Item.Type type : Item.Type.values()) {
-			if (foodItems.contains(type)) {
-				final boolean consumable = type.getCarryLocations()
-						.getLocations().contains(CarryLocation.CONSUMABLE);
+			if (foodTypes.contains(type)) {
+				final boolean consumable = type.getCarryLocations().contains(CarryLocation.CONSUMABLE);
 
-				assertTrue("Item type " + type + " isn't consumable",
-						consumable);
+				assertTrue("Item type " + type + " isn't consumable", consumable);
 			}
 		}
 	}
@@ -88,7 +85,7 @@ public class ItemTest extends TestCase {
 		Party party = new Party();
 		party.addChampion(tiggy);
 
-		final Item cloak = new Cloth(Item.Type.CLOAK_OF_NIGHT);
+		final Item cloak = ItemFactory.getFactory().newItem(Item.Type.CLOAK_OF_NIGHT);
 
 		final int initialDexterity = tiggy.getStats().getDexterity()
 				.actualValue();

@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 
-import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 import fr.ritaly.dungeonmaster.champion.inventory.AbstractItemContainer;
 import fr.ritaly.dungeonmaster.champion.inventory.ItemContainer;
 
@@ -126,17 +125,7 @@ public final class Chest extends Item implements ItemContainer {
 	}
 
 	@Override
-	protected BodyPart.Type getActivationBodyPart() {
-		return null;
-	}
-
-	@Override
-	public int getAntiMagic() {
-		return 0;
-	}
-
-	@Override
-	public int getShield() {
-		return 0;
+	public boolean contains(Item item) {
+		return container.contains(item);
 	}
 }

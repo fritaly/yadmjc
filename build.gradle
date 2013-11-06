@@ -18,6 +18,7 @@ configurations {
 }
 
 dependencies {
+	compile "net.java.dev.stax-utils:stax-utils:20070216"
 	compile 'commons-collections:commons-collections:3.2'
 	compile 'commons-lang:commons-lang:2.3'
 	compile 'commons-logging:commons-logging:1.1'

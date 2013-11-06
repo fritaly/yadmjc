@@ -72,7 +72,7 @@ public class ActionTest extends TestCase {
 		wuuf.getStats().getHealth().maxValue(500);
 		wuuf.getStats().getHealth().value(400);
 
-		final Weapon crossOfNeta = new Weapon(Item.Type.CROSS_OF_NETA);
+		final Item crossOfNeta = ItemFactory.getFactory().newItem(Item.Type.CROSS_OF_NETA);
 		tiggy.getBody().getWeaponHand().putOn(crossOfNeta);
 
 		final Party party = new Party();
@@ -83,7 +83,7 @@ public class ActionTest extends TestCase {
 
 		dungeon.setParty(new Position(1, 1, 1), party);
 
-		// --- Tous les héros sont guéris par l'action HEAL
+		// --- Tous les hï¿½ros sont guï¿½ris par l'action HEAL
 		final int tiggyHealth = tiggy.getStats().getHealth().value();
 		final int daroouHealth = daroou.getStats().getHealth().value();
 		final int halkHealth = halk.getStats().getHealth().value();
@@ -120,7 +120,7 @@ public class ActionTest extends TestCase {
 		// | W | W | W | W | W | W | W | W | W | W |
 		// +---+---+---+---+---+---+---+---+---+---+
 
-		final Weapon dagger = new Weapon(Item.Type.DAGGER);
+		final Item dagger = ItemFactory.getFactory().newItem(Item.Type.DAGGER);
 
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(
 				Name.TIGGY);
@@ -141,10 +141,10 @@ public class ActionTest extends TestCase {
 
 		assertFalse(target.hasItems());
 
-		// --- Déclencher l'action de lancer
+		// --- Dï¿½clencher l'action de lancer
 		dagger.perform(Action.THROW);
 
-		// --- Un projectile doit être apparu sur la position voisine en SE
+		// --- Un projectile doit ï¿½tre apparu sur la position voisine en SE
 		assertTrue(neighbour.hasProjectiles());
 		assertEquals(1, neighbour.getProjectiles().size());
 		assertNotNull(neighbour.getProjectiles().get(SubCell.SOUTH_EAST));
@@ -154,14 +154,14 @@ public class ActionTest extends TestCase {
 		// Laisser le projectile bouger
 		Clock.getInstance().tick(3);
 
-		// --- Vérifier le déplacement du projectile en SW
+		// --- Vï¿½rifier le dï¿½placement du projectile en SW
 		assertTrue(neighbour.hasProjectiles());
 		assertEquals(1, neighbour.getProjectiles().size());
 		assertNotNull(neighbour.getProjectiles().get(SubCell.SOUTH_WEST));
 
 		assertFalse(target.hasProjectiles());
 
-		// Laisser le projectile atteindre le mur opposée (attendre suffisamment
+		// Laisser le projectile atteindre le mur opposï¿½e (attendre suffisamment
 		// longtemps)
 		Clock.getInstance().tick(60);
 
@@ -200,7 +200,7 @@ public class ActionTest extends TestCase {
 		// | W | W | W | W | W | W | W | W | W | W |
 		// +---+---+---+---+---+---+---+---+---+---+
 
-		final Weapon firestaff = new Weapon(Item.Type.THE_FIRESTAFF_COMPLETE);
+		final Item firestaff = ItemFactory.getFactory().newItem(Item.Type.THE_FIRESTAFF_COMPLETE);
 
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(
 				Name.TIGGY);
@@ -220,18 +220,18 @@ public class ActionTest extends TestCase {
 
 		assertFalse(neighbour.hasFluxCage());
 
-		// --- Déclencher l'action
+		// --- Dï¿½clencher l'action
 		firestaff.perform(Action.FLUX_CAGE);
 
-		// --- Une cage doit être apparue sur la position voisine
+		// --- Une cage doit ï¿½tre apparue sur la position voisine
 		assertTrue(neighbour.hasFluxCage());
 
-		// Laisser le temps à la cage de disparaître
+		// Laisser le temps ï¿½ la cage de disparaï¿½tre
 		Clock.getInstance().tick(60);
 
 		assertFalse(neighbour.hasFluxCage());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

@@ -73,14 +73,8 @@ public class StatTest extends TestCase {
 		stat.addChangeListener(listener);
 
 		assertFalse(listener.notified);
-
 		stat.value(1);
-
 		assertTrue(listener.notified);
-	}
-
-	public void testRemoveChangeListener() {
-		fail("Not yet implemented");
 	}
 
 	public void testGet() {

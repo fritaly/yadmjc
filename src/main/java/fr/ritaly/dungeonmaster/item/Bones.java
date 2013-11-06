@@ -21,7 +21,6 @@ package fr.ritaly.dungeonmaster.item;
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.champion.Champion;
-import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 
 /**
  * Some bones. Those can be plain bones or the bones of a dead champion. The
@@ -57,21 +56,6 @@ public class Bones extends MiscItem {
 		super(Type.BONES);
 
 		this.champion = null;
-	}
-
-	@Override
-	public int getShield() {
-		return 0;
-	}
-
-	@Override
-	public int getAntiMagic() {
-		return 0;
-	}
-
-	@Override
-	public BodyPart.Type getActivationBodyPart() {
-		return null;
 	}
 
 	/**

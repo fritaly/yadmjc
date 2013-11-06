@@ -47,7 +47,6 @@ import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.item.Action;
 import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.item.ItemFactory;
-import fr.ritaly.dungeonmaster.item.Weapon;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
 import fr.ritaly.dungeonmaster.map.Element;
@@ -702,7 +701,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 			case TROLIN: {
 				final List<Item> items = new ArrayList<Item>();
-				items.add(new Weapon(Item.Type.CLUB));
+				items.add(ItemFactory.getFactory().newItem(Item.Type.CLUB));
 
 				return items;
 			}
@@ -711,14 +710,14 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 			case SKELETON: {
 				final List<Item> items = new ArrayList<Item>();
-				items.add(new Weapon(Item.Type.WOODEN_SHIELD));
-				items.add(new Weapon(Item.Type.FALCHION));
+				items.add(ItemFactory.getFactory().newItem(Item.Type.WOODEN_SHIELD));
+				items.add(ItemFactory.getFactory().newItem(Item.Type.FALCHION));
 
 				return items;
 			}
 			case STONE_GOLEM: {
 				final List<Item> items = new ArrayList<Item>();
-				items.add(new Weapon(Item.Type.STONE_CLUB));
+				items.add(ItemFactory.getFactory().newItem(Item.Type.STONE_CLUB));
 
 				return items;
 			}
@@ -728,12 +727,16 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			case ANIMATED_ARMOR: {
 				// The dropped items are cursed !
 				final List<Item> items = new ArrayList<Item>();
-				items.add(new Weapon(Item.Type.ARMET, PowerRune.UM));
-				items.add(new Weapon(Item.Type.TORSO_PLATE, PowerRune.UM));
-				items.add(new Weapon(Item.Type.LEG_PLATE, PowerRune.UM));
-				items.add(new Weapon(Item.Type.FOOT_PLATE, PowerRune.UM));
-				items.add(new Weapon(Item.Type.SWORD, PowerRune.UM));
-				items.add(new Weapon(Item.Type.SWORD, PowerRune.UM));
+				items.add(ItemFactory.getFactory().newItem(Item.Type.ARMET));
+				items.add(ItemFactory.getFactory().newItem(Item.Type.TORSO_PLATE));
+				items.add(ItemFactory.getFactory().newItem(Item.Type.LEG_PLATE));
+				items.add(ItemFactory.getFactory().newItem(Item.Type.FOOT_PLATE));
+				items.add(ItemFactory.getFactory().newItem(Item.Type.SWORD));
+				items.add(ItemFactory.getFactory().newItem(Item.Type.SWORD));
+
+				for (Item item : items) {
+					item.curse(PowerRune.UM);
+				}
 
 				return items;
 			}
@@ -910,11 +913,9 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			return armor;
 		}
 
-		public int computeDamagePoints(Champion champion, Weapon weapon,
-				Action action) {
-
+		public int computeDamagePoints(Champion champion, Item weapon, Action action) {
 			Validate.notNull(champion, "The given champion is null");
-			Validate.notNull(weapon, "The given weapon is null");
+			Validate.notNull(weapon, "The given weapon item is null");
 			Validate.notNull(action, "The given action is null");
 
 			// Le nombre de points de d�g�ts d�pend de:
@@ -1034,8 +1035,8 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			}
 		}
 
-		public boolean isHurtByWeapon(Weapon weapon) {
-			Validate.notNull(weapon, "The given weapon is null");
+		public boolean isHurtByWeapon(Item weapon) {
+			Validate.notNull(weapon, "The given weapon item is null");
 
 			final EnumSet<Weakness> weaknesses = getWeaknesses();
 

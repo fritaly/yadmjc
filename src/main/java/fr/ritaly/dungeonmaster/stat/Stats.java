@@ -21,6 +21,7 @@ package fr.ritaly.dungeonmaster.stat;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Clock;
@@ -407,5 +408,46 @@ public final class Stats implements ChangeListener, ClockListener {
 			// Stamina is low, the champion's max load has a malus
 			return (actualBaseMaxLoad / 2) + ((actualBaseMaxLoad * curStamina) / (maxStamina / 2.0f));
 		}
+	}
+
+	/**
+	 * Returns the stat with given name.
+	 *
+	 * @param name
+	 *            the name of the requested stat. Can't be blank.
+	 * @return a stat. Never returns null.
+	 */
+	public Stat getStat(String name) {
+		Validate.isTrue(!StringUtils.isBlank(name), String.format("The given stat name '%s' is blank", name));
+
+		if (PROPERTY_ANTI_FIRE.equals(name)) {
+			return getAntiFire();
+		} else if (PROPERTY_ANTI_MAGIC.equals(name)) {
+			return getAntiMagic();
+		} else if (PROPERTY_DEXTERITY.equals(name)) {
+			return getDexterity();
+		} else if (PROPERTY_FOOD.equals(name)) {
+			return getFood();
+		} else if (PROPERTY_HEALTH.equals(name)) {
+			return getHealth();
+		} else if (PROPERTY_LUCK.equals(name)) {
+			return getLuck();
+		} else if (PROPERTY_MANA.equals(name)) {
+			return getMana();
+		} else if (PROPERTY_MAX_LOAD_BOOST.equals(name)) {
+			return getMaxLoadBoost();
+		} else if (PROPERTY_STAMINA.equals(name)) {
+			return getStamina();
+		} else if (PROPERTY_STRENGTH.equals(name)) {
+			return getStrength();
+		} else if (PROPERTY_VITALITY.equals(name)) {
+			return getVitality();
+		} else if (PROPERTY_WATER.equals(name)) {
+			return getWater();
+		} else if (PROPERTY_WISDOM.equals(name)) {
+			return getWisdom();
+		}
+
+		throw new IllegalArgumentException("Unsupported stat " + name);
 	}
 }

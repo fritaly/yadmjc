@@ -33,7 +33,6 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.item.Torch;
-import fr.ritaly.dungeonmaster.item.Weapon;
 
 public class PitTest extends TestCase {
 
@@ -290,7 +289,7 @@ public class PitTest extends TestCase {
 
 		final Torch torch = new Torch();
 		final Item apple = ItemFactory.getFactory().newItem(Item.Type.APPLE);
-		final Weapon sword = new Weapon(Item.Type.SWORD);
+		final Item sword = ItemFactory.getFactory().newItem(Item.Type.SWORD);
 		final Item waterFlask = ItemFactory.getFactory().newItem(Item.Type.WATER_FLASK);
 
 		final Element element1 = level1.getElement(3, 2);
@@ -380,7 +379,7 @@ public class PitTest extends TestCase {
 
 		final Torch torch = new Torch();
 		final Item apple = ItemFactory.getFactory().newItem(Item.Type.APPLE);
-		final Weapon sword = new Weapon(Item.Type.SWORD);
+		final Item sword = ItemFactory.getFactory().newItem(Item.Type.SWORD);
 		final Item waterFlask = ItemFactory.getFactory().newItem(Item.Type.WATER_FLASK);
 
 		final Element element1 = level1.getElement(3, 2);

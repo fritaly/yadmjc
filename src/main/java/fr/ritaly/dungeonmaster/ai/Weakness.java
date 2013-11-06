@@ -21,7 +21,6 @@ package fr.ritaly.dungeonmaster.ai;
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.item.Item;
-import fr.ritaly.dungeonmaster.item.Weapon;
 import fr.ritaly.dungeonmaster.magic.Spell;
 
 /**
@@ -74,11 +73,11 @@ public enum Weakness {
 	 * Tells whether the given weapon matches this weakness.
 	 *
 	 * @param weapon
-	 *            the weapon to test. Can't be null.
+	 *            the weapon item to test. Can't be null.
 	 * @return whether the given weapon matches this weakness.
 	 */
-	public boolean acceptsWeapon(Weapon weapon) {
-		Validate.notNull(weapon, "The given weapon is null");
+	public boolean acceptsWeapon(Item weapon) {
+		Validate.notNull(weapon, "The given weapon item is null");
 
 		switch (this) {
 		case WEAPONS:

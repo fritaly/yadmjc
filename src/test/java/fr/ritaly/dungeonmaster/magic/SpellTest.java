@@ -113,8 +113,7 @@ public class SpellTest extends TestCase {
 
 	// --- //
 
-	public void testTorchSpell() throws Exception {
-		// Test the TORCH spell
+	public void testCastTorchSpell() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		// Boost all the champion's skills to be able to cast any spell
@@ -140,7 +139,7 @@ public class SpellTest extends TestCase {
 
 	// --- ZO KATH RA --- //
 
-	public void testZoKathRaSpell_EmptyHands() throws Exception {
+	public void testCastZoKathRaSpell_EmptyHands() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		// Boost all the champion's skills to be able to cast any spell
@@ -180,7 +179,7 @@ public class SpellTest extends TestCase {
 		}
 	}
 
-	public void testZoKathRaSpell_EmptyWeaponHand() throws Exception {
+	public void testCastZoKathRaSpell_EmptyWeaponHand() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		// Boost all the champion's skills to be able to cast any spell
@@ -211,7 +210,7 @@ public class SpellTest extends TestCase {
 		assertEquals(Item.Type.TORCH, shieldHand.getItem().getType());
 	}
 
-	public void testZoKathRaSpell_EmptyShieldHand() throws Exception {
+	public void testCastZoKathRaSpell_EmptyShieldHand() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		// Boost all the champion's skills to be able to cast any spell
@@ -243,7 +242,7 @@ public class SpellTest extends TestCase {
 		assertEquals(Item.Type.ZOKATHRA_SPELL, shieldHand.getItem().getType());
 	}
 
-	public void testZoKathRaSpell_NoEmptyHand() throws Exception {
+	public void testCastZoKathRaSpell_NoEmptyHand() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		// Boost all the champion's skills to be able to cast any spell
@@ -274,7 +273,7 @@ public class SpellTest extends TestCase {
 
 	// --- //
 
-	public void testLightSpell() throws Exception {
+	public void testCastLightSpell() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 		tiggy.getStats().getMana().maxValue(200);
 		tiggy.getStats().getMana().value(200);

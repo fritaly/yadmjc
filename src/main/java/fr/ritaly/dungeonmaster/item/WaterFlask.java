@@ -16,16 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster.item.drink;
+package fr.ritaly.dungeonmaster.item;
 
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.audio.SoundSystem;
 import fr.ritaly.dungeonmaster.champion.Champion;
-import fr.ritaly.dungeonmaster.champion.body.BodyPart;
-import fr.ritaly.dungeonmaster.item.Item;
-import fr.ritaly.dungeonmaster.item.ItemFactory;
 
 /**
  * A flask of water. Contains one dose of water.
@@ -39,21 +36,6 @@ final class WaterFlask extends Item {
 	 */
 	WaterFlask() {
 		super(Type.WATER_FLASK);
-	}
-
-	@Override
-	public int getShield() {
-		return 0;
-	}
-
-	@Override
-	public int getAntiMagic() {
-		return 0;
-	}
-
-	@Override
-	public BodyPart.Type getActivationBodyPart() {
-		return null;
 	}
 
 	/**

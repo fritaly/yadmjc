@@ -172,11 +172,17 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 	 * @param item
 	 *            the item to add. Can't be null.
 	 * @return an integer representing the index where the item was added inside
-	 *         the container or -1 if the item couldn't be added.
+	 *         the container or -1 if the item couldn't be added (because it
+	 *         didn't fit or was already in the container).
 	 */
 	@Override
 	public int add(Item item) {
 		Validate.notNull(item, "The given item is null");
+
+		// First ensure the item isn't already in the container !
+		if (contains(item)) {
+			return -1;
+		}
 
 		for (int i = 0; i < capacity; i++) {
 			if (items[i] == null) {
@@ -340,5 +346,18 @@ public abstract class AbstractItemContainer implements ChangeEventSource,
 		}
 
 		return weight;
+	}
+
+	@Override
+	public boolean contains(Item item) {
+		Validate.notNull(item, "The given item is null");
+
+		for (int i = 0; i < capacity; i++) {
+			if (items[i] == item) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

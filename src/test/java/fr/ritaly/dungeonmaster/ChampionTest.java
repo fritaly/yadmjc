@@ -31,12 +31,8 @@ import fr.ritaly.dungeonmaster.item.Bones;
 import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.magic.AlignmentRune;
-import fr.ritaly.dungeonmaster.magic.ChampionMumblesNonsenseException;
 import fr.ritaly.dungeonmaster.magic.ElementRune;
-import fr.ritaly.dungeonmaster.magic.EmptyFlaskNeededException;
-import fr.ritaly.dungeonmaster.magic.EmptyHandNeededException;
 import fr.ritaly.dungeonmaster.magic.FormRune;
-import fr.ritaly.dungeonmaster.magic.NotEnoughManaException;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Rune;
 import fr.ritaly.dungeonmaster.magic.SkillTooLowException;
@@ -51,78 +47,6 @@ public class ChampionTest extends TestCase {
 
 	public ChampionTest(String name) {
 		super(name);
-	}
-
-	private void testPotionCasting(Spell.Type spellId, Item.Type itemType)
-			throws NotEnoughManaException, ChampionMumblesNonsenseException,
-			EmptyFlaskNeededException, SkillTooLowException,
-			EmptyHandNeededException {
-
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
-
-		Party party = new Party();
-		party.addChampion(tiggy);
-
-		// Booster le niveau du champion pour pouvoir lancer tous les sorts
-		for (Skill skill : Skill.values()) {
-			tiggy.gainExperience(skill, 1000000);
-		}
-
-		// --- Main vide -> sort doit rater
-		tiggy.cast(PowerRune.LO, spellId);
-
-		try {
-			tiggy.castSpell();
-			fail();
-		} catch (EmptyFlaskNeededException e) {
-			// Erreur attendue
-		} catch (EmptyHandNeededException e) {
-			fail();
-		}
-
-		// --- Main qui tient une fiole vide --> sort doit r�ussir
-		tiggy.getBody().getWeaponHand().putOn(ItemFactory.getFactory().newItem(Item.Type.EMPTY_FLASK));
-
-		// Les runes ont �t� conserv�s de l'invocation pr�c�dente
-		tiggy.castSpell();
-
-		// La main doit contenir une fiole remplie
-		assertNotNull(tiggy.getBody().getWeaponHand().getItem());
-		assertEquals(itemType, tiggy.getBody().getWeaponHand().getItem()
-				.getType());
-	}
-
-	public void testDexterityPotionCasting() throws Throwable {
-		testPotionCasting(Spell.Type.DEXTERITY_POTION,
-				Item.Type.DEXTERITY_POTION);
-	}
-
-	public void testStrengthPotionCasting() throws Throwable {
-		testPotionCasting(Spell.Type.STRENGTH_POTION, Item.Type.STRENGTH_POTION);
-	}
-
-	public void testWisdomPotionCasting() throws Throwable {
-		testPotionCasting(Spell.Type.WISDOM_POTION, Item.Type.WISDOM_POTION);
-	}
-
-	public void testVitalityPotionCasting() throws Throwable {
-		testPotionCasting(Spell.Type.VITALITY_POTION, Item.Type.VITALITY_POTION);
-	}
-
-	public void testStaminaPotionCasting() throws Throwable {
-		testPotionCasting(Spell.Type.STAMINA_POTION, Item.Type.STAMINA_POTION);
-	}
-
-	public void testManaPotionCasting() throws Throwable {
-		testPotionCasting(Spell.Type.MANA_POTION, Item.Type.MANA_POTION);
-	}
-
-	public void testHealthPotionCasting() throws Throwable {
-		testPotionCasting(Spell.Type.HEALTH_POTION, Item.Type.HEALTH_POTION);
-	}
-
-	public void testCurePoisonPotionCasting() throws Throwable {
-		testPotionCasting(Spell.Type.ANTIDOTE_POTION, Item.Type.ANTIDOTE_POTION);
 	}
 
 	public void testSpellCasting() throws Exception {
@@ -167,8 +91,7 @@ public class ChampionTest extends TestCase {
 			final Rune rune = PowerRune.ON;
 			tiggy.cast(rune);
 
-			assertEquals(initialMana - rune.getCost(), (int) tiggy.getStats()
-					.getMana().actualValue());
+			assertEquals(initialMana - rune.getCost(), (int) tiggy.getStats().getMana().actualValue());
 		}
 
 		// --- Invoquer un element rune
@@ -178,8 +101,7 @@ public class ChampionTest extends TestCase {
 			final Rune rune = ElementRune.ZO;
 			tiggy.cast(rune);
 
-			assertEquals(initialMana - rune.getCost(PowerRune.ON), (int) tiggy
-					.getStats().getMana().actualValue());
+			assertEquals(initialMana - rune.getCost(PowerRune.ON), (int) tiggy.getStats().getMana().actualValue());
 		}
 
 		// --- Invoquer un form rune
@@ -189,8 +111,7 @@ public class ChampionTest extends TestCase {
 			final Rune rune = FormRune.KATH;
 			tiggy.cast(rune);
 
-			assertEquals(initialMana - rune.getCost(PowerRune.ON), (int) tiggy
-					.getStats().getMana().actualValue());
+			assertEquals(initialMana - rune.getCost(PowerRune.ON), (int) tiggy.getStats().getMana().actualValue());
 		}
 
 		// --- Invoquer un alignment rune
@@ -200,13 +121,11 @@ public class ChampionTest extends TestCase {
 			final Rune rune = AlignmentRune.RA;
 			tiggy.cast(rune);
 
-			assertEquals(initialMana - rune.getCost(PowerRune.ON), (int) tiggy
-					.getStats().getMana().actualValue());
+			assertEquals(initialMana - rune.getCost(PowerRune.ON), (int) tiggy.getStats().getMana().actualValue());
 		}
 
 		// --- Lancer le sort
-		final Experience experience = tiggy
-				.getExperience(Spell.Type.LIGHTNING_BOLT.getSkill());
+		final Experience experience = tiggy.getExperience(Spell.Type.ZO_KATH_RA.getSkill());
 		final int initialXp = experience.getPoints();
 
 		final Spell spell = tiggy.castSpell();

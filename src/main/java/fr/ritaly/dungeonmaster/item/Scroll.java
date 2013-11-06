@@ -25,8 +25,6 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 
-import fr.ritaly.dungeonmaster.champion.body.BodyPart;
-
 /**
  * A scroll. Scrolls provide hints during the game to solve riddles.
  *
@@ -60,21 +58,6 @@ public final class Scroll extends Item {
 		Validate.isTrue(!text.isEmpty(), "The given list of text lines is empty");
 
 		this.text = new ArrayList<String>(text);
-	}
-
-	@Override
-	public int getShield() {
-		return 0;
-	}
-
-	@Override
-	public int getAntiMagic() {
-		return 0;
-	}
-
-	@Override
-	public BodyPart.Type getActivationBodyPart() {
-		return null;
 	}
 
 	/**

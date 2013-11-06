@@ -18,20 +18,27 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import fr.ritaly.dungeonmaster.Skill;
+import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
+
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 import fr.ritaly.dungeonmaster.event.ChangeEvent;
@@ -39,9 +46,9 @@ import fr.ritaly.dungeonmaster.event.ChangeEventSource;
 import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.event.DirectionChangeListener;
-import fr.ritaly.dungeonmaster.item.Combo.Entry;
+import fr.ritaly.dungeonmaster.item.ItemDef.ActionDef;
+import fr.ritaly.dungeonmaster.item.ItemDef.Effect;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
-import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
  * An item. There are different types of items in the game.<br>
@@ -62,72 +69,114 @@ public abstract class Item implements ChangeEventSource {
 	 */
 	private static final AtomicInteger SEQUENCE = new AtomicInteger();
 
-	/**
-	 * Enumerates the possible categories of items.
-	 *
-	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
-	 */
-	public static enum Category {
-		/**
-		 * The category of potion items.
-		 */
-		POTION(EnumSet.range(Type.MON_POTION, Type.FUL_BOMB)),
+	public static void main(String[] args) throws Exception {
+		final List<Item.Type> types = Arrays.asList(Item.Type.values());
 
-		/**
-		 * The category of weapon items.
-		 */
-		WEAPON(EnumSet.range(Type.EYE_OF_TIME, Type.THE_FIRESTAFF_COMPLETE)),
+		Collections.sort(types, new Comparator<Item.Type>() {
+			@Override
+			public int compare(Type o1, Type o2) {
+				return o1.name().compareTo(o2.name());
+			}
+		});
 
-		/**
-		 * The category of cloth items.
-		 */
-		CLOTH(EnumSet.range(Type.CAPE, Type.HALTER)),
+		final StringWriter stringWriter = new StringWriter(32000);
 
-		/**
-		 * The category of other miscellaneous items.
-		 */
-		MISCELLANEOUS(EnumSet.range(Type.EMPTY_FLASK, Type.ZOKATHRA_SPELL));
+		final XMLStreamWriter writer = new IndentingXMLStreamWriter(XMLOutputFactory.newFactory().createXMLStreamWriter(
+				stringWriter));
 
-		// TODO This is a sub-type of MISCELLANEOUS. Make this more consistent
-		private static final EnumSet<Item.Type> FOOD_TYPES = EnumSet.range(Item.Type.APPLE, Item.Type.DRAGON_STEAK);
+		writer.writeStartDocument();
+		writer.writeStartElement("items");
+		writer.writeDefaultNamespace("yadmjc:items:1.0");
 
-		/**
-		 * Set containing the item types associated to this category.
-		 */
-		private final EnumSet<Type> types;
+		for (Item.Type type : types) {
+			writer.writeStartElement("item");
+			writer.writeAttribute("id", type.name());
+			writer.writeAttribute("weight", Float.toString(type.getWeight()));
 
-		private Category(EnumSet<Type> types) {
-			Validate.notNull(types, "The given enum set is null");
+			if (type.getDamage() != -1) {
+				writer.writeAttribute("damage", Integer.toString(type.getDamage()));
+			}
 
-			this.types = types;
+			if (type.getActivationBodyPart() != null) {
+				writer.writeAttribute("activation", type.getActivationBodyPart().name());
+			}
+
+			if (type.getShield() != 0) {
+				writer.writeAttribute("shield", Integer.toString(type.getShield()));
+			}
+			if (type.getAntiMagic() != 0) {
+				writer.writeAttribute("anti-magic", Integer.toString(type.getAntiMagic()));
+			}
+
+			if (type.getDeltaEnergy() != -1) {
+				writer.writeStartElement("delta-energy");
+				writer.writeCharacters(Integer.toString(type.getDeltaEnergy()));
+				writer.writeEndElement();
+			}
+
+			if (type.getDistance() != -1) {
+				writer.writeStartElement("distance");
+				writer.writeCharacters(Integer.toString(type.getDistance()));
+				writer.writeEndElement();
+			}
+
+			if (type.getShootDamage() != -1) {
+				writer.writeStartElement("shoot-damage");
+				writer.writeCharacters(Integer.toString(type.getShootDamage()));
+				writer.writeEndElement();
+			}
+
+			if (!type.getCarryLocations().isEmpty()) {
+				writer.writeStartElement("locations");
+				for (CarryLocation location : type.getCarryLocations()) {
+					writer.writeEmptyElement("location");
+					writer.writeAttribute("id", location.name());
+				}
+				writer.writeEndElement();
+			}
+
+			if (!type.getActions().isEmpty()) {
+				writer.writeStartElement("actions");
+				for (ActionDef actionDef : type.getActions()) {
+					writer.writeEmptyElement("action");
+					writer.writeAttribute("id", actionDef.getAction().name());
+
+					if (actionDef.getMinLevel() != Champion.Level.NONE) {
+						writer.writeAttribute("min-level", actionDef.getMinLevel().name());
+					}
+
+					if (actionDef.isUseCharges()) {
+						writer.writeAttribute("use-charges", Boolean.toString(actionDef.isUseCharges()));
+					}
+				}
+				writer.writeEndElement(); // </actions>
+			}
+
+			if (!type.getEffects().isEmpty()) {
+				writer.writeStartElement("effects");
+				for (Effect effect : type.getEffects()) {
+					writer.writeEmptyElement("effect");
+					writer.writeAttribute("stat", effect.getStatistic().name());
+					writer.writeAttribute("strength", String.format("%+d", effect.getStrength()));
+				}
+				writer.writeEndElement(); // </effects>
+			}
+
+			writer.writeEndElement(); // </item>
 		}
 
-		/**
-		 * Returns the item types associated to this category.
-		 *
-		 * @return a set of item types. Never returns null.
-		 */
-		public EnumSet<Type> getTypes() {
-			return types;
-		}
+		writer.writeEndElement(); // </items>
+		writer.writeEndDocument();
 
-		/**
-		 * Returns the item types corresponding to the food items. Note: The
-		 * food items are included in the {@link #MISCELLANEOUS} category.
-		 *
-		 * @return a set of item types. Never returns null.
-		 */
-		public static EnumSet<Type> getFoodItems() {
-			return FOOD_TYPES;
-		}
+		System.out.println(stringWriter);
 	}
 
 	/**
 	 * TODO Translate this javadoc comment to english
 	 *
 	 * Enum�ration des types d'objets. ATTENTION !! L'ordre des �num�rations est
-	 * importante car il d�termine la {@link Category} de chaque type d'objet.
-	 * Le nombre d'objets dans chaque {@link Category} n'est pas le m�me que
+	 * importante car il d�termine la catégorie de chaque type d'objet.
+	 * Le nombre d'objets dans chaque catégorie n'est pas le m�me que
 	 * dans la sp�cification de dmweb.free.fr car certains objets partagent les
 	 * m�mes caract�ristiques mais pas les m�mes images, du coup il y a deux
 	 * valeurs distinctes d'enum�ration pour ces objets-l�.<br>
@@ -140,1003 +189,249 @@ public abstract class Item implements ChangeEventSource {
 
 		// --- Potions --- //
 
-		MON_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH), // Not fully implemented
-		UM_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH), // Not fully implemented
-		DES_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH), // Not fully implemented
-		POISON_POTION(
-			0.3f,
-			Combo.COMBO_42,
-			CarryLocations.CHEST_POUCH),
-		SAR_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH), // Not fully implemented
-		ZO_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH), // Not fully implemented
-		DEXTERITY_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		STRENGTH_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		WISDOM_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		VITALITY_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		ANTIDOTE_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		STAMINA_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		ANTI_MAGIC_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		MANA_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		HEALTH_POTION(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		WATER_FLASK(
-			0.4f, // Fiole vide (0.1f) + eau (0.3f)
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		KATH_BOMB(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH), // Not fully implemented
-		PEW_BOMB(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH), // Not fully implemented
-		RA_BOMB(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH), // Not fully implemented
-		FUL_BOMB(
-			0.3f,
-			Combo.COMBO_42,
-			CarryLocations.CHEST_POUCH),
+		MON_POTION,
+		UM_POTION,
+		DES_POTION,
+		POISON_POTION,
+		SAR_POTION,
+		ZO_POTION,
+		DEXTERITY_POTION,
+		STRENGTH_POTION,
+		WISDOM_POTION,
+		VITALITY_POTION,
+		ANTIDOTE_POTION,
+		STAMINA_POTION,
+		ANTI_MAGIC_POTION,
+		MANA_POTION,
+		HEALTH_POTION,
+		WATER_FLASK,
+		KATH_BOMB,
+		PEW_BOMB,
+		RA_BOMB,
+		FUL_BOMB,
 
 		// --- Weapons --- //
 
-		EYE_OF_TIME(
-			0.1f,
-			2, 0, 0, 2,
-			Combo.COMBO_43,
-			CarryLocations.CHEST_POUCH),
-		STORMRING(
-			0.1f,
-			2, 0, 0, 3,
-			Combo.COMBO_7,
-			CarryLocations.CHEST_POUCH),
-		TORCH(
-			1.1f,
-			8, 2, 0, 0,
-			Combo.COMBO_5,
-			CarryLocations.CHEST),
-		FLAMITT(
-			1.2f,
-			10, 80, 30, 0,
-			Combo.COMBO_6,
-			CarryLocations.CHEST),
-		STAFF_OF_CLAWS(
-			0.9f,
-			16, 7, 0, 1,
-			Combo.COMBO_8,
-			CarryLocations.QUIVER1),
-		BOLT_BLADE(
-			3.0f,
-			49, 110, 66, 1,
-			Combo.COMBO_9,
-			CarryLocations.QUIVER1),
-		STORM(
-			3.0f,
-			49, 110, 66, 1,
-			Combo.COMBO_9,
-			CarryLocations.QUIVER1), // Same as previous
-		FURY(
-			4.7f,
-			55, 20, 0, 0,
-			Combo.COMBO_10,
-			CarryLocations.QUIVER1),
-		RA_BLADE(
-			4.7f,
-			55, 20, 0, 0,
-			Combo.COMBO_10,
-			CarryLocations.QUIVER1), // Same as previous
-		THE_FIRESTAFF(
-			2.4f,
-			25, 1, 255, 15,
-			Combo.COMBO_11,
-			CarryLocations.QUIVER1),
-		DAGGER(
-			0.5f,
-			10, 19, 0, 2,
-			Combo.COMBO_12,
-			CarryLocations.CHEST_POUCH_QUIVER2),
-		FALCHION(
-			3.3f,
-			30, 8, 0, 0,
-			Combo.COMBO_13,
-			CarryLocations.QUIVER1),
-		SWORD(
-			3.2f,
-			34, 10, 0, 0,
-			Combo.COMBO_13,
-			CarryLocations.QUIVER1),
-		RAPIER(
-			3.6f,
-			38, 10, 0, 0,
-			Combo.COMBO_14,
-			CarryLocations.QUIVER1),
-		SABRE(
-			3.5f,
-			42, 11, 0, 0,
-			Combo.COMBO_15,
-			CarryLocations.QUIVER1),
-		BITER(
-			3.5f,
-			42, 11, 0, 0,
-			Combo.COMBO_15,
-			CarryLocations.QUIVER1), // Same as previous
-		SAMURAI_SWORD(
-			3.6f,
-			46, 12, 0, 0,
-			Combo.COMBO_15,
-			CarryLocations.QUIVER1),
-		DELTA(
-			3.3f,
-			50, 14, 0, 0,
-			Combo.COMBO_16,
-			CarryLocations.QUIVER1),
-		SIDE_SPLITTER(
-			3.3f,
-			50, 14, 0, 0,
-			Combo.COMBO_16,
-			CarryLocations.QUIVER1), // Same as previous
-		DIAMOND_EDGE(
-			3.7f,
-			62, 14, 0, 0,
-			Combo.COMBO_17,
-			CarryLocations.QUIVER1),
-		VORPAL_BLADE(
-			3.9f,
-			48, 13, 0, 0,
-			Combo.COMBO_18,
-			CarryLocations.QUIVER1),
-		THE_INQUISITOR(
-			3.9f,
-			58, 15, 0, 0,
-			Combo.COMBO_19,
-			CarryLocations.QUIVER1),
-		DRAGON_FANG(
-			3.4f,
-			58, 15, 0, 0,
-			Combo.COMBO_19,
-			CarryLocations.QUIVER1), // Same as previous
-		AXE(
-			4.3f,
-			49, 33, 0, 2,
-			Combo.COMBO_20,
-			CarryLocations.QUIVER1),
-		HARD_CLEAVE(
-			5.7f,
-			70, 44, 0, 2,
-			Combo.COMBO_21,
-			CarryLocations.QUIVER1),
-		EXECUTIONER(
-			6.5f,
-			70, 44, 0, 2,
-			Combo.COMBO_21,
-			CarryLocations.QUIVER1), // Same as previous
-		MACE(
-			3.1f,
-			32, 10, 0, 0,
-			Combo.COMBO_22,
-			CarryLocations.QUIVER1),
-		MACE_OF_ORDER(
-			4.1f,
-			42, 13, 0, 0,
-			Combo.COMBO_22,
-			CarryLocations.QUIVER1),
-		MORNING_STAR(
-			5.0f,
-			60, 15, 0, 0,
-			Combo.COMBO_23,
-			CarryLocations.CHEST_QUIVER1),
-		CLUB(
-			3.6f,
-			19, 10, 0, 0,
-			Combo.COMBO_24,
-			CarryLocations.QUIVER1),
-		STONE_CLUB(
-			11.0f,
-			44, 22, 0, 0,
-			Combo.COMBO_24,
-			CarryLocations.QUIVER1),
-		BOW(
-			1.5f,
-			1, 50, 50, 4,
-			Combo.COMBO_27,
-			CarryLocations.QUIVER1),
-		CLAW_BOW(
-			2.0f,
-			1, 50, 50, 4,
-			Combo.COMBO_27,
-			CarryLocations.QUIVER1), // Same as previous
-		CROSSBOW(
-			2.8f,
-			1, 180, 120, 14,
-			Combo.COMBO_27,
-			CarryLocations.QUIVER1),
-		ARROW(
-			0.2f,
-			2, 10, 0, 10,
-			Combo.COMBO_26,
-			CarryLocations.CHEST_POUCH_QUIVER2),
-		SLAYER(
-			0.2f,
-			2, 28, 0, 10,
-			Combo.COMBO_26,
-			CarryLocations.CHEST_POUCH_QUIVER2),
-		SLING(
-			1.9f,
-			5, 20, 50, 7,
-			Combo.COMBO_27,
-			CarryLocations.CHEST_QUIVER1),
-		ROCK(
-			1.0f,
-			6, 18, 0, 11,
-			Combo.COMBO_42,
-			CarryLocations.CHEST_POUCH_QUIVER2),
-		POISON_DART(
-			0.3f,
-			7, 23, 0, 12,
-			Combo.COMBO_40,
-			CarryLocations.CHEST_POUCH_QUIVER2),
-		THROWING_STAR(
-			0.1f,
-			3, 19, 0, 1,
-			Combo.COMBO_42,
-			CarryLocations.CHEST_POUCH_QUIVER2),
-		STICK(
-			0.2f,
-			4, 4, 0, 0,
-			Combo.COMBO_5,
-			CarryLocations.QUIVER1),
-		STAFF(
-			2.6f,
-			12, 4, 0, 1,
-			Combo.COMBO_5,
-			CarryLocations.QUIVER1),
-		WAND(
-			0.1f,
-			0, 0, 0, 2,
-			Combo.COMBO_28,
-			CarryLocations.CHEST_POUCH_QUIVER1),
-		TEOWAND(
-			0.2f,
-			1, 20, 0, 12,
-			Combo.COMBO_29,
-			CarryLocations.CHEST_POUCH_QUIVER1),
-		YEW_STAFF(
-			3.5f,
-			18, 6, 0, 0,
-			Combo.COMBO_30,
-			CarryLocations.QUIVER1),
-		STAFF_OF_MANAR(
-			2.9f,
-			0, 4, 0, 15,
-			Combo.COMBO_31,
-			CarryLocations.QUIVER1),
-		STAFF_OF_IRRA(
-			2.9f,
-			0, 4, 0, 15,
-			Combo.COMBO_31,
-			CarryLocations.QUIVER1), // Same as previous
-		SNAKE_STAFF(
-			2.1f,
-			0, 3, 0, 3,
-			Combo.COMBO_32,
-			CarryLocations.QUIVER1),
-		CROSS_OF_NETA(
-			2.1f,
-			0, 3, 0, 3,
-			Combo.COMBO_32,
-			CarryLocations.QUIVER1), // Same as previous
-		THE_CONDUIT(
-			3.3f,
-			0, 7, 0, 8,
-			Combo.COMBO_33,
-			CarryLocations.QUIVER1),
-		SERPENT_STAFF(
-			3.3f,
-			0, 7, 0, 8,
-			Combo.COMBO_33,
-			CarryLocations.QUIVER1), // Same as previous
-		DRAGON_SPIT(
-			0.8f,
-			3, 1, 0, 4,
-			Combo.COMBO_5,
-			CarryLocations.CHEST_QUIVER1),
-		SCEPTRE_OF_LYT(
-			1.8f,
-			9, 4, 0, 3,
-			Combo.COMBO_35,
-			CarryLocations.QUIVER1),
-		HORN_OF_FEAR(
-			0.8f,
-			1, 1, 0, 0,
-			Combo.COMBO_36,
-			CarryLocations.CHEST_QUIVER1),
-		SPEED_BOW(
-			3.0f,
-			1, 220, 125, 10,
-			Combo.COMBO_27,
-			CarryLocations.QUIVER1),
-		THE_FIRESTAFF_COMPLETE(
-			3.6f,
-			100, 50, 255, 15,
-			Combo.COMBO_1,
-			CarryLocations.QUIVER1),
+		EYE_OF_TIME,
+		STORMRING,
+		TORCH,
+		FLAMITT,
+		STAFF_OF_CLAWS,
+		BOLT_BLADE,
+		STORM,
+		FURY,
+		RA_BLADE,
+		THE_FIRESTAFF,
+		DAGGER,
+		FALCHION,
+		SWORD,
+		RAPIER,
+		SABRE,
+		BITER,
+		SAMURAI_SWORD,
+		DELTA,
+		SIDE_SPLITTER,
+		DIAMOND_EDGE,
+		VORPAL_BLADE,
+		THE_INQUISITOR,
+		DRAGON_FANG,
+		AXE,
+		HARD_CLEAVE,
+		EXECUTIONER,
+		MACE,
+		MACE_OF_ORDER,
+		MORNING_STAR,
+		CLUB,
+		STONE_CLUB,
+		BOW,
+		CLAW_BOW,
+		CROSSBOW,
+		ARROW,
+		SLAYER,
+		SLING,
+		ROCK,
+		POISON_DART,
+		THROWING_STAR,
+		STICK,
+		STAFF,
+		WAND,
+		TEOWAND,
+		YEW_STAFF,
+		STAFF_OF_MANAR,
+		STAFF_OF_IRRA,
+		SNAKE_STAFF,
+		CROSS_OF_NETA,
+		THE_CONDUIT,
+		SERPENT_STAFF,
+		DRAGON_SPIT,
+		SCEPTRE_OF_LYT,
+		HORN_OF_FEAR,
+		SPEED_BOW,
+		THE_FIRESTAFF_COMPLETE,
 
 		// --- Clothes --- //
 
-		CAPE(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_NECK_TORSO),
-		CLOAK_OF_NIGHT(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_NECK_TORSO),
-		BARBARIAN_HIDE(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS),
-		TATTERED_PANTS(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS), // Same as previous
-		SANDALS(
-			0.6f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET),
-		LEATHER_BOOTS(
-			1.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET),
-		ROBE_BODY(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO),
-		TATTERED_SHIRT(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO), // Same as previous
-		ROBE_LEGS(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS),
-		FINE_ROBE_BODY(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO),
-		FINE_ROBE_LEGS(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS),
-		KIRTLE(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO),
-		SILK_SHIRT(
-			0.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO),
-		TABARD(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS),
-		GUNNA(
-			0.5f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS),
-		ELVEN_DOUBLET(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO),
-		ELVEN_HUKE(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS),
-		ELVEN_BOOTS(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET),
-		LEATHER_JERKIN(
-			0.6f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO),
-		LEATHER_PANTS(
-			0.8f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS),
-		SUEDE_BOOTS(
-			1.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET),
-		BLUE_PANTS(
-			0.6f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS),
-		TUNIC(
-			0.5f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO),
-		GHI(
-			0.5f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO),
-		GHI_TROUSERS(
-			0.5f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS),
-		CALISTA(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS),
-		CROWN_OF_NERRA(
-			0.6f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD),
-		BEZERKER_HELM(
-			1.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD),
-		HELMET(
-			1.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD),
-		BASINET(
-			1.5f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD),
-		BUCKLER(
-			1.1f,
-			Combo.COMBO_41,
-			CarryLocations.CHEST),
-		NETA_SHIELD(
-			1.1f,
-			Combo.COMBO_41,
-			CarryLocations.CHEST), // Same as previous
-		HIDE_SHIELD(
-			1.0f,
-			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK),
-		CRYSTAL_SHIELD(
-			1.0f,
-			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK), // Same as previous
-		WOODEN_SHIELD(
-			1.4f,
-			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK),
-		SMALL_SHIELD(
-			2.1f,
-			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK),
-		MAIL_AKETON(
-			6.5f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO),
-		LEG_MAIL(
-			5.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS),
-		MITHRAL_AKETON(
-			4.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO),
-		MITHRAL_MAIL(
-			3.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_LEGS),
-		CASQUE_N_COIF(
-			1.6f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD),
-		HOSEN(
-			0.9f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET),
-		ARMET(
-			1.9f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD),
-		TORSO_PLATE(
-			12.0f,
-			Combo.COMBO_0,
-			CarryLocations.TORSO),
-		LEG_PLATE(
-			8.0f,
-			Combo.COMBO_0,
-			CarryLocations.LEGS),
-		FOOT_PLATE(
-			2.8f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET),
-		LARGE_SHIELD(
-			3.4f,
-			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK),
-		SAR_SHIELD(
-			5.0f,
-			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK), // Same as previous
-		HELM_OF_LYTE(
-			1.7f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD),
-		HELM_OF_RA(
-			2.5f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD), // Same as previous
-		PLATE_OF_LYTE(
-			10.8f,
-			Combo.COMBO_0,
-			CarryLocations.TORSO),
-		PLATE_OF_RA(
-			12.1f,
-			Combo.COMBO_0,
-			CarryLocations.TORSO), // Same as previous
-		POLEYN_OF_LYTE(
-			7.2f,
-			Combo.COMBO_0,
-			CarryLocations.LEGS),
-		POLEYN_OF_RA(
-			8.0f,
-			Combo.COMBO_0,
-			CarryLocations.LEGS), // Same as previous
-		GREAVE_OF_LYTE(
-			2.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET),
-		GREAVE_OF_RA(
-			2.8f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET), // Same as previous
-		SHIELD_OF_LYTE(
-			3.0f,
-			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK),
-		SHIELD_OF_RA(
-			3.4f,
-			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK), // Same as previous
-		HELM_OF_DARC(
-			3.5f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD),
-		DRAGON_HELM(
-			3.5f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD), // Same as previous
-		PLATE_OF_DARC(
-			14.1f,
-			Combo.COMBO_0,
-			CarryLocations.TORSO),
-		DRAGON_PLATE(
-			14.1f,
-			Combo.COMBO_0,
-			CarryLocations.TORSO), // Same as previous
-		POLEYN_OF_DARC(
-			9.0f,
-			Combo.COMBO_0,
-			CarryLocations.LEGS),
-		DRAGON_POLEYN(
-			9.0f,
-			Combo.COMBO_0,
-			CarryLocations.LEGS), // Same as previous
-		GREAVE_OF_DARC(
-			3.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET),
-		DRAGON_GREAVE(
-			3.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET), // Same as previous
-		SHIELD_OF_DARC(
-			4.0f,
-			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK),
-		DRAGON_SHIELD(
-			4.0f,
-			Combo.COMBO_41,
-			CarryLocations.HANDS_BACKPACK), // Same as previous
-		DEXHELM(
-			1.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_HEAD),
-		FLAMEBAIN(
-			5.7f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO),
-		POWERTOWERS(
-			8.2f,
-			Combo.COMBO_0,
-			CarryLocations.LEGS),
-		BOOTS_OF_SPEED(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_FEET),
-		HALTER(
-			0.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_TORSO),
+		CAPE,
+		CLOAK_OF_NIGHT,
+		BARBARIAN_HIDE,
+		TATTERED_PANTS,
+		SANDALS,
+		LEATHER_BOOTS,
+		ROBE_BODY,
+		TATTERED_SHIRT,
+		ROBE_LEGS,
+		FINE_ROBE_BODY,
+		FINE_ROBE_LEGS,
+		KIRTLE,
+		SILK_SHIRT,
+		TABARD,
+		GUNNA,
+		ELVEN_DOUBLET,
+		ELVEN_HUKE,
+		ELVEN_BOOTS,
+		LEATHER_JERKIN,
+		LEATHER_PANTS,
+		SUEDE_BOOTS,
+		BLUE_PANTS,
+		TUNIC,
+		GHI,
+		GHI_TROUSERS,
+		CALISTA,
+		CROWN_OF_NERRA,
+		BEZERKER_HELM,
+		HELMET,
+		BASINET,
+		BUCKLER,
+		NETA_SHIELD,
+		HIDE_SHIELD,
+		CRYSTAL_SHIELD,
+		WOODEN_SHIELD,
+		SMALL_SHIELD,
+		MAIL_AKETON,
+		LEG_MAIL,
+		MITHRAL_AKETON,
+		MITHRAL_MAIL,
+		CASQUE_N_COIF,
+		HOSEN,
+		ARMET,
+		TORSO_PLATE,
+		LEG_PLATE,
+		FOOT_PLATE,
+		LARGE_SHIELD,
+		SAR_SHIELD,
+		HELM_OF_LYTE,
+		HELM_OF_RA,
+		PLATE_OF_LYTE,
+		PLATE_OF_RA,
+		POLEYN_OF_LYTE,
+		POLEYN_OF_RA,
+		GREAVE_OF_LYTE,
+		GREAVE_OF_RA,
+		SHIELD_OF_LYTE,
+		SHIELD_OF_RA,
+		HELM_OF_DARC,
+		DRAGON_HELM,
+		PLATE_OF_DARC,
+		DRAGON_PLATE,
+		POLEYN_OF_DARC,
+		DRAGON_POLEYN,
+		GREAVE_OF_DARC,
+		DRAGON_GREAVE,
+		SHIELD_OF_DARC,
+		DRAGON_SHIELD,
+		DEXHELM,
+		FLAMEBAIN,
+		POWERTOWERS,
+		BOOTS_OF_SPEED,
+		HALTER,
 
 		// --- Miscellaneous --- //
 
-		EMPTY_FLASK(0.1f, Combo.COMBO_0, CarryLocations.CHEST_POUCH),
-		CHEST(5.0f, Combo.COMBO_0, CarryLocations.HANDS_BACKPACK),
-		SCROLL(0.5f, Combo.COMBO_0, CarryLocations.CHEST_POUCH),
-		COMPASS(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		WATER_SKIN(
-			1.2f, // Outre vide (0.3f) + 3 rations d'eau (3 * 0.3f)
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE), // Same as previous
-		JEWEL_SYMAL(
-			0.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_NECK),
-		ILLUMULET(
-			0.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_NECK),
-		ASHES(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		BONES(
-			0.8f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST),
-		COPPER_COIN(
-			0.1f,
-			Combo.COMBO_37,
-			CarryLocations.CHEST_POUCH),
-		SAR_COIN(
-			0.1f,
-			Combo.COMBO_37,
-			CarryLocations.CHEST_POUCH), // Same as previous
-		SILVER_COIN(
-			0.1f,
-			Combo.COMBO_37,
-			CarryLocations.CHEST_POUCH), // Same as previous
-		GOLD_COIN(
-			0.1f,
-			Combo.COMBO_37,
-			CarryLocations.CHEST_POUCH),
-		GOR_COIN(
-			0.1f,
-			Combo.COMBO_37,
-			CarryLocations.CHEST_POUCH), // Same as previous
-		IRON_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		KEY_OF_B(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		SOLID_KEY(
-			0.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		SQUARE_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		TOURQUOISE_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		CROSS_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		ONYX_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		SKELETON_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		GOLD_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		WINGED_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		TOPAZ_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		SAPPHIRE_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		EMERALD_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		RUBY_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		RA_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		MASTER_KEY(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		BOULDER(
-			8.1f,
-			Combo.COMBO_0,
-			CarryLocations.HANDS_BACKPACK),
-		BLUE_GEM(
-			0.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		ORANGE_GEM(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		GREEN_GEM(
-			0.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		APPLE(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		CORN(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		BREAD(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		CHEESE(
-			0.8f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		SCREAMER_SLICE(
-			0.5f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		WORM_ROUND(
-			1.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		DRUMSTICK(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		SHANK(
-			0.4f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		DRAGON_STEAK(
-			0.6f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_CONSUMABLE),
-		GEM_OF_AGES(
-			0.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_NECK),
-		EKKHARD_CROSS(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_NECK),
-		MOONSTONE(
-			0.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_NECK),
-		THE_HELLION(
-			0.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_NECK),
-		PENDANT_FERAL(
-			0.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_NECK),
-		MAGICAL_BOX_BLUE(
-			0.6f,
-			Combo.COMBO_38,
-			CarryLocations.CHEST_POUCH),
-		MAGICAL_BOX_GREEN(
-			0.9f,
-			Combo.COMBO_38,
-			CarryLocations.CHEST_POUCH),
-		MIRROR_OF_DAWN(
-			0.3f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		ROPE(
-			1.0f,
-			Combo.COMBO_39,
-			CarryLocations.CHEST),
-		RABBIT_FOOT(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		CORBAMITE(
-			0.0f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		CORBUM(
-			0.0f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		CHOKER(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH_NECK),
-		LOCK_PICKS(
-			0.1f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		MAGNIFIER(
-			0.2f,
-			Combo.COMBO_0,
-			CarryLocations.CHEST_POUCH),
-		ZOKATHRA_SPELL(
-			0.0f,
-			Combo.COMBO_0,
-			CarryLocations.NONE);
-
-		private final Combo combo;
-
-		/**
-		 * The base value used for computing the damages caused by an attack
-		 * with this item. Relevant only for a weapon item for which the value
-		 * is positive. For other items, the value is set to -1.
-		 */
-		private final int damage;
-
-		/**
-		 * This value determines how far the item will go when thrown. If a
-		 * weapon is used to "Shoot", this will be a part of how far the item
-		 * being shot will travel. The farther the projectile goes, the more
-		 * damage it does (Damage is decreased as it flies). Valeur dans
-		 * l'intervalle [0-255].
-		 */
-		private final int distance;
-
-		/**
-		 * The amount of damage associated with fired projectiles. Value within
-		 * [0,255].
-		 */
-		private final int shootDamage;
-
-		/**
-		 * The amount of energy lost by the projectile every time it moves.
-		 */
-		private final int deltaEnergy;
-
-		/**
-		 * The carry locations where this item can be stored.
-		 */
-		private final CarryLocations carryLocations;
-
-		/**
-		 * The item's weight (in Kg) as a float.
-		 */
-		private final float weight;
+		EMPTY_FLASK,
+		CHEST,
+		SCROLL,
+		COMPASS,
+		WATER_SKIN,
+		JEWEL_SYMAL,
+		ILLUMULET,
+		ASHES,
+		BONES,
+		COPPER_COIN,
+		SAR_COIN,
+		SILVER_COIN,
+		GOLD_COIN,
+		GOR_COIN,
+		IRON_KEY,
+		KEY_OF_B,
+		SOLID_KEY,
+		SQUARE_KEY,
+		TOURQUOISE_KEY,
+		CROSS_KEY,
+		ONYX_KEY,
+		SKELETON_KEY,
+		GOLD_KEY,
+		WINGED_KEY,
+		TOPAZ_KEY,
+		SAPPHIRE_KEY,
+		EMERALD_KEY,
+		RUBY_KEY,
+		RA_KEY,
+		MASTER_KEY,
+		BOULDER,
+		BLUE_GEM,
+		ORANGE_GEM,
+		GREEN_GEM,
+		APPLE,
+		CORN,
+		BREAD,
+		CHEESE,
+		SCREAMER_SLICE,
+		WORM_ROUND,
+		DRUMSTICK,
+		SHANK,
+		DRAGON_STEAK,
+		GEM_OF_AGES,
+		EKKHARD_CROSS,
+		MOONSTONE,
+		THE_HELLION,
+		PENDANT_FERAL,
+		MAGICAL_BOX_BLUE,
+		MAGICAL_BOX_GREEN,
+		MIRROR_OF_DAWN,
+		ROPE,
+		RABBIT_FOOT,
+		CORBAMITE,
+		CORBUM,
+		CHOKER,
+		LOCK_PICKS,
+		MAGNIFIER,
+		ZOKATHRA_SPELL;
 
 		// FIXME Take into account distance, shootDamage, deltaEnergy
 
-		// Special constructor for weapon items
-		private Type(float weight, int damage, int distance, int shootDamage, int deltaEnergy, Combo combo,
-				CarryLocations carryLocations) {
-
-			Validate.isTrue(weight >= 0.0f, "The given weight " + weight + " must be positive or zero");
-			Validate.isTrue(damage >= 0, "The given damage " + damage + " must be positive or zero");
-			Validate.isTrue(distance >= 0, "The given distance " + distance + " must be positive or zero");
-			Validate.isTrue(shootDamage >= 0, "The given shoot damage " + shootDamage + " must be positive or zero");
-			Validate.isTrue(deltaEnergy >= 0, "The given delta energy " + deltaEnergy + " must be positive or zero");
-			Validate.notNull(combo, "The given combo is null");
-			Validate.notNull(carryLocations, "The given carry locations is null");
-
-			this.weight = weight;
-			this.damage = damage;
-			this.distance = distance;
-			this.shootDamage = shootDamage;
-			this.deltaEnergy = deltaEnergy;
-			this.combo = combo;
-			this.carryLocations = carryLocations;
+		private Type() {
 		}
 
-		// Special constructor for non-weapon items
-		private Type(float weight, Combo combo, CarryLocations carryLocations) {
-			Validate.isTrue(weight >= 0.0f, "The given weight " + weight + " must be positive or zero");
-			Validate.notNull(combo, "The given combo is null");
-			Validate.notNull(carryLocations, "The given carry locations is null");
-
-			this.weight = weight;
-			this.damage = -1;
-			this.distance = -1;
-			this.shootDamage = -1;
-			this.deltaEnergy = -1;
-			this.combo = combo;
-			this.carryLocations = carryLocations;
+		private ItemDef getDefinition() {
+			return ItemDef.getDefinition(this);
 		}
 
 		/**
-		 * Returns the action combo associated to this item.
+		 * Returns the actions associated to this item.
 		 *
-		 * @return an instance of {@link Combo}. Never returns null.
+		 * @return a list of actions. Never returns null.
 		 */
-		public Combo getCombo() {
-			return combo;
-		}
-
-		/**
-		 * Returns the category this item belongs to.
-		 *
-		 * @return an item category. Never returns null.
-		 */
-		public Category getCategory() {
-			for (Category category : Category.values()) {
-				if (category.getTypes().contains(this)) {
-					return category;
-				}
-			}
-
-			throw new UnsupportedOperationException("Method unsupported for item " + this);
+		private List<ItemDef.ActionDef> getActions() {
+			return getDefinition().getActions();
 		}
 
 		/**
 		 * Returns the carry locations where this item can be stored.
 		 *
-		 * @return an instance of {@link CarryLocations}. Never returns null.
+		 * @return a set of carry locations. Never returns null.
 		 */
-		public CarryLocations getCarryLocations() {
-			return carryLocations;
+		public Set<CarryLocation> getCarryLocations() {
+			return getDefinition().getCarryLocations();
 		}
 
 		/**
@@ -1145,7 +440,7 @@ public abstract class Item implements ChangeEventSource {
 		 * @return a float representing a weight in Kg.
 		 */
 		public float getWeight() {
-			return weight;
+			return getDefinition().getWeight();
 		}
 
 		/**
@@ -1154,82 +449,11 @@ public abstract class Item implements ChangeEventSource {
 		 * @return a list of effects. Never returns null.
 		 */
 		public List<Effect> getEffects() {
-			switch (this) {
-			case STAFF_OF_CLAWS:
-				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +4));
-			case THE_FIRESTAFF:
-				return Collections.singletonList(new Effect(AffectedStatistic.ALL_SKILLS, +1));
-			case DELTA:
-				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +1));
-			case VORPAL_BLADE:
-				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +4));
-			case THE_INQUISITOR:
-				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +2));
-			case MACE_OF_ORDER:
-				return Collections.singletonList(new Effect(AffectedStatistic.STRENGTH, +5));
-			case STAFF:
-				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +2));
-			case WAND:
-				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +1));
-			case TEOWAND:
-				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +6));
-			case YEW_STAFF:
-				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +4));
-			case STAFF_OF_MANAR:
-				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +10));
-			case SNAKE_STAFF:
-				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +8));
-			case THE_CONDUIT:
-				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +17));
-			case DRAGON_SPIT:
-				return Collections.singletonList(new Effect(AffectedStatistic.MANA, +7));
-			case SCEPTRE_OF_LYT:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +5), new Effect(AffectedStatistic.HEAL_SKILL, +1));
-			case THE_FIRESTAFF_COMPLETE:
-				return Collections.singletonList(new Effect(AffectedStatistic.ALL_SKILLS, +2));
-			case CLOAK_OF_NIGHT:
-				return Collections.singletonList(new Effect(AffectedStatistic.DEXTERITY, +8));
-			case ELVEN_BOOTS:
-				// +14 Load (Should be actually +1-14)
-				return Collections.singletonList(new Effect(AffectedStatistic.MAX_LOAD, 14));
-			case CROWN_OF_NERRA:
-				return Collections.singletonList(new Effect(AffectedStatistic.WISDOM, +10));
-			case DEXHELM:
-				return Collections.singletonList(new Effect(AffectedStatistic.DEXTERITY, +10));
-			case FLAMEBAIN:
-				return Collections.singletonList(new Effect(AffectedStatistic.ANTI_FIRE, +12));
-			case POWERTOWERS:
-				return Collections.singletonList(new Effect(AffectedStatistic.STRENGTH, +10));
-			case GEM_OF_AGES:
-				return Collections.singletonList(new Effect(AffectedStatistic.HEAL_SKILL, +1));
-			case EKKHARD_CROSS:
-				return Collections.singletonList(new Effect(AffectedStatistic.DEFEND_SKILL, +1));
-			case MOONSTONE:
-				return Arrays.asList(new Effect(AffectedStatistic.MANA, +3), new Effect(AffectedStatistic.INFLUENCE_SKILL, +3));
-			case PENDANT_FERAL:
-				return Collections.singletonList(new Effect(AffectedStatistic.WIZARD_LEVEL, +1));
-			case RABBIT_FOOT:
-				return Collections.singletonList(new Effect(AffectedStatistic.LUCK, +10));
-			case JEWEL_SYMAL:
-				return Collections.singletonList(new Effect(AffectedStatistic.ANTI_MAGIC, +15));
-			default:
-				return Collections.emptyList();
-			}
+			return getDefinition().getEffects();
 		}
 
-		/**
-		 * TODO Translate this javadoc comment to english
-		 *
-		 * Retourne le nombre de base utilis� pour calculer combien de points de
-		 * dommage une attaque cause. Pertinent uniquement pour une objet de
-		 * type arme (cf {@link #getCategory()}) auquel cas la valeur est
-		 * positive ou nulle autrement vaut -1.
-		 *
-		 * @return un entier positif ou nul si l'objet est une arme autrement
-		 *         -1.
-		 */
 		public int getDamage() {
-			return damage;
+			return getDefinition().getDamage();
 		}
 
 		/**
@@ -1262,31 +486,126 @@ public abstract class Item implements ChangeEventSource {
 			}
 		}
 
-		/**
-		 * TODO Javadoc this method
-		 *
-		 * @return
-		 */
 		public int getDistance() {
-			return distance;
+			return getDefinition().getDistance();
 		}
 
-		/**
-		 * TODO Javadoc this method
-		 *
-		 * @return
-		 */
 		public int getShootDamage() {
-			return shootDamage;
+			return getDefinition().getShootDamage();
+		}
+
+		public int getDeltaEnergy() {
+			return getDefinition().getDeltaEnergy();
 		}
 
 		/**
-		 * TODO Javadoc this method
+		 * Returns the types corresponding to potion items.
 		 *
-		 * @return
+		 * @return a set of item types. Never returns null.
 		 */
-		public int getDeltaEnergy() {
-			return deltaEnergy;
+		public static Set<Item.Type> getPotionTypes() {
+			return EnumSet.range(Type.MON_POTION, Type.FUL_BOMB);
+		}
+
+		/**
+		 * Returns the types corresponding to weapon items.
+		 *
+		 * @return a set of item types. Never returns null.
+		 */
+		public static Set<Item.Type> getWeaponTypes() {
+			return EnumSet.range(Type.EYE_OF_TIME, Type.THE_FIRESTAFF_COMPLETE);
+		}
+
+		/**
+		 * Returns the types corresponding to cloth items.
+		 *
+		 * @return a set of item types. Never returns null.
+		 */
+		public static Set<Item.Type> getClothTypes() {
+			return EnumSet.range(Type.CAPE, Type.HALTER);
+		}
+
+		/**
+		 * Returns the types corresponding to miscellaneous items.
+		 *
+		 * @return a set of item types. Never returns null.
+		 */
+		public static Set<Item.Type> getMiscellaneousTypes() {
+			return EnumSet.range(Type.EMPTY_FLASK, Type.ZOKATHRA_SPELL);
+		}
+
+		/**
+		 * Returns the types corresponding to food items.
+		 *
+		 * @return a set of item types. Never returns null.
+		 */
+		public static Set<Item.Type> getFoodTypes() {
+			return EnumSet.range(Item.Type.APPLE, Item.Type.DRAGON_STEAK);
+		}
+
+		// Visibility package protected because items must be created via the
+		// ItemFactory
+		Item newItem() {
+			// Consider the types for which there's a dedicated class first
+			switch(this) {
+			case CHEST:
+				return new Chest();
+			case TORCH:
+				return new Torch();
+			case COMPASS:
+				return new Compass();
+			case BONES:
+				return new Bones();
+			case SCROLL:
+				return new Scroll();
+			default:
+				break;
+			}
+
+			if (getPotionTypes().contains(this)) {
+				return new Potion(this);
+			} else if (getWeaponTypes().contains(this)) {
+				return new MiscItem(this);
+			} else if (getFoodTypes().contains(this)) {
+				return new Food(this);
+			} else if (getMiscellaneousTypes().contains(this) || getClothTypes().contains(this)) {
+				return new MiscItem(this);
+			}
+
+			throw new UnsupportedOperationException("Method unsupported for type " + this);
+		}
+
+		/**
+		 * Returns the body part that activates this item (if any). Returns null if
+		 * the item can't be activated. When activated an item provides (in general)
+		 * a bonus to the champion (be it a defense bonus, a stat bonus, etc).
+		 * Examples: This method returns {@link BodyPart.Type#NECK} for an amulet,
+		 * {@link BodyPart.Type#WEAPON_HAND} for a weapon item.
+		 *
+		 * @return the body part which activates this item (if any) or null.
+		 */
+		public BodyPart.Type getActivationBodyPart() {
+			return getDefinition().getActivationBodyPart();
+		}
+
+		/**
+		 * Returns the shield bonus bestowed by this item when activated.
+		 *
+		 * @return an integer representing a shield bonus. Returns zero if the item
+		 *         doesn't bestow any bonus.
+		 */
+		public final int getShield() {
+			return getDefinition().getShield();
+		}
+
+		/**
+		 * Returns the fire resistance bonus bestowed by this item when activated.
+		 *
+		 * @return an integer representing a fire resistance bonus. Returns zero if
+		 *         the item doesn't bestow any bonus.
+		 */
+		public int getAntiMagic() {
+			return getDefinition().getAntiMagic();
 		}
 	}
 
@@ -1313,187 +632,6 @@ public abstract class Item implements ChangeEventSource {
 		ALL_SKILLS;
 	}
 
-	/**
-	 * An item effect can provide a bonus or a malus to a champion's stat.
-	 *
-	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
-	 */
-	public static final class Effect {
-
-		/**
-		 * The statistic affected by this effect.
-		 */
-		private final AffectedStatistic affectedStatistic;
-
-		/**
-		 * The strength of this effect.
-		 */
-		private final int value;
-
-		public Effect(AffectedStatistic affectedStatistic, int value) {
-			Validate.notNull(affectedStatistic, "The given affected statistic is null");
-			Validate.isTrue(value != 0, "The given effect strength is zero");
-
-			this.affectedStatistic = affectedStatistic;
-			this.value = value;
-		}
-
-		/**
-		 * Returns the statistic affected by this effect.
-		 *
-		 * @return the affected statistic. Never returns null.
-		 */
-		public AffectedStatistic getAffectedStatistic() {
-			return affectedStatistic;
-		}
-
-		/**
-		 * Returns the strength of this effect as an integer.
-		 *
-		 * @return an integer value representing the effect's strength. Can be
-		 *         positive or negative.
-		 */
-		public int getValue() {
-			return value;
-		}
-
-		/**
-		 * Applies the effect to the given champion
-		 *
-		 * @param champion
-		 *            the champion to who apply the effect. Can't be null.
-		 */
-		public void affect(Champion champion) {
-			Validate.notNull(champion, "The given champion is null");
-
-			final Stats stats = champion.getStats();
-
-			switch (affectedStatistic) {
-			case DEXTERITY:
-				stats.getDexterity().incMax(value);
-				stats.getDexterity().inc(value);
-				break;
-			case MANA:
-				stats.getMana().incMax(value);
-				stats.getMana().inc(value);
-				break;
-			case STRENGTH:
-				stats.getStrength().incMax(value);
-				stats.getStrength().inc(value);
-				break;
-			case MAX_LOAD:
-				// MaxLoad is a special stat for which the boost is handled
-				// separately from the base value (this value is computed
-				// dynamically)
-				stats.getMaxLoadBoost().inc(value);
-				break;
-			case WISDOM:
-				stats.getWisdom().incMax(value);
-				stats.getWisdom().inc(value);
-				break;
-			case ANTI_FIRE:
-				stats.getAntiFire().incMax(value);
-				stats.getAntiFire().inc(value);
-				break;
-			case ANTI_MAGIC:
-				stats.getAntiMagic().incMax(value);
-				stats.getAntiMagic().inc(value);
-				break;
-			case LUCK:
-				stats.getLuck().incMax(value);
-				stats.getLuck().inc(value);
-				break;
-			case WIZARD_LEVEL:
-				champion.getExperience(Skill.WIZARD).incBoost(value);
-				break;
-			case HEAL_SKILL:
-				champion.getExperience(Skill.HEAL).incBoost(value);
-				break;
-			case DEFEND_SKILL:
-				champion.getExperience(Skill.DEFEND).incBoost(value);
-				break;
-			case INFLUENCE_SKILL:
-				champion.getExperience(Skill.INFLUENCE).incBoost(value);
-				break;
-			case ALL_SKILLS:
-				for (Skill skill : Skill.values()) {
-					champion.getExperience(skill).incBoost(value);
-				}
-				break;
-			default:
-				throw new UnsupportedOperationException("Unsupported statistic " + affectedStatistic);
-			}
-		}
-
-		/**
-		 * Neutralizes the effect for the given champion.
-		 *
-		 * @param champion
-		 *            the champion to who neutralize the effect. Can't be null.
-		 */
-		public void unaffect(Champion champion) {
-			Validate.notNull(champion, "The given champion is null");
-
-			final Stats stats = champion.getStats();
-
-			switch (affectedStatistic) {
-			case DEXTERITY:
-				stats.getDexterity().dec(value);
-				stats.getDexterity().decMax(value);
-				break;
-			case MANA:
-				stats.getMana().dec(value);
-				stats.getMana().decMax(value);
-				break;
-			case STRENGTH:
-				stats.getStrength().dec(value);
-				stats.getStrength().decMax(value);
-				break;
-			case MAX_LOAD:
-				// MaxLoad is a special stat for which the boost is handled
-				// separately from the base value (this value is computed
-				// dynamically)
-				stats.getMaxLoadBoost().dec(value);
-				break;
-			case WISDOM:
-				stats.getWisdom().dec(value);
-				stats.getWisdom().decMax(value);
-				break;
-			case ANTI_FIRE:
-				stats.getAntiFire().dec(value);
-				stats.getAntiFire().decMax(value);
-				break;
-			case ANTI_MAGIC:
-				stats.getAntiMagic().dec(value);
-				stats.getAntiMagic().decMax(value);
-				break;
-			case LUCK:
-				stats.getLuck().dec(value);
-				stats.getLuck().decMax(value);
-				break;
-			case WIZARD_LEVEL:
-				champion.getExperience(Skill.WIZARD).decBoost(value);
-				break;
-			case HEAL_SKILL:
-				champion.getExperience(Skill.HEAL).decBoost(value);
-				break;
-			case DEFEND_SKILL:
-				champion.getExperience(Skill.DEFEND).decBoost(value);
-				break;
-			case INFLUENCE_SKILL:
-				champion.getExperience(Skill.INFLUENCE).decBoost(value);
-				break;
-			case ALL_SKILLS:
-				for (Skill skill : Skill.values()) {
-					champion.getExperience(skill).decBoost(value);
-				}
-				break;
-			default:
-				throw new UnsupportedOperationException("Unsupported statistic " + affectedStatistic);
-			}
-		}
-	}
-
 	protected Item(Type type) {
 		Validate.notNull(type, "The given item type is null");
 
@@ -1503,15 +641,15 @@ public abstract class Item implements ChangeEventSource {
 		// number when the item's used
 		Map<Action, Integer> map = null;
 
-		for (Combo.Entry entry : type.getCombo().getEntries()) {
-			if (entry.useCharges()) {
+		for (ActionDef actionDef : type.getActions()) {
+			if (actionDef.isUseCharges()) {
 				// This action is limited by a number of charges
 				if (map == null) {
 					map = new EnumMap<Action, Integer>(Action.class);
 				}
 
 				// FIXME How to determine the number of charges ? This differs from one object to another
-				map.put(entry.getAction(), 3);
+				map.put(actionDef.getAction(), 3);
 			}
 		}
 
@@ -1597,7 +735,9 @@ public abstract class Item implements ChangeEventSource {
 	 *
 	 * @return the body part which activates this item (if any) or null.
 	 */
-	protected abstract BodyPart.Type getActivationBodyPart();
+	protected final BodyPart.Type getActivationBodyPart() {
+		return getType().getActivationBodyPart();
+	}
 
 	/**
 	 * Tells whether this item can be activated by the given body part.
@@ -1628,8 +768,8 @@ public abstract class Item implements ChangeEventSource {
 	 * @return a set containing the carry locations compatible with this item.
 	 *         Never returns null.
 	 */
-	public final EnumSet<CarryLocation> getCarryLocations() {
-		return getType().getCarryLocations().getLocations();
+	public final Set<CarryLocation> getCarryLocations() {
+		return getType().getCarryLocations();
 	}
 
 	/**
@@ -1885,7 +1025,9 @@ public abstract class Item implements ChangeEventSource {
 	 * @return an integer representing a fire resistance bonus. Returns zero if
 	 *         the item doesn't bestow any bonus.
 	 */
-	public abstract int getAntiMagic();
+	public final int getAntiMagic() {
+		return getType().getAntiMagic();
+	}
 
 	/**
 	 * Returns the shield bonus bestowed by this item when activated.
@@ -1893,7 +1035,9 @@ public abstract class Item implements ChangeEventSource {
 	 * @return an integer representing a shield bonus. Returns zero if the item
 	 *         doesn't bestow any bonus.
 	 */
-	public abstract int getShield();
+	public final int getShield() {
+		return getType().getShield();
+	}
 
 	@Override
 	public String toString() {
@@ -1994,12 +1138,12 @@ public abstract class Item implements ChangeEventSource {
 		}
 
 		// Search for the action
-		for (Combo.Entry entry : getType().getCombo().getEntries()) {
-			final Action curAction = entry.getAction();
+		for (ItemDef.ActionDef actionDef : getType().getActions()) {
+			final Action curAction = actionDef.getAction();
 
 			if (curAction.equals(action)) {
 				// Action found
-				if (!entry.isUsable(champion)) {
+				if (!actionDef.isUsable(champion)) {
 					// The champion isn't skilled enough to use this action
 					return false;
 				}
@@ -2028,16 +1172,16 @@ public abstract class Item implements ChangeEventSource {
 		final List<Action> result = new ArrayList<Action>();
 
 		// Only return the actions available for this champion
-		for (Entry entry : getType().getCombo().getEntries()) {
-			if (!entry.isUsable(champion)) {
+		for (ItemDef.ActionDef actionDef : getType().getActions()) {
+			if (!actionDef.isUsable(champion)) {
 				// The champion isn't skilled enough to use this action
 				continue;
 			}
 
 			// Is the action limited by a number of charges ?
-			if (entry.useCharges()) {
+			if (actionDef.isUseCharges()) {
 				// What's the remaining charges ?
-				final int chargeCount = charges.get(entry.getAction());
+				final int chargeCount = charges.get(actionDef.getAction());
 
 				if (chargeCount == 0) {
 					// Charges depleted
@@ -2046,19 +1190,10 @@ public abstract class Item implements ChangeEventSource {
 			}
 
 			// The champion can use this action
-			result.add(entry.getAction());
+			result.add(actionDef.getAction());
 		}
 
 		return result;
-	}
-
-	/**
-	 * Returns the category this item belongs to.
-	 *
-	 * @return the item category. Never returns null.
-	 */
-	public final Category getCategory() {
-		return getType().getCategory();
 	}
 
 	/**
@@ -2068,7 +1203,7 @@ public abstract class Item implements ChangeEventSource {
 	 */
 	public List<Effect> getEffects() {
 		// Defensive recopy
-		return new ArrayList<Item.Effect>(effects);
+		return new ArrayList<ItemDef.Effect>(effects);
 	}
 
 	/**
@@ -2077,6 +1212,6 @@ public abstract class Item implements ChangeEventSource {
 	 * @return whether this item is a food item.
 	 */
 	public final boolean isFood() {
-		return Category.getFoodItems().contains(getType());
+		return Item.Type.getFoodTypes().contains(getType());
 	}
 }

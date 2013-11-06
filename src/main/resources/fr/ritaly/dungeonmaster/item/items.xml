@@ -1,0 +1,1807 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items xmlns="yadmjc:items:1.0">
+  <item id="ANTIDOTE_POTION" weight="0.3">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="ANTI_MAGIC_POTION" weight="0.3">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="APPLE" weight="0.4">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="ARMET" weight="1.9" activation="HEAD" shield="40" anti-magic="7">
+    <locations>
+      <location id="HEAD"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="ARROW" weight="0.2" damage="2" activation="WEAPON_HAND">
+    <delta-energy>10</delta-energy>
+    <distance>10</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER2"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="THROW"/>
+      <action id="STAB"/>
+    </actions>
+  </item>
+  <item id="ASHES" weight="0.4">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="AXE" weight="4.3" damage="49" activation="WEAPON_HAND">
+    <delta-energy>2</delta-energy>
+    <distance>33</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="CHOP"/>
+      <action id="MELEE" min-level="CRAFTSMAN"/>
+    </actions>
+  </item>
+  <item id="BARBARIAN_HIDE" weight="0.3" activation="LEGS" shield="4" anti-magic="1">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="BASINET" weight="1.5" activation="HEAD" shield="20" anti-magic="5">
+    <locations>
+      <location id="HEAD"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="BEZERKER_HELM" weight="1.1" activation="HEAD" shield="12" anti-magic="5">
+    <locations>
+      <location id="HEAD"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="BITER" weight="3.5" damage="42" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>11</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SLASH"/>
+      <action id="PARRY" min-level="NEOPHYTE"/>
+      <action id="MELEE" min-level="CRAFTSMAN"/>
+    </actions>
+  </item>
+  <item id="BLUE_GEM" weight="0.2">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="BLUE_PANTS" weight="0.6" activation="LEGS" shield="12" anti-magic="2">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="BOLT_BLADE" weight="3.0" damage="49" activation="WEAPON_HAND">
+    <delta-energy>1</delta-energy>
+    <distance>110</distance>
+    <shoot-damage>66</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="JAB"/>
+      <action id="CHOP"/>
+      <action id="LIGHTNING" min-level="JOURNEYMAN" use-charges="true"/>
+    </actions>
+  </item>
+  <item id="BONES" weight="0.8">
+    <locations>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="BOOTS_OF_SPEED" weight="0.3" activation="FEET" shield="16" anti-magic="2">
+    <locations>
+      <location id="FEET"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="BOULDER" weight="8.1">
+    <locations>
+      <location id="HANDS"/>
+      <location id="BACKPACK"/>
+    </locations>
+  </item>
+  <item id="BOW" weight="1.5" damage="1" activation="WEAPON_HAND">
+    <delta-energy>4</delta-energy>
+    <distance>50</distance>
+    <shoot-damage>50</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SHOOT"/>
+    </actions>
+  </item>
+  <item id="BREAD" weight="0.3">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="BUCKLER" weight="1.1" activation="SHIELD_HAND" shield="22" anti-magic="5">
+    <locations>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+      <action id="HIT" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="CALISTA" weight="0.4" activation="HEAD" shield="1" anti-magic="4">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="CAPE" weight="0.3" activation="NECK" shield="5" anti-magic="1">
+    <locations>
+      <location id="NECK"/>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="CASQUE_N_COIF" weight="1.6" activation="HEAD" shield="25" anti-magic="6">
+    <locations>
+      <location id="HEAD"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="CHEESE" weight="0.8">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="CHEST" weight="5.0">
+    <locations>
+      <location id="HANDS"/>
+      <location id="BACKPACK"/>
+    </locations>
+  </item>
+  <item id="CHOKER" weight="0.1" activation="NECK">
+    <locations>
+      <location id="NECK"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="CLAW_BOW" weight="2.0" damage="1" activation="WEAPON_HAND">
+    <delta-energy>4</delta-energy>
+    <distance>50</distance>
+    <shoot-damage>50</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SHOOT"/>
+    </actions>
+  </item>
+  <item id="CLOAK_OF_NIGHT" weight="0.4" activation="NECK" shield="10" anti-magic="1">
+    <locations>
+      <location id="NECK"/>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+    <effects>
+      <effect stat="DEXTERITY" strength="+8"/>
+    </effects>
+  </item>
+  <item id="CLUB" weight="3.6" damage="19" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>10</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="THROW"/>
+      <action id="BASH"/>
+    </actions>
+  </item>
+  <item id="COMPASS" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="COPPER_COIN" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="FLIP"/>
+    </actions>
+  </item>
+  <item id="CORBAMITE" weight="0.0">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="CORBUM" weight="0.0">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="CORN" weight="0.4">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="CROSSBOW" weight="2.8" damage="1" activation="WEAPON_HAND">
+    <delta-energy>14</delta-energy>
+    <distance>180</distance>
+    <shoot-damage>120</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SHOOT"/>
+    </actions>
+  </item>
+  <item id="CROSS_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="CROSS_OF_NETA" weight="2.1" damage="0" activation="WEAPON_HAND">
+    <delta-energy>3</delta-energy>
+    <distance>3</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="HEAL"/>
+      <action id="CALM" min-level="NOVICE"/>
+      <action id="BRANDISH" min-level="APPRENTICE"/>
+    </actions>
+  </item>
+  <item id="CROWN_OF_NERRA" weight="0.6" activation="HEAD" shield="5" anti-magic="4">
+    <locations>
+      <location id="HEAD"/>
+      <location id="CHEST"/>
+    </locations>
+    <effects>
+      <effect stat="WISDOM" strength="+10"/>
+    </effects>
+  </item>
+  <item id="CRYSTAL_SHIELD" weight="1.0" activation="SHIELD_HAND">
+    <locations>
+      <location id="HANDS"/>
+      <location id="BACKPACK"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+      <action id="HIT" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="DAGGER" weight="0.5" damage="10" activation="WEAPON_HAND">
+    <delta-energy>2</delta-energy>
+    <distance>19</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER2"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="THROW"/>
+      <action id="STAB"/>
+      <action id="SLASH" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="DELTA" weight="3.3" damage="50" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>14</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="CHOP"/>
+      <action id="MELEE" min-level="CRAFTSMAN"/>
+      <action id="THRUST" min-level="ARTISAN"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+1"/>
+    </effects>
+  </item>
+  <item id="DES_POTION" weight="0.3">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="DEXHELM" weight="1.4" activation="HEAD" shield="54" anti-magic="6">
+    <locations>
+      <location id="HEAD"/>
+      <location id="CHEST"/>
+    </locations>
+    <effects>
+      <effect stat="DEXTERITY" strength="+10"/>
+    </effects>
+  </item>
+  <item id="DEXTERITY_POTION" weight="0.3">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="DIAMOND_EDGE" weight="3.7" damage="62" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>14</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="STAB"/>
+      <action id="CHOP" min-level="NOVICE"/>
+      <action id="CLEAVE" min-level="CRAFTSMAN"/>
+    </actions>
+  </item>
+  <item id="DRAGON_FANG" weight="3.4" damage="58" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>15</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="THRUST" min-level="CRAFTSMAN"/>
+      <action id="BERZERK" min-level="ADEPT"/>
+    </actions>
+  </item>
+  <item id="DRAGON_GREAVE" weight="3.1" activation="LEGS">
+    <locations>
+      <location id="FEET"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="DRAGON_HELM" weight="3.5" activation="HEAD">
+    <locations>
+      <location id="HEAD"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="DRAGON_PLATE" weight="14.1" activation="TORSO">
+    <locations>
+      <location id="TORSO"/>
+    </locations>
+  </item>
+  <item id="DRAGON_POLEYN" weight="9.0" activation="LEGS">
+    <locations>
+      <location id="LEGS"/>
+    </locations>
+  </item>
+  <item id="DRAGON_SHIELD" weight="4.0" activation="SHIELD_HAND">
+    <locations>
+      <location id="HANDS"/>
+      <location id="BACKPACK"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+      <action id="HIT" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="DRAGON_SPIT" weight="0.8" damage="3" activation="WEAPON_HAND">
+    <delta-energy>4</delta-energy>
+    <distance>1</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+7"/>
+    </effects>
+  </item>
+  <item id="DRAGON_STEAK" weight="0.6">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="DRUMSTICK" weight="0.4">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="EKKHARD_CROSS" weight="0.3" activation="NECK">
+    <locations>
+      <location id="NECK"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <effects>
+      <effect stat="DEFEND_SKILL" strength="+1"/>
+    </effects>
+  </item>
+  <item id="ELVEN_BOOTS" weight="0.4" activation="FEET" shield="13" anti-magic="2">
+    <locations>
+      <location id="FEET"/>
+      <location id="CHEST"/>
+    </locations>
+    <effects>
+      <effect stat="MAX_LOAD" strength="+14"/>
+    </effects>
+  </item>
+  <item id="ELVEN_DOUBLET" weight="0.3" activation="TORSO" shield="11" anti-magic="2">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="ELVEN_HUKE" weight="0.3" activation="LEGS" shield="13" anti-magic="2">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="EMERALD_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="EMPTY_FLASK" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="EXECUTIONER" weight="6.5" damage="70" activation="WEAPON_HAND">
+    <delta-energy>2</delta-energy>
+    <distance>44</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="CHOP"/>
+      <action id="CLEAVE" min-level="APPRENTICE"/>
+      <action id="BERZERK" min-level="EXPERT"/>
+    </actions>
+  </item>
+  <item id="EYE_OF_TIME" weight="0.1" damage="2" activation="WEAPON_HAND">
+    <delta-energy>2</delta-energy>
+    <distance>0</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="PUNCH"/>
+      <action id="FREEZE_LIFE" use-charges="true"/>
+    </actions>
+  </item>
+  <item id="FALCHION" weight="3.3" damage="30" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>8</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="PARRY" min-level="NOVICE"/>
+      <action id="CHOP" min-level="APPRENTICE"/>
+    </actions>
+  </item>
+  <item id="FINE_ROBE_BODY" weight="0.3" activation="TORSO" shield="7" anti-magic="1">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="FINE_ROBE_LEGS" weight="0.3" activation="LEGS" shield="7" anti-magic="1">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="FLAMEBAIN" weight="5.7" activation="TORSO" shield="60" anti-magic="7">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+    <effects>
+      <effect stat="ANTI_FIRE" strength="+12"/>
+    </effects>
+  </item>
+  <item id="FLAMITT" weight="1.2" damage="10" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>80</distance>
+    <shoot-damage>30</shoot-damage>
+    <locations>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="FIREBALL" min-level="ADEPT" use-charges="true"/>
+    </actions>
+  </item>
+  <item id="FOOT_PLATE" weight="2.8" activation="FEET" shield="37" anti-magic="5">
+    <locations>
+      <location id="FEET"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="FUL_BOMB" weight="0.3">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+    </actions>
+  </item>
+  <item id="FURY" weight="4.7" damage="55" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>20</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="CHOP"/>
+      <action id="MELEE" min-level="NOVICE"/>
+      <action id="FIREBALL" min-level="ARTISAN" use-charges="true"/>
+    </actions>
+  </item>
+  <item id="GEM_OF_AGES" weight="0.2" activation="NECK">
+    <locations>
+      <location id="NECK"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <effects>
+      <effect stat="HEAL_SKILL" strength="+1"/>
+    </effects>
+  </item>
+  <item id="GHI" weight="0.5" activation="TORSO" shield="8" anti-magic="1">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="GHI_TROUSERS" weight="0.5" activation="LEGS" shield="9" anti-magic="1">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="GOLD_COIN" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="FLIP"/>
+    </actions>
+  </item>
+  <item id="GOLD_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="GOR_COIN" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="FLIP"/>
+    </actions>
+  </item>
+  <item id="GREAVE_OF_DARC" weight="3.1" activation="FEET" shield="60" anti-magic="4">
+    <locations>
+      <location id="FEET"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="GREAVE_OF_LYTE" weight="2.4" activation="FEET" shield="50" anti-magic="5">
+    <locations>
+      <location id="FEET"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="GREAVE_OF_RA" weight="2.8" activation="LEGS">
+    <locations>
+      <location id="FEET"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="GREEN_GEM" weight="0.2">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="GUNNA" weight="0.5" activation="LEGS" shield="7" anti-magic="1">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="HALTER" weight="0.2" activation="TORSO" shield="3" anti-magic="3">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="HARD_CLEAVE" weight="5.7" damage="70" activation="WEAPON_HAND">
+    <delta-energy>2</delta-energy>
+    <distance>44</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="CHOP"/>
+      <action id="CLEAVE" min-level="APPRENTICE"/>
+      <action id="BERZERK" min-level="EXPERT"/>
+    </actions>
+  </item>
+  <item id="HEALTH_POTION" weight="0.3">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="HELMET" weight="1.4" activation="HEAD" shield="17" anti-magic="5">
+    <locations>
+      <location id="HEAD"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="HELM_OF_DARC" weight="3.5" activation="HEAD" shield="76" anti-magic="4">
+    <locations>
+      <location id="HEAD"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="HELM_OF_LYTE" weight="1.7" activation="HEAD" shield="62" anti-magic="5">
+    <locations>
+      <location id="HEAD"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="HELM_OF_RA" weight="2.5" activation="HEAD">
+    <locations>
+      <location id="HEAD"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="HIDE_SHIELD" weight="1.0" activation="SHIELD_HAND" shield="16" anti-magic="2">
+    <locations>
+      <location id="HANDS"/>
+      <location id="BACKPACK"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+      <action id="HIT" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="HORN_OF_FEAR" weight="0.8" damage="1" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>1</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="BLOW_HORN"/>
+    </actions>
+  </item>
+  <item id="HOSEN" weight="0.9" activation="FEET" shield="30" anti-magic="6">
+    <locations>
+      <location id="FEET"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="ILLUMULET" weight="0.2" activation="NECK">
+    <locations>
+      <location id="NECK"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="IRON_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="JEWEL_SYMAL" weight="0.2" activation="NECK">
+    <locations>
+      <location id="NECK"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <effects>
+      <effect stat="ANTI_MAGIC" strength="+15"/>
+    </effects>
+  </item>
+  <item id="KATH_BOMB" weight="0.3">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="KEY_OF_B" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="KIRTLE" weight="0.4" activation="TORSO" shield="6" anti-magic="1">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="LARGE_SHIELD" weight="3.4" activation="SHIELD_HAND" shield="56" anti-magic="4">
+    <locations>
+      <location id="HANDS"/>
+      <location id="BACKPACK"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+      <action id="HIT" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="LEATHER_BOOTS" weight="1.4" activation="FEET" shield="25" anti-magic="4">
+    <locations>
+      <location id="FEET"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="LEATHER_JERKIN" weight="0.6" activation="TORSO" shield="17" anti-magic="3">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="LEATHER_PANTS" weight="0.8" activation="LEGS" shield="20" anti-magic="3">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="LEG_MAIL" weight="5.3" activation="LEGS" shield="35" anti-magic="5">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="LEG_PLATE" weight="8.0" activation="LEGS" shield="56" anti-magic="4">
+    <locations>
+      <location id="LEGS"/>
+    </locations>
+  </item>
+  <item id="LOCK_PICKS" weight="0.1" activation="WEAPON_HAND">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="MACE" weight="3.1" damage="32" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>10</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="BASH" min-level="NOVICE"/>
+      <action id="STUN" min-level="JOURNEYMAN"/>
+    </actions>
+  </item>
+  <item id="MACE_OF_ORDER" weight="4.1" damage="42" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>13</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="BASH" min-level="NOVICE"/>
+      <action id="STUN" min-level="JOURNEYMAN"/>
+    </actions>
+    <effects>
+      <effect stat="STRENGTH" strength="+5"/>
+    </effects>
+  </item>
+  <item id="MAGICAL_BOX_BLUE" weight="0.6" activation="WEAPON_HAND">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="FREEZE_LIFE"/>
+    </actions>
+  </item>
+  <item id="MAGICAL_BOX_GREEN" weight="0.9" activation="WEAPON_HAND">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="FREEZE_LIFE"/>
+    </actions>
+  </item>
+  <item id="MAGNIFIER" weight="0.2">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="MAIL_AKETON" weight="6.5" activation="TORSO" shield="35" anti-magic="5">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="MANA_POTION" weight="0.3">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="MASTER_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="MIRROR_OF_DAWN" weight="0.3">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="MITHRAL_AKETON" weight="4.2" activation="TORSO" shield="70" anti-magic="7">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="MITHRAL_MAIL" weight="3.1" activation="LEGS" shield="55" anti-magic="7">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="MON_POTION" weight="0.3">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="MOONSTONE" weight="0.2" activation="NECK">
+    <locations>
+      <location id="NECK"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <effects>
+      <effect stat="MANA" strength="+3"/>
+      <effect stat="INFLUENCE_SKILL" strength="+3"/>
+    </effects>
+  </item>
+  <item id="MORNING_STAR" weight="5.0" damage="60" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>15</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="STUN" min-level="APPRENTICE"/>
+      <action id="MELEE" min-level="ARTISAN"/>
+    </actions>
+  </item>
+  <item id="NETA_SHIELD" weight="1.1" activation="SHIELD_HAND">
+    <locations>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+      <action id="HIT" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="ONYX_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="ORANGE_GEM" weight="0.3">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="PENDANT_FERAL" weight="0.2" activation="NECK">
+    <locations>
+      <location id="NECK"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <effects>
+      <effect stat="WIZARD_LEVEL" strength="+1"/>
+    </effects>
+  </item>
+  <item id="PEW_BOMB" weight="0.3">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="PLATE_OF_DARC" weight="14.1" activation="TORSO" shield="160" anti-magic="4">
+    <locations>
+      <location id="TORSO"/>
+    </locations>
+  </item>
+  <item id="PLATE_OF_LYTE" weight="10.8" activation="TORSO" shield="125" anti-magic="4">
+    <locations>
+      <location id="TORSO"/>
+    </locations>
+  </item>
+  <item id="PLATE_OF_RA" weight="12.1" activation="TORSO">
+    <locations>
+      <location id="TORSO"/>
+    </locations>
+  </item>
+  <item id="POISON_DART" weight="0.3" damage="7" activation="WEAPON_HAND">
+    <delta-energy>12</delta-energy>
+    <distance>23</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER2"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="THROW"/>
+      <action id="STAB"/>
+    </actions>
+  </item>
+  <item id="POISON_POTION" weight="0.3">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+    </actions>
+  </item>
+  <item id="POLEYN_OF_DARC" weight="9.0" activation="LEGS" shield="101" anti-magic="4">
+    <locations>
+      <location id="LEGS"/>
+    </locations>
+  </item>
+  <item id="POLEYN_OF_LYTE" weight="7.2" activation="LEGS" shield="90" anti-magic="4">
+    <locations>
+      <location id="LEGS"/>
+    </locations>
+  </item>
+  <item id="POLEYN_OF_RA" weight="8.0" activation="LEGS">
+    <locations>
+      <location id="LEGS"/>
+    </locations>
+  </item>
+  <item id="POWERTOWERS" weight="8.2" activation="LEGS" shield="88" anti-magic="4">
+    <locations>
+      <location id="LEGS"/>
+    </locations>
+    <effects>
+      <effect stat="STRENGTH" strength="+10"/>
+    </effects>
+  </item>
+  <item id="RABBIT_FOOT" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <effects>
+      <effect stat="LUCK" strength="+10"/>
+    </effects>
+  </item>
+  <item id="RAPIER" weight="3.6" damage="38" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>10</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="JAB"/>
+      <action id="PARRY" min-level="NEOPHYTE"/>
+      <action id="THRUST" min-level="CRAFTSMAN"/>
+    </actions>
+  </item>
+  <item id="RA_BLADE" weight="4.7" damage="55" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>20</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="CHOP"/>
+      <action id="MELEE" min-level="NOVICE"/>
+      <action id="FIREBALL" min-level="ARTISAN" use-charges="true"/>
+    </actions>
+  </item>
+  <item id="RA_BOMB" weight="0.3">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="RA_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="ROBE_BODY" weight="0.4" activation="TORSO" shield="5">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="ROBE_LEGS" weight="0.4" activation="LEGS" shield="5">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="ROCK" weight="1.0" damage="6" activation="WEAPON_HAND">
+    <delta-energy>11</delta-energy>
+    <distance>18</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER2"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+    </actions>
+  </item>
+  <item id="ROPE" weight="1.0" activation="WEAPON_HAND">
+    <locations>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="CLIMB_DOWN"/>
+    </actions>
+  </item>
+  <item id="RUBY_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="SABRE" weight="3.5" damage="42" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>11</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SLASH"/>
+      <action id="PARRY" min-level="NEOPHYTE"/>
+      <action id="MELEE" min-level="CRAFTSMAN"/>
+    </actions>
+  </item>
+  <item id="SAMURAI_SWORD" weight="3.6" damage="46" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>12</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SLASH"/>
+      <action id="PARRY" min-level="NEOPHYTE"/>
+      <action id="MELEE" min-level="CRAFTSMAN"/>
+    </actions>
+  </item>
+  <item id="SANDALS" weight="0.6" activation="FEET" shield="5" anti-magic="2">
+    <locations>
+      <location id="FEET"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="SAPPHIRE_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="SAR_COIN" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="FLIP"/>
+    </actions>
+  </item>
+  <item id="SAR_POTION" weight="0.3">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="SAR_SHIELD" weight="5.0" activation="SHIELD_HAND">
+    <locations>
+      <location id="HANDS"/>
+      <location id="BACKPACK"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+      <action id="HIT" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="SCEPTRE_OF_LYT" weight="1.8" damage="9" activation="WEAPON_HAND">
+    <delta-energy>3</delta-energy>
+    <distance>4</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="PARRY"/>
+      <action id="HEAL" min-level="APPRENTICE"/>
+      <action id="LIGHT" min-level="JOURNEYMAN" use-charges="true"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+5"/>
+      <effect stat="HEAL_SKILL" strength="+1"/>
+    </effects>
+  </item>
+  <item id="SCREAMER_SLICE" weight="0.5">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="SCROLL" weight="0.5">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="SERPENT_STAFF" weight="3.3" damage="0" activation="WEAPON_HAND">
+    <delta-energy>8</delta-energy>
+    <distance>7</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="LIGHTNING" min-level="NOVICE" use-charges="true"/>
+      <action id="WINDOW" min-level="JOURNEYMAN" use-charges="true"/>
+    </actions>
+  </item>
+  <item id="SHANK" weight="0.4">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="SHIELD_OF_DARC" weight="4.0" activation="SHIELD_HAND" shield="54" anti-magic="6">
+    <locations>
+      <location id="HANDS"/>
+      <location id="BACKPACK"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+      <action id="HIT" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="SHIELD_OF_LYTE" weight="3.0" activation="SHIELD_HAND" shield="85" anti-magic="4">
+    <locations>
+      <location id="HANDS"/>
+      <location id="BACKPACK"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+      <action id="HIT" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="SHIELD_OF_RA" weight="3.4" activation="SHIELD_HAND">
+    <locations>
+      <location id="HANDS"/>
+      <location id="BACKPACK"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+      <action id="HIT" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="SIDE_SPLITTER" weight="3.3" damage="50" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>14</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="CHOP"/>
+      <action id="MELEE" min-level="CRAFTSMAN"/>
+      <action id="THRUST" min-level="ARTISAN"/>
+    </actions>
+  </item>
+  <item id="SILK_SHIRT" weight="0.2" activation="TORSO" shield="4">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="SILVER_COIN" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="FLIP"/>
+    </actions>
+  </item>
+  <item id="SKELETON_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="SLAYER" weight="0.2" damage="2" activation="WEAPON_HAND">
+    <delta-energy>10</delta-energy>
+    <distance>28</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER2"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="THROW"/>
+      <action id="STAB"/>
+    </actions>
+  </item>
+  <item id="SLING" weight="1.9" damage="5" activation="WEAPON_HAND">
+    <delta-energy>7</delta-energy>
+    <distance>20</distance>
+    <shoot-damage>50</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="SHOOT"/>
+    </actions>
+  </item>
+  <item id="SMALL_SHIELD" weight="2.1" activation="SHIELD_HAND" shield="35" anti-magic="4">
+    <locations>
+      <location id="HANDS"/>
+      <location id="BACKPACK"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+      <action id="HIT" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="SNAKE_STAFF" weight="2.1" damage="0" activation="WEAPON_HAND">
+    <delta-energy>3</delta-energy>
+    <distance>3</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="HEAL"/>
+      <action id="CALM" min-level="NOVICE"/>
+      <action id="BRANDISH" min-level="APPRENTICE"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+8"/>
+    </effects>
+  </item>
+  <item id="SOLID_KEY" weight="0.2">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="SPEED_BOW" weight="3.0" damage="1" activation="WEAPON_HAND">
+    <delta-energy>10</delta-energy>
+    <distance>220</distance>
+    <shoot-damage>125</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SHOOT"/>
+    </actions>
+  </item>
+  <item id="SQUARE_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="STAFF" weight="2.6" damage="12" activation="WEAPON_HAND">
+    <delta-energy>1</delta-energy>
+    <distance>4</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+2"/>
+    </effects>
+  </item>
+  <item id="STAFF_OF_CLAWS" weight="0.9" damage="16" activation="WEAPON_HAND">
+    <delta-energy>1</delta-energy>
+    <distance>7</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SLASH"/>
+      <action id="BRANDISH" min-level="NOVICE"/>
+      <action id="CONFUSE" min-level="APPRENTICE" use-charges="true"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+4"/>
+    </effects>
+  </item>
+  <item id="STAFF_OF_IRRA" weight="2.9" damage="0" activation="WEAPON_HAND">
+    <delta-energy>15</delta-energy>
+    <distance>4</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="DISPELL" min-level="APPRENTICE" use-charges="true"/>
+      <action id="FIRE_SHIELD" min-level="JOURNEYMAN" use-charges="true"/>
+    </actions>
+  </item>
+  <item id="STAFF_OF_MANAR" weight="2.9" damage="0" activation="WEAPON_HAND">
+    <delta-energy>15</delta-energy>
+    <distance>4</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="DISPELL" min-level="APPRENTICE" use-charges="true"/>
+      <action id="FIRE_SHIELD" min-level="JOURNEYMAN" use-charges="true"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+10"/>
+    </effects>
+  </item>
+  <item id="STAMINA_POTION" weight="0.3">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="STICK" weight="0.2" damage="4" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>4</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+    </actions>
+  </item>
+  <item id="STONE_CLUB" weight="11.0" damage="44" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>22</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="THROW"/>
+      <action id="BASH"/>
+    </actions>
+  </item>
+  <item id="STORM" weight="3.0" damage="49" activation="WEAPON_HAND">
+    <delta-energy>1</delta-energy>
+    <distance>110</distance>
+    <shoot-damage>66</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="JAB"/>
+      <action id="CHOP"/>
+      <action id="LIGHTNING" min-level="JOURNEYMAN" use-charges="true"/>
+    </actions>
+  </item>
+  <item id="STORMRING" weight="0.1" damage="2" activation="WEAPON_HAND">
+    <delta-energy>3</delta-energy>
+    <distance>0</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="LIGHTNING" min-level="ADEPT" use-charges="true"/>
+    </actions>
+  </item>
+  <item id="STRENGTH_POTION" weight="0.3">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="SUEDE_BOOTS" weight="1.4" activation="FEET" shield="20" anti-magic="3">
+    <locations>
+      <location id="FEET"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="SWORD" weight="3.2" damage="34" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>10</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="PARRY" min-level="NOVICE"/>
+      <action id="CHOP" min-level="APPRENTICE"/>
+    </actions>
+  </item>
+  <item id="TABARD" weight="0.4" activation="LEGS" shield="5" anti-magic="1">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="TATTERED_PANTS" weight="0.3" activation="LEGS">
+    <locations>
+      <location id="LEGS"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="TATTERED_SHIRT" weight="0.4" activation="TORSO">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="TEOWAND" weight="0.2" damage="1" activation="WEAPON_HAND">
+    <delta-energy>12</delta-energy>
+    <distance>20</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="CALM"/>
+      <action id="SPELL_SHIELD" min-level="APPRENTICE" use-charges="true"/>
+      <action id="FIRE_SHIELD" min-level="JOURNEYMAN" use-charges="true"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+6"/>
+    </effects>
+  </item>
+  <item id="THE_CONDUIT" weight="3.3" damage="0" activation="WEAPON_HAND">
+    <delta-energy>8</delta-energy>
+    <distance>7</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="LIGHTNING" min-level="NOVICE" use-charges="true"/>
+      <action id="WINDOW" min-level="JOURNEYMAN" use-charges="true"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+17"/>
+    </effects>
+  </item>
+  <item id="THE_FIRESTAFF" weight="2.4" damage="25" activation="WEAPON_HAND">
+    <delta-energy>15</delta-energy>
+    <distance>1</distance>
+    <shoot-damage>255</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="PARRY"/>
+      <action id="BRANDISH" min-level="APPRENTICE"/>
+      <action id="FIRE_SHIELD" min-level="CRAFTSMAN"/>
+    </actions>
+    <effects>
+      <effect stat="ALL_SKILLS" strength="+1"/>
+    </effects>
+  </item>
+  <item id="THE_FIRESTAFF_COMPLETE" weight="3.6" damage="100" activation="WEAPON_HAND">
+    <delta-energy>15</delta-energy>
+    <distance>50</distance>
+    <shoot-damage>255</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="INVOKE"/>
+      <action id="FUSE"/>
+      <action id="FLUX_CAGE"/>
+    </actions>
+    <effects>
+      <effect stat="ALL_SKILLS" strength="+2"/>
+    </effects>
+  </item>
+  <item id="THE_HELLION" weight="0.2" activation="NECK">
+    <locations>
+      <location id="NECK"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="THE_INQUISITOR" weight="3.9" damage="58" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>15</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+      <action id="THRUST" min-level="CRAFTSMAN"/>
+      <action id="BERZERK" min-level="ADEPT"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+2"/>
+    </effects>
+  </item>
+  <item id="THROWING_STAR" weight="0.1" damage="3" activation="WEAPON_HAND">
+    <delta-energy>1</delta-energy>
+    <distance>19</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER2"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+    </actions>
+  </item>
+  <item id="TOPAZ_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="TORCH" weight="1.1" damage="8" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>2</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="SWING"/>
+    </actions>
+  </item>
+  <item id="TORSO_PLATE" weight="12.0" activation="TORSO" shield="65" anti-magic="4">
+    <locations>
+      <location id="TORSO"/>
+    </locations>
+  </item>
+  <item id="TOURQUOISE_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="TUNIC" weight="0.5" activation="TORSO" shield="9" anti-magic="1">
+    <locations>
+      <location id="TORSO"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="UM_POTION" weight="0.3">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="VITALITY_POTION" weight="0.3">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="VORPAL_BLADE" weight="3.9" damage="48" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>13</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="JAB"/>
+      <action id="CLEAVE" min-level="NOVICE"/>
+      <action id="DISRUPT" min-level="JOURNEYMAN"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+4"/>
+    </effects>
+  </item>
+  <item id="WAND" weight="0.1" damage="0" activation="WEAPON_HAND">
+    <delta-energy>2</delta-energy>
+    <distance>0</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+    <actions>
+      <action id="CALM"/>
+      <action id="SPELL_SHIELD" min-level="NOVICE" use-charges="true"/>
+      <action id="HEAL" min-level="APPRENTICE"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+1"/>
+    </effects>
+  </item>
+  <item id="WATER_FLASK" weight="0.4">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="WATER_SKIN" weight="1.2" activation="WEAPON_HAND">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="WINGED_KEY" weight="0.1">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="WISDOM_POTION" weight="0.3">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="WOODEN_SHIELD" weight="1.4" activation="SHIELD_HAND" shield="20" anti-magic="3">
+    <locations>
+      <location id="HANDS"/>
+      <location id="BACKPACK"/>
+    </locations>
+    <actions>
+      <action id="BLOCK"/>
+      <action id="HIT" min-level="NOVICE"/>
+    </actions>
+  </item>
+  <item id="WORM_ROUND" weight="1.1">
+    <locations>
+      <location id="CONSUMABLE"/>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+  <item id="YEW_STAFF" weight="3.5" damage="18" activation="WEAPON_HAND">
+    <delta-energy>0</delta-energy>
+    <distance>6</distance>
+    <shoot-damage>0</shoot-damage>
+    <locations>
+      <location id="QUIVER1"/>
+    </locations>
+    <actions>
+      <action id="PARRY"/>
+      <action id="LIGHT" use-charges="true"/>
+      <action id="DISPELL" min-level="APPRENTICE" use-charges="true"/>
+    </actions>
+    <effects>
+      <effect stat="MANA" strength="+4"/>
+    </effects>
+  </item>
+  <item id="ZOKATHRA_SPELL" weight="0.0"></item>
+  <item id="ZO_POTION" weight="0.3">
+    <locations>
+      <location id="POUCH"/>
+      <location id="CHEST"/>
+    </locations>
+  </item>
+</items>

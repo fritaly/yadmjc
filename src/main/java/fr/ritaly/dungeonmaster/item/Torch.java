@@ -31,7 +31,7 @@ import fr.ritaly.dungeonmaster.Temporizer;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public class Torch extends Weapon implements ClockListener {
+public class Torch extends Item implements ClockListener {
 
 	private final Log log = LogFactory.getLog(Torch.class);
 

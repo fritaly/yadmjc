@@ -22,7 +22,6 @@ import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.champion.Champion;
-import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
 import fr.ritaly.dungeonmaster.stat.Stats;
@@ -51,7 +50,7 @@ public final class Potion extends Item {
 	public Potion(Type type, PowerRune strength) {
 		super(type);
 
-		Validate.isTrue(Category.POTION.getTypes().contains(type), "The given item type " + type + " isn't a potion");
+		Validate.isTrue(Item.Type.getPotionTypes().contains(type), "The given item type " + type + " isn't a potion");
 		Validate.notNull(strength, "The given power rune is null");
 
 		this.strength = strength;
@@ -114,22 +113,6 @@ public final class Potion extends Item {
 	 */
 	public Potion(Spell spell) {
 		this(getItemType(spell.getType()), spell.getPower());
-	}
-
-	@Override
-	protected BodyPart.Type getActivationBodyPart() {
-		// Potions are never activated
-		return null;
-	}
-
-	@Override
-	public int getAntiMagic() {
-		return 0;
-	}
-
-	@Override
-	public int getShield() {
-		return 0;
 	}
 
 	@Override

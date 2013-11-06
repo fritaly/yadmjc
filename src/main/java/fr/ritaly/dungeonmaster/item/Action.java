@@ -288,8 +288,14 @@ public enum Action {
 				aChampion.getStats().getHealth().inc(healPoints);
 			}
 
-			// The champion gained some experience
-			champion.gainExperience(improvedSkill, computeEarnedExperience(dungeon));
+			// The champion gained some experience (this experience can be null)
+			final int xp = computeEarnedExperience(dungeon);
+
+			if (xp > 0) {
+				// The method gainExperience() throws an exception if the xp is
+				// zero
+				champion.gainExperience(improvedSkill, xp);
+			}
 		} else if (Action.THROW.equals(this)) {
 			// TODO Implement the throwing of objects without resorting to this action (Clicking in the UI throws an object and casts a projectile)
 			// TODO How far can the projectile go before dying ?

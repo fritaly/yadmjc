@@ -18,7 +18,7 @@
  */
 package fr.ritaly.dungeonmaster.champion.inventory;
 
-import java.util.EnumSet;
+import java.util.Set;
 
 import org.apache.commons.lang.Validate;
 
@@ -48,7 +48,7 @@ public class Quiver extends AbstractItemContainer {
 		checkIndex(index);
 		Validate.notNull(item, "The given item is null");
 
-		final EnumSet<CarryLocation> locations = item.getCarryLocations();
+		final Set<CarryLocation> locations = item.getCarryLocations();
 
 		// Index = 0 -> QUIVER1
 		// Index = 1, 2 ou 3 -> QUIVER2

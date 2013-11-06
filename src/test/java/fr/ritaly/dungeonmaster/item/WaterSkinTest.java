@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster.item.drink;
+package fr.ritaly.dungeonmaster.item;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -24,7 +24,7 @@ import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.item.Item;
-import fr.ritaly.dungeonmaster.item.drink.WaterSkin;
+import fr.ritaly.dungeonmaster.item.WaterSkin;
 import junit.framework.TestCase;
 
 public class WaterSkinTest extends TestCase {
@@ -53,19 +53,19 @@ public class WaterSkinTest extends TestCase {
 		// --- Outre remplie
 		assertEquals(0.3f * 3 + 0.3f, waterSkin.getWeight(), 0.0001f);
 
-		// --- Tiggy boit une gorgée
+		// --- Tiggy boit une gorgï¿½e
 		Item item1 = tiggy.consume(waterSkin);
 
 		assertEquals(waterSkin, item1);
 		assertEquals(0.3f * 2 + 0.3f, waterSkin.getWeight(), 0.0001f);
 
-		// --- Tiggy boit une seconde gorgée
+		// --- Tiggy boit une seconde gorgï¿½e
 		Item item2 = tiggy.consume(waterSkin);
 
 		assertEquals(waterSkin, item2);
 		assertEquals(0.3f * 1 + 0.3f, waterSkin.getWeight(), 0.0001f);
 
-		// --- Tiggy boit la dernière gorgée
+		// --- Tiggy boit la derniï¿½re gorgï¿½e
 		Item item3 = tiggy.consume(waterSkin);
 
 		assertEquals(waterSkin, item3);

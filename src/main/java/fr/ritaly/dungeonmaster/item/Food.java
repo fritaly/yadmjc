@@ -21,7 +21,6 @@ package fr.ritaly.dungeonmaster.item;
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.champion.Champion;
-import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 
 /**
  * Some food. Food is useful for fighting hunger.
@@ -39,22 +38,7 @@ final class Food extends Item {
 	Food(Type type) {
 		super(type);
 
-		Validate.isTrue(Item.Category.getFoodItems().contains(type));
-	}
-
-	@Override
-	public final int getShield() {
-		return 0;
-	}
-
-	@Override
-	public final int getAntiMagic() {
-		return 0;
-	}
-
-	@Override
-	public final BodyPart.Type getActivationBodyPart() {
-		return null;
+		Validate.isTrue(Item.Type.getFoodTypes().contains(type));
 	}
 
 	/**

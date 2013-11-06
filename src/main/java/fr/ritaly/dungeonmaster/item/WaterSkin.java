@@ -16,15 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster.item.drink;
+package fr.ritaly.dungeonmaster.item;
 
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.audio.SoundSystem;
 import fr.ritaly.dungeonmaster.champion.Champion;
-import fr.ritaly.dungeonmaster.champion.body.BodyPart;
-import fr.ritaly.dungeonmaster.item.Item;
 
 /**
  * A water skin contains 0 up to 3 doses of water.
@@ -48,21 +46,6 @@ public class WaterSkin extends Item {
 	 */
 	public WaterSkin() {
 		super(Type.WATER_SKIN);
-	}
-
-	@Override
-	public int getShield() {
-		return 0;
-	}
-
-	@Override
-	public int getAntiMagic() {
-		return 0;
-	}
-
-	@Override
-	public BodyPart.Type getActivationBodyPart() {
-		return null;
 	}
 
 	@Override
