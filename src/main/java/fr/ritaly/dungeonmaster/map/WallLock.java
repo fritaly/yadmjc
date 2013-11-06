@@ -68,7 +68,7 @@ public final class WallLock extends DirectedElement implements HasActuator {
 
 	@Override
 	public boolean isTraversable(Creature creature) {
-		Validate.isTrue(creature != null, "The given creature is null");
+		Validate.notNull(creature, "The given creature is null");
 
 		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}

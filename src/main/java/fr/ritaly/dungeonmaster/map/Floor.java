@@ -24,7 +24,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 /**
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class Floor extends Element {
+public final class Floor extends FloorTile {
 
 	public Floor() {
 		super(Type.FLOOR);
@@ -34,22 +34,22 @@ public final class Floor extends Element {
 	public boolean isTraversable(Party party) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isTraversable(Creature creature) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isTraversableByProjectile() {
 		return true;
 	}
-	
+
 	@Override
 	public String getCaption() {
 		return " ";
 	}
-	
+
 	@Override
 	public void validate() throws ValidationException {
 	}

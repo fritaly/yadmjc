@@ -84,7 +84,7 @@ public enum DirectionTransform {
 	 * @return the transformed direction. Never returns null.
 	 */
 	public Direction transform(Direction direction) {
-		Validate.isTrue(direction != null, "The given direction is null");
+		Validate.notNull(direction, "The given direction is null");
 
 		switch (this) {
 		case IDENTITY:

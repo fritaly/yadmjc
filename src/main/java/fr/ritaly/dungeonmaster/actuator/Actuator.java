@@ -21,7 +21,7 @@ package fr.ritaly.dungeonmaster.actuator;
 import fr.ritaly.dungeonmaster.ClockListener;
 
 /**
- * An object responsible for triggering a {@link Triggered}.
+ * An object responsible for triggering a {@link Triggerable}.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */

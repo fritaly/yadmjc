@@ -27,7 +27,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 /**
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class InvisibleWall extends Element {
+public final class InvisibleWall extends FloorTile {
 
 	public InvisibleWall() {
 		super(Type.INVISIBLE_WALL);
@@ -40,11 +40,11 @@ public final class InvisibleWall extends Element {
 
 	@Override
 	public boolean isTraversable(final Creature creature) {
-		Validate.isTrue(creature != null, "The given creature is null");
+		Validate.notNull(creature, "The given creature is null");
 
 		return Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}
-	
+
 	@Override
 	public boolean isTraversableByProjectile() {
 		return false;

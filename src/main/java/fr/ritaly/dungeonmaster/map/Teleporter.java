@@ -25,7 +25,7 @@ import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.DirectionTransform;
 import fr.ritaly.dungeonmaster.Temporizer;
-import fr.ritaly.dungeonmaster.actuator.Triggered;
+import fr.ritaly.dungeonmaster.actuator.Triggerable;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -34,8 +34,8 @@ import fr.ritaly.dungeonmaster.projectile.Projectile;
 /**
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class Teleporter extends Element implements ClockListener,
-		Triggered {
+public final class Teleporter extends FloorTile implements ClockListener,
+		Triggerable {
 
 	public static enum State {
 		ENABLED,

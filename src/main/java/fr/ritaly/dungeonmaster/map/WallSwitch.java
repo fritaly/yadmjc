@@ -29,7 +29,7 @@ import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
 import fr.ritaly.dungeonmaster.actuator.HasActuator;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
-import fr.ritaly.dungeonmaster.actuator.Triggered;
+import fr.ritaly.dungeonmaster.actuator.Triggerable;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.audio.SoundSystem;
@@ -38,8 +38,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 /**
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class WallSwitch extends DirectedElement implements HasActuator,
-		Triggered {
+public final class WallSwitch extends DirectedElement implements HasActuator, Triggerable {
 
 	private final Log log = LogFactory.getLog(WallSwitch.class);
 
@@ -48,7 +47,7 @@ public final class WallSwitch extends DirectedElement implements HasActuator,
 	 * de sens que pour un bouton poussoir.
 	 */
 	private boolean pressed = false;
-	
+
 	// TODO Implement maxUseCount like for WallSlot
 
 	/**
@@ -84,7 +83,7 @@ public final class WallSwitch extends DirectedElement implements HasActuator,
 
 	@Override
 	public boolean isTraversable(Creature creature) {
-		Validate.isTrue(creature != null, "The given creature is null");
+		Validate.notNull(creature, "The given creature is null");
 
 		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}
@@ -108,7 +107,7 @@ public final class WallSwitch extends DirectedElement implements HasActuator,
 
 	/**
 	 * Indique si le bouton est press�.
-	 * 
+	 *
 	 * @return si le bouton est press�.
 	 */
 	public boolean isPressed() {

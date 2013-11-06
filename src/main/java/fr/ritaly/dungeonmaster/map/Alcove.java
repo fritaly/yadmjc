@@ -25,7 +25,7 @@ import org.apache.commons.lang.Validate;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Materiality;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
 import fr.ritaly.dungeonmaster.actuator.HasActuator;
@@ -37,25 +37,25 @@ import fr.ritaly.dungeonmaster.item.Item;
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Alcove extends DirectedElement implements HasActuator {
-	
+
 	private Actuator actuator;
-	
+
 	/**
-	 * Le type d'item qui permet de d�clencher l'actuator.
+	 * The type of item triggering the actuator.
 	 */
 	private final Item.Type itemType;
 
 	public Alcove(Direction direction, Item.Type itemType) {
 		super(Element.Type.ALCOVE, direction);
-		
+
 		Validate.notNull(itemType, "The given item type is null");
-		
+
 		this.itemType = itemType;
 	}
-	
+
 	public Alcove(Direction direction) {
 		super(Element.Type.ALCOVE, direction);
-		
+
 		this.itemType = null;
 	}
 
@@ -72,7 +72,7 @@ public final class Alcove extends DirectedElement implements HasActuator {
 	public boolean isTraversable(Party party) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isTraversableByProjectile() {
 		return false;
@@ -80,61 +80,61 @@ public final class Alcove extends DirectedElement implements HasActuator {
 
 	@Override
 	public boolean isTraversable(Creature creature) {
-		Validate.isTrue(creature != null, "The given creature is null");
+		Validate.notNull(creature, "The given creature is null");
 
-		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
+		return Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}
 
 	public final List<Item> getItems(Direction direction) {
-		// Appel de la m�thode non surcharg�e
+		// Call the method from parent class
 		return super.getItems(map(direction));
 	}
 
 	public final Item pickItem(Direction direction) {
-		// Appel de la m�thode non surcharg�e
+		// Call the method from parent class
 		final Item item = super.pickItem(map(direction));
-		
+
 		if (item != null) {
-			// Un objet a �t� pris
+			// An item has been picked
 			if (itemType == null) {
-				// D�clenchement sur tous les types d'objets
+				// Triggered by any item type
 				if (!hasItems() && (actuator != null)) {
-					// D�clenchement au dernier objet pris
+					// The triggering occurs on the last item picked
 					Clock.getInstance().register(actuator);
 				}
 			} else if (itemType.equals(item.getType())) {
-				// D�clenchement pour un type d'objet donn�
+				// Triggered for a given item type
 				if (!hasItems() && (actuator != null)) {
-					// D�clenchement au dernier objet pris
+					// The triggering occurs on the last item picked
 					Clock.getInstance().register(actuator);
 				}
-			}			
+			}
 		}
-		
+
 		return item;
 	}
 
 	public final void dropItem(Item item, Direction direction) {
-		// Appel de la m�thode non surcharg�e
-		super.itemDroppedDown(item, map(direction));
-		
+		// Call the method from parent class
+		super.itemDropped(item, map(direction));
+
 		if (itemType == null) {
-			// D�clenchement au premier objet d�pos� (quelque soit son type)
+			// Triggered on the first item whatever the type
 			if ((getItemCount() == 1) && (actuator != null)) {
 				Clock.getInstance().register(actuator);
 			}
 		} else if (itemType.equals(item.getType())) {
-			// D�clenchement au premier d�p�t du type d'objet donn�
+			// Triggered on the first item with given type
 			final List<Item> items = getItems(direction);
-			
+
 			int count = 0;
-			
+
 			for (Item anItem : items) {
 				if (anItem.getType().equals(itemType)) {
 					count++;
 				}
 			}
-			
+
 			if (count == 1) {
 				Clock.getInstance().register(actuator);
 			}
@@ -142,69 +142,51 @@ public final class Alcove extends DirectedElement implements HasActuator {
 	}
 
 	@Override
-	public final List<Item> getItems(SubCell subCell) {
-		// Surcharge pour forcer l'appel � la bonne m�thode
+	public final List<Item> getItems(Sector sector) {
+		// Override to force the use of the relevant method
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public final Item pickItem(SubCell corner) {
-		// Surcharge pour forcer l'appel � la bonne m�thode
+	public final Item pickItem(Sector corner) {
+		// Override to force the use of the relevant method
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public final void itemDroppedDown(Item item, SubCell corner) {
-		// Surcharge pour forcer l'appel � la bonne m�thode
+	public final void itemDropped(Item item, Sector corner) {
+		// Override to force the use of the relevant method
 		throw new UnsupportedOperationException();
 	}
 
-	private Direction map(SubCell subCell) {
-		Validate.isTrue(subCell != null, "The given sub-cell is null");
-
-		switch (subCell) {
-		case NORTH_EAST:
-			return Direction.NORTH;
-		case NORTH_WEST:
-			return Direction.SOUTH;
-		case SOUTH_EAST:
-			return Direction.EAST;
-		case SOUTH_WEST:
-			return Direction.WEST;
-		}
-
-		throw new UnsupportedOperationException();
-	}
-
-	private SubCell map(final Direction direction) {
-		Validate.isTrue(direction != null, "The given direction is null");
+	private Sector map(final Direction direction) {
+		Validate.notNull(direction, "The given direction is null");
 
 		switch (direction) {
 		case NORTH:
-			return SubCell.NORTH_EAST;
+			return Sector.NORTH_EAST;
 		case SOUTH:
-			return SubCell.NORTH_WEST;
+			return Sector.NORTH_WEST;
 		case EAST:
-			return SubCell.SOUTH_EAST;
+			return Sector.SOUTH_EAST;
 		case WEST:
-			return SubCell.SOUTH_WEST;
+			return Sector.SOUTH_WEST;
+		default:
+			throw new UnsupportedOperationException("Method unsupported for direction " + direction);
 		}
-
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void validate() throws ValidationException {
 		if (hasParty()) {
-			throw new ValidationException(
-					"A (one side) alcove can't have champions");
+			throw new ValidationException("A (one side) alcove can't have champions");
 		}
 	}
-	
+
 	public Actuator getActuator() {
 		return actuator;
 	}
-	
+
 	public void addActuator(Actuator actuator) {
 		Validate.notNull(actuator, "The given actuator is null");
 
@@ -214,7 +196,7 @@ public final class Alcove extends DirectedElement implements HasActuator {
 	public void setActuator(Actuator actuator) {
 		this.actuator = actuator;
 	}
-	
+
 	@Override
 	public void clearActuator() {
 		this.actuator = null;

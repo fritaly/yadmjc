@@ -16,42 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster.map;
+package fr.ritaly.dungeonmaster.actuator;
 
 /**
- * Enumerates the different types of event that can trigger an actuator.
- *
+ * An object that can be triggered.
+ * 
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public enum EventType {
+public interface Triggerable {
 
 	/**
-	 * When a party steps on a pressure pad.
+	 * Triggers the object by using the given triggering action.
+	 * 
+	 * @param action
+	 *            a {@link TriggerAction} representing the action used to
+	 *            trigger the {@link Triggerable} object.
 	 */
-	PARTY_STEPPED_ON,
-
-	/**
-	 * When a party steps off a pressure pad.
-	 */
-	PARTY_STEPPED_OFF,
-
-	/**
-	 * When an item is dropped on a pressure pad.
-	 */
-	ITEM_DROPPED,
-
-	/**
-	 * When an item is picked off a pressure pad.
-	 */
-	ITEM_PICKED_UP,
-
-	/**
-	 * When a creature steps on a pressure pad.
-	 */
-	CREATURE_STEPPED_ON,
-
-	/**
-	 * When a creature steps off a pressure pad.
-	 */
-	CREATURE_STEPPED_OFF;
+	public void trigger(TriggerAction action);
 }

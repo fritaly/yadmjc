@@ -127,7 +127,7 @@ public final class Stairs extends DirectedElement {
 
 	@Override
 	public Teleport getTeleport(Direction direction) {
-		Validate.isTrue(direction != null, "The given direction is null");
+		Validate.notNull(direction, "The given direction is null");
 		if (!hasParty()) {
 			throw new IllegalStateException("The party isn't on this element");
 		}
@@ -149,7 +149,7 @@ public final class Stairs extends DirectedElement {
 
 	// @Override
 	// public Position computeTargetPosition(Direction direction) {
-	// Validate.isTrue(direction != null, "The given direction is null");
+	// Validate.notNull(direction, "The given direction is null");
 	// if (!hasParty()) {
 	// throw new IllegalStateException("The party isn't on this element");
 	// }
@@ -166,7 +166,7 @@ public final class Stairs extends DirectedElement {
 	//
 	// @Override
 	// public Direction computeTargetDirection(Direction direction) {
-	// Validate.isTrue(direction != null, "The given direction is null");
+	// Validate.notNull(direction, "The given direction is null");
 	// if (!hasParty()) {
 	// throw new IllegalStateException("The party isn't on this element");
 	// }

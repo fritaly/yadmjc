@@ -18,6 +18,7 @@
  */
 package fr.ritaly.dungeonmaster.map;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
@@ -26,11 +27,13 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
+import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Orientation;
+import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
-import fr.ritaly.dungeonmaster.actuator.Triggered;
+import fr.ritaly.dungeonmaster.actuator.Triggerable;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.ai.Creature.Height;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
@@ -41,12 +44,14 @@ import fr.ritaly.dungeonmaster.champion.Party;
 /**
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class Door extends OrientedElement implements ClockListener,
-		Triggered {
+public final class Door extends Element implements ClockListener,
+		Triggerable {
 
 	private final Log log = LogFactory.getLog(Door.class);
 
 	private final Temporizer temporizer = new Temporizer("Temporizer.Door", 4);
+
+	private final Orientation orientation;
 
 	/**
 	 * Enum�ration des diff�rents degr�s de r�sistance d'une porte.
@@ -109,7 +114,7 @@ public final class Door extends OrientedElement implements ClockListener,
 
 		/**
 		 * Indique si l'image affich�e de la porte est invers�e p�riodiquement.
-		 * 
+		 *
 		 * @return si l'image affich�e de la porte est invers�e p�riodiquement.
 		 */
 		public boolean isAnimated() {
@@ -118,7 +123,7 @@ public final class Door extends OrientedElement implements ClockListener,
 
 		/**
 		 * Indique si les objets lanc�s peuvent passer � travers la porte.
-		 * 
+		 *
 		 * @return si les objets lanc�s peuvent passer � travers la porte.
 		 */
 		public boolean itemsCanPassThrough() {
@@ -127,7 +132,7 @@ public final class Door extends OrientedElement implements ClockListener,
 
 		/**
 		 * Indique si les cr�atures peuvent voir � travers la porte.
-		 * 
+		 *
 		 * @return si les cr�atures peuvent voir � travers la porte.
 		 */
 		public boolean creaturesCanSeeThrough() {
@@ -136,7 +141,7 @@ public final class Door extends OrientedElement implements ClockListener,
 
 		/**
 		 * Retourne la r�sistance aux d�g�ts de la porte.
-		 * 
+		 *
 		 * @return une instance de {@link Resistance}.
 		 */
 		public Resistance getResistance() {
@@ -238,15 +243,48 @@ public final class Door extends OrientedElement implements ClockListener,
 	public Door(Style style, Orientation orientation) {
 		this(style, orientation, State.CLOSED);
 	}
-	
+
 	public Door(Style style, Orientation orientation, State state) {
-		super(Element.Type.DOOR, orientation);
+		super(Element.Type.DOOR);
 
 		Validate.notNull(style, "The given door style is null");
 		Validate.notNull(state, "The given door state is null");
+		Validate.notNull(orientation, "The given orientation is null");
 
+		this.orientation = orientation;
 		this.style = style;
 		this.state = state;
+	}
+
+	public Orientation getOrientation() {
+		return orientation;
+	}
+
+	/**
+	 * Retourne les {@link Element}s qui entourent celui-ci. Pour une porte, les
+	 * �l�ments sont th�oriquement deux murs situ�s de part et d'autre de la
+	 * porte.
+	 *
+	 * @return une List&lt;Element&gt;.
+	 */
+	public List<Element> getSurroundingElements() {
+		final Position position1;
+		final Position position2;
+
+		if (Orientation.NORTH_SOUTH.equals(getOrientation())) {
+			position1 = getPosition().towards(Direction.WEST);
+			position2 = getPosition().towards(Direction.EAST);
+		} else {
+			position1 = getPosition().towards(Direction.NORTH);
+			position2 = getPosition().towards(Direction.SOUTH);
+		}
+
+		final Element element1 = getLevel()
+				.getElement(position1.x, position1.y);
+		final Element element2 = getLevel()
+				.getElement(position2.x, position2.y);
+
+		return Arrays.asList(element1, element2);
 	}
 
 	public boolean destroy() {
@@ -515,7 +553,7 @@ public final class Door extends OrientedElement implements ClockListener,
 
 	@Override
 	public boolean isTraversable(Creature creature) {
-		Validate.isTrue(creature != null, "The given creature is null");
+		Validate.notNull(creature, "The given creature is null");
 
 		final State state = getState();
 
@@ -562,7 +600,7 @@ public final class Door extends OrientedElement implements ClockListener,
 
 	/**
 	 * Indique si l'image affich�e de la porte est invers�e p�riodiquement.
-	 * 
+	 *
 	 * @return si l'image affich�e de la porte est invers�e p�riodiquement.
 	 */
 	public boolean isAnimated() {
@@ -573,7 +611,7 @@ public final class Door extends OrientedElement implements ClockListener,
 
 	/**
 	 * Indique si les cr�atures peuvent voir � travers la porte.
-	 * 
+	 *
 	 * @return si les cr�atures peuvent voir � travers la porte.
 	 */
 	public boolean creaturesCanSeeThrough() {

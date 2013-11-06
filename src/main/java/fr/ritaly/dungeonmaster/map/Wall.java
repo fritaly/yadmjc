@@ -37,24 +37,24 @@ public final class Wall extends Element {
 	public final boolean isTraversable(Party party) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isTraversable(final Creature creature) {
-		Validate.isTrue(creature != null, "The given creature is null");
-		
+		Validate.notNull(creature, "The given creature is null");
+
 		return Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}
-	
+
 	@Override
 	public boolean isTraversableByProjectile() {
 		return false;
 	}
-	
+
 	@Override
 	public String getCaption() {
 		return "W";
 	}
-	
+
 	@Override
 	public void validate() throws ValidationException {
 		if (hasItems()) {

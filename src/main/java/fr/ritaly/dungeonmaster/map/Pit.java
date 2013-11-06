@@ -23,10 +23,10 @@ import org.apache.commons.lang.Validate;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
-import fr.ritaly.dungeonmaster.actuator.Triggered;
+import fr.ritaly.dungeonmaster.actuator.Triggerable;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -36,10 +36,10 @@ import fr.ritaly.dungeonmaster.item.Item;
 /**
  * A pit. A pit can be real or virtual (i.e. just an illusion). It can also be
  * open or closed.
- * 
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public class Pit extends Element implements Triggered {
+public class Pit extends FloorTile implements Triggerable {
 
 	/**
 	 * Tells whether the pit is open.
@@ -83,7 +83,7 @@ public class Pit extends Element implements Triggered {
 	}
 
 	@Override
-	protected void afterItemDropped(Item item, SubCell subCell) {
+	protected void afterItemDropped(Item item, Sector sector) {
 		if (!isIllusion() && isOpen()) {
 			// Les objets tombent dans l'oubliette
 			dropItems();
@@ -121,14 +121,14 @@ public class Pit extends Element implements Triggered {
 			// Le groupe descend-t-il en corde ou tombe-t-il ?
 			final boolean climbingDown = Party.State.CLIMBING_DOWN
 					.equals(getParty().getState());
-			
+
 			if (climbingDown) {
 				// Le groupe descend en corde
 				if (log.isDebugEnabled()) {
 					log.debug("Party is climbing down ...");
 				}
 
-				// Conserver une r�f�rence vers le groupe car getParty() 
+				// Conserver une r�f�rence vers le groupe car getParty()
 				// retourne null apr�s la chute !
 				final Party party = getParty();
 
@@ -140,13 +140,13 @@ public class Pit extends Element implements Triggered {
 				}
 			} else {
 				// Le groupe tombe dans l'oubliette
-				
+
 				// Faire tomber le groupe
 				if (log.isDebugEnabled()) {
 					log.debug("Party stepped on an open pit. Party is falling ...");
 				}
 
-				// Conserver une r�f�rence vers le groupe car getParty() 
+				// Conserver une r�f�rence vers le groupe car getParty()
 				// retourne null apr�s la chute !
 				final Party party = getParty();
 
@@ -154,9 +154,9 @@ public class Pit extends Element implements Triggered {
 				getParty().getDungeon().moveParty(Move.DOWN, true,
 						AudioClip.SHOUT);
 
-				// FIXME G�rer le cas de chute dans plusieurs oubliettes d'un 
+				// FIXME G�rer le cas de chute dans plusieurs oubliettes d'un
 				// coup!
-				
+
 				// Blesser les champions � cause de la chute !
 				for (Champion champion : party.getChampions(false)) {
 					final Item item = champion.getBody().getFeet().getItem();
@@ -198,7 +198,7 @@ public class Pit extends Element implements Triggered {
 
 	/**
 	 * Tells whether the pit is open.
-	 * 
+	 *
 	 * @return whether the pit is open.
 	 */
 	public boolean isOpen() {
@@ -207,7 +207,7 @@ public class Pit extends Element implements Triggered {
 
 	/**
 	 * Tells whether the pit is closed.
-	 * 
+	 *
 	 * @return whether the pit is closed.
 	 */
 	public final boolean isClosed() {
@@ -216,7 +216,7 @@ public class Pit extends Element implements Triggered {
 
 	/**
 	 * Tries to open the pit and returns whether the operation succeeded.
-	 * 
+	 *
 	 * @return whether the pit was successfully opened.
 	 */
 	public boolean open() {
@@ -253,7 +253,7 @@ public class Pit extends Element implements Triggered {
 
 	/**
 	 * Tries to close the pit and returns whether the operation succeeded.
-	 * 
+	 *
 	 * @return whether the pit was successfully closed.
 	 */
 	public boolean close() {
@@ -280,7 +280,7 @@ public class Pit extends Element implements Triggered {
 
 	/**
 	 * Tells whether the pit is fake (an illusion) or real.
-	 * 
+	 *
 	 * @return whether the pit is fake (an illusion) or real.
 	 */
 	public boolean isIllusion() {
@@ -289,7 +289,7 @@ public class Pit extends Element implements Triggered {
 
 	/**
 	 * Tells whether the pit is real (or an illusion).
-	 * 
+	 *
 	 * @return whether the pit is real (or an illusion).
 	 */
 	public final boolean isReal() {
@@ -341,15 +341,15 @@ public class Pit extends Element implements Triggered {
 				}
 
 				// Emplacement de l'objet ?
-				final SubCell subCell = getSubCell(item);
+				final Sector sector = getSector(item);
 
-				if (subCell == null) {
+				if (sector == null) {
 					throw new IllegalStateException("Unable to find place of "
 							+ item);
 				}
 
 				// L'objet quitte la position
-				itemPickedUp(item);
+				itemPicked(item);
 
 				// Position cible ?
 				final Position targetPosition = getPosition().towards(
@@ -360,7 +360,7 @@ public class Pit extends Element implements Triggered {
 						.getElement(targetPosition);
 
 				// L'objet tombe au niveau inf�rieur
-				targetElement.itemDroppedDown(item, subCell);
+				targetElement.itemDropped(item, sector);
 			}
 		}
 	}

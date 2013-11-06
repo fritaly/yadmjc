@@ -38,7 +38,7 @@ import fr.ritaly.dungeonmaster.Location;
 import fr.ritaly.dungeonmaster.Poison;
 import fr.ritaly.dungeonmaster.Skill;
 import fr.ritaly.dungeonmaster.Speed;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
@@ -1298,8 +1298,8 @@ public class Champion implements ChangeEventSource, PropertyChangeListener, Cloc
 		if (location != null) {
 			// D�poser les objets au sol (au hasard) "devant" le groupe
 			for (Item item : items) {
-				location.itemDroppedDown(item,
-						SubCell.randomVisible(party.getLookDirection()));
+				location.itemDropped(item,
+						Sector.randomVisible(party.getLookDirection()));
 			}
 		}
 
@@ -1527,8 +1527,8 @@ public class Champion implements ChangeEventSource, PropertyChangeListener, Cloc
 		return (party != null) ? party.getLocation(this) : null;
 	}
 
-	public SubCell getSubCell() {
-		return (party != null) ? getLocation().toSubCell(
+	public Sector getSector() {
+		return (party != null) ? getLocation().toSector(
 				getParty().getDirection()) : null;
 	}
 }

@@ -20,7 +20,7 @@ package fr.ritaly.dungeonmaster.projectile;
 
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 
 /**
@@ -40,10 +40,10 @@ public interface ProjectileFactory {
 	 * @param direction
 	 *            the {@link Direction} the created projectile will be pointing
 	 *            to.
-	 * @param subCell
-	 *            the {@link SubCell} where the projectile will be created.
+	 * @param sector
+	 *            the {@link Sector} where the projectile will be created.
 	 * @return a new instance of {@link Projectile}.
 	 */
 	public Projectile createProjectile(Dungeon dungeon, Position position,
-			Direction direction, SubCell subCell);
+			Direction direction, Sector sector);
 }

@@ -43,6 +43,7 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.math.RandomUtils;
 
+import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Skill;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -145,7 +146,8 @@ public class Spell {
 			Validate.isTrue(difficulty >= 0, String.format("The given difficulty %d must be positive or zero", difficulty));
 
 			this.id = elementRune.getId();
-			this.duration = duration;
+			// secs -> ticks
+			this.duration = duration * Clock.ONE_SECOND;
 			this.difficulty = difficulty;
 
 			this.elementRune = elementRune;

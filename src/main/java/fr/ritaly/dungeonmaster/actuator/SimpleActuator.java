@@ -27,14 +27,14 @@ import org.apache.commons.lang.Validate;
 import fr.ritaly.dungeonmaster.Temporizer;
 
 /**
- * A simple {@link Actuator} used to trigger a {@link Triggered}.
+ * A simple {@link Actuator} used to trigger a {@link Triggerable}.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class SimpleActuator implements Actuator {
 
 	/**
-	 * A {@link Temporizer} used to delay the triggering of a {@link Triggered}.
+	 * A {@link Temporizer} used to delay the triggering of a {@link Triggerable}.
 	 */
 	private final Temporizer temporizer;
 
@@ -44,9 +44,9 @@ public class SimpleActuator implements Actuator {
 	private final TriggerAction action;
 
 	/**
-	 * The list of {@link Triggered} to be triggered.
+	 * The list of {@link Triggerable} to be triggered.
 	 */
-	private final List<Triggered> targets;
+	private final List<Triggerable> targets;
 
 	/**
 	 * The actuator's label.
@@ -54,12 +54,12 @@ public class SimpleActuator implements Actuator {
 	private final String label;
 
 	/**
-	 * The maximal number of clock ticks before triggering the {@link Triggered}
+	 * The maximal number of clock ticks before triggering the {@link Triggerable}
 	 * .
 	 */
 	private final int max;
 
-	public SimpleActuator(int count, TriggerAction action, Triggered... targets) {
+	public SimpleActuator(int count, TriggerAction action, Triggerable... targets) {
 		Validate.isTrue(count > 0, "The given tick count <" + count + "> must be positive");
 		Validate.notNull(action, "The given trigger action is null");
 		Validate.notNull(targets, "The given array is null");
@@ -68,14 +68,14 @@ public class SimpleActuator implements Actuator {
 		final StringBuilder builder = new StringBuilder(512);
 
 		boolean first = true;
-		for (Triggered triggered : targets) {
+		for (Triggerable triggerable : targets) {
 			if (!first) {
 				builder.append(",");
 			} else {
 				first = false;
 			}
 
-			builder.append(triggered);
+			builder.append(triggerable);
 		}
 
 		this.label = "Actuator[" + builder + "]";
@@ -92,15 +92,15 @@ public class SimpleActuator implements Actuator {
 		this.label = actuator.label;
 		this.max = actuator.max;
 		this.temporizer = new Temporizer(label, max);
-		this.targets = new ArrayList<Triggered>(actuator.targets);
+		this.targets = new ArrayList<Triggerable>(actuator.targets);
 	}
 
 	@Override
 	public boolean clockTicked() {
 		if (temporizer.trigger()) {
 			// Trigger each target
-			for (Triggered triggered : targets) {
-				triggered.trigger(action);
+			for (Triggerable triggerable : targets) {
+				triggerable.trigger(action);
 			}
 
 			return false;

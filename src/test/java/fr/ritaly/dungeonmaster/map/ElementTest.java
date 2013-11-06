@@ -24,7 +24,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.ai.Creature;
 
 public class ElementTest extends TestCase {
@@ -38,7 +38,7 @@ public class ElementTest extends TestCase {
 
 	public void testMethodIsConcreteMustBeSupported() {
 		for (Element.Type type : Element.Type.values()) {
-			// La méthode doit toujours retourner un résultat
+			// La mï¿½thode doit toujours retourner un rï¿½sultat
 			type.isConcrete();
 		}
 	}
@@ -69,16 +69,16 @@ public class ElementTest extends TestCase {
 		assertTrue(element.getCreatureMap().isEmpty());
 
 		// 1. On installe la momie
-		element.creatureSteppedOn(mummy, SubCell.NORTH_EAST);
+		element.creatureSteppedOn(mummy, Sector.NORTH_EAST);
 
 		assertTrue(element.hasCreatures());
 		assertNotNull(element.getCreatureMap());
 		assertFalse(element.getCreatureMap().isEmpty());
-		assertEquals(mummy, element.getCreatureMap().get(SubCell.NORTH_EAST));
+		assertEquals(mummy, element.getCreatureMap().get(Sector.NORTH_EAST));
 
 		// 2.
 		try {
-			element.creatureSteppedOn(mummy, SubCell.NORTH_EAST);
+			element.creatureSteppedOn(mummy, Sector.NORTH_EAST);
 
 			fail();
 		} catch (RuntimeException e) {
@@ -88,7 +88,7 @@ public class ElementTest extends TestCase {
 		assertTrue(element.hasCreatures());
 		assertNotNull(element.getCreatureMap());
 		assertFalse(element.getCreatureMap().isEmpty());
-		assertEquals(mummy, element.getCreatureMap().get(SubCell.NORTH_EAST));
+		assertEquals(mummy, element.getCreatureMap().get(Sector.NORTH_EAST));
 	}
 
 	public void testCantInstallCreatureIfNotEnoughRoomLeft() {
@@ -120,33 +120,33 @@ public class ElementTest extends TestCase {
 		assertEquals(0, element.getCreatureCount());
 		assertTrue(element.getCreatureMap().isEmpty());
 
-		// 1. On installe les 4 créatures de taille 1
-		element.creatureSteppedOn(mummy, SubCell.NORTH_EAST);
-		element.creatureSteppedOn(trolin, SubCell.NORTH_WEST);
-		element.creatureSteppedOn(rockPile, SubCell.SOUTH_EAST);
-		element.creatureSteppedOn(giggler, SubCell.SOUTH_WEST);
+		// 1. On installe les 4 crï¿½atures de taille 1
+		element.creatureSteppedOn(mummy, Sector.NORTH_EAST);
+		element.creatureSteppedOn(trolin, Sector.NORTH_WEST);
+		element.creatureSteppedOn(rockPile, Sector.SOUTH_EAST);
+		element.creatureSteppedOn(giggler, Sector.SOUTH_WEST);
 
 		assertTrue(element.hasCreatures());
 		assertNotNull(element.getCreatureMap());
 		assertEquals(4, element.getCreatureCount());
 		assertFalse(element.getCreatureMap().isEmpty());
-		assertEquals(mummy, element.getCreatureMap().get(SubCell.NORTH_EAST));
-		assertEquals(trolin, element.getCreatureMap().get(SubCell.NORTH_WEST));
-		assertEquals(rockPile, element.getCreatureMap().get(SubCell.SOUTH_EAST));
-		assertEquals(giggler, element.getCreatureMap().get(SubCell.SOUTH_WEST));
+		assertEquals(mummy, element.getCreatureMap().get(Sector.NORTH_EAST));
+		assertEquals(trolin, element.getCreatureMap().get(Sector.NORTH_WEST));
+		assertEquals(rockPile, element.getCreatureMap().get(Sector.SOUTH_EAST));
+		assertEquals(giggler, element.getCreatureMap().get(Sector.SOUTH_WEST));
 
-		// 2. On supprime une créature de taille 1 et on tente d'installer un
+		// 2. On supprime une crï¿½ature de taille 1 et on tente d'installer un
 		// ver (de taille 2) ou un dragon (de taille 4)
-		element.creatureSteppedOff(mummy, SubCell.NORTH_EAST);
+		element.creatureSteppedOff(mummy, Sector.NORTH_EAST);
 
 		assertTrue(element.hasCreatures());
 		assertNotNull(element.getCreatureMap());
 		assertEquals(3, element.getCreatureCount());
 		assertFalse(element.getCreatureMap().isEmpty());
-		assertNull(element.getCreatureMap().get(SubCell.NORTH_EAST));
-		assertEquals(trolin, element.getCreatureMap().get(SubCell.NORTH_WEST));
-		assertEquals(rockPile, element.getCreatureMap().get(SubCell.SOUTH_EAST));
-		assertEquals(giggler, element.getCreatureMap().get(SubCell.SOUTH_WEST));
+		assertNull(element.getCreatureMap().get(Sector.NORTH_EAST));
+		assertEquals(trolin, element.getCreatureMap().get(Sector.NORTH_WEST));
+		assertEquals(rockPile, element.getCreatureMap().get(Sector.SOUTH_EAST));
+		assertEquals(giggler, element.getCreatureMap().get(Sector.SOUTH_WEST));
 
 		// On teste dans toutes les directions
 		for (Direction direction : Arrays.asList(Direction.NORTH,
@@ -168,18 +168,18 @@ public class ElementTest extends TestCase {
 			// Erreur attendue
 		}
 
-		// 3. On supprime une autre créature de taille 1 et on tente d'installer
+		// 3. On supprime une autre crï¿½ature de taille 1 et on tente d'installer
 		// un dragon (de taille 4) ou un ver (de taille 2)
-		element.creatureSteppedOff(trolin, SubCell.NORTH_WEST);
+		element.creatureSteppedOff(trolin, Sector.NORTH_WEST);
 
 		assertTrue(element.hasCreatures());
 		assertNotNull(element.getCreatureMap());
 		assertEquals(2, element.getCreatureCount());
 		assertFalse(element.getCreatureMap().isEmpty());
-		assertNull(element.getCreatureMap().get(SubCell.NORTH_EAST));
-		assertNull(element.getCreatureMap().get(SubCell.NORTH_WEST));
-		assertEquals(rockPile, element.getCreatureMap().get(SubCell.SOUTH_EAST));
-		assertEquals(giggler, element.getCreatureMap().get(SubCell.SOUTH_WEST));
+		assertNull(element.getCreatureMap().get(Sector.NORTH_EAST));
+		assertNull(element.getCreatureMap().get(Sector.NORTH_WEST));
+		assertEquals(rockPile, element.getCreatureMap().get(Sector.SOUTH_EAST));
+		assertEquals(giggler, element.getCreatureMap().get(Sector.SOUTH_WEST));
 
 		try {
 			// Dragon trop gros
@@ -189,7 +189,7 @@ public class ElementTest extends TestCase {
 			// Erreur attendue
 		}
 
-		// On teste dans les 3 directions qui doivent échouer (E,S,W)
+		// On teste dans les 3 directions qui doivent ï¿½chouer (E,S,W)
 		for (Direction direction : Arrays.asList(Direction.EAST,
 				Direction.SOUTH, Direction.WEST)) {
 
@@ -202,7 +202,7 @@ public class ElementTest extends TestCase {
 			}
 		}
 
-		// Ca doit marcher dans la dernière direction
+		// Ca doit marcher dans la derniï¿½re direction
 		final Creature worm = new Creature(Creature.Type.MAGENTA_WORM, 10);
 
 		element.creatureSteppedOn(worm, Direction.NORTH);
@@ -211,10 +211,10 @@ public class ElementTest extends TestCase {
 		assertNotNull(element.getCreatureMap());
 		assertEquals(3, element.getCreatureCount());
 		assertFalse(element.getCreatureMap().isEmpty());
-		assertEquals(worm, element.getCreatureMap().get(SubCell.NORTH_EAST));
-		assertEquals(worm, element.getCreatureMap().get(SubCell.NORTH_WEST));
-		assertEquals(rockPile, element.getCreatureMap().get(SubCell.SOUTH_EAST));
-		assertEquals(giggler, element.getCreatureMap().get(SubCell.SOUTH_WEST));
+		assertEquals(worm, element.getCreatureMap().get(Sector.NORTH_EAST));
+		assertEquals(worm, element.getCreatureMap().get(Sector.NORTH_WEST));
+		assertEquals(rockPile, element.getCreatureMap().get(Sector.SOUTH_EAST));
+		assertEquals(giggler, element.getCreatureMap().get(Sector.SOUTH_WEST));
 	}
 	
 	public void testSurroundingElements() {

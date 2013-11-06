@@ -24,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.audio.SoundSystem;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -35,7 +35,7 @@ import fr.ritaly.dungeonmaster.map.Element;
 
 /**
  * Un projectile cr�� � l'aide d'un {@link Spell}.
- * 
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class SpellProjectile extends AbstractProjectile {
@@ -48,7 +48,7 @@ public final class SpellProjectile extends AbstractProjectile {
 		// TODO Distance � calculer
 		super(champion.getParty().getDungeon(), champion.getParty()
 				.getPosition(), champion.getParty().getDirection(), champion
-				.getSubCell(), spell.getDuration());
+				.getSector(), spell.getDuration());
 
 		Validate.isTrue(spell.isValid(), "The given spell <" + spell.getName()
 				+ "> isn't valid");
@@ -60,10 +60,10 @@ public final class SpellProjectile extends AbstractProjectile {
 
 	public SpellProjectile(final Spell spell, final Dungeon dungeon,
 			final Position position, final Direction direction,
-			final SubCell subCell) {
+			final Sector sector) {
 
 		// TODO Distance � calculer
-		super(dungeon, position, direction, subCell, spell.getDuration());
+		super(dungeon, position, direction, sector, spell.getDuration());
 
 		Validate.notNull(spell, "The given spell is null");
 		Validate.isTrue(spell.isValid(), "The given spell <" + spell.getName()
@@ -157,7 +157,7 @@ public final class SpellProjectile extends AbstractProjectile {
 //	@Override
 //	public String toString() {
 //		return getClass().getSimpleName() + "[id=" + getId() + ", position="
-//				+ getPosition() + ", subCell=" + getSubCell() + ", direction="
+//				+ getPosition() + ", sector=" + getSector() + ", direction="
 //				+ getDirection() + ", spell=" + spell.getName() + "]";
 //	}
 }

@@ -37,7 +37,7 @@ public abstract class DirectedElement extends Element {
 	protected DirectedElement(Type type, Direction direction) {
 		super(type);
 
-		Validate.isTrue(direction != null, "The given direction is null");
+		Validate.notNull(direction, "The given direction is null");
 
 		this.direction = direction;
 	}

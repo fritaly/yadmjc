@@ -33,7 +33,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.ai.Creature;
 
 /**
@@ -45,11 +45,11 @@ public class CreatureManager {
 
 	/**
 	 * Les cr�atures qui occupent l'�l�ment. Une m�me {@link Creature} selon sa
-	 * taille peut occuper plusieurs {@link SubCell}s de sorte que le nombre
+	 * taille peut occuper plusieurs {@link Sector}s de sorte que le nombre
 	 * d'entr�es de la {@link Map} ne correspond pas forc�ment au nombre de
 	 * {@link Creature}s !
 	 */
-	private Map<SubCell, Creature> creatures;
+	private Map<Sector, Creature> creatures;
 
 	private final Element element;
 
@@ -61,7 +61,7 @@ public class CreatureManager {
 
 	/**
 	 * Retourne les cr�atures occupant cet �l�ment sous forme de {@link List}.
-	 * 
+	 *
 	 * @return une Set&lt;Creature&gt. Cette m�thode ne retourne jamais null.
 	 */
 	public final Set<Creature> getCreatures() {
@@ -76,17 +76,17 @@ public class CreatureManager {
 
 	/**
 	 * Retourne la cr�ature occupant l'emplacement donn� s'il y a lieu.
-	 * 
-	 * @param subCell
+	 *
+	 * @param sector
 	 *            l'emplacement sur lequel rechercher la cr�ature.
 	 * @return une instance de {@link Creature} ou null s'il n'y en a aucune �
 	 *         cet emplacement.
 	 */
-	public final Creature getCreature(SubCell subCell) {
-		Validate.isTrue(subCell != null, "The given sub-cell is null");
+	public final Creature getCreature(Sector sector) {
+		Validate.isTrue(sector != null, "The given sector is null");
 
 		if (creatures != null) {
-			return creatures.get(subCell);
+			return creatures.get(sector);
 		}
 
 		return null;
@@ -103,11 +103,11 @@ public class CreatureManager {
 
 	/**
 	 * Retourne les cr�atures occupant cet �l�ment sous forme de Map.
-	 * 
-	 * @return une Map&lt;SubCell, Creature&gt. Cette m�thode ne retourne jamais
+	 *
+	 * @return une Map&lt;Sector, Creature&gt. Cette m�thode ne retourne jamais
 	 *         null.
 	 */
-	public final Map<SubCell, Creature> getCreatureMap() {
+	public final Map<Sector, Creature> getCreatureMap() {
 		if (creatures == null) {
 			return Collections.emptyMap();
 		}
@@ -119,10 +119,10 @@ public class CreatureManager {
 	/**
 	 * Calcule et retourne la place libre restante pour accueillir de nouvelles
 	 * {@link Creature}s sous forme d'un entier (repr�sentant un nombre de
-	 * {@link SubCell}s).
-	 * 
+	 * {@link Sector}s).
+	 *
 	 * @return un entier dans l'intervalle [0-4] repr�sentant le nombre de
-	 *         {@link SubCell}s libres.
+	 *         {@link Sector}s libres.
 	 */
 	public int getFreeRoom() {
 		int room = 4;
@@ -145,24 +145,24 @@ public class CreatureManager {
 	}
 
 	/**
-	 * Retourne les {@link SubCell}s libres de cet {@link Element}.
-	 * 
-	 * @return un EnumSet&lt;SubCell&gt;. Ne retourne jamais null.
+	 * Retourne les {@link Sector}s libres de cet {@link Element}.
+	 *
+	 * @return un EnumSet&lt;Sector&gt;. Ne retourne jamais null.
 	 */
-	public EnumSet<SubCell> getFreeSubCells() {
+	public EnumSet<Sector> getFreeSectors() {
 		if (creatures != null) {
-			return EnumSet.complementOf(getOccupiedSubCells());
+			return EnumSet.complementOf(getOccupiedSectors());
 		}
 
-		return EnumSet.allOf(SubCell.class);
+		return EnumSet.allOf(Sector.class);
 	}
 
 	public EnumSet<Direction> getFreeDirections() {
 		if (creatures != null) {
-			final boolean ne = !creatures.containsKey(SubCell.NORTH_EAST);
-			final boolean nw = !creatures.containsKey(SubCell.NORTH_WEST);
-			final boolean se = !creatures.containsKey(SubCell.SOUTH_EAST);
-			final boolean sw = !creatures.containsKey(SubCell.SOUTH_WEST);
+			final boolean ne = !creatures.containsKey(Sector.NORTH_EAST);
+			final boolean nw = !creatures.containsKey(Sector.NORTH_WEST);
+			final boolean se = !creatures.containsKey(Sector.SOUTH_EAST);
+			final boolean sw = !creatures.containsKey(Sector.SOUTH_WEST);
 
 			int count = 0;
 
@@ -201,7 +201,7 @@ public class CreatureManager {
 			case 3:
 				// Un seul emplacement libre (2 possibilit�s au plus)
 				final List<Direction> directions = new ArrayList<Direction>(2);
-				
+
 				if (ne && nw) {
 					directions.add(Direction.NORTH);
 				}
@@ -214,12 +214,12 @@ public class CreatureManager {
 				if (ne && se) {
 					directions.add(Direction.EAST);
 				}
-				
+
 				if (directions.size() == 1) {
 					return EnumSet.of(directions.iterator().next());
 				} else {
 					Collections.shuffle(directions);
-					
+
 					return EnumSet.of(directions.iterator().next());
 				}
 			case 4:
@@ -245,20 +245,20 @@ public class CreatureManager {
 	}
 
 	/**
-	 * Retourne les {@link SubCell}s occup�es par les {@link Creature}s
+	 * Retourne les {@link Sector}s occup�es par les {@link Creature}s
 	 * pr�sentes sur cet {@link Element}.
-	 * 
-	 * @return un EnumSet&lt;SubCell&gt;. Ne retourne jamais null.
+	 *
+	 * @return un EnumSet&lt;Sector&gt;. Ne retourne jamais null.
 	 */
-	public EnumSet<SubCell> getOccupiedSubCells() {
+	public EnumSet<Sector> getOccupiedSectors() {
 		if (creatures != null) {
 			return EnumSet.copyOf(creatures.keySet());
 		}
 
-		return EnumSet.noneOf(SubCell.class);
+		return EnumSet.noneOf(Sector.class);
 	}
 
-	public final SubCell getSubCell(Creature creature) {
+	public final Sector getSector(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 		if (!Creature.Size.ONE.equals(creature.getSize())) {
 			throw new IllegalArgumentException("The given creature <"
@@ -271,9 +271,9 @@ public class CreatureManager {
 			return null;
 		}
 
-		for (SubCell subCell : creatures.keySet()) {
-			if (creatures.get(subCell) == creature) {
-				return subCell;
+		for (Sector sector : creatures.keySet()) {
+			if (creatures.get(sector) == creature) {
+				return sector;
 			}
 		}
 
@@ -294,10 +294,10 @@ public class CreatureManager {
 			return null;
 		}
 
-		final boolean ne = (creatures.get(SubCell.NORTH_EAST) == creature);
-		final boolean nw = (creatures.get(SubCell.NORTH_WEST) == creature);
-		final boolean se = (creatures.get(SubCell.SOUTH_EAST) == creature);
-		final boolean sw = (creatures.get(SubCell.SOUTH_WEST) == creature);
+		final boolean ne = (creatures.get(Sector.NORTH_EAST) == creature);
+		final boolean nw = (creatures.get(Sector.NORTH_WEST) == creature);
+		final boolean se = (creatures.get(Sector.SOUTH_EAST) == creature);
+		final boolean sw = (creatures.get(Sector.SOUTH_WEST) == creature);
 
 		if (ne && nw) {
 			return Direction.NORTH;
@@ -317,7 +317,7 @@ public class CreatureManager {
 
 	/**
 	 * Indique si l'�l�ment est occup� par au moins une cr�ature.
-	 * 
+	 *
 	 * @return si l'�l�ment est occup� par au moins une cr�ature.
 	 */
 	public boolean hasCreatures() {
@@ -325,12 +325,12 @@ public class CreatureManager {
 	}
 
 	// M�thode pour une cr�ature de taille Size.ONE
-	public final void creatureSteppedOn(Creature creature, SubCell subCell) {
+	public final void creatureSteppedOn(Creature creature, Sector sector) {
 		if (creature == null) {
 			throw new IllegalArgumentException("The given creature is null");
 		}
-		if (subCell == null) {
-			throw new IllegalArgumentException("The given sub-cell is null");
+		if (sector == null) {
+			throw new IllegalArgumentException("The given sector is null");
 		}
 		if (!element.isTraversable(creature)) {
 			throw new UnsupportedOperationException("The creature " + creature
@@ -344,47 +344,47 @@ public class CreatureManager {
 		}
 
 		// L'emplacement doit initialement �tre vide
-		if ((creatures != null) && (creatures.get(subCell) != null)) {
-			throw new IllegalArgumentException("The cell " + subCell
+		if ((creatures != null) && (creatures.get(sector) != null)) {
+			throw new IllegalArgumentException("The cell " + sector
 					+ " of element " + element.getId()
 					+ " is already occupied by a creature ("
-					+ creatures.get(subCell) + ")");
+					+ creatures.get(sector) + ")");
 		}
 
 		// Il doit y avoir la place d'accueillir la cr�ature
 		if (!element.canHost(creature)) {
 			throw new IllegalArgumentException("Unable to install creature "
-					+ creature + " on cell " + subCell + " of element "
+					+ creature + " on cell " + sector + " of element "
 					+ element.getId() + " because the remaining room is "
 					+ getFreeRoom());
 		}
 
 		if (creatures == null) {
 			// Cr�er la Map � la vol�e (apr�s les contr�les)
-			creatures = new EnumMap<SubCell, Creature>(SubCell.class);
+			creatures = new EnumMap<Sector, Creature>(Sector.class);
 		}
 
 		// M�moriser la cr�ature
-		creatures.put(subCell, creature);
-		
+		creatures.put(sector, creature);
+
 		// Positionner l'�l�menet sur la cr�ature
 		creature.setElement(element);
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped on " + element.getId() + " ("
-					+ subCell + ")");
+					+ sector + ")");
 		}
 
 		element.afterCreatureSteppedOn(creature);
 	}
 
 	// M�thode pour une cr�ature de taille Size.ONE
-	public final void creatureSteppedOff(Creature creature, SubCell subCell) {
+	public final void creatureSteppedOff(Creature creature, Sector sector) {
 		if (creature == null) {
 			throw new IllegalArgumentException("The given creature is null");
 		}
-		if (subCell == null) {
-			throw new IllegalArgumentException("The given sub-cell is null");
+		if (sector == null) {
+			throw new IllegalArgumentException("The given sector is null");
 		}
 		if (!element.isTraversable(creature)) {
 			throw new UnsupportedOperationException("The creature " + creature
@@ -401,24 +401,24 @@ public class CreatureManager {
 					"There is currently no creature on element " + element);
 		}
 
-		final Creature removed = creatures.remove(subCell);
+		final Creature removed = creatures.remove(sector);
 
 		if (removed != creature) {
 			throw new IllegalArgumentException("Removed: " + removed
-					+ " / Creature: " + creature + " / SubCell: " + subCell);
+					+ " / Creature: " + creature + " / Sector: " + sector);
 		}
 
 		if (creatures.isEmpty()) {
 			// Purger la Map � la vol�e
 			creatures = null;
 		}
-		
+
 		// Positionner l'�l�menet sur la cr�ature
 		creature.setElement(element);
 
 		if (log.isDebugEnabled()) {
 			log.debug(creature + " stepped off " + element.getId() + " ("
-					+ subCell + ")");
+					+ sector + ")");
 		}
 
 		element.afterCreatureSteppedOff(creature);
@@ -449,15 +449,15 @@ public class CreatureManager {
 
 		if (creatures == null) {
 			// Cr�er la Map � la vol�e (apr�s les contr�les)
-			creatures = new EnumMap<SubCell, Creature>(SubCell.class);
+			creatures = new EnumMap<Sector, Creature>(Sector.class);
 		}
 
-		// M�moriser la cr�ature qui occupe les 4 SubCells
-		creatures.put(SubCell.NORTH_EAST, creature);
-		creatures.put(SubCell.NORTH_WEST, creature);
-		creatures.put(SubCell.SOUTH_EAST, creature);
-		creatures.put(SubCell.SOUTH_WEST, creature);
-		
+		// M�moriser la cr�ature qui occupe les 4 sectors
+		creatures.put(Sector.NORTH_EAST, creature);
+		creatures.put(Sector.NORTH_WEST, creature);
+		creatures.put(Sector.SOUTH_EAST, creature);
+		creatures.put(Sector.SOUTH_WEST, creature);
+
 		// Positionner l'�l�menet sur la cr�ature
 		creature.setElement(element);
 
@@ -499,14 +499,14 @@ public class CreatureManager {
 					"There is currently no creature on element " + element);
 		}
 
-		final boolean ne = (creatures.remove(SubCell.NORTH_EAST) == creature);
-		final boolean nw = (creatures.remove(SubCell.NORTH_WEST) == creature);
-		final boolean se = (creatures.remove(SubCell.SOUTH_EAST) == creature);
-		final boolean sw = (creatures.remove(SubCell.SOUTH_WEST) == creature);
+		final boolean ne = (creatures.remove(Sector.NORTH_EAST) == creature);
+		final boolean nw = (creatures.remove(Sector.NORTH_WEST) == creature);
+		final boolean se = (creatures.remove(Sector.SOUTH_EAST) == creature);
+		final boolean sw = (creatures.remove(Sector.SOUTH_WEST) == creature);
 
 		if (!ne || !nw || !se || !sw) {
 			throw new IllegalStateException("Unable to remove creature "
-					+ creature + " from all SubCells (ne ? " + ne + ", nw ? "
+					+ creature + " from all sectors (ne ? " + ne + ", nw ? "
 					+ nw + ", se ? " + se + ", sw ? " + sw + ")");
 		}
 
@@ -517,7 +517,7 @@ public class CreatureManager {
 		}
 
 		this.creatures = null;
-		
+
 		// R�initialiser l'�l�ment sur la cr�ature
 		creature.setElement(null);
 
@@ -549,35 +549,35 @@ public class CreatureManager {
 		}
 
 		// L'emplacement doit initialement �tre vide
-		final List<SubCell> subCells = SubCell.getVisibleSubCells(direction);
+		final List<Sector> sectors = Sector.getVisibleSectors(direction);
 
-		for (SubCell subCell : subCells) {
-			if ((creatures != null) && (creatures.get(subCell) != null)) {
-				throw new IllegalArgumentException("The cell " + subCell
+		for (Sector sector : sectors) {
+			if ((creatures != null) && (creatures.get(sector) != null)) {
+				throw new IllegalArgumentException("The cell " + sector
 						+ " of element " + element.getId()
 						+ " is already occupied by a creature ("
-						+ creatures.get(subCell) + ")");
+						+ creatures.get(sector) + ")");
 			}
 		}
 
 		// Il doit y avoir la place d'accueillir la cr�ature
 		if (!element.canHost(creature)) {
 			throw new IllegalArgumentException("Unable to install creature "
-					+ creature + " on cells " + subCells + " of element "
+					+ creature + " on cells " + sectors + " of element "
 					+ element.getId() + " because the remaining room is "
 					+ getFreeRoom());
 		}
 
 		if (creatures == null) {
 			// Cr�er la Map � la vol�e (apr�s les contr�les)
-			creatures = new EnumMap<SubCell, Creature>(SubCell.class);
+			creatures = new EnumMap<Sector, Creature>(Sector.class);
 		}
 
 		// M�moriser la cr�ature
-		for (SubCell subCell : subCells) {
-			creatures.put(subCell, creature);
+		for (Sector sector : sectors) {
+			creatures.put(sector, creature);
 		}
-		
+
 		// R�initialiser l'�l�ment sur la cr�ature
 		creature.setElement(null);
 
@@ -612,31 +612,31 @@ public class CreatureManager {
 					"There is currently no creature on element " + element);
 		}
 
-		final List<SubCell> subCells = SubCell.getVisibleSubCells(direction);
+		final List<Sector> sectors = Sector.getVisibleSectors(direction);
 
 		// La cr�ature doit �tre sur ces emplacements
-		for (SubCell subCell : subCells) {
-			if (creatures.get(subCell) != creature) {
-				throw new IllegalArgumentException("The cell " + subCell
+		for (Sector sector : sectors) {
+			if (creatures.get(sector) != creature) {
+				throw new IllegalArgumentException("The cell " + sector
 						+ " of element " + element.getId()
 						+ " isn't occupied by creature " + creature
-						+ " but by " + creatures.get(subCell));
+						+ " but by " + creatures.get(sector));
 			}
 		}
 
-		final boolean c1 = (creatures.remove(subCells.get(0)) == creature);
-		final boolean c2 = (creatures.remove(subCells.get(1)) == creature);
+		final boolean c1 = (creatures.remove(sectors.get(0)) == creature);
+		final boolean c2 = (creatures.remove(sectors.get(1)) == creature);
 
 		if (!c1 || !c2) {
 			throw new IllegalStateException("Unable to remove creature "
-					+ creature + " from sub-cells (" + subCells + ")");
+					+ creature + " from sectors (" + sectors + ")");
 		}
 
 		if (creatures.isEmpty()) {
 			// Purger la Map � la vol�e
 			creatures = null;
 		}
-		
+
 		// R�initialiser l'�l�ment sur la cr�ature
 		creature.setElement(null);
 
@@ -676,16 +676,16 @@ public class CreatureManager {
 
 		switch (creature.getSize()) {
 		case ONE:
-			final SubCell subCell = getSubCell(creature);
+			final Sector sector = getSector(creature);
 
-			if (subCell == null) {
+			if (sector == null) {
 				throw new IllegalArgumentException("The given creature "
 						+ creature + " isn't on element " + element);
 			}
 
-			creatureSteppedOff(creature, subCell);
+			creatureSteppedOff(creature, sector);
 
-			return subCell;
+			return sector;
 		case TWO:
 			final Direction direction = getDirection(creature);
 
@@ -714,10 +714,10 @@ public class CreatureManager {
 		if (location == null) {
 			// Cas � tester en premier
 			creatureSteppedOn(creature);
-		} else if (location instanceof SubCell) {
-			final SubCell subCell = (SubCell) location;
+		} else if (location instanceof Sector) {
+			final Sector sector = (Sector) location;
 
-			creatureSteppedOn(creature, subCell);
+			creatureSteppedOn(creature, sector);
 		} else if (location instanceof Direction) {
 			final Direction direction = (Direction) location;
 
@@ -733,18 +733,18 @@ public class CreatureManager {
 
 		switch (creature.getSize()) {
 		case ONE:
-			final List<SubCell> subCells = new ArrayList<SubCell>(
-					getFreeSubCells());
+			final List<Sector> sectors = new ArrayList<Sector>(
+					getFreeSectors());
 
-			if (subCells.size() > 1) {
-				Collections.shuffle(subCells);
+			if (sectors.size() > 1) {
+				Collections.shuffle(sectors);
 			}
 
-			final SubCell subCell = subCells.iterator().next();
+			final Sector sector = sectors.iterator().next();
 
-			addCreature(creature, subCell);
+			addCreature(creature, sector);
 
-			return subCell;
+			return sector;
 		case TWO:
 			final List<Direction> directions = new ArrayList<Direction>(
 					getFreeDirections());
@@ -760,7 +760,7 @@ public class CreatureManager {
 			return direction;
 		case FOUR:
 			addCreature(creature, null);
-			
+
 			return null;
 		default:
 			throw new UnsupportedOperationException(

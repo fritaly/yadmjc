@@ -169,24 +169,24 @@ public enum Location {
 	 * @param direction
 	 * @return
 	 */
-	public SubCell toSubCell(Direction direction) {
-		return SubCell.fromLocation(direction, this);
+	public Sector toSector(Direction direction) {
+		return Sector.fromLocation(direction, this);
 	}
 
 	/**
 	 * TODO Document this method
 	 *
 	 * @param direction
-	 * @param subCell
+	 * @param sector
 	 * @return
 	 */
-	public static Location fromSubCell(final Direction direction, final SubCell subCell) {
+	public static Location fromSector(final Direction direction, final Sector sector) {
 		Validate.notNull(direction, "The given direction is null");
-		Validate.notNull(subCell, "The given sub-cell is null");
+		Validate.notNull(sector, "The given sector is null");
 
 		switch (direction) {
 		case NORTH:
-			switch (subCell) {
+			switch (sector) {
 			case NORTH_EAST:
 				return FRONT_RIGHT;
 			case NORTH_WEST:
@@ -197,7 +197,7 @@ public enum Location {
 				return REAR_LEFT;
 			}
 		case EAST:
-			switch (subCell) {
+			switch (sector) {
 			case NORTH_EAST:
 				return FRONT_LEFT;
 			case NORTH_WEST:
@@ -208,7 +208,7 @@ public enum Location {
 				return REAR_LEFT;
 			}
 		case SOUTH:
-			switch (subCell) {
+			switch (sector) {
 			case NORTH_EAST:
 				return REAR_LEFT;
 			case NORTH_WEST:
@@ -219,7 +219,7 @@ public enum Location {
 				return FRONT_RIGHT;
 			}
 		case WEST:
-			switch (subCell) {
+			switch (sector) {
 			case NORTH_EAST:
 				return REAR_RIGHT;
 			case NORTH_WEST:

@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
@@ -147,7 +147,7 @@ public class ActionTest extends TestCase {
 		// --- Un projectile doit �tre apparu sur la position voisine en SE
 		assertTrue(neighbour.hasProjectiles());
 		assertEquals(1, neighbour.getProjectiles().size());
-		assertNotNull(neighbour.getProjectiles().get(SubCell.SOUTH_EAST));
+		assertNotNull(neighbour.getProjectiles().get(Sector.SOUTH_EAST));
 
 		assertFalse(target.hasProjectiles());
 
@@ -157,7 +157,7 @@ public class ActionTest extends TestCase {
 		// --- V�rifier le d�placement du projectile en SW
 		assertTrue(neighbour.hasProjectiles());
 		assertEquals(1, neighbour.getProjectiles().size());
-		assertNotNull(neighbour.getProjectiles().get(SubCell.SOUTH_WEST));
+		assertNotNull(neighbour.getProjectiles().get(Sector.SOUTH_WEST));
 
 		assertFalse(target.hasProjectiles());
 
@@ -171,9 +171,9 @@ public class ActionTest extends TestCase {
 		// Il doit y avoir 1 objet au sol
 		assertEquals(1, target.getItemCount());
 
-		assertFalse(target.getItems(SubCell.SOUTH_WEST).isEmpty());
-		assertEquals(1, target.getItemCount(SubCell.SOUTH_WEST));
-		assertEquals(Item.Type.DAGGER, target.getItems(SubCell.SOUTH_WEST)
+		assertFalse(target.getItems(Sector.SOUTH_WEST).isEmpty());
+		assertEquals(1, target.getItemCount(Sector.SOUTH_WEST));
+		assertEquals(Item.Type.DAGGER, target.getItems(Sector.SOUTH_WEST)
 				.iterator().next().getType());
 	}
 

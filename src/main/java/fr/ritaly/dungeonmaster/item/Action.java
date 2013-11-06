@@ -24,7 +24,7 @@ import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Skill;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -303,35 +303,35 @@ public enum Action {
 			// Determine the direction towards which the item is thrown
 			final Direction direction = champion.getParty().getDirection();
 
-			final SubCell subCell;
+			final Sector sector;
 
 			switch (direction) {
 			case EAST:
-				if (champion.getSubCell().isTowardsNorth()) {
-					subCell = SubCell.NORTH_WEST;
+				if (champion.getSector().isTowardsNorth()) {
+					sector = Sector.NORTH_WEST;
 				} else {
-					subCell = SubCell.SOUTH_WEST;
+					sector = Sector.SOUTH_WEST;
 				}
 				break;
 			case NORTH:
-				if (champion.getSubCell().isTowardsEast()) {
-					subCell = SubCell.SOUTH_EAST;
+				if (champion.getSector().isTowardsEast()) {
+					sector = Sector.SOUTH_EAST;
 				} else {
-					subCell = SubCell.SOUTH_WEST;
+					sector = Sector.SOUTH_WEST;
 				}
 				break;
 			case SOUTH:
-				if (champion.getSubCell().isTowardsEast()) {
-					subCell = SubCell.NORTH_EAST;
+				if (champion.getSector().isTowardsEast()) {
+					sector = Sector.NORTH_EAST;
 				} else {
-					subCell = SubCell.NORTH_WEST;
+					sector = Sector.NORTH_WEST;
 				}
 				break;
 			case WEST:
-				if (champion.getSubCell().isTowardsNorth()) {
-					subCell = SubCell.NORTH_EAST;
+				if (champion.getSector().isTowardsNorth()) {
+					sector = Sector.NORTH_EAST;
 				} else {
-					subCell = SubCell.SOUTH_EAST;
+					sector = Sector.SOUTH_EAST;
 				}
 				break;
 				default:
@@ -340,7 +340,7 @@ public enum Action {
 
 			// TODO Refactor this code (that's ugly)
 			// The projectile is created on the neighbor position
-			new ItemProjectile(item, dungeon, champion.getParty().getFacingPosition(), direction, subCell, 30);
+			new ItemProjectile(item, dungeon, champion.getParty().getFacingPosition(), direction, sector, 30);
 		} else if (Action.FLUX_CAGE.equals(this)) {
 			// Create a flux cage on the neighbor position in front of the party
 			final Element element = dungeon.getElement(dungeon.getParty().getFacingPosition());

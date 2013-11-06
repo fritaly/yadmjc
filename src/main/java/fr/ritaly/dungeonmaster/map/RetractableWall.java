@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Materiality;
-import fr.ritaly.dungeonmaster.actuator.Triggered;
+import fr.ritaly.dungeonmaster.actuator.Triggerable;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -31,8 +31,8 @@ import fr.ritaly.dungeonmaster.champion.Party;
 /**
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public class RetractableWall extends Element implements Triggered {
-	
+public class RetractableWall extends FloorTile implements Triggerable {
+
 	private final Log log = LogFactory.getLog(RetractableWall.class);
 
 	private boolean open;
@@ -46,47 +46,47 @@ public class RetractableWall extends Element implements Triggered {
 	public boolean isOpen() {
 		return open;
 	}
-	
+
 	public boolean isClosed() {
 		return !open;
 	}
-	
+
 	public boolean open() {
 		if (isClosed()) {
 			if (log.isDebugEnabled()) {
 				log.debug("Opening " + this + " ...");
 			}
-			
+
 			this.open = true;
-			
+
 			if (log.isDebugEnabled()) {
 				log.debug(this + " open");
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public boolean close() {
 		if (isOpen()) {
 			if (log.isDebugEnabled()) {
 				log.debug("Closing " + this + " ...");
 			}
-			
+
 			this.open = false;
-			
+
 			if (log.isDebugEnabled()) {
 				log.debug(this + " closed");
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public void toggle() {
 		if (isOpen()) {
 			close();
@@ -94,7 +94,7 @@ public class RetractableWall extends Element implements Triggered {
 			open();
 		}
 	}
-	
+
 	@Override
 	public void trigger(TriggerAction action) {
 		Validate.notNull(action);
@@ -116,7 +116,7 @@ public class RetractableWall extends Element implements Triggered {
 
 		default:
 			throw new UnsupportedOperationException();
-		}		
+		}
 	}
 
 	@Override

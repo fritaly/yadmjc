@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 public class ActuatorsTest extends TestCase {
 
-	private final class TestTriggered implements Triggered {
+	private final class TestTriggered implements Triggerable {
 		@Override
 		public void trigger(TriggerAction action) {
 			// Do nothing

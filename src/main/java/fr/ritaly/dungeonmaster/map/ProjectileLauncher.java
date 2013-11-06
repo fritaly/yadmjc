@@ -27,9 +27,9 @@ import org.apache.commons.logging.LogFactory;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
-import fr.ritaly.dungeonmaster.actuator.Triggered;
+import fr.ritaly.dungeonmaster.actuator.Triggerable;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.projectile.Projectile;
@@ -38,7 +38,7 @@ import fr.ritaly.dungeonmaster.projectile.ProjectileFactory;
 /**
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public class ProjectileLauncher extends DirectedElement implements Triggered {
+public class ProjectileLauncher extends DirectedElement implements Triggerable {
 
 	private final Log log = LogFactory.getLog(ProjectileLauncher.class);
 
@@ -46,7 +46,7 @@ public class ProjectileLauncher extends DirectedElement implements Triggered {
 
 	public ProjectileLauncher(final Direction direction,
 			final ProjectileFactory factory) {
-		
+
 		super(Element.Type.PROJECTILE_LAUNCHER, direction);
 
 		Validate.notNull(factory, "The given projectile factory is null");
@@ -86,16 +86,16 @@ public class ProjectileLauncher extends DirectedElement implements Triggered {
 		// direction du lanceur) !
 		final Position startPosition = getPosition().towards(getDirection());
 
-		// D�terminer les deux SubCells sur lesquelles apparaissent les
+		// D�terminer les deux sectors sur lesquelles apparaissent les
 		// projectiles !
-		final List<SubCell> subCells = SubCell
-				.getVisibleSubCells(getDirection().getOpposite());
+		final List<Sector> sectors = Sector
+				.getVisibleSectors(getDirection().getOpposite());
 
 		final Projectile projectile1 = factory.createProjectile(getLevel()
-				.getDungeon(), startPosition, getDirection(), subCells.get(0));
+				.getDungeon(), startPosition, getDirection(), sectors.get(0));
 
 		final Projectile projectile2 = factory.createProjectile(getLevel()
-				.getDungeon(), startPosition, getDirection(), subCells.get(1));
+				.getDungeon(), startPosition, getDirection(), sectors.get(1));
 	}
 
 	@Override

@@ -21,7 +21,7 @@ package fr.ritaly.dungeonmaster.map;
 import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
@@ -75,23 +75,23 @@ public class ProjectileLauncherTest extends TestCase {
 		// --- Pas de projectile initialement
 		assertFalse(neighbour.hasProjectiles());
 
-		// --- Déclencher le lanceur
+		// --- Dï¿½clencher le lanceur
 		launcher.trigger();
 
 		// --- Deux projectiles sont apparus sur la position voisine en NE et SE
 		assertTrue(neighbour.hasProjectiles());
 		assertEquals(2, neighbour.getProjectiles().size());
-		assertNotNull(neighbour.getProjectiles().get(SubCell.NORTH_EAST));
-		assertNotNull(neighbour.getProjectiles().get(SubCell.SOUTH_EAST));
+		assertNotNull(neighbour.getProjectiles().get(Sector.NORTH_EAST));
+		assertNotNull(neighbour.getProjectiles().get(Sector.SOUTH_EAST));
 
 		// Laisser le projectile bouger
 		Clock.getInstance().tick(3);
 
-		// --- Vérifier le déplacement des deux projectiles en NW et SW
+		// --- Vï¿½rifier le dï¿½placement des deux projectiles en NW et SW
 		assertTrue(neighbour.hasProjectiles());
 		assertEquals(2, neighbour.getProjectiles().size());
-		assertNotNull(neighbour.getProjectiles().get(SubCell.NORTH_WEST));
-		assertNotNull(neighbour.getProjectiles().get(SubCell.SOUTH_WEST));
+		assertNotNull(neighbour.getProjectiles().get(Sector.NORTH_WEST));
+		assertNotNull(neighbour.getProjectiles().get(Sector.SOUTH_WEST));
 	}
 
 	public void testItemProjectileLauncher() throws Throwable {
@@ -133,29 +133,29 @@ public class ProjectileLauncherTest extends TestCase {
 		assertFalse(neighbour.hasProjectiles());
 		assertFalse(target.hasProjectiles());
 
-		// --- Déclencher le lanceur
+		// --- Dï¿½clencher le lanceur
 		launcher.trigger();
 
 		// --- Deux projectiles sont apparus sur la position voisine en NE et SE
 		assertTrue(neighbour.hasProjectiles());
 		assertEquals(2, neighbour.getProjectiles().size());
-		assertNotNull(neighbour.getProjectiles().get(SubCell.NORTH_EAST));
-		assertNotNull(neighbour.getProjectiles().get(SubCell.SOUTH_EAST));
+		assertNotNull(neighbour.getProjectiles().get(Sector.NORTH_EAST));
+		assertNotNull(neighbour.getProjectiles().get(Sector.SOUTH_EAST));
 
 		assertFalse(target.hasItems());
 
 		// Laisser le projectile bouger
 		Clock.getInstance().tick(3);
 
-		// --- Vérifier le déplacement des deux projectiles en NW et SW
+		// --- Vï¿½rifier le dï¿½placement des deux projectiles en NW et SW
 		assertTrue(neighbour.hasProjectiles());
 		assertEquals(2, neighbour.getProjectiles().size());
-		assertNotNull(neighbour.getProjectiles().get(SubCell.NORTH_WEST));
-		assertNotNull(neighbour.getProjectiles().get(SubCell.SOUTH_WEST));
+		assertNotNull(neighbour.getProjectiles().get(Sector.NORTH_WEST));
+		assertNotNull(neighbour.getProjectiles().get(Sector.SOUTH_WEST));
 
 		assertFalse(target.hasItems());
 
-		// Laisser le projectile atteindre le mur opposée (attendre suffisamment
+		// Laisser le projectile atteindre le mur opposï¿½e (attendre suffisamment
 		// longtemps)
 		Clock.getInstance().tick(60);
 
@@ -165,14 +165,14 @@ public class ProjectileLauncherTest extends TestCase {
 		// Il doit y avoir 2 objets au sol
 		assertEquals(2, target.getItemCount());
 
-		assertFalse(target.getItems(SubCell.NORTH_WEST).isEmpty());
-		assertEquals(1, target.getItemCount(SubCell.NORTH_WEST));
-		assertEquals(Item.Type.POISON_DART, target.getItems(SubCell.NORTH_WEST)
+		assertFalse(target.getItems(Sector.NORTH_WEST).isEmpty());
+		assertEquals(1, target.getItemCount(Sector.NORTH_WEST));
+		assertEquals(Item.Type.POISON_DART, target.getItems(Sector.NORTH_WEST)
 				.iterator().next().getType());
 
-		assertFalse(target.getItems(SubCell.SOUTH_WEST).isEmpty());
-		assertEquals(1, target.getItemCount(SubCell.SOUTH_WEST));
-		assertEquals(Item.Type.POISON_DART, target.getItems(SubCell.SOUTH_WEST)
+		assertFalse(target.getItems(Sector.SOUTH_WEST).isEmpty());
+		assertEquals(1, target.getItemCount(Sector.SOUTH_WEST));
+		assertEquals(Item.Type.POISON_DART, target.getItems(Sector.SOUTH_WEST)
 				.iterator().next().getType());
 	}
 	

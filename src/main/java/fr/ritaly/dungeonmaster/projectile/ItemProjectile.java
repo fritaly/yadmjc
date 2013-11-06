@@ -22,7 +22,7 @@ import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 
@@ -30,8 +30,8 @@ public class ItemProjectile extends AbstractProjectile {
 
 	private final Item item;
 
-	public ItemProjectile(Item item, Dungeon dungeon, Position position, Direction direction, SubCell subCell, int range) {
-		super(dungeon, position, direction, subCell, range);
+	public ItemProjectile(Item item, Dungeon dungeon, Position position, Direction direction, Sector sector, int range) {
+		super(dungeon, position, direction, sector, range);
 
 		Validate.notNull(item);
 
@@ -44,7 +44,7 @@ public class ItemProjectile extends AbstractProjectile {
 		// SoundSystem.getInstance().play(clip);
 
 		// Drop the item on the floor (TODO Arrows need to point towards the relevant direction !)
-		dungeon.getElement(getPosition()).itemDroppedDown(item, getSubCell());
+		dungeon.getElement(getPosition()).itemDropped(item, getSector());
 	}
 
 	// TODO The range of a projectile depends on the item type (its weight)

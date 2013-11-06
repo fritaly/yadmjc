@@ -22,7 +22,7 @@ import org.apache.commons.lang.Validate;
 
 /**
  * Implementation of {@link Actuator} used to repeatedly trigger a
- * {@link Triggered} up to a given number of times.
+ * {@link Triggerable} up to a given number of times.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */

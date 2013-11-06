@@ -56,7 +56,7 @@ public class WeaponHandTest extends TestCase {
 		assertFalse(hand.isEnabled());
 
 		// --- Wait long enough to have the hand usable again
-		Clock.getInstance().tick(60);
+		Clock.getInstance().tick(600);
 
 		assertTrue(hand.isEnabled());
 	}

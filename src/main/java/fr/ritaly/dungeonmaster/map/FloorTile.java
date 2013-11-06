@@ -19,39 +19,13 @@
 package fr.ritaly.dungeonmaster.map;
 
 /**
- * Enumerates the different types of event that can trigger an actuator.
+ * An abstract element representing a floor tile.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public enum EventType {
+public abstract class FloorTile extends Element {
 
-	/**
-	 * When a party steps on a pressure pad.
-	 */
-	PARTY_STEPPED_ON,
-
-	/**
-	 * When a party steps off a pressure pad.
-	 */
-	PARTY_STEPPED_OFF,
-
-	/**
-	 * When an item is dropped on a pressure pad.
-	 */
-	ITEM_DROPPED,
-
-	/**
-	 * When an item is picked off a pressure pad.
-	 */
-	ITEM_PICKED_UP,
-
-	/**
-	 * When a creature steps on a pressure pad.
-	 */
-	CREATURE_STEPPED_ON,
-
-	/**
-	 * When a creature steps off a pressure pad.
-	 */
-	CREATURE_STEPPED_OFF;
+	public FloorTile(Type type) {
+		super(type);
+	}
 }

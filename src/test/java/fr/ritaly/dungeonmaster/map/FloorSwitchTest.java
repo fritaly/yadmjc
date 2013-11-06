@@ -23,7 +23,7 @@ import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Orientation;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.actuator.SimpleActuator;
 import fr.ritaly.dungeonmaster.actuator.TestActuator;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
@@ -69,18 +69,18 @@ public class FloorSwitchTest extends TestCase {
 		// --- Situation initiale
 		assertFalse(actuator.isTriggered());
 
-		// --- Déposer un objet au sol en position NW
+		// --- Dï¿½poser un objet au sol en position NW
 		level1.getElement(2, 2)
-				.itemDroppedDown(new Torch(), SubCell.NORTH_WEST);
+				.itemDropped(new Torch(), Sector.NORTH_WEST);
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 		actuator.reset();
 
-		// --- Déposer un second objet ne doit pas déclencher l'actuator !!
+		// --- Dï¿½poser un second objet ne doit pas dï¿½clencher l'actuator !!
 		assertFalse(actuator.isTriggered());
 
 		level1.getElement(2, 2)
-				.itemDroppedDown(new Torch(), SubCell.NORTH_WEST);
+				.itemDropped(new Torch(), Sector.NORTH_WEST);
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 	}
@@ -98,7 +98,7 @@ public class FloorSwitchTest extends TestCase {
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
 
-		// FIXME Implémenter un Actuator qui ne s'active que quand certaines
+		// FIXME Implï¿½menter un Actuator qui ne s'active que quand certaines
 		// conditions sont remplies: combinatoires d'interrupteurs par exemple
 
 		Dungeon dungeon = new Dungeon();
@@ -117,23 +117,23 @@ public class FloorSwitchTest extends TestCase {
 		final Torch torch2 = new Torch();
 
 		assertFalse(actuator.isTriggered());
-		level1.getElement(2, 2).itemDroppedDown(torch1, SubCell.NORTH_WEST);
-		level1.getElement(2, 2).itemDroppedDown(torch2, SubCell.NORTH_WEST);
+		level1.getElement(2, 2).itemDropped(torch1, Sector.NORTH_WEST);
+		level1.getElement(2, 2).itemDropped(torch2, Sector.NORTH_WEST);
 		assertEquals(2, level1.getElement(2, 2).getItemCount());
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 
-		// --- Prendre un objet qui n'est pas le dernier ne doit pas déclencher
+		// --- Prendre un objet qui n'est pas le dernier ne doit pas dï¿½clencher
 		// l'actuator !!
 		assertEquals(torch2,
-				level1.getElement(2, 2).pickItem(SubCell.NORTH_WEST));
+				level1.getElement(2, 2).pickItem(Sector.NORTH_WEST));
 		assertEquals(1, level1.getElement(2, 2).getItemCount());
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 
-		// --- Prendre le dernier objet au sol déclenche l'actuator
+		// --- Prendre le dernier objet au sol dï¿½clenche l'actuator
 		assertEquals(torch1,
-				level1.getElement(2, 2).pickItem(SubCell.NORTH_WEST));
+				level1.getElement(2, 2).pickItem(Sector.NORTH_WEST));
 		assertEquals(0, level1.getElement(2, 2).getItemCount());
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
@@ -180,7 +180,7 @@ public class FloorSwitchTest extends TestCase {
 
 		assertFalse(actuator.isTriggered());
 
-		// --- Le groupe avance et déclenche l'actuator
+		// --- Le groupe avance et dï¿½clenche l'actuator
 		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 1, 1), dungeon.getParty().getPosition());
 
@@ -222,7 +222,7 @@ public class FloorSwitchTest extends TestCase {
 		assertEquals(new Position(2, 3, 1), dungeon.getParty().getPosition());
 		assertFalse(actuator.isTriggered());
 
-		// --- Le groupe avance et déclenche l'actuator
+		// --- Le groupe avance et dï¿½clenche l'actuator
 		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
@@ -257,7 +257,7 @@ public class FloorSwitchTest extends TestCase {
 		final FloorSwitch floorSwitch = new FloorSwitch();
 		level1.setElement(2, 2, floorSwitch);
 
-		// FIXME Gérer le déclenchement immédiat d'un actuator (sans attendre un
+		// FIXME Gï¿½rer le dï¿½clenchement immï¿½diat d'un actuator (sans attendre un
 		// tic) ?
 		floorSwitch.addActuator(EventType.PARTY_STEPPED_ON, new SimpleActuator(
 				2, TriggerAction.TOGGLE, door));

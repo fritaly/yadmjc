@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
@@ -116,9 +116,9 @@ abstract class AbstractProjectile implements Projectile {
 	private Position position;
 
 	/**
-	 * The projectile's current sub-cell.
+	 * The projectile's current sector.
 	 */
-	private SubCell subCell;
+	private Sector sector;
 
 	/**
 	 * The projectile's current state. Never null.
@@ -135,27 +135,27 @@ abstract class AbstractProjectile implements Projectile {
 	 */
 	protected final Dungeon dungeon;
 
-	public AbstractProjectile(final Dungeon dungeon, final Position position, final Direction direction, final SubCell subCell,
+	public AbstractProjectile(final Dungeon dungeon, final Position position, final Direction direction, final Sector sector,
 			int range) {
 
 		Validate.notNull(dungeon, "The given dungeon is null");
 		Validate.notNull(position, "The given position is null");
 		Validate.notNull(direction, "The given direction is null");
-		Validate.notNull(subCell, "The given sub-cell is null");
+		Validate.notNull(sector, "The given sector is null");
 		Validate.isTrue(range > 0, "The given range " + range + " must be positive");
 
 		this.dungeon = dungeon;
 
-		// Store the start position, direction and sub-cell
+		// Store the start position, direction and sector
 		this.position = position;
 		this.direction = direction;
-		this.subCell = subCell;
+		this.sector = sector;
 
 		// Store the remaining distance to travel
 		this.range = range;
 
 		// Install the projectile in the dungeon
-		this.dungeon.getElement(position).projectileArrived(this, subCell);
+		this.dungeon.getElement(position).projectileArrived(this, sector);
 
 		// Listen to clock ticks (to animate the projectile)
 		Clock.getInstance().register(this);
@@ -248,7 +248,7 @@ abstract class AbstractProjectile implements Projectile {
 				}
 
 				// The projectile moves, does the position change ?
-				final boolean changesPosition = subCell.changesPosition(direction);
+				final boolean changesPosition = sector.changesPosition(direction);
 
 				// What's the next position ?
 				final Position targetPosition;
@@ -259,8 +259,8 @@ abstract class AbstractProjectile implements Projectile {
 					targetPosition = position;
 				}
 
-				// What's the next sub-cell ?
-				final SubCell targetSubCell = subCell.towards(direction);
+				// What's the next sector ?
+				final Sector targetSector = sector.towards(direction);
 
 				final Element targetElement = dungeon.getElement(targetPosition);
 
@@ -287,11 +287,11 @@ abstract class AbstractProjectile implements Projectile {
 				// --- Move the projectile --- //
 
 				// The projectile leaves its current position
-				dungeon.getElement(position).projectileLeft(this, subCell);
+				dungeon.getElement(position).projectileLeft(this, sector);
 
 				// The projectile moves, the remaining distance decreases
 				this.position = targetPosition;
-				this.subCell = targetSubCell;
+				this.sector = targetSector;
 
 				final int backup = range;
 
@@ -302,16 +302,16 @@ abstract class AbstractProjectile implements Projectile {
 				}
 
 				// The projectile enters the new position
-				targetElement.projectileArrived(this, targetSubCell);
+				targetElement.projectileArrived(this, targetSector);
 
 				// Is the target element occupied by a creature ?
-				if (targetElement.getCreature(targetSubCell) != null) {
+				if (targetElement.getCreature(targetSector) != null) {
 					// Yes, the projectile explodes
 					setState(State.EXPLODING);
 
 					if (log.isDebugEnabled()) {
 						log.debug(String.format("%s is about to explode because of facing %s", getId(), targetElement
-								.getCreature(targetSubCell).getId()));
+								.getCreature(targetSector).getId()));
 					}
 
 					return true;
@@ -350,7 +350,7 @@ abstract class AbstractProjectile implements Projectile {
 				}
 
 				// Remove the projectile
-				dungeon.getElement(position).projectileLeft(this, subCell);
+				dungeon.getElement(position).projectileLeft(this, sector);
 
 				return false;
 			}
@@ -369,7 +369,7 @@ abstract class AbstractProjectile implements Projectile {
 	 */
 	protected abstract void projectileDied();
 
-	protected SubCell getSubCell() {
-		return subCell;
+	protected Sector getSector() {
+		return sector;
 	}
 }

@@ -20,7 +20,7 @@ package fr.ritaly.dungeonmaster.map;
 
 import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.ai.Creature;
 
 public class GeneratorTest extends TestCase {
@@ -52,12 +52,12 @@ public class GeneratorTest extends TestCase {
 		level1.setElement(3, 2, generator);
 
 		assertEquals(0, generator.getCreatureCount());
-		assertNull(generator.getCreature(SubCell.NORTH_EAST));
-		assertNull(generator.getCreature(SubCell.NORTH_WEST));
-		assertNull(generator.getCreature(SubCell.SOUTH_EAST));
-		assertNull(generator.getCreature(SubCell.SOUTH_WEST));
+		assertNull(generator.getCreature(Sector.NORTH_EAST));
+		assertNull(generator.getCreature(Sector.NORTH_WEST));
+		assertNull(generator.getCreature(Sector.SOUTH_EAST));
+		assertNull(generator.getCreature(Sector.SOUTH_WEST));
 
-		// --- On laisse le générateur créer des créatures
+		// --- On laisse le gï¿½nï¿½rateur crï¿½er des crï¿½atures
 		Clock.getInstance().tick(Generator.PERIOD);
 
 		assertTrue(generator.getCreatureCount() > 0);
@@ -85,12 +85,12 @@ public class GeneratorTest extends TestCase {
 		level1.setElement(3, 2, generator);
 
 		assertEquals(0, generator.getCreatureCount());
-		assertNull(generator.getCreature(SubCell.NORTH_EAST));
-		assertNull(generator.getCreature(SubCell.NORTH_WEST));
-		assertNull(generator.getCreature(SubCell.SOUTH_EAST));
-		assertNull(generator.getCreature(SubCell.SOUTH_WEST));
+		assertNull(generator.getCreature(Sector.NORTH_EAST));
+		assertNull(generator.getCreature(Sector.NORTH_WEST));
+		assertNull(generator.getCreature(Sector.SOUTH_EAST));
+		assertNull(generator.getCreature(Sector.SOUTH_WEST));
 
-		// --- On laisse le générateur créer des créatures
+		// --- On laisse le gï¿½nï¿½rateur crï¿½er des crï¿½atures
 		Clock.getInstance().tick(Generator.PERIOD);
 
 		assertTrue(generator.getCreatureCount() > 0);
@@ -118,12 +118,12 @@ public class GeneratorTest extends TestCase {
 		level1.setElement(3, 2, generator);
 
 		assertEquals(0, generator.getCreatureCount());
-		assertNull(generator.getCreature(SubCell.NORTH_EAST));
-		assertNull(generator.getCreature(SubCell.NORTH_WEST));
-		assertNull(generator.getCreature(SubCell.SOUTH_EAST));
-		assertNull(generator.getCreature(SubCell.SOUTH_WEST));
+		assertNull(generator.getCreature(Sector.NORTH_EAST));
+		assertNull(generator.getCreature(Sector.NORTH_WEST));
+		assertNull(generator.getCreature(Sector.SOUTH_EAST));
+		assertNull(generator.getCreature(Sector.SOUTH_WEST));
 
-		// --- On laisse le générateur créer des créatures
+		// --- On laisse le gï¿½nï¿½rateur crï¿½er des crï¿½atures
 		Clock.getInstance().tick(Generator.PERIOD);
 
 		assertTrue(generator.getCreatureCount() > 0);

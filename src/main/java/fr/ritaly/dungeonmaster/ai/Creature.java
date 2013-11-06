@@ -109,7 +109,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 
 	/**
 	 * Defines the size of a {@link Creature} on the floor in terms of number of
-	 * subcells occupied.<br>
+	 * sectors occupied.<br>
 	 * <br>
 	 * Source: <a href="http://dmweb.free.fr/?q=node/1363">Technical
 	 * Documentation - Dungeon Master and Chaos Strikes Back Creature
@@ -118,19 +118,19 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	public static enum Size {
 
 		/**
-		 * Size of a creature occupying one sub-cell. There can be up to 4
+		 * Size of a creature occupying one sector. There can be up to 4
 		 * creatures per floor tile. Example: screamers.
 		 */
 		ONE,
 
 		/**
-		 * Size of a creature occupying two sub-cells. There can be up to 2
+		 * Size of a creature occupying two sectors. There can be up to 2
 		 * creatures per floor tile. Example: worms.
 		 */
 		TWO,
 
 		/**
-		 * Size of a creature occupying four sub-cells. There can be only 1
+		 * Size of a creature occupying four sectors. There can be only 1
 		 * creature per floor tile. Example: dragons.
 		 */
 		FOUR;

@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Materiality;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -86,7 +86,7 @@ public final class Portrait extends DirectedElement {
 
 	@Override
 	public boolean isTraversable(Creature creature) {
-		Validate.isTrue(creature != null, "The given creature is null");
+		Validate.notNull(creature, "The given creature is null");
 
 		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}
@@ -97,19 +97,19 @@ public final class Portrait extends DirectedElement {
 	}
 
 	@Override
-	public synchronized Item pickItem(SubCell corner) {
+	public synchronized Item pickItem(Sector corner) {
 		// M�thode non support�e
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public synchronized void itemDroppedDown(Item item, SubCell corner) {
+	public synchronized void itemDropped(Item item, Sector corner) {
 		// M�thode non support�e
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<Item> getItems(SubCell subCell) {
+	public List<Item> getItems(Sector sector) {
 		// M�thode non support�e
 		throw new UnsupportedOperationException();
 	}

@@ -25,7 +25,7 @@ import org.apache.commons.lang.Validate;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Materiality;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
 import fr.ritaly.dungeonmaster.actuator.HasActuator;
@@ -64,7 +64,7 @@ public final class Altar extends DirectedElement implements HasActuator {
 
 	@Override
 	public boolean isTraversable(Creature creature) {
-		Validate.isTrue(creature != null, "The given creature is null");
+		Validate.notNull(creature, "The given creature is null");
 
 		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
 	}
@@ -88,7 +88,7 @@ public final class Altar extends DirectedElement implements HasActuator {
 
 	public final void dropItem(Item item, Direction direction) {
 		// Appel de la m�thode non surcharg�e
-		super.itemDroppedDown(item, map(direction));
+		super.itemDropped(item, map(direction));
 
 		// D�clenchement au premier objet d�pos�
 		if ((getItemCount() == 1) && (actuator != null)) {
@@ -121,27 +121,27 @@ public final class Altar extends DirectedElement implements HasActuator {
 	}
 
 	@Override
-	public final List<Item> getItems(SubCell subCell) {
+	public final List<Item> getItems(Sector sector) {
 		// Surcharge pour forcer l'appel � la bonne m�thode
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public final Item pickItem(SubCell corner) {
+	public final Item pickItem(Sector corner) {
 		// Surcharge pour forcer l'appel � la bonne m�thode
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public final void itemDroppedDown(Item item, SubCell corner) {
+	public final void itemDropped(Item item, Sector corner) {
 		// Surcharge pour forcer l'appel � la bonne m�thode
 		throw new UnsupportedOperationException();
 	}
 
-	private Direction map(SubCell subCell) {
-		Validate.isTrue(subCell != null, "The given sub-cell is null");
+	private Direction map(Sector sector) {
+		Validate.isTrue(sector != null, "The given sector is null");
 
-		switch (subCell) {
+		switch (sector) {
 		case NORTH_EAST:
 			return Direction.NORTH;
 		case NORTH_WEST:
@@ -155,18 +155,18 @@ public final class Altar extends DirectedElement implements HasActuator {
 		throw new UnsupportedOperationException();
 	}
 
-	private SubCell map(final Direction direction) {
-		Validate.isTrue(direction != null, "The given direction is null");
+	private Sector map(final Direction direction) {
+		Validate.notNull(direction, "The given direction is null");
 
 		switch (direction) {
 		case NORTH:
-			return SubCell.NORTH_EAST;
+			return Sector.NORTH_EAST;
 		case SOUTH:
-			return SubCell.NORTH_WEST;
+			return Sector.NORTH_WEST;
 		case EAST:
-			return SubCell.SOUTH_EAST;
+			return Sector.SOUTH_EAST;
 		case WEST:
-			return SubCell.SOUTH_WEST;
+			return Sector.SOUTH_WEST;
 		}
 
 		throw new UnsupportedOperationException();

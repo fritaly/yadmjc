@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Clock;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
 import fr.ritaly.dungeonmaster.actuator.HasActuators;
@@ -35,7 +35,7 @@ import fr.ritaly.dungeonmaster.item.Item;
 /**
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class FloorSwitch extends Element implements HasActuators {
+public final class FloorSwitch extends FloorTile implements HasActuators {
 
 	/**
 	 * Map contenant les {@link Actuator}s � d�clencher quand un �v�nement d'un
@@ -84,8 +84,8 @@ public final class FloorSwitch extends Element implements HasActuators {
 	}
 
 	@Override
-	protected void afterItemDropped(Item item, SubCell subCell) {
-		super.afterItemDropped(item, subCell);
+	protected void afterItemDropped(Item item, Sector sector) {
+		super.afterItemDropped(item, sector);
 
 		// Ne d�clencher qu'au premier objet d�pos� !!!
 		if ((actuators != null)
@@ -103,8 +103,8 @@ public final class FloorSwitch extends Element implements HasActuators {
 	}
 
 	@Override
-	protected void afterItemPicked(Item item, SubCell subCell) {
-		super.afterItemPicked(item, subCell);
+	protected void afterItemPicked(Item item, Sector sector) {
+		super.afterItemPicked(item, sector);
 
 		// Ne d�clencher qu'au dernier objet ramass� !!!
 		if ((actuators != null)

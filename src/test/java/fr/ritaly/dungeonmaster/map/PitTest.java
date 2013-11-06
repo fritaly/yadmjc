@@ -23,7 +23,7 @@ import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
-import fr.ritaly.dungeonmaster.SubCell;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -295,50 +295,50 @@ public class PitTest extends TestCase {
 		final Element element1 = level1.getElement(3, 2);
 		final Element element2 = level2.getElement(3, 2);
 
-		element1.itemDroppedDown(torch, SubCell.NORTH_WEST);
-		element1.itemDroppedDown(apple, SubCell.NORTH_EAST);
-		element1.itemDroppedDown(sword, SubCell.SOUTH_WEST);
-		element1.itemDroppedDown(waterFlask, SubCell.SOUTH_EAST);
+		element1.itemDropped(torch, Sector.NORTH_WEST);
+		element1.itemDropped(apple, Sector.NORTH_EAST);
+		element1.itemDropped(sword, Sector.SOUTH_WEST);
+		element1.itemDropped(waterFlask, Sector.SOUTH_EAST);
 
 		// --- Situation initiale
 		assertEquals(4, element1.getItemCount());
-		assertEquals(1, element1.getItemCount(SubCell.NORTH_EAST));
-		assertEquals(apple, element1.getItems(SubCell.NORTH_EAST).iterator()
+		assertEquals(1, element1.getItemCount(Sector.NORTH_EAST));
+		assertEquals(apple, element1.getItems(Sector.NORTH_EAST).iterator()
 				.next());
-		assertEquals(1, element1.getItemCount(SubCell.NORTH_WEST));
-		assertEquals(torch, element1.getItems(SubCell.NORTH_WEST).iterator()
+		assertEquals(1, element1.getItemCount(Sector.NORTH_WEST));
+		assertEquals(torch, element1.getItems(Sector.NORTH_WEST).iterator()
 				.next());
-		assertEquals(1, element1.getItemCount(SubCell.SOUTH_EAST));
-		assertEquals(waterFlask, element1.getItems(SubCell.SOUTH_EAST)
+		assertEquals(1, element1.getItemCount(Sector.SOUTH_EAST));
+		assertEquals(waterFlask, element1.getItems(Sector.SOUTH_EAST)
 				.iterator().next());
-		assertEquals(1, element1.getItemCount(SubCell.SOUTH_WEST));
-		assertEquals(sword, element1.getItems(SubCell.SOUTH_WEST).iterator()
+		assertEquals(1, element1.getItemCount(Sector.SOUTH_WEST));
+		assertEquals(sword, element1.getItems(Sector.SOUTH_WEST).iterator()
 				.next());
 		assertEquals(0, element2.getItemCount());
-		assertEquals(0, element2.getItemCount(SubCell.NORTH_EAST));
-		assertEquals(0, element2.getItemCount(SubCell.NORTH_WEST));
-		assertEquals(0, element2.getItemCount(SubCell.SOUTH_EAST));
-		assertEquals(0, element2.getItemCount(SubCell.SOUTH_WEST));
+		assertEquals(0, element2.getItemCount(Sector.NORTH_EAST));
+		assertEquals(0, element2.getItemCount(Sector.NORTH_WEST));
+		assertEquals(0, element2.getItemCount(Sector.SOUTH_EAST));
+		assertEquals(0, element2.getItemCount(Sector.SOUTH_WEST));
 
 		// --- L'oubliette s'ouvre, les objets tombent au niveau inf�rieur
 		assertTrue(pit.open());
 		assertEquals(0, element1.getItemCount());
-		assertEquals(0, element1.getItemCount(SubCell.NORTH_EAST));
-		assertEquals(0, element1.getItemCount(SubCell.NORTH_WEST));
-		assertEquals(0, element1.getItemCount(SubCell.SOUTH_EAST));
-		assertEquals(0, element1.getItemCount(SubCell.SOUTH_WEST));
+		assertEquals(0, element1.getItemCount(Sector.NORTH_EAST));
+		assertEquals(0, element1.getItemCount(Sector.NORTH_WEST));
+		assertEquals(0, element1.getItemCount(Sector.SOUTH_EAST));
+		assertEquals(0, element1.getItemCount(Sector.SOUTH_WEST));
 		assertEquals(4, element2.getItemCount());
-		assertEquals(1, element2.getItemCount(SubCell.NORTH_EAST));
-		assertEquals(apple, element2.getItems(SubCell.NORTH_EAST).iterator()
+		assertEquals(1, element2.getItemCount(Sector.NORTH_EAST));
+		assertEquals(apple, element2.getItems(Sector.NORTH_EAST).iterator()
 				.next());
-		assertEquals(1, element2.getItemCount(SubCell.NORTH_WEST));
-		assertEquals(torch, element2.getItems(SubCell.NORTH_WEST).iterator()
+		assertEquals(1, element2.getItemCount(Sector.NORTH_WEST));
+		assertEquals(torch, element2.getItems(Sector.NORTH_WEST).iterator()
 				.next());
-		assertEquals(1, element2.getItemCount(SubCell.SOUTH_EAST));
-		assertEquals(waterFlask, element2.getItems(SubCell.SOUTH_EAST)
+		assertEquals(1, element2.getItemCount(Sector.SOUTH_EAST));
+		assertEquals(waterFlask, element2.getItems(Sector.SOUTH_EAST)
 				.iterator().next());
-		assertEquals(1, element2.getItemCount(SubCell.SOUTH_WEST));
-		assertEquals(sword, element2.getItems(SubCell.SOUTH_WEST).iterator()
+		assertEquals(1, element2.getItemCount(Sector.SOUTH_WEST));
+		assertEquals(sword, element2.getItems(Sector.SOUTH_WEST).iterator()
 				.next());
 	}
 
@@ -386,35 +386,35 @@ public class PitTest extends TestCase {
 		final Element element2 = level2.getElement(3, 2);
 
 		assertEquals(0, element2.getItemCount());
-		assertEquals(0, element2.getItemCount(SubCell.NORTH_EAST));
-		assertEquals(0, element2.getItemCount(SubCell.NORTH_WEST));
-		assertEquals(0, element2.getItemCount(SubCell.SOUTH_EAST));
-		assertEquals(0, element2.getItemCount(SubCell.SOUTH_WEST));
+		assertEquals(0, element2.getItemCount(Sector.NORTH_EAST));
+		assertEquals(0, element2.getItemCount(Sector.NORTH_WEST));
+		assertEquals(0, element2.getItemCount(Sector.SOUTH_EAST));
+		assertEquals(0, element2.getItemCount(Sector.SOUTH_WEST));
 
-		element1.itemDroppedDown(torch, SubCell.NORTH_WEST);
-		element1.itemDroppedDown(apple, SubCell.NORTH_EAST);
-		element1.itemDroppedDown(sword, SubCell.SOUTH_WEST);
-		element1.itemDroppedDown(waterFlask, SubCell.SOUTH_EAST);
+		element1.itemDropped(torch, Sector.NORTH_WEST);
+		element1.itemDropped(apple, Sector.NORTH_EAST);
+		element1.itemDropped(sword, Sector.SOUTH_WEST);
+		element1.itemDropped(waterFlask, Sector.SOUTH_EAST);
 
 		// --- L'oubliette s'ouvre, les objets sont tomb�s au niveau inf�rieur
 		assertEquals(0, element1.getItemCount());
-		assertEquals(0, element1.getItemCount(SubCell.NORTH_EAST));
-		assertEquals(0, element1.getItemCount(SubCell.NORTH_WEST));
-		assertEquals(0, element1.getItemCount(SubCell.SOUTH_EAST));
-		assertEquals(0, element1.getItemCount(SubCell.SOUTH_WEST));
+		assertEquals(0, element1.getItemCount(Sector.NORTH_EAST));
+		assertEquals(0, element1.getItemCount(Sector.NORTH_WEST));
+		assertEquals(0, element1.getItemCount(Sector.SOUTH_EAST));
+		assertEquals(0, element1.getItemCount(Sector.SOUTH_WEST));
 
 		assertEquals(4, element2.getItemCount());
-		assertEquals(1, element2.getItemCount(SubCell.NORTH_EAST));
-		assertEquals(apple, element2.getItems(SubCell.NORTH_EAST).iterator()
+		assertEquals(1, element2.getItemCount(Sector.NORTH_EAST));
+		assertEquals(apple, element2.getItems(Sector.NORTH_EAST).iterator()
 				.next());
-		assertEquals(1, element2.getItemCount(SubCell.NORTH_WEST));
-		assertEquals(torch, element2.getItems(SubCell.NORTH_WEST).iterator()
+		assertEquals(1, element2.getItemCount(Sector.NORTH_WEST));
+		assertEquals(torch, element2.getItems(Sector.NORTH_WEST).iterator()
 				.next());
-		assertEquals(1, element2.getItemCount(SubCell.SOUTH_EAST));
-		assertEquals(waterFlask, element2.getItems(SubCell.SOUTH_EAST)
+		assertEquals(1, element2.getItemCount(Sector.SOUTH_EAST));
+		assertEquals(waterFlask, element2.getItems(Sector.SOUTH_EAST)
 				.iterator().next());
-		assertEquals(1, element2.getItemCount(SubCell.SOUTH_WEST));
-		assertEquals(sword, element2.getItems(SubCell.SOUTH_WEST).iterator()
+		assertEquals(1, element2.getItemCount(Sector.SOUTH_WEST));
+		assertEquals(sword, element2.getItems(Sector.SOUTH_WEST).iterator()
 				.next());
 	}
 
@@ -462,29 +462,29 @@ public class PitTest extends TestCase {
 		final Element element2 = level2.getElement(3, 2);
 
 		assertEquals(0, element2.getCreatureCount());
-		assertNull(element2.getCreature(SubCell.NORTH_EAST));
-		assertNull(element2.getCreature(SubCell.NORTH_WEST));
-		assertNull(element2.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element2.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element2.getCreature(Sector.NORTH_EAST));
+		assertNull(element2.getCreature(Sector.NORTH_WEST));
+		assertNull(element2.getCreature(Sector.SOUTH_EAST));
+		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
-		element1.creatureSteppedOn(mummy, SubCell.NORTH_WEST);
-		element1.creatureSteppedOn(trolin, SubCell.NORTH_EAST);
-		element1.creatureSteppedOn(rockPile, SubCell.SOUTH_WEST);
-		element1.creatureSteppedOn(giggler, SubCell.SOUTH_EAST);
+		element1.creatureSteppedOn(mummy, Sector.NORTH_WEST);
+		element1.creatureSteppedOn(trolin, Sector.NORTH_EAST);
+		element1.creatureSteppedOn(rockPile, Sector.SOUTH_WEST);
+		element1.creatureSteppedOn(giggler, Sector.SOUTH_EAST);
 
 		// --- L'oubliette �tait ouverte, les cr�atures sont tomb�s au niveau
 		// inf�rieur
 		assertEquals(0, element1.getCreatureCount());
-		assertNull(element1.getCreature(SubCell.NORTH_EAST));
-		assertNull(element1.getCreature(SubCell.NORTH_WEST));
-		assertNull(element1.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element1.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element1.getCreature(Sector.NORTH_EAST));
+		assertNull(element1.getCreature(Sector.NORTH_WEST));
+		assertNull(element1.getCreature(Sector.SOUTH_EAST));
+		assertNull(element1.getCreature(Sector.SOUTH_WEST));
 
 		assertEquals(4, element2.getCreatureCount());
-		assertEquals(trolin, element2.getCreature(SubCell.NORTH_EAST));
-		assertEquals(mummy, element2.getCreature(SubCell.NORTH_WEST));
-		assertEquals(giggler, element2.getCreature(SubCell.SOUTH_EAST));
-		assertEquals(rockPile, element2.getCreature(SubCell.SOUTH_WEST));
+		assertEquals(trolin, element2.getCreature(Sector.NORTH_EAST));
+		assertEquals(mummy, element2.getCreature(Sector.NORTH_WEST));
+		assertEquals(giggler, element2.getCreature(Sector.SOUTH_EAST));
+		assertEquals(rockPile, element2.getCreature(Sector.SOUTH_WEST));
 	}
 
 	public void testCreaturesOfSizeTwoFallingThroughAlreadyOpenPit() {
@@ -529,10 +529,10 @@ public class PitTest extends TestCase {
 		final Element element2 = level2.getElement(3, 2);
 
 		assertEquals(0, element2.getCreatureCount());
-		assertNull(element2.getCreature(SubCell.NORTH_EAST));
-		assertNull(element2.getCreature(SubCell.NORTH_WEST));
-		assertNull(element2.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element2.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element2.getCreature(Sector.NORTH_EAST));
+		assertNull(element2.getCreature(Sector.NORTH_WEST));
+		assertNull(element2.getCreature(Sector.SOUTH_EAST));
+		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
 		element1.creatureSteppedOn(worm, Direction.NORTH);
 		element1.creatureSteppedOn(painRat, Direction.SOUTH);
@@ -540,16 +540,16 @@ public class PitTest extends TestCase {
 		// --- L'oubliette �tait ouverte, les cr�atures sont tomb�s au niveau
 		// inf�rieur
 		assertEquals(0, element1.getCreatureCount());
-		assertNull(element1.getCreature(SubCell.NORTH_EAST));
-		assertNull(element1.getCreature(SubCell.NORTH_WEST));
-		assertNull(element1.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element1.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element1.getCreature(Sector.NORTH_EAST));
+		assertNull(element1.getCreature(Sector.NORTH_WEST));
+		assertNull(element1.getCreature(Sector.SOUTH_EAST));
+		assertNull(element1.getCreature(Sector.SOUTH_WEST));
 
 		assertEquals(2, element2.getCreatureCount());
-		assertEquals(worm, element2.getCreature(SubCell.NORTH_EAST));
-		assertEquals(worm, element2.getCreature(SubCell.NORTH_WEST));
-		assertEquals(painRat, element2.getCreature(SubCell.SOUTH_EAST));
-		assertEquals(painRat, element2.getCreature(SubCell.SOUTH_WEST));
+		assertEquals(worm, element2.getCreature(Sector.NORTH_EAST));
+		assertEquals(worm, element2.getCreature(Sector.NORTH_WEST));
+		assertEquals(painRat, element2.getCreature(Sector.SOUTH_EAST));
+		assertEquals(painRat, element2.getCreature(Sector.SOUTH_WEST));
 	}
 
 	public void testCreaturesOfSizeFourFallingThroughAlreadyOpenPit() {
@@ -593,26 +593,26 @@ public class PitTest extends TestCase {
 		final Element element2 = level2.getElement(3, 2);
 
 		assertEquals(0, element2.getCreatureCount());
-		assertNull(element2.getCreature(SubCell.NORTH_EAST));
-		assertNull(element2.getCreature(SubCell.NORTH_WEST));
-		assertNull(element2.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element2.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element2.getCreature(Sector.NORTH_EAST));
+		assertNull(element2.getCreature(Sector.NORTH_WEST));
+		assertNull(element2.getCreature(Sector.SOUTH_EAST));
+		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
 		element1.creatureSteppedOn(dragon);
 
 		// --- L'oubliette �tait ouverte, les cr�atures sont tomb�s au niveau
 		// inf�rieur
 		assertEquals(0, element1.getCreatureCount());
-		assertNull(element1.getCreature(SubCell.NORTH_EAST));
-		assertNull(element1.getCreature(SubCell.NORTH_WEST));
-		assertNull(element1.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element1.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element1.getCreature(Sector.NORTH_EAST));
+		assertNull(element1.getCreature(Sector.NORTH_WEST));
+		assertNull(element1.getCreature(Sector.SOUTH_EAST));
+		assertNull(element1.getCreature(Sector.SOUTH_WEST));
 
 		assertEquals(1, element2.getCreatureCount());
-		assertEquals(dragon, element2.getCreature(SubCell.NORTH_EAST));
-		assertEquals(dragon, element2.getCreature(SubCell.NORTH_WEST));
-		assertEquals(dragon, element2.getCreature(SubCell.SOUTH_EAST));
-		assertEquals(dragon, element2.getCreature(SubCell.SOUTH_WEST));
+		assertEquals(dragon, element2.getCreature(Sector.NORTH_EAST));
+		assertEquals(dragon, element2.getCreature(Sector.NORTH_WEST));
+		assertEquals(dragon, element2.getCreature(Sector.SOUTH_EAST));
+		assertEquals(dragon, element2.getCreature(Sector.SOUTH_WEST));
 	}
 
 	public void testCreaturesOfSizeOneFallingThroughPitWhenOpened() {
@@ -659,43 +659,43 @@ public class PitTest extends TestCase {
 		final Element element2 = level2.getElement(3, 2);
 
 		assertEquals(0, element2.getCreatureCount());
-		assertNull(element2.getCreature(SubCell.NORTH_EAST));
-		assertNull(element2.getCreature(SubCell.NORTH_WEST));
-		assertNull(element2.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element2.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element2.getCreature(Sector.NORTH_EAST));
+		assertNull(element2.getCreature(Sector.NORTH_WEST));
+		assertNull(element2.getCreature(Sector.SOUTH_EAST));
+		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
-		element1.creatureSteppedOn(mummy, SubCell.NORTH_WEST);
-		element1.creatureSteppedOn(trolin, SubCell.NORTH_EAST);
-		element1.creatureSteppedOn(rockPile, SubCell.SOUTH_WEST);
-		element1.creatureSteppedOn(giggler, SubCell.SOUTH_EAST);
+		element1.creatureSteppedOn(mummy, Sector.NORTH_WEST);
+		element1.creatureSteppedOn(trolin, Sector.NORTH_EAST);
+		element1.creatureSteppedOn(rockPile, Sector.SOUTH_WEST);
+		element1.creatureSteppedOn(giggler, Sector.SOUTH_EAST);
 
 		// --- Situation initiale
 		assertEquals(4, element1.getCreatureCount());
-		assertEquals(trolin, element1.getCreature(SubCell.NORTH_EAST));
-		assertEquals(mummy, element1.getCreature(SubCell.NORTH_WEST));
-		assertEquals(giggler, element1.getCreature(SubCell.SOUTH_EAST));
-		assertEquals(rockPile, element1.getCreature(SubCell.SOUTH_WEST));
+		assertEquals(trolin, element1.getCreature(Sector.NORTH_EAST));
+		assertEquals(mummy, element1.getCreature(Sector.NORTH_WEST));
+		assertEquals(giggler, element1.getCreature(Sector.SOUTH_EAST));
+		assertEquals(rockPile, element1.getCreature(Sector.SOUTH_WEST));
 
 		assertEquals(0, element2.getCreatureCount());
-		assertNull(element2.getCreature(SubCell.NORTH_EAST));
-		assertNull(element2.getCreature(SubCell.NORTH_WEST));
-		assertNull(element2.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element2.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element2.getCreature(Sector.NORTH_EAST));
+		assertNull(element2.getCreature(Sector.NORTH_WEST));
+		assertNull(element2.getCreature(Sector.SOUTH_EAST));
+		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
 		// --- L'oubliette s'ouvre, les cr�atures tombent au niveau inf�rieur
 		assertTrue(pit.open());
 
 		assertEquals(0, element1.getCreatureCount());
-		assertNull(element1.getCreature(SubCell.NORTH_EAST));
-		assertNull(element1.getCreature(SubCell.NORTH_WEST));
-		assertNull(element1.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element1.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element1.getCreature(Sector.NORTH_EAST));
+		assertNull(element1.getCreature(Sector.NORTH_WEST));
+		assertNull(element1.getCreature(Sector.SOUTH_EAST));
+		assertNull(element1.getCreature(Sector.SOUTH_WEST));
 
 		assertEquals(4, element2.getCreatureCount());
-		assertEquals(trolin, element2.getCreature(SubCell.NORTH_EAST));
-		assertEquals(mummy, element2.getCreature(SubCell.NORTH_WEST));
-		assertEquals(giggler, element2.getCreature(SubCell.SOUTH_EAST));
-		assertEquals(rockPile, element2.getCreature(SubCell.SOUTH_WEST));
+		assertEquals(trolin, element2.getCreature(Sector.NORTH_EAST));
+		assertEquals(mummy, element2.getCreature(Sector.NORTH_WEST));
+		assertEquals(giggler, element2.getCreature(Sector.SOUTH_EAST));
+		assertEquals(rockPile, element2.getCreature(Sector.SOUTH_WEST));
 	}
 
 	public void testCreaturesOfSizeTwoFallingThroughPitWhenOpened() {
@@ -740,41 +740,41 @@ public class PitTest extends TestCase {
 		final Element element2 = level2.getElement(3, 2);
 
 		assertEquals(0, element2.getCreatureCount());
-		assertNull(element2.getCreature(SubCell.NORTH_EAST));
-		assertNull(element2.getCreature(SubCell.NORTH_WEST));
-		assertNull(element2.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element2.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element2.getCreature(Sector.NORTH_EAST));
+		assertNull(element2.getCreature(Sector.NORTH_WEST));
+		assertNull(element2.getCreature(Sector.SOUTH_EAST));
+		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
 		element1.creatureSteppedOn(worm, Direction.NORTH);
 		element1.creatureSteppedOn(painRat, Direction.SOUTH);
 
 		// --- Situation initiale
 		assertEquals(2, element1.getCreatureCount());
-		assertEquals(worm, element1.getCreature(SubCell.NORTH_EAST));
-		assertEquals(worm, element1.getCreature(SubCell.NORTH_WEST));
-		assertEquals(painRat, element1.getCreature(SubCell.SOUTH_EAST));
-		assertEquals(painRat, element1.getCreature(SubCell.SOUTH_WEST));
+		assertEquals(worm, element1.getCreature(Sector.NORTH_EAST));
+		assertEquals(worm, element1.getCreature(Sector.NORTH_WEST));
+		assertEquals(painRat, element1.getCreature(Sector.SOUTH_EAST));
+		assertEquals(painRat, element1.getCreature(Sector.SOUTH_WEST));
 
 		assertEquals(0, element2.getCreatureCount());
-		assertNull(element2.getCreature(SubCell.NORTH_EAST));
-		assertNull(element2.getCreature(SubCell.NORTH_WEST));
-		assertNull(element2.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element2.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element2.getCreature(Sector.NORTH_EAST));
+		assertNull(element2.getCreature(Sector.NORTH_WEST));
+		assertNull(element2.getCreature(Sector.SOUTH_EAST));
+		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
 		// --- L'oubliette s'ouvre, les cr�atures tombent au niveau inf�rieur
 		assertTrue(pit.open());
 
 		assertEquals(0, element1.getCreatureCount());
-		assertNull(element1.getCreature(SubCell.NORTH_EAST));
-		assertNull(element1.getCreature(SubCell.NORTH_WEST));
-		assertNull(element1.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element1.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element1.getCreature(Sector.NORTH_EAST));
+		assertNull(element1.getCreature(Sector.NORTH_WEST));
+		assertNull(element1.getCreature(Sector.SOUTH_EAST));
+		assertNull(element1.getCreature(Sector.SOUTH_WEST));
 
 		assertEquals(2, element2.getCreatureCount());
-		assertEquals(worm, element2.getCreature(SubCell.NORTH_EAST));
-		assertEquals(worm, element2.getCreature(SubCell.NORTH_WEST));
-		assertEquals(painRat, element2.getCreature(SubCell.SOUTH_EAST));
-		assertEquals(painRat, element2.getCreature(SubCell.SOUTH_WEST));
+		assertEquals(worm, element2.getCreature(Sector.NORTH_EAST));
+		assertEquals(worm, element2.getCreature(Sector.NORTH_WEST));
+		assertEquals(painRat, element2.getCreature(Sector.SOUTH_EAST));
+		assertEquals(painRat, element2.getCreature(Sector.SOUTH_WEST));
 	}
 
 	public void testCreaturesOfSizeFourFallingThroughPitWhenOpened() {
@@ -818,40 +818,40 @@ public class PitTest extends TestCase {
 		final Element element2 = level2.getElement(3, 2);
 
 		assertEquals(0, element2.getCreatureCount());
-		assertNull(element2.getCreature(SubCell.NORTH_EAST));
-		assertNull(element2.getCreature(SubCell.NORTH_WEST));
-		assertNull(element2.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element2.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element2.getCreature(Sector.NORTH_EAST));
+		assertNull(element2.getCreature(Sector.NORTH_WEST));
+		assertNull(element2.getCreature(Sector.SOUTH_EAST));
+		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
 		element1.creatureSteppedOn(dragon);
 
 		// --- Situation initiale
 		assertEquals(1, element1.getCreatureCount());
-		assertEquals(dragon, element1.getCreature(SubCell.NORTH_EAST));
-		assertEquals(dragon, element1.getCreature(SubCell.NORTH_WEST));
-		assertEquals(dragon, element1.getCreature(SubCell.SOUTH_EAST));
-		assertEquals(dragon, element1.getCreature(SubCell.SOUTH_WEST));
+		assertEquals(dragon, element1.getCreature(Sector.NORTH_EAST));
+		assertEquals(dragon, element1.getCreature(Sector.NORTH_WEST));
+		assertEquals(dragon, element1.getCreature(Sector.SOUTH_EAST));
+		assertEquals(dragon, element1.getCreature(Sector.SOUTH_WEST));
 
 		assertEquals(0, element2.getCreatureCount());
-		assertNull(element2.getCreature(SubCell.NORTH_EAST));
-		assertNull(element2.getCreature(SubCell.NORTH_WEST));
-		assertNull(element2.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element2.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element2.getCreature(Sector.NORTH_EAST));
+		assertNull(element2.getCreature(Sector.NORTH_WEST));
+		assertNull(element2.getCreature(Sector.SOUTH_EAST));
+		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
 		// --- L'oubliette s'ouvre, les cr�atures tombent au niveau inf�rieur
 		assertTrue(pit.open());
 
 		assertEquals(0, element1.getCreatureCount());
-		assertNull(element1.getCreature(SubCell.NORTH_EAST));
-		assertNull(element1.getCreature(SubCell.NORTH_WEST));
-		assertNull(element1.getCreature(SubCell.SOUTH_EAST));
-		assertNull(element1.getCreature(SubCell.SOUTH_WEST));
+		assertNull(element1.getCreature(Sector.NORTH_EAST));
+		assertNull(element1.getCreature(Sector.NORTH_WEST));
+		assertNull(element1.getCreature(Sector.SOUTH_EAST));
+		assertNull(element1.getCreature(Sector.SOUTH_WEST));
 
 		assertEquals(1, element2.getCreatureCount());
-		assertEquals(dragon, element2.getCreature(SubCell.NORTH_EAST));
-		assertEquals(dragon, element2.getCreature(SubCell.NORTH_WEST));
-		assertEquals(dragon, element2.getCreature(SubCell.SOUTH_EAST));
-		assertEquals(dragon, element2.getCreature(SubCell.SOUTH_WEST));
+		assertEquals(dragon, element2.getCreature(Sector.NORTH_EAST));
+		assertEquals(dragon, element2.getCreature(Sector.NORTH_WEST));
+		assertEquals(dragon, element2.getCreature(Sector.SOUTH_EAST));
+		assertEquals(dragon, element2.getCreature(Sector.SOUTH_WEST));
 	}
 
 	public void testChampionsHurtWhenFallingThroughOpenPit() {

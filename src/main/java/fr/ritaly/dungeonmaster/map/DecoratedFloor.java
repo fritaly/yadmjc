@@ -26,22 +26,22 @@ import fr.ritaly.dungeonmaster.champion.Party;
 /**
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class DecoratedFloor extends Element {
-	
+public final class DecoratedFloor extends FloorTile {
+
 	public static enum Style {
 		PUDDLE,
 		GRASS,
 		SEAL,
 		GRATE;
 	}
-	
+
 	private final Style style;
 
 	public DecoratedFloor(Style style) {
 		super(Type.DECORATED_FLOOR);
-		
+
 		Validate.notNull(style, "The given style is null");
-		
+
 		this.style = style;
 	}
 
@@ -49,22 +49,22 @@ public final class DecoratedFloor extends Element {
 	public boolean isTraversable(Party party) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isTraversable(Creature creature) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isTraversableByProjectile() {
 		return true;
 	}
-	
+
 	@Override
 	public String getCaption() {
 		return "D";
 	}
-	
+
 	@Override
 	public void validate() throws ValidationException {
 	}
