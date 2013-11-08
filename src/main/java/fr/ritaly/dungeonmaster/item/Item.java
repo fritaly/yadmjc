@@ -28,6 +28,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.stream.XMLOutputFactory;
@@ -109,26 +110,22 @@ public abstract class Item implements ChangeEventSource {
 			}
 
 			if (type.getDeltaEnergy() != -1) {
-				writer.writeStartElement("delta-energy");
-				writer.writeCharacters(Integer.toString(type.getDeltaEnergy()));
-				writer.writeEndElement();
+				writer.writeAttribute("delta-energy", Integer.toString(type.getDeltaEnergy()));
 			}
 
 			if (type.getDistance() != -1) {
-				writer.writeStartElement("distance");
-				writer.writeCharacters(Integer.toString(type.getDistance()));
-				writer.writeEndElement();
+				writer.writeAttribute("distance", Integer.toString(type.getDistance()));
 			}
 
 			if (type.getShootDamage() != -1) {
-				writer.writeStartElement("shoot-damage");
-				writer.writeCharacters(Integer.toString(type.getShootDamage()));
-				writer.writeEndElement();
+				writer.writeAttribute("shoot-damage", Integer.toString(type.getShootDamage()));
 			}
 
 			if (!type.getCarryLocations().isEmpty()) {
 				writer.writeStartElement("locations");
-				for (CarryLocation location : type.getCarryLocations()) {
+
+				// Sort the locations to ensure they're always serialized in a consistent way
+				for (CarryLocation location : new TreeSet<CarryLocation>(type.getCarryLocations())) {
 					writer.writeEmptyElement("location");
 					writer.writeAttribute("id", location.name());
 				}

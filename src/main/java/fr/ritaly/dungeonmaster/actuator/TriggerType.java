@@ -19,33 +19,39 @@
 package fr.ritaly.dungeonmaster.actuator;
 
 /**
- * An object which handles an {@link Actuator} per trigger type.
+ * Enumerates the different types of triggers.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public interface HasActuators {
+public enum TriggerType {
 
 	/**
-	 * Returnt the {@link Actuator} mapped to the given trigger type.
-	 *
-	 * @param triggerType
-	 *            a {@link TriggerType}. Can't be null.
-	 * @return an {@link Actuator} or null if none is mapped to the given
-	 *         trigger type.
+	 * When a party steps on a pressure pad.
 	 */
-	public Actuator getActuator(TriggerType triggerType);
+	PARTY_STEPPED_ON,
 
 	/**
-	 * Sets the {@link Actuator} mapped to the given trigger type.
-	 *
-	 * @param triggerType
-	 *            an {@link TriggerType}.
-	 * @param actuator
-	 *            an {@link Actuator}.
+	 * When a party steps off a pressure pad.
 	 */
-	public void setActuator(TriggerType triggerType, Actuator actuator);
+	PARTY_STEPPED_OFF,
 
-	public void addActuator(TriggerType triggerType, Actuator actuator);
+	/**
+	 * When an item is dropped on a pressure pad.
+	 */
+	ITEM_DROPPED,
 
-	public void clearActuator(TriggerType triggerType);
+	/**
+	 * When an item is picked off a pressure pad.
+	 */
+	ITEM_PICKED_UP,
+
+	/**
+	 * When a creature steps on a pressure pad.
+	 */
+	CREATURE_STEPPED_ON,
+
+	/**
+	 * When a creature steps off a pressure pad.
+	 */
+	CREATURE_STEPPED_OFF;
 }

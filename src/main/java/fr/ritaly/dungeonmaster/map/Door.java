@@ -44,8 +44,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 /**
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class Door extends Element implements ClockListener,
-		Triggerable {
+public final class Door extends FloorTile implements ClockListener, Triggerable {
 
 	private final Log log = LogFactory.getLog(Door.class);
 
@@ -623,7 +622,7 @@ public final class Door extends Element implements ClockListener,
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "D";
 	}
 

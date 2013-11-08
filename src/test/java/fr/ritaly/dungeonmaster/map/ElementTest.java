@@ -69,7 +69,7 @@ public class ElementTest extends TestCase {
 		assertTrue(element.getCreatureMap().isEmpty());
 
 		// 1. On installe la momie
-		element.creatureSteppedOn(mummy, Sector.NORTH_EAST);
+		element.addCreature(mummy, Sector.NORTH_EAST);
 
 		assertTrue(element.hasCreatures());
 		assertNotNull(element.getCreatureMap());
@@ -78,7 +78,7 @@ public class ElementTest extends TestCase {
 
 		// 2.
 		try {
-			element.creatureSteppedOn(mummy, Sector.NORTH_EAST);
+			element.addCreature(mummy, Sector.NORTH_EAST);
 
 			fail();
 		} catch (RuntimeException e) {
@@ -121,10 +121,10 @@ public class ElementTest extends TestCase {
 		assertTrue(element.getCreatureMap().isEmpty());
 
 		// 1. On installe les 4 cr�atures de taille 1
-		element.creatureSteppedOn(mummy, Sector.NORTH_EAST);
-		element.creatureSteppedOn(trolin, Sector.NORTH_WEST);
-		element.creatureSteppedOn(rockPile, Sector.SOUTH_EAST);
-		element.creatureSteppedOn(giggler, Sector.SOUTH_WEST);
+		element.addCreature(mummy, Sector.NORTH_EAST);
+		element.addCreature(trolin, Sector.NORTH_WEST);
+		element.addCreature(rockPile, Sector.SOUTH_EAST);
+		element.addCreature(giggler, Sector.SOUTH_WEST);
 
 		assertTrue(element.hasCreatures());
 		assertNotNull(element.getCreatureMap());
@@ -137,7 +137,7 @@ public class ElementTest extends TestCase {
 
 		// 2. On supprime une cr�ature de taille 1 et on tente d'installer un
 		// ver (de taille 2) ou un dragon (de taille 4)
-		element.creatureSteppedOff(mummy, Sector.NORTH_EAST);
+		element.removeCreature(mummy, Sector.NORTH_EAST);
 
 		assertTrue(element.hasCreatures());
 		assertNotNull(element.getCreatureMap());
@@ -153,8 +153,8 @@ public class ElementTest extends TestCase {
 				Direction.EAST, Direction.SOUTH, Direction.WEST)) {
 
 			try {
-				element.creatureSteppedOn(new Creature(
-						Creature.Type.MAGENTA_WORM, 10), direction);
+				element.addCreature(new Creature(
+				Creature.Type.MAGENTA_WORM, 10), direction);
 				fail();
 			} catch (IllegalArgumentException e) {
 				// Erreur attendue
@@ -162,7 +162,7 @@ public class ElementTest extends TestCase {
 		}
 
 		try {
-			element.creatureSteppedOn(new Creature(Creature.Type.RED_DRAGON, 10));
+			element.addCreature(new Creature(Creature.Type.RED_DRAGON, 10));
 			fail();
 		} catch (IllegalArgumentException e) {
 			// Erreur attendue
@@ -170,7 +170,7 @@ public class ElementTest extends TestCase {
 
 		// 3. On supprime une autre cr�ature de taille 1 et on tente d'installer
 		// un dragon (de taille 4) ou un ver (de taille 2)
-		element.creatureSteppedOff(trolin, Sector.NORTH_WEST);
+		element.removeCreature(trolin, Sector.NORTH_WEST);
 
 		assertTrue(element.hasCreatures());
 		assertNotNull(element.getCreatureMap());
@@ -183,7 +183,7 @@ public class ElementTest extends TestCase {
 
 		try {
 			// Dragon trop gros
-			element.creatureSteppedOn(new Creature(Creature.Type.RED_DRAGON, 10));
+			element.addCreature(new Creature(Creature.Type.RED_DRAGON, 10));
 			fail();
 		} catch (IllegalArgumentException e) {
 			// Erreur attendue
@@ -194,8 +194,8 @@ public class ElementTest extends TestCase {
 				Direction.SOUTH, Direction.WEST)) {
 
 			try {
-				element.creatureSteppedOn(new Creature(
-						Creature.Type.MAGENTA_WORM, 10), direction);
+				element.addCreature(new Creature(
+				Creature.Type.MAGENTA_WORM, 10), direction);
 				fail();
 			} catch (IllegalArgumentException e) {
 				// Erreur attendue
@@ -205,7 +205,7 @@ public class ElementTest extends TestCase {
 		// Ca doit marcher dans la derni�re direction
 		final Creature worm = new Creature(Creature.Type.MAGENTA_WORM, 10);
 
-		element.creatureSteppedOn(worm, Direction.NORTH);
+		element.addCreature(worm, Direction.NORTH);
 
 		assertTrue(element.hasCreatures());
 		assertNotNull(element.getCreatureMap());

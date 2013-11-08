@@ -40,7 +40,7 @@ public final class FourSideAlcove extends Element {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "4";
 	}
 
@@ -73,7 +73,7 @@ public final class FourSideAlcove extends Element {
 	
 	public final void dropItem(Item item, Direction direction) {
 		// Appel de la m�thode non surcharg�e
-		super.itemDropped(item, map(direction));
+		super.dropItem(item, map(direction));
 	}
 	
 	@Override
@@ -89,13 +89,13 @@ public final class FourSideAlcove extends Element {
 	}
 	
 	@Override
-	public final void itemDropped(Item item, Sector corner) {
+	public final void dropItem(Item item, Sector corner) {
 		// Surcharge pour forcer l'appel � la bonne m�thode
 		throw new UnsupportedOperationException();
 	}
 	
 	private Direction map(Sector sector) {
-		Validate.isTrue(sector != null, "The given sector is null");
+		Validate.notNull(sector, "The given sector is null");
 		
 		switch (sector) {
 		case NORTH_EAST:

@@ -48,7 +48,7 @@ public final class Altar extends DirectedElement implements HasActuator {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "L";
 	}
 
@@ -88,7 +88,7 @@ public final class Altar extends DirectedElement implements HasActuator {
 
 	public final void dropItem(Item item, Direction direction) {
 		// Appel de la m�thode non surcharg�e
-		super.itemDropped(item, map(direction));
+		super.dropItem(item, map(direction));
 
 		// D�clenchement au premier objet d�pos�
 		if ((getItemCount() == 1) && (actuator != null)) {
@@ -133,13 +133,13 @@ public final class Altar extends DirectedElement implements HasActuator {
 	}
 
 	@Override
-	public final void itemDropped(Item item, Sector corner) {
+	public final void dropItem(Item item, Sector corner) {
 		// Surcharge pour forcer l'appel � la bonne m�thode
 		throw new UnsupportedOperationException();
 	}
 
 	private Direction map(Sector sector) {
-		Validate.isTrue(sector != null, "The given sector is null");
+		Validate.notNull(sector, "The given sector is null");
 
 		switch (sector) {
 		case NORTH_EAST:

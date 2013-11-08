@@ -27,20 +27,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
+import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import fr.ritaly.dungeonmaster.Skill;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -49,9 +43,127 @@ import fr.ritaly.dungeonmaster.champion.body.BodyPart;
 import fr.ritaly.dungeonmaster.item.Item.AffectedStatistic;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
+/**
+ * A definition of item.
+ *
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
+ */
 final class ItemDef {
 
-	private static final Log LOG = LogFactory.getLog(ItemDef.class);
+	/**
+	 * SAX handler to parse the resource file 'items.xml' defining items.
+	 *
+	 * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
+	 */
+	private static final class ItemDefParser extends DefaultHandler {
+
+		private final Log log = LogFactory.getLog(this.getClass());
+
+		private final List<ItemDef> definitions = new ArrayList<ItemDef>();
+
+		private ItemDef definition;
+
+		private ItemDefParser() {
+		}
+
+		@Override
+		public void startDocument() throws SAXException {
+			this.definitions.clear();
+
+			if (log.isDebugEnabled()) {
+				log.debug("Parsing item definitions ...");
+			}
+		}
+
+		@Override
+		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+			final String elementName = qName;
+
+			if ("items".equals(elementName) || "locations".equals(elementName) || "actions".equals(elementName) || "effects".equals(elementName)) {
+				// Do nothing
+			} else if ("item".equals(elementName)) {
+				this.definition = new ItemDef();
+				this.definition.id = attributes.getValue("id");
+				this.definition.weight = Float.parseFloat(attributes.getValue("weight"));
+
+				if (attributes.getValue("damage") != null) {
+					this.definition.damage = Integer.parseInt(attributes.getValue("damage"));
+				}
+				if (attributes.getValue("activation") != null) {
+					this.definition.activationBodyPart = BodyPart.Type.valueOf(attributes.getValue("activation"));
+				}
+				if (attributes.getValue("shield") != null) {
+					this.definition.shield = Integer.parseInt(attributes.getValue("shield"));
+				}
+				if (attributes.getValue("anti-magic") != null) {
+					this.definition.antiMagic = Integer.parseInt(attributes.getValue("anti-magic"));
+				}
+				if (attributes.getValue("delta-energy") != null) {
+					this.definition.deltaEnergy = Integer.parseInt(attributes.getValue("delta-energy"));
+				}
+				if (attributes.getValue("distance") != null) {
+					this.definition.distance = Integer.parseInt(attributes.getValue("distance"));
+				}
+				if (attributes.getValue("shoot-damage") != null) {
+					this.definition.shootDamage = Integer.parseInt(attributes.getValue("shoot-damage"));
+				}
+			} else if ("location".equals(elementName)) {
+				this.definition.carryLocations.add(CarryLocation.valueOf(attributes.getValue("id")));
+			} else if ("action".equals(elementName)) {
+				final ActionDef actionDef = new ActionDef();
+				actionDef.action = Action.valueOf(attributes.getValue("id"));
+
+				if (attributes.getValue("min-level") != null) {
+					actionDef.minLevel = Champion.Level.valueOf(attributes.getValue("min-level"));
+				}
+				if (attributes.getValue("use-charges") != null) {
+					actionDef.useCharges = Boolean.valueOf(attributes.getValue("use-charges"));
+				}
+
+				this.definition.actions.add(actionDef);
+			} else if ("effect".equals(elementName)) {
+				final Effect effect = new Effect();
+				effect.statistic = AffectedStatistic.valueOf(attributes.getValue("stat"));
+				effect.strength = Integer.valueOf(attributes.getValue("strength"));
+
+				this.definition.effects.add(effect);
+			} else {
+				throw new SAXException(String.format("Unexpected element name '%s'", elementName));
+			}
+		}
+
+		@Override
+		public void endElement(String uri, String localName, String qName) throws SAXException {
+			final String elementName = qName;
+
+			if ("items".equals(elementName) || "locations".equals(elementName) || "actions".equals(elementName) || "effects".equals(elementName)) {
+				// Do nothing
+			} else if ("item".equals(elementName)) {
+				this.definitions.add(definition);
+
+				this.definition = null;
+			} else if ("location".equals(elementName)) {
+				// Do nothing
+			} else if ("action".equals(elementName)) {
+				// Do nothing
+			} else if ("effect".equals(elementName)) {
+				// Do nothing
+			} else {
+				throw new SAXException(String.format("Unexpected element name '%s'", elementName));
+			}
+		}
+
+		@Override
+		public void characters(char[] ch, int start, int length) throws SAXException {
+		}
+
+		@Override
+		public void endDocument() throws SAXException {
+			if (log.isInfoEnabled()) {
+				log.info(String.format("Parsed %d item definitions", definitions.size()));
+			}
+		}
+	}
 
 	/**
 	 * An item effect can provide a bonus or a malus to a champion's stat.
@@ -291,121 +403,15 @@ final class ItemDef {
 
 	static {
 		try {
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("Loading item definitions ...");
-			}
-
 			// Parse the definitions of items from resource file "items.xml"
 			final InputStream stream = ItemDef.class.getResourceAsStream("items.xml");
 
-			final Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream);
+			final ItemDefParser parser = new ItemDefParser();
 
-			final XPath xpath = XPathFactory.newInstance().newXPath();
+			SAXParserFactory.newInstance().newSAXParser().parse(stream, parser);
 
-			final NodeList nodes = (NodeList) xpath.evaluate("/items/item", document.getDocumentElement(), XPathConstants.NODESET);
-
-			for (int i = 0; i < nodes.getLength(); i++) {
-				final Node node = nodes.item(i);
-
-				final ItemDef itemDef = new ItemDef();
-				itemDef.id = xpath.evaluate("./@id", node);
-				itemDef.weight = Float.parseFloat(xpath.evaluate("./@weight", node));
-
-				// Locations
-				final NodeList locationNodes = (NodeList) xpath.evaluate("./locations/location/@id", node, XPathConstants.NODESET);
-
-				for (int j = 0; j < locationNodes.getLength(); j++) {
-					 final Attr attr = (Attr) locationNodes.item(j);
-
-					 itemDef.carryLocations.add(CarryLocation.valueOf(attr.getValue()));
-				}
-
-				// Activation
-				final String activation = xpath.evaluate("./@activation", node);
-
-				if (!StringUtils.isBlank(activation)) {
-					itemDef.activationBodyPart = BodyPart.Type.valueOf(activation);
-				}
-
-				// Damage
-				final String damage = xpath.evaluate("./@damage", node);
-
-				if (!StringUtils.isBlank(damage)) {
-					itemDef.damage = Integer.parseInt(damage);
-				}
-
-				// Shield
-				final String shield = xpath.evaluate("./@shield", node);
-
-				if (!StringUtils.isBlank(shield)) {
-					itemDef.shield = Integer.parseInt(shield);
-				}
-
-				// Anti-magic
-				final String antiMagic = xpath.evaluate("./@anti-magic", node);
-
-				if (!StringUtils.isBlank(antiMagic)) {
-					itemDef.antiMagic = Integer.parseInt(antiMagic);
-				}
-
-				// Delta energy
-				final String deltaEnergy = xpath.evaluate("./delta-energy/text()", node);
-
-				if (!StringUtils.isBlank(deltaEnergy)) {
-					itemDef.deltaEnergy = Integer.parseInt(deltaEnergy);
-				}
-
-				// Distance
-				final String distance = xpath.evaluate("./distance/text()", node);
-
-				if (!StringUtils.isBlank(distance)) {
-					itemDef.distance = Integer.parseInt(distance);
-				}
-
-				// Shoot damage
-				final String shootDamage = xpath.evaluate("./shoot-damage/text()", node);
-
-				if (!StringUtils.isBlank(shootDamage)) {
-					itemDef.shootDamage = Integer.parseInt(shootDamage);
-				}
-
-				// Actions
-				final NodeList actionNodes = (NodeList) xpath.evaluate("./actions/action", node, XPathConstants.NODESET);
-
-				for (int j = 0; j < actionNodes.getLength(); j++) {
-					 final Element actionNode = (Element) actionNodes.item(j);
-
-					 final ActionDef actionDef = new ActionDef();
-					 actionDef.action = Action.valueOf(actionNode.getAttribute("id"));
-
-					 if (actionNode.hasAttribute("min-level")) {
-						 actionDef.minLevel = Champion.Level.valueOf(actionNode.getAttribute("min-level"));
-					 }
-					 if (actionNode.hasAttribute("use-charges")) {
-						 actionDef.useCharges = Boolean.parseBoolean(actionNode.getAttribute("use-charges"));
-					 }
-
-					itemDef.actions.add(actionDef);
-				}
-
-				// Effects
-				final NodeList effectNodes = (NodeList) xpath.evaluate("./effects/effect", node, XPathConstants.NODESET);
-
-				for (int j = 0; j < effectNodes.getLength(); j++) {
-					final Element effectNode = (Element) effectNodes.item(j);
-
-					final Effect effect = new Effect();
-					effect.statistic = AffectedStatistic.valueOf(effectNode.getAttribute("stat"));
-					effect.strength = Integer.parseInt(effectNode.getAttribute("strength"));
-
-					itemDef.effects.add(effect);
-				}
-
-				DEFINITIONS.put(itemDef.id, itemDef);
-			}
-
-			if (LOG.isInfoEnabled()) {
-				LOG.info(String.format("Loaded %d item definitions", DEFINITIONS.size()));
+			for (ItemDef definition : parser.definitions) {
+				DEFINITIONS.put(definition.id, definition);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("Error when parsing item definitions", e);

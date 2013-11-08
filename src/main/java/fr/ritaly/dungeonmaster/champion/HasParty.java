@@ -16,41 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster.map;
+package fr.ritaly.dungeonmaster.champion;
 
-import fr.ritaly.dungeonmaster.ai.Creature;
-import fr.ritaly.dungeonmaster.champion.Party;
+public interface HasParty {
 
-/**
- * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
- */
-public final class Floor extends FloorTile {
+	public Party getParty();
 
-	public Floor() {
-		super(Type.FLOOR);
-	}
+	public void setParty(Party party);
 
-	@Override
-	public boolean isTraversable(Party party) {
-		return true;
-	}
-
-	@Override
-	public boolean isTraversable(Creature creature) {
-		return true;
-	}
-
-	@Override
-	public boolean isTraversableByProjectile() {
-		return true;
-	}
-
-	@Override
-	public String getSymbol() {
-		return " ";
-	}
-
-	@Override
-	public void validate() throws ValidationException {
-	}
+	public boolean hasParty();
 }

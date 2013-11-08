@@ -411,7 +411,7 @@ public class Level {
 						if (Type.FLOOR.equals(element.getType())) {
 							builder.append(" ");
 						} else {
-							builder.append(element.getCaption());
+							builder.append(element.getSymbol());
 						}
 					} else {
 						builder.append("?");

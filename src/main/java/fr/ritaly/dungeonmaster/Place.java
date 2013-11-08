@@ -16,42 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster.map;
+package fr.ritaly.dungeonmaster;
 
 /**
- * Enumerates the different types of event that can trigger an actuator.
+ * Simple tag interface.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public enum EventType {
+public interface Place {
 
-	/**
-	 * When a party steps on a pressure pad.
-	 */
-	PARTY_STEPPED_ON,
-
-	/**
-	 * When a party steps off a pressure pad.
-	 */
-	PARTY_STEPPED_OFF,
-
-	/**
-	 * When an item is dropped on a pressure pad.
-	 */
-	ITEM_DROPPED,
-
-	/**
-	 * When an item is picked off a pressure pad.
-	 */
-	ITEM_PICKED_UP,
-
-	/**
-	 * When a creature steps on a pressure pad.
-	 */
-	CREATURE_STEPPED_ON,
-
-	/**
-	 * When a creature steps off a pressure pad.
-	 */
-	CREATURE_STEPPED_OFF;
 }

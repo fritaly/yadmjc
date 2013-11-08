@@ -91,7 +91,7 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "S";
 	}
 

@@ -36,20 +36,20 @@ import fr.ritaly.dungeonmaster.item.Torch;
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class TorchWall extends DirectedElement implements HasActuator {
-	
+
 	private final Log log = LogFactory.getLog(TorchWall.class);
 
 	private Torch torch;
-	
+
 	private Actuator actuator;
 
 	public TorchWall(Direction direction) {
 		this(direction, true);
 	}
-	
+
 	public TorchWall(Direction direction, boolean hasTorch) {
 		super(Element.Type.ALCOVE, direction);
-		
+
 		if (hasTorch) {
 			this.torch = new Torch();
 		}
@@ -71,7 +71,7 @@ public class TorchWall extends DirectedElement implements HasActuator {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "T";
 	}
 
@@ -92,9 +92,8 @@ public class TorchWall extends DirectedElement implements HasActuator {
 			if (log.isDebugEnabled()) {
 				log.debug("Removed torch " + item + " from " + this);
 			}
-			
+
 			if (actuator != null) {
-				// D�clencher l'actuator
 				Clock.getInstance().register(actuator);
 			}
 
@@ -114,20 +113,19 @@ public class TorchWall extends DirectedElement implements HasActuator {
 		if (log.isDebugEnabled()) {
 			log.debug("Put torch " + torch + " on " + this);
 		}
-		
+
 		if (actuator != null) {
-			// D�clencher l'actuator
 			Clock.getInstance().register(actuator);
 		}
 
 		// Retourner la torche qui �tait sur le mur
 		return previous;
 	}
-	
+
 	public Actuator getActuator() {
 		return actuator;
 	}
-	
+
 	public void addActuator(Actuator actuator) {
 		Validate.notNull(actuator, "The given actuator is null");
 
@@ -137,7 +135,7 @@ public class TorchWall extends DirectedElement implements HasActuator {
 	public void setActuator(Actuator actuator) {
 		this.actuator = actuator;
 	}
-	
+
 	@Override
 	public void clearActuator() {
 		this.actuator = null;

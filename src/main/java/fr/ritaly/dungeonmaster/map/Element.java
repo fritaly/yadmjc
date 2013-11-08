@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,16 +33,20 @@ import org.apache.commons.logging.LogFactory;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.HasPosition;
+import fr.ritaly.dungeonmaster.Place;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.Teleport;
 import fr.ritaly.dungeonmaster.ai.Creature;
+import fr.ritaly.dungeonmaster.ai.CreatureManager;
+import fr.ritaly.dungeonmaster.champion.HasParty;
 import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.event.ChangeEvent;
 import fr.ritaly.dungeonmaster.event.ChangeEventSource;
 import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
 import fr.ritaly.dungeonmaster.item.Item;
+import fr.ritaly.dungeonmaster.item.ItemManager;
 import fr.ritaly.dungeonmaster.projectile.Projectile;
 
 /**
@@ -52,7 +55,7 @@ import fr.ritaly.dungeonmaster.projectile.Projectile;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public abstract class Element implements ChangeEventSource, HasPosition {
+public abstract class Element implements ChangeEventSource, HasPosition, HasParty {
 
 	protected final Log log = LogFactory.getLog(this.getClass());
 
@@ -193,6 +196,50 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		PROJECTILE_LAUNCHER;
 
 		/**
+		 * Tells whether this type of element can store items. Examples: a
+		 * regular wall can't store items but an altar (or an alcove) can. A
+		 * regular floor tile can store items too.
+		 *
+		 * @return whether this type of element can store items.
+		 */
+		public boolean isItemStorage() {
+			switch (this) {
+			case ALCOVE:
+			case FOUR_SIDE_ALCOVE:
+			case ALTAR:
+			case FAKE_WALL:
+			case DOOR:
+			case FLOOR:
+			case FLOOR_SWITCH:
+			case RETRACTABLE_WALL:
+			case PIT:
+			case STAIRS:
+			case TELEPORTER:
+			case DECORATED_FLOOR:
+			case GENERATOR:
+				return true;
+
+			case PILLAR:
+			case INVISIBLE_WALL:
+			case DECORATED_WALL:
+			case TEXT_WALL:
+			case PORTRAIT:
+			case PROJECTILE_LAUNCHER:
+			case TORCH_WALL:
+			case WALL:
+			case WALL_LOCK:
+			case WALL_SLOT:
+			case WALL_SWITCH:
+			case LEVER:
+			case FOUNTAIN:
+				return false;
+
+			default:
+				throw new UnsupportedOperationException("Method unsupported for type " + this);
+			}
+		}
+
+		/**
 		 * Tells whether this type of element is "concrete". Concrete elements
 		 * can be used as external walls to delimit a level. A regular wall is
 		 * concrete but a fake or invisible wall isn't concrete.
@@ -283,7 +330,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	/**
 	 * Stores the items for this element.
 	 */
-	private final ItemManager itemManager = new ItemManager(this);
+	private final ItemManager itemManager = new ItemManager();
 
 	/**
 	 * Support class used for firing change events.
@@ -304,11 +351,19 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	 * @param sector
 	 *            the sector where to drop the item. Can't be null.
 	 */
-	public void itemDropped(Item item, Sector sector) {
-		itemManager.itemDropped(item, sector);
+	public void dropItem(Item item, Sector sector) {
+		itemManager.dropItem(item, sector);
+
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("%s dropped on %s at %s", item, getId(), sector));
+		}
+
+		afterItemDropped(item, sector);
+
+		fireChangeEvent();
 	}
 
-	public final boolean itemPicked(Item item) {
+	public boolean pickItem(Item item) {
 		return pickItem(getSector(item)) == item;
 	}
 
@@ -321,7 +376,17 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	 *         sector.
 	 */
 	public Item pickItem(Sector sector) {
-		return itemManager.pickItem(sector);
+		final Item item = itemManager.pickItem(sector);
+
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("%s picked from %s at %s", item, getId(), sector));
+		}
+
+		afterItemPicked(item, sector);
+
+		fireChangeEvent();
+
+		return item;
 	}
 
 	public final Type getType() {
@@ -414,12 +479,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	protected void afterItemPicked(Item item, Sector sector) {
 	}
 
-	// TODO This method isn't called except from tests. ???
-	final void creatureSteppedOn(Creature creature, Sector sector) {
-		creatureManager.creatureSteppedOn(creature, sector);
-	}
-
-	public final void projectileArrived(Projectile projectile, Sector sector) {
+	public final void addProjectile(Projectile projectile, Sector sector) {
 		Validate.notNull(projectile, "The given projectile is null");
 		Validate.notNull(sector, "The given sector is null");
 
@@ -454,7 +514,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		afterProjectileArrived(projectile);
 	}
 
-	public final void projectileLeft(Projectile projectile, Sector sector) {
+	public final void removeProjectile(Projectile projectile, Sector sector) {
 		if (projectile == null) {
 			throw new IllegalArgumentException("The given projectile is null");
 		}
@@ -508,19 +568,8 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		return itemManager.getSector(item);
 	}
 
-	public final void creatureSteppedOff(Creature creature, Sector sector) {
-		creatureManager.creatureSteppedOff(creature, sector);
-	}
-
-	/**
-	 * Notifie l'�l�ment que le groupe de champions vient d'arriver sur sa
-	 * position.
-	 *
-	 * @param party
-	 *            une instance de {@link Party} repr�sentant le groupe de
-	 *            champions.
-	 */
-	public final void partySteppedOn(Party party) {
+	@Override
+	public final void setParty(Party party) {
 		if (party == null) {
 			throw new IllegalArgumentException("The given party is null");
 		}
@@ -564,14 +613,12 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	 * Notifie l'�l�ment que le groupe de champions vient de quitter sa
 	 * position.
 	 */
-	public final void partySteppedOff() {
+	public final void removeParty() {
 		if (this.party == null) {
-			throw new IllegalStateException("The party isn't located on this "
-					+ getId());
+			throw new IllegalStateException("The party isn't located on this " + getId());
 		}
 		if (!isTraversable(party)) {
-			throw new UnsupportedOperationException(
-					"The party can't step off element " + type);
+			throw new UnsupportedOperationException("The party can't step off element " + type);
 		}
 
 		// R�initialiser la r�f�rence
@@ -585,11 +632,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		afterPartySteppedOff(backup);
 	}
 
-	/**
-	 * Indique si le groupe de champions occupe cette position.
-	 *
-	 * @return si le groupe de champions occupe cette position.
-	 */
+	@Override
 	public boolean hasParty() {
 		return (party != null);
 	}
@@ -632,11 +675,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		}
 	}
 
-	/**
-	 * Retourne le groupe de champions s'il occupe cette position ou null.
-	 *
-	 * @return une instance de {@link Party} ou null.
-	 */
+	@Override
 	public final Party getParty() {
 		return party;
 	}
@@ -714,7 +753,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	 *
 	 * @return un {@link String} identifiant cet �l�ment.
 	 */
-	public abstract String getCaption();
+	public abstract String getSymbol();
 
 	public final String getId() {
 		if (position != null) {
@@ -830,7 +869,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	 *         {@link Sector}s libres.
 	 */
 	public int getFreeRoom() {
-		return creatureManager.getFreeRoom();
+		return creatureManager.getFreeSectors().size();
 	}
 
 	/**
@@ -848,7 +887,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	 *
 	 * @return un EnumSet&lt;Sector&gt;. Ne retourne jamais null.
 	 */
-	public EnumSet<Sector> getFreeSectors() {
+	public Set<Sector> getFreeSectors() {
 		return creatureManager.getFreeSectors();
 	}
 
@@ -862,31 +901,7 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 	 *         compte tenu de sa taille et de la place restante.
 	 */
 	public boolean canHost(Creature creature) {
-		Validate.notNull(creature);
-
-		final int room = getFreeRoom();
-		final int creatureSize = creature.getSize().value();
-
-		if (creatureSize > room) {
-			// Plus assez de place pour accueillir la cr�ature
-			return false;
-		}
-
-		// Dans le cas o� la place restante est de 2 et la taille de la cr�ature
-		// �galement de 2, il faut s'assurer qu'il s'agit de Sector voisines
-		// qui permettent r�ellement d'accueillir la cr�ature !
-		if ((room == 2) && (creatureSize == 2)) {
-			final Iterator<Sector> iterator = getFreeSectors().iterator();
-
-			final Sector cell1 = iterator.next();
-			final Sector cell2 = iterator.next();
-
-			if (!cell1.isNeighbourOf(cell2)) {
-				return false;
-			}
-		}
-
-		return true;
+		return creatureManager.canHost(creature);
 	}
 
 	public abstract void validate() throws ValidationException;
@@ -911,40 +926,46 @@ public abstract class Element implements ChangeEventSource, HasPosition {
 		return null;
 	}
 
-	public final void creatureSteppedOn(Creature creature) {
-		creatureManager.creatureSteppedOn(creature);
-	}
-
 	public boolean hasCreature(Creature creature) {
 		return creatureManager.hasCreature(creature);
-	}
-
-	public final void creatureSteppedOff(Creature creature) {
-		creatureManager.creatureSteppedOff(creature);
-	}
-
-	public final void creatureSteppedOn(Creature creature, Direction direction) {
-		creatureManager.creatureSteppedOn(creature, direction);
-	}
-
-	public final void creatureSteppedOff(Creature creature, Direction direction) {
-		creatureManager.creatureSteppedOff(creature, direction);
 	}
 
 	protected final CreatureManager getCreatureManager() {
 		return creatureManager;
 	}
 
-	public Object removeCreature(Creature creature) {
-		return creatureManager.removeCreature(creature);
+	public Place removeCreature(Creature creature) {
+		final Place place = creatureManager.removeCreature(creature);
+
+		creature.setElement(null);
+
+		afterCreatureSteppedOff(creature);
+
+		return place;
 	}
 
-	public void addCreature(Creature creature, Object location) {
-		creatureManager.addCreature(creature, location);
+	public void removeCreature(Creature creature, Place place) {
+		creatureManager.removeCreature(creature, place);
+
+		creature.setElement(null);
+
+		afterCreatureSteppedOff(creature);
+	}
+
+	public void addCreature(Creature creature, Place place) {
+		creatureManager.addCreature(creature, place);
+
+		creature.setElement(this);
+
+		afterCreatureSteppedOn(creature);
 	}
 
 	public void addCreature(Creature creature) {
 		creatureManager.addCreature(creature);
+
+		creature.setElement(this);
+
+		afterCreatureSteppedOn(creature);
 	}
 
 	public boolean hasPoisonClouds() {

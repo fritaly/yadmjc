@@ -16,36 +16,42 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster.actuator;
+package fr.ritaly.dungeonmaster.event;
+
+import java.util.EventObject;
+
+import org.apache.commons.lang.Validate;
+
+import fr.ritaly.dungeonmaster.item.Item;
 
 /**
- * An object which handles an {@link Actuator} per trigger type.
+ * An item event fired to notify when an item is dropped or picked.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public interface HasActuators {
+public class ItemEvent extends EventObject {
 
-	/**
-	 * Returnt the {@link Actuator} mapped to the given trigger type.
-	 *
-	 * @param triggerType
-	 *            a {@link TriggerType}. Can't be null.
-	 * @return an {@link Actuator} or null if none is mapped to the given
-	 *         trigger type.
-	 */
-	public Actuator getActuator(TriggerType triggerType);
+	private static final long serialVersionUID = -1077534497337414635L;
 
-	/**
-	 * Sets the {@link Actuator} mapped to the given trigger type.
-	 *
-	 * @param triggerType
-	 *            an {@link TriggerType}.
-	 * @param actuator
-	 *            an {@link Actuator}.
-	 */
-	public void setActuator(TriggerType triggerType, Actuator actuator);
+	private final Item item;
 
-	public void addActuator(TriggerType triggerType, Actuator actuator);
+	private final Object place;
 
-	public void clearActuator(TriggerType triggerType);
+	public ItemEvent(Object source, Item item, Object place) {
+		super(source);
+
+		Validate.notNull(item, "The given item is null");
+		Validate.notNull(place, "The given place is null");
+
+		this.item = item;
+		this.place = place;
+	}
+
+	public Item getItem() {
+		return item;
+	}
+
+	public Object getPlace() {
+		return place;
+	}
 }

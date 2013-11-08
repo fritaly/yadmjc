@@ -295,10 +295,10 @@ public class PitTest extends TestCase {
 		final Element element1 = level1.getElement(3, 2);
 		final Element element2 = level2.getElement(3, 2);
 
-		element1.itemDropped(torch, Sector.NORTH_WEST);
-		element1.itemDropped(apple, Sector.NORTH_EAST);
-		element1.itemDropped(sword, Sector.SOUTH_WEST);
-		element1.itemDropped(waterFlask, Sector.SOUTH_EAST);
+		element1.dropItem(torch, Sector.NORTH_WEST);
+		element1.dropItem(apple, Sector.NORTH_EAST);
+		element1.dropItem(sword, Sector.SOUTH_WEST);
+		element1.dropItem(waterFlask, Sector.SOUTH_EAST);
 
 		// --- Situation initiale
 		assertEquals(4, element1.getItemCount());
@@ -391,10 +391,10 @@ public class PitTest extends TestCase {
 		assertEquals(0, element2.getItemCount(Sector.SOUTH_EAST));
 		assertEquals(0, element2.getItemCount(Sector.SOUTH_WEST));
 
-		element1.itemDropped(torch, Sector.NORTH_WEST);
-		element1.itemDropped(apple, Sector.NORTH_EAST);
-		element1.itemDropped(sword, Sector.SOUTH_WEST);
-		element1.itemDropped(waterFlask, Sector.SOUTH_EAST);
+		element1.dropItem(torch, Sector.NORTH_WEST);
+		element1.dropItem(apple, Sector.NORTH_EAST);
+		element1.dropItem(sword, Sector.SOUTH_WEST);
+		element1.dropItem(waterFlask, Sector.SOUTH_EAST);
 
 		// --- L'oubliette s'ouvre, les objets sont tomb�s au niveau inf�rieur
 		assertEquals(0, element1.getItemCount());
@@ -467,10 +467,10 @@ public class PitTest extends TestCase {
 		assertNull(element2.getCreature(Sector.SOUTH_EAST));
 		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
-		element1.creatureSteppedOn(mummy, Sector.NORTH_WEST);
-		element1.creatureSteppedOn(trolin, Sector.NORTH_EAST);
-		element1.creatureSteppedOn(rockPile, Sector.SOUTH_WEST);
-		element1.creatureSteppedOn(giggler, Sector.SOUTH_EAST);
+		element1.addCreature(mummy, Sector.NORTH_WEST);
+		element1.addCreature(trolin, Sector.NORTH_EAST);
+		element1.addCreature(rockPile, Sector.SOUTH_WEST);
+		element1.addCreature(giggler, Sector.SOUTH_EAST);
 
 		// --- L'oubliette �tait ouverte, les cr�atures sont tomb�s au niveau
 		// inf�rieur
@@ -534,8 +534,8 @@ public class PitTest extends TestCase {
 		assertNull(element2.getCreature(Sector.SOUTH_EAST));
 		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
-		element1.creatureSteppedOn(worm, Direction.NORTH);
-		element1.creatureSteppedOn(painRat, Direction.SOUTH);
+		element1.addCreature(worm, Direction.NORTH);
+		element1.addCreature(painRat, Direction.SOUTH);
 
 		// --- L'oubliette �tait ouverte, les cr�atures sont tomb�s au niveau
 		// inf�rieur
@@ -598,7 +598,7 @@ public class PitTest extends TestCase {
 		assertNull(element2.getCreature(Sector.SOUTH_EAST));
 		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
-		element1.creatureSteppedOn(dragon);
+		element1.addCreature(dragon);
 
 		// --- L'oubliette �tait ouverte, les cr�atures sont tomb�s au niveau
 		// inf�rieur
@@ -664,10 +664,10 @@ public class PitTest extends TestCase {
 		assertNull(element2.getCreature(Sector.SOUTH_EAST));
 		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
-		element1.creatureSteppedOn(mummy, Sector.NORTH_WEST);
-		element1.creatureSteppedOn(trolin, Sector.NORTH_EAST);
-		element1.creatureSteppedOn(rockPile, Sector.SOUTH_WEST);
-		element1.creatureSteppedOn(giggler, Sector.SOUTH_EAST);
+		element1.addCreature(mummy, Sector.NORTH_WEST);
+		element1.addCreature(trolin, Sector.NORTH_EAST);
+		element1.addCreature(rockPile, Sector.SOUTH_WEST);
+		element1.addCreature(giggler, Sector.SOUTH_EAST);
 
 		// --- Situation initiale
 		assertEquals(4, element1.getCreatureCount());
@@ -745,8 +745,8 @@ public class PitTest extends TestCase {
 		assertNull(element2.getCreature(Sector.SOUTH_EAST));
 		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
-		element1.creatureSteppedOn(worm, Direction.NORTH);
-		element1.creatureSteppedOn(painRat, Direction.SOUTH);
+		element1.addCreature(worm, Direction.NORTH);
+		element1.addCreature(painRat, Direction.SOUTH);
 
 		// --- Situation initiale
 		assertEquals(2, element1.getCreatureCount());
@@ -823,7 +823,7 @@ public class PitTest extends TestCase {
 		assertNull(element2.getCreature(Sector.SOUTH_EAST));
 		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
-		element1.creatureSteppedOn(dragon);
+		element1.addCreature(dragon);
 
 		// --- Situation initiale
 		assertEquals(1, element1.getCreatureCount());

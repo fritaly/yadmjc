@@ -24,7 +24,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 /**
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class FakeWall extends Element {
+public final class FakeWall extends FloorTile {
 
 	public FakeWall() {
 		super(Type.FAKE_WALL);
@@ -34,22 +34,22 @@ public final class FakeWall extends Element {
 	public boolean isTraversable(Party party) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isTraversable(Creature creature) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isTraversableByProjectile() {
 		return true;
 	}
-	
+
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "M";
 	}
-	
+
 	@Override
 	public void validate() throws ValidationException {
 	}

@@ -155,7 +155,7 @@ abstract class AbstractProjectile implements Projectile {
 		this.range = range;
 
 		// Install the projectile in the dungeon
-		this.dungeon.getElement(position).projectileArrived(this, sector);
+		this.dungeon.getElement(position).addProjectile(this, sector);
 
 		// Listen to clock ticks (to animate the projectile)
 		Clock.getInstance().register(this);
@@ -287,7 +287,7 @@ abstract class AbstractProjectile implements Projectile {
 				// --- Move the projectile --- //
 
 				// The projectile leaves its current position
-				dungeon.getElement(position).projectileLeft(this, sector);
+				dungeon.getElement(position).removeProjectile(this, sector);
 
 				// The projectile moves, the remaining distance decreases
 				this.position = targetPosition;
@@ -302,7 +302,7 @@ abstract class AbstractProjectile implements Projectile {
 				}
 
 				// The projectile enters the new position
-				targetElement.projectileArrived(this, targetSector);
+				targetElement.addProjectile(this, targetSector);
 
 				// Is the target element occupied by a creature ?
 				if (targetElement.getCreature(targetSector) != null) {
@@ -350,7 +350,7 @@ abstract class AbstractProjectile implements Projectile {
 				}
 
 				// Remove the projectile
-				dungeon.getElement(position).projectileLeft(this, sector);
+				dungeon.getElement(position).removeProjectile(this, sector);
 
 				return false;
 			}

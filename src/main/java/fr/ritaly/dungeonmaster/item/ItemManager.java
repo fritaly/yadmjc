@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster.map;
+package fr.ritaly.dungeonmaster.item;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,13 +30,21 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Sector;
-import fr.ritaly.dungeonmaster.item.Item;
+import fr.ritaly.dungeonmaster.event.ItemEvent;
+import fr.ritaly.dungeonmaster.event.ItemEventSource;
+import fr.ritaly.dungeonmaster.event.ItemEventSupport;
+import fr.ritaly.dungeonmaster.event.ItemListener;
 
-public class ItemManager {
+/**
+ * An object responsible for managing items picked / dropped.
+ *
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
+ */
+public class ItemManager implements ItemEventSource {
 
 	protected final Log log = LogFactory.getLog(this.getClass());
 
-	private final Element element;
+	private final ItemEventSupport eventSupport = new ItemEventSupport();
 
 	/**
 	 * Stores the items for this element. Populated when an item is dropped.
@@ -46,23 +54,36 @@ public class ItemManager {
 	 */
 	private Map<Sector, Stack<Item>> items;
 
-	public ItemManager(Element element) {
-		Validate.notNull(element, "The given element is null");
+	public ItemManager() {
+	}
 
-		this.element = element;
+	@Override
+	public void addItemListener(ItemListener listener) {
+		eventSupport.addItemListener(listener);
+	}
+
+	@Override
+	public void removeItemListener(ItemListener listener) {
+		eventSupport.removeItemListener(listener);
+	}
+
+	private void fireItemPickedEvent(Item item, Sector sector) {
+		eventSupport.fireItemPickedEvent(new ItemEvent(this, item, sector));
+	}
+
+	private void fireItemDroppedEvent(Item item, Sector sector) {
+		eventSupport.fireItemDroppedEvent(new ItemEvent(this, item, sector));
 	}
 
 	/**
-	 * Drops the given into onto the given sector.
+	 * Drops the given item onto the given sector.
 	 *
 	 * @param item
 	 *            the item to drop. Can't be null.
 	 * @param sector
 	 *            the sector where to drop the item. Can't be null.
 	 */
-	public synchronized void itemDropped(Item item, Sector sector) {
-		// This method isn't final on purpose to allow sub-classes to override
-		// this implementation if the element can't accept items
+	public synchronized void dropItem(Item item, Sector sector) {
 		Validate.notNull(item, "The given item is null");
 		Validate.notNull(sector, "The given sector is null");
 
@@ -78,13 +99,19 @@ public class ItemManager {
 
 		stack.push(item);
 
-		if (log.isDebugEnabled()) {
-			log.debug(String.format("%s dropped on %s at %s", item, element.getId(), sector));
-		}
+		fireItemDroppedEvent(item, sector);
+	}
 
-		element.afterItemDropped(item, sector);
+	/**
+	 * Drops the given item onto a random sector.
+	 *
+	 * @param item
+	 *            the item to drop. Can't be null.
+	 */
+	public synchronized void dropItem(Item item) {
+		Validate.notNull(item, "The given item is null");
 
-		element.fireChangeEvent();
+		dropItem(item, Sector.random());
 	}
 
 	/**
@@ -113,13 +140,7 @@ public class ItemManager {
 					}
 				}
 
-				if (log.isDebugEnabled()) {
-					log.debug(String.format("%s picked from %s at %s", item, element.getId(), sector));
-				}
-
-				element.afterItemPicked(item, sector);
-
-				element.fireChangeEvent();
+				fireItemPickedEvent(item, sector);
 
 				return item;
 			}
@@ -128,33 +149,59 @@ public class ItemManager {
 		return null;
 	}
 
-	public final Sector getSector(Item item) {
-		Validate.notNull(item, "The given item is null");
-
+	/**
+	 * Picks a random item and returns it.
+	 *
+	 * @return the randomly picked item or null if no item was found.
+	 */
+	public synchronized Item pickItem() {
 		if (items == null) {
 			return null;
 		}
 
-		for (Sector sector : items.keySet()) {
-			final Stack<Item> stack = items.get(sector);
+		final List<Sector> sectors = new ArrayList<Sector>(items.keySet());
 
-			if ((stack != null) && stack.contains(item)) {
-				return sector;
+		if (sectors.isEmpty()) {
+			// Not supposed to happen
+			return null;
+		}
+
+		Collections.shuffle(sectors);
+
+		return pickItem(sectors.iterator().next());
+	}
+
+	/**
+	 * Returns the sector where the given item is stored (if present).
+	 *
+	 * @param item
+	 *            the item whose associated sector is requested. Can't be null.
+	 * @return a sector where the item was found or null if missing.
+	 */
+	public final Sector getSector(Item item) {
+		Validate.notNull(item, "The given item is null");
+
+		if (items != null) {
+			for (Sector sector : items.keySet()) {
+				final Stack<Item> stack = items.get(sector);
+
+				if ((stack != null) && stack.contains(item)) {
+					return sector;
+				}
 			}
 		}
 
-		// Creature introuvable
+		// Can't find item
 		return null;
 	}
 
 	/**
-	 * Retourne tous les objets au sol sur cet �l�ment.
+	 * Returns all the items (whatever the sector).
 	 *
-	 * @return une List&lt;Item&gt;. Cette m�thode ne retourne jamais null.
+	 * @return a list of items. Never returns null.
 	 */
 	public final List<Item> getItems() {
 		if (items != null) {
-			// items != null -> Il y a forc�ment au moins un objet au sol
 			final List<Item> list = new ArrayList<Item>();
 
 			for (Stack<Item> stack : items.values()) {
@@ -164,26 +211,34 @@ public class ItemManager {
 			return list;
 		}
 
-		// Aucun objet au sol
+		// No item on the floor
 		return Collections.emptyList();
 	}
 
+	/**
+	 * Returns the number of items (whatever the sector).
+	 *
+	 * @return the number of items found.
+	 */
 	public final int getItemCount() {
-		if (items != null) {
-			// items != null -> Il y a forc�ment au moins un objet au sol
-			int count = 0;
+		int count = 0;
 
+		if (items != null) {
 			for (Stack<Item> stack : items.values()) {
 				count += stack.size();
 			}
-
-			return count;
 		}
 
-		// Aucun objet au sol
-		return 0;
+		return count;
 	}
 
+	/**
+	 * Returns the number of items for the given sector.
+	 *
+	 * @param sector
+	 *            the sector where to count the items. Can't be null.
+	 * @return the number of items found for this sector.
+	 */
 	public final int getItemCount(Sector sector) {
 		Validate.notNull(sector, "The given sector is null");
 
@@ -193,17 +248,17 @@ public class ItemManager {
 			return (stack != null) ? stack.size() : 0;
 		}
 
-		// Aucun objet au sol
+		// No item on the floor
 		return 0;
 	}
 
 	/**
-	 * Retourne les objets situ�s � l'emplacement donn� s'il y a lieu.
+	 * Returns the items for the given sector.
 	 *
 	 * @param sector
-	 *            l'emplacement o� sont situ�s les objets recherch�s.
-	 * @return une List&lt;Item&gt; contenant les objets trouv�s. Cette m�thode
-	 *         ne retourne jamais null.
+	 *            the sector where the items are. Can't be null.
+	 * @return a list of items representing the items found for this sector.
+	 *         Never returns null.
 	 */
 	public List<Item> getItems(Sector sector) {
 		Validate.isTrue(sector != null, "The given sectore is null");
@@ -212,7 +267,7 @@ public class ItemManager {
 			final List<Item> list = items.get(sector);
 
 			if (list != null) {
-				// Recopie d�fensive
+				// Defensive recopy
 				return new ArrayList<Item>(list);
 			}
 		}
@@ -221,9 +276,9 @@ public class ItemManager {
 	}
 
 	/**
-	 * Indique si l'�l�ment comporte des objets.
+	 * Tells whether this manager has some items.
 	 *
-	 * @return si l'�l�ment comporte des objets.
+	 * @return whether this manager has some items.
 	 */
 	public boolean hasItems() {
 		if (items != null) {

@@ -27,6 +27,7 @@ import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.actuator.SimpleActuator;
 import fr.ritaly.dungeonmaster.actuator.TestActuator;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
+import fr.ritaly.dungeonmaster.actuator.TriggerType;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
@@ -64,14 +65,14 @@ public class FloorSwitchTest extends TestCase {
 		final FloorSwitch floorSwitch = new FloorSwitch();
 		level1.setElement(2, 2, floorSwitch);
 
-		floorSwitch.addActuator(EventType.ITEM_DROPPED, actuator);
+		floorSwitch.addActuator(TriggerType.ITEM_DROPPED, actuator);
 
 		// --- Situation initiale
 		assertFalse(actuator.isTriggered());
 
 		// --- D�poser un objet au sol en position NW
 		level1.getElement(2, 2)
-				.itemDropped(new Torch(), Sector.NORTH_WEST);
+				.dropItem(new Torch(), Sector.NORTH_WEST);
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 		actuator.reset();
@@ -80,7 +81,7 @@ public class FloorSwitchTest extends TestCase {
 		assertFalse(actuator.isTriggered());
 
 		level1.getElement(2, 2)
-				.itemDropped(new Torch(), Sector.NORTH_WEST);
+				.dropItem(new Torch(), Sector.NORTH_WEST);
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 	}
@@ -110,15 +111,15 @@ public class FloorSwitchTest extends TestCase {
 		final FloorSwitch floorSwitch = new FloorSwitch();
 		level1.setElement(2, 2, floorSwitch);
 
-		floorSwitch.addActuator(EventType.ITEM_PICKED_UP, actuator);
+		floorSwitch.addActuator(TriggerType.ITEM_PICKED_UP, actuator);
 
 		// --- Situation initiale
 		final Torch torch1 = new Torch();
 		final Torch torch2 = new Torch();
 
 		assertFalse(actuator.isTriggered());
-		level1.getElement(2, 2).itemDropped(torch1, Sector.NORTH_WEST);
-		level1.getElement(2, 2).itemDropped(torch2, Sector.NORTH_WEST);
+		level1.getElement(2, 2).dropItem(torch1, Sector.NORTH_WEST);
+		level1.getElement(2, 2).dropItem(torch2, Sector.NORTH_WEST);
 		assertEquals(2, level1.getElement(2, 2).getItemCount());
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
@@ -161,7 +162,7 @@ public class FloorSwitchTest extends TestCase {
 		final FloorSwitch floorSwitch = new FloorSwitch();
 		level1.setElement(2, 2, floorSwitch);
 
-		floorSwitch.addActuator(EventType.PARTY_STEPPED_OFF, actuator);
+		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_OFF, actuator);
 
 		Party party = new Party();
 		party.addChampion(ChampionFactory.getFactory().newChampion(Name.TIGGY));
@@ -211,7 +212,7 @@ public class FloorSwitchTest extends TestCase {
 		final FloorSwitch floorSwitch = new FloorSwitch();
 		level1.setElement(2, 2, floorSwitch);
 
-		floorSwitch.addActuator(EventType.PARTY_STEPPED_ON, actuator);
+		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_ON, actuator);
 
 		Party party = new Party();
 		party.addChampion(ChampionFactory.getFactory().newChampion(Name.TIGGY));
@@ -259,9 +260,9 @@ public class FloorSwitchTest extends TestCase {
 
 		// FIXME G�rer le d�clenchement imm�diat d'un actuator (sans attendre un
 		// tic) ?
-		floorSwitch.addActuator(EventType.PARTY_STEPPED_ON, new SimpleActuator(
+		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_ON, new SimpleActuator(
 				2, TriggerAction.TOGGLE, door));
-		floorSwitch.addActuator(EventType.PARTY_STEPPED_OFF,
+		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_OFF,
 				new SimpleActuator(2, TriggerAction.TOGGLE, door));
 
 		Party party = new Party();
@@ -318,9 +319,9 @@ public class FloorSwitchTest extends TestCase {
 		final FloorSwitch floorSwitch = new FloorSwitch();
 		level1.setElement(2, 2, floorSwitch);
 
-		floorSwitch.addActuator(EventType.PARTY_STEPPED_ON, new SimpleActuator(
+		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_ON, new SimpleActuator(
 				2, TriggerAction.TOGGLE, pit));
-		floorSwitch.addActuator(EventType.PARTY_STEPPED_OFF,
+		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_OFF,
 				new SimpleActuator(2, TriggerAction.TOGGLE, pit));
 
 		Party party = new Party();

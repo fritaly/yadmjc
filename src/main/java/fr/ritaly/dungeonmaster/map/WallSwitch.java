@@ -94,7 +94,7 @@ public final class WallSwitch extends DirectedElement implements HasActuator, Tr
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "B";
 	}
 

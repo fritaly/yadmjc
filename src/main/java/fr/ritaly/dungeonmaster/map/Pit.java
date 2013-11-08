@@ -22,6 +22,7 @@ import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
+import fr.ritaly.dungeonmaster.Place;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.Utils;
@@ -297,7 +298,7 @@ public class Pit extends FloorTile implements Triggerable {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "O";
 	}
 
@@ -324,10 +325,10 @@ public class Pit extends FloorTile implements Triggerable {
 				}
 
 				// La cr�ature quitte la position
-				final Object location = removeCreature(creature);
+				final Place place = removeCreature(creature);
 
 				// La cr�ature tombe au niveau inf�rieur
-				targetElement.addCreature(creature, location);
+				targetElement.addCreature(creature, place);
 			}
 		}
 	}
@@ -349,7 +350,7 @@ public class Pit extends FloorTile implements Triggerable {
 				}
 
 				// L'objet quitte la position
-				itemPicked(item);
+				pickItem(item);
 
 				// Position cible ?
 				final Position targetPosition = getPosition().towards(
@@ -360,7 +361,7 @@ public class Pit extends FloorTile implements Triggerable {
 						.getElement(targetPosition);
 
 				// L'objet tombe au niveau inf�rieur
-				targetElement.itemDropped(item, sector);
+				targetElement.dropItem(item, sector);
 			}
 		}
 	}

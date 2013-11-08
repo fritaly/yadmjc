@@ -28,6 +28,7 @@ import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
 import fr.ritaly.dungeonmaster.actuator.HasActuators;
+import fr.ritaly.dungeonmaster.actuator.TriggerType;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.item.Item;
@@ -41,7 +42,7 @@ public final class FloorSwitch extends FloorTile implements HasActuators {
 	 * Map contenant les {@link Actuator}s � d�clencher quand un �v�nement d'un
 	 * type donn� survient.
 	 */
-	private Map<EventType, Actuator> actuators;
+	private Map<TriggerType, Actuator> actuators;
 
 	/**
 	 * Indique si une dalle de pression est visible au sol. Vaut true par
@@ -75,7 +76,7 @@ public final class FloorSwitch extends FloorTile implements HasActuators {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "P";
 	}
 
@@ -89,10 +90,10 @@ public final class FloorSwitch extends FloorTile implements HasActuators {
 
 		// Ne d�clencher qu'au premier objet d�pos� !!!
 		if ((actuators != null)
-				&& actuators.containsKey(EventType.ITEM_DROPPED)
+				&& actuators.containsKey(TriggerType.ITEM_DROPPED)
 				&& (getItemCount() == 1)) {
 
-			final Actuator actuator = actuators.get(EventType.ITEM_DROPPED);
+			final Actuator actuator = actuators.get(TriggerType.ITEM_DROPPED);
 
 			if (log.isDebugEnabled()) {
 				log.debug("Triggering actuator " + actuator.getLabel() + " ...");
@@ -108,10 +109,10 @@ public final class FloorSwitch extends FloorTile implements HasActuators {
 
 		// Ne d�clencher qu'au dernier objet ramass� !!!
 		if ((actuators != null)
-				&& actuators.containsKey(EventType.ITEM_PICKED_UP)
+				&& actuators.containsKey(TriggerType.ITEM_PICKED_UP)
 				&& (getItemCount() == 0)) {
 
-			final Actuator actuator = actuators.get(EventType.ITEM_PICKED_UP);
+			final Actuator actuator = actuators.get(TriggerType.ITEM_PICKED_UP);
 
 			if (log.isDebugEnabled()) {
 				log.debug("Triggering actuator " + actuator.getLabel() + " ...");
@@ -126,9 +127,9 @@ public final class FloorSwitch extends FloorTile implements HasActuators {
 		super.afterPartySteppedOn();
 
 		if ((actuators != null)
-				&& actuators.containsKey(EventType.PARTY_STEPPED_ON)) {
+				&& actuators.containsKey(TriggerType.PARTY_STEPPED_ON)) {
 
-			final Actuator actuator = actuators.get(EventType.PARTY_STEPPED_ON);
+			final Actuator actuator = actuators.get(TriggerType.PARTY_STEPPED_ON);
 
 			if (log.isDebugEnabled()) {
 				log.debug("Triggering actuator " + actuator.getLabel() + " ...");
@@ -143,10 +144,10 @@ public final class FloorSwitch extends FloorTile implements HasActuators {
 		super.afterPartySteppedOff(party);
 
 		if ((actuators != null)
-				&& actuators.containsKey(EventType.PARTY_STEPPED_OFF)) {
+				&& actuators.containsKey(TriggerType.PARTY_STEPPED_OFF)) {
 
 			final Actuator actuator = actuators
-					.get(EventType.PARTY_STEPPED_OFF);
+					.get(TriggerType.PARTY_STEPPED_OFF);
 
 			if (log.isDebugEnabled()) {
 				log.debug("Triggering actuator " + actuator.getLabel() + " ...");
@@ -156,43 +157,43 @@ public final class FloorSwitch extends FloorTile implements HasActuators {
 		}
 	}
 
-	public void addActuator(EventType eventType, Actuator actuator) {
-		Validate.notNull(eventType, "The given event type is null");
+	public void addActuator(TriggerType triggerType, Actuator actuator) {
+		Validate.notNull(triggerType, "The given trigger type is null");
 		Validate.notNull(actuator, "The given actuator is null");
 
 		if (actuators == null) {
 			// Cr�er la Map � la vol�e
-			actuators = new EnumMap<EventType, Actuator>(EventType.class);
+			actuators = new EnumMap<TriggerType, Actuator>(TriggerType.class);
 		}
 
-		actuators.put(eventType,
-				Actuators.combine(actuators.get(eventType), actuator));
+		actuators.put(triggerType,
+				Actuators.combine(actuators.get(triggerType), actuator));
 	}
 
-	public void setActuator(EventType eventType, Actuator actuator) {
-		Validate.notNull(eventType, "The given event type is null");
+	public void setActuator(TriggerType triggerType, Actuator actuator) {
+		Validate.notNull(triggerType, "The given trigger type is null");
 		Validate.notNull(actuator, "The given actuator is null");
 
 		if (actuators == null) {
 			// Cr�er la Map � la vol�e
-			actuators = new EnumMap<EventType, Actuator>(EventType.class);
+			actuators = new EnumMap<TriggerType, Actuator>(TriggerType.class);
 		}
 
-		actuators.put(eventType, actuator);
+		actuators.put(triggerType, actuator);
 	}
 
-	public void clearActuator(EventType eventType) {
-		Validate.notNull(eventType, "The given event type is null");
+	public void clearActuator(TriggerType triggerType) {
+		Validate.notNull(triggerType, "The given trigger type is null");
 
 		if (actuators != null) {
-			actuators.remove(eventType);
+			actuators.remove(triggerType);
 		}
 	}
 
-	public Actuator getActuator(EventType eventType) {
-		Validate.notNull(eventType, "The given event type is null");
+	public Actuator getActuator(TriggerType triggerType) {
+		Validate.notNull(triggerType, "The given trigger type is null");
 
-		return (actuators != null) ? actuators.get(eventType) : null;
+		return (actuators != null) ? actuators.get(triggerType) : null;
 	}
 
 	public boolean isPressurePadVisible() {

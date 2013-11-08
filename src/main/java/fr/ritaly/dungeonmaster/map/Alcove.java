@@ -64,7 +64,7 @@ public final class Alcove extends DirectedElement implements HasActuator {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "1";
 	}
 
@@ -116,7 +116,7 @@ public final class Alcove extends DirectedElement implements HasActuator {
 
 	public final void dropItem(Item item, Direction direction) {
 		// Call the method from parent class
-		super.itemDropped(item, map(direction));
+		super.dropItem(item, map(direction));
 
 		if (itemType == null) {
 			// Triggered on the first item whatever the type
@@ -154,7 +154,7 @@ public final class Alcove extends DirectedElement implements HasActuator {
 	}
 
 	@Override
-	public final void itemDropped(Item item, Sector corner) {
+	public final void dropItem(Item item, Sector corner) {
 		// Override to force the use of the relevant method
 		throw new UnsupportedOperationException();
 	}

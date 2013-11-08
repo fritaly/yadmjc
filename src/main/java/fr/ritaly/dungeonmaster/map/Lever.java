@@ -78,7 +78,7 @@ public final class Lever extends DirectedElement implements HasActuator,
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "L";
 	}
 

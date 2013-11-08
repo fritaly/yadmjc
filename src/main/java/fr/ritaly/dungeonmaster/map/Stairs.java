@@ -36,7 +36,7 @@ public final class Stairs extends DirectedElement {
 	/**
 	 * Indique si l'escalier est montant ou descendant.
 	 */
-	private final boolean up;
+	private final boolean ascending;
 
 	/**
 	 * La position cible de cet escalier, c'est-�-dire l'endroit o� l'on aboutit
@@ -44,12 +44,12 @@ public final class Stairs extends DirectedElement {
 	 */
 	private final Position destination;
 
-	public Stairs(Direction direction, boolean up, Position destination) {
+	public Stairs(Direction direction, boolean ascending, Position destination) {
 		super(Type.STAIRS, direction);
 
 		Validate.isTrue(destination != null, "The given destination is null");
 
-		this.up = up;
+		this.ascending = ascending;
 		this.destination = destination;
 	}
 
@@ -57,7 +57,7 @@ public final class Stairs extends DirectedElement {
 	public boolean isTraversable(Party party) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isTraversableByProjectile() {
 		return false;
@@ -86,13 +86,11 @@ public final class Stairs extends DirectedElement {
 			}
 
 			// Oui, le groupe emprunte les escaliers
-			final Stairs stairs = (Stairs) getParty().getDungeon().getElement(
-					destination);
+			final Stairs stairs = (Stairs) getParty().getDungeon().getElement(destination);
 
 			// T�l�porter le groupe � l'endroit destination. La direction finale
 			// d�pend de l'escalier cible !!!
-			getParty().getDungeon().teleportParty(destination,
-					stairs.getDirection().getOpposite(), true);
+			getParty().getDungeon().teleportParty(destination, stairs.getDirection().getOpposite(), true);
 
 			if (log.isDebugEnabled()) {
 				log.debug("Party has taken stairs at " + getPosition());
@@ -100,12 +98,8 @@ public final class Stairs extends DirectedElement {
 		}
 	}
 
-	public final boolean isUp() {
-		return up;
-	}
-
-	public final boolean isDown() {
-		return !up;
+	public final boolean isAscending() {
+		return ascending;
 	}
 
 	public Position getDestination() {
@@ -121,13 +115,14 @@ public final class Stairs extends DirectedElement {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "S";
 	}
 
 	@Override
 	public Teleport getTeleport(Direction direction) {
 		Validate.notNull(direction, "The given direction is null");
+
 		if (!hasParty()) {
 			throw new IllegalStateException("The party isn't on this element");
 		}
@@ -136,58 +131,13 @@ public final class Stairs extends DirectedElement {
 		// l'escalier alors il monte ou descend d'un �tage
 		if (direction.equals(getDirection())) {
 			// Le groupe prend l'escalier
-			final Stairs stairs = (Stairs) getLevel().getDungeon().getElement(
-					destination);
+			final Stairs stairs = (Stairs) getLevel().getDungeon().getElement(destination);
 
-			return new Teleport(destination, stairs.getDirection()
-					.getOpposite());
+			return new Teleport(destination, stairs.getDirection().getOpposite());
 		}
 
-		return new Teleport(getPosition().towards(direction), getParty()
-				.getLookDirection());
+		return new Teleport(getPosition().towards(direction), getParty().getLookDirection());
 	}
-
-	// @Override
-	// public Position computeTargetPosition(Direction direction) {
-	// Validate.notNull(direction, "The given direction is null");
-	// if (!hasParty()) {
-	// throw new IllegalStateException("The party isn't on this element");
-	// }
-	//
-	// // Si le groupe occupe l'escalier et qu'il se d�place dans le sens de
-	// // l'escalier alors il monte ou descend d'un �tage
-	// if (direction.equals(getDirection())) {
-	// // Le groupe prend l'escalier
-	// return destination;
-	// }
-	//
-	// return getPosition().towards(direction);
-	// }
-	//
-	// @Override
-	// public Direction computeTargetDirection(Direction direction) {
-	// Validate.notNull(direction, "The given direction is null");
-	// if (!hasParty()) {
-	// throw new IllegalStateException("The party isn't on this element");
-	// }
-	//
-	// // Si le groupe occupe l'escalier et qu'il se d�place dans le sens de
-	// // l'escalier alors il monte ou descend d'un �tage
-	// if (direction.equals(getDirection())) {
-	// // if (direction.equals(getParty().getLookDirection())) {
-	// // // Le groupe prend l'escalier et change de direction
-	// // return getParty().getLookDirection().getOpposite();
-	// // } else {
-	// // // Le groupe prend l'escalier et conserve sa direction actuelle
-	// // return getParty().getLookDirection();
-	// // }
-	//
-	// return direction.getOpposite();
-	// }
-	//
-	// // Direction de regard non alt�r�e
-	// return getParty().getLookDirection();
-	// }
 
 	@Override
 	public void validate() throws ValidationException {
@@ -198,45 +148,38 @@ public final class Stairs extends DirectedElement {
 		final Element element2 = surroundingElements.get(1);
 
 		if (!element1.isConcrete()) {
-			throw new ValidationException("The element at "
-					+ element1.getPosition() + " must be concrete [actual="
-					+ element1 + "]");
+			throw new ValidationException("The element at " + element1.getPosition() + " must be concrete [actual=" + element1
+					+ "]");
 		}
 		if (!element2.isConcrete()) {
-			throw new ValidationException("The element at "
-					+ element2.getPosition() + " must be concrete [actual="
-					+ element2 + "]");
+			throw new ValidationException("The element at " + element2.getPosition() + " must be concrete [actual=" + element2
+					+ "]");
 		}
 
 		// "Derri�re" l'escalier, il faut �galement un mur vu que
 		// l'on ne peut emprunter l'escalier que dans un seul sens
-		final Position behindPosition = getPosition().towards(getDirection());
+		final Position rearPosition = getPosition().towards(getDirection());
 
-		final Element behindElement = getLevel().getDungeon().getElement(
-				behindPosition);
+		final Element rearElement = getLevel().getDungeon().getElement(rearPosition);
 
-		if (!behindElement.isConcrete()) {
-			throw new ValidationException("The element behind the stairs (at "
-					+ behindPosition + ") must be concrete [actual="
-					+ behindElement.getType().name() + "]");
+		if (!rearElement.isConcrete()) {
+			throw new ValidationException("The element behind the stairs (at " + rearPosition + ") must be concrete [actual="
+					+ rearElement.getType().name() + "]");
 		}
 
 		// La destination d'un escalier doit �tre un autre escalier
-		final Element target = getLevel().getDungeon().getElement(
-				getDestination());
+		final Element target = getLevel().getDungeon().getElement(getDestination());
 
 		if (!(target instanceof Stairs)) {
-			throw new ValidationException("The element at " + getDestination()
-					+ " must be a " + Type.STAIRS);
+			throw new ValidationException("The element at " + getDestination() + " must be a " + Type.STAIRS);
 		}
 
 		// L'escalier cible doit �tre l'inverse de cet escalier
 		// (montant / descendant)
 		final Stairs otherStairs = (Stairs) target;
 
-		if (otherStairs.isUp() == isUp()) {
-			throw new ValidationException("The two stairs at " + getPosition()
-					+ " and " + getDestination()
+		if (otherStairs.isAscending() == isAscending()) {
+			throw new ValidationException("The two stairs at " + getPosition() + " and " + getDestination()
 					+ " can't have the same type (both up or both down)");
 		}
 
@@ -244,36 +187,31 @@ public final class Stairs extends DirectedElement {
 		final int targetLevel = getDestination().z;
 
 		if (targetLevel == getPosition().z) {
-			throw new ValidationException("The two stairs at " + getPosition()
-					+ " and " + getDestination() + " are on the same level ["
-					+ targetLevel + "]");
+			throw new ValidationException("The two stairs at " + getPosition() + " and " + getDestination()
+					+ " are on the same level [" + targetLevel + "]");
 		}
 
 		// La diff�rence de valeur entre les deux niveaux doit valoir +1 ou -1
 		final int difference = targetLevel - getPosition().z;
 
 		if ((difference != -1) && (difference != +1)) {
-			throw new ValidationException(
-					"The difference of levels for stairs at " + getPosition()
-							+ " and " + getDestination()
-							+ " must be -1 or +1 [actual=" + difference + "]");
+			throw new ValidationException("The difference of levels for stairs at " + getPosition() + " and " + getDestination()
+					+ " must be -1 or +1 [actual=" + difference + "]");
 		}
 
 		// La diff�rence de niveau doit �tre compatible avec le sens de
 		// l'escalier. Attention au sens de num�rotation des niveaux: les plus
 		// profonds ont un num�ro de niveau plus �lev�
-		if (isUp() && (difference == +1)) {
+		if (isAscending() && (difference == +1)) {
 			// L'escalier monte mais le niveau cible est plus bas
-			throw new ValidationException("The stairs at " + getPosition()
-					+ " are up but the stairs' destination ("
+			throw new ValidationException("The stairs at " + getPosition() + " are up but the stairs' destination ("
 					+ getDestination() + ") is below the stairs' level");
-		} else if (isDown() && (difference == -1)) {
+		} else if (!isAscending() && (difference == -1)) {
 			// L'escalier descend mais le niveau cible est plus haut
-			throw new ValidationException("The stairs at " + getPosition()
-					+ " are down but the stairs' destination ("
+			throw new ValidationException("The stairs at " + getPosition() + " are down but the stairs' destination ("
 					+ getDestination() + ") is above the stairs' level");
 		}
 	}
-	
+
 	// FIXME Un projectile peut-il "prendre" les escaliers ?
 }

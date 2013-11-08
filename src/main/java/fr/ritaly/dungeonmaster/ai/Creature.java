@@ -2113,7 +2113,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 								node.getPosition().y, position.z));
 
 		// La cr�ature quitte la position source
-		element.creatureSteppedOff(this);
+		element.removeCreature(this);
 
 		if (directionTowardsTarget != null) {
 			// Tourner la cr�ature en cours de route
@@ -2127,7 +2127,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				node.getPosition().x, node.getPosition().y);
 
 		// La cr�ature occupe la position cible
-		targetElement.creatureSteppedOn(this);
+		targetElement.addCreature(this);
 
 		// R�initialiser le compteur de mouvement
 		resetMoveTimer();
@@ -2231,7 +2231,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				.getDirectionTowards(targetElement.getPosition());
 
 		// La cr�ature quitte la position source
-		sourceElement.creatureSteppedOff(this);
+		sourceElement.removeCreature(this);
 
 		if (!getDirection().equals(directionTowardsTarget)) {
 			// On tourne la cr�ature dans le sens de la marche
@@ -2239,7 +2239,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		// La cr�ature occupe la position cible
-		targetElement.creatureSteppedOn(this);
+		targetElement.addCreature(this);
 
 		// R�initialiser le compteur de mouvement
 		resetMoveTimer();

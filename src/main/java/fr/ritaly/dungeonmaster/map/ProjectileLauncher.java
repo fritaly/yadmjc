@@ -70,7 +70,7 @@ public class ProjectileLauncher extends DirectedElement implements Triggerable {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "L";
 	}
 

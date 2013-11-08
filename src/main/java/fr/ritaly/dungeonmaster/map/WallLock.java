@@ -79,7 +79,7 @@ public final class WallLock extends DirectedElement implements HasActuator {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "K";
 	}
 

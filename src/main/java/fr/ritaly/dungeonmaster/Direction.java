@@ -26,7 +26,7 @@ import org.apache.commons.lang.math.RandomUtils;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public enum Direction {
+public enum Direction implements Place {
 	NORTH,
 	EAST,
 	SOUTH,

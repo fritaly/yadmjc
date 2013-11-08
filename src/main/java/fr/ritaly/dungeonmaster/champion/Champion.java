@@ -1298,7 +1298,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener, Cloc
 		if (location != null) {
 			// D�poser les objets au sol (au hasard) "devant" le groupe
 			for (Item item : items) {
-				location.itemDropped(item,
+				location.dropItem(item,
 						Sector.randomVisible(party.getLookDirection()));
 			}
 		}

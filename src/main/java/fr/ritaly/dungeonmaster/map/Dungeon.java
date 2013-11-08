@@ -47,7 +47,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
 
 /**
  * A dungeon. A {@link Dungeon} is made of one to several {@link Level}s.
- * 
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public class Dungeon implements ClockListener {
@@ -75,7 +75,7 @@ public class Dungeon implements ClockListener {
 
 	/**
 	 * Returns the number of levels composing this dungeon.
-	 * 
+	 *
 	 * @return an int.
 	 */
 	public int getLevelCount() {
@@ -85,7 +85,7 @@ public class Dungeon implements ClockListener {
 	/**
 	 * Returns the {@link Level} where the party is currently located or null if
 	 * there is no defined party.
-	 * 
+	 *
 	 * @return a {@link Level} or null.
 	 */
 	public Level getCurrentLevel() {
@@ -98,7 +98,7 @@ public class Dungeon implements ClockListener {
 
 	/**
 	 * Returns the dungeon's levels.
-	 * 
+	 *
 	 * @return a {@link List} of {@link Level}s. Never returns null.
 	 */
 	public List<Level> getLevels() {
@@ -115,44 +115,21 @@ public class Dungeon implements ClockListener {
 	}
 
 	/**
-	 * Returns the dungeon element where the party is currently located or null
-	 * if there is no defined party.
-	 * 
-	 * @return an {@link Element} or null.
-	 */
-	public Element getCurrentElement() {
-		if (hasParty()) {
-			return getElement(getParty().getPosition());
-		}
-
-		return null;
-	}
-	
-	public Position getCurrentPosition() {
-		if (hasParty()) {
-			return getParty().getPosition();
-		}
-
-		return null;
-	}
-
-	/**
 	 * Returns the {@link Level} with given number.
-	 * 
+	 *
 	 * @param level
 	 *            an int identifying the requested {@link Level}.
 	 * @return a {@link Level} or null.
 	 */
 	public Level getLevel(int level) {
-		Validate.isTrue((level >= 0), "The given level number " + level
-				+ " must be positive or zero");
+		Validate.isTrue((level >= 0), "The given level number " + level + " must be positive or zero");
 
 		return levels.get(level);
 	}
 
 	/**
 	 * Returns the {@link Party} inside this dungeon (if any).
-	 * 
+	 *
 	 * @return a {@link Party} or null.
 	 */
 	public Party getParty() {
@@ -161,7 +138,7 @@ public class Dungeon implements ClockListener {
 
 	/**
 	 * Tells whether there is a {@link Party} inside this dungeon.
-	 * 
+	 *
 	 * @return whether there is a {@link Party} inside this dungeon.
 	 */
 	public boolean hasParty() {
@@ -170,7 +147,7 @@ public class Dungeon implements ClockListener {
 
 	/**
 	 * Sets this dungeon's party and installs it to the given {@link Position}.
-	 * 
+	 *
 	 * @param position
 	 *            a {@link Position} where the {@link Party} will be installed.
 	 * @param party
@@ -213,7 +190,7 @@ public class Dungeon implements ClockListener {
 		SoundSystem.getInstance().setListener(party);
 
 		// "Placer" le groupe sur l'endroit cible (le faire marcher dessus)
-		element.partySteppedOn(party);
+		element.setParty(party);
 
 		if (log.isInfoEnabled()) {
 			log.info("Party installed at " + position);
@@ -222,7 +199,7 @@ public class Dungeon implements ClockListener {
 
 	/**
 	 * Returns the dungeon element with given position.
-	 * 
+	 *
 	 * @param position
 	 *            the {@link Position} of the requested element. Can't be null.
 	 * @return an {@link Element} or null.
@@ -263,24 +240,19 @@ public class Dungeon implements ClockListener {
 		final Element element = level.getElement(x, y);
 
 		if (element == null) {
-			throw new IllegalArgumentException("There is no element at [" + z
-					+ ":" + x + "," + y + "]");
+			throw new IllegalArgumentException("There is no element at [" + z + ":" + x + "," + y + "]");
 		}
 
 		return element;
 	}
 
 	public Level createLevel(int number, int height, int width) {
-		Validate.isTrue(number > 0, "The level number <" + number
-				+ "> must be positive");
-		Validate.isTrue(height > 0, "The given height <" + height
-				+ "> must be positive");
-		Validate.isTrue(width > 0, "The given width <" + width
-				+ "> must be positive");
+		Validate.isTrue(number > 0, "The level number <" + number + "> must be positive");
+		Validate.isTrue(height > 0, "The given height <" + height + "> must be positive");
+		Validate.isTrue(width > 0, "The given width <" + width + "> must be positive");
 
 		if (levels.containsKey(number)) {
-			throw new IllegalArgumentException(
-					"There is already a level with number <" + number + ">");
+			throw new IllegalArgumentException("There is already a level with number <" + number + ">");
 		}
 
 		final Level level = new Level(this, number, height, width);
@@ -291,8 +263,7 @@ public class Dungeon implements ClockListener {
 	}
 
 	public void setLevel(int number, Level level) {
-		Validate.isTrue(number > 0, "The level number <" + number
-				+ "> must be positive");
+		Validate.isTrue(number > 0, "The level number <" + number + "> must be positive");
 		Validate.notNull(level, "The given level is null");
 
 		levels.put(number, level);
@@ -480,7 +451,7 @@ public class Dungeon implements ClockListener {
 		}
 
 		// Quitter la position actuelle
-		sourceElement.partySteppedOff();
+		sourceElement.removeParty();
 
 		// Changer la direction du groupe (si n�cessaire)
 		getParty().setLookDirection(teleport.getDirection());
@@ -492,7 +463,7 @@ public class Dungeon implements ClockListener {
 		SoundSystem.getInstance().play(clip);
 
 		// Occuper la position cible
-		destinationElement.partySteppedOn(party);
+		destinationElement.setParty(party);
 
 		if (log.isInfoEnabled()) {
 			log.info("Party moved");
@@ -501,16 +472,7 @@ public class Dungeon implements ClockListener {
 		return true;
 	}
 
-	public boolean teleportParty(final Teleport teleport, final boolean silent) {
-		Validate.notNull(teleport, "The given teleport is null");
-
-		return teleportParty(teleport.getPosition(), teleport.getDirection(),
-				silent);
-	}
-
-	public boolean teleportParty(final Position destination,
-			final Direction direction, final boolean silent) {
-
+	public boolean teleportParty(final Position destination, final Direction direction, final boolean silent) {
 		Validate.notNull(destination, "The given destination is null");
 		Validate.notNull(direction, "The given direction is null");
 
@@ -566,7 +528,7 @@ public class Dungeon implements ClockListener {
 		}
 
 		// Quitter la position actuelle
-		sourceElement.partySteppedOff();
+		sourceElement.removeParty();
 
 		// Faire tourner le groupe
 		party.setLookDirection(direction);
@@ -580,7 +542,7 @@ public class Dungeon implements ClockListener {
 		}
 
 		// Occuper la position cible
-		destinationElement.partySteppedOn(party);
+		destinationElement.setParty(party);
 
 		if (log.isInfoEnabled()) {
 			log.info("Teleported party");
@@ -599,7 +561,7 @@ public class Dungeon implements ClockListener {
 	 * Retourne la luminosit� totale en prennant en compte celle g�n�r�e par les
 	 * {@link Champion}s (amulettes, torches, sorts...) et celle naturelle du
 	 * niveau sur lequel sont situ�s les {@link Champion}s.
-	 * 
+	 *
 	 * @return un entier positif ou nul dans l'intervalle [0-255].
 	 */
 	public int getActualLight() {
@@ -616,7 +578,7 @@ public class Dungeon implements ClockListener {
 
 		// Lumi�re naturelle du niveau ?
 		light += getLevel(party.getPosition().z).getAmbiantLight();
-		
+
 		// TODO Prendre en compte les sorts de type Darkness !!
 
 		// TODO 7 niveaux de lumi�re possibles (enum)

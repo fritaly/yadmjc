@@ -33,7 +33,7 @@ import fr.ritaly.dungeonmaster.map.Element;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public enum Sector {
+public enum Sector implements Place {
 	NORTH_WEST,
 	NORTH_EAST,
 	SOUTH_WEST,

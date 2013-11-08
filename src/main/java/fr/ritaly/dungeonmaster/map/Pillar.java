@@ -51,7 +51,7 @@ public final class Pillar extends Element {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "P";
 	}
 

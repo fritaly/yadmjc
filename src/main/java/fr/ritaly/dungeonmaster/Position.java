@@ -32,7 +32,7 @@ import org.apache.commons.lang.math.RandomUtils;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class Position {
+public final class Position implements Place {
 
 	/** The x coordinate of this position. */
 	public final int x;

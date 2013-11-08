@@ -46,7 +46,7 @@ public final class TextWall extends DirectedElement {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "X";
 	}
 
@@ -74,7 +74,7 @@ public final class TextWall extends DirectedElement {
 	}
 	
 	@Override
-	public synchronized void itemDropped(Item item, Sector corner) {
+	public synchronized void dropItem(Item item, Sector corner) {
 		// M�thode non support�e
 		throw new UnsupportedOperationException();
 	}

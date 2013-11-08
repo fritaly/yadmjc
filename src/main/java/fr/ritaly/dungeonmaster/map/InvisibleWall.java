@@ -51,7 +51,7 @@ public final class InvisibleWall extends FloorTile {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "I";
 	}
 

@@ -139,7 +139,7 @@ public class RetractableWall extends FloorTile implements Triggerable {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "R";
 	}
 

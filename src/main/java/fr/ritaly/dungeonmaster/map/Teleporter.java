@@ -278,7 +278,7 @@ public final class Teleporter extends FloorTile implements ClockListener,
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "T";
 	}
 

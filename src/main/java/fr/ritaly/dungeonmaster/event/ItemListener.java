@@ -16,36 +16,28 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster.actuator;
+package fr.ritaly.dungeonmaster.event;
 
 /**
- * An object which handles an {@link Actuator} per trigger type.
+ * A listener of item events.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public interface HasActuators {
+public interface ItemListener {
 
 	/**
-	 * Returnt the {@link Actuator} mapped to the given trigger type.
+	 * Notifies the listener that the given item dropped event was just fired.
 	 *
-	 * @param triggerType
-	 *            a {@link TriggerType}. Can't be null.
-	 * @return an {@link Actuator} or null if none is mapped to the given
-	 *         trigger type.
+	 * @param event
+	 *            the item event to notify.
 	 */
-	public Actuator getActuator(TriggerType triggerType);
+	public void onItemDropped(ItemEvent event);
 
 	/**
-	 * Sets the {@link Actuator} mapped to the given trigger type.
+	 * Notifies the listener that the given item picked event was just fired.
 	 *
-	 * @param triggerType
-	 *            an {@link TriggerType}.
-	 * @param actuator
-	 *            an {@link Actuator}.
+	 * @param event
+	 *            the item event to notify.
 	 */
-	public void setActuator(TriggerType triggerType, Actuator actuator);
-
-	public void addActuator(TriggerType triggerType, Actuator actuator);
-
-	public void clearActuator(TriggerType triggerType);
+	public void onItemPicked(ItemEvent event);
 }

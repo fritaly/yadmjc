@@ -51,7 +51,7 @@ public final class Wall extends Element {
 	}
 
 	@Override
-	public String getCaption() {
+	public String getSymbol() {
 		return "W";
 	}
 
