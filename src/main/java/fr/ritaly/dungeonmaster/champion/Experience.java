@@ -23,13 +23,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Skill;
-import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.champion.Champion.Level;
 import fr.ritaly.dungeonmaster.event.ChangeEvent;
 import fr.ritaly.dungeonmaster.event.ChangeEventSource;
 import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
-import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
  * Handles the experience of a champion in for a given skill.
@@ -153,7 +151,7 @@ public class Experience implements ChangeEventSource {
 			this.level = Level.fromExperience(points);
 
 			if (log.isDebugEnabled()) {
-				log.debug(String.format("%s.%s.Level: %s -> %s [+%d]", champion.getName(), skill.getLabel(), oldLevel, level,
+				log.debug(String.format("%s.%s.Level: %s -> %s [%+d]", champion.getName(), skill.getLabel(), oldLevel, level,
 						(level.ordinal() - oldLevel.ordinal())));
 			}
 
@@ -161,62 +159,7 @@ public class Experience implements ChangeEventSource {
 			// improved. Depending on the number of levels gained, we may need
 			// to increase the stats several times (hence the loop)
 			for (int i = 0; i < this.level.ordinal() - oldLevel.ordinal(); i++) {
-				final Stats stats = champion.getStats();
-
-				if (skill.improvesHealth()) {
-					final int healthBonus = Utils.random(5, 15);
-
-					stats.getHealth().incMax(healthBonus);
-					stats.getHealth().inc(healthBonus);
-				}
-				if (skill.improvesStamina()) {
-					final int staminaBonus = Utils.random(5, 15);
-
-					stats.getStamina().incMax(staminaBonus);
-					stats.getStamina().inc(staminaBonus);
-				}
-				if (skill.improvesVitality()) {
-					final int vitalityBonus = Utils.random(5, 15);
-
-					stats.getVitality().incMax(vitalityBonus);
-					stats.getVitality().inc(vitalityBonus);
-				}
-				if (skill.improvesAntiFire()) {
-					final int antiFireBonus = Utils.random(5, 15);
-
-					stats.getAntiFire().incMax(antiFireBonus);
-					stats.getAntiFire().inc(antiFireBonus);
-				}
-				if (skill.improvesStrength()) {
-					final int strengthBonus = Utils.random(5, 15);
-
-					stats.getStrength().incMax(strengthBonus);
-					stats.getStrength().inc(strengthBonus);
-				}
-				if (skill.improvesDexterity()) {
-					final int dexterityBonus = Utils.random(5, 15);
-
-					stats.getDexterity().incMax(dexterityBonus);
-					stats.getDexterity().inc(dexterityBonus);
-				}
-				if (skill.improvesMana()) {
-					final int manaBonus = Utils.random(5, 15);
-
-					stats.getMana().incMax(manaBonus);
-					stats.getMana().inc(manaBonus);
-				}
-				if (skill.improvesWisdom()) {
-					final int wisdomBonus = Utils.random(5, 15);
-
-					stats.getWisdom().incMax(wisdomBonus);
-					stats.getWisdom().inc(wisdomBonus);
-				}
-				if (skill.improvesAntiMagic()) {
-					final int antiMagicBonus = Utils.random(5, 15);
-
-					stats.getAntiMagic().incMax(antiMagicBonus);
-					stats.getAntiMagic().inc(antiMagicBonus);
-				}
+				skill.improve(champion.getStats());
 			}
 
 			// FIXME Fire an event "<champion> gained a <skill> level"

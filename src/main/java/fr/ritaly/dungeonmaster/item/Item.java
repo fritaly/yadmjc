@@ -18,27 +18,17 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.body.BodyPart;
@@ -69,104 +59,6 @@ public abstract class Item implements ChangeEventSource {
 	 * Sequence used for assigning unique ids to items upon creation.
 	 */
 	private static final AtomicInteger SEQUENCE = new AtomicInteger();
-
-	public static void main(String[] args) throws Exception {
-		final List<Item.Type> types = Arrays.asList(Item.Type.values());
-
-		Collections.sort(types, new Comparator<Item.Type>() {
-			@Override
-			public int compare(Type o1, Type o2) {
-				return o1.name().compareTo(o2.name());
-			}
-		});
-
-		final StringWriter stringWriter = new StringWriter(32000);
-
-		final XMLStreamWriter writer = new IndentingXMLStreamWriter(XMLOutputFactory.newFactory().createXMLStreamWriter(
-				stringWriter));
-
-		writer.writeStartDocument();
-		writer.writeStartElement("items");
-		writer.writeDefaultNamespace("yadmjc:items:1.0");
-
-		for (Item.Type type : types) {
-			writer.writeStartElement("item");
-			writer.writeAttribute("id", type.name());
-			writer.writeAttribute("weight", Float.toString(type.getWeight()));
-
-			if (type.getDamage() != -1) {
-				writer.writeAttribute("damage", Integer.toString(type.getDamage()));
-			}
-
-			if (type.getActivationBodyPart() != null) {
-				writer.writeAttribute("activation", type.getActivationBodyPart().name());
-			}
-
-			if (type.getShield() != 0) {
-				writer.writeAttribute("shield", Integer.toString(type.getShield()));
-			}
-			if (type.getAntiMagic() != 0) {
-				writer.writeAttribute("anti-magic", Integer.toString(type.getAntiMagic()));
-			}
-
-			if (type.getDeltaEnergy() != -1) {
-				writer.writeAttribute("delta-energy", Integer.toString(type.getDeltaEnergy()));
-			}
-
-			if (type.getDistance() != -1) {
-				writer.writeAttribute("distance", Integer.toString(type.getDistance()));
-			}
-
-			if (type.getShootDamage() != -1) {
-				writer.writeAttribute("shoot-damage", Integer.toString(type.getShootDamage()));
-			}
-
-			if (!type.getCarryLocations().isEmpty()) {
-				writer.writeStartElement("locations");
-
-				// Sort the locations to ensure they're always serialized in a consistent way
-				for (CarryLocation location : new TreeSet<CarryLocation>(type.getCarryLocations())) {
-					writer.writeEmptyElement("location");
-					writer.writeAttribute("id", location.name());
-				}
-				writer.writeEndElement();
-			}
-
-			if (!type.getActions().isEmpty()) {
-				writer.writeStartElement("actions");
-				for (ActionDef actionDef : type.getActions()) {
-					writer.writeEmptyElement("action");
-					writer.writeAttribute("id", actionDef.getAction().name());
-
-					if (actionDef.getMinLevel() != Champion.Level.NONE) {
-						writer.writeAttribute("min-level", actionDef.getMinLevel().name());
-					}
-
-					if (actionDef.isUseCharges()) {
-						writer.writeAttribute("use-charges", Boolean.toString(actionDef.isUseCharges()));
-					}
-				}
-				writer.writeEndElement(); // </actions>
-			}
-
-			if (!type.getEffects().isEmpty()) {
-				writer.writeStartElement("effects");
-				for (Effect effect : type.getEffects()) {
-					writer.writeEmptyElement("effect");
-					writer.writeAttribute("stat", effect.getStatistic().name());
-					writer.writeAttribute("strength", String.format("%+d", effect.getStrength()));
-				}
-				writer.writeEndElement(); // </effects>
-			}
-
-			writer.writeEndElement(); // </item>
-		}
-
-		writer.writeEndElement(); // </items>
-		writer.writeEndDocument();
-
-		System.out.println(stringWriter);
-	}
 
 	/**
 	 * TODO Translate this javadoc comment to english
@@ -418,7 +310,7 @@ public abstract class Item implements ChangeEventSource {
 		 *
 		 * @return a list of actions. Never returns null.
 		 */
-		private List<ItemDef.ActionDef> getActions() {
+		public List<ItemDef.ActionDef> getActions() {
 			return getDefinition().getActions();
 		}
 

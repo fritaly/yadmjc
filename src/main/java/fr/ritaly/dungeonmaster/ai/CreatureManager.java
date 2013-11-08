@@ -35,6 +35,7 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Place;
+import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.map.Element;
 
@@ -62,10 +63,13 @@ public class CreatureManager {
 	 */
 	private final Element element;
 
+	private final Position position;
+
 	public CreatureManager(Element element) {
 		Validate.notNull(element, "The given element is null");
 
 		this.element = element;
+		this.position = element.getPosition();
 	}
 
 	/**
@@ -292,14 +296,14 @@ public class CreatureManager {
 
 		// L'emplacement doit initialement �tre vide
 		if ((creatures != null) && (creatures.get(sector) != null)) {
-			throw new IllegalArgumentException("The cell " + sector + " of element " + element.getId()
+			throw new IllegalArgumentException("The cell " + sector + " of element " + position
 					+ " is already occupied by a creature (" + creatures.get(sector) + ")");
 		}
 
 		// Il doit y avoir la place d'accueillir la cr�ature
 		if (!canHost(creature)) {
 			throw new IllegalArgumentException("Unable to install creature " + creature + " on cell " + sector + " of element "
-					+ element.getId() + " because the remaining room is " + getFreeSectors().size());
+					+ position + " because the remaining room is " + getFreeSectors().size());
 		}
 
 		if (creatures == null) {
@@ -309,7 +313,7 @@ public class CreatureManager {
 		creatures.put(sector, creature);
 
 		if (log.isDebugEnabled()) {
-			log.debug(creature + " stepped on " + element.getId() + " (" + sector + ")");
+			log.debug(creature + " stepped on " + position + " (" + sector + ")");
 		}
 	}
 
@@ -322,7 +326,7 @@ public class CreatureManager {
 					+ creature.getSize() + ", expected: " + Creature.Size.ONE + ")");
 		}
 		if (creatures == null) {
-			throw new IllegalStateException("There is currently no creature on element " + element);
+			throw new IllegalStateException("There is currently no creature on element " + position);
 		}
 
 		final Creature removed = creatures.remove(sector);
@@ -336,7 +340,7 @@ public class CreatureManager {
 		}
 
 		if (log.isDebugEnabled()) {
-			log.debug(creature + " stepped off " + element.getId() + " (" + sector + ")");
+			log.debug(creature + " stepped off " + position + " (" + sector + ")");
 		}
 	}
 
@@ -349,7 +353,7 @@ public class CreatureManager {
 		}
 
 		if (hasCreatures()) {
-			throw new IllegalArgumentException("The element " + element.getId()
+			throw new IllegalArgumentException("The element " + position
 					+ " is already occupied by at least one creature (" + getCreatures() + ")");
 		}
 
@@ -363,7 +367,7 @@ public class CreatureManager {
 		creatures.put(Sector.SOUTH_WEST, creature);
 
 		if (log.isDebugEnabled()) {
-			log.debug(creature + " stepped on " + element.getId() + " (4 sectors)");
+			log.debug(creature + " stepped on " + position + " (4 sectors)");
 		}
 	}
 
@@ -384,7 +388,7 @@ public class CreatureManager {
 			throw new IllegalArgumentException("The given creature " + creature + " isn't currently on element " + this);
 		}
 		if (creatures == null) {
-			throw new IllegalStateException("There is currently no creature on element " + element);
+			throw new IllegalStateException("There is currently no creature on element " + position);
 		}
 
 		final boolean ne = (creatures.remove(Sector.NORTH_EAST) == creature);
@@ -404,7 +408,7 @@ public class CreatureManager {
 		this.creatures = null;
 
 		if (log.isDebugEnabled()) {
-			log.debug(creature + " stepped off " + element.getId() + " (4 sectors)");
+			log.debug(creature + " stepped off " + position + " (4 sectors)");
 		}
 	}
 
@@ -422,14 +426,14 @@ public class CreatureManager {
 
 		for (Sector sector : sectors) {
 			if ((creatures != null) && (creatures.get(sector) != null)) {
-				throw new IllegalArgumentException("The cell " + sector + " of element " + element.getId()
+				throw new IllegalArgumentException("The cell " + sector + " of element " + position
 						+ " is already occupied by a creature (" + creatures.get(sector) + ")");
 			}
 		}
 
 		if (!canHost(creature)) {
 			throw new IllegalArgumentException("Unable to install creature " + creature + " on cells " + sectors + " of element "
-					+ element.getId() + " because the remaining room is " + getFreeSectors().size());
+					+ position + " because the remaining room is " + getFreeSectors().size());
 		}
 
 		if (creatures == null) {
@@ -441,7 +445,7 @@ public class CreatureManager {
 		}
 
 		if (log.isDebugEnabled()) {
-			log.debug(creature + " stepped on " + element.getId() + " (" + direction + ")");
+			log.debug(creature + " stepped on " + position + " (" + direction + ")");
 		}
 	}
 
@@ -454,14 +458,14 @@ public class CreatureManager {
 					+ creature.getSize() + ", expected: " + Creature.Size.TWO + ")");
 		}
 		if (creatures == null) {
-			throw new IllegalStateException("There is currently no creature on element " + element);
+			throw new IllegalStateException("There is currently no creature on element " + position);
 		}
 
 		final List<Sector> sectors = Sector.getVisibleSectors(direction);
 
 		for (Sector sector : sectors) {
 			if (creatures.get(sector) != creature) {
-				throw new IllegalArgumentException("The cell " + sector + " of element " + element.getId()
+				throw new IllegalArgumentException("The cell " + sector + " of element " + position
 						+ " isn't occupied by creature " + creature + " but by " + creatures.get(sector));
 			}
 		}
@@ -478,7 +482,7 @@ public class CreatureManager {
 		}
 
 		if (log.isDebugEnabled()) {
-			log.debug(creature + " stepped off " + element.getId() + " (" + direction + ")");
+			log.debug(creature + " stepped off " + position + " (" + direction + ")");
 		}
 	}
 
@@ -510,7 +514,7 @@ public class CreatureManager {
 		Validate.notNull(creature, "The given creature is null");
 
 		if (!element.isTraversable(creature)) {
-			throw new UnsupportedOperationException("The creature " + creature + " can't step off " + element.getId());
+			throw new UnsupportedOperationException("The creature " + creature + " can't step off " + position);
 		}
 
 		if (place == null) {
@@ -528,7 +532,7 @@ public class CreatureManager {
 		Validate.notNull(creature, "The given creature is null");
 
 		if (!element.isTraversable(creature)) {
-			throw new UnsupportedOperationException("The creature " + creature + " can't step off " + element.getId());
+			throw new UnsupportedOperationException("The creature " + creature + " can't step off " + position);
 		}
 
 		switch (creature.getSize()) {
@@ -536,7 +540,7 @@ public class CreatureManager {
 			final Sector sector = getSector(creature);
 
 			if (sector == null) {
-				throw new IllegalArgumentException("The given creature " + creature + " isn't on element " + element);
+				throw new IllegalArgumentException("The given creature " + creature + " isn't on element " + position);
 			}
 
 			_removeCreature(creature, sector);
@@ -546,7 +550,7 @@ public class CreatureManager {
 			final Direction direction = getDirection(creature);
 
 			if (direction == null) {
-				throw new IllegalArgumentException("The given creature " + creature + " isn't on element " + element);
+				throw new IllegalArgumentException("The given creature " + creature + " isn't on element " + position);
 			}
 
 			_removeCreature(creature, direction);
@@ -566,7 +570,7 @@ public class CreatureManager {
 		Validate.notNull(creature, "The given creature is null");
 
 		if (!element.isTraversable(creature)) {
-			throw new UnsupportedOperationException("The creature " + creature + " can't step on " + element.getId());
+			throw new UnsupportedOperationException("The creature " + creature + " can't step on " + position);
 		}
 
 		if (place == null) {
@@ -584,7 +588,7 @@ public class CreatureManager {
 		Validate.notNull(creature, "The given creature is null");
 
 		if (!element.isTraversable(creature)) {
-			throw new UnsupportedOperationException("The creature " + creature + " can't step on " + element.getId());
+			throw new UnsupportedOperationException("The creature " + creature + " can't step on " + position);
 		}
 
 		switch (creature.getSize()) {

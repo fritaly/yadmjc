@@ -19,11 +19,10 @@
 package fr.ritaly.dungeonmaster.ai;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -94,19 +93,6 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		// DEAD;
 	}
 
-	private static final EnumSet<Weakness> WEAKNESSES_MATERIAL_4 = EnumSet.of(Weakness.WEAPONS, Weakness.POISON_BOLT,
-			Weakness.FIREBALL, Weakness.LIGHTNING_BOLT);
-
-	private static final EnumSet<Weakness> WEAKNESSES_MATERIAL_5 = EnumSet.of(Weakness.WEAPONS, Weakness.POISON_BOLT,
-			Weakness.FIREBALL, Weakness.LIGHTNING_BOLT, Weakness.POISON_CLOUD);
-
-	private static final EnumSet<Weakness> WEAKNESSES_IMMATERIAL = EnumSet.of(Weakness.VORPAL_BLADE, Weakness.YEW_STAFF,
-			Weakness.STAFF_OF_MANAR, Weakness.WEAKEN_NON_MATERIAL_BEINGS_SPELL);
-
-	private static final EnumSet<Weakness> WEAKNESSES_WEAPONS = EnumSet.of(Weakness.WEAPONS);
-
-	private static final EnumSet<Weakness> WEAKNESSES_FIRESTAFF = EnumSet.of(Weakness.THE_FIRESTAFF);
-
 	/**
 	 * Defines the size of a {@link Creature} on the floor in terms of number of
 	 * sectors occupied.<br>
@@ -155,61 +141,48 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	 * @author francois_ritaly
 	 */
 	public static enum Type {
-		MUMMY(17, 25, 33, 20, 0, 40, 3, 4, 2, 1, 4, 9, 1, 15, 12, 3, 4, 40),
-		SCREAMER(120, 5, 165, 5, 0, 5, 6, 1, 1, 1, 0, 15, 6, 7, 10, 2, 0, 5),
+		MUMMY(33, 20),
+		SCREAMER(165, 5),
 		/** aka STONE_ROCK */
-		ROCK_PILE(185, 170, 50, 40, 5, 10, 4, 3, 4, 1, 5, 12, 14, 6, 15, 4, 5, 10),
+		ROCK_PILE(50, 40),
 		/** aka OGRE */
-		TROLIN(13, 28, 20, 25, 0, 41, 3, 3, 3, 1, 1, 4, 2, 3, 8, 2, 1, 41),
+		TROLIN(20, 25),
 		/** aka WORM */
-		MAGENTA_WORM(18, 72, 70, 45, 35, 35, 4, 1, 10, 1, 5, 10, 9, 11, 19, 3, 5, 35),
+		MAGENTA_WORM(70, 45),
 		/** aka WASP */
-		GIANT_WASP(1, 180, 8, 28, 20, 150, 4, 2, 4, 1, 9, 15, 0, 0, 16, 2, 9, 150),
-		GHOST(11, 15, 30, 55, 0, 80, 6, 3, 4, 1, 6, 6, 12, 15, 16, 6, 6, 80),
+		GIANT_WASP(8, 28),
+		GHOST(30, 55),
 		/** aka TENTACLE */
-		SWAMP_SLIME(15, 20, 110, 80, 15, 20, 3, 2, 1, 3, 3, 10, 4, 14, 32, 4, 3, 20),
+		SWAMP_SLIME(110, 80),
 		/** aka SNAKE */
-		COUATL(5, 42, 39, 90, 100, 88, 4, 3, 4, 1, 7, 3, 3, 6, 10, 2, 7, 88),
+		COUATL(39, 90),
 		/** aka EYE_BALL */
-		WIZARD_EYE(10, 30, 40, 58, 0, 80, 5, 10, 2, 3, 6, 10, 3, 11, 21, 3, 6, 80),
-		SKELETON(7, 22, 20, 22, 0, 80, 4, 3, 0, 1, 5, 9, 6, 15, 7, 2, 5, 80),
-		STONE_GOLEM(21, 240, 120, 219, 0, 35, 3, 3, 0, 1, 11, 15, 15, 15, 14, 3, 11, 35),
-		GIGGLER(3, 50, 10, 10, 0, 110, 0, 6, 3, 1, 1, 0, 3, 2, 5, 2, 1, 110),
+		WIZARD_EYE(40, 58),
+		SKELETON(20, 22),
+		STONE_GOLEM(120, 219),
+		GIGGLER(10, 10),
 		/** aka GIANT_RAT */
-		PAIN_RAT(9, 45, 101, 90, 0, 65, 4, 4, 5, 1, 8, 15, 3, 10, 8, 3, 8, 65),
+		PAIN_RAT(101, 90),
 		/** aka SORCERER */
-		VEXIRK(10, 45, 44, 75, 0, 90, 5, 5, 3, 4, 9, 5, 5, 3, 20, 3, 9, 90),
-		RUSTER(20, 100, 60, 30, 0, 30, 3, 2, 3, 1, 3, 3, 8, 5, 18, 5, 3, 30),
+		VEXIRK(44, 75),
+		RUSTER(60, 30),
 		/** aka SCORPION */
-		GIANT_SCORPION(8, 55, 150, 150, 240, 55, 4, 3, 1, 1, 9, 9, 7, 8, 20, 4, 9, 55),
-		WATER_ELEMENTAL(25, 75, 144, 66, 0, 50, 3, 1, 3, 1, 6, 7, 10, 14, 25, 5, 6, 50),
+		GIANT_SCORPION(150, 150),
+		WATER_ELEMENTAL(144, 66),
 		/** aka KNIGHT or DEATH_KNIGHT */
-		ANIMATED_ARMOR(14, 140, 60, 105, 0, 70, 4, 5, 0, 1, 10, 15, 15, 15, 6, 3, 10, 70),
+		ANIMATED_ARMOR(60, 105),
 		/** aka SPIDER */
-		OITU(7, 33, 77, 130, 0, 60, 4, 2, 5, 1, 9, 6, 5, 8, 15, 4, 9, 60),
+		OITU(77, 130),
 		/** aka MATERIALIZER */
-		ZYTAZ(5, 15, 33, 61, 0, 65, 5, 8, 2, 3, 12, 7, 5, 15, 18, 7, 12, 65),
+		ZYTAZ(33, 61),
 		/** aka FIRE_ELEMENTAL */
-		BLACK_FLAME(255, 45, 80, 105, 0, 60, 1, 4, 3, 1, 5, 10, 15, 15, 8, 4, 5, 60),
-		DEMON(10, 68, 100, 100, 0, 75, 3, 4, 3, 4, 13, 15, 5, 10, 14, 4, 13, 75),
+		BLACK_FLAME(80, 105),
+		DEMON(100, 100),
 		/** aka DRAGON */
-		RED_DRAGON(13, 110, 255, 255, 0, 70, 4, 5, 6, 2, 15, 7, 12, 6, 28, 5, 15, 70),
-		LORD_CHAOS(12, 255, 180, 210, 0, 130, 5, 9, 3, 6, 15, 3, 11, 15, 22, 4, 15, 130),
-		LORD_ORDER(12, 255, 180, 210, 0, 130, 5, 9, 3, 6, 15, 3, 11, 15, 22, 4, 15, 130),
-		GREY_LORD(12, 255, 180, 210, 0, 130, 5, 9, 3, 6, 15, 3, 11, 15, 22, 4, 15, 130);
-
-		/**
-		 * The armor value is always within range [0,255]. The special value 255
-		 * means that the creature is invincible.
-		 */
-		private final int armor;
-
-		/**
-		 * Defines how long it takes for the creature to move from one position
-		 * to another (in number of clock ticks). Value within [0,255]. The
-		 * special value 255 means that the creature can't move.
-		 */
-		private final int moveDuration;
+		RED_DRAGON(255, 255),
+		LORD_CHAOS(180, 210),
+		LORD_ORDER(180, 210),
+		GREY_LORD(180, 210);
 
 		/**
 		 * The base health is used to calculate the health of creatures
@@ -222,182 +195,35 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		 */
 		private final int hitProbability;
 
-		/**
-		 * The strength of the creature's poisonous attack. Value within
-		 * [0,255].
-		 */
-		private final int poisonAmount;
-
-		private final int attackPower;
-
-		/**
-		 * This "number" is used to determine what kind of attack the creature
-		 * executes. Changing this value will result in a different "protection"
-		 * to be used when calculating the damage:
-		 *
-		 * 1: Use Anti-Fire to determine damage 2: Half the hero's armor and do
-		 * physical damage 3: Unknown 4: Deal physical piercing damage 5: Use
-		 * Anti-Magic to determine damage 6: Use Wisdom to determine damage
-		 */
-		private final AttackType attackType;
-
-		/**
-		 * Valeur dans l'intervalle [0-15].
-		 */
-		private final int sightRange;
-
-		/**
-		 * Valeur dans l'intervalle [0-15]. aka "Detection range".
-		 */
-		private final int awareness;
-
-		/**
-		 * Valeur dans l'intervalle [0-15]. aka "Spell casting range".
-		 */
-		private final int spellRange;
-
-		private final Champion.Level skill;
-
-		/**
-		 * Resistance to War Cry, Calm, Brandish and Blow Horn (maybe also
-		 * Confuse). Value within [0,15]. The special value 15 means the
-		 * creature can't be frightened.
-		 */
-		private final int bravery;
-
-		/**
-		 * Resistance to magical spells like Fireball. Value within [0,15]. The
-		 * special value 15 means the creature is immune to magic attacks. aka
-		 * "Fire resistance".
-		 */
-		private final int antiMagic;
-
-		/**
-		 * Resistance to magical spells involving poison. Value within [0,15].
-		 * The special value 15 means the creature is immune to poison attacks.
-		 */
-		private final int poisonResistance;
-
-		/**
-		 * This is the number of clock ticks per attack, defining the attack
-		 * speed of the creature. This is the minimum amount of time required
-		 * between two attacks. Value within [0,255].
-		 */
-		private final int attackDuration;
-
-		/**
-		 * The number of clock ticks during which the picture of an attacking
-		 * creature should be displayed. Value within [0,255].
-		 */
-		private final int attackDisplayDuration;
-
-		/**
-		 * This value is used as a multiplier to compute the experience earned
-		 * by a champion killing this creature
-		 */
-		private final int experienceMultiplier;
-
-		/**
-		 * Value within [0,255]. The special value 255 means the creature is
-		 * untouchable. This value represents the difficulty for champions to
-		 * hit the creature
-		 */
-		private final int shield;
-
-		private Type(int moveDuration, int armor, int baseHealth,
-				int hitProbability, int poisonAmount, int attackPower,
-				int attackType, int sightRange, int awareness, int spellRange,
-				int skill, int bravery, int antiMagic, int poisonResistance,
-				int attackDuration, int attackDisplayDuration,
-				int experienceMultiplier, int shield) {
-
-			Validate.isTrue((moveDuration >= 0) && (moveDuration <= 255),
-					"The given move duration " + moveDuration
-							+ " must be in range [0-255]");
-			Validate.isTrue((armor >= 0) && (armor <= 255), "The given armor "
-					+ armor + " must be in range [0-255]");
+		private Type(int baseHealth, int hitProbability) {
 			Validate.isTrue(baseHealth >= 0, "The given base health "
 					+ baseHealth + " must be positive");
 			Validate.isTrue((hitProbability >= 0) && (hitProbability <= 255),
 					"The given hit probability " + hitProbability
 							+ " must be in range [0-255]");
-			Validate.isTrue((poisonAmount >= 0) && (poisonAmount <= 255),
-					"The given poison amount " + poisonAmount
-							+ " must be in range [0-255]");
-			Validate.isTrue(attackPower >= 0, "The given attack power "
-					+ attackPower + " must be positive");
-			Validate.isTrue((attackType >= 0) && (attackType <= 6),
-					"The given attack type " + attackType
-							+ " must be in range [0-6]");
-			Validate.isTrue((sightRange >= 0) && (sightRange <= 15),
-					"The given sight range " + sightRange
-							+ " must be in range [0-15]");
-			Validate.isTrue((awareness >= 0) && (awareness <= 15),
-					"The given awareness " + awareness
-							+ " must be in range [0-15]");
-			Validate.isTrue((spellRange >= 0) && (spellRange <= 15),
-					"The given spell range " + spellRange
-							+ " must be in range [0-15]");
-			Validate.isTrue((skill >= 0) && (skill <= 15), "The given skill "
-					+ skill + " must be in range [0-15]");
-			Validate.isTrue((bravery >= 0) && (bravery <= 15),
-					"The given bravery " + bravery + " must be in range [0-15]");
-			Validate.isTrue((antiMagic >= 0) && (antiMagic <= 15),
-					"The given anti-magic " + antiMagic
-							+ " must be in range [0-15]");
-			Validate.isTrue(
-					(poisonResistance >= 0) && (poisonResistance <= 15),
-					"The given poison resistance " + poisonResistance
-							+ " must be in range [0-15]");
-			Validate.isTrue((attackDuration >= 0) && (attackDuration <= 255),
-					"The given attack duration " + attackDuration
-							+ " must be in range [0-255]");
-			Validate.isTrue((attackDisplayDuration >= 0)
-					&& (attackDisplayDuration <= 255),
-					"The given attack display duration "
-							+ attackDisplayDuration
-							+ " must be in range [0-255]");
-			Validate.isTrue((experienceMultiplier >= 0)
-					&& (experienceMultiplier <= 15),
-					"The given experience multiplier " + experienceMultiplier
-							+ " must be in range [0-15]");
-			Validate.isTrue((shield >= 0) && (shield <= 255),
-					"The given shield " + shield + " must be in range [0-255]");
 
 			this.baseHealth = baseHealth;
-			this.moveDuration = moveDuration;
-			this.armor = armor;
 			this.hitProbability = hitProbability;
-			this.poisonAmount = poisonAmount;
-			this.attackPower = attackPower;
-			this.attackType = AttackType.values()[attackType];
-			this.sightRange = sightRange;
-			this.awareness = awareness;
-			this.spellRange = spellRange;
-			this.skill = Champion.Level.values()[skill];
-			this.bravery = bravery;
-			this.antiMagic = antiMagic;
-			this.poisonResistance = poisonResistance;
-			this.attackDuration = attackDuration;
-			this.attackDisplayDuration = attackDisplayDuration;
-			this.experienceMultiplier = experienceMultiplier;
-			this.shield = shield;
+		}
+
+		private CreatureDef getDefinition() {
+			return CreatureDef.getDefinition(this);
 		}
 
 		public int getShield() {
-			return shield;
+			return getDefinition().getShield();
 		}
 
 		public int getExperienceMultiplier() {
-			return experienceMultiplier;
+			return getDefinition().getExperienceMultiplier();
 		}
 
-		public int getAttackDisplayDuration() {
-			return attackDisplayDuration;
+		public int getAttackAnimationDuration() {
+			return getDefinition().getAttackAnimationDuration();
 		}
 
 		public int getAttackDuration() {
-			return attackDuration;
+			return getDefinition().getAttackDuration();
 		}
 
 		public boolean absorbsItems() {
@@ -433,33 +259,33 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		public boolean isImmuneToPoison() {
-			return (15 == poisonResistance);
+			return (15 == getPoisonResistance());
 		}
 
 		public boolean isImmuneToMagic() {
-			return (15 == antiMagic);
+			return (15 == getAntiMagic());
 		}
 
 		public int getPoisonResistance() {
-			return poisonResistance;
+			return getDefinition().getPoisonResistance();
 		}
 
 		public int getAntiMagic() {
-			return antiMagic;
+			return getDefinition().getAntiMagic();
 		}
 
 		public int getBravery() {
-			return bravery;
+			return getDefinition().getBravery();
 		}
 
 		public Champion.Level getSkill() {
-			return skill;
+			return getDefinition().getSkill();
 		}
 
-		public int getSpellRange() {
+		public int getAttackRange() {
 			// Maximum number of tiles between creature and party needed to
 			// perform a distance attack (cast a spell)
-			return spellRange;
+			return getDefinition().getAttackRange();
 		}
 
 		/**
@@ -468,7 +294,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		 * @return whether the creature is still.
 		 */
 		public boolean isStill() {
-			return (255 == moveDuration);
+			return (255 == getMoveDuration());
 		}
 
 		/**
@@ -487,7 +313,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		 * @return whether the creature is invincible.
 		 */
 		public boolean isInvincible() {
-			return (255 == armor);
+			return (255 == getArmor());
 		}
 
 		/**
@@ -753,27 +579,8 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		 *
 		 * @return a list of spell types. Never returns null.
 		 */
-		public List<Spell.Type> getSpells() {
-			switch (this) {
-			case SWAMP_SLIME:
-				return Arrays.asList(Spell.Type.POISON_CLOUD);
-			case WIZARD_EYE:
-				return Arrays.asList(Spell.Type.OPEN_DOOR, Spell.Type.LIGHTNING_BOLT);
-			case VEXIRK:
-				return Arrays.asList(Spell.Type.OPEN_DOOR, Spell.Type.LIGHTNING_BOLT, Spell.Type.POISON_CLOUD,
-						Spell.Type.FIREBALL);
-			case ZYTAZ:
-				return Arrays.asList(Spell.Type.POISON_CLOUD, Spell.Type.FIREBALL);
-			case DEMON:
-				return Arrays.asList(Spell.Type.FIREBALL);
-			case RED_DRAGON:
-				return Arrays.asList(Spell.Type.FIREBALL);
-			case LORD_CHAOS:
-				return Arrays.asList(Spell.Type.OPEN_DOOR, Spell.Type.LIGHTNING_BOLT, Spell.Type.POISON_CLOUD,
-						Spell.Type.FIREBALL);
-			default:
-				return Collections.emptyList();
-			}
+		public Set<Spell.Type> getSpells() {
+			return getDefinition().getSpells();
 		}
 
 		/**
@@ -782,8 +589,8 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		 * @return une {@link List} de {@link Spell.Type}. Ne retourne jamais
 		 *         null.
 		 */
-		public List<Spell.Type> getAttackSpells() {
-			final List<Spell.Type> spells = getSpells();
+		public Set<Spell.Type> getAttackSpells() {
+			final Set<Spell.Type> spells = getSpells();
 
 			// Remove the possible non-attack spells (like OPEN_DOOR)
 			for (final Iterator<Spell.Type> it = spells.iterator(); it.hasNext();) {
@@ -813,42 +620,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		public Size getSize() {
-			// cf Technical Documentation - Dungeon Master and Chaos Strikes
-			// Back Creature Details
-			switch (this) {
-			case MUMMY:
-			case SCREAMER:
-			case ROCK_PILE:
-			case TROLIN:
-			case GIANT_WASP:
-			case GHOST:
-			case SWAMP_SLIME:
-			case SKELETON:
-			case WIZARD_EYE:
-			case GIGGLER:
-			case DEMON:
-			case ZYTAZ:
-			case ANIMATED_ARMOR:
-			case VEXIRK:
-				return Size.ONE;
-			case MAGENTA_WORM:
-			case RUSTER:
-			case PAIN_RAT:
-				return Size.TWO;
-			case GIANT_SCORPION:
-			case STONE_GOLEM:
-			case BLACK_FLAME:
-			case COUATL:
-			case WATER_ELEMENTAL:
-			case OITU:
-			case LORD_CHAOS:
-			case RED_DRAGON:
-			case LORD_ORDER:
-			case GREY_LORD:
-				return Size.FOUR;
-			default:
-				throw new UnsupportedOperationException();
-			}
+			return getDefinition().getSize();
 		}
 
 		public Height getHeight() {
@@ -868,49 +640,13 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			// door always closes normally without causing any damage to such
 			// creatures.
 
-			// cf Technical Documentation - Dungeon Master and Chaos Strikes
-			// Back Creature Details
-			switch (this) {
-			case SWAMP_SLIME:
-			case GIANT_SCORPION:
-			case WIZARD_EYE:
-			case STONE_GOLEM:
-			case MUMMY:
-			case BLACK_FLAME:
-			case SKELETON:
-			case COUATL:
-			case TROLIN:
-			case GIANT_WASP:
-			case ANIMATED_ARMOR:
-			case WATER_ELEMENTAL:
-			case OITU:
-			case DEMON:
-			case LORD_CHAOS:
-			case RED_DRAGON:
-			case LORD_ORDER:
-			case GREY_LORD:
-				return Height.GIANT;
-			case GIGGLER:
-			case PAIN_RAT:
-			case SCREAMER:
-			case ROCK_PILE:
-				return Height.MEDIUM;
-			case RUSTER:
-			case VEXIRK:
-			case MAGENTA_WORM:
-				return Height.SMALL;
-			case GHOST:
-			case ZYTAZ:
-				return Height.UNDEFINED;
-			default:
-				throw new UnsupportedOperationException();
-			}
+			return getDefinition().getHeight();
 		}
 
 		public int getArmor() {
 			// This is the resistance to damage including Dispell on non
 			// material creatures
-			return armor;
+			return getDefinition().getArmor();
 		}
 
 		public int computeDamagePoints(Champion champion, Item weapon, Action action) {
@@ -927,7 +663,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			final int strength = champion.getStats().getStrength().value();
 
 			// - L'armure de la cr�ature
-			final int vulnerability = 255 - armor;
+			final int vulnerability = 255 - getArmor();
 
 			// - Le type d'action utilis�
 			final int actionDamage = action.getDamage();
@@ -941,7 +677,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			// movement, defining the movement speed of the creature. This is
 			// the minimum of time required between two movements. If the value
 			// is FFh then the creature cannot move at all.
-			return moveDuration;
+			return getDefinition().getMoveDuration();
 		}
 
 		private int getBaseHealth() {
@@ -962,20 +698,20 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			return Utils.random(255) < hitProbability;
 		}
 
-		public int getPoisonAmount() {
+		public int getPoison() {
 			// The amount of poison inflicted when the creature successfully
 			// hits a character
-			return poisonAmount;
+			return getDefinition().getPoison();
 		}
 
 		public int getAttackPower() {
 			// The base value for computing how much damage a creature's attack
 			// will inflict
-			return attackPower;
+			return getDefinition().getAttackPower();
 		}
 
 		public AttackType getAttackType() {
-			return attackType;
+			return getDefinition().getAttackType();
 		}
 
 		public int getSightRange() {
@@ -983,7 +719,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			// the party. This applies only if the creature is facing the
 			// party. This value is affected by the current light level in the
 			// dungeon (the value is halved for each level of darkness).
-			return sightRange;
+			return getDefinition().getSightRange();
 		}
 
 		public int getAwareness() {
@@ -991,54 +727,17 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			// detect and "turn" towards the party, perhaps to shoot a
 			// projectile. This applies even if the creature is not facing the
 			// party
-			return awareness;
+			return getDefinition().getAwareness();
 		}
 
-		public EnumSet<Weakness> getWeaknesses() {
-			switch (this) {
-			case MUMMY:
-			case SKELETON:
-			case ANIMATED_ARMOR:
-				return WEAKNESSES_MATERIAL_4;
-			case SCREAMER:
-			case ROCK_PILE:
-			case TROLIN:
-			case MAGENTA_WORM:
-			case GIANT_WASP:
-			case GIGGLER:
-			case PAIN_RAT:
-			case VEXIRK:
-			case RUSTER:
-			case GIANT_SCORPION:
-			case OITU:
-			case DEMON:
-			case RED_DRAGON:
-			case SWAMP_SLIME:
-			case COUATL:
-			case WIZARD_EYE:
-				return WEAKNESSES_MATERIAL_5;
-			case STONE_GOLEM:
-				return WEAKNESSES_WEAPONS;
-			case GHOST:
-			case WATER_ELEMENTAL:
-			case ZYTAZ:
-			case BLACK_FLAME:
-				return WEAKNESSES_IMMATERIAL;
-			case LORD_CHAOS:
-				return WEAKNESSES_FIRESTAFF;
-			case LORD_ORDER:
-				return EnumSet.noneOf(Weakness.class);
-			case GREY_LORD:
-				return EnumSet.noneOf(Weakness.class);
-			default:
-				throw new UnsupportedOperationException();
-			}
+		public Set<Weakness> getWeaknesses() {
+			return getDefinition().getWeaknesses();
 		}
 
 		public boolean isHurtByWeapon(Item weapon) {
 			Validate.notNull(weapon, "The given weapon item is null");
 
-			final EnumSet<Weakness> weaknesses = getWeaknesses();
+			final Set<Weakness> weaknesses = getWeaknesses();
 
 			if (weaknesses.isEmpty()) {
 				return false;
@@ -1055,7 +754,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		public boolean isHurtBySpell(Spell.Type spellType) {
 			Validate.notNull(spellType, "The given spell type is null");
 
-			final EnumSet<Weakness> weaknesses = getWeaknesses();
+			final Set<Weakness> weaknesses = getWeaknesses();
 
 			if (weaknesses.isEmpty()) {
 				return false;
@@ -1070,7 +769,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		public boolean isHurtByPoisonCloud() {
-			final EnumSet<Weakness> weaknesses = getWeaknesses();
+			final Set<Weakness> weaknesses = getWeaknesses();
 
 			// Optimisation
 			return weaknesses.contains(Weakness.POISON_CLOUD);
@@ -1561,7 +1260,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 
 	public final int getPoison() {
-		return getType().getPoisonAmount();
+		return getType().getPoison();
 	}
 
 	public final int getSightRange() {
@@ -1569,7 +1268,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 
 	public final int getSpellRange() {
-		return getType().getSpellRange();
+		return getType().getAttackRange();
 	}
 
 	public final int getBravery() {
@@ -1722,7 +1421,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		return getType().isNearlyImmuneToSpells();
 	}
 
-	public final List<Spell.Type> getSpells() {
+	public final Set<Spell.Type> getSpells() {
 		return getType().getSpells();
 	}
 
@@ -1754,7 +1453,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		return getType().canCastSpell();
 	}
 
-	public final EnumSet<Weakness> getWeaknesses() {
+	public final Set<Weakness> getWeaknesses() {
 		return getType().getWeaknesses();
 	}
 
@@ -1783,7 +1482,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	}
 
 	public final int getAttackDisplayDuration() {
-		return getType().getAttackDisplayDuration();
+		return getType().getAttackAnimationDuration();
 	}
 
 	public final int getExperienceMultiplier() {
@@ -2280,13 +1979,6 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 				log.debug(this + ".Element: " + initialElement + " -> "
 						+ this.element);
 			}
-		}
-	}
-
-	public static void main(String[] args) {
-		for (Creature.Type type : Creature.Type.values()) {
-			System.out.println("Creature " + type + ": Awareness = "
-					+ type.getAwareness());
 		}
 	}
 }

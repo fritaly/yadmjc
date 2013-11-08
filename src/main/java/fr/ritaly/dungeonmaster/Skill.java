@@ -19,6 +19,9 @@
 package fr.ritaly.dungeonmaster;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
+
+import fr.ritaly.dungeonmaster.stat.Stats;
 
 /**
  * Enumerates the possible champion skills. A {@link Skill} is either "basic" or
@@ -148,7 +151,7 @@ public enum Skill {
 	 * @return whether the champion's strength improves when the champion gains
 	 *         a new level of this {@link Skill}.
 	 */
-	public boolean improvesStrength() {
+	boolean improvesStrength() {
 		return equals(FIGHTER) || equals(NINJA);
 	}
 
@@ -159,7 +162,7 @@ public enum Skill {
 	 * @return whether the champion's dexterity improves when the champion gains
 	 *         a new level of this {@link Skill}.
 	 */
-	public boolean improvesDexterity() {
+	boolean improvesDexterity() {
 		return equals(FIGHTER) || equals(NINJA);
 	}
 
@@ -170,7 +173,7 @@ public enum Skill {
 	 * @return whether the champion's mana improves when the champion gains a
 	 *         new level of this {@link Skill}.
 	 */
-	public boolean improvesMana() {
+	boolean improvesMana() {
 		return equals(PRIEST) || equals(WIZARD);
 	}
 
@@ -181,7 +184,7 @@ public enum Skill {
 	 * @return whether the champion's wisdom improves when the champion gains a
 	 *         new level of this {@link Skill}.
 	 */
-	public boolean improvesWisdom() {
+	boolean improvesWisdom() {
 		return equals(PRIEST) || equals(WIZARD);
 	}
 
@@ -192,7 +195,7 @@ public enum Skill {
 	 * @return whether the champion's anti-magic improves when the champion
 	 *         gains a new level of this {@link Skill}.
 	 */
-	public boolean improvesAntiMagic() {
+	boolean improvesAntiMagic() {
 		return equals(PRIEST) || equals(WIZARD);
 	}
 
@@ -203,7 +206,7 @@ public enum Skill {
 	 * @return whether the champion's health improves when the champion gains a
 	 *         new level of this {@link Skill}.
 	 */
-	public boolean improvesHealth() {
+	boolean improvesHealth() {
 		return true;
 	}
 
@@ -214,7 +217,7 @@ public enum Skill {
 	 * @return whether the champion's stamina improves when the champion gains a
 	 *         new level of this {@link Skill}.
 	 */
-	public boolean improvesStamina() {
+	boolean improvesStamina() {
 		return true;
 	}
 
@@ -225,7 +228,7 @@ public enum Skill {
 	 * @return whether the champion's vitality improves when the champion gains
 	 *         a new level of this {@link Skill}.
 	 */
-	public boolean improvesVitality() {
+	boolean improvesVitality() {
 		return true;
 	}
 
@@ -236,7 +239,7 @@ public enum Skill {
 	 * @return whether the champion's anti-fire improves when the champion gains
 	 *         a new level of this {@link Skill}.
 	 */
-	public boolean improvesAntiFire() {
+	boolean improvesAntiFire() {
 		return true;
 	}
 
@@ -248,5 +251,71 @@ public enum Skill {
 	 */
 	public String getLabel() {
 		return StringUtils.capitalize(name().toLowerCase());
+	}
+
+	/**
+	 * Randomly improves the given stats. The stats improved depend on the
+	 * skill.
+	 *
+	 * @param stats
+	 *            the stats to improve. Can't be null.
+	 */
+	public void improve(Stats stats) {
+		Validate.notNull(stats, "The given stats is null");
+
+		if (improvesHealth()) {
+			final int healthBonus = Utils.random(5, 15);
+
+			stats.getHealth().incMax(healthBonus);
+			stats.getHealth().inc(healthBonus);
+		}
+		if (improvesStamina()) {
+			final int staminaBonus = Utils.random(5, 15);
+
+			stats.getStamina().incMax(staminaBonus);
+			stats.getStamina().inc(staminaBonus);
+		}
+		if (improvesVitality()) {
+			final int vitalityBonus = Utils.random(5, 15);
+
+			stats.getVitality().incMax(vitalityBonus);
+			stats.getVitality().inc(vitalityBonus);
+		}
+		if (improvesAntiFire()) {
+			final int antiFireBonus = Utils.random(5, 15);
+
+			stats.getAntiFire().incMax(antiFireBonus);
+			stats.getAntiFire().inc(antiFireBonus);
+		}
+		if (improvesStrength()) {
+			final int strengthBonus = Utils.random(5, 15);
+
+			stats.getStrength().incMax(strengthBonus);
+			stats.getStrength().inc(strengthBonus);
+		}
+		if (improvesDexterity()) {
+			final int dexterityBonus = Utils.random(5, 15);
+
+			stats.getDexterity().incMax(dexterityBonus);
+			stats.getDexterity().inc(dexterityBonus);
+		}
+		if (improvesMana()) {
+			final int manaBonus = Utils.random(5, 15);
+
+			stats.getMana().incMax(manaBonus);
+			stats.getMana().inc(manaBonus);
+		}
+		if (improvesWisdom()) {
+			final int wisdomBonus = Utils.random(5, 15);
+
+			stats.getWisdom().incMax(wisdomBonus);
+			stats.getWisdom().inc(wisdomBonus);
+		}
+		if (improvesAntiMagic()) {
+			final int antiMagicBonus = Utils.random(5, 15);
+
+			stats.getAntiMagic().incMax(antiMagicBonus);
+			stats.getAntiMagic().inc(antiMagicBonus);
+		}
 	}
 }
