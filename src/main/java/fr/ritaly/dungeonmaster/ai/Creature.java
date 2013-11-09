@@ -141,72 +141,53 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	 * @author francois_ritaly
 	 */
 	public static enum Type {
-		MUMMY(33, 20),
-		SCREAMER(165, 5),
+		MUMMY,
+		SCREAMER,
 		/** aka STONE_ROCK */
-		ROCK_PILE(50, 40),
+		ROCK_PILE,
 		/** aka OGRE */
-		TROLIN(20, 25),
+		TROLIN,
 		/** aka WORM */
-		MAGENTA_WORM(70, 45),
+		MAGENTA_WORM,
 		/** aka WASP */
-		GIANT_WASP(8, 28),
-		GHOST(30, 55),
+		GIANT_WASP,
+		GHOST,
 		/** aka TENTACLE */
-		SWAMP_SLIME(110, 80),
+		SWAMP_SLIME,
 		/** aka SNAKE */
-		COUATL(39, 90),
+		COUATL,
 		/** aka EYE_BALL */
-		WIZARD_EYE(40, 58),
-		SKELETON(20, 22),
-		STONE_GOLEM(120, 219),
-		GIGGLER(10, 10),
+		WIZARD_EYE,
+		SKELETON,
+		STONE_GOLEM,
+		GIGGLER,
 		/** aka GIANT_RAT */
-		PAIN_RAT(101, 90),
+		PAIN_RAT,
 		/** aka SORCERER */
-		VEXIRK(44, 75),
-		RUSTER(60, 30),
+		VEXIRK,
+		RUSTER,
 		/** aka SCORPION */
-		GIANT_SCORPION(150, 150),
-		WATER_ELEMENTAL(144, 66),
+		GIANT_SCORPION,
+		WATER_ELEMENTAL,
 		/** aka KNIGHT or DEATH_KNIGHT */
-		ANIMATED_ARMOR(60, 105),
+		ANIMATED_ARMOR,
 		/** aka SPIDER */
-		OITU(77, 130),
+		OITU,
 		/** aka MATERIALIZER */
-		ZYTAZ(33, 61),
+		ZYTAZ,
 		/** aka FIRE_ELEMENTAL */
-		BLACK_FLAME(80, 105),
-		DEMON(100, 100),
+		BLACK_FLAME,
+		DEMON,
 		/** aka DRAGON */
-		RED_DRAGON(255, 255),
-		LORD_CHAOS(180, 210),
-		LORD_ORDER(180, 210),
-		GREY_LORD(180, 210);
+		RED_DRAGON,
+		LORD_CHAOS,
+		LORD_ORDER,
+		GREY_LORD;
 
-		/**
-		 * The base health is used to calculate the health of creatures
-		 * generated during the game.
-		 */
-		private final int baseHealth;
-
-		/**
-		 * The odds of hitting a {@link Champion}. Value within [0,255].
-		 */
-		private final int hitProbability;
-
-		private Type(int baseHealth, int hitProbability) {
-			Validate.isTrue(baseHealth >= 0, "The given base health "
-					+ baseHealth + " must be positive");
-			Validate.isTrue((hitProbability >= 0) && (hitProbability <= 255),
-					"The given hit probability " + hitProbability
-							+ " must be in range [0-255]");
-
-			this.baseHealth = baseHealth;
-			this.hitProbability = hitProbability;
+		private Type() {
 		}
 
-		private CreatureDef getDefinition() {
+		CreatureDef getDefinition() {
 			return CreatureDef.getDefinition(this);
 		}
 
@@ -508,73 +489,6 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		}
 
 		/**
-		 * Generates and returns a list of items corresponding to the items
-		 * dropped by the creature when killed.
-		 *
-		 * @return a list of items. Never returns null.
-		 */
-		private List<Item> getItemsLeftWhenKilled() {
-			switch (this) {
-			case SCREAMER: {
-				return randomItems(1, 2, Item.Type.SCREAMER_SLICE);
-			}
-			case ROCK_PILE: {
-				final List<Item> items = new ArrayList<Item>();
-				items.addAll(randomItems(1, 2, Item.Type.BOULDER));
-				items.addAll(randomItems(0, 2, Item.Type.ROCK));
-
-				return items;
-			}
-			case TROLIN: {
-				final List<Item> items = new ArrayList<Item>();
-				items.add(ItemFactory.getFactory().newItem(Item.Type.CLUB));
-
-				return items;
-			}
-			case MAGENTA_WORM: {
-				return randomItems(1, 3, Item.Type.WORM_ROUND);
-			}
-			case SKELETON: {
-				final List<Item> items = new ArrayList<Item>();
-				items.add(ItemFactory.getFactory().newItem(Item.Type.WOODEN_SHIELD));
-				items.add(ItemFactory.getFactory().newItem(Item.Type.FALCHION));
-
-				return items;
-			}
-			case STONE_GOLEM: {
-				final List<Item> items = new ArrayList<Item>();
-				items.add(ItemFactory.getFactory().newItem(Item.Type.STONE_CLUB));
-
-				return items;
-			}
-			case PAIN_RAT: {
-				return randomItems(1, 2, Item.Type.DRUMSTICK);
-			}
-			case ANIMATED_ARMOR: {
-				// The dropped items are cursed !
-				final List<Item> items = new ArrayList<Item>();
-				items.add(ItemFactory.getFactory().newItem(Item.Type.ARMET));
-				items.add(ItemFactory.getFactory().newItem(Item.Type.TORSO_PLATE));
-				items.add(ItemFactory.getFactory().newItem(Item.Type.LEG_PLATE));
-				items.add(ItemFactory.getFactory().newItem(Item.Type.FOOT_PLATE));
-				items.add(ItemFactory.getFactory().newItem(Item.Type.SWORD));
-				items.add(ItemFactory.getFactory().newItem(Item.Type.SWORD));
-
-				for (Item item : items) {
-					item.curse(PowerRune.UM);
-				}
-
-				return items;
-			}
-			case RED_DRAGON: {
-				return randomItems(8, 10, Item.Type.DRAGON_STEAK);
-			}
-			default:
-				return Collections.emptyList();
-			}
-		}
-
-		/**
 		 * Returns the spells the creature can cast.
 		 *
 		 * @return a list of spell types. Never returns null.
@@ -680,11 +594,8 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 			return getDefinition().getMoveDuration();
 		}
 
-		private int getBaseHealth() {
-			// This value is used to compute the health of a new creatures as
-			// detailed on Technical Documentation - Dungeon Master and Chaos
-			// Strikes Back Creature Generators
-			return baseHealth;
+		public int getBaseHealth() {
+			return getDefinition().getBaseHealth();
 		}
 
 		/**
@@ -695,7 +606,11 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		 *         {@link Champion} succeeds.
 		 */
 		public boolean hitsChampion() {
-			return Utils.random(255) < hitProbability;
+			return Utils.random(255) < getAttackProbability();
+		}
+
+		public int getAttackProbability() {
+			return getDefinition().getAttackProbability();
 		}
 
 		public int getPoison() {
@@ -907,20 +822,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		 *         face aux {@link Champion}s.
 		 */
 		public boolean isSideAttackAllowed() {
-			// The creature does not need to face the party to attack. This
-			// flag is set only for creatures that have the same image for all
-			// sides. It affects their attack frequency because they don't need
-			// to turn to face the party before attacking.
-			switch (this) {
-			case WIZARD_EYE:
-			case SCREAMER:
-			case GHOST:
-			case BLACK_FLAME:
-			case WATER_ELEMENTAL:
-				return true;
-			default:
-				return false;
-			}
+			return getDefinition().isSideAttack();
 		}
 
 		/**
@@ -1190,7 +1092,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 	public final boolean dropItems() {
 		// If this bit is set to '1', the creature will drop some items when it
 		// is killed
-		return !getType().getItemsLeftWhenKilled().isEmpty();
+		return !getType().getDefinition().getItemDefs().isEmpty();
 	}
 
 	/**
@@ -1441,7 +1343,7 @@ public class Creature implements ChangeListener, ClockListener, HasDirection {
 		final List<Item> items = new ArrayList<Item>();
 
 		// Les objets que porte "nativement" la cr�ature
-		items.addAll(getType().getItemsLeftWhenKilled());
+		items.addAll(getType().getDefinition().getItems());
 
 		// Les objets qu'il a �ventuellement absorb� ou vol� !
 		items.addAll(absorbedItems);

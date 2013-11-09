@@ -43,9 +43,13 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 
+import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.ai.Creature.Height;
 import fr.ritaly.dungeonmaster.ai.Creature.Size;
 import fr.ritaly.dungeonmaster.champion.Champion;
+import fr.ritaly.dungeonmaster.item.Item;
+import fr.ritaly.dungeonmaster.item.ItemFactory;
+import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.magic.Spell;
 
 /**
@@ -84,11 +88,12 @@ final class CreatureDef {
 		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 			final String elementName = qName;
 
-			if ("creatures".equals(elementName) || "weaknesses".equals(elementName) || "spells".equals(elementName)) {
+			if ("creatures".equals(elementName) || "weaknesses".equals(elementName) || "spells".equals(elementName) || "items".equals(elementName)) {
 				// Do nothing
 			} else if ("creature".equals(elementName)) {
 				this.definition = new CreatureDef();
 				this.definition.id = attributes.getValue("id");
+				this.definition.baseHealth = Integer.valueOf(attributes.getValue("base-health"));
 				this.definition.height = Height.valueOf(attributes.getValue("height"));
 				this.definition.size = Size.valueOf(attributes.getValue("size"));
 				this.definition.awareness = Integer.valueOf(attributes.getValue("awareness"));
@@ -107,6 +112,8 @@ final class CreatureDef {
 				this.definition.attackPower = Integer.parseInt(attributes.getValue("power"));
 				this.definition.attackType = AttackType.valueOf(attributes.getValue("type"));
 				this.definition.attackRange = Integer.parseInt(attributes.getValue("range"));
+				this.definition.attackProbability = Integer.parseInt(attributes.getValue("probability"));
+				this.definition.sideAttack = Boolean.valueOf(attributes.getValue("side-attack"));
 			} else if ("poison".equals(elementName)) {
 				if (attributes.getValue("strength") != null) {
 					this.definition.poison = Integer.parseInt(attributes.getValue("strength"));
@@ -117,6 +124,17 @@ final class CreatureDef {
 				this.definition.spells.add(Spell.Type.valueOf(attributes.getValue("id")));
 			} else if ("weakness".equals(elementName)) {
 				this.definition.weaknesses.add(Weakness.valueOf(attributes.getValue("id")));
+			} else if ("item".equals(elementName)) {
+				final ItemDef def = new ItemDef();
+				def.type = Item.Type.valueOf(attributes.getValue("type"));
+				def.min = Integer.parseInt(attributes.getValue("min"));
+				def.max = Integer.parseInt(attributes.getValue("max"));
+
+				if (attributes.getValue("curse") != null) {
+					def.curse = PowerRune.valueOf(attributes.getValue("curse"));
+				}
+
+				this.definition.itemDefs.add(def);
 			} else {
 				throw new SAXException(String.format("Unexpected element name '%s'", elementName));
 			}
@@ -126,7 +144,7 @@ final class CreatureDef {
 		public void endElement(String uri, String localName, String qName) throws SAXException {
 			final String elementName = qName;
 
-			if ("creatures".equals(elementName) || "weaknesses".equals(elementName) || "spells".equals(elementName)) {
+			if ("creatures".equals(elementName) || "weaknesses".equals(elementName) || "spells".equals(elementName) || "items".equals(elementName)) {
 				// Do nothing
 			} else if ("creature".equals(elementName)) {
 				this.definitions.add(definition);
@@ -142,6 +160,8 @@ final class CreatureDef {
 				// Do nothing
 			} else if ("spell".equals(elementName)) {
 				// Do nothing
+			} else if ("item".equals(elementName)) {
+				// Do nothing
 			} else {
 				throw new SAXException(String.format("Unexpected element name '%s'", elementName));
 			}
@@ -156,6 +176,36 @@ final class CreatureDef {
 			if (log.isInfoEnabled()) {
 				log.info(String.format("Parsed %d creature definitions", definitions.size()));
 			}
+		}
+	}
+
+	public static final class ItemDef {
+
+		private Item.Type type;
+
+		private int min;
+
+		private int max;
+
+		private PowerRune curse;
+
+		private ItemDef() {
+		}
+
+		public List<Item> getItems() {
+			final List<Item> list = new ArrayList<Item>();
+
+			for (int i = 0; i < Utils.random(min, max); i++) {
+				final Item item = ItemFactory.getFactory().newItem(type);
+
+				if (curse != null) {
+					item.curse(curse);
+				}
+
+				list.add(item);
+			}
+
+			return list;
 		}
 	}
 
@@ -183,6 +233,12 @@ final class CreatureDef {
 	private Height height;
 
 	private Creature.Size size;
+
+	/**
+	 * The base health is used to calculate the health of creatures
+	 * generated during the game.
+	 */
+	private int baseHealth;
 
 	/**
 	 * Valeur dans l'intervalle [0-15]. aka "Detection range".
@@ -269,6 +325,11 @@ final class CreatureDef {
 	private int attackRange;
 
 	/**
+	 * The odds of hitting a {@link Champion}. Value within [0,255].
+	 */
+	private int attackProbability;
+
+	/**
 	 * The strength of the creature's poisonous attack. Value within
 	 * [0,255].
 	 */
@@ -280,11 +341,33 @@ final class CreatureDef {
 	 */
 	private int poisonResistance;
 
+	/**
+	 * The creature does not need to face the party to attack. This flag is set
+	 * only for creatures that have the same image for all sides. It affects
+	 * their attack frequency because they don't need to turn to face the party
+	 * before attacking.
+	 */
+	private boolean sideAttack;
+
 	private final Set<Weakness> weaknesses = new TreeSet<Weakness>();
 
 	private final Set<Spell.Type> spells = new TreeSet<Spell.Type>();
 
+	private final List<ItemDef> itemDefs = new ArrayList<CreatureDef.ItemDef>();
+
 	CreatureDef() {
+	}
+
+	public boolean isSideAttack() {
+		return sideAttack;
+	}
+
+	public int getAttackProbability() {
+		return attackProbability;
+	}
+
+	public int getBaseHealth() {
+		return baseHealth;
 	}
 
 	public int getAntiMagic() {
@@ -371,6 +454,10 @@ final class CreatureDef {
 		return Collections.unmodifiableSet(weaknesses);
 	}
 
+	public List<ItemDef> getItemDefs() {
+		return Collections.unmodifiableList(itemDefs);
+	}
+
 	public static Map<String, CreatureDef> getDefinitions() {
 		return DEFINITIONS;
 	}
@@ -383,6 +470,26 @@ final class CreatureDef {
 		Validate.notNull(type, "The given creature type is null");
 
 		return DEFINITIONS.get(type.name());
+	}
+
+	/**
+	 * Generates and returns a list of items corresponding to the items
+	 * dropped by the creature when killed.
+	 *
+	 * @return a list of items. Never returns null.
+	 */
+	public List<Item> getItems() {
+		if (itemDefs.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		final List<Item> list = new ArrayList<Item>();
+
+		for (ItemDef def : itemDefs) {
+			list.addAll(def.getItems());
+		}
+
+		return list;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -407,6 +514,7 @@ final class CreatureDef {
 		for (Creature.Type type : types) {
 			writer.writeStartElement("creature");
 			writer.writeAttribute("id", type.name());
+			writer.writeAttribute("base-health", Integer.toString(type.getBaseHealth()));
 			writer.writeAttribute("height", type.getHeight().name());
 			writer.writeAttribute("size", type.getSize().name());
 			writer.writeAttribute("awareness", Integer.toString(type.getAwareness()));
@@ -427,6 +535,8 @@ final class CreatureDef {
 			writer.writeAttribute("power", Integer.toString(type.getAttackPower()));
 			writer.writeAttribute("type", type.getAttackType().name());
 			writer.writeAttribute("range", Integer.toString(type.getAttackRange()));
+			writer.writeAttribute("probability", Integer.toString(type.getAttackProbability()));
+			writer.writeAttribute("side-attack", Boolean.toString(type.isSideAttackAllowed()));
 
 			writer.writeEmptyElement("poison");
 			if (type.getPoison() != 0) {
@@ -458,6 +568,23 @@ final class CreatureDef {
 				}
 
 				writer.writeEndElement(); // </weaknesses>
+			}
+
+			if (!type.getDefinition().getItemDefs().isEmpty()) {
+				writer.writeStartElement("items");
+
+				for (ItemDef itemDef : type.getDefinition().getItemDefs()) {
+					writer.writeEmptyElement("item");
+					writer.writeAttribute("type", itemDef.type.name());
+					writer.writeAttribute("min", Integer.toString(itemDef.min));
+					writer.writeAttribute("max", Integer.toString(itemDef.max));
+
+					if (itemDef.curse != null) {
+						writer.writeAttribute("curse", itemDef.curse.name());
+					}
+				}
+
+				writer.writeEndElement(); // </items>
 			}
 
 			writer.writeEndElement(); // </creature>
