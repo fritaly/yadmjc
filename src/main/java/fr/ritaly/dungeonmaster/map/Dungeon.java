@@ -107,7 +107,7 @@ public class Dungeon implements ClockListener {
 		Collections.sort(list, new Comparator<Level>() {
 			@Override
 			public int compare(Level level1, Level level2) {
-				return level1.getLevel() - level2.getLevel();
+				return level1.getNumber() - level2.getNumber();
 			}
 		});
 
@@ -577,7 +577,7 @@ public class Dungeon implements ClockListener {
 		}
 
 		// Lumi�re naturelle du niveau ?
-		light += getLevel(party.getPosition().z).getAmbiantLight();
+		light += getLevel(party.getPosition().z).getAmbientLight();
 
 		// TODO Prendre en compte les sorts de type Darkness !!
 

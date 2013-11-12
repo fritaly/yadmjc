@@ -88,27 +88,27 @@ public class ItemTest extends TestCase {
 		final Item cloak = ItemFactory.getFactory().newItem(Item.Type.CLOAK_OF_NIGHT);
 
 		final int initialDexterity = tiggy.getStats().getDexterity()
-				.actualValue();
+				.value();
 
 		// --- Mettre la cape en main -> pas d'effet constat�
 		assertNull(tiggy.getBody().getWeaponHand().putOn(cloak));
 		assertEquals(initialDexterity, tiggy.getStats().getDexterity()
-				.actualValue().intValue());
+				.value());
 
 		// --- Retirer la cape -> pas d'effet constat�
 		assertEquals(cloak, tiggy.getBody().getWeaponHand().takeOff());
 		assertEquals(initialDexterity, tiggy.getStats().getDexterity()
-				.actualValue().intValue());
+				.value());
 
 		// --- Mettre la cape sur le dos -> effet constat�
 		assertNull(tiggy.getBody().getNeck().putOn(cloak));
 		assertEquals(initialDexterity + 8, tiggy.getStats().getDexterity()
-				.actualValue().intValue());
+				.value());
 
 		// --- Retirer la cape -> effet constat�
 		assertEquals(cloak, tiggy.getBody().getNeck().takeOff());
 		assertEquals(initialDexterity, tiggy.getStats().getDexterity()
-				.actualValue().intValue());
+				.value());
 	}
 
 	public void testInfluenceOfElvenBootsOnMaxLoad() {
@@ -123,12 +123,12 @@ public class ItemTest extends TestCase {
 		final float maxLoad2 = tiggy.getMaxLoad();
 
 		// --- Le boost doit valoir initialement 0
-		assertEquals(0, maxLoadBoost.actualValue().intValue());
+		assertEquals(0, maxLoadBoost.value());
 
 		// --- Tiggy met les bottes, le boost augmente de +14
 		tiggy.getBody().getFeet().putOn(elvenBoots);
 
-		assertEquals(+14, maxLoadBoost.actualValue().intValue());
+		assertEquals(+14, maxLoadBoost.value());
 		assertEquals(maxLoad1 + 14, tiggy.getStats().getActualMaxLoad(), 0.00001f);
 		assertEquals(maxLoad2 + 14, tiggy.getMaxLoad(), 0.00001f);
 
@@ -138,7 +138,7 @@ public class ItemTest extends TestCase {
 		assertNotNull(item);
 		assertEquals(elvenBoots, item);
 
-		assertEquals(0, maxLoadBoost.actualValue().intValue());
+		assertEquals(0, maxLoadBoost.value());
 		assertEquals(maxLoad1, tiggy.getStats().getActualMaxLoad(), 0.00001f);
 		assertEquals(maxLoad2, tiggy.getMaxLoad(), 0.00001f);
 	}

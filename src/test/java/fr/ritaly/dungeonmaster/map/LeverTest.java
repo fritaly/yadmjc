@@ -47,7 +47,7 @@ public class LeverTest extends TestCase {
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
 
-		Dungeon dungeon = new Dungeon();
+		final Dungeon dungeon = new Dungeon();
 
 		final Pit pit = new Pit(false, false);
 
@@ -59,69 +59,68 @@ public class LeverTest extends TestCase {
 
 		lever.setActuator(new SimpleActuator(2, TriggerAction.TOGGLE, pit));
 
-		// --- Situation initiale
+		// --- Initial state
 		assertTrue(lever.isLeverUp());
 		assertTrue(pit.isClosed());
 
-		// --- On baisse le levier - l'oubliette doit s'ouvrir
+		// --- Pull the lever down - the pit must open
 		lever.toggle();
 
-		// Attendre que l'oubliette s'ouvre
+		// Let the pit open
 		Clock.getInstance().tick(2);
 
 		assertFalse(lever.isLeverUp());
 		assertTrue(pit.isOpen());
 
-		// --- On remonte le levier - l'oubliette doit se fermer
+		// --- Pull up the lever - the pit must close
 		lever.toggle();
 
-		// Attendre que l'oubliette s'ouvre
+		// Let the pit open
 		Clock.getInstance().tick(2);
 
 		assertTrue(lever.isLeverUp());
 		assertFalse(pit.isOpen());
 	}
-	
+
 	public void testActuatorTriggeredWhenUsingLever() {
 		final TestActuator actuator = new TestActuator();
-		
+
 		final Lever lever = new Lever(Direction.EAST, true);
 		lever.setActuator(actuator);
-		
+
 		final Dungeon dungeon = new Dungeon();
-		
+
 		final Level level1 = dungeon.createLevel(1, 5, 5);
 		level1.setElement(4, 2, lever);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertTrue(lever.isLeverUp());
 		assertFalse(actuator.isTriggered());
 
-		// --- On baisse le levier
+		// --- Pull the lever down
 		lever.toggle();
-		
+
 		Clock.getInstance().tick();
 
 		assertFalse(lever.isLeverUp());
 		assertTrue(actuator.isTriggered());
-		
+
 		actuator.reset();
-		
+
 		assertFalse(lever.isLeverUp());
 		assertFalse(actuator.isTriggered());
 
-		// --- On remonte le levier
+		// --- Pull up the lever
 		lever.toggle();
-		
+
 		Clock.getInstance().tick();
 
 		assertTrue(lever.isLeverUp());
-		assertTrue(actuator.isTriggered());		
+		assertTrue(actuator.isTriggered());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

@@ -54,8 +54,8 @@ public class ChampionTest extends TestCase {
 		dungeon.createLevel(1, 10, 10);
 
 		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
-		tiggy.getStats().getMana().maxValue(200);
-		tiggy.getStats().getMana().value(200);
+		tiggy.getStats().getMana().baseMaxValue(200);
+		tiggy.getStats().getMana().baseValue(200);
 
 		Party party = new Party();
 		party.addChampion(tiggy);
@@ -86,42 +86,42 @@ public class ChampionTest extends TestCase {
 
 		// --- Invoquer un power rune
 		{
-			final int initialMana = tiggy.getStats().getMana().actualValue();
+			final int initialMana = tiggy.getStats().getMana().value();
 
 			final Rune rune = PowerRune.ON;
 			tiggy.cast(rune);
 
-			assertEquals(initialMana - rune.getCost(), (int) tiggy.getStats().getMana().actualValue());
+			assertEquals(initialMana - rune.getCost(), (int) tiggy.getStats().getMana().value());
 		}
 
 		// --- Invoquer un element rune
 		{
-			final int initialMana = tiggy.getStats().getMana().actualValue();
+			final int initialMana = tiggy.getStats().getMana().value();
 
 			final Rune rune = ElementRune.ZO;
 			tiggy.cast(rune);
 
-			assertEquals(initialMana - rune.getCost(PowerRune.ON), (int) tiggy.getStats().getMana().actualValue());
+			assertEquals(initialMana - rune.getCost(PowerRune.ON), (int) tiggy.getStats().getMana().value());
 		}
 
 		// --- Invoquer un form rune
 		{
-			final int initialMana = tiggy.getStats().getMana().actualValue();
+			final int initialMana = tiggy.getStats().getMana().value();
 
 			final Rune rune = FormRune.KATH;
 			tiggy.cast(rune);
 
-			assertEquals(initialMana - rune.getCost(PowerRune.ON), (int) tiggy.getStats().getMana().actualValue());
+			assertEquals(initialMana - rune.getCost(PowerRune.ON), (int) tiggy.getStats().getMana().value());
 		}
 
 		// --- Invoquer un alignment rune
 		{
-			final int initialMana = tiggy.getStats().getMana().actualValue();
+			final int initialMana = tiggy.getStats().getMana().value();
 
 			final Rune rune = AlignmentRune.RA;
 			tiggy.cast(rune);
 
-			assertEquals(initialMana - rune.getCost(PowerRune.ON), (int) tiggy.getStats().getMana().actualValue());
+			assertEquals(initialMana - rune.getCost(PowerRune.ON), (int) tiggy.getStats().getMana().value());
 		}
 
 		// --- Lancer le sort

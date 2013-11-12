@@ -23,8 +23,6 @@ import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
-import fr.ritaly.dungeonmaster.item.Item;
-import fr.ritaly.dungeonmaster.item.WaterFlask;
 
 public class WaterFlaskTest extends TestCase {
 

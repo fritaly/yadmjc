@@ -24,7 +24,6 @@ import java.util.List;
 import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.ai.AttackType;
 import fr.ritaly.dungeonmaster.ai.Creature;
@@ -88,7 +87,7 @@ public class CreatureTest extends TestCase {
 		// The materiality of a zytaz changes over time
 		final Creature creature = new Creature(Creature.Type.ZYTAZ, 1);
 
-		Materiality materiality = creature.getMateriality();
+		boolean material = creature.isMaterial();
 		int count = 0;
 
 		// In 20 clock ticks, the zytaz must change its materiality at least
@@ -96,10 +95,10 @@ public class CreatureTest extends TestCase {
 		for (int i = 0; i < 20; i++) {
 			Clock.getInstance().tick();
 
-			if (materiality != creature.getMateriality()) {
+			if (material != creature.isMaterial()) {
 				count++;
 
-				materiality = creature.getMateriality();
+				material = creature.isMaterial();
 			}
 		}
 
@@ -111,16 +110,16 @@ public class CreatureTest extends TestCase {
 		// material)
 		final Creature creature = new Creature(Creature.Type.MUMMY, 1);
 
-		Materiality materiality = creature.getMateriality();
+		boolean material = creature.isMaterial();
 		int count = 0;
 
 		for (int i = 0; i < 20; i++) {
 			Clock.getInstance().tick();
 
-			if (materiality != creature.getMateriality()) {
+			if (material != creature.isMaterial()) {
 				count++;
 
-				materiality = creature.getMateriality();
+				material = creature.isMaterial();
 			}
 		}
 

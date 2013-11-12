@@ -30,7 +30,6 @@ import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Constants;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.ai.Creature;
-import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.map.Element.Type;
 import fr.ritaly.dungeonmaster.projectile.Projectile;
 
@@ -41,47 +40,51 @@ public class Level {
 
 	private final Log log = LogFactory.getLog(Level.class);
 
-	private final int level;
+	/**
+	 * The level's number.
+	 */
+	private final int number;
 
+	/**
+	 * The level's width.
+	 */
 	private final int width;
 
+	/**
+	 * The level's width.
+	 */
 	private final int height;
 
+	/**
+	 * The elements inside this level.
+	 */
 	private final Element[][] elements;
 
+	/**
+	 * The dungeon this level is bound to.
+	 */
 	private final Dungeon dungeon;
 
 	/**
-	 * Le multiplicateur par lequel l'exp�rience gagn�e par un {@link Champion}
-	 * doit �tre multipli�e pour ce niveau-ci.
+	 * Each level defines an experience multiplier which defines how many xp
+	 * points a champion earns when on this level.
 	 */
 	private int experienceMultiplier = 1;
 
 	/**
-	 * La luminosit� ambiante propre au niveau. Vaut en g�n�ral 0 sauf pour les
-	 * premiers niveaux d'un donjon.
+	 * The level's ambient light. Usually set to 0 (pitch dark) except for the
+	 * first levels in the game. Value within [0,255].
 	 */
-	private int ambiantLight;
+	private int ambientLight;
 
 	public Level(Dungeon dungeon, int number, int height, int width) {
-		if (dungeon == null) {
-			throw new IllegalArgumentException("The given dungeon is null");
-		}
-		if (number <= 0) {
-			throw new IllegalArgumentException("The given level number <"
-					+ number + "> must be positive");
-		}
-		if (height <= 0) {
-			throw new IllegalArgumentException("The given height <" + height
-					+ "> must be positive");
-		}
-		if (width <= 0) {
-			throw new IllegalArgumentException("The given width <" + width
-					+ "> must be positive");
-		}
+		Validate.notNull(dungeon, "The given dungeon is null");
+		Validate.isTrue(number > 0, String.format("The given level number %d must be positive", number));
+		Validate.isTrue(height > 0, String.format("The given level height %d must be positive", height));
+		Validate.isTrue(width > 0, String.format("The given level width %d must be positive", width));
 
 		this.dungeon = dungeon;
-		this.level = number;
+		this.number = number;
 		this.height = height;
 		this.width = width;
 		this.elements = new Element[width][height];
@@ -91,20 +94,20 @@ public class Level {
 
 	public void init() {
 		if (log.isDebugEnabled()) {
-			log.debug("Initializing level " + level + " ...");
+			log.debug("Initializing level " + number + " ...");
 		}
 
-		// Placer des murs autour du niveau et des vides � l'int�rieur
+		// Put walls all around the level and floor tiles in between
 		surround(ElementFactory.WALL_FACTORY);
 		fill(ElementFactory.FLOOR_FACTORY);
 
 		if (log.isInfoEnabled()) {
-			log.info("Initialized level " + level);
+			log.info("Initialized level " + number);
 		}
 	}
 
 	/**
-	 * Supprime tous les �l�ments du niveau.
+	 * Removes all the level elements.
 	 */
 	public void clear() {
 		for (int x = 0; x < width; x++) {
@@ -112,7 +115,7 @@ public class Level {
 				final Element removed = elements[x][y];
 
 				if (removed != null) {
-					// D�tacher l'�l�ment du niveau
+					// Detach the element from its parent level
 					removed.setLevel(null);
 					removed.setPosition(null);
 
@@ -122,6 +125,13 @@ public class Level {
 		}
 	}
 
+	/**
+	 * Fills the level with the elements created by the given factory. This
+	 * won't touch the elements on the borders.
+	 *
+	 * @param factory
+	 *            a factory of elements used to fill the level. Can't be null.
+	 */
 	public void fill(ElementFactory factory) {
 		Validate.notNull(factory, "The given element factory is null");
 
@@ -138,11 +148,18 @@ public class Level {
 		}
 
 		if (log.isDebugEnabled()) {
-			log.debug("Filled level " + level + " with " + factory.getType()
-					+ " elements");
+			log.debug("Filled level " + number + " with " + factory.getType() + " elements");
 		}
 	}
 
+	/**
+	 * Surrounds the level with the elements created by the given factory. This
+	 * will only touch the elements on the borders.
+	 *
+	 * @param factory
+	 *            a factory of elements used to surround the level. Can't be
+	 *            null.
+	 */
 	public void surround(ElementFactory factory) {
 		Validate.notNull(factory, "The given element factory is null");
 
@@ -159,46 +176,52 @@ public class Level {
 		}
 
 		if (log.isDebugEnabled()) {
-			log.debug("Surrounded level " + level + " with "
-					+ factory.getType() + " elements");
+			log.debug("Surrounded level " + number + " with " + factory.getType() + " elements");
 		}
 	}
 
 	private void checkX(int x) {
 		if ((x < 0) || (x > width - 1)) {
-			throw new IllegalArgumentException(
-					"The given x must be in range [0-" + (width - 1) + "]");
+			throw new IllegalArgumentException("The given x must be in range [0-" + (width - 1) + "]");
 		}
 	}
 
 	private void checkY(int y) {
 		if ((y < 0) || (y > height - 1)) {
-			throw new IllegalArgumentException(
-					"The given y must be in range [0-" + (height - 1) + "]");
+			throw new IllegalArgumentException("The given y must be in range [0-" + (height - 1) + "]");
 		}
 	}
-	
+
+	/**
+	 * Returns the element located at coordinated (x,y).
+	 *
+	 * @param x
+	 *            the x coordinate.
+	 * @param y
+	 *            the y coordinate.
+	 * @return the element found or null.
+	 */
 	public Element getElement(int x, int y) {
 		return getElement(x, y, true);
 	}
 
-	public Element getElement(int x, int y, boolean fail) {
+	private Element getElement(int x, int y, boolean fail) {
 		if (fail) {
 			checkX(x);
 			checkY(y);
 
-			return elements[x][y];			
+			return elements[x][y];
 		} else {
 			if ((x >= 0) && (x <= width - 1) && (y >= 0) && (y <= height - 1)) {
 				return elements[x][y];
 			}
-			
+
 			return null;
 		}
 	}
 
-	public int getLevel() {
-		return level;
+	public int getNumber() {
+		return number;
 	}
 
 	public int getWidth() {
@@ -212,14 +235,12 @@ public class Level {
 	public void setElement(int x, int y, Element element) {
 		checkX(x);
 		checkY(y);
-		if (element == null) {
-			throw new IllegalArgumentException("The given element is null");
-		}
+		Validate.notNull(element, "The given element is null");
 
 		final Element removed = elements[x][y];
 
 		if (removed != null) {
-			// D�tacher l'�l�ment du niveau
+			// Detach the element from its parent level
 			removed.setLevel(null);
 			removed.setPosition(null);
 
@@ -230,15 +251,14 @@ public class Level {
 			}
 		}
 
-		// Attacher l'�l�ment au niveau
+		// Attach the new element to this level
 		element.setLevel(this);
-		element.setPosition(new Position(x, y, level));
+		element.setPosition(new Position(x, y, number));
 
-		// Permuter les �l�ments
+		// Swap the elements
 		elements[x][y] = element;
 
 		if (element instanceof ClockListener) {
-			// R�f�rencer le ClockListener
 			Clock.getInstance().register((ClockListener) element);
 		}
 	}
@@ -247,29 +267,17 @@ public class Level {
 		return dungeon;
 	}
 
-	/**
-	 * Retourne la luminosit� ambiante propre au niveau.
-	 * 
-	 * @return un entier positif ou nul dans l'intervalle [0-255].
-	 */
-	public int getAmbiantLight() {
-		return ambiantLight;
+	public int getAmbientLight() {
+		return ambientLight;
 	}
 
-	/**
-	 * D�finit la luminosit� ambiante propre au niveau.
-	 * 
-	 * @param ambiantLight
-	 *            un entier positif ou nul dans l'intervalle [0-255].
-	 */
-	public void setAmbiantLight(int ambiantLight) {
-		if ((ambiantLight < 0) || (ambiantLight > Constants.MAX_LIGHT)) {
-			throw new IllegalArgumentException("The given ambiant light <"
-					+ ambiantLight + "> must be in range [0-"
+	public void setAmbientLight(int ambientLight) {
+		if ((ambientLight < 0) || (ambientLight > Constants.MAX_LIGHT)) {
+			throw new IllegalArgumentException("The given ambient light <" + ambientLight + "> must be in range [0-"
 					+ Constants.MAX_LIGHT + "]");
 		}
 
-		this.ambiantLight = ambiantLight;
+		this.ambientLight = ambientLight;
 	}
 
 	public int getExperienceMultiplier() {
@@ -277,66 +285,60 @@ public class Level {
 	}
 
 	public void setExperienceMultiplier(int experienceMultiplier) {
-		if (experienceMultiplier <= 0) {
-			throw new IllegalArgumentException("The experience multiplier <"
-					+ experienceMultiplier + "> must be positive");
-		}
+		Validate.isTrue(experienceMultiplier > 0, "The experience multiplier <" + experienceMultiplier + "> must be positive");
 
 		this.experienceMultiplier = experienceMultiplier;
 	}
 
 	/**
-	 * Indique si la {@link Position} donn�e est situ�e sur ce niveau et est
-	 * valide (ses valeurs de x et y sont valides).
-	 * 
+	 * Tells whether this level contains the given position.
+	 *
 	 * @param position
-	 *            la {@link Position} � tester.
-	 * @return si la {@link Position} donn�e est situ�e sur ce niveau et est
-	 *         valide (ses valeurs de x et y sont valides).
+	 *            the position to test. Can't be null.
+	 * @return whether this level contains the given position.
 	 */
 	public boolean contains(Position position) {
 		Validate.notNull(position, "The given position is null");
 
-		if (position.z != level) {
-			// C'est une position sur un niveau diff�rent
+		if (position.z != number) {
 			return false;
 		}
 
 		if ((position.x < 0) || (position.x > width - 1)) {
-			// Valeur x hors intervalle
 			return false;
 		}
 
 		if ((position.y < 0) || (position.y > height - 1)) {
-			// Valeur y hors intervalle
 			return false;
 		}
 
-		// Position situ�e sur ce niveau et valide
 		return true;
 	}
 
+	/**
+	 * Validates the level.
+	 *
+	 * @throws ValidationException
+	 *             if the level isn't valid.
+	 */
 	public void validate() throws ValidationException {
-		// Tous les �l�ments doivent �tre positionn�s !
 		for (int x = 0; x < width; x++) {
-			final boolean wallX = (x == 0) || (x == width - 1);
+			final boolean borderX = (x == 0) || (x == width - 1);
 
 			for (int y = 0; y < height; y++) {
-				final boolean wallY = (y == 0) || (y == height - 1);
+				final boolean borderY = (y == 0) || (y == height - 1);
 
 				final Element element = elements[x][y];
 
 				if (element == null) {
-					// Il ne doit y avoir aucun �l�ment nul
-					throw new ValidationException("The element at [" + x + ","
-							+ y + "] isn't set");
+					// All elements should be set
+					throw new ValidationException("The element at [" + x + "," + y + "] isn't set");
 				}
 
-				if (wallX || wallY) {
-					// Il doit y avoir des "murs" tout autour du niveau
+				if (borderX || borderY) {
+					// The border elements must be concrete (walls, not floor tiles)
 					if (!element.isConcrete()) {
-						throw new ValidationException("The element at [" + x
-								+ "," + y + "] must be concrete");
+						throw new ValidationException("The element at [" + x + "," + y + "] must be concrete");
 					}
 				}
 
@@ -345,17 +347,31 @@ public class Level {
 		}
 	}
 
+	/**
+	 * Renders the level as a string.
+	 *
+	 * @return the rendered level.
+	 */
 	public String draw() {
 		return draw(null);
 	}
-	
+
+	/**
+	 * Renders the level as a string and highlights the path consisting of the
+	 * following elements.
+	 *
+	 * @param path
+	 *            a list of elements representing the path to render. Can be
+	 *            null.
+	 * @return a string representing the rendered level.
+	 */
 	public String draw(List<Element> path) {
 		final StringBuilder builder = new StringBuilder(1024);
-		
+
 		final Element start;
 		final Element goal;
 		final boolean pathDefined = ((path != null) && (path.size() >= 2));
-		
+
 		if (pathDefined) {
 			start = path.get(0);
 			goal = path.get(path.size() - 1);
@@ -381,21 +397,21 @@ public class Level {
 				final Element element = getElement(x, y);
 
 				builder.append(" ");
-				
+
 				final boolean drawn;
-				
+
 				if (pathDefined) {
 					if (element.equals(start)) {
 						builder.append("S");
-						
+
 						drawn = true;
 					} else if (element.equals(goal)) {
 						builder.append("G");
-						
+
 						drawn = true;
 					} else if (path.contains(element)) {
 						builder.append(".");
-						
+
 						drawn = true;
 					} else {
 						drawn = false;
@@ -403,11 +419,10 @@ public class Level {
 				} else {
 					drawn = false;
 				}
-				
+
 				if (!drawn) {
 					if (element != null) {
-						// Pour all�ger le r�sultat g�n�r�, les sols sont
-						// repr�sent�s comme " "
+						// The floor tiles are rendered as " "
 						if (Type.FLOOR.equals(element.getType())) {
 							builder.append(" ");
 						} else {
@@ -428,7 +443,7 @@ public class Level {
 				builder.append("---+");
 			}
 
-			// Fin de rang�e
+			// End of a row
 			builder.append("\n");
 		}
 
@@ -437,7 +452,7 @@ public class Level {
 
 	/**
 	 * Returns the projectiles located on this {@link Level}.
-	 * 
+	 *
 	 * @return a {@link List} of {@link Projectile}s. Never returns null.
 	 */
 	public List<Projectile> getProjectiles() {
@@ -454,7 +469,7 @@ public class Level {
 
 	/**
 	 * Returns the creatures located on this {@link Level}.
-	 * 
+	 *
 	 * @return a {@link List} of {@link Creatures}s. Never returns null.
 	 */
 	public List<Creature> getCreatures() {
@@ -468,11 +483,11 @@ public class Level {
 
 		return creatures;
 	}
-	
+
 	/**
-	 * Retourne le nombre de cr�atures situ�es sur ce niveau.
-	 * 
-	 * @return un entier positif ou nul.
+	 * Returns the number of creatures located on this level.
+	 *
+	 * @return a number of creatures.
 	 */
 	public int getCreatureCount() {
 		int count = 0;
@@ -486,31 +501,33 @@ public class Level {
 		return count;
 	}
 
-	// TODO M�thode de r�cup�ration des projectiles du niveau
-	
+	// TODO Method to retrieve the projectiles on a level
+
+	/**
+	 * Returns the elements corresponding to the given positions.
+	 *
+	 * @param positions
+	 *            a list of positions. Can't be null.
+	 * @return a list of elements. Never returns null.
+	 */
 	public List<Element> getElements(List<Position> positions) {
-		Validate.notNull(positions);
-		
+		Validate.notNull(positions, "The given list of positions is null");
+
 		final List<Element> result = new ArrayList<Element>(positions.size());
-		
+
 		for (Position position : positions) {
-			// On doit v�rifier la valeur de z associ�e � la position !!
-			if (position.z != this.level) {
+			if (position.z != this.number) {
+				// Position located on another level, skip it
 				continue;
 			}
-			
+
 			final Element element = getElement(position.x, position.y, false);
-			
+
 			if (element != null) {
 				result.add(element);
 			}
 		}
-		
+
 		return result;
-	}
-	
-	public static void main(String[] args) {
-		final Dungeon dungeon = new Dungeon();
-		System.out.println(dungeon.createLevel(1, 10, 5).draw());
 	}
 }

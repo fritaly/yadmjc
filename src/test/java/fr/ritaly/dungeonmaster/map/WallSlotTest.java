@@ -59,29 +59,29 @@ public class WallSlotTest extends TestCase {
 		final Level level1 = dungeon.createLevel(1, 5, 5);
 		level1.setElement(2, 2, wallSlot);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertFalse(actuator.isTriggered());
 		assertFalse(wallSlot.isUsed());
 
-		// --- Tenter avec un objet du mauvais type
+		// --- Try with an invalid item type
 		assertFalse(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.KEY_OF_B)));
 		Clock.getInstance().tick(1);
 		assertFalse(actuator.isTriggered());
 		assertFalse(wallSlot.isUsed());
 
-		// --- Tenter avec le bon type d'objet (1�re fois)
+		// --- Try with the proper item type (first try)
 		assertTrue(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.GOLD_COIN)));
 		Clock.getInstance().tick(1);
-		assertTrue(actuator.isTriggered()); // <-- D�clenchement 1x
-		assertFalse(wallSlot.isUsed()); // <-- Pas encore utilis�
+		assertTrue(actuator.isTriggered()); // <-- Triggering
+		assertFalse(wallSlot.isUsed()); // <-- Not yet used
 
-		// --- Tenter avec le bon type d'objet (2nde fois)
+		// --- Try with the proper item type (second try)
 		assertTrue(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.GOLD_COIN)));
 		Clock.getInstance().tick(1);
-		assertTrue(actuator.isTriggered()); // <-- D�clenchement 2x
-		assertTrue(wallSlot.isUsed()); // <-- Utilis�
+		assertTrue(actuator.isTriggered()); // <-- Triggering again
+		assertTrue(wallSlot.isUsed()); // <-- Used
 
-		// --- On ne peut r�utiliser une fente d�j� utilis�e
+		// --- The slot has been consumed and can't be used again
 		assertFalse(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.GOLD_COIN)));
 		Clock.getInstance().tick(1);
 		assertTrue(actuator.isTriggered());
@@ -113,23 +113,23 @@ public class WallSlotTest extends TestCase {
 
 		wallSlot.setActuator(actuator);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertFalse(actuator.isTriggered());
 		assertFalse(wallSlot.isUsed());
 
-		// --- Tenter avec un objet du mauvais type
+		// --- Try with an invalid item type
 		assertFalse(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.KEY_OF_B)));
 		Clock.getInstance().tick(1);
 		assertFalse(actuator.isTriggered());
 		assertFalse(wallSlot.isUsed());
 
-		// --- Tenter avec le bon type d'objet
+		// --- Try with the proper item type (first try)
 		assertTrue(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.GOLD_COIN)));
 		Clock.getInstance().tick(1);
 		assertTrue(actuator.isTriggered());
 		assertTrue(wallSlot.isUsed());
 
-		// --- On ne peut r�utiliser une fente d�j� utilis�e
+		// --- The slot has been consumed and can't be used again
 		assertFalse(wallSlot.unlock(ItemFactory.getFactory().newItem(Item.Type.GOLD_COIN)));
 		Clock.getInstance().tick(1);
 		assertTrue(actuator.isTriggered());
@@ -138,7 +138,6 @@ public class WallSlotTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

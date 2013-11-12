@@ -24,12 +24,11 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
 import fr.ritaly.dungeonmaster.actuator.HasActuator;
-import fr.ritaly.dungeonmaster.actuator.Triggerable;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
+import fr.ritaly.dungeonmaster.actuator.Triggerable;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
 import fr.ritaly.dungeonmaster.audio.SoundSystem;
@@ -69,7 +68,7 @@ public final class Lever extends DirectedElement implements HasActuator,
 	public boolean isTraversable(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 
-		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
+		return creature.isImmaterial();
 	}
 
 	@Override
@@ -91,7 +90,7 @@ public final class Lever extends DirectedElement implements HasActuator,
 
 	/**
 	 * Indique si le levier est en position haute.
-	 * 
+	 *
 	 * @return si le levier est en position haute.
 	 */
 	public boolean isLeverUp() {
@@ -100,7 +99,7 @@ public final class Lever extends DirectedElement implements HasActuator,
 
 	/**
 	 * Indique si le levier est en position basse.
-	 * 
+	 *
 	 * @return si le levier est en position basse.
 	 */
 	public boolean isLeverDown() {
@@ -184,5 +183,10 @@ public final class Lever extends DirectedElement implements HasActuator,
 		default:
 			throw new UnsupportedOperationException();
 		}
+	}
+
+	@Override
+	public boolean isFluxCageAllowed() {
+		return false;
 	}
 }

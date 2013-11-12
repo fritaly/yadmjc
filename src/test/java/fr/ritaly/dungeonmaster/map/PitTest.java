@@ -82,10 +82,10 @@ public class PitTest extends TestCase {
 
 		dungeon.setParty(new Position(2, 2, 1), party);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe tombe � travers l'oubliette
+		// --- The party falls through the pit
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
 	}
@@ -145,10 +145,10 @@ public class PitTest extends TestCase {
 
 		dungeon.setParty(new Position(2, 2, 1), party);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe tombe � travers l'oubliette
+		// --- The party falls through the pit
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 3), dungeon.getParty().getPosition());
 	}
@@ -192,10 +192,10 @@ public class PitTest extends TestCase {
 
 		dungeon.setParty(new Position(2, 2, 1), party);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe ne tombe pas � travers l'oubliette (car fausse)
+		// --- The party doesn't fall through the pit (because it's a fake one)
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 1), dungeon.getParty().getPosition());
 	}
@@ -240,14 +240,14 @@ public class PitTest extends TestCase {
 
 		dungeon.setParty(new Position(2, 2, 1), party);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe ne tombe pas � travers l'oubliette (car ferm�e)
+		// --- The party can't fall through the pit (because closed)
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Quand l'oubliette s'ouvre, le groupe tombe � travers
+		// --- The pit opens, the party falls through
 		pit.open();
 		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
 	}
@@ -295,32 +295,28 @@ public class PitTest extends TestCase {
 		final Element element1 = level1.getElement(3, 2);
 		final Element element2 = level2.getElement(3, 2);
 
-		element1.dropItem(torch, Sector.NORTH_WEST);
-		element1.dropItem(apple, Sector.NORTH_EAST);
-		element1.dropItem(sword, Sector.SOUTH_WEST);
-		element1.dropItem(waterFlask, Sector.SOUTH_EAST);
+		element1.addItem(torch, Sector.NORTH_WEST);
+		element1.addItem(apple, Sector.NORTH_EAST);
+		element1.addItem(sword, Sector.SOUTH_WEST);
+		element1.addItem(waterFlask, Sector.SOUTH_EAST);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(4, element1.getItemCount());
 		assertEquals(1, element1.getItemCount(Sector.NORTH_EAST));
-		assertEquals(apple, element1.getItems(Sector.NORTH_EAST).iterator()
-				.next());
+		assertEquals(apple, element1.getItems(Sector.NORTH_EAST).iterator().next());
 		assertEquals(1, element1.getItemCount(Sector.NORTH_WEST));
-		assertEquals(torch, element1.getItems(Sector.NORTH_WEST).iterator()
-				.next());
+		assertEquals(torch, element1.getItems(Sector.NORTH_WEST).iterator().next());
 		assertEquals(1, element1.getItemCount(Sector.SOUTH_EAST));
-		assertEquals(waterFlask, element1.getItems(Sector.SOUTH_EAST)
-				.iterator().next());
+		assertEquals(waterFlask, element1.getItems(Sector.SOUTH_EAST).iterator().next());
 		assertEquals(1, element1.getItemCount(Sector.SOUTH_WEST));
-		assertEquals(sword, element1.getItems(Sector.SOUTH_WEST).iterator()
-				.next());
+		assertEquals(sword, element1.getItems(Sector.SOUTH_WEST).iterator().next());
 		assertEquals(0, element2.getItemCount());
 		assertEquals(0, element2.getItemCount(Sector.NORTH_EAST));
 		assertEquals(0, element2.getItemCount(Sector.NORTH_WEST));
 		assertEquals(0, element2.getItemCount(Sector.SOUTH_EAST));
 		assertEquals(0, element2.getItemCount(Sector.SOUTH_WEST));
 
-		// --- L'oubliette s'ouvre, les objets tombent au niveau inf�rieur
+		// --- The pit closes, the items fall onto the lower level
 		assertTrue(pit.open());
 		assertEquals(0, element1.getItemCount());
 		assertEquals(0, element1.getItemCount(Sector.NORTH_EAST));
@@ -329,17 +325,13 @@ public class PitTest extends TestCase {
 		assertEquals(0, element1.getItemCount(Sector.SOUTH_WEST));
 		assertEquals(4, element2.getItemCount());
 		assertEquals(1, element2.getItemCount(Sector.NORTH_EAST));
-		assertEquals(apple, element2.getItems(Sector.NORTH_EAST).iterator()
-				.next());
+		assertEquals(apple, element2.getItems(Sector.NORTH_EAST).iterator().next());
 		assertEquals(1, element2.getItemCount(Sector.NORTH_WEST));
-		assertEquals(torch, element2.getItems(Sector.NORTH_WEST).iterator()
-				.next());
+		assertEquals(torch, element2.getItems(Sector.NORTH_WEST).iterator().next());
 		assertEquals(1, element2.getItemCount(Sector.SOUTH_EAST));
-		assertEquals(waterFlask, element2.getItems(Sector.SOUTH_EAST)
-				.iterator().next());
+		assertEquals(waterFlask, element2.getItems(Sector.SOUTH_EAST).iterator().next());
 		assertEquals(1, element2.getItemCount(Sector.SOUTH_WEST));
-		assertEquals(sword, element2.getItems(Sector.SOUTH_WEST).iterator()
-				.next());
+		assertEquals(sword, element2.getItems(Sector.SOUTH_WEST).iterator().next());
 	}
 
 	public void testItemsFallingThroughAlreadyOpenPit() {
@@ -391,12 +383,12 @@ public class PitTest extends TestCase {
 		assertEquals(0, element2.getItemCount(Sector.SOUTH_EAST));
 		assertEquals(0, element2.getItemCount(Sector.SOUTH_WEST));
 
-		element1.dropItem(torch, Sector.NORTH_WEST);
-		element1.dropItem(apple, Sector.NORTH_EAST);
-		element1.dropItem(sword, Sector.SOUTH_WEST);
-		element1.dropItem(waterFlask, Sector.SOUTH_EAST);
+		element1.addItem(torch, Sector.NORTH_WEST);
+		element1.addItem(apple, Sector.NORTH_EAST);
+		element1.addItem(sword, Sector.SOUTH_WEST);
+		element1.addItem(waterFlask, Sector.SOUTH_EAST);
 
-		// --- L'oubliette s'ouvre, les objets sont tomb�s au niveau inf�rieur
+		// --- The pit opens, the items fall onto the lower level
 		assertEquals(0, element1.getItemCount());
 		assertEquals(0, element1.getItemCount(Sector.NORTH_EAST));
 		assertEquals(0, element1.getItemCount(Sector.NORTH_WEST));
@@ -405,17 +397,13 @@ public class PitTest extends TestCase {
 
 		assertEquals(4, element2.getItemCount());
 		assertEquals(1, element2.getItemCount(Sector.NORTH_EAST));
-		assertEquals(apple, element2.getItems(Sector.NORTH_EAST).iterator()
-				.next());
+		assertEquals(apple, element2.getItems(Sector.NORTH_EAST).iterator().next());
 		assertEquals(1, element2.getItemCount(Sector.NORTH_WEST));
-		assertEquals(torch, element2.getItems(Sector.NORTH_WEST).iterator()
-				.next());
+		assertEquals(torch, element2.getItems(Sector.NORTH_WEST).iterator().next());
 		assertEquals(1, element2.getItemCount(Sector.SOUTH_EAST));
-		assertEquals(waterFlask, element2.getItems(Sector.SOUTH_EAST)
-				.iterator().next());
+		assertEquals(waterFlask, element2.getItems(Sector.SOUTH_EAST).iterator().next());
 		assertEquals(1, element2.getItemCount(Sector.SOUTH_WEST));
-		assertEquals(sword, element2.getItems(Sector.SOUTH_WEST).iterator()
-				.next());
+		assertEquals(sword, element2.getItems(Sector.SOUTH_WEST).iterator().next());
 	}
 
 	public void testCreaturesOfSizeOneFallingThroughAlreadyOpenPit() {
@@ -472,8 +460,7 @@ public class PitTest extends TestCase {
 		element1.addCreature(rockPile, Sector.SOUTH_WEST);
 		element1.addCreature(giggler, Sector.SOUTH_EAST);
 
-		// --- L'oubliette �tait ouverte, les cr�atures sont tomb�s au niveau
-		// inf�rieur
+		// --- The pit was open, the creatures fell onto the lower level
 		assertEquals(0, element1.getCreatureCount());
 		assertNull(element1.getCreature(Sector.NORTH_EAST));
 		assertNull(element1.getCreature(Sector.NORTH_WEST));
@@ -537,8 +524,7 @@ public class PitTest extends TestCase {
 		element1.addCreature(worm, Direction.NORTH);
 		element1.addCreature(painRat, Direction.SOUTH);
 
-		// --- L'oubliette �tait ouverte, les cr�atures sont tomb�s au niveau
-		// inf�rieur
+		// --- The pit was open, the creatures fell onto the lower level
 		assertEquals(0, element1.getCreatureCount());
 		assertNull(element1.getCreature(Sector.NORTH_EAST));
 		assertNull(element1.getCreature(Sector.NORTH_WEST));
@@ -600,8 +586,7 @@ public class PitTest extends TestCase {
 
 		element1.addCreature(dragon);
 
-		// --- L'oubliette �tait ouverte, les cr�atures sont tomb�s au niveau
-		// inf�rieur
+		// --- The pit was open, the creatures fell onto the lower level
 		assertEquals(0, element1.getCreatureCount());
 		assertNull(element1.getCreature(Sector.NORTH_EAST));
 		assertNull(element1.getCreature(Sector.NORTH_WEST));
@@ -669,7 +654,7 @@ public class PitTest extends TestCase {
 		element1.addCreature(rockPile, Sector.SOUTH_WEST);
 		element1.addCreature(giggler, Sector.SOUTH_EAST);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(4, element1.getCreatureCount());
 		assertEquals(trolin, element1.getCreature(Sector.NORTH_EAST));
 		assertEquals(mummy, element1.getCreature(Sector.NORTH_WEST));
@@ -682,7 +667,7 @@ public class PitTest extends TestCase {
 		assertNull(element2.getCreature(Sector.SOUTH_EAST));
 		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
-		// --- L'oubliette s'ouvre, les cr�atures tombent au niveau inf�rieur
+		// --- The pit opens, the creatures fall onto the lower level
 		assertTrue(pit.open());
 
 		assertEquals(0, element1.getCreatureCount());
@@ -748,7 +733,7 @@ public class PitTest extends TestCase {
 		element1.addCreature(worm, Direction.NORTH);
 		element1.addCreature(painRat, Direction.SOUTH);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(2, element1.getCreatureCount());
 		assertEquals(worm, element1.getCreature(Sector.NORTH_EAST));
 		assertEquals(worm, element1.getCreature(Sector.NORTH_WEST));
@@ -761,7 +746,7 @@ public class PitTest extends TestCase {
 		assertNull(element2.getCreature(Sector.SOUTH_EAST));
 		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
-		// --- L'oubliette s'ouvre, les cr�atures tombent au niveau inf�rieur
+		// --- The pit opens, the creatures fall onto the lower level
 		assertTrue(pit.open());
 
 		assertEquals(0, element1.getCreatureCount());
@@ -825,7 +810,7 @@ public class PitTest extends TestCase {
 
 		element1.addCreature(dragon);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(1, element1.getCreatureCount());
 		assertEquals(dragon, element1.getCreature(Sector.NORTH_EAST));
 		assertEquals(dragon, element1.getCreature(Sector.NORTH_WEST));
@@ -838,7 +823,7 @@ public class PitTest extends TestCase {
 		assertNull(element2.getCreature(Sector.SOUTH_EAST));
 		assertNull(element2.getCreature(Sector.SOUTH_WEST));
 
-		// --- L'oubliette s'ouvre, les cr�atures tombent au niveau inf�rieur
+		// --- The pit opens, the creatures fall onto the lower level
 		assertTrue(pit.open());
 
 		assertEquals(0, element1.getCreatureCount());
@@ -889,25 +874,21 @@ public class PitTest extends TestCase {
 
 		dungeon.createLevel(2, 5, 5);
 
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
-		tiggy.getStats().getHealth().maxValue(500);
-		tiggy.getStats().getHealth().value(500);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+		tiggy.getStats().getHealth().baseMaxValue(500);
+		tiggy.getStats().getHealth().baseValue(500);
 
-		final Champion daroou = ChampionFactory.getFactory().newChampion(
-				Name.DAROOU);
-		daroou.getStats().getHealth().maxValue(500);
-		daroou.getStats().getHealth().value(500);
+		final Champion daroou = ChampionFactory.getFactory().newChampion(Name.DAROOU);
+		daroou.getStats().getHealth().baseMaxValue(500);
+		daroou.getStats().getHealth().baseValue(500);
 
-		final Champion halk = ChampionFactory.getFactory().newChampion(
-				Name.HALK);
-		halk.getStats().getHealth().maxValue(500);
-		halk.getStats().getHealth().value(500);
+		final Champion halk = ChampionFactory.getFactory().newChampion(Name.HALK);
+		halk.getStats().getHealth().baseMaxValue(500);
+		halk.getStats().getHealth().baseValue(500);
 
-		final Champion wuuf = ChampionFactory.getFactory().newChampion(
-				Name.WUUF);
-		wuuf.getStats().getHealth().maxValue(500);
-		wuuf.getStats().getHealth().value(500);
+		final Champion wuuf = ChampionFactory.getFactory().newChampion(Name.WUUF);
+		wuuf.getStats().getHealth().baseMaxValue(500);
+		wuuf.getStats().getHealth().baseValue(500);
 
 		final Party party = new Party();
 		party.addChampion(tiggy);
@@ -917,10 +898,10 @@ public class PitTest extends TestCase {
 
 		dungeon.setParty(new Position(2, 2, 1), party);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe tombe � travers l'oubliette
+		// --- The party falls through the pit
 		final int tiggyHealth = tiggy.getStats().getHealth().value();
 		final int daroouHealth = daroou.getStats().getHealth().value();
 		final int halkHealth = halk.getStats().getHealth().value();
@@ -929,16 +910,15 @@ public class PitTest extends TestCase {
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
 
-		// --- Les champions doivent avoir perdu de la vie
-		assertTrue(tiggy.getStats().getHealth().value().intValue() < tiggyHealth);
-		assertTrue(daroou.getStats().getHealth().value().intValue() < daroouHealth);
-		assertTrue(halk.getStats().getHealth().value().intValue() < halkHealth);
-		assertTrue(wuuf.getStats().getHealth().value().intValue() < wuufHealth);
+		// --- The champions must have lost some health
+		assertTrue(tiggy.getStats().getHealth().value() < tiggyHealth);
+		assertTrue(daroou.getStats().getHealth().value() < daroouHealth);
+		assertTrue(halk.getStats().getHealth().value() < halkHealth);
+		assertTrue(wuuf.getStats().getHealth().value() < wuufHealth);
 	}
 
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

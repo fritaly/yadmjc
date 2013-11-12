@@ -834,6 +834,11 @@ public abstract class Item implements ChangeEventSource {
 				effect.affect(champion);
 			}
 		}
+		if (isActivatedBy(bodyPart)) {
+			// Change the champion's shield & anti-magic stats
+			champion.getStats().getShield().inc(getShield());
+			champion.getStats().getAntiMagic().inc(getAntiMagic());
+		}
 
 		// Callback
 		putOn();
@@ -870,6 +875,11 @@ public abstract class Item implements ChangeEventSource {
 			for (Effect effect : effects) {
 				effect.unaffect(champion);
 			}
+		}
+		if ((bodyPart != null) && isActivatedBy(bodyPart)) {
+			// Change the champion's shield and anti-magic stats
+			champion.getStats().getShield().dec(getShield());
+			champion.getStats().getAntiMagic().dec(getAntiMagic());
 		}
 
 		// If the item is cursed, luck increases by 3 points
@@ -1017,6 +1027,10 @@ public abstract class Item implements ChangeEventSource {
 	public boolean perform(Action action) {
 		Validate.notNull(action, "The given action is null");
 
+		if (log.isDebugEnabled()) {
+			log.debug("Performing action " + action + " ...");
+		}
+
 		if (champion == null) {
 			throw new IllegalStateException("The item isn't currently held by a champion");
 		}
@@ -1034,12 +1048,29 @@ public abstract class Item implements ChangeEventSource {
 				// Action found
 				if (!actionDef.isUsable(champion)) {
 					// The champion isn't skilled enough to use this action
+					if (log.isDebugEnabled()) {
+						log.debug(String.format("The action %s failed because the champion isn't skilled enough [skill=%s]",
+								action.name(), action.getSkill()));
+					}
+
 					return false;
 				}
 
 				// The champion can use the action. Let it operate (this will
 				// disable the weapon hand-
-				return action.perform(champion.getParty().getDungeon(), champion);
+				final boolean success = action.perform(champion.getParty().getDungeon(), champion);
+
+				if (success) {
+					if (log.isDebugEnabled()) {
+						log.debug("The action " + action + " succeeded");
+					}
+				} else {
+					if (log.isDebugEnabled()) {
+						log.debug("The action " + action + " failed");
+					}
+				}
+
+				return success;
 			}
 		}
 

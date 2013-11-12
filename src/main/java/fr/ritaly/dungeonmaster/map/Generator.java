@@ -35,7 +35,7 @@ import fr.ritaly.dungeonmaster.champion.Party;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public final class Generator extends Element implements ClockListener {
+public final class Generator extends FloorTile implements ClockListener {
 
 	public static final int PERIOD = Clock.ONE_MINUTE;
 

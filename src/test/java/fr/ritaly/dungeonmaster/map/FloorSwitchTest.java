@@ -67,25 +67,23 @@ public class FloorSwitchTest extends TestCase {
 
 		floorSwitch.addActuator(TriggerType.ITEM_DROPPED, actuator);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertFalse(actuator.isTriggered());
 
-		// --- D�poser un objet au sol en position NW
-		level1.getElement(2, 2)
-				.dropItem(new Torch(), Sector.NORTH_WEST);
+		// --- Drop an item in NW - the actuator must be triggered
+		level1.getElement(2, 2).addItem(new Torch(), Sector.NORTH_WEST);
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 		actuator.reset();
 
-		// --- D�poser un second objet ne doit pas d�clencher l'actuator !!
+		// --- Drop another item - the actuator must not be triggered
 		assertFalse(actuator.isTriggered());
 
-		level1.getElement(2, 2)
-				.dropItem(new Torch(), Sector.NORTH_WEST);
+		level1.getElement(2, 2).addItem(new Torch(), Sector.NORTH_WEST);
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 	}
-	
+
 	public void testActuatorTriggeredWhenAnyItemPickedUp() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -99,8 +97,7 @@ public class FloorSwitchTest extends TestCase {
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
 
-		// FIXME Impl�menter un Actuator qui ne s'active que quand certaines
-		// conditions sont remplies: combinatoires d'interrupteurs par exemple
+		// FIXME Implement an actuator that triggers when multiple conditions are met
 
 		Dungeon dungeon = new Dungeon();
 
@@ -113,33 +110,30 @@ public class FloorSwitchTest extends TestCase {
 
 		floorSwitch.addActuator(TriggerType.ITEM_PICKED_UP, actuator);
 
-		// --- Situation initiale
+		// --- Initial state
 		final Torch torch1 = new Torch();
 		final Torch torch2 = new Torch();
 
 		assertFalse(actuator.isTriggered());
-		level1.getElement(2, 2).dropItem(torch1, Sector.NORTH_WEST);
-		level1.getElement(2, 2).dropItem(torch2, Sector.NORTH_WEST);
+		level1.getElement(2, 2).addItem(torch1, Sector.NORTH_WEST);
+		level1.getElement(2, 2).addItem(torch2, Sector.NORTH_WEST);
 		assertEquals(2, level1.getElement(2, 2).getItemCount());
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 
-		// --- Prendre un objet qui n'est pas le dernier ne doit pas d�clencher
-		// l'actuator !!
-		assertEquals(torch2,
-				level1.getElement(2, 2).pickItem(Sector.NORTH_WEST));
+		// --- Pick an item which isn't the last one - the actuator must not be triggered
+		assertEquals(torch2, level1.getElement(2, 2).removeItem(Sector.NORTH_WEST));
 		assertEquals(1, level1.getElement(2, 2).getItemCount());
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 
-		// --- Prendre le dernier objet au sol d�clenche l'actuator
-		assertEquals(torch1,
-				level1.getElement(2, 2).pickItem(Sector.NORTH_WEST));
+		// --- Pick the last item - the actuator must be triggered
+		assertEquals(torch1, level1.getElement(2, 2).removeItem(Sector.NORTH_WEST));
 		assertEquals(0, level1.getElement(2, 2).getItemCount());
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 	}
-	
+
 	public void testActuatorTriggeredWhenPartyStepsOff() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -169,11 +163,11 @@ public class FloorSwitchTest extends TestCase {
 
 		dungeon.setParty(new Position(2, 3, 1), party);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(new Position(2, 3, 1), dungeon.getParty().getPosition());
 		assertFalse(actuator.isTriggered());
 
-		// --- Le groupe avance - rien ne se passe
+		// --- The party moves forward - nothing happens
 		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
@@ -181,7 +175,7 @@ public class FloorSwitchTest extends TestCase {
 
 		assertFalse(actuator.isTriggered());
 
-		// --- Le groupe avance et d�clenche l'actuator
+		// --- The party moves forward and triggers the actuator
 		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 1, 1), dungeon.getParty().getPosition());
 
@@ -189,7 +183,7 @@ public class FloorSwitchTest extends TestCase {
 
 		assertTrue(actuator.isTriggered());
 	}
-	
+
 	public void testActuatorTriggeredWhenPartyStepsOn() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -219,20 +213,20 @@ public class FloorSwitchTest extends TestCase {
 
 		dungeon.setParty(new Position(2, 3, 1), party);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(new Position(2, 3, 1), dungeon.getParty().getPosition());
 		assertFalse(actuator.isTriggered());
 
-		// --- Le groupe avance et d�clenche l'actuator
+		// --- The party moves forward and triggers the actuator
 		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
 		Clock.getInstance().tick();
 
-		// --- Situation finale
+		// --- Final situation
 		assertTrue(actuator.isTriggered());
 	}
-	
+
 	public void testPressurePadTriggeringDoor() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -258,44 +252,40 @@ public class FloorSwitchTest extends TestCase {
 		final FloorSwitch floorSwitch = new FloorSwitch();
 		level1.setElement(2, 2, floorSwitch);
 
-		// FIXME G�rer le d�clenchement imm�diat d'un actuator (sans attendre un
-		// tic) ?
-		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_ON, new SimpleActuator(
-				2, TriggerAction.TOGGLE, door));
-		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_OFF,
-				new SimpleActuator(2, TriggerAction.TOGGLE, door));
+		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_ON, new SimpleActuator(2, TriggerAction.TOGGLE, door));
+		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_OFF, new SimpleActuator(2, TriggerAction.TOGGLE, door));
 
 		Party party = new Party();
 		party.addChampion(ChampionFactory.getFactory().newChampion(Name.TIGGY));
 
 		dungeon.setParty(new Position(2, 3, 1), party);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(new Position(2, 3, 1), dungeon.getParty().getPosition());
 		assertEquals(Door.State.CLOSED, door.getState());
 		assertEquals(Door.Motion.IDLE, door.getMotion());
 
-		// --- Le groupe avance - la porte doit s'ouvrir
+		// --- The party moves forward - the door must open
 		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// Attendre que la porte s'ouvre
+		// Let the door open
 		Clock.getInstance().tick(18);
 
 		assertEquals(Door.Motion.IDLE, door.getMotion());
 		assertEquals(Door.State.OPEN, door.getState());
 
-		// --- Le groupe recule - la porte doit se fermer
+		// --- The party moves backwards - the door must close
 		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 3, 1), dungeon.getParty().getPosition());
 
-		// Attendre que la porte se ferme
+		// Let the door close
 		Clock.getInstance().tick(18);
 
 		assertEquals(Door.Motion.IDLE, door.getMotion());
 		assertEquals(Door.State.CLOSED, door.getState());
 	}
-	
+
 	public void testPressurePadTriggeringPit() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -319,42 +309,39 @@ public class FloorSwitchTest extends TestCase {
 		final FloorSwitch floorSwitch = new FloorSwitch();
 		level1.setElement(2, 2, floorSwitch);
 
-		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_ON, new SimpleActuator(
-				2, TriggerAction.TOGGLE, pit));
-		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_OFF,
-				new SimpleActuator(2, TriggerAction.TOGGLE, pit));
+		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_ON, new SimpleActuator(2, TriggerAction.TOGGLE, pit));
+		floorSwitch.addActuator(TriggerType.PARTY_STEPPED_OFF, new SimpleActuator(2, TriggerAction.TOGGLE, pit));
 
 		Party party = new Party();
 		party.addChampion(ChampionFactory.getFactory().newChampion(Name.TIGGY));
 
 		dungeon.setParty(new Position(2, 3, 1), party);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertEquals(new Position(2, 3, 1), dungeon.getParty().getPosition());
 		assertTrue(pit.isClosed());
 
-		// --- Le groupe avance - l'oubliette doit s'ouvrir
+		// --- The party moves forward - the pit must open
 		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// Attendre que l'oubliette s'ouvre
+		// Let the pit open
 		Clock.getInstance().tick(2);
 
 		assertTrue(pit.isOpen());
 
-		// --- Le groupe recule - l'oubliette doit se fermer
+		// --- The party moves backwards - the pit must close
 		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 		assertEquals(new Position(2, 3, 1), dungeon.getParty().getPosition());
 
-		// Attendre que l'oubliette se ferme
+		// Let the pit open
 		Clock.getInstance().tick(2);
 
 		assertTrue(pit.isClosed());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

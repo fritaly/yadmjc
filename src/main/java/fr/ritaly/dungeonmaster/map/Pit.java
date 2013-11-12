@@ -53,7 +53,7 @@ public class Pit extends FloorTile implements Triggerable {
 	private boolean illusion;
 
 	public Pit() {
-		// Vraie oubliette ouverte
+		// Create a real pit open
 		this(false, true);
 	}
 
@@ -84,9 +84,9 @@ public class Pit extends FloorTile implements Triggerable {
 	}
 
 	@Override
-	protected void afterItemDropped(Item item, Sector sector) {
+	protected void afterItemAdded(Item item, Sector sector) {
 		if (!isIllusion() && isOpen()) {
-			// Les objets tombent dans l'oubliette
+			// The items fall into the pit
 			dropItems();
 		}
 	}
@@ -94,7 +94,7 @@ public class Pit extends FloorTile implements Triggerable {
 	@Override
 	protected void afterCreatureSteppedOn(Creature creature) {
 		if (!isIllusion() && isOpen()) {
-			// Les cr�atures tombent dans l'oubliette
+			// The creatures fall into the pit
 			dropCreatures();
 		}
 	}
@@ -106,7 +106,7 @@ public class Pit extends FloorTile implements Triggerable {
 				log.debug("Party stepped on a fake pit");
 			}
 		} else {
-			// C'est une vraie oubliette
+			// It's a real pit
 			if (isOpen()) {
 				dropParty();
 			} else {
@@ -119,70 +119,60 @@ public class Pit extends FloorTile implements Triggerable {
 
 	private void dropParty() {
 		if (isReal()) {
-			// Le groupe descend-t-il en corde ou tombe-t-il ?
-			final boolean climbingDown = Party.State.CLIMBING_DOWN
-					.equals(getParty().getState());
+			// Is the party falling or climbing down ?
+			final boolean climbingDown = Party.State.CLIMBING_DOWN.equals(getParty().getState());
 
 			if (climbingDown) {
-				// Le groupe descend en corde
+				// The party's climbing down
 				if (log.isDebugEnabled()) {
 					log.debug("Party is climbing down ...");
 				}
 
-				// Conserver une r�f�rence vers le groupe car getParty()
-				// retourne null apr�s la chute !
-				final Party party = getParty();
-
-				// Le groupe descend (silencieusement)
+				// The party silently goes to the lower level
 				getParty().getDungeon().moveParty(Move.DOWN, true);
 
 				if (log.isDebugEnabled()) {
 					log.debug("Party climbed down of one floor");
 				}
 			} else {
-				// Le groupe tombe dans l'oubliette
-
-				// Faire tomber le groupe
+				// The party's falling into the pit
 				if (log.isDebugEnabled()) {
 					log.debug("Party stepped on an open pit. Party is falling ...");
 				}
 
-				// Conserver une r�f�rence vers le groupe car getParty()
-				// retourne null apr�s la chute !
+				// Keep the reference to the party (will be reset during)
 				final Party party = getParty();
 
-				// Le groupe tombe
-				getParty().getDungeon().moveParty(Move.DOWN, true,
-						AudioClip.SHOUT);
+				// The party's falling
+				getParty().getDungeon().moveParty(Move.DOWN, true, AudioClip.SHOUT);
 
-				// FIXME G�rer le cas de chute dans plusieurs oubliettes d'un
-				// coup!
+				// FIXME Handle the fall through several stacked pits
 
-				// Blesser les champions � cause de la chute !
+				// Hurt the champions because of the fall
 				for (Champion champion : party.getChampions(false)) {
-					final Item item = champion.getBody().getFeet().getItem();
+					final Item boots = champion.getBody().getFeet().getItem();
 
 					final int damage;
 
-					if (item != null) {
-						// Les bottes prot�gent un peu le h�ros de la chute
+					if (boots != null) {
+						// The boots protect the champion during the fall
 						damage = Utils.random(7, 21);
 					} else {
-						// Blessure maximale
+						// No boots, the damage is worst
 						damage = Utils.random(10, 30);
 					}
 
 					champion.hit(damage);
 
 					if (champion.isAlive()) {
-						// Le champion est-il bless� aux pieds ?
-						if (item != null) {
-							// Champion un peu mieux prot�g� (25%)
+						// Is the champion injured to the feet ?
+						if (boots != null) {
+							// Odds of being wounded: 25%
 							if (Utils.random(1, 4) > 3) {
 								champion.getBody().getFeet().wound();
 							}
 						} else {
-							// Champion un peu moins prot�g� (50%)
+							// Odds of being wounded: 50%
 							if (Utils.random(1, 2) > 1) {
 								champion.getBody().getFeet().wound();
 							}
@@ -221,8 +211,8 @@ public class Pit extends FloorTile implements Triggerable {
 	 * @return whether the pit was successfully opened.
 	 */
 	public boolean open() {
-		// Le r�sultat de cette m�thode ne d�pend pas du caract�re fake de
-		// l'oubliette
+		// The result of this method doesn't depend on whether the pit is a fake
+		// one
 		if (!open) {
 			if (log.isDebugEnabled()) {
 				log.debug("Opening " + this + " ...");
@@ -258,8 +248,8 @@ public class Pit extends FloorTile implements Triggerable {
 	 * @return whether the pit was successfully closed.
 	 */
 	public boolean close() {
-		// Le r�sultat de cette m�thode ne d�pend pas du caract�re fake de
-		// l'oubliette
+		// The result of this method doesn't depend on whether the pit is a fake
+		// one
 		if (open) {
 			if (log.isDebugEnabled()) {
 				log.debug("Closing " + this + " ...");
@@ -304,19 +294,17 @@ public class Pit extends FloorTile implements Triggerable {
 
 	private void dropCreatures() {
 		if (isReal()) {
-			// Faire tomber les cr�atures qui ne volent pas !
+			// The non-levitating creatures fall
 
-			// Position cible ?
-			final Position targetPosition = getPosition().towards(
-					Direction.DOWN);
+			// Position on the lower level ?
+			final Position targetPosition = getPosition().towards(Direction.DOWN);
 
-			// Element cible ?
-			final Element targetElement = getLevel().getDungeon().getElement(
-					targetPosition);
+			// Corresponding element ?
+			final Element targetElement = getLevel().getDungeon().getElement(targetPosition);
 
 			for (Creature creature : getCreatures()) {
 				if (creature.getType().levitates()) {
-					// La cr�ature ne peut tomber dans l'oubliette car elle vole
+					// The creature levitates and therefore can't fall
 					continue;
 				}
 
@@ -324,10 +312,10 @@ public class Pit extends FloorTile implements Triggerable {
 					log.debug(creature + " is falling through " + this);
 				}
 
-				// La cr�ature quitte la position
+				// The creature leaves the start position
 				final Place place = removeCreature(creature);
 
-				// La cr�ature tombe au niveau inf�rieur
+				// The creature arrives on the end position
 				targetElement.addCreature(creature, place);
 			}
 		}
@@ -335,33 +323,30 @@ public class Pit extends FloorTile implements Triggerable {
 
 	private void dropItems() {
 		if (isReal()) {
-			// Faire tomber les objets au niveau inf�rieur
+			// Let the items fall onto the lower level
 			for (Item item : getItems()) {
 				if (log.isDebugEnabled()) {
 					log.debug(item + " is falling through " + this);
 				}
 
-				// Emplacement de l'objet ?
-				final Sector sector = getSector(item);
+				// Sector of this item ?
+				final Sector sector = getPlace(item);
 
 				if (sector == null) {
-					throw new IllegalStateException("Unable to find place of "
-							+ item);
+					throw new IllegalStateException("Unable to find place of " + item);
 				}
 
-				// L'objet quitte la position
-				pickItem(item);
+				// The item leaves the current position
+				removeItem(item);
 
-				// Position cible ?
-				final Position targetPosition = getPosition().towards(
-						Direction.DOWN);
+				// What's the target position ?
+				final Position targetPosition = getPosition().towards(Direction.DOWN);
 
-				// Element cible ?
-				final Element targetElement = getLevel().getDungeon()
-						.getElement(targetPosition);
+				// Corresponding element ?
+				final Element targetElement = getLevel().getDungeon().getElement(targetPosition);
 
-				// L'objet tombe au niveau inf�rieur
-				targetElement.dropItem(item, sector);
+				// The item arrives onto the lower level
+				targetElement.addItem(item, sector);
 			}
 		}
 	}

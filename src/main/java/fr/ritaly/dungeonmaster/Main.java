@@ -73,8 +73,8 @@ public class Main {
 			log.debug("Creating party ...");
 
 			final Champion wuuf = ChampionFactory.getFactory().newChampion(Name.WUUF);
-			wuuf.getStats().getHealth().value(10);
-			wuuf.getStats().getMana().value(10);
+			wuuf.getStats().getHealth().baseValue(10);
+			wuuf.getStats().getMana().baseValue(10);
 
 			final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
@@ -89,7 +89,7 @@ public class Main {
 
 				log.info("Max load = " + wuuf.getMaxLoad() + " Kg");
 
-				tiggy.getStats().getHealth().value(200);
+				tiggy.getStats().getHealth().baseValue(200);
 
 				log.info("Party created");
 

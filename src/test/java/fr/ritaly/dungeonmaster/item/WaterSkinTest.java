@@ -18,14 +18,12 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
+import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
+import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
-import fr.ritaly.dungeonmaster.champion.Champion.Name;
-import fr.ritaly.dungeonmaster.item.Item;
-import fr.ritaly.dungeonmaster.item.WaterSkin;
-import junit.framework.TestCase;
 
 public class WaterSkinTest extends TestCase {
 

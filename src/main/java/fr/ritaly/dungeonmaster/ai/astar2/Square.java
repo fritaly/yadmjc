@@ -3,12 +3,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Square {
-
 	final int x;
 	final int y;
 
-	private Maze maze;
-	private Set<Square> adjacencies = new HashSet<Square>();
+	private final Maze maze;
+	private final Set<Square> adjacencies = new HashSet<Square>();
 
 	public Square(int x, int y, Maze maze) {
 		this.x = x;
@@ -16,32 +15,24 @@ public class Square {
 		this.maze = maze;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
 	public Set<Square> getAdjacencies() {
 		return adjacencies;
 	}
 
-	public void calculateAdjacencies() {
+	void calculateAdjacencies() {
 		// int top = x - 1;
 		int bottom = x + 1;
 		// int left = y - 1;
 		int right = y + 1;
 
-		if (bottom < maze.getRows()) {
+		if (bottom < maze.rows) {
 			if (isAdjacent()) {
 				maze.getSquare(bottom, y).adjacencies.add(this);
 				this.adjacencies.add(maze.getSquare(bottom, y));
 			}
 		}
 
-		if (right < maze.getColumns()) {
+		if (right < maze.columns) {
 			if (isAdjacent()) {
 				maze.getSquare(x, right).adjacencies.add(this);
 				this.adjacencies.add(maze.getSquare(x, right));
@@ -50,6 +41,7 @@ public class Square {
 	}
 
 	private boolean isAdjacent() {
-		return (Math.random() > .5); 
+		// This random determines if one can move from one square to another
+		return (Math.random() > .5);
 	}
 }

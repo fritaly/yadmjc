@@ -39,33 +39,32 @@ public class TorchWallTest extends TestCase {
 		final TorchWall torchWall = new TorchWall(Direction.NORTH, true);
 		torchWall.addActuator(actuator);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertFalse(actuator.isTriggered());
 
-		// --- Prendre la torche
+		// --- Take the torch
 		assertNotNull(torchWall.takeTorch());
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 	}
-	
+
 	public void testActuatorTriggeredWhenTorchInstalled() {
 		final TestActuator actuator = new TestActuator();
 
 		final TorchWall torchWall = new TorchWall(Direction.NORTH, false);
 		torchWall.addActuator(actuator);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertFalse(actuator.isTriggered());
 
-		// --- Poser une torche
+		// --- Put the torch
 		torchWall.putTorch(new Torch());
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

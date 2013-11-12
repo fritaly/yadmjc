@@ -38,11 +38,11 @@ public class ElementTest extends TestCase {
 
 	public void testMethodIsConcreteMustBeSupported() {
 		for (Element.Type type : Element.Type.values()) {
-			// La m�thode doit toujours retourner un r�sultat
+			// The method must always return a result
 			type.isConcrete();
 		}
 	}
-	
+
 	public void testCantInstallTwoCreaturesAtSamePlace() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -216,7 +216,7 @@ public class ElementTest extends TestCase {
 		assertEquals(rockPile, element.getCreatureMap().get(Sector.SOUTH_EAST));
 		assertEquals(giggler, element.getCreatureMap().get(Sector.SOUTH_WEST));
 	}
-	
+
 	public void testSurroundingElements() {
 		// +---+---+---+
 		// | W | W | W |
@@ -229,12 +229,12 @@ public class ElementTest extends TestCase {
 		Dungeon dungeon = new Dungeon();
 
 		final Level level1 = dungeon.createLevel(1, 3, 3);
-		
+
 		{
 			// Element en (0,0)
 			final List<Element> surroundingElements = level1.getElement(0, 0)
 					.getSurroundingElements();
-			
+
 			assertNotNull(surroundingElements);
 			assertEquals(3, surroundingElements.size());
 			assertTrue(surroundingElements.contains(level1.getElement(1, 0)));
@@ -245,7 +245,7 @@ public class ElementTest extends TestCase {
 			// Element en (1,0)
 			final List<Element> surroundingElements = level1.getElement(1, 0)
 					.getSurroundingElements();
-			
+
 			assertNotNull(surroundingElements);
 			assertEquals(5, surroundingElements.size());
 			assertTrue(surroundingElements.contains(level1.getElement(0, 0)));
@@ -258,7 +258,7 @@ public class ElementTest extends TestCase {
 			// Element en (2,0)
 			final List<Element> surroundingElements = level1.getElement(2, 0)
 					.getSurroundingElements();
-			
+
 			assertNotNull(surroundingElements);
 			assertEquals(3, surroundingElements.size());
 			assertTrue(surroundingElements.contains(level1.getElement(1, 0)));
@@ -269,7 +269,7 @@ public class ElementTest extends TestCase {
 			// Element en (0,1)
 			final List<Element> surroundingElements = level1.getElement(0, 1)
 					.getSurroundingElements();
-			
+
 			assertNotNull(surroundingElements);
 			assertEquals(5, surroundingElements.size());
 			assertTrue(surroundingElements.contains(level1.getElement(0, 0)));
@@ -282,7 +282,7 @@ public class ElementTest extends TestCase {
 			// Element en (1,1)
 			final List<Element> surroundingElements = level1.getElement(1, 1)
 					.getSurroundingElements();
-			
+
 			assertNotNull(surroundingElements);
 			assertEquals(8, surroundingElements.size());
 			assertTrue(surroundingElements.contains(level1.getElement(0, 0)));
@@ -298,7 +298,7 @@ public class ElementTest extends TestCase {
 			// Element en (2,1)
 			final List<Element> surroundingElements = level1.getElement(2, 1)
 					.getSurroundingElements();
-			
+
 			assertNotNull(surroundingElements);
 			assertEquals(5, surroundingElements.size());
 			assertTrue(surroundingElements.contains(level1.getElement(2, 0)));
@@ -311,7 +311,7 @@ public class ElementTest extends TestCase {
 			// Element en (0,2)
 			final List<Element> surroundingElements = level1.getElement(0, 2)
 					.getSurroundingElements();
-			
+
 			assertNotNull(surroundingElements);
 			assertEquals(3, surroundingElements.size());
 			assertTrue(surroundingElements.contains(level1.getElement(0, 1)));
@@ -322,7 +322,7 @@ public class ElementTest extends TestCase {
 			// Element en (1,2)
 			final List<Element> surroundingElements = level1.getElement(1, 2)
 					.getSurroundingElements();
-			
+
 			assertNotNull(surroundingElements);
 			assertEquals(5, surroundingElements.size());
 			assertTrue(surroundingElements.contains(level1.getElement(0, 1)));
@@ -335,7 +335,7 @@ public class ElementTest extends TestCase {
 			// Element en (2,2)
 			final List<Element> surroundingElements = level1.getElement(2, 2)
 					.getSurroundingElements();
-			
+
 			assertNotNull(surroundingElements);
 			assertEquals(3, surroundingElements.size());
 			assertTrue(surroundingElements.contains(level1.getElement(2, 1)));
@@ -343,7 +343,7 @@ public class ElementTest extends TestCase {
 			assertTrue(surroundingElements.contains(level1.getElement(1, 2)));
 		}
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

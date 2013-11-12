@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <creatures xmlns="yadmjc:creatures:1.0">
-  <creature id="ANIMATED_ARMOR" base-health="60" height="GIANT" size="ONE" awareness="0" bravery="15" experience-multiplier="10" move-duration="14" sight-range="5">
-    <defense anti-magic="15" armor="140" shield="70"/>
+  <creature id="ANIMATED_ARMOR" base-health="60" height="GIANT" size="ONE" awareness="0" bravery="15" experience-multiplier="10" move-duration="14" sight-range="5" absorbs-items="false" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="15" armor="140" shield="70" poison="15"/>
     <attack skill="UM_MASTER" animation-duration="3" duration="6" power="70" type="SHARP" range="1" probability="105" side-attack="false"/>
-    <poison resistance="15"/>
+    <poison/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -19,10 +19,10 @@
       <item type="SWORD" min="1" max="1" curse="UM"/>
     </items>
   </creature>
-  <creature id="BLACK_FLAME" base-health="80" height="GIANT" size="FOUR" awareness="3" bravery="10" experience-multiplier="5" move-duration="255" sight-range="4">
-    <defense anti-magic="15" armor="45" shield="60"/>
+  <creature id="BLACK_FLAME" base-health="80" height="GIANT" size="FOUR" awareness="3" bravery="10" experience-multiplier="5" move-duration="255" sight-range="4" absorbs-items="false" levitates="false" archenemy="false" night-vision="true" sees-invisible="true">
+    <defense anti-magic="15" armor="45" shield="60" poison="15"/>
     <attack skill="CRAFTSMAN" animation-duration="4" duration="8" power="60" type="FIRE" range="1" probability="105" side-attack="true"/>
-    <poison resistance="15"/>
+    <poison/>
     <weaknesses>
       <weakness id="VORPAL_BLADE"/>
       <weakness id="YEW_STAFF"/>
@@ -30,10 +30,10 @@
       <weakness id="WEAKEN_NON_MATERIAL_BEINGS_SPELL"/>
     </weaknesses>
   </creature>
-  <creature id="COUATL" base-health="39" height="GIANT" size="FOUR" awareness="4" bravery="3" experience-multiplier="7" move-duration="5" sight-range="3">
-    <defense anti-magic="3" armor="42" shield="88"/>
+  <creature id="COUATL" base-health="39" height="GIANT" size="FOUR" awareness="4" bravery="3" experience-multiplier="7" move-duration="5" sight-range="3" absorbs-items="true" levitates="true" archenemy="false" night-vision="true" sees-invisible="false">
+    <defense anti-magic="3" armor="42" shield="88" poison="6"/>
     <attack skill="ADEPT" animation-duration="2" duration="10" power="88" type="SHARP" range="1" probability="90" side-attack="false"/>
-    <poison strength="100" resistance="6"/>
+    <poison strength="100"/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -42,10 +42,10 @@
       <weakness id="POISON_CLOUD"/>
     </weaknesses>
   </creature>
-  <creature id="DEMON" base-health="100" height="GIANT" size="ONE" awareness="3" bravery="15" experience-multiplier="13" move-duration="10" sight-range="4">
-    <defense anti-magic="5" armor="68" shield="75"/>
+  <creature id="DEMON" base-health="100" height="GIANT" size="ONE" awareness="3" bravery="15" experience-multiplier="13" move-duration="10" sight-range="4" absorbs-items="true" levitates="false" archenemy="false" night-vision="true" sees-invisible="false">
+    <defense anti-magic="5" armor="68" shield="75" poison="10"/>
     <attack skill="PAL_MASTER" animation-duration="4" duration="14" power="75" type="NORMAL" range="4" probability="100" side-attack="false"/>
-    <poison resistance="10"/>
+    <poison/>
     <spells>
       <spell id="FIREBALL"/>
     </spells>
@@ -57,10 +57,10 @@
       <weakness id="POISON_CLOUD"/>
     </weaknesses>
   </creature>
-  <creature id="GHOST" base-health="30" height="UNDEFINED" size="ONE" awareness="4" bravery="6" experience-multiplier="6" move-duration="11" sight-range="3">
-    <defense anti-magic="12" armor="15" shield="80"/>
+  <creature id="GHOST" base-health="30" height="UNDEFINED" size="ONE" awareness="4" bravery="6" experience-multiplier="6" move-duration="11" sight-range="3" absorbs-items="false" levitates="true" archenemy="false" night-vision="true" sees-invisible="true">
+    <defense anti-magic="12" armor="15" shield="80" poison="15"/>
     <attack skill="ARTISAN" animation-duration="6" duration="16" power="80" type="PSYCHIC" range="1" probability="55" side-attack="true"/>
-    <poison resistance="15"/>
+    <poison/>
     <weaknesses>
       <weakness id="VORPAL_BLADE"/>
       <weakness id="YEW_STAFF"/>
@@ -68,10 +68,10 @@
       <weakness id="WEAKEN_NON_MATERIAL_BEINGS_SPELL"/>
     </weaknesses>
   </creature>
-  <creature id="GIANT_SCORPION" base-health="150" height="GIANT" size="FOUR" awareness="1" bravery="9" experience-multiplier="9" move-duration="8" sight-range="3">
-    <defense anti-magic="7" armor="55" shield="55"/>
+  <creature id="GIANT_SCORPION" base-health="150" height="GIANT" size="FOUR" awareness="1" bravery="9" experience-multiplier="9" move-duration="8" sight-range="3" absorbs-items="true" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="7" armor="55" shield="55" poison="8"/>
     <attack skill="LO_MASTER" animation-duration="4" duration="20" power="55" type="SHARP" range="1" probability="150" side-attack="false"/>
-    <poison strength="240" resistance="8"/>
+    <poison strength="240"/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -80,10 +80,10 @@
       <weakness id="POISON_CLOUD"/>
     </weaknesses>
   </creature>
-  <creature id="GIANT_WASP" base-health="8" height="GIANT" size="ONE" awareness="4" bravery="15" experience-multiplier="9" move-duration="1" sight-range="2">
-    <defense anti-magic="0" armor="180" shield="150"/>
+  <creature id="GIANT_WASP" base-health="8" height="GIANT" size="ONE" awareness="4" bravery="15" experience-multiplier="9" move-duration="1" sight-range="2" absorbs-items="true" levitates="true" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="0" armor="180" shield="150" poison="0"/>
     <attack skill="LO_MASTER" animation-duration="2" duration="16" power="150" type="SHARP" range="1" probability="28" side-attack="false"/>
-    <poison strength="20" resistance="0"/>
+    <poison strength="20"/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -92,10 +92,10 @@
       <weakness id="POISON_CLOUD"/>
     </weaknesses>
   </creature>
-  <creature id="GIGGLER" base-health="10" height="MEDIUM" size="ONE" awareness="3" bravery="0" experience-multiplier="1" move-duration="3" sight-range="6">
-    <defense anti-magic="3" armor="50" shield="110"/>
+  <creature id="GIGGLER" base-health="10" height="MEDIUM" size="ONE" awareness="3" bravery="0" experience-multiplier="1" move-duration="3" sight-range="6" absorbs-items="true" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="3" armor="50" shield="110" poison="2"/>
     <attack skill="NEOPHYTE" animation-duration="2" duration="5" power="110" type="NONE" range="1" probability="10" side-attack="false"/>
-    <poison resistance="2"/>
+    <poison/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -104,15 +104,15 @@
       <weakness id="POISON_CLOUD"/>
     </weaknesses>
   </creature>
-  <creature id="GREY_LORD" base-health="180" height="GIANT" size="FOUR" awareness="3" bravery="3" experience-multiplier="15" move-duration="12" sight-range="9">
-    <defense anti-magic="11" armor="255" shield="130"/>
+  <creature id="GREY_LORD" base-health="180" height="GIANT" size="FOUR" awareness="3" bravery="3" experience-multiplier="15" move-duration="12" sight-range="9" absorbs-items="false" levitates="true" archenemy="true" night-vision="true" sees-invisible="true">
+    <defense anti-magic="11" armor="255" shield="130" poison="15"/>
     <attack skill="ARCH_MASTER" animation-duration="4" duration="22" power="130" type="MAGIC" range="6" probability="210" side-attack="false"/>
-    <poison resistance="15"/>
+    <poison/>
   </creature>
-  <creature id="LORD_CHAOS" base-health="180" height="GIANT" size="FOUR" awareness="3" bravery="3" experience-multiplier="15" move-duration="12" sight-range="9">
-    <defense anti-magic="11" armor="255" shield="130"/>
+  <creature id="LORD_CHAOS" base-health="180" height="GIANT" size="FOUR" awareness="3" bravery="3" experience-multiplier="15" move-duration="12" sight-range="9" absorbs-items="false" levitates="true" archenemy="true" night-vision="true" sees-invisible="true">
+    <defense anti-magic="11" armor="255" shield="130" poison="15"/>
     <attack skill="ARCH_MASTER" animation-duration="4" duration="22" power="130" type="MAGIC" range="6" probability="210" side-attack="false"/>
-    <poison resistance="15"/>
+    <poison/>
     <spells>
       <spell id="OPEN_DOOR"/>
       <spell id="POISON_CLOUD"/>
@@ -123,15 +123,15 @@
       <weakness id="THE_FIRESTAFF"/>
     </weaknesses>
   </creature>
-  <creature id="LORD_ORDER" base-health="180" height="GIANT" size="FOUR" awareness="3" bravery="3" experience-multiplier="15" move-duration="12" sight-range="9">
-    <defense anti-magic="11" armor="255" shield="130"/>
+  <creature id="LORD_ORDER" base-health="180" height="GIANT" size="FOUR" awareness="3" bravery="3" experience-multiplier="15" move-duration="12" sight-range="9" absorbs-items="false" levitates="true" archenemy="true" night-vision="true" sees-invisible="true">
+    <defense anti-magic="11" armor="255" shield="130" poison="15"/>
     <attack skill="ARCH_MASTER" animation-duration="4" duration="22" power="130" type="MAGIC" range="6" probability="210" side-attack="false"/>
-    <poison resistance="15"/>
+    <poison/>
   </creature>
-  <creature id="MAGENTA_WORM" base-health="70" height="SMALL" size="TWO" awareness="10" bravery="10" experience-multiplier="5" move-duration="18" sight-range="1">
-    <defense anti-magic="9" armor="72" shield="35"/>
+  <creature id="MAGENTA_WORM" base-health="70" height="SMALL" size="TWO" awareness="10" bravery="10" experience-multiplier="5" move-duration="18" sight-range="1" absorbs-items="false" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="9" armor="72" shield="35" poison="11"/>
     <attack skill="CRAFTSMAN" animation-duration="3" duration="19" power="35" type="SHARP" range="1" probability="45" side-attack="false"/>
-    <poison strength="35" resistance="11"/>
+    <poison strength="35"/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -143,10 +143,10 @@
       <item type="WORM_ROUND" min="1" max="3"/>
     </items>
   </creature>
-  <creature id="MUMMY" base-health="33" height="GIANT" size="ONE" awareness="2" bravery="9" experience-multiplier="4" move-duration="17" sight-range="4">
-    <defense anti-magic="1" armor="25" shield="40"/>
+  <creature id="MUMMY" base-health="33" height="GIANT" size="ONE" awareness="2" bravery="9" experience-multiplier="4" move-duration="17" sight-range="4" absorbs-items="true" levitates="false" archenemy="false" night-vision="true" sees-invisible="false">
+    <defense anti-magic="1" armor="25" shield="40" poison="15"/>
     <attack skill="JOURNEYMAN" animation-duration="3" duration="12" power="40" type="NORMAL" range="1" probability="20" side-attack="false"/>
-    <poison resistance="15"/>
+    <poison/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -154,10 +154,10 @@
       <weakness id="LIGHTNING_BOLT"/>
     </weaknesses>
   </creature>
-  <creature id="OITU" base-health="77" height="GIANT" size="FOUR" awareness="5" bravery="6" experience-multiplier="9" move-duration="7" sight-range="2">
-    <defense anti-magic="5" armor="33" shield="60"/>
+  <creature id="OITU" base-health="77" height="GIANT" size="FOUR" awareness="5" bravery="6" experience-multiplier="9" move-duration="7" sight-range="2" absorbs-items="false" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="5" armor="33" shield="60" poison="8"/>
     <attack skill="LO_MASTER" animation-duration="4" duration="15" power="60" type="SHARP" range="1" probability="130" side-attack="false"/>
-    <poison resistance="8"/>
+    <poison/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -166,10 +166,10 @@
       <weakness id="POISON_CLOUD"/>
     </weaknesses>
   </creature>
-  <creature id="PAIN_RAT" base-health="101" height="MEDIUM" size="TWO" awareness="5" bravery="15" experience-multiplier="8" move-duration="9" sight-range="4">
-    <defense anti-magic="3" armor="45" shield="65"/>
+  <creature id="PAIN_RAT" base-health="101" height="MEDIUM" size="TWO" awareness="5" bravery="15" experience-multiplier="8" move-duration="9" sight-range="4" absorbs-items="true" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="3" armor="45" shield="65" poison="10"/>
     <attack skill="EXPERT" animation-duration="3" duration="8" power="65" type="SHARP" range="1" probability="90" side-attack="false"/>
-    <poison resistance="10"/>
+    <poison/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -181,10 +181,10 @@
       <item type="DRUMSTICK" min="1" max="2"/>
     </items>
   </creature>
-  <creature id="RED_DRAGON" base-health="255" height="GIANT" size="FOUR" awareness="6" bravery="7" experience-multiplier="15" move-duration="13" sight-range="5">
-    <defense anti-magic="12" armor="110" shield="70"/>
+  <creature id="RED_DRAGON" base-health="255" height="GIANT" size="FOUR" awareness="6" bravery="7" experience-multiplier="15" move-duration="13" sight-range="5" absorbs-items="true" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="12" armor="110" shield="70" poison="6"/>
     <attack skill="ARCH_MASTER" animation-duration="5" duration="28" power="70" type="SHARP" range="2" probability="255" side-attack="false"/>
-    <poison resistance="6"/>
+    <poison/>
     <spells>
       <spell id="FIREBALL"/>
     </spells>
@@ -199,10 +199,10 @@
       <item type="DRAGON_STEAK" min="8" max="10"/>
     </items>
   </creature>
-  <creature id="ROCK_PILE" base-health="50" height="MEDIUM" size="ONE" awareness="4" bravery="12" experience-multiplier="5" move-duration="185" sight-range="3">
-    <defense anti-magic="14" armor="170" shield="10"/>
+  <creature id="ROCK_PILE" base-health="50" height="MEDIUM" size="ONE" awareness="4" bravery="12" experience-multiplier="5" move-duration="185" sight-range="3" absorbs-items="false" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="14" armor="170" shield="10" poison="6"/>
     <attack skill="CRAFTSMAN" animation-duration="4" duration="15" power="10" type="SHARP" range="1" probability="40" side-attack="false"/>
-    <poison strength="5" resistance="6"/>
+    <poison strength="5"/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -215,10 +215,10 @@
       <item type="ROCK" min="0" max="2"/>
     </items>
   </creature>
-  <creature id="RUSTER" base-health="60" height="SMALL" size="TWO" awareness="3" bravery="3" experience-multiplier="3" move-duration="20" sight-range="2">
-    <defense anti-magic="8" armor="100" shield="30"/>
+  <creature id="RUSTER" base-health="60" height="SMALL" size="TWO" awareness="3" bravery="3" experience-multiplier="3" move-duration="20" sight-range="2" absorbs-items="true" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="8" armor="100" shield="30" poison="5"/>
     <attack skill="APPRENTICE" animation-duration="5" duration="18" power="30" type="NORMAL" range="1" probability="30" side-attack="false"/>
-    <poison resistance="5"/>
+    <poison/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -227,10 +227,10 @@
       <weakness id="POISON_CLOUD"/>
     </weaknesses>
   </creature>
-  <creature id="SCREAMER" base-health="165" height="MEDIUM" size="ONE" awareness="1" bravery="15" experience-multiplier="0" move-duration="120" sight-range="1">
-    <defense anti-magic="6" armor="5" shield="5"/>
+  <creature id="SCREAMER" base-health="165" height="MEDIUM" size="ONE" awareness="1" bravery="15" experience-multiplier="0" move-duration="120" sight-range="1" absorbs-items="true" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="6" armor="5" shield="5" poison="7"/>
     <attack skill="NONE" animation-duration="2" duration="10" power="5" type="PSYCHIC" range="1" probability="5" side-attack="true"/>
-    <poison resistance="7"/>
+    <poison/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -242,10 +242,10 @@
       <item type="SCREAMER_SLICE" min="1" max="2"/>
     </items>
   </creature>
-  <creature id="SKELETON" base-health="20" height="GIANT" size="ONE" awareness="0" bravery="9" experience-multiplier="5" move-duration="7" sight-range="3">
-    <defense anti-magic="6" armor="22" shield="80"/>
+  <creature id="SKELETON" base-health="20" height="GIANT" size="ONE" awareness="0" bravery="9" experience-multiplier="5" move-duration="7" sight-range="3" absorbs-items="false" levitates="false" archenemy="false" night-vision="true" sees-invisible="false">
+    <defense anti-magic="6" armor="22" shield="80" poison="15"/>
     <attack skill="CRAFTSMAN" animation-duration="2" duration="7" power="80" type="SHARP" range="1" probability="22" side-attack="false"/>
-    <poison resistance="15"/>
+    <poison/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -257,10 +257,10 @@
       <item type="FALCHION" min="1" max="1"/>
     </items>
   </creature>
-  <creature id="STONE_GOLEM" base-health="120" height="GIANT" size="FOUR" awareness="0" bravery="15" experience-multiplier="11" move-duration="21" sight-range="3">
-    <defense anti-magic="15" armor="240" shield="35"/>
+  <creature id="STONE_GOLEM" base-health="120" height="GIANT" size="FOUR" awareness="0" bravery="15" experience-multiplier="11" move-duration="21" sight-range="3" absorbs-items="false" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="15" armor="240" shield="35" poison="15"/>
     <attack skill="ON_MASTER" animation-duration="3" duration="14" power="35" type="NORMAL" range="1" probability="219" side-attack="false"/>
-    <poison resistance="15"/>
+    <poison/>
     <weaknesses>
       <weakness id="WEAPONS"/>
     </weaknesses>
@@ -268,10 +268,10 @@
       <item type="STONE_CLUB" min="1" max="1"/>
     </items>
   </creature>
-  <creature id="SWAMP_SLIME" base-health="110" height="GIANT" size="ONE" awareness="1" bravery="10" experience-multiplier="3" move-duration="15" sight-range="2">
-    <defense anti-magic="4" armor="20" shield="20"/>
+  <creature id="SWAMP_SLIME" base-health="110" height="GIANT" size="ONE" awareness="1" bravery="10" experience-multiplier="3" move-duration="15" sight-range="2" absorbs-items="true" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="4" armor="20" shield="20" poison="14"/>
     <attack skill="APPRENTICE" animation-duration="4" duration="32" power="20" type="NORMAL" range="3" probability="80" side-attack="false"/>
-    <poison strength="15" resistance="14"/>
+    <poison strength="15"/>
     <spells>
       <spell id="POISON_CLOUD"/>
     </spells>
@@ -283,10 +283,10 @@
       <weakness id="POISON_CLOUD"/>
     </weaknesses>
   </creature>
-  <creature id="TROLIN" base-health="20" height="GIANT" size="ONE" awareness="3" bravery="4" experience-multiplier="1" move-duration="13" sight-range="3">
-    <defense anti-magic="2" armor="28" shield="41"/>
+  <creature id="TROLIN" base-health="20" height="GIANT" size="ONE" awareness="3" bravery="4" experience-multiplier="1" move-duration="13" sight-range="3" absorbs-items="true" levitates="false" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="2" armor="28" shield="41" poison="3"/>
     <attack skill="NEOPHYTE" animation-duration="2" duration="8" power="41" type="NORMAL" range="1" probability="25" side-attack="false"/>
-    <poison resistance="3"/>
+    <poison/>
     <weaknesses>
       <weakness id="WEAPONS"/>
       <weakness id="POISON_BOLT"/>
@@ -298,10 +298,10 @@
       <item type="CLUB" min="1" max="1"/>
     </items>
   </creature>
-  <creature id="VEXIRK" base-health="44" height="SMALL" size="ONE" awareness="3" bravery="5" experience-multiplier="9" move-duration="10" sight-range="5">
-    <defense anti-magic="5" armor="45" shield="90"/>
+  <creature id="VEXIRK" base-health="44" height="SMALL" size="ONE" awareness="3" bravery="5" experience-multiplier="9" move-duration="10" sight-range="5" absorbs-items="true" levitates="true" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="5" armor="45" shield="90" poison="3"/>
     <attack skill="LO_MASTER" animation-duration="3" duration="20" power="90" type="MAGIC" range="4" probability="75" side-attack="false"/>
-    <poison resistance="3"/>
+    <poison/>
     <spells>
       <spell id="OPEN_DOOR"/>
       <spell id="POISON_CLOUD"/>
@@ -316,10 +316,10 @@
       <weakness id="POISON_CLOUD"/>
     </weaknesses>
   </creature>
-  <creature id="WATER_ELEMENTAL" base-health="144" height="GIANT" size="FOUR" awareness="3" bravery="7" experience-multiplier="6" move-duration="25" sight-range="1">
-    <defense anti-magic="10" armor="75" shield="50"/>
+  <creature id="WATER_ELEMENTAL" base-health="144" height="GIANT" size="FOUR" awareness="3" bravery="7" experience-multiplier="6" move-duration="25" sight-range="1" absorbs-items="false" levitates="false" archenemy="false" night-vision="true" sees-invisible="false">
+    <defense anti-magic="10" armor="75" shield="50" poison="14"/>
     <attack skill="ARTISAN" animation-duration="5" duration="25" power="50" type="NORMAL" range="1" probability="66" side-attack="true"/>
-    <poison resistance="14"/>
+    <poison/>
     <weaknesses>
       <weakness id="VORPAL_BLADE"/>
       <weakness id="YEW_STAFF"/>
@@ -327,10 +327,10 @@
       <weakness id="WEAKEN_NON_MATERIAL_BEINGS_SPELL"/>
     </weaknesses>
   </creature>
-  <creature id="WIZARD_EYE" base-health="40" height="GIANT" size="ONE" awareness="2" bravery="10" experience-multiplier="6" move-duration="10" sight-range="10">
-    <defense anti-magic="3" armor="30" shield="80"/>
+  <creature id="WIZARD_EYE" base-health="40" height="GIANT" size="ONE" awareness="2" bravery="10" experience-multiplier="6" move-duration="10" sight-range="10" absorbs-items="true" levitates="true" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="3" armor="30" shield="80" poison="11"/>
     <attack skill="ARTISAN" animation-duration="3" duration="21" power="80" type="MAGIC" range="3" probability="58" side-attack="true"/>
-    <poison resistance="11"/>
+    <poison/>
     <spells>
       <spell id="OPEN_DOOR"/>
       <spell id="LIGHTNING_BOLT"/>
@@ -343,10 +343,10 @@
       <weakness id="POISON_CLOUD"/>
     </weaknesses>
   </creature>
-  <creature id="ZYTAZ" base-health="33" height="UNDEFINED" size="ONE" awareness="2" bravery="7" experience-multiplier="12" move-duration="5" sight-range="8">
-    <defense anti-magic="5" armor="15" shield="65"/>
+  <creature id="ZYTAZ" base-health="33" height="UNDEFINED" size="ONE" awareness="2" bravery="7" experience-multiplier="12" move-duration="5" sight-range="8" absorbs-items="false" levitates="true" archenemy="false" night-vision="false" sees-invisible="false">
+    <defense anti-magic="5" armor="15" shield="65" poison="15"/>
     <attack skill="EE_MASTER" animation-duration="7" duration="18" power="65" type="MAGIC" range="3" probability="61" side-attack="false"/>
-    <poison resistance="15"/>
+    <poison/>
     <spells>
       <spell id="POISON_CLOUD"/>
       <spell id="FIREBALL"/>

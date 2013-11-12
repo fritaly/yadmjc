@@ -58,16 +58,15 @@ public class FakeWallTest extends TestCase {
 
 		dungeon.setParty(partyPosition, party);
 
-		// --- Le groupe peut se déplacer "dans" le faux mur
+		// --- The party can walk into the fake wall
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(partyPosition.towards(Direction.EAST), party.getPosition());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

@@ -31,7 +31,7 @@ public interface ItemListener {
 	 * @param event
 	 *            the item event to notify.
 	 */
-	public void onItemDropped(ItemEvent event);
+	public void onItemAdded(ItemEvent event);
 
 	/**
 	 * Notifies the listener that the given item picked event was just fired.
@@ -39,5 +39,5 @@ public interface ItemListener {
 	 * @param event
 	 *            the item event to notify.
 	 */
-	public void onItemPicked(ItemEvent event);
+	public void onItemRemoved(ItemEvent event);
 }

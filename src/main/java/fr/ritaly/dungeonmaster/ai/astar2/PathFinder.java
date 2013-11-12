@@ -58,8 +58,8 @@ public class PathFinder {
 				
 				for (Square neighbor : neighbors) {
 					if (opened.contains(neighbor)) {
-						final Square temp = new Square(neighbor.getX(),
-								neighbor.getY(), maze);
+						final Square temp = new Square(neighbor.x,
+								neighbor.y, maze);
 						
 						parents.put(temp, best);
 						
@@ -71,8 +71,8 @@ public class PathFinder {
 					}
 
 					if (closed.contains(neighbor)) {
-						final Square temp = new Square(neighbor.getX(),
-								neighbor.getY(), maze);
+						final Square temp = new Square(neighbor.x,
+								neighbor.y, maze);
 						parents.put(temp, best);
 						
 						if (getPassThrough(temp, goal, startX, startY) >= getPassThrough(
@@ -130,7 +130,7 @@ public class PathFinder {
 		}
 
 		 // cost of getting from this square to goal
-		return 1.0 * (Math.abs(x - goal.getX()) + Math.abs(y - goal.getY()));
+		return 1.0 * (Math.abs(x - goal.x) + Math.abs(y - goal.y));
 	}
 	
 	private double getParentCost(Square square, int x, int y) {

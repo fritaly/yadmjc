@@ -59,16 +59,16 @@ public class AlcoveTest extends TestCase {
 
 		alcove.addActuator(actuator);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertFalse(actuator.isTriggered());
 
-		// --- D�poser un objet dans l'alcove
+		// --- Drop an item into the alcove
 		alcove.dropItem(new Torch(), Direction.NORTH);
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 		actuator.reset();
 
-		// --- D�poser un second objet ne doit pas d�clencher l'actuator !!
+		// --- Dropping a second item shouldn't trigger the actuator
 		assertFalse(actuator.isTriggered());
 		alcove.dropItem(new Torch(), Direction.NORTH);
 		Clock.getInstance().tick();
@@ -99,28 +99,28 @@ public class AlcoveTest extends TestCase {
 
 		alcove.addActuator(actuator);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertFalse(actuator.isTriggered());
 
-		// --- D�poser un objet du mauvais type dans l'alcove
+		// --- Drop an item with the incorrect type in the alcove
 		alcove.dropItem(new Torch(), Direction.NORTH);
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 		actuator.reset();
 
-		// --- R�cup�rer l'objet
+		// --- Get back the item
 		assertNotNull(alcove.pickItem(Direction.NORTH));
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 		actuator.reset();
 
-		// --- D�poser un objet du bon type dans l'alcove
+		// --- Drop an item with the correct type
 		alcove.dropItem(ItemFactory.getFactory().newItem(Item.Type.PLATE_OF_RA), Direction.NORTH);
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
 		actuator.reset();
 
-		// --- R�cup�rer l'objet
+		// --- Get back the item
 		assertNotNull(alcove.pickItem(Direction.NORTH));
 		Clock.getInstance().tick();
 		assertTrue(actuator.isTriggered());
@@ -151,7 +151,7 @@ public class AlcoveTest extends TestCase {
 
 		alcove.addActuator(actuator);
 
-		// --- Situation initiale
+		// --- Initial state
 		final Torch torch1 = new Torch();
 		final Torch torch2 = new Torch();
 
@@ -163,14 +163,14 @@ public class AlcoveTest extends TestCase {
 		actuator.reset();
 		assertFalse(actuator.isTriggered());
 
-		// --- Prendre un objet qui n'est pas le dernier ne doit pas d�clencher
-		// l'actuator !!
+		// --- Picking an item which isn't the last one shouldn't trigger the
+		// actuator
 		assertEquals(torch2, alcove.pickItem(Direction.NORTH));
 		assertEquals(1, level1.getElement(2, 2).getItemCount());
 		Clock.getInstance().tick();
 		assertFalse(actuator.isTriggered());
 
-		// --- Prendre le dernier objet de l'alcove d�clenche l'actuator
+		// --- Picking the last item should trigger the actuator
 		assertEquals(torch1, alcove.pickItem(Direction.NORTH));
 		assertEquals(0, level1.getElement(2, 2).getItemCount());
 		Clock.getInstance().tick();
@@ -179,7 +179,6 @@ public class AlcoveTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

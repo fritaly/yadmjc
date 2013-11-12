@@ -33,13 +33,10 @@ import fr.ritaly.dungeonmaster.champion.body.WeaponHand;
 import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.item.ItemFactory;
 import fr.ritaly.dungeonmaster.item.Torch;
-import fr.ritaly.dungeonmaster.magic.EmptyHandNeededException;
-import fr.ritaly.dungeonmaster.magic.PowerRune;
-import fr.ritaly.dungeonmaster.magic.Spell;
 import fr.ritaly.dungeonmaster.map.Door;
 import fr.ritaly.dungeonmaster.map.Door.Motion;
-import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Door.State;
+import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Floor;
 
 public class SpellTest extends TestCase {
@@ -275,19 +272,19 @@ public class SpellTest extends TestCase {
 
 	public void testCastLightSpell() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
-		tiggy.getStats().getMana().maxValue(200);
-		tiggy.getStats().getMana().value(200);
+		tiggy.getStats().getMana().baseMaxValue(200);
+		tiggy.getStats().getMana().baseValue(200);
 
 		// --- Cast the spell LIGHT
 		tiggy.cast(PowerRune.LO, Spell.Type.LIGHT);
 
-		assertEquals(0, tiggy.getSpells().getLight().value().intValue());
+		assertEquals(0, tiggy.getSpells().getLight().value());
 
 		final Spell spell = tiggy.castSpell();
 
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
-		assertTrue(tiggy.getSpells().getLight().value().intValue() > 0);
+		assertTrue(tiggy.getSpells().getLight().value() > 0);
 	}
 
 	public void testOpenDoorSpellToOpenDoor() throws Exception {
@@ -660,8 +657,8 @@ public class SpellTest extends TestCase {
 				Name.TIGGY);
 		tiggy.gainExperience(Skill.WIZARD, 100000);
 		tiggy.gainExperience(Skill.WATER, 100000);
-		tiggy.getStats().getHealth().maxValue(500);
-		tiggy.getStats().getHealth().value(500);
+		tiggy.getStats().getHealth().baseMaxValue(500);
+		tiggy.getStats().getHealth().baseValue(500);
 
 		final Party party = new Party();
 		party.addChampion(tiggy);
@@ -696,7 +693,7 @@ public class SpellTest extends TestCase {
 		assertFalse(floor.hasPoisonClouds());
 
 		// --- La sant� du champion doit avoir diminu� du fait du poison
-		assertTrue(health > tiggy.getStats().getHealth().value().intValue());
+		assertTrue(health > tiggy.getStats().getHealth().value());
 	}
 
 	@Override

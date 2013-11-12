@@ -214,4 +214,10 @@ public final class Stairs extends DirectedElement {
 	}
 
 	// FIXME Un projectile peut-il "prendre" les escaliers ?
+
+	@Override
+	public boolean isFluxCageAllowed() {
+		return true;
+	}
+
 }

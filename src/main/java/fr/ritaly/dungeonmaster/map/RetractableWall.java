@@ -22,9 +22,8 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import fr.ritaly.dungeonmaster.Materiality;
-import fr.ritaly.dungeonmaster.actuator.Triggerable;
 import fr.ritaly.dungeonmaster.actuator.TriggerAction;
+import fr.ritaly.dungeonmaster.actuator.Triggerable;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
 
@@ -130,7 +129,7 @@ public class RetractableWall extends FloorTile implements Triggerable {
 	public boolean isTraversable(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 
-		return isOpen() || Materiality.IMMATERIAL.equals(creature.getMateriality());
+		return isOpen() || creature.isImmaterial();
 	}
 
 	@Override

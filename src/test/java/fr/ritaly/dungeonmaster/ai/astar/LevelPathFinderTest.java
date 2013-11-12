@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import fr.ritaly.dungeonmaster.Materiality;
+import fr.ritaly.dungeonmaster.ai.Materiality;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.DungeonUtils;
 import fr.ritaly.dungeonmaster.map.Element;

@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
 import fr.ritaly.dungeonmaster.actuator.HasActuator;
@@ -85,7 +84,7 @@ public final class WallSwitch extends DirectedElement implements HasActuator, Tr
 	public boolean isTraversable(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 
-		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
+		return (creature != null) && creature.isImmaterial();
 	}
 
 	@Override
@@ -206,5 +205,10 @@ public final class WallSwitch extends DirectedElement implements HasActuator, Tr
 		default:
 			throw new UnsupportedOperationException();
 		}
+	}
+
+	@Override
+	public boolean isFluxCageAllowed() {
+		return false;
 	}
 }

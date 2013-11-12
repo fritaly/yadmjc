@@ -44,7 +44,7 @@ public class ItemProjectile extends AbstractProjectile {
 		// SoundSystem.getInstance().play(clip);
 
 		// Drop the item on the floor (TODO Arrows need to point towards the relevant direction !)
-		dungeon.getElement(getPosition()).dropItem(item, getSector());
+		dungeon.getElement(getPosition()).addItem(item, getSector());
 	}
 
 	// TODO The range of a projectile depends on the item type (its weight)

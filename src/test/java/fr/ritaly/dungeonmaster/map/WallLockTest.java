@@ -60,29 +60,29 @@ public class WallLockTest extends TestCase {
 
 		wallLock.setActuator(actuator);
 
-		// --- Situation initiale
+		// --- Initial state
 		assertFalse(actuator.isTriggered());
 		assertFalse(wallLock.isUnlocked());
 
-		// --- Tenter avec une cl� du mauvais type
+		// --- Try with an invalid item type
 		assertFalse(wallLock.unlock(ItemFactory.getFactory().newItem(Item.Type.KEY_OF_B)));
 		Clock.getInstance().tick(1);
 		assertFalse(actuator.isTriggered());
 		assertFalse(wallLock.isUnlocked());
 
-		// --- Tenter avec un objet qui n'est pas une cl�
+		// --- Try with a non-key item
 		assertFalse(wallLock.unlock(new Torch()));
 		Clock.getInstance().tick(1);
 		assertFalse(actuator.isTriggered());
 		assertFalse(wallLock.isUnlocked());
 
-		// --- Tenter avec le bon type de cl�
+		// --- Try with the correct key type
 		assertTrue(wallLock.unlock(ItemFactory.getFactory().newItem(Item.Type.IRON_KEY)));
 		Clock.getInstance().tick(1);
 		assertTrue(actuator.isTriggered());
 		assertTrue(wallLock.isUnlocked());
 
-		// --- On ne peut r�utiliser une serrure d�j� utilis�e
+		// --- An already used lock can't be reused
 		assertFalse(wallLock.unlock(ItemFactory.getFactory().newItem(Item.Type.IRON_KEY)));
 		Clock.getInstance().tick(1);
 		assertTrue(actuator.isTriggered());
@@ -91,7 +91,6 @@ public class WallLockTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

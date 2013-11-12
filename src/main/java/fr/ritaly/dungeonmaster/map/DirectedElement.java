@@ -24,13 +24,14 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Direction;
+import fr.ritaly.dungeonmaster.HasDirection;
 import fr.ritaly.dungeonmaster.Orientation;
 import fr.ritaly.dungeonmaster.Position;
 
 /**
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public abstract class DirectedElement extends Element {
+public abstract class DirectedElement extends Element implements HasDirection {
 
 	private final Direction direction;
 
@@ -42,17 +43,16 @@ public abstract class DirectedElement extends Element {
 		this.direction = direction;
 	}
 
+	@Override
 	public Direction getDirection() {
 		return direction;
 	}
 
-	/**
-	 * Retourne les {@link Element}s qui entourent celui-ci. Pour une porte, les
-	 * �l�ments sont les deux murs situ�s de part et d'autre de la porte.
-	 * 
-	 * @return une List&lt;Element&gt;.
-	 */
+	@Override
 	public List<Element> getSurroundingElements() {
+		// For a door, the 2 elements on the left and right of the door are
+		// supposed to be concrete and therefore can't be traversed so no need
+		// to return them
 		final Position position1;
 		final Position position2;
 
@@ -68,5 +68,10 @@ public abstract class DirectedElement extends Element {
 
 		return Arrays.asList(level.getElement(position1.x, position1.y),
 				level.getElement(position2.x, position2.y));
+	}
+
+	@Override
+	public void setDirection(Direction direction) {
+		throw new UnsupportedOperationException("The direction can't be mutated once set");
 	}
 }

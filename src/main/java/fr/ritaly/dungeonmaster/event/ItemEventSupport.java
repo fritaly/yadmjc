@@ -66,13 +66,13 @@ public class ItemEventSupport implements ItemEventSource {
 	 *            an item event to be notified to registered listeners. Can't be
 	 *            null.
 	 */
-	public void fireItemPickedEvent(final ItemEvent event) {
+	public void fireItemRemovedEvent(final ItemEvent event) {
 		Validate.notNull(event, "The given item event is null");
 
 		if (listeners != null) {
 			// Clone the list to avoid concurrent modifications
 			for (ItemListener listener : new ArrayList<ItemListener>(listeners)) {
-				listener.onItemPicked(event);
+				listener.onItemRemoved(event);
 			}
 		}
 	}
@@ -84,13 +84,13 @@ public class ItemEventSupport implements ItemEventSource {
 	 *            an item event to be notified to registered listeners. Can't be
 	 *            null.
 	 */
-	public void fireItemDroppedEvent(final ItemEvent event) {
+	public void fireItemAddedEvent(final ItemEvent event) {
 		Validate.notNull(event, "The given item event is null");
 
 		if (listeners != null) {
 			// Clone the list to avoid concurrent modifications
 			for (ItemListener listener : new ArrayList<ItemListener>(listeners)) {
-				listener.onItemDropped(event);
+				listener.onItemAdded(event);
 			}
 		}
 	}

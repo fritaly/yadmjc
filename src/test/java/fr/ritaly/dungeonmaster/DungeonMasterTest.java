@@ -418,23 +418,23 @@ public class DungeonMasterTest extends TestCase {
 
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(
 				Name.TIGGY);
-		tiggy.getStats().getHealth().maxValue(500);
-		tiggy.getStats().getHealth().value(500);
+		tiggy.getStats().getHealth().baseMaxValue(500);
+		tiggy.getStats().getHealth().baseValue(500);
 
 		final Champion daroou = ChampionFactory.getFactory().newChampion(
 				Name.DAROOU);
-		daroou.getStats().getHealth().maxValue(500);
-		daroou.getStats().getHealth().value(500);
+		daroou.getStats().getHealth().baseMaxValue(500);
+		daroou.getStats().getHealth().baseValue(500);
 
 		final Champion halk = ChampionFactory.getFactory().newChampion(
 				Name.HALK);
-		halk.getStats().getHealth().maxValue(500);
-		halk.getStats().getHealth().value(500);
+		halk.getStats().getHealth().baseMaxValue(500);
+		halk.getStats().getHealth().baseValue(500);
 
 		final Champion wuuf = ChampionFactory.getFactory().newChampion(
 				Name.WUUF);
-		wuuf.getStats().getHealth().maxValue(500);
-		wuuf.getStats().getHealth().value(500);
+		wuuf.getStats().getHealth().baseMaxValue(500);
+		wuuf.getStats().getHealth().baseValue(500);
 
 		// Attention ! La position des champions dans le groupe est importante
 		// pour la suite du test !
@@ -458,8 +458,8 @@ public class DungeonMasterTest extends TestCase {
 
 		assertTrue(tiggy.getStats().getHealth().value() < tiggyHealth1);
 		assertTrue(daroou.getStats().getHealth().value() < daroouHealth1);
-		assertEquals(halkHealth1, halk.getStats().getHealth().value().intValue());
-		assertEquals(wuufHealth1, wuuf.getStats().getHealth().value().intValue());
+		assertEquals(halkHealth1, halk.getStats().getHealth().value());
+		assertEquals(wuufHealth1, wuuf.getStats().getHealth().value());
 
 		// --- BACKWARD. Seuls deux h�ros sont bless�s
 		final int tiggyHealth2 = tiggy.getStats().getHealth().value();
@@ -469,8 +469,8 @@ public class DungeonMasterTest extends TestCase {
 
 		assertFalse(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 
-		assertEquals(tiggyHealth2, tiggy.getStats().getHealth().value().intValue());
-		assertEquals(daroouHealth2, daroou.getStats().getHealth().value().intValue());
+		assertEquals(tiggyHealth2, tiggy.getStats().getHealth().value());
+		assertEquals(daroouHealth2, daroou.getStats().getHealth().value());
 		assertTrue(halk.getStats().getHealth().value() < halkHealth2);
 		assertTrue(wuuf.getStats().getHealth().value() < wuufHealth2);
 
@@ -483,9 +483,9 @@ public class DungeonMasterTest extends TestCase {
 		assertFalse(dungeon.moveParty(Move.LEFT, true, AudioClip.STEP));
 
 		assertTrue(tiggy.getStats().getHealth().value() < tiggyHealth3);
-		assertEquals(daroouHealth3, daroou.getStats().getHealth().value().intValue());
+		assertEquals(daroouHealth3, daroou.getStats().getHealth().value());
 		assertTrue(halk.getStats().getHealth().value() < halkHealth3);
-		assertEquals(wuufHealth3, wuuf.getStats().getHealth().value().intValue());
+		assertEquals(wuufHealth3, wuuf.getStats().getHealth().value());
 
 		// --- RIGHT. Seuls deux h�ros sont bless�s
 		final int tiggyHealth4 = tiggy.getStats().getHealth().value();
@@ -495,9 +495,9 @@ public class DungeonMasterTest extends TestCase {
 
 		assertFalse(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 
-		assertEquals(tiggyHealth4, tiggy.getStats().getHealth().value().intValue());
+		assertEquals(tiggyHealth4, tiggy.getStats().getHealth().value());
 		assertTrue(daroou.getStats().getHealth().value() < daroouHealth4);
-		assertEquals(halkHealth4, halk.getStats().getHealth().value().intValue());
+		assertEquals(halkHealth4, halk.getStats().getHealth().value());
 		assertTrue(wuuf.getStats().getHealth().value() < wuufHealth4);
 	}
 

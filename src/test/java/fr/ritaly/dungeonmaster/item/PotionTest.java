@@ -35,18 +35,17 @@ public class PotionTest extends TestCase {
 	}
 
 	private void testPotion(Champion tiggy, Stat stat, Item.Type itemType) {
-		stat.value(1);
+		stat.baseValue(1);
 
-		assertEquals(1, stat.actualValue().intValue());
-		assertEquals(1, stat.value().intValue());
-		assertEquals(0, stat.boostValue().intValue());
+		assertEquals(1, stat.value());
+		assertEquals(1, stat.value());
+		assertEquals(0, stat.boostValue());
 
 		// Consuming a potion temporarily increases the boost of the stat
 		tiggy.consume(ItemFactory.getFactory().newItem(itemType));
 
-		assertTrue(stat.actualValue().intValue() > 1);
-		assertEquals(1, stat.value().intValue());
-		assertTrue(stat.boostValue().intValue() > 0);
+		assertTrue(stat.value() > 1);
+		assertTrue(stat.boostValue() > 0);
 	}
 
 	public void testPotion_Dexterity() {

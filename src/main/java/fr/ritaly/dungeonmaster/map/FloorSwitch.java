@@ -85,8 +85,8 @@ public final class FloorSwitch extends FloorTile implements HasActuators {
 	}
 
 	@Override
-	protected void afterItemDropped(Item item, Sector sector) {
-		super.afterItemDropped(item, sector);
+	protected void afterItemAdded(Item item, Sector sector) {
+		super.afterItemAdded(item, sector);
 
 		// Ne d�clencher qu'au premier objet d�pos� !!!
 		if ((actuators != null)
@@ -104,8 +104,8 @@ public final class FloorSwitch extends FloorTile implements HasActuators {
 	}
 
 	@Override
-	protected void afterItemPicked(Item item, Sector sector) {
-		super.afterItemPicked(item, sector);
+	protected void afterItemRemoved(Item item, Sector sector) {
+		super.afterItemRemoved(item, sector);
 
 		// Ne d�clencher qu'au dernier objet ramass� !!!
 		if ((actuators != null)

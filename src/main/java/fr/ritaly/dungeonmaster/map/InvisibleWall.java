@@ -20,7 +20,6 @@ package fr.ritaly.dungeonmaster.map;
 
 import org.apache.commons.lang.Validate;
 
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
 
@@ -42,7 +41,7 @@ public final class InvisibleWall extends FloorTile {
 	public boolean isTraversable(final Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 
-		return Materiality.IMMATERIAL.equals(creature.getMateriality());
+		return creature.isImmaterial();
 	}
 
 	@Override
@@ -58,8 +57,7 @@ public final class InvisibleWall extends FloorTile {
 	@Override
 	public void validate() throws ValidationException {
 		if (hasParty()) {
-			throw new ValidationException(
-					"An invisible wall can't have champions");
+			throw new ValidationException("An invisible wall can't have champions");
 		}
 	}
 }

@@ -34,11 +34,12 @@ import org.apache.commons.logging.LogFactory;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Constants;
+import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Location;
 import fr.ritaly.dungeonmaster.Poison;
+import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.Skill;
 import fr.ritaly.dungeonmaster.Speed;
-import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
@@ -70,6 +71,7 @@ import fr.ritaly.dungeonmaster.magic.SkillTooLowException;
 import fr.ritaly.dungeonmaster.magic.Spell;
 import fr.ritaly.dungeonmaster.magic.SpellCaster;
 import fr.ritaly.dungeonmaster.map.Element;
+import fr.ritaly.dungeonmaster.projectile.ItemProjectile;
 import fr.ritaly.dungeonmaster.stat.Stat;
 import fr.ritaly.dungeonmaster.stat.Stats;
 
@@ -783,7 +785,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener, Cloc
 			cost = rune.getCost(powerRune);
 		}
 
-		if (mana.actualValue() < cost) {
+		if (mana.value() < cost) {
 			// Not enough mana to cast the rune
 			throw new NotEnoughManaException();
 		}
@@ -1130,7 +1132,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener, Cloc
 	 */
 	public boolean die() {
 		if (isAlive()) {
-			getStats().getHealth().value(0);
+			getStats().getHealth().baseValue(0);
 
 			return true;
 		}
@@ -1144,7 +1146,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener, Cloc
 	 * @return whether the champion is alive.
 	 */
 	public boolean isAlive() {
-		return (getStats().getHealth().actualValue() > 0);
+		return (getStats().getHealth().value() > 0);
 	}
 
 	/**
@@ -1163,12 +1165,12 @@ public class Champion implements ChangeEventSource, PropertyChangeListener, Cloc
 	 * @return an integer (positive or zero) representing the anti-magic bonus.
 	 */
 	public int getAntiMagic() {
-		// Bonus bestowed by the items worn ?
-		int antiMagic = body.getAntiMagic();
+		// Current anti-magic ? Includes the contribution from the worn items
+		int antiMagic = getStats().getAntiMagic().value();
 
 		if (party != null) {
 			// ... and the party spells ?
-			antiMagic += party.getSpells().getAntiMagic().actualValue();
+			antiMagic += party.getSpells().getAntiMagic().value();
 		}
 
 		return antiMagic;
@@ -1181,15 +1183,15 @@ public class Champion implements ChangeEventSource, PropertyChangeListener, Cloc
 	 * @return an integer (positive or zero) representing the shield bonus.
 	 */
 	public int getShield() {
-		/// Bonus bestowed by the items worn ?
-		int shield = body.getShield();
+		// Current shield ? Includes the contribution from the worn items
+		int shield = getStats().getShield().value();
 
 		// Take into account the champion's shield spell
 		// shield += spells.getShield().actualValue();
 
 		if (party != null) {
 			// ... and the party spells ?
-			shield += party.getSpells().getShield().actualValue();
+			shield += party.getSpells().getShield().value();
 		}
 
 		return shield;
@@ -1298,7 +1300,7 @@ public class Champion implements ChangeEventSource, PropertyChangeListener, Cloc
 		if (location != null) {
 			// D�poser les objets au sol (au hasard) "devant" le groupe
 			for (Item item : items) {
-				location.dropItem(item,
+				location.addItem(item,
 						Sector.randomVisible(party.getLookDirection()));
 			}
 		}
@@ -1528,7 +1530,52 @@ public class Champion implements ChangeEventSource, PropertyChangeListener, Cloc
 	}
 
 	public Sector getSector() {
-		return (party != null) ? getLocation().toSector(
-				getParty().getDirection()) : null;
+		return (party != null) ? getLocation().toSector(getParty().getDirection()) : null;
+	}
+
+	/**
+	 * Throws the given item.
+	 *
+	 * @param item
+	 *            the item to throw. Can't be null.
+	 */
+	public void throwItem(Item item) {
+		Validate.notNull(item, "The given item is null");
+
+		if (party == null) {
+			throw new IllegalStateException("The champion isn't inside a party");
+		}
+		if (party.getDungeon() == null) {
+			throw new IllegalStateException("The champion's party isn't inside a dungeon");
+		}
+
+		final Direction throwDirection = getParty().getDirection();
+
+		final Sector sector;
+
+		// Determine the sector where the thrown item will appear on the
+		// neighbour position
+		switch (throwDirection) {
+		case EAST:
+			sector = getSector().isNorthern() ? Sector.NORTH_WEST : Sector.SOUTH_WEST;
+			break;
+		case NORTH:
+			sector = getSector().isEastern() ? Sector.SOUTH_EAST : Sector.SOUTH_WEST;
+			break;
+		case SOUTH:
+			sector = getSector().isEastern() ? Sector.NORTH_EAST : Sector.NORTH_WEST;
+			break;
+		case WEST:
+			sector = getSector().isNorthern() ? Sector.NORTH_EAST : Sector.SOUTH_EAST;
+			break;
+		default:
+			throw new RuntimeException("Unsupported direction " + throwDirection);
+		}
+
+		// TODO Compute the projectile range
+		// The projectile is created on the neighbor position
+		new ItemProjectile(item, getParty().getDungeon(), getParty().getFacingPosition(), throwDirection, sector, 30);
+
+		// TODO The champion gained some experience
 	}
 }

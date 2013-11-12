@@ -28,7 +28,6 @@ import org.apache.commons.logging.LogFactory;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Orientation;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.Temporizer;
@@ -573,7 +572,7 @@ public final class Door extends FloorTile implements ClockListener, Triggerable 
 			return true;
 		}
 
-		if (Materiality.IMMATERIAL.equals(creature.getMateriality()) && !Style.RA.equals(getStyle())) {
+		if (creature.isImmaterial() && !Style.RA.equals(getStyle())) {
 			// Les cr�ature immat�rielles ne peuvent passer les portes RA !!!
 			return true;
 		}

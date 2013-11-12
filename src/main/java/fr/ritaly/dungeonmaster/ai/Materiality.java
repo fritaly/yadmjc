@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.ritaly.dungeonmaster;
+package fr.ritaly.dungeonmaster.ai;
 
 /**
  * Enumerates the possible "materialities".<br>

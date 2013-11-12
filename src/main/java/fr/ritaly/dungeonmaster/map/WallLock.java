@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
 import fr.ritaly.dungeonmaster.actuator.HasActuator;
@@ -45,7 +44,7 @@ public final class WallLock extends DirectedElement implements HasActuator {
 	 * Indique si la serrure a �t� d�verrouill�e.
 	 */
 	private boolean unlocked = false;
-	
+
 	// TODO Implement maxUseCount like for WallSlot
 
 	private final Item.Type keyType;
@@ -70,7 +69,7 @@ public final class WallLock extends DirectedElement implements HasActuator {
 	public boolean isTraversable(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 
-		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
+		return (creature != null) && creature.isImmaterial();
 	}
 
 	@Override
@@ -92,16 +91,16 @@ public final class WallLock extends DirectedElement implements HasActuator {
 
 	/**
 	 * Indique si la serrure a �t� d�verrouill�e.
-	 * 
+	 *
 	 * @return si la serrure a �t� d�verrouill�e.
 	 */
 	public boolean isUnlocked() {
 		return unlocked;
 	}
-	
+
 	/**
 	 * Indique si la serrure est verrouill�e.
-	 * 
+	 *
 	 * @return si la serrure est verrouill�e.
 	 */
 	public boolean isLocked() {
@@ -111,7 +110,7 @@ public final class WallLock extends DirectedElement implements HasActuator {
 	/**
 	 * Tente de d�verrouiller la serrure avec la cl� donn�e et retourne si
 	 * l'op�ration a r�ussi.
-	 * 
+	 *
 	 * @param item
 	 *            une instance de {@link Item} repr�sentant une cl� pour
 	 *            d�verrouiller la serrure.
@@ -158,7 +157,7 @@ public final class WallLock extends DirectedElement implements HasActuator {
 	public Actuator getActuator() {
 		return actuator;
 	}
-	
+
 	public void addActuator(Actuator actuator) {
 		Validate.notNull(actuator, "The given actuator is null");
 
@@ -172,9 +171,14 @@ public final class WallLock extends DirectedElement implements HasActuator {
 	public Item.Type getKeyType() {
 		return keyType;
 	}
-	
+
 	@Override
 	public void clearActuator() {
 		this.actuator = null;
+	}
+
+	@Override
+	public boolean isFluxCageAllowed() {
+		return false;
 	}
 }

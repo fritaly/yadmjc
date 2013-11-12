@@ -42,28 +42,28 @@ public class StatTest extends TestCase {
 		final Stat stat = new Stat("Owner", "Name");
 
 		assertEquals("Name", stat.getName());
-		assertTrue(stat.value() == 0);
+		assertTrue(stat.baseValue() == 0);
 	}
 
 	public void testStatStringInteger() {
 		final Stat stat = new Stat("Owner", "Name", 10);
 
 		assertEquals("Name", stat.getName());
-		assertTrue(stat.value() == 10);
+		assertTrue(stat.baseValue() == 10);
 	}
 
 	public void testStatStringIntegerIntegerInteger() {
 		final Stat stat = new Stat("Owner", "Name", 10, 20);
 
 		assertEquals("Name", stat.getName());
-		assertTrue(stat.value() == 10);
+		assertTrue(stat.baseValue() == 10);
 	}
 
 	public void testStatStringIntegerInteger() {
 		final Stat stat = new Stat("Owner", "Name", 10, 0, 20);
 
 		assertEquals("Name", stat.getName());
-		assertTrue(stat.value() == 10);
+		assertTrue(stat.baseValue() == 10);
 	}
 
 	public void testAddChangeListener() {
@@ -73,7 +73,7 @@ public class StatTest extends TestCase {
 		stat.addChangeListener(listener);
 
 		assertFalse(listener.notified);
-		stat.value(1);
+		stat.baseValue(1);
 		assertTrue(listener.notified);
 	}
 
@@ -81,64 +81,64 @@ public class StatTest extends TestCase {
 		final Stat stat = new Stat("Owner", "Name", 10);
 
 		assertEquals("Name", stat.getName());
-		assertTrue(stat.value() == 10);
+		assertTrue(stat.baseValue() == 10);
 
-		stat.value(20);
+		stat.baseValue(20);
 
-		assertTrue(stat.value() == 20);
+		assertTrue(stat.baseValue() == 20);
 	}
 
 	public void testInc() {
 		final Stat stat = new Stat("Owner", "Name", 10, 30);
 
 		assertEquals("Name", stat.getName());
-		assertTrue(stat.value() == 10);
+		assertTrue(stat.baseValue() == 10);
 
 		stat.inc(10);
 
-		assertTrue(stat.value() == 20);
+		assertTrue(stat.baseValue() == 20);
 
 		// Il ne faut pas d�passer la valeur max d�finie
 		stat.inc(20);
 
-		assertTrue(stat.value() == 30);
+		assertTrue(stat.baseValue() == 30);
 	}
 
 	public void testDec() {
 		final Stat stat = new Stat("Owner", "Name", 10);
 
 		assertEquals("Name", stat.getName());
-		assertTrue(stat.value() == 10);
+		assertTrue(stat.baseValue() == 10);
 
 		stat.dec(10);
 
-		assertTrue(stat.value() == 0);
+		assertTrue(stat.baseValue() == 0);
 
 		// Il ne faut pas d�passer la valeur min d�finie
 		stat.dec(20);
 
-		assertTrue(stat.value() == 0);
+		assertTrue(stat.baseValue() == 0);
 	}
 
 	public void testSet() {
 		final Stat stat = new Stat("Owner", "Name", 10, 30);
 
 		assertEquals("Name", stat.getName());
-		assertTrue(stat.value() == 10);
+		assertTrue(stat.baseValue() == 10);
 
-		stat.value(20);
+		stat.baseValue(20);
 
-		assertTrue(stat.value() == 20);
+		assertTrue(stat.baseValue() == 20);
 
 		// Il ne faut pas d�passer la valeur max d�finie
-		stat.value(40);
+		stat.baseValue(40);
 
-		assertTrue(stat.value() == 30);
+		assertTrue(stat.baseValue() == 30);
 
 		// Il ne faut pas d�passer la valeur min d�finie
-		stat.value(-10);
+		stat.baseValue(-10);
 
-		assertTrue(stat.value() == 0);
+		assertTrue(stat.baseValue() == 0);
 	}
 
 	public void testGetName() {
@@ -151,44 +151,44 @@ public class StatTest extends TestCase {
 		final Stat stat = new Stat("Owner", "Name", 10);
 
 		assertEquals("Name", stat.getName());
-		assertTrue(stat.value() == 10);
+		assertTrue(stat.baseValue() == 10);
 
-		stat.value(20);
+		stat.baseValue(20);
 
-		assertTrue(stat.value() == 20);
+		assertTrue(stat.baseValue() == 20);
 
-		stat.value(30);
+		stat.baseValue(30);
 
-		assertTrue(stat.value() == 30);
+		assertTrue(stat.baseValue() == 30);
 	}
 
 	public void testStatBoostWearsOff() {
 		final Stat stat = new Stat("Test", "Stat", 1);
 
 		// --- V�rifier l'�tat initial
-		assertEquals(1, stat.actualValue().intValue());
-		assertEquals(1, stat.value().intValue());
-		assertEquals(0, stat.boostValue().intValue());
+		assertEquals(1, stat.value());
+		assertEquals(1, stat.baseValue());
+		assertEquals(0, stat.boostValue());
 
 		// --- Augmenter le boost pour 6 tics
 		stat.incBoost(10, 6);
 
-		assertEquals(11, stat.actualValue().intValue()); // <---
-		assertEquals(1, stat.value().intValue());
-		assertEquals(10, stat.boostValue().intValue()); // <---
+		assertEquals(11, stat.value()); // <---
+		assertEquals(1, stat.baseValue());
+		assertEquals(10, stat.boostValue()); // <---
 
 		// Attendre que l'effet du boost se dissipe
 		Clock.getInstance().tick(5);
 
-		assertEquals(11, stat.actualValue().intValue()); // <---
-		assertEquals(1, stat.value().intValue());
-		assertEquals(10, stat.boostValue().intValue());
+		assertEquals(11, stat.value()); // <---
+		assertEquals(1, stat.baseValue());
+		assertEquals(10, stat.boostValue());
 
 		Clock.getInstance().tick();
 
-		assertEquals(1, stat.actualValue().intValue()); // <---
-		assertEquals(1, stat.value().intValue());
-		assertEquals(0, stat.boostValue().intValue()); // <---
+		assertEquals(1, stat.value()); // <---
+		assertEquals(1, stat.baseValue());
+		assertEquals(0, stat.boostValue()); // <---
 	}
 
 	@Override

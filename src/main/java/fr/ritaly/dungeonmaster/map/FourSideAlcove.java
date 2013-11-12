@@ -23,7 +23,6 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -52,51 +51,51 @@ public final class FourSideAlcove extends Element {
 	@Override
 	public boolean isTraversable(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
-		
-		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
+
+		return creature.isImmaterial();
 	}
-	
+
 	@Override
 	public boolean isTraversableByProjectile() {
 		return false;
 	}
-	
+
 	public final List<Item> getItems(Direction direction) {
 		// Appel de la m�thode non surcharg�e
 		return super.getItems(map(direction));
 	}
-	
+
 	public final Item pickItem(Direction direction) {
 		// Appel de la m�thode non surcharg�e
-		return super.pickItem(map(direction));
+		return super.removeItem(map(direction));
 	}
-	
+
 	public final void dropItem(Item item, Direction direction) {
 		// Appel de la m�thode non surcharg�e
-		super.dropItem(item, map(direction));
+		super.addItem(item, map(direction));
 	}
-	
+
 	@Override
 	public final List<Item> getItems(Sector sector) {
 		// Surcharge pour forcer l'appel � la bonne m�thode
 		throw new UnsupportedOperationException();
 	}
-	
+
 	@Override
-	public final Item pickItem(Sector corner) {
+	public final Item removeItem(Sector corner) {
 		// Surcharge pour forcer l'appel � la bonne m�thode
 		throw new UnsupportedOperationException();
 	}
-	
+
 	@Override
-	public final void dropItem(Item item, Sector corner) {
+	public final void addItem(Item item, Sector corner) {
 		// Surcharge pour forcer l'appel � la bonne m�thode
 		throw new UnsupportedOperationException();
 	}
-	
+
 	private Direction map(Sector sector) {
 		Validate.notNull(sector, "The given sector is null");
-		
+
 		switch (sector) {
 		case NORTH_EAST:
 			return Direction.NORTH;
@@ -107,13 +106,13 @@ public final class FourSideAlcove extends Element {
 		case SOUTH_WEST:
 			return Direction.WEST;
 		}
-		
+
 		throw new UnsupportedOperationException();
 	}
-	
+
 	private Sector map(Direction direction) {
 		Validate.notNull(direction, "The given direction is null");
-		
+
 		switch (direction) {
 		case NORTH:
 			return Sector.NORTH_EAST;
@@ -124,15 +123,20 @@ public final class FourSideAlcove extends Element {
 		case WEST:
 			return Sector.SOUTH_WEST;
 		}
-		
+
 		throw new UnsupportedOperationException();
 	}
-	
+
 	@Override
 	public void validate() throws ValidationException {
 		if (hasParty()) {
 			throw new ValidationException(
 					"An invisible wall can't have champions");
 		}
+	}
+
+	@Override
+	public boolean isFluxCageAllowed() {
+		return false;
 	}
 }

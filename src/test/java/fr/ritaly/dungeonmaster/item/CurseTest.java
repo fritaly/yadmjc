@@ -18,14 +18,14 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
+import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
-import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
+import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.body.WeaponHand;
 import fr.ritaly.dungeonmaster.magic.PowerRune;
 import fr.ritaly.dungeonmaster.stat.Stat;
-import junit.framework.TestCase;
 
 public class CurseTest extends TestCase {
 
@@ -43,25 +43,25 @@ public class CurseTest extends TestCase {
 		final Torch torch = new Torch();
 		torch.curse(PowerRune.EE);
 
-		// --- Torche envoûtée mais non détectée
+		// --- Torche envoï¿½tï¿½e mais non dï¿½tectï¿½e
 		assertTrue(torch.isCursed());
 		assertFalse(torch.isCurseDetected());
 
 		// --- Prendre le torche en main
 		assertNull(tiggy.getBody().getWeaponHand().putOn(torch));
 
-		// --- Torche envoûtée mais non détectée
+		// --- Torche envoï¿½tï¿½e mais non dï¿½tectï¿½e
 		assertTrue(torch.isCursed());
 		assertFalse(torch.isCurseDetected());
 
-		// --- Tenter de retirer la torche -> envoûtement détecté
+		// --- Tenter de retirer la torche -> envoï¿½tement dï¿½tectï¿½
 		assertNull(tiggy.getBody().getWeaponHand().takeOff());
 		assertEquals(torch, tiggy.getBody().getWeaponHand().getItem());
 
 		assertTrue(torch.isCursed());
 		assertTrue(torch.isCurseDetected());
 
-		// --- Conjurer l'envoûtement
+		// --- Conjurer l'envoï¿½tement
 		torch.conjure(PowerRune.MON);
 
 		// --- Tenter de retirer la torche -> doit marcher
@@ -81,17 +81,17 @@ public class CurseTest extends TestCase {
 		torch.curse(PowerRune.EE);
 
 		final Stat luck = tiggy.getStats().getLuck();
-		luck.value(10);
+		luck.baseValue(10);
 
 		// --- La chance doit valoir initialement 10 points
-		assertEquals(10, luck.actualValue().intValue());
+		assertEquals(10, luck.value());
 
 		// --- Tiggy prend la torche, sa chance diminue de +3
 		tiggy.getBody().getWeaponHand().putOn(torch);
 
-		assertEquals(7, luck.actualValue().intValue());
+		assertEquals(7, luck.value());
 
-		// --- Tiggy lâche la torche, sa chance remonte de +3
+		// --- Tiggy lï¿½che la torche, sa chance remonte de +3
 		final Item item = tiggy.getBody().getWeaponHand().takeOff(true);
 
 		assertNotNull(item);
@@ -100,17 +100,17 @@ public class CurseTest extends TestCase {
 		// --- Tiggy reprend la torche, sa chance diminue de +3
 		tiggy.getBody().getWeaponHand().putOn(torch);
 
-		assertEquals(7, luck.actualValue().intValue());
+		assertEquals(7, luck.value());
 
 		// --- Conjurer la torche fait remonter la chance de +3
 		torch.conjure(PowerRune.EE);
 
-		assertEquals(10, luck.actualValue().intValue());
+		assertEquals(10, luck.value());
 
 		// --- Ensorceler la torche diminue la chance de +3
 		torch.curse(PowerRune.LO);
 
-		assertEquals(7, luck.actualValue().intValue());
+		assertEquals(7, luck.value());
 	}
 
 	public void testRemovalOfCursedItem() {
@@ -123,10 +123,10 @@ public class CurseTest extends TestCase {
 		final WeaponHand hand = tiggy.getBody().getWeaponHand();
 		hand.putOn(torch);
 
-		// --- Tenter de retirer un objet envoûté doit échouer
+		// --- Tenter de retirer un objet envoï¿½tï¿½ doit ï¿½chouer
 		assertNull(hand.takeOff());
 
-		// --- Le même test réussit si on force la chose
+		// --- Le mï¿½me test rï¿½ussit si on force la chose
 		final Item item = hand.takeOff(true);
 
 		assertNotNull(item);
@@ -135,7 +135,7 @@ public class CurseTest extends TestCase {
 		// --- Replacer la torche dans la main du champion
 		hand.putOn(torch);
 
-		// --- Conjurer l'objet puis retenter (doit réussir)
+		// --- Conjurer l'objet puis retenter (doit rï¿½ussir)
 		torch.conjure(PowerRune.EE);
 
 		final Item item2 = hand.takeOff();
@@ -143,7 +143,7 @@ public class CurseTest extends TestCase {
 		assertNotNull(item2);
 		assertEquals(torch, item2);
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

@@ -83,10 +83,10 @@ public class PoisonCloudTest extends TestCase {
 		dungeon.createLevel(1, 5, 5);
 
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
-		tiggy.getStats().getHealth().maxValue(500);
-		tiggy.getStats().getHealth().value(500);
+		tiggy.getStats().getHealth().baseMaxValue(500);
+		tiggy.getStats().getHealth().baseValue(500);
 
-		final int health = tiggy.getStats().getHealth().value();
+		final int health = tiggy.getStats().getHealth().baseValue();
 
 		final Party party = new Party(tiggy);
 
@@ -110,7 +110,7 @@ public class PoisonCloudTest extends TestCase {
 		assertFalse(floor.hasPoisonClouds());
 
 		// --- The champion's health must be lesser than initially
-		assertTrue(health > tiggy.getStats().getHealth().value().intValue());
+		assertTrue(health > tiggy.getStats().getHealth().baseValue());
 	}
 
 	@Override

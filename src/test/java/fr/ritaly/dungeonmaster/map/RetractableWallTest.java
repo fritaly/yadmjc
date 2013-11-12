@@ -24,7 +24,6 @@ import fr.ritaly.dungeonmaster.Direction;
 import fr.ritaly.dungeonmaster.Move;
 import fr.ritaly.dungeonmaster.Position;
 import fr.ritaly.dungeonmaster.audio.AudioClip;
-import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -56,17 +55,15 @@ public class RetractableWallTest extends TestCase {
 		final RetractableWall retractableWallWest = new RetractableWall();
 		final RetractableWall retractableWallEast = new RetractableWall();
 
-		Dungeon dungeon = new Dungeon();
+		final Dungeon dungeon = new Dungeon();
 		dungeon.createLevel(1, 5, 5);
 		dungeon.setElement(new Position(2, 1, 1), retractableWallNorth);
 		dungeon.setElement(new Position(2, 3, 1), retractableWallSouth);
 		dungeon.setElement(new Position(1, 2, 1), retractableWallWest);
 		dungeon.setElement(new Position(3, 2, 1), retractableWallEast);
 
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
-
-		Party party = new Party();
-		party.addChampion(tiggy);
+		final Party party = new Party();
+		party.addChampion(ChampionFactory.getFactory().newChampion(Name.TIGGY));
 
 		final Position partyPosition = new Position(2, 2, 1);
 
@@ -82,8 +79,7 @@ public class RetractableWallTest extends TestCase {
 		retractableWallNorth.open();
 
 		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
-		assertEquals(partyPosition.towards(Direction.NORTH),
-				party.getPosition());
+		assertEquals(partyPosition.towards(Direction.NORTH), party.getPosition());
 
 		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
 		assertEquals(partyPosition, party.getPosition());
@@ -98,8 +94,7 @@ public class RetractableWallTest extends TestCase {
 		retractableWallSouth.open();
 
 		assertTrue(dungeon.moveParty(Move.BACKWARD, true, AudioClip.STEP));
-		assertEquals(partyPosition.towards(Direction.SOUTH),
-				party.getPosition());
+		assertEquals(partyPosition.towards(Direction.SOUTH), party.getPosition());
 
 		assertTrue(dungeon.moveParty(Move.FORWARD, true, AudioClip.STEP));
 		assertEquals(partyPosition, party.getPosition());
@@ -134,10 +129,9 @@ public class RetractableWallTest extends TestCase {
 		assertTrue(dungeon.moveParty(Move.LEFT, true, AudioClip.STEP));
 		assertEquals(partyPosition, party.getPosition());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

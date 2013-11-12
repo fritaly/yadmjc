@@ -42,7 +42,7 @@ public class DungeonUtilsTest extends TestCase {
 		final Level level = DungeonUtils.parse(list, dungeon, 1);
 
 		assertNotNull(level);
-		assertEquals(1, level.getLevel());
+		assertEquals(1, level.getNumber());
 		assertEquals(10, level.getWidth());
 		assertEquals(3, level.getHeight());
 	}

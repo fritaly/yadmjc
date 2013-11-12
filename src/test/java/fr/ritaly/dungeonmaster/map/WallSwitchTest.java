@@ -46,7 +46,7 @@ public class WallSwitchTest extends TestCase {
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
 
-		Dungeon dungeon = new Dungeon();
+		final Dungeon dungeon = new Dungeon();
 
 		final Pit pit = new Pit(false, false);
 
@@ -56,35 +56,33 @@ public class WallSwitchTest extends TestCase {
 		final WallSwitch wallSwitch = new WallSwitch(Direction.EAST);
 		level1.setElement(4, 2, wallSwitch);
 
-		wallSwitch
-				.setActuator(new SimpleActuator(2, TriggerAction.TOGGLE, pit));
+		wallSwitch.setActuator(new SimpleActuator(2, TriggerAction.TOGGLE, pit));
 
-		// --- Situation initiale
+		// --- Initial state
 		assertFalse(wallSwitch.isPressed());
 		assertTrue(pit.isClosed());
 
-		// --- On presse le bouton - l'oubliette doit s'ouvrir
+		// --- Press the button (the pit must open)
 		wallSwitch.toggle();
 
-		// Attendre que l'oubliette s'ouvre
+		// Let the pit open
 		Clock.getInstance().tick(2);
 
 		assertTrue(wallSwitch.isPressed());
 		assertTrue(pit.isOpen());
 
-		// --- On represse le bouton - l'oubliette doit se fermer
+		// --- Press the button again (the pit must close)
 		wallSwitch.toggle();
 
-		// Attendre que l'oubliette s'ouvre
+		// Let the pit close
 		Clock.getInstance().tick(2);
 
 		assertFalse(wallSwitch.isPressed());
 		assertFalse(pit.isOpen());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

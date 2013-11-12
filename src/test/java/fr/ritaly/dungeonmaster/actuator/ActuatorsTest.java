@@ -18,8 +18,8 @@
  */
 package fr.ritaly.dungeonmaster.actuator;
 
-import fr.ritaly.dungeonmaster.Clock;
 import junit.framework.TestCase;
+import fr.ritaly.dungeonmaster.Clock;
 
 public class ActuatorsTest extends TestCase {
 

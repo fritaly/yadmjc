@@ -40,7 +40,7 @@ import fr.ritaly.dungeonmaster.event.ItemListener;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public class ItemManager implements ItemEventSource {
+public class ItemManager implements ItemEventSource, HasItems<Sector> {
 
 	protected final Log log = LogFactory.getLog(this.getClass());
 
@@ -67,23 +67,16 @@ public class ItemManager implements ItemEventSource {
 		eventSupport.removeItemListener(listener);
 	}
 
-	private void fireItemPickedEvent(Item item, Sector sector) {
-		eventSupport.fireItemPickedEvent(new ItemEvent(this, item, sector));
+	private void fireItemRemovedEvent(Item item, Sector sector) {
+		eventSupport.fireItemRemovedEvent(new ItemEvent(this, item, sector));
 	}
 
-	private void fireItemDroppedEvent(Item item, Sector sector) {
-		eventSupport.fireItemDroppedEvent(new ItemEvent(this, item, sector));
+	private void fireItemAddedEvent(Item item, Sector sector) {
+		eventSupport.fireItemAddedEvent(new ItemEvent(this, item, sector));
 	}
 
-	/**
-	 * Drops the given item onto the given sector.
-	 *
-	 * @param item
-	 *            the item to drop. Can't be null.
-	 * @param sector
-	 *            the sector where to drop the item. Can't be null.
-	 */
-	public synchronized void dropItem(Item item, Sector sector) {
+	@Override
+	public synchronized void addItem(Item item, Sector sector) {
 		Validate.notNull(item, "The given item is null");
 		Validate.notNull(sector, "The given sector is null");
 
@@ -99,30 +92,21 @@ public class ItemManager implements ItemEventSource {
 
 		stack.push(item);
 
-		fireItemDroppedEvent(item, sector);
+		fireItemAddedEvent(item, sector);
 	}
 
-	/**
-	 * Drops the given item onto a random sector.
-	 *
-	 * @param item
-	 *            the item to drop. Can't be null.
-	 */
-	public synchronized void dropItem(Item item) {
+	@Override
+	public synchronized Sector addItem(Item item) {
 		Validate.notNull(item, "The given item is null");
 
-		dropItem(item, Sector.random());
+		final Sector sector = Sector.random();
+		addItem(item, sector);
+
+		return sector;
 	}
 
-	/**
-	 * Picks the first item (if any) at the given sector.
-	 *
-	 * @param sector
-	 *            the sector where the item to pick is. Can't be null.
-	 * @return the picked item or null if there was no item at the given
-	 *         sector.
-	 */
-	public synchronized Item pickItem(Sector sector) {
+	@Override
+	public synchronized Item removeItem(Sector sector) {
 		Validate.notNull(sector, "The given sector is null");
 
 		if (items != null) {
@@ -140,7 +124,7 @@ public class ItemManager implements ItemEventSource {
 					}
 				}
 
-				fireItemPickedEvent(item, sector);
+				fireItemRemovedEvent(item, sector);
 
 				return item;
 			}
@@ -149,12 +133,8 @@ public class ItemManager implements ItemEventSource {
 		return null;
 	}
 
-	/**
-	 * Picks a random item and returns it.
-	 *
-	 * @return the randomly picked item or null if no item was found.
-	 */
-	public synchronized Item pickItem() {
+	@Override
+	public synchronized Item removeItem() {
 		if (items == null) {
 			return null;
 		}
@@ -168,17 +148,11 @@ public class ItemManager implements ItemEventSource {
 
 		Collections.shuffle(sectors);
 
-		return pickItem(sectors.iterator().next());
+		return removeItem(sectors.iterator().next());
 	}
 
-	/**
-	 * Returns the sector where the given item is stored (if present).
-	 *
-	 * @param item
-	 *            the item whose associated sector is requested. Can't be null.
-	 * @return a sector where the item was found or null if missing.
-	 */
-	public final Sector getSector(Item item) {
+	@Override
+	public final Sector getPlace(Item item) {
 		Validate.notNull(item, "The given item is null");
 
 		if (items != null) {
@@ -195,11 +169,7 @@ public class ItemManager implements ItemEventSource {
 		return null;
 	}
 
-	/**
-	 * Returns all the items (whatever the sector).
-	 *
-	 * @return a list of items. Never returns null.
-	 */
+	@Override
 	public final List<Item> getItems() {
 		if (items != null) {
 			final List<Item> list = new ArrayList<Item>();
@@ -215,11 +185,7 @@ public class ItemManager implements ItemEventSource {
 		return Collections.emptyList();
 	}
 
-	/**
-	 * Returns the number of items (whatever the sector).
-	 *
-	 * @return the number of items found.
-	 */
+	@Override
 	public final int getItemCount() {
 		int count = 0;
 
@@ -232,13 +198,7 @@ public class ItemManager implements ItemEventSource {
 		return count;
 	}
 
-	/**
-	 * Returns the number of items for the given sector.
-	 *
-	 * @param sector
-	 *            the sector where to count the items. Can't be null.
-	 * @return the number of items found for this sector.
-	 */
+	@Override
 	public final int getItemCount(Sector sector) {
 		Validate.notNull(sector, "The given sector is null");
 
@@ -252,16 +212,9 @@ public class ItemManager implements ItemEventSource {
 		return 0;
 	}
 
-	/**
-	 * Returns the items for the given sector.
-	 *
-	 * @param sector
-	 *            the sector where the items are. Can't be null.
-	 * @return a list of items representing the items found for this sector.
-	 *         Never returns null.
-	 */
+	@Override
 	public List<Item> getItems(Sector sector) {
-		Validate.isTrue(sector != null, "The given sectore is null");
+		Validate.isTrue(sector != null, "The given sector is null");
 
 		if (items != null) {
 			final List<Item> list = items.get(sector);
@@ -275,11 +228,7 @@ public class ItemManager implements ItemEventSource {
 		return Collections.emptyList();
 	}
 
-	/**
-	 * Tells whether this manager has some items.
-	 *
-	 * @return whether this manager has some items.
-	 */
+	@Override
 	public boolean hasItems() {
 		if (items != null) {
 			for (Stack<Item> stack : items.values()) {
@@ -290,5 +239,28 @@ public class ItemManager implements ItemEventSource {
 		}
 
 		return false;
+	}
+
+	@Override
+	public boolean removeItem(Item item) {
+		return removeItem(getPlace(item)) == item;
+	}
+
+	@Override
+	public Sector getRandomPlace() {
+		if (items == null) {
+			return null;
+		}
+
+		final List<Sector> sectors = new ArrayList<Sector>(items.keySet());
+
+		if (sectors.isEmpty()) {
+			// Not supposed to happen
+			return null;
+		}
+
+		Collections.shuffle(sectors);
+
+		return sectors.iterator().next();
 	}
 }

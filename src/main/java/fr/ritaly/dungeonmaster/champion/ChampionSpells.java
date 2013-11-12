@@ -65,7 +65,7 @@ public class ChampionSpells implements ClockListener, ChangeEventSource {
 	}
 
 	public int getLightValue() {
-		return light.actualValue();
+		return light.value();
 	}
 
 	public Stat getLight() {
@@ -75,8 +75,8 @@ public class ChampionSpells implements ClockListener, ChangeEventSource {
 	@Override
 	public boolean clockTicked() {
 		if (temporizer.trigger()) {
-			if (light.actualValue() > 0) {
-				if (light.dec() == 0) {
+			if (light.value() > 0) {
+				if (light.dec(1) == 0) {
 					// Notify the change
 					fireChangeEvent();
 				}

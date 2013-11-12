@@ -18,10 +18,6 @@
  */
 package fr.ritaly.dungeonmaster.ai;
 
-import org.apache.commons.lang.Validate;
-
-import fr.ritaly.dungeonmaster.Materiality;
-
 /**
  * Simple implementation of {@link Materializer} used for a creature with a
  * static (that is, fixed) materiality that doesn't change over time.
@@ -31,14 +27,12 @@ import fr.ritaly.dungeonmaster.Materiality;
 public class StaticMaterializer implements Materializer {
 
 	/**
-	 * The creature's static materiality.
+	 * Whether the creature is material.
 	 */
-	private final Materiality materiality;
+	private final boolean material;
 
-	public StaticMaterializer(Materiality materiality) {
-		Validate.notNull(materiality, "The given materiality is null");
-
-		this.materiality = materiality;
+	public StaticMaterializer(boolean material) {
+		this.material = material;
 	}
 
 	@Override
@@ -49,7 +43,12 @@ public class StaticMaterializer implements Materializer {
 	}
 
 	@Override
-	public Materiality getMateriality() {
-		return materiality;
+	public boolean isImmaterial() {
+		return !material;
+	}
+
+	@Override
+	public boolean isMaterial() {
+		return !isImmaterial();
 	}
 }

@@ -51,10 +51,8 @@ public class AltarTest extends TestCase {
 		final Level level = dungeon.createLevel(1, 3, 3);
 		level.setElement(1, 0, altar);
 
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
-		final Champion daroou = ChampionFactory.getFactory().newChampion(
-				Name.DAROOU);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+		final Champion daroou = ChampionFactory.getFactory().newChampion(Name.DAROOU);
 
 		final Party party = new Party();
 		party.addChampion(tiggy);
@@ -62,41 +60,39 @@ public class AltarTest extends TestCase {
 
 		dungeon.setParty(1, 1, 1, party);
 
-		// Situation initiale
+		// Initial state
 		assertTrue(tiggy.isAlive());
 		assertTrue(daroou.isAlive());
 
-		// Tiggy meurt
+		// Tiggy dies
 		assertTrue(tiggy.die());
 
 		assertFalse(tiggy.isAlive());
 		assertTrue(daroou.isAlive());
 
-		// Récupérer les os de Tiggy
+		// Retrieve Tiggy's bondes
 		assertNotNull(level.getElement(1, 1).getItems());
 		assertEquals(1, level.getElement(1, 1).getItemCount());
 
-		final Bones bones = (Bones) level.getElement(1, 1).getItems()
-				.iterator().next();
+		final Bones bones = (Bones) level.getElement(1, 1).getItems().iterator().next();
 
 		assertNotNull(bones.getChampion());
 		assertEquals(tiggy, bones.getChampion());
 
 		assertEquals(0, altar.getItemCount());
-		
-		// Placer les os dans l'autel réssuscite le champion
+
+		// Put the bones into the altar to revive Tiggy
 		altar.dropItem(bones, Direction.SOUTH);
 
 		assertTrue(tiggy.isAlive());
 		assertTrue(daroou.isAlive());
-		
-		// L'autel doit être vide
+
+		// The altar must be empty
 		assertEquals(0, altar.getItemCount());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

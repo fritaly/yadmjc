@@ -59,31 +59,28 @@ public class TeleporterTest extends TestCase {
 		Dungeon dungeon = new Dungeon();
 
 		final Position destination = new Position(3, 3, 1);
-		final Teleporter teleporter = new Teleporter(destination,
-				DirectionTransform.OPPOSITE, false);
+		final Teleporter teleporter = new Teleporter(destination, DirectionTransform.OPPOSITE, false);
 
 		final Level level1 = dungeon.createLevel(1, 5, 5);
 		level1.setElement(3, 2, teleporter);
 
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
-
-		Party party = new Party();
-		party.addChampion(tiggy);
+		final Party party = new Party();
+		party.addChampion(ChampionFactory.getFactory().newChampion(Name.TIGGY));
 
 		final Position initialPosition = new Position(2, 2, 1);
 
 		dungeon.setParty(initialPosition, party);
 
-		// --- Vérifier la position initiale
+		// --- Check the initial state
 		assertEquals(initialPosition, dungeon.getParty().getPosition());
 		assertEquals(Direction.NORTH, party.getLookDirection());
 
-		// --- Marcher dans le téléporteur
+		// --- Walk into the teleport
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(destination, dungeon.getParty().getPosition());
 		assertEquals(Direction.SOUTH, party.getLookDirection());
 	}
-	
+
 	public void testTeleporterTriggering() throws Throwable {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -97,46 +94,38 @@ public class TeleporterTest extends TestCase {
 		// | W | W | W | W | W |
 		// +---+---+---+---+---+
 
-		Dungeon dungeon = new Dungeon();
+		final Dungeon dungeon = new Dungeon();
 
 		final Position destination = new Position(3, 3, 1);
-		final Teleporter teleporter = new Teleporter(destination,
-				DirectionTransform.OPPOSITE, false);
+		final Teleporter teleporter = new Teleporter(destination, DirectionTransform.OPPOSITE, false);
 
 		final Level level1 = dungeon.createLevel(1, 5, 5);
 		level1.setElement(3, 2, teleporter);
 
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+		final Party party = new Party();
+		party.addChampion(ChampionFactory.getFactory().newChampion(Name.TIGGY));
 
-		Party party = new Party();
-		party.addChampion(tiggy);
+		dungeon.setParty(new Position(2, 2, 1), party);
 
-		final Position initialPosition = new Position(2, 2, 1);
-
-		dungeon.setParty(initialPosition, party);
-
-		final SimpleActuator actuator1 = new SimpleActuator(6,
-				TriggerAction.TOGGLE, teleporter);
-
-		final LoopingActuator actuator = new LoopingActuator(actuator1);
+		final LoopingActuator actuator = new LoopingActuator(new SimpleActuator(6, TriggerAction.TOGGLE, teleporter));
 
 		Clock.getInstance().register(teleporter);
 		Clock.getInstance().register(actuator);
 
-		// --- Téléporteur actif
+		// --- The teleport is active
 		assertTrue(teleporter.isEnabled());
 
 		Clock.getInstance().tick(6);
 
-		// --- Téléporteur inactif
+		// --- The teleport is inactive
 		assertFalse(teleporter.isEnabled());
 
 		Clock.getInstance().tick(6);
 
-		// --- Téléporteur actif
+		// --- The teleport is active
 		assertTrue(teleporter.isEnabled());
 	}
-	
+
 	public void testTeleporterTriggeringWithAsymetricPeriods() throws Throwable {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -153,52 +142,41 @@ public class TeleporterTest extends TestCase {
 		Dungeon dungeon = new Dungeon();
 
 		final Position destination = new Position(3, 3, 1);
-		final Teleporter teleporter = new Teleporter(destination,
-				DirectionTransform.OPPOSITE, false);
+		final Teleporter teleporter = new Teleporter(destination, DirectionTransform.OPPOSITE, false);
 
 		final Level level1 = dungeon.createLevel(1, 5, 5);
 		level1.setElement(3, 2, teleporter);
 
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
+		final Party party = new Party();
+		party.addChampion(ChampionFactory.getFactory().newChampion(Name.TIGGY));
 
-		Party party = new Party();
-		party.addChampion(tiggy);
+		dungeon.setParty(new Position(2, 2, 1), party);
 
-		final Position initialPosition = new Position(2, 2, 1);
-
-		dungeon.setParty(initialPosition, party);
-
-		final Actuator actuator1 = new SimpleActuator(6, TriggerAction.TOGGLE,
-				teleporter);
-		final Actuator actuator2 = new SimpleActuator(10, TriggerAction.TOGGLE,
-				teleporter);
+		final Actuator actuator1 = new SimpleActuator(6, TriggerAction.TOGGLE, teleporter);
+		final Actuator actuator2 = new SimpleActuator(10, TriggerAction.TOGGLE, teleporter);
 		final Actuator actuator = new LoopingActuator(actuator1, actuator2);
 
 		Clock.getInstance().register(teleporter);
 		Clock.getInstance().register(actuator);
 
-		// --- Téléporteur actif
+		// --- The teleport is active
 		assertTrue(teleporter.isEnabled());
 
 		Clock.getInstance().tick(5);
-
 		assertTrue(teleporter.isEnabled());
-
 		Clock.getInstance().tick();
 
-		// --- Téléporteur inactif
+		// --- The teleport is inactive
 		assertFalse(teleporter.isEnabled());
 
 		Clock.getInstance().tick(9);
-
 		assertFalse(teleporter.isEnabled());
-
 		Clock.getInstance().tick();
 
-		// --- Téléporteur actif
+		// --- The teleport is active
 		assertTrue(teleporter.isEnabled());
 	}
-	
+
 	public void testTeleporterWithNoDestination() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -214,34 +192,30 @@ public class TeleporterTest extends TestCase {
 
 		Dungeon dungeon = new Dungeon();
 
-		final Teleporter teleporter = new Teleporter(
-				DirectionTransform.OPPOSITE, false);
+		final Teleporter teleporter = new Teleporter(DirectionTransform.OPPOSITE, false);
 
 		final Level level1 = dungeon.createLevel(1, 5, 5);
 		level1.setElement(3, 2, teleporter);
 
-		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
-
 		Party party = new Party();
-		party.addChampion(tiggy);
+		party.addChampion(ChampionFactory.getFactory().newChampion(Name.TIGGY));
 
 		final Position initialPosition = new Position(2, 2, 1);
 
 		dungeon.setParty(initialPosition, party);
 
-		// --- Vérifier la position initiale
+		// --- Check the initial state
 		assertEquals(initialPosition, dungeon.getParty().getPosition());
 		assertEquals(Direction.NORTH, party.getLookDirection());
 
-		// --- Marcher dans le téléporteur
+		// --- Walk into the teleport
 		assertTrue(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(new Position(3, 2, 1), dungeon.getParty().getPosition());
 		assertEquals(Direction.SOUTH, party.getLookDirection());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

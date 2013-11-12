@@ -24,7 +24,6 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -34,14 +33,14 @@ import fr.ritaly.dungeonmaster.item.Item;
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class TextWall extends DirectedElement {
-	
+
 	private final List<String> lines;
 
 	public TextWall(Direction direction, List<String> lines) {
 		super(Element.Type.TEXT_WALL, direction);
-		
+
 		Validate.notNull(lines, "The given list of lines is null");
-		
+
 		this.lines = new ArrayList<String>(lines);
 	}
 
@@ -58,33 +57,33 @@ public final class TextWall extends DirectedElement {
 	@Override
 	public boolean isTraversable(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
-		
-		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
+
+		return (creature != null) && creature.isImmaterial();
 	}
-	
+
 	@Override
 	public boolean isTraversableByProjectile() {
 		return false;
 	}
 
 	@Override
-	public synchronized Item pickItem(Sector corner) {
+	public synchronized Item removeItem(Sector corner) {
 		// M�thode non support�e
 		throw new UnsupportedOperationException();
 	}
-	
+
 	@Override
-	public synchronized void dropItem(Item item, Sector corner) {
+	public synchronized void addItem(Item item, Sector corner) {
 		// M�thode non support�e
 		throw new UnsupportedOperationException();
 	}
-	
+
 	@Override
 	public List<Item> getItems(Sector sector) {
 		// M�thode non support�e
 		throw new UnsupportedOperationException();
 	}
-	
+
 	@Override
 	public void validate() throws ValidationException {
 		if (hasParty()) {
@@ -94,5 +93,10 @@ public final class TextWall extends DirectedElement {
 
 	public List<String> getLines() {
 		return new ArrayList<String>(lines);
+	}
+
+	@Override
+	public boolean isFluxCageAllowed() {
+		return false;
 	}
 }

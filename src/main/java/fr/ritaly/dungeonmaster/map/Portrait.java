@@ -25,7 +25,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Champion;
@@ -88,7 +87,7 @@ public final class Portrait extends DirectedElement {
 	public boolean isTraversable(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 
-		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
+		return (creature != null) && creature.isImmaterial();
 	}
 
 	@Override
@@ -97,13 +96,13 @@ public final class Portrait extends DirectedElement {
 	}
 
 	@Override
-	public synchronized Item pickItem(Sector corner) {
+	public synchronized Item removeItem(Sector corner) {
 		// M�thode non support�e
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public synchronized void dropItem(Item item, Sector corner) {
+	public synchronized void addItem(Item item, Sector corner) {
 		// M�thode non support�e
 		throw new UnsupportedOperationException();
 	}
@@ -119,5 +118,10 @@ public final class Portrait extends DirectedElement {
 		if (hasParty()) {
 			throw new ValidationException("A fountain can't have champions");
 		}
+	}
+
+	@Override
+	public boolean isFluxCageAllowed() {
+		return false;
 	}
 }

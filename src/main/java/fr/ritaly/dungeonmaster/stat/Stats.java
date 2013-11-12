@@ -65,6 +65,8 @@ public final class Stats implements ChangeListener, ClockListener {
 
 	public static final String PROPERTY_LUCK = "Luck";
 
+	public static final String PROPERTY_SHIELD = "Shield";
+
 	public static final String PROPERTY_MAX_LOAD_BOOST = "MaxLoadBoost";
 
 	private final Champion champion;
@@ -148,6 +150,13 @@ public final class Stats implements ChangeListener, ClockListener {
 	private final Stat luck;
 
 	/**
+	 * The shield has to be managed as a genuine stat because it's temporarily
+	 * affected by a malus when performing an attack. Using a stat is more
+	 * convenient as it natively handles temporary bonus / malus.
+	 */
+	private final Stat shield;
+
+	/**
 	 * This value determines a champion's resistance to fire damage.
 	 */
 	private final Stat antiFire;
@@ -156,8 +165,7 @@ public final class Stats implements ChangeListener, ClockListener {
 
 	private boolean initialized;
 
-	private final PropertyChangeSupport changeSupport = new PropertyChangeSupport(
-			this);
+	private final PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
 	private final Temporizer temporizer;
 
@@ -179,6 +187,7 @@ public final class Stats implements ChangeListener, ClockListener {
 		antiMagic = new Stat(champion.getName(), PROPERTY_ANTI_MAGIC);
 		luck = new Stat(champion.getName(), PROPERTY_LUCK);
 		maxLoadBoost = new Stat(champion.getName(), PROPERTY_MAX_LOAD_BOOST);
+		shield = new Stat(champion.getName(), PROPERTY_SHIELD);
 
 		// Listen to the events fire by those stats
 		food.addChangeListener(this);
@@ -194,6 +203,7 @@ public final class Stats implements ChangeListener, ClockListener {
 		antiMagic.addChangeListener(this);
 		luck.addChangeListener(this);
 		maxLoadBoost.addChangeListener(this);
+		shield.addChangeListener(this);
 
 		// Stats are updated every 5 seconds
 		temporizer = new Temporizer(champion.getName() + ".Stats", 5 * Clock.ONE_SECOND);
@@ -207,6 +217,12 @@ public final class Stats implements ChangeListener, ClockListener {
 
 	public Champion getChampion() {
 		return champion;
+	}
+
+	public Stat getShield() {
+		assertInitialized();
+
+		return shield;
 	}
 
 	public Stat getFood() {
@@ -238,7 +254,7 @@ public final class Stats implements ChangeListener, ClockListener {
 	protected void firePropertyChangeEvent(Object source) {
 		final Stat stat = (Stat) source;
 
-		changeSupport.firePropertyChange(stat.getName(), stat.getPrevious(), stat.value());
+		changeSupport.firePropertyChange(stat.getName(), Integer.valueOf(stat.getPrevious()), Integer.valueOf(stat.baseValue()));
 	}
 
 	public Stat getHealth() {
@@ -274,37 +290,39 @@ public final class Stats implements ChangeListener, ClockListener {
 
 		// Directly access the properties not to execute the assertions inside
 		// the getters
-		this.health.maxValue(health);
-		this.health.value(health);
+		this.health.baseMaxValue(health);
+		this.health.baseValue(health);
 
-		this.stamina.maxValue(stamina);
-		this.stamina.value(stamina);
+		this.stamina.baseMaxValue(stamina);
+		this.stamina.baseValue(stamina);
 
-		this.mana.maxValue(mana);
-		this.mana.value(mana);
+		this.mana.baseMaxValue(mana);
+		this.mana.baseValue(mana);
 
-		this.strength.maxValue(strength);
-		this.strength.value(strength);
+		this.strength.baseMaxValue(strength);
+		this.strength.baseValue(strength);
 
-		this.dexterity.maxValue(dexterity);
-		this.dexterity.value(dexterity);
+		this.dexterity.baseMaxValue(dexterity);
+		this.dexterity.baseValue(dexterity);
 
-		this.wisdom.maxValue(wisdom);
-		this.wisdom.value(wisdom);
+		this.wisdom.baseMaxValue(wisdom);
+		this.wisdom.baseValue(wisdom);
 
-		this.vitality.value(vitality);
-		this.vitality.maxValue(vitality);
+		this.vitality.baseValue(vitality);
+		this.vitality.baseMaxValue(vitality);
 
-		this.antiFire.value(antiFire);
-		this.antiFire.maxValue(antiFire);
+		this.antiFire.baseValue(antiFire);
+		this.antiFire.baseMaxValue(antiFire);
 
-		this.antiMagic.value(antiMagic);
-		this.antiMagic.maxValue(antiMagic);
+		this.antiMagic.baseValue(antiMagic);
+		this.antiMagic.baseMaxValue(antiMagic);
 
 		// The luck stat isn't bounded by a max value because we need to be able
 		// to increase the luck when the champion wears a rabbit foot
-		this.luck.value(luck);
-		this.luck.maxValue(100);
+		this.luck.baseValue(luck);
+		this.luck.baseMaxValue(100);
+
+		// The shield is zero by default
 
 		initialized = true;
 	}
@@ -351,7 +369,7 @@ public final class Stats implements ChangeListener, ClockListener {
 				health.inc(3);
 			}
 
-			if (health.actualValue() == 0) {
+			if (health.value() == 0) {
 				// The champion just died, stop listening to clock ticks
 				return false;
 			}
@@ -393,13 +411,13 @@ public final class Stats implements ChangeListener, ClockListener {
 	}
 
 	public final float getActualMaxLoad() {
-		final float baseMaxLoad = (8.0f * strength.actualValue() + 100.0f) / 10.0f;
+		final float baseMaxLoad = (8.0f * strength.value() + 100.0f) / 10.0f;
 
 		// The max load can be temporarily boosted
 		final float actualBaseMaxLoad = baseMaxLoad + maxLoadBoost.value();
 
-		final Integer curStamina = stamina.actualValue();
-		final Integer maxStamina = stamina.actualMaxValue();
+		final Integer curStamina = stamina.value();
+		final Integer maxStamina = stamina.maxValue();
 
 		if (curStamina >= (maxStamina / 2.0f)) {
 			// Stamina is good, no penalty to the max load
@@ -446,6 +464,8 @@ public final class Stats implements ChangeListener, ClockListener {
 			return getWater();
 		} else if (PROPERTY_WISDOM.equals(name)) {
 			return getWisdom();
+		} else if (PROPERTY_SHIELD.equals(name)) {
+			return getShield();
 		}
 
 		throw new IllegalArgumentException("Unsupported stat " + name);

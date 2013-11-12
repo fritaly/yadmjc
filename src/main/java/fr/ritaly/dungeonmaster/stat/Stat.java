@@ -20,7 +20,6 @@ package fr.ritaly.dungeonmaster.stat;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -34,7 +33,7 @@ import fr.ritaly.dungeonmaster.event.ChangeListener;
 /**
  * A {@link Stat} represents a champion's feature. A stat has 4 features:
  * <ul>
- * <li>a base value (see {@link #value()})</li>
+ * <li>a base value (see {@link #baseValue()})</li>
  * <li>a minimal value (see {@link #min})</li>
  * <li>a maximal value (see {@link #max})</li>
  * <li>a boost value (see {@link #boost})</li>
@@ -59,12 +58,12 @@ public final class Stat implements ChangeEventSource {
 	/**
 	 * The stat's base value. Always within [min,max].
 	 */
-	private Integer value;
+	private int value;
 
 	/**
 	 * The stat's previous base value.
 	 */
-	private Integer previous;
+	private int previous;
 
 	/**
 	 * The name of this stat. Meant for debugging. Example: "Strength". Can't be
@@ -75,17 +74,17 @@ public final class Stat implements ChangeEventSource {
 	/**
 	 * The minimal value allowed for the base value.
 	 */
-	private Integer min;
+	private int min;
 
 	/**
 	 * The maximal value allowed for the base value.
 	 */
-	private Integer max;
+	private int max;
 
 	/**
 	 * The possible boost value. Can be any value (positive, negative).
 	 */
-	private Integer boost;
+	private int boost;
 
 	/**
 	 * The name of the stat's owner. Meant for debugging. Can't be null.
@@ -97,55 +96,49 @@ public final class Stat implements ChangeEventSource {
 
 		this.owner = owner;
 		this.name = name;
-		this.min = create(0.0f);
-		this.max = create(Float.MAX_VALUE);
-		this.boost = create(0.0f);
-		this.value = create(0.0f);
+		this.min = 0;
+		this.max = Integer.MAX_VALUE;
+		this.boost = 0;
+		this.value = 0;
 		this.previous = value;
 	}
 
-	public Stat(String owner, String name, Integer initialValue) {
+	public Stat(String owner, String name, int initialValue) {
 		Validate.isTrue(!StringUtils.isBlank(name), String.format("The given name '%s' is blank", name));
-		Validate.notNull(initialValue, "The given initial value is null");
 
 		this.owner = owner;
 		this.name = name;
-		this.min = create(0.0f);
-		this.max = create(Float.MAX_VALUE);
-		this.boost = create(0.0f);
-		this.value = create(getActual(initialValue.floatValue()));
+		this.min = 0;
+		this.max = Integer.MAX_VALUE;
+		this.boost = 0;
+		this.value = bindBaseValue(initialValue);
 		this.previous = value;
 	}
 
-	public Stat(String owner, String name, Integer initialValue, Integer maxValue) {
+	public Stat(String owner, String name, int initialValue, int maxValue) {
 		Validate.isTrue(!StringUtils.isBlank(name), String.format("The given name '%s' is blank", name));
-		Validate.notNull(initialValue, "The given initial value is null");
-		Validate.notNull(maxValue, "The given max value is null");
-		Validate.isTrue(maxValue.floatValue() > 0.0f, String.format("The given max value %d must be positive", maxValue));
+		Validate.isTrue(maxValue > 0, String.format("The given max value %d must be positive", maxValue));
 
 		this.owner = owner;
 		this.name = name;
-		this.min = create(0.0f);
+		this.min = 0;
 		this.max = maxValue;
-		this.boost = create(0.0f);
-		this.value = create(getActual(initialValue.floatValue()));
+		this.boost = 0;
+		this.value = bindBaseValue(initialValue);
 		this.previous = value;
 	}
 
-	public Stat(String owner, String name, Integer initialValue, Integer minValue, Integer maxValue) {
+	public Stat(String owner, String name, int initialValue, int minValue, int maxValue) {
 		Validate.isTrue(!StringUtils.isBlank(name), String.format("The given name '%s' is blank", name));
-		Validate.notNull(initialValue, "The given initial value is null");
-		Validate.notNull(minValue, "The given min value is null");
-		Validate.notNull(maxValue, "The given max value is null");
-		Validate.isTrue(minValue.floatValue() <= maxValue.floatValue(),
+		Validate.isTrue(minValue <= maxValue,
 				String.format("The given min value %d must be lesser than the given max value %d", minValue, maxValue));
 
 		this.owner = owner;
 		this.name = name;
 		this.min = minValue;
 		this.max = maxValue;
-		this.boost = create(0.0f);
-		this.value = create(getActual(initialValue.floatValue()));
+		this.boost = 0;
+		this.value = bindBaseValue(initialValue);
 		this.previous = value;
 	}
 
@@ -159,7 +152,7 @@ public final class Stat implements ChangeEventSource {
 		eventSupport.removeChangeListener(listener);
 	}
 
-	protected void fireChangeEvent() {
+	private void fireChangeEvent() {
 		eventSupport.fireChangeEvent(new ChangeEvent(this));
 	}
 
@@ -168,7 +161,7 @@ public final class Stat implements ChangeEventSource {
 	 *
 	 * @return the stat's base value as an integer.
 	 */
-	public Integer value() {
+	public int baseValue() {
 		return value;
 	}
 
@@ -177,15 +170,11 @@ public final class Stat implements ChangeEventSource {
 	 *
 	 * @return the actual stat's value as an integer.
 	 */
-	public Integer actualValue() {
-		if (boost.floatValue() != 0.0f) {
-			return create(value.floatValue() + boost.floatValue());
-		}
-
-		return value();
+	public int value() {
+		return (boost != 0) ? value + boost : value;
 	}
 
-	private void log(String name, float oldValue, float newValue, float delta) {
+	private void log(String name, int oldValue, int newValue, int delta) {
 		if (log.isDebugEnabled()) {
 			final String oldValueText;
 			final boolean oldValueMax;
@@ -194,7 +183,7 @@ public final class Stat implements ChangeEventSource {
 				oldValueText = "MAX_VALUE";
 				oldValueMax = true;
 			} else {
-				oldValueText = Float.toString(oldValue);
+				oldValueText = Integer.toString(oldValue);
 				oldValueMax = false;
 			}
 
@@ -205,7 +194,7 @@ public final class Stat implements ChangeEventSource {
 				newValueText = "MAX_VALUE";
 				newValueMax = true;
 			} else {
-				newValueText = Float.toString(newValue);
+				newValueText = Integer.toString(newValue);
 				newValueMax = false;
 			}
 
@@ -215,7 +204,7 @@ public final class Stat implements ChangeEventSource {
 				if (delta > 0) {
 					deltaText = "+" + delta;
 				} else {
-					deltaText = Float.toString(delta);
+					deltaText = Integer.toString(delta);
 				}
 			} else {
 				deltaText = "N/A";
@@ -234,7 +223,7 @@ public final class Stat implements ChangeEventSource {
 	 *
 	 * @return the stat's base max value as an integer.
 	 */
-	public Integer maxValue() {
+	public int baseMaxValue() {
 		return max;
 	}
 
@@ -243,12 +232,8 @@ public final class Stat implements ChangeEventSource {
 	 *
 	 * @return the stat's actual max value as an integer.
 	 */
-	public Integer actualMaxValue() {
-		if (boost.floatValue() != 0.0f) {
-			return create(max.floatValue() + boost.floatValue());
-		}
-
-		return maxValue();
+	public int maxValue() {
+		return (boost != 0) ? max + boost : max;
 	}
 
 	/**
@@ -256,7 +241,7 @@ public final class Stat implements ChangeEventSource {
 	 *
 	 * @return the stat's boost value as an integer.
 	 */
-	public Integer boostValue() {
+	public int boostValue() {
 		return this.boost;
 	}
 
@@ -268,7 +253,7 @@ public final class Stat implements ChangeEventSource {
 	 *            the value to add to the boost value.
 	 * @return the updated boost value.
 	 */
-	public Integer incBoost(final Integer n) {
+	public int incBoost(final int n) {
 		return incBoost(n, -1);
 	}
 
@@ -285,40 +270,37 @@ public final class Stat implements ChangeEventSource {
 	 *            convenient for providing a limited boost to the stat.
 	 * @return the updated boost value.
 	 */
-	public Integer incBoost(final Integer n, int duration) {
-		if (n.floatValue() == 0) {
+	public int incBoost(final int n, int duration) {
+		if (n == 0) {
 			// No change to the boost
 			return boostValue();
 		}
 
-		final Integer oldValue = this.boost;
-		final float actual = boost.floatValue() + n.floatValue();
-		final float delta = actual - oldValue.floatValue();
+		final int oldValue = this.boost;
+		final int newValue = this.boost + n;
 
-		if (delta != 0) {
-			boost = create(actual);
+		boost = newValue;
 
-			log(name + ".Boost", oldValue.floatValue(), actual, delta);
+		log(name + ".Boost", oldValue, newValue, n);
 
-			if (duration > 0) {
-				// Create a DeferredCommand to reset the boost after the given
-				// duration
-				Clock.getInstance().register(new DeferredCommand(name + ".Boost.DeferredCommand", duration) {
+		if (duration > 0) {
+			// Create a DeferredCommand to reset the boost after the given
+			// duration
+			Clock.getInstance().register(new DeferredCommand(name + ".Boost.DeferredCommand", duration) {
 
-							@Override
-							protected void run() {
-								decBoost(n);
-							}
+				@Override
+				protected void run() {
+					decBoost(n);
+				}
 
-							@Override
-							public String toString() {
-								return name + ".Boost.DeferredCommand";
-							}
-						});
-			}
-
-			fireChangeEvent();
+				@Override
+				public String toString() {
+					return name + ".Boost.DeferredCommand";
+				}
+			});
 		}
+
+		fireChangeEvent();
 
 		return boostValue();
 	}
@@ -331,26 +313,13 @@ public final class Stat implements ChangeEventSource {
 	 *            the value to add to the base value.
 	 * @return the updated base value.
 	 */
-	public Integer inc(Integer n) {
-		if (n.floatValue() == 0) {
+	public int inc(int n) {
+		if (n == 0) {
 			// No change to the boost
-			return value();
+			return baseValue();
 		}
 
-		final Integer oldValue = this.value;
-		final float actual = getActual(value.floatValue() + n.floatValue());
-		final float delta = actual - oldValue.floatValue();
-
-		if (delta != 0) {
-			value = create(actual);
-			previous = oldValue;
-
-			log(name, oldValue.floatValue(), actual, delta);
-
-			fireChangeEvent();
-		}
-
-		return value();
+		return baseValue(this.value + n);
 	}
 
 	/**
@@ -361,26 +330,23 @@ public final class Stat implements ChangeEventSource {
 	 *            the value to add to the max value.
 	 * @return the updated max value.
 	 */
-	public Integer incMax(Integer n) {
-		if (n.floatValue() == 0) {
+	public int incMax(int n) {
+		if (n == 0) {
 			// No change to the max value
-			return maxValue();
+			return baseMaxValue();
 		}
 
-		final Integer oldValue = this.max;
-		final float actual = this.max.floatValue() + n.floatValue();
-		final float delta = actual - oldValue.floatValue();
+		final int oldValue = this.max;
+		final int newValue = this.max + n;
 
-		if (delta != 0) {
-			max = create(actual);
-			previous = oldValue;
+		max = newValue;
+		previous = oldValue;
 
-			log(name + ".Max", oldValue.floatValue(), actual, delta);
+		log(name + ".Max", oldValue, newValue, n);
 
-			fireChangeEvent();
-		}
+		fireChangeEvent();
 
-		return maxValue();
+		return baseMaxValue();
 	}
 
 	/**
@@ -391,45 +357,24 @@ public final class Stat implements ChangeEventSource {
 	 *            the value to remove from the max value.
 	 * @return the updated max value.
 	 */
-	public Integer decMax(Integer n) {
-		if (n.floatValue() == 0) {
+	public int decMax(int n) {
+		if (n == 0) {
 			// No change to the max value
-			return maxValue();
+			return baseMaxValue();
 		}
 
-		final Integer oldValue = this.max;
-		final float actual = this.max.floatValue() - n.floatValue();
-		final float delta = actual - oldValue.floatValue();
+		final int oldValue = this.max;
+		final int newValue = this.max - n;
 
-		if (delta != 0) {
-			// TODO Decrease the actual value if above the new max value
-			max = create(actual);
-			previous = oldValue;
+		// TODO Decrease the actual value if above the new max value
+		max = newValue;
+		previous = oldValue;
 
-			log(name + ".Max", oldValue.floatValue(), actual, delta);
+		log(name + ".Max", oldValue, newValue, n);
 
-			fireChangeEvent();
-		}
+		fireChangeEvent();
 
-		return maxValue();
-	}
-
-	/**
-	 * Decreases the base value by one and returns the updated base value.
-	 *
-	 * @return the updated base value.
-	 */
-	public Integer dec() {
-		return dec(create(1));
-	}
-
-	/**
-	 * Increases the base value by one and returns the updated base value.
-	 *
-	 * @return the updated base value.
-	 */
-	public Integer inc() {
-		return inc(create(1));
+		return baseMaxValue();
 	}
 
 	/**
@@ -440,144 +385,119 @@ public final class Stat implements ChangeEventSource {
 	 *            the value to remove from the boost value.
 	 * @return the updated boost value.
 	 */
-	public Integer decBoost(final Integer n) {
+	public int decBoost(final int n) {
 		return decBoost(n, -1);
 	}
 
-	public Integer decBoost(final Integer n, int duration) {
-		if (n.floatValue() == 0) {
+	public int decBoost(final int n, int duration) {
+		if (n == 0) {
 			// No change to the boost value
 			return boostValue();
 		}
 
-		final Integer oldValue = this.boost;
-		final float actual = boost.floatValue() - n.floatValue();
-		final float delta = actual - oldValue.floatValue();
+		final int oldValue = this.boost;
+		final int newValue = this.boost - n;
 
-		if (delta != 0) {
-			boost = create(actual);
+		boost = newValue;
 
-			log(name + ".Boost", oldValue.floatValue(), actual, delta);
+		log(name + ".Boost", oldValue, newValue, -n);
 
-			if (duration > 0) {
-				// Create a DeferredCommand to reset the boost after the given
-				// duration
-				Clock.getInstance().register(new DeferredCommand(name + ".Boost.DeferredCommand", duration) {
-					@Override
-					protected void run() {
-						incBoost(n);
-					}
+		if (duration > 0) {
+			// Create a DeferredCommand to reset the boost after the given
+			// duration
+			Clock.getInstance().register(new DeferredCommand(name + ".Boost.DeferredCommand", duration) {
+				@Override
+				protected void run() {
+					incBoost(n);
+				}
 
-					@Override
-					public String toString() {
-						return name + ".Boost.DeferredCommand";
-					}
-				});
-			}
-
-			fireChangeEvent();
+				@Override
+				public String toString() {
+					return name + ".Boost.DeferredCommand";
+				}
+			});
 		}
 
-		return value();
+		fireChangeEvent();
+
+		return baseValue();
 	}
 
-	public Integer dec(Integer n) {
-		if (n.floatValue() == 0) {
+	public int dec(int n) {
+		if (n == 0) {
 			// No change to the value
-			return value();
+			return baseValue();
 		}
 
-		final Integer oldValue = this.value;
-		final float actual = getActual(value.floatValue() - n.floatValue());
-		final float delta = actual - oldValue.floatValue();
-
-		if (delta != 0) {
-			value = create(actual);
-			previous = oldValue;
-
-			log(name, oldValue.floatValue(), actual, delta);
-
-			fireChangeEvent();
-		}
-
-		return value();
+		return baseValue(this.value - n);
 	}
 
-	private float getActual(final float value) {
-		if (value > max.floatValue()) {
-			// Careful to always return a value within [min, max+boost]
-			return max.floatValue();
-		} else if (value < min.floatValue()) {
-			// Careful to always return a value within [min, max+boost]
-			return min.floatValue();
+	private int bindBaseValue(final int value) {
+		if (value > max) {
+			// Careful to always return a value within [min, max]
+			return max;
+		}
+		if (value < min) {
+			// Careful to always return a value within [min, max]
+			return min;
 		}
 
 		return value;
 	}
 
-	public void value(Integer n) {
-		final Integer oldValue = value;
-		final float actual = getActual(n.floatValue());
-		final float delta = actual - oldValue.floatValue();
+	public int baseValue(int n) {
+		final int oldValue = value;
+		final int newValue = bindBaseValue(n);
+		final int delta = newValue - oldValue;
 
 		if (delta != 0) {
-			value = create(actual);
+			value = newValue;
 			previous = oldValue;
 
-			log(name, oldValue.floatValue(), actual, delta);
+			log(name, oldValue, newValue, delta);
 
 			fireChangeEvent();
 		}
+
+		return value;
 	}
 
-	public void maxValue(Integer newMax) {
-		Validate.isTrue(max.floatValue() > min.floatValue(),
+	public void baseMaxValue(int newMax) {
+		Validate.isTrue(max > min,
 				String.format("The given max value %d must be greater than the min value %d", newMax, min));
 
-		final Integer oldMax = max;
+		final int oldMax = max;
 
-		if (newMax.floatValue() < oldMax.floatValue()) {
+		if (newMax < oldMax) {
 			// The max value decreased
-			if (value.floatValue() > newMax.floatValue()) {
+			if (value > newMax) {
 				// Adjust the value first (necessary)
-				final Integer oldValue = value;
-				value = create(newMax.floatValue());
+				final int oldValue = value;
+				value = newMax;
 				previous = oldValue;
 
 				if (log.isDebugEnabled()) {
-					log(name, oldValue.floatValue(), newMax.floatValue(), newMax.floatValue() - oldValue.floatValue());
+					log(name, oldValue, newMax, newMax - oldValue);
 				}
 			}
 
 			max = newMax;
 
 			if (log.isDebugEnabled()) {
-				log(name + ".Max", oldMax.floatValue(), newMax.floatValue(), newMax.floatValue() - oldMax.floatValue());
+				log(name + ".Max", oldMax, newMax, newMax - oldMax);
 			}
 
 			fireChangeEvent();
-		} else if (newMax.floatValue() > oldMax.floatValue()) {
+		} else if (newMax > oldMax) {
 			// The max value increased
 			max = newMax;
 
 			if (log.isDebugEnabled()) {
-				log(name + ".Max", oldMax.floatValue(), newMax.floatValue(), newMax.floatValue() - oldMax.floatValue());
+				log(name + ".Max", oldMax, newMax, newMax - oldMax);
 			}
 
 			fireChangeEvent();
 		}
-	}
-
-	protected Integer create(float value) {
-		// Return a value within [Integer.MIN_VALUE,Integer.MAX_VALUE]
-		if (value >= Integer.MAX_VALUE) {
-			return Integer.MAX_VALUE;
-		}
-		if (value <= Integer.MIN_VALUE) {
-			return Integer.MIN_VALUE;
-		}
-
-		return Integer.valueOf((int) value);
 	}
 
 	public String getName() {
@@ -592,17 +512,17 @@ public final class Stat implements ChangeEventSource {
 		builder.append(", value=");
 		builder.append(value);
 
-		if (min.floatValue() != 0.0f) {
+		if (min != 0) {
 			builder.append(", min=");
 			builder.append(min);
 		}
 
-		if ((max.floatValue() != Float.MAX_VALUE) && max.floatValue() != Integer.MAX_VALUE) {
+		if (max != Integer.MAX_VALUE) {
 			builder.append(", max=");
 			builder.append(max);
 		}
 
-		if (boost.floatValue() != 0.0f) {
+		if (boost != 0) {
 			builder.append(", boost=");
 			builder.append(boost);
 		}
@@ -613,20 +533,17 @@ public final class Stat implements ChangeEventSource {
 	}
 
 	// Visibility package protected on purpose
-	Integer getPrevious() {
+	int getPrevious() {
 		return previous;
 	}
 
-	public float getPercent() {
+	private float getPercent() {
 		// Only relevant if a max value is defined
-		if (max.floatValue() == Float.MAX_VALUE) {
-			return 1.0f;
-		}
-		if (max.floatValue() == Integer.MAX_VALUE) {
+		if (max == Integer.MAX_VALUE) {
 			return 1.0f;
 		}
 
-		return value().floatValue() / max.floatValue();
+		return (float) baseValue() / max;
 	}
 
 	/**
@@ -638,29 +555,12 @@ public final class Stat implements ChangeEventSource {
 		return getPercent() <= 0.1f;
 	}
 
-	// TODO Rename this method
-	public Integer improve(int min, int max) {
-		Validate.isTrue(min >= 0);
-		Validate.isTrue(max >= 0);
-		Validate.isTrue(min <= max);
-
-		// TODO The below is wrong ? should be min + RandomUtils.nextInt(max - min)
-		// Pick a random value within [min, max]
-		final int increment = min + RandomUtils.nextInt(max);
-
-		// Increase the max value first
-		incMax(create(maxValue().intValue() + increment));
-
-		// Then increase the value
-		return inc(create(value().intValue() + increment));
-	}
-
 	/**
 	 * Tells whether the stat's actual value is boosted (positively or negatively !).
 	 *
 	 * @return whether the stat's actual value is boosted.
 	 */
 	public boolean isBoosted() {
-		return boost.floatValue() != 0.0f;
+		return (boost != 0);
 	}
 }

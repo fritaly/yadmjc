@@ -101,12 +101,18 @@ final class CreatureDef {
 				this.definition.experienceMultiplier = Integer.valueOf(attributes.getValue("experience-multiplier"));
 				this.definition.moveDuration = Integer.valueOf(attributes.getValue("move-duration"));
 				this.definition.sightRange = Integer.valueOf(attributes.getValue("sight-range"));
+				this.definition.absorbsItems = Boolean.valueOf(attributes.getValue("absorbs-items"));
+				this.definition.levitates = Boolean.valueOf(attributes.getValue("levitates"));
+				this.definition.archenemy = Boolean.valueOf(attributes.getValue("archenemy"));
+				this.definition.nightVision = Boolean.valueOf(attributes.getValue("night-vision"));
+				this.definition.seesInvisible = Boolean.valueOf(attributes.getValue("sees-invisible"));
 			} else if ("defense".equals(elementName)) {
 				this.definition.antiMagic = Integer.valueOf(attributes.getValue("anti-magic"));
 				this.definition.armor = Integer.valueOf(attributes.getValue("armor"));
 				this.definition.shield = Integer.valueOf(attributes.getValue("shield"));
+				this.definition.poisonResistance = Integer.parseInt(attributes.getValue("poison"));
 			} else if ("attack".equals(elementName)) {
-				this.definition.skill = Champion.Level.valueOf(attributes.getValue("skill"));
+				this.definition.attackSkill = Champion.Level.valueOf(attributes.getValue("skill"));
 				this.definition.attackAnimationDuration = Integer.parseInt(attributes.getValue("animation-duration"));
 				this.definition.attackDuration = Integer.parseInt(attributes.getValue("duration"));
 				this.definition.attackPower = Integer.parseInt(attributes.getValue("power"));
@@ -118,8 +124,6 @@ final class CreatureDef {
 				if (attributes.getValue("strength") != null) {
 					this.definition.poison = Integer.parseInt(attributes.getValue("strength"));
 				}
-
-				this.definition.poisonResistance = Integer.parseInt(attributes.getValue("resistance"));
 			} else if ("spell".equals(elementName)) {
 				this.definition.spells.add(Spell.Type.valueOf(attributes.getValue("id")));
 			} else if ("weakness".equals(elementName)) {
@@ -230,6 +234,23 @@ final class CreatureDef {
 
 	private String id;
 
+	/**
+	 * These two bits define the height of the creature. It is used to check if
+	 * missiles can fly over the creatures (for example Fireballs can fly over
+	 * small creatures). This value is also used to define how to animate a door
+	 * that is closed upon the creature:
+	 * <ul>
+	 * <li>'0': the door is not animated and stays fully open. The creature
+	 * still takes damage.</li>
+	 * <li>'1': the door is animated from the top to 1/4th of its size. This
+	 * applies to tall creatures like Mummies.</li>
+	 * <li>'2': the door is animated between 1/4th of its size to half of its
+	 * size. This applies to medium sized creatures like Screamers.</li>
+	 * <li>'3': the door is animated from half of its size to 3/4th of its size.
+	 * This applies to small creatures like the Worm.</li>
+	 * Note: This value is ignored for non material creatures and the door
+	 * always closes normally without causing any damage to such creatures.
+	 */
 	private Height height;
 
 	private Creature.Size size;
@@ -241,7 +262,10 @@ final class CreatureDef {
 	private int baseHealth;
 
 	/**
-	 * Valeur dans l'intervalle [0-15]. aka "Detection range".
+	 * Maximum number of tiles between a creature and party needed to detect and
+	 * "turn" towards the party, perhaps to shoot a projectile. This applies
+	 * even if the creature is not facing the party. Value within [0,15] (aka
+	 * "Detection range").
 	 */
 	private int awareness;
 
@@ -263,13 +287,53 @@ final class CreatureDef {
 	 * to another (in number of clock ticks). Value within [0,255]. The
 	 * special value 255 means that the creature can't move.
 	 */
-
 	private int moveDuration;
 
 	/**
-	 * Valeur dans l'intervalle [0-15].
+	 * Maximum number of tiles between creature and party needed to see the
+	 * party. This applies only if the creature is facing the party. This value
+	 * is affected by the current light level in the dungeon (the value is
+	 * halved for each level of darkness). Value within [0,15].
 	 */
 	private int sightRange;
+
+	/**
+	 * When this bit is set to '1', the creature can absorb some items when they
+	 * are thrown at the creature (like the Mummy). The list of items that can
+	 * be absorbed is hard coded in the program (Arrow, Slayer, Poison Dart,
+	 * Throwing Star and Dagger). If a thrown item is not absorbed by the
+	 * creature, it falls on the floor (it is never destroyed). This is not
+	 * linked to the ability of the Giggler to steal items in champion hands
+	 * which is hard coded. See
+	 * http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244
+	 */
+	private boolean absorbsItems;
+
+	/**
+	 * cf http://www.gamefaqs.com/snes/588299-dungeon-master/faqs/33244. If this
+	 * bit is set to '1', the creature can pass over pits without falling
+	 */
+	private boolean levitates;
+
+	/**
+	 * When this bit is set, the creature never takes any damage (health is not
+	 * decreased), it can teleport up to two tiles away and it cannot move to a
+	 * tile containing a flux cage.
+	 */
+	private boolean archenemy;
+
+	/**
+	 * When this bit is set to '1', the creature can see the party in darkness
+	 * because it ignores the sight range reduction caused by low light levels
+	 * in the dungeon.
+	 */
+	private boolean nightVision;
+
+	/**
+	 * When this bit is set to '1', the creature can see the party even if it is
+	 * under the effect of the 'Invisibility' spell.
+	 */
+	private boolean seesInvisible;
 
 	/**
 	 * Resistance to magical spells like Fireball. Value within [0,15]. The
@@ -279,8 +343,9 @@ final class CreatureDef {
 	private int antiMagic;
 
 	/**
-	 * The armor value is always within range [0,255]. The special value 255
-	 * means that the creature is invincible.
+	 * This is the resistance to damage including Dispell on non material
+	 * creatures. The armor value is always within range [0,255]. The special
+	 * value 255 means that the creature is invincible.
 	 */
 	private int armor;
 
@@ -291,7 +356,7 @@ final class CreatureDef {
 	 */
 	private int shield;
 
-	private Champion.Level skill;
+	private Champion.Level attackSkill;
 
 	/**
 	 * The number of clock ticks during which the animation of an attacking
@@ -306,6 +371,10 @@ final class CreatureDef {
 	 */
 	private int attackDuration;
 
+	/**
+	 * The base value for computing how much damage a creature's attack will
+	 * inflict.
+	 */
 	private int attackPower;
 
 	/**
@@ -320,7 +389,9 @@ final class CreatureDef {
 	private AttackType attackType;
 
 	/**
-	 * Valeur dans l'intervalle [0-15]. aka "Spell casting range".
+	 * Maximum number of tiles between creature and party needed to perform a
+	 * distance attack (cast a spell). Valeur dans l'intervalle [0-15]. aka
+	 * "Spell casting range".
 	 */
 	private int attackRange;
 
@@ -330,8 +401,8 @@ final class CreatureDef {
 	private int attackProbability;
 
 	/**
-	 * The strength of the creature's poisonous attack. Value within
-	 * [0,255].
+	 * The amount of poison inflicted when the creature successfully hits a
+	 * character.Value within [0,255].
 	 */
 	private int poison;
 
@@ -356,6 +427,26 @@ final class CreatureDef {
 	private final List<ItemDef> itemDefs = new ArrayList<CreatureDef.ItemDef>();
 
 	CreatureDef() {
+	}
+
+	public boolean isSeesInvisible() {
+		return seesInvisible;
+	}
+
+	public boolean isNightVision() {
+		return nightVision;
+	}
+
+	public boolean isArchenemy() {
+		return archenemy;
+	}
+
+	public boolean isLevitates() {
+		return levitates;
+	}
+
+	public boolean isAbsorbsItems() {
+		return absorbsItems;
 	}
 
 	public boolean isSideAttack() {
@@ -442,8 +533,8 @@ final class CreatureDef {
 		return size;
 	}
 
-	public Champion.Level getSkill() {
-		return skill;
+	public Champion.Level getAttackSkill() {
+		return attackSkill;
 	}
 
 	public Set<Spell.Type> getSpells() {
@@ -522,14 +613,20 @@ final class CreatureDef {
 			writer.writeAttribute("experience-multiplier", Integer.toString(type.getExperienceMultiplier()));
 			writer.writeAttribute("move-duration", Integer.toString(type.getMoveDuration()));
 			writer.writeAttribute("sight-range", Integer.toString(type.getSightRange()));
+			writer.writeAttribute("absorbs-items", Boolean.toString(type.isAbsorbsItems()));
+			writer.writeAttribute("levitates", Boolean.toString(type.levitates()));
+			writer.writeAttribute("archenemy", Boolean.toString(type.isArchenemy()));
+			writer.writeAttribute("night-vision", Boolean.toString(type.isNightVision()));
+			writer.writeAttribute("sees-invisible", Boolean.toString(type.isSeesInvisible()));
 
 			writer.writeEmptyElement("defense");
 			writer.writeAttribute("anti-magic", Integer.toString(type.getAntiMagic()));
 			writer.writeAttribute("armor", Integer.toString(type.getArmor()));
 			writer.writeAttribute("shield", Integer.toString(type.getShield()));
+			writer.writeAttribute("poison", Integer.toString(type.getPoisonResistance()));
 
 			writer.writeEmptyElement("attack");
-			writer.writeAttribute("skill", type.getSkill().name());
+			writer.writeAttribute("skill", type.getAttackSkill().name());
 			writer.writeAttribute("animation-duration", Integer.toString(type.getAttackAnimationDuration()));
 			writer.writeAttribute("duration", Integer.toString(type.getAttackDuration()));
 			writer.writeAttribute("power", Integer.toString(type.getAttackPower()));
@@ -542,7 +639,6 @@ final class CreatureDef {
 			if (type.getPoison() != 0) {
 				writer.writeAttribute("strength", Integer.toString(type.getPoison()));
 			}
-			writer.writeAttribute("resistance", Integer.toString(type.getPoisonResistance()));
 
 			if (!type.getSpells().isEmpty()) {
 				writer.writeStartElement("spells");

@@ -19,7 +19,6 @@
 package fr.ritaly.dungeonmaster.ai;
 
 import fr.ritaly.dungeonmaster.ClockListener;
-import fr.ritaly.dungeonmaster.Materiality;
 
 /**
  * Some (actually most) creatures are material whereas others are immaterial.
@@ -29,14 +28,21 @@ import fr.ritaly.dungeonmaster.Materiality;
  * {@link Materiality} of a creature is at a given time. That's the reason why
  * this interface extends {@link ClockListener}.
  *
- * @author francois_ritaly
+ * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public interface Materializer extends ClockListener {
 
 	/**
-	 * Returns the current materiality.
+	 * Tells whether the object is currently material.
 	 *
-	 * @return the current materiality. Never returns null.
+	 * @return whether the object is currently material.
 	 */
-	public Materiality getMateriality();
+	public boolean isMaterial();
+
+	/**
+	 * Tells whether the object is currently immaterial.
+	 *
+	 * @return whether the object is currently immaterial.
+	 */
+	public boolean isImmaterial();
 }

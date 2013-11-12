@@ -23,7 +23,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Clock;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Temporizer;
 import fr.ritaly.dungeonmaster.Utils;
 
@@ -89,8 +88,17 @@ public class RandomMaterializer implements Materializer {
 		return true;
 	}
 
-	@Override
-	public Materiality getMateriality() {
+	private Materiality getMateriality() {
 		return material ? Materiality.MATERIAL : Materiality.IMMATERIAL;
+	}
+
+	@Override
+	public boolean isImmaterial() {
+		return (getMateriality() == Materiality.IMMATERIAL);
+	}
+
+	@Override
+	public boolean isMaterial() {
+		return !isImmaterial();
 	}
 }

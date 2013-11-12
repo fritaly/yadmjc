@@ -5,33 +5,25 @@ import java.util.Random;
 
 public class RunMaze {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
-
-		Maze maze;
-		int startX = 0, startY = 0;
 		int goalX = 0, goalY = 0;
-		
+
 		List<Square> path = null;
-		
+
+		final Random random = new Random();
+
 		do {
-			maze = new Maze(10, 10);
-			
-			Random random = new Random();
-			
-			startX = random.nextInt(10);
-			startY = random.nextInt(10);
-			
+			final Maze maze = new Maze(10, 10);
+
+			final int startX = random.nextInt(10);
+			final int startY = random.nextInt(10);
+
 			do {
 				goalX = random.nextInt(10);
 				goalY = random.nextInt(10);
 			} while (goalX == startX && goalY == startY);
 
-			path = new PathFinder(maze).findBestPath(startX, startY, goalX,
-					goalY);
+			path = new PathFinder(maze).findBestPath(startX, startY, goalX, goalY);
 		} while (path == null);
 	}
-
 }

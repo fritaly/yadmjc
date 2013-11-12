@@ -38,8 +38,8 @@ public class PartySpellsTest extends TestCase {
 	public void testCastAntiMagicSpell() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 		tiggy.setSkill(Skill.DEFEND, Champion.Level.ARCH_MASTER);
-		tiggy.getStats().getMana().maxValue(200);
-		tiggy.getStats().getMana().value(200);
+		tiggy.getStats().getMana().baseMaxValue(200);
+		tiggy.getStats().getMana().baseValue(200);
 
 		final Party party = new Party();
 		party.addChampion(tiggy);
@@ -47,20 +47,20 @@ public class PartySpellsTest extends TestCase {
 		// Cast the spell
 		tiggy.cast(PowerRune.LO, Spell.Type.ANTI_MAGIC);
 
-		assertEquals(0, party.getSpells().getAntiMagic().value().intValue());
+		assertEquals(0, party.getSpells().getAntiMagic().baseValue());
 
 		final Spell spell = tiggy.castSpell();
 
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
 
-		assertTrue(party.getSpells().getAntiMagic().value().intValue() > 0);
+		assertTrue(party.getSpells().getAntiMagic().baseValue() > 0);
 	}
 
 	public void testCastDispellIllusionSpell() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
-		tiggy.getStats().getMana().maxValue(200);
-		tiggy.getStats().getMana().value(200);
+		tiggy.getStats().getMana().baseMaxValue(200);
+		tiggy.getStats().getMana().baseValue(200);
 
 		final Party party = new Party();
 		party.addChampion(tiggy);
@@ -82,8 +82,8 @@ public class PartySpellsTest extends TestCase {
 
 	public void testCastInvisibilitySpell() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
-		tiggy.getStats().getMana().maxValue(200);
-		tiggy.getStats().getMana().value(200);
+		tiggy.getStats().getMana().baseMaxValue(200);
+		tiggy.getStats().getMana().baseValue(200);
 
 		final Party party = new Party();
 		party.addChampion(tiggy);
@@ -106,8 +106,8 @@ public class PartySpellsTest extends TestCase {
 	public void testCastSeeThroughWallsSpell() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 		tiggy.setSkill(Skill.DEFEND, Champion.Level.ARCH_MASTER);
-		tiggy.getStats().getMana().maxValue(200);
-		tiggy.getStats().getMana().value(200);
+		tiggy.getStats().getMana().baseMaxValue(200);
+		tiggy.getStats().getMana().baseValue(200);
 
 		final Party party = new Party();
 		party.addChampion(tiggy);
@@ -130,8 +130,8 @@ public class PartySpellsTest extends TestCase {
 	public void testCastShieldSpell() throws Exception {
 		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 		tiggy.setSkill(Skill.DEFEND, Champion.Level.ARCH_MASTER);
-		tiggy.getStats().getMana().maxValue(200);
-		tiggy.getStats().getMana().value(200);
+		tiggy.getStats().getMana().baseMaxValue(200);
+		tiggy.getStats().getMana().baseValue(200);
 
 		final Party party = new Party();
 		party.addChampion(tiggy);
@@ -139,14 +139,14 @@ public class PartySpellsTest extends TestCase {
 		// Cast the spell
 		tiggy.cast(PowerRune.LO, Spell.Type.SHIELD);
 
-		assertEquals(0, party.getSpells().getShield().value().intValue());
+		assertEquals(0, party.getSpells().getShield().baseValue());
 
 		final Spell spell = tiggy.castSpell();
 
 		assertNotNull(spell);
 		assertTrue(spell.isValid());
 
-		assertTrue(party.getSpells().getShield().value().intValue() > 0);
+		assertTrue(party.getSpells().getShield().baseValue() > 0);
 	}
 
 	@Override

@@ -24,7 +24,6 @@ import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
@@ -82,7 +81,7 @@ public final class Alcove extends DirectedElement implements HasActuator {
 	public boolean isTraversable(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 
-		return Materiality.IMMATERIAL.equals(creature.getMateriality());
+		return creature.isImmaterial();
 	}
 
 	public final List<Item> getItems(Direction direction) {
@@ -92,7 +91,7 @@ public final class Alcove extends DirectedElement implements HasActuator {
 
 	public final Item pickItem(Direction direction) {
 		// Call the method from parent class
-		final Item item = super.pickItem(map(direction));
+		final Item item = super.removeItem(map(direction));
 
 		if (item != null) {
 			// An item has been picked
@@ -116,7 +115,7 @@ public final class Alcove extends DirectedElement implements HasActuator {
 
 	public final void dropItem(Item item, Direction direction) {
 		// Call the method from parent class
-		super.dropItem(item, map(direction));
+		super.addItem(item, map(direction));
 
 		if (itemType == null) {
 			// Triggered on the first item whatever the type
@@ -148,13 +147,13 @@ public final class Alcove extends DirectedElement implements HasActuator {
 	}
 
 	@Override
-	public final Item pickItem(Sector corner) {
+	public final Item removeItem(Sector corner) {
 		// Override to force the use of the relevant method
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public final void dropItem(Item item, Sector corner) {
+	public final void addItem(Item item, Sector corner) {
 		// Override to force the use of the relevant method
 		throw new UnsupportedOperationException();
 	}
@@ -200,5 +199,10 @@ public final class Alcove extends DirectedElement implements HasActuator {
 	@Override
 	public void clearActuator() {
 		this.actuator = null;
+	}
+
+	@Override
+	public boolean isFluxCageAllowed() {
+		return false;
 	}
 }

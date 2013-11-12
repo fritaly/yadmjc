@@ -58,16 +58,15 @@ public class InvisibleWallTest extends TestCase {
 
 		dungeon.setParty(partyPosition, party);
 
-		// --- Le groupe ne peut PAS se déplacer "dans" le mur invisible
+		// --- The party can't walk into the invisible wall
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertEquals(partyPosition, party.getPosition());
 		assertFalse(dungeon.moveParty(Move.RIGHT, true, AudioClip.STEP));
 		assertEquals(partyPosition, party.getPosition());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

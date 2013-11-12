@@ -45,6 +45,7 @@ import fr.ritaly.dungeonmaster.event.ChangeEvent;
 import fr.ritaly.dungeonmaster.event.ChangeEventSource;
 import fr.ritaly.dungeonmaster.event.ChangeEventSupport;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
+import fr.ritaly.dungeonmaster.item.HasItems;
 import fr.ritaly.dungeonmaster.item.Item;
 import fr.ritaly.dungeonmaster.item.ItemManager;
 import fr.ritaly.dungeonmaster.projectile.Projectile;
@@ -55,7 +56,7 @@ import fr.ritaly.dungeonmaster.projectile.Projectile;
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
-public abstract class Element implements ChangeEventSource, HasPosition, HasParty {
+public abstract class Element implements ChangeEventSource, HasPosition, HasParty, HasItems<Sector> {
 
 	protected final Log log = LogFactory.getLog(this.getClass());
 
@@ -343,46 +344,38 @@ public abstract class Element implements ChangeEventSource, HasPosition, HasPart
 		this.type = type;
 	}
 
-	/**
-	 * Drops the given into onto the given sector.
-	 *
-	 * @param item
-	 *            the item to drop. Can't be null.
-	 * @param sector
-	 *            the sector where to drop the item. Can't be null.
-	 */
-	public void dropItem(Item item, Sector sector) {
-		itemManager.dropItem(item, sector);
+	@Override
+	public void addItem(Item item, Sector sector) {
+		itemManager.addItem(item, sector);
 
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("%s dropped on %s at %s", item, getId(), sector));
 		}
 
-		afterItemDropped(item, sector);
+		afterItemAdded(item, sector);
 
 		fireChangeEvent();
 	}
 
-	public boolean pickItem(Item item) {
-		return pickItem(getSector(item)) == item;
+	@Override
+	public boolean removeItem(Item item) {
+		final Sector sector = getPlace(item);
+
+		if (sector != null) {
+			return itemManager.removeItem(item);
+		}
+
+		return false;
 	}
 
-	/**
-	 * Picks the first item (if any) at the given sector.
-	 *
-	 * @param sector
-	 *            the sector where the item to pick is. Can't be null.
-	 * @return the picked item or null if there was no item at the given
-	 *         sector.
-	 */
-	public Item pickItem(Sector sector) {
-		final Item item = itemManager.pickItem(sector);
+	public Item removeItem(Sector sector) {
+		final Item item = itemManager.removeItem(sector);
 
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("%s picked from %s at %s", item, getId(), sector));
 		}
 
-		afterItemPicked(item, sector);
+		afterItemRemoved(item, sector);
 
 		fireChangeEvent();
 
@@ -465,7 +458,7 @@ public abstract class Element implements ChangeEventSource, HasPosition, HasPart
 	 * @param sector
 	 *            the sector where the item has been dropped. Can't be null.
 	 */
-	protected void afterItemDropped(Item item, Sector sector) {
+	protected void afterItemAdded(Item item, Sector sector) {
 	}
 
 	/**
@@ -476,7 +469,7 @@ public abstract class Element implements ChangeEventSource, HasPosition, HasPart
 	 * @param sector
 	 *            the sector where the item has been picked. Can't be null.
 	 */
-	protected void afterItemPicked(Item item, Sector sector) {
+	protected void afterItemRemoved(Item item, Sector sector) {
 	}
 
 	public final void addProjectile(Projectile projectile, Sector sector) {
@@ -564,8 +557,9 @@ public abstract class Element implements ChangeEventSource, HasPosition, HasPart
 		return creatureManager.getSector(creature);
 	}
 
-	public final Sector getSector(Item item) {
-		return itemManager.getSector(item);
+	@Override
+	public final Sector getPlace(Item item) {
+		return itemManager.getPlace(item);
 	}
 
 	@Override
@@ -763,15 +757,12 @@ public abstract class Element implements ChangeEventSource, HasPosition, HasPart
 		}
 	}
 
-	/**
-	 * Retourne tous les objets au sol sur cet �l�ment.
-	 *
-	 * @return une List&lt;Item&gt;. Cette m�thode ne retourne jamais null.
-	 */
+	@Override
 	public final List<Item> getItems() {
 		return itemManager.getItems();
 	}
 
+	@Override
 	public final int getItemCount() {
 		return itemManager.getItemCount();
 	}
@@ -780,27 +771,17 @@ public abstract class Element implements ChangeEventSource, HasPosition, HasPart
 		return creatureManager.getCreatureCount();
 	}
 
+	@Override
 	public final int getItemCount(Sector sector) {
 		return itemManager.getItemCount(sector);
 	}
 
-	/**
-	 * Retourne les objets situ�s � l'emplacement donn� s'il y a lieu.
-	 *
-	 * @param sector
-	 *            l'emplacement o� sont situ�s les objets recherch�s.
-	 * @return une List&lt;Item&gt; contenant les objets trouv�s. Cette m�thode
-	 *         ne retourne jamais null.
-	 */
+	@Override
 	public List<Item> getItems(Sector sector) {
 		return itemManager.getItems(sector);
 	}
 
-	/**
-	 * Indique si l'�l�ment comporte des objets.
-	 *
-	 * @return si l'�l�ment comporte des objets.
-	 */
+	@Override
 	public boolean hasItems() {
 		return itemManager.hasItems();
 	}
@@ -1075,19 +1056,62 @@ public abstract class Element implements ChangeEventSource, HasPosition, HasPart
 		return elements;
 	}
 
-	public List<Element> getReachableElements() {
-		// 4 positions atteignables au mieux
-		final List<Element> elements = new ArrayList<Element>(4);
+	public List<Element> getAdjacentElements() {
+		return getAdjacentElements(true);
+	}
+
+	public List<Element> getAdjacentElements(boolean material) {
+		// At best 4 positions are adjacent (north, sourth, east & west)
+		final List<Element> result = new ArrayList<Element>(4);
 
 		for (Position position : getPosition().getAttackablePositions()) {
-			if (!getLevel().contains(position)) {
-				// Position situ�e en dehors des limites du niveau
+			if (!level.contains(position)) {
+				// The position doesn't exist for this level
 				continue;
 			}
 
-			elements.add(getLevel().getElement(position.x, position.y));
+			result.add(level.getElement(position.x, position.y));
 		}
 
-		return elements;
+		return result;
 	}
+
+	@Override
+	public Sector addItem(Item item) {
+		final Sector sector = itemManager.addItem(item);
+
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("%s dropped on %s at %s", item, getId(), sector));
+		}
+
+		afterItemAdded(item, sector);
+
+		fireChangeEvent();
+
+		return sector;
+	}
+
+	@Override
+	public Item removeItem() {
+		final Sector sector = getRandomPlace();
+
+		if (sector != null) {
+			return null;
+		}
+
+		// This will fire an event
+		return removeItem(sector);
+	}
+
+	@Override
+	public Sector getRandomPlace() {
+		return itemManager.getRandomPlace();
+	}
+
+	/**
+	 * Tells whether a flux cage can be created on this element.
+	 *
+	 * @return whether a flux cage can be created on this element.
+	 */
+	public abstract boolean isFluxCageAllowed();
 }

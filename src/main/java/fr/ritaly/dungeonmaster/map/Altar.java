@@ -24,7 +24,6 @@ import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
@@ -37,6 +36,8 @@ import fr.ritaly.dungeonmaster.item.Bones;
 import fr.ritaly.dungeonmaster.item.Item;
 
 /**
+ * An altar to revive dead champions.
+ *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public final class Altar extends DirectedElement implements HasActuator {
@@ -66,7 +67,7 @@ public final class Altar extends DirectedElement implements HasActuator {
 	public boolean isTraversable(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 
-		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
+		return (creature != null) && creature.isImmaterial();
 	}
 
 	public final List<Item> getItems(Direction direction) {
@@ -76,7 +77,7 @@ public final class Altar extends DirectedElement implements HasActuator {
 
 	public final Item pickItem(Direction direction) {
 		// Appel de la m�thode non surcharg�e
-		final Item item = super.pickItem(map(direction));
+		final Item item = super.removeItem(map(direction));
 
 		if (!hasItems() && (item != null) && (actuator != null)) {
 			// D�clenchement au dernier objet pris
@@ -88,7 +89,7 @@ public final class Altar extends DirectedElement implements HasActuator {
 
 	public final void dropItem(Item item, Direction direction) {
 		// Appel de la m�thode non surcharg�e
-		super.dropItem(item, map(direction));
+		super.addItem(item, map(direction));
 
 		// D�clenchement au premier objet d�pos�
 		if ((getItemCount() == 1) && (actuator != null)) {
@@ -127,13 +128,13 @@ public final class Altar extends DirectedElement implements HasActuator {
 	}
 
 	@Override
-	public final Item pickItem(Sector corner) {
+	public final Item removeItem(Sector corner) {
 		// Surcharge pour forcer l'appel � la bonne m�thode
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public final void dropItem(Item item, Sector corner) {
+	public final void addItem(Item item, Sector corner) {
 		// Surcharge pour forcer l'appel � la bonne m�thode
 		throw new UnsupportedOperationException();
 	}
@@ -197,5 +198,10 @@ public final class Altar extends DirectedElement implements HasActuator {
 	@Override
 	public void clearActuator() {
 		this.actuator = null;
+	}
+
+	@Override
+	public boolean isFluxCageAllowed() {
+		return false;
 	}
 }

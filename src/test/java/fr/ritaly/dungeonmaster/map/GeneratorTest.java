@@ -31,7 +31,7 @@ public class GeneratorTest extends TestCase {
 	public GeneratorTest(String name) {
 		super(name);
 	}
-	
+
 	public void testGenerateCreaturesOfSizeFour() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -57,14 +57,14 @@ public class GeneratorTest extends TestCase {
 		assertNull(generator.getCreature(Sector.SOUTH_EAST));
 		assertNull(generator.getCreature(Sector.SOUTH_WEST));
 
-		// --- On laisse le g�n�rateur cr�er des cr�atures
+		// --- Let the generator generate some creatures
 		Clock.getInstance().tick(Generator.PERIOD);
 
 		assertTrue(generator.getCreatureCount() > 0);
 		assertNotNull(generator.getCreatures());
 		assertFalse(generator.getCreatures().isEmpty());
 	}
-	
+
 	public void testGenerateCreaturesOfSizeOne() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -90,14 +90,14 @@ public class GeneratorTest extends TestCase {
 		assertNull(generator.getCreature(Sector.SOUTH_EAST));
 		assertNull(generator.getCreature(Sector.SOUTH_WEST));
 
-		// --- On laisse le g�n�rateur cr�er des cr�atures
+		// --- Let the generator generate some creatures
 		Clock.getInstance().tick(Generator.PERIOD);
 
 		assertTrue(generator.getCreatureCount() > 0);
 		assertNotNull(generator.getCreatures());
 		assertFalse(generator.getCreatures().isEmpty());
 	}
-	
+
 	public void testGenerateCreaturesOfSizeTwo() {
 		// +---+---+---+---+---+
 		// | W | W | W | W | W |
@@ -123,17 +123,16 @@ public class GeneratorTest extends TestCase {
 		assertNull(generator.getCreature(Sector.SOUTH_EAST));
 		assertNull(generator.getCreature(Sector.SOUTH_WEST));
 
-		// --- On laisse le g�n�rateur cr�er des cr�atures
+		// --- Let the generator generate some creatures
 		Clock.getInstance().tick(Generator.PERIOD);
 
 		assertTrue(generator.getCreatureCount() > 0);
 		assertNotNull(generator.getCreatures());
 		assertFalse(generator.getCreatures().isEmpty());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

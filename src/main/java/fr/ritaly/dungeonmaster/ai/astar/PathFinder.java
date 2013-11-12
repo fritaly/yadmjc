@@ -9,7 +9,7 @@ import java.util.Random;
 
 import org.apache.commons.lang.Validate;
 
-import fr.ritaly.dungeonmaster.Materiality;
+import fr.ritaly.dungeonmaster.ai.Materiality;
 import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 import fr.ritaly.dungeonmaster.map.Floor;
@@ -48,7 +48,7 @@ public class PathFinder {
 
 		System.out.println("Calculating best path...");
 
-		for (Element adjacency : start.getReachableElements()) {
+		for (Element adjacency : start.getAdjacentElements()) {
 			if (Materiality.IMMATERIAL.equals(materiality)) {
 				// All nodes can be traversed
 			} else {
@@ -87,7 +87,7 @@ public class PathFinder {
 
 				return bestList;
 			} else {
-				final List<Element> neighbors = best.getReachableElements();
+				final List<Element> neighbors = best.getAdjacentElements();
 
 				for (Element neighbor : neighbors) {
 					if (Materiality.IMMATERIAL.equals(materiality)) {

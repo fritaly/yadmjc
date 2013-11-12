@@ -63,31 +63,30 @@ public class ProjectileLauncherTest extends TestCase {
 
 		final Dungeon dungeon = new Dungeon();
 
-		final ProjectileLauncher launcher = new ProjectileLauncher(
-				Direction.WEST, new SpellProjectileFactory(new Spell(
-						PowerRune.MON, Spell.Type.FIREBALL)));
+		final ProjectileLauncher launcher = new ProjectileLauncher(Direction.WEST, new SpellProjectileFactory(new Spell(
+				PowerRune.MON, Spell.Type.FIREBALL)));
 
 		final Level level1 = dungeon.createLevel(1, 10, 10);
 		level1.setElement(9, 5, launcher);
 
 		final Element neighbour = dungeon.getElement(8, 5, 1);
 
-		// --- Pas de projectile initialement
+		// --- No projectile initially
 		assertFalse(neighbour.hasProjectiles());
 
-		// --- D�clencher le lanceur
+		// --- Trigger the launcher
 		launcher.trigger();
 
-		// --- Deux projectiles sont apparus sur la position voisine en NE et SE
+		// --- Two projectiles appeared on the neighbour position in NE and SE
 		assertTrue(neighbour.hasProjectiles());
 		assertEquals(2, neighbour.getProjectiles().size());
 		assertNotNull(neighbour.getProjectiles().get(Sector.NORTH_EAST));
 		assertNotNull(neighbour.getProjectiles().get(Sector.SOUTH_EAST));
 
-		// Laisser le projectile bouger
+		// Let the projectile move
 		Clock.getInstance().tick(3);
 
-		// --- V�rifier le d�placement des deux projectiles en NW et SW
+		// --- Check that the 2 projectiles moved to NW and SW
 		assertTrue(neighbour.hasProjectiles());
 		assertEquals(2, neighbour.getProjectiles().size());
 		assertNotNull(neighbour.getProjectiles().get(Sector.NORTH_WEST));
@@ -119,9 +118,8 @@ public class ProjectileLauncherTest extends TestCase {
 
 		final Dungeon dungeon = new Dungeon();
 
-		final ProjectileLauncher launcher = new ProjectileLauncher(
-				Direction.WEST, new ItemProjectileFactory(
-						ItemFactory.getFactory(), Item.Type.POISON_DART));
+		final ProjectileLauncher launcher = new ProjectileLauncher(Direction.WEST, new ItemProjectileFactory(
+				ItemFactory.getFactory(), Item.Type.POISON_DART));
 
 		final Level level1 = dungeon.createLevel(1, 10, 10);
 		level1.setElement(9, 5, launcher);
@@ -129,14 +127,14 @@ public class ProjectileLauncherTest extends TestCase {
 		final Element neighbour = dungeon.getElement(8, 5, 1);
 		final Element target = level1.getElement(1, 5);
 
-		// --- Pas de projectile initialement
+		// --- No projectile initially
 		assertFalse(neighbour.hasProjectiles());
 		assertFalse(target.hasProjectiles());
 
-		// --- D�clencher le lanceur
+		// --- Trigger the launcher
 		launcher.trigger();
 
-		// --- Deux projectiles sont apparus sur la position voisine en NE et SE
+		// --- Two projectiles appeared on the neighbour position in NE and SE
 		assertTrue(neighbour.hasProjectiles());
 		assertEquals(2, neighbour.getProjectiles().size());
 		assertNotNull(neighbour.getProjectiles().get(Sector.NORTH_EAST));
@@ -144,10 +142,10 @@ public class ProjectileLauncherTest extends TestCase {
 
 		assertFalse(target.hasItems());
 
-		// Laisser le projectile bouger
+		// Let the projectile move
 		Clock.getInstance().tick(3);
 
-		// --- V�rifier le d�placement des deux projectiles en NW et SW
+		// --- Check that the 2 projectiles moved to NW and SW
 		assertTrue(neighbour.hasProjectiles());
 		assertEquals(2, neighbour.getProjectiles().size());
 		assertNotNull(neighbour.getProjectiles().get(Sector.NORTH_WEST));
@@ -155,30 +153,26 @@ public class ProjectileLauncherTest extends TestCase {
 
 		assertFalse(target.hasItems());
 
-		// Laisser le projectile atteindre le mur oppos�e (attendre suffisamment
-		// longtemps)
+		// Let the projectile move to the opposite wall (wait long enough)
 		Clock.getInstance().tick(60);
 
 		assertFalse(neighbour.hasProjectiles());
 		assertFalse(target.hasProjectiles());
 
-		// Il doit y avoir 2 objets au sol
+		// There must be 2 items on the floor
 		assertEquals(2, target.getItemCount());
 
 		assertFalse(target.getItems(Sector.NORTH_WEST).isEmpty());
 		assertEquals(1, target.getItemCount(Sector.NORTH_WEST));
-		assertEquals(Item.Type.POISON_DART, target.getItems(Sector.NORTH_WEST)
-				.iterator().next().getType());
+		assertEquals(Item.Type.POISON_DART, target.getItems(Sector.NORTH_WEST).iterator().next().getType());
 
 		assertFalse(target.getItems(Sector.SOUTH_WEST).isEmpty());
 		assertEquals(1, target.getItemCount(Sector.SOUTH_WEST));
-		assertEquals(Item.Type.POISON_DART, target.getItems(Sector.SOUTH_WEST)
-				.iterator().next().getType());
+		assertEquals(Item.Type.POISON_DART, target.getItems(Sector.SOUTH_WEST).iterator().next().getType());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

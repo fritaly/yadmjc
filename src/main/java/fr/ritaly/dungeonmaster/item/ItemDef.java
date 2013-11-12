@@ -401,7 +401,7 @@ final class ItemDef {
 			}
 
 			// What's the skill involved ?
-			final Skill skill = action.getImprovedSkill();
+			final Skill skill = action.getSkill();
 
 			// Is the champion skilled enough to use this action ?
 			return (champion.getLevel(skill).compareTo(level) >= 0);

@@ -18,13 +18,13 @@
  */
 package fr.ritaly.dungeonmaster.item;
 
+import junit.framework.TestCase;
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.champion.Champion;
+import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.champion.ChampionFactory;
 import fr.ritaly.dungeonmaster.champion.Party;
-import fr.ritaly.dungeonmaster.champion.Champion.Name;
 import fr.ritaly.dungeonmaster.stat.Stat;
-import junit.framework.TestCase;
 
 public class RabbitFootTest extends TestCase {
 
@@ -42,60 +42,60 @@ public class RabbitFootTest extends TestCase {
 		party.addChampion(tiggy);
 
 		final Stat luck = tiggy.getStats().getLuck();
-		final int initialLuck = luck.actualValue();
+		final int initialLuck = luck.value();
 
-		// Le pied de lapin marche quelque soit l'endroit où il est porté !
+		// Le pied de lapin marche quelque soit l'endroit oï¿½ il est portï¿½ !
 		final Item rabbitsFoot = new MiscItem(Item.Type.RABBIT_FOOT);
 
 		// --- Pied de lapin (Main #1) -> Chance +10
 		assertNull(tiggy.getBody().getWeaponHand().putOn(rabbitsFoot));
-		assertEquals(initialLuck + 10, luck.actualValue().intValue());
+		assertEquals(initialLuck + 10, luck.value());
 
 		assertEquals(rabbitsFoot, tiggy.getBody().getWeaponHand().takeOff());
-		assertEquals(initialLuck, luck.actualValue().intValue());
+		assertEquals(initialLuck, luck.value());
 
 		// --- Pied de lapin (Main #2) -> Chance +10
 		assertNull(tiggy.getBody().getShieldHand().putOn(rabbitsFoot));
-		assertEquals(initialLuck + 10, luck.actualValue().intValue());
+		assertEquals(initialLuck + 10, luck.value());
 
 		assertEquals(rabbitsFoot, tiggy.getBody().getShieldHand().takeOff());
-		assertEquals(initialLuck, luck.actualValue().intValue());
+		assertEquals(initialLuck, luck.value());
 
-		// --- Le pied de lapin ne peut être placé sur les autres parties du
+		// --- Le pied de lapin ne peut ï¿½tre placï¿½ sur les autres parties du
 		// corps
-		assertEquals(initialLuck, luck.actualValue().intValue());
+		assertEquals(initialLuck, luck.value());
 		assertEquals(rabbitsFoot, tiggy.getBody().getHead().putOn(rabbitsFoot));
-		assertEquals(initialLuck, luck.actualValue().intValue());
+		assertEquals(initialLuck, luck.value());
 		assertEquals(rabbitsFoot, tiggy.getBody().getNeck().putOn(rabbitsFoot));
-		assertEquals(initialLuck, luck.actualValue().intValue());
+		assertEquals(initialLuck, luck.value());
 		assertEquals(rabbitsFoot, tiggy.getBody().getTorso().putOn(rabbitsFoot));
-		assertEquals(initialLuck, luck.actualValue().intValue());
+		assertEquals(initialLuck, luck.value());
 		assertEquals(rabbitsFoot, tiggy.getBody().getLegs().putOn(rabbitsFoot));
-		assertEquals(initialLuck, luck.actualValue().intValue());
+		assertEquals(initialLuck, luck.value());
 		assertEquals(rabbitsFoot, tiggy.getBody().getFeet().putOn(rabbitsFoot));
-		assertEquals(initialLuck, luck.actualValue().intValue());
+		assertEquals(initialLuck, luck.value());
 
-		// --- Le pied de lapin marche même s'il est placé dans l'inventaire
+		// --- Le pied de lapin marche mï¿½me s'il est placï¿½ dans l'inventaire
 
-		// Sac à dos
+		// Sac ï¿½ dos
 		assertTrue(tiggy.getInventory().getBackPack().add(rabbitsFoot) != -1);
-		assertEquals(initialLuck + 10, luck.actualValue().intValue());
+		assertEquals(initialLuck + 10, luck.value());
 		assertTrue(tiggy.getInventory().getBackPack().remove(rabbitsFoot));
-		assertEquals(initialLuck, luck.actualValue().intValue());
+		assertEquals(initialLuck, luck.value());
 
-		// Sac à dos
+		// Sac ï¿½ dos
 		assertTrue(tiggy.getInventory().getPouch().add(rabbitsFoot) != -1);
-		assertEquals(initialLuck + 10, luck.actualValue().intValue());
+		assertEquals(initialLuck + 10, luck.value());
 		assertTrue(tiggy.getInventory().getPouch().remove(rabbitsFoot));
-		assertEquals(initialLuck, luck.actualValue().intValue());
+		assertEquals(initialLuck, luck.value());
 
 		// Carquois (la patte de lapin n'y tient pas)
 		assertEquals(-1, tiggy.getInventory().getQuiver().add(rabbitsFoot));
-		assertEquals(initialLuck, luck.actualValue().intValue());
+		assertEquals(initialLuck, luck.value());
 
-		// FIXME Si patte de lapin dans coffre porté par joueur ?
+		// FIXME Si patte de lapin dans coffre portï¿½ par joueur ?
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		// On nettoie l'horloge entre deux tests

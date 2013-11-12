@@ -90,8 +90,8 @@ public class PartySpells implements ClockListener, ChangeEventSource {
 	@Override
 	public boolean clockTicked() {
 		if (temporizer.trigger()) {
-			if (invisibility.actualValue() > 0) {
-				if (invisibility.dec() == 0) {
+			if (invisibility.value() > 0) {
+				if (invisibility.dec(1) == 0) {
 					// Notify the change of state
 					fireChangeEvent();
 
@@ -100,8 +100,8 @@ public class PartySpells implements ClockListener, ChangeEventSource {
 					}
 				}
 			}
-			if (antiMagic.actualValue() > 0) {
-				if (antiMagic.dec() == 0) {
+			if (antiMagic.value() > 0) {
+				if (antiMagic.dec(1) == 0) {
 					// Notify the change of state
 					fireChangeEvent();
 
@@ -110,8 +110,8 @@ public class PartySpells implements ClockListener, ChangeEventSource {
 					}
 				}
 			}
-			if (shield.actualValue() > 0) {
-				if (shield.dec() == 0) {
+			if (shield.value() > 0) {
+				if (shield.dec(1) == 0) {
 					// Notify the change of state
 					fireChangeEvent();
 
@@ -120,8 +120,8 @@ public class PartySpells implements ClockListener, ChangeEventSource {
 					}
 				}
 			}
-			if (dispellIllusion.actualValue() > 0) {
-				if (dispellIllusion.dec() == 0) {
+			if (dispellIllusion.value() > 0) {
+				if (dispellIllusion.dec(1) == 0) {
 					// Notify the change of state
 					fireChangeEvent();
 
@@ -130,8 +130,8 @@ public class PartySpells implements ClockListener, ChangeEventSource {
 					}
 				}
 			}
-			if (seeThroughWalls.actualValue() > 0) {
-				if (seeThroughWalls.dec() == 0) {
+			if (seeThroughWalls.value() > 0) {
+				if (seeThroughWalls.dec(1) == 0) {
 					// Notify the change of state
 					fireChangeEvent();
 
@@ -152,7 +152,7 @@ public class PartySpells implements ClockListener, ChangeEventSource {
 	 * @return whether the "invisibility" spell is currently active.
 	 */
 	public boolean isInvisibilityActive() {
-		return (invisibility.actualValue() > 0);
+		return (invisibility.value() > 0);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class PartySpells implements ClockListener, ChangeEventSource {
 	 * @return whether the "dispell illusions" spell is currently active.
 	 */
 	public boolean isDispellIllusionActive() {
-		return (dispellIllusion.actualValue() > 0);
+		return (dispellIllusion.value() > 0);
 	}
 	/**
 	 * Tells whether the "see through walls" spell is currently active.
@@ -169,7 +169,7 @@ public class PartySpells implements ClockListener, ChangeEventSource {
 	 * @return whether the "see through walls" spell is currently active.
 	 */
 	public boolean isSeeThroughWallsActive() {
-		return (seeThroughWalls.actualValue() > 0);
+		return (seeThroughWalls.value() > 0);
 	}
 
 	public Party getParty() {

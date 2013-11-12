@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.actuator.Actuator;
 import fr.ritaly.dungeonmaster.actuator.Actuators;
 import fr.ritaly.dungeonmaster.actuator.HasActuator;
@@ -68,7 +67,7 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 		this.itemType = itemType;
 		this.maxUseCount = maxCount;
 	}
-	
+
 	public WallSlot(Direction direction, Item.Type itemType) {
 		this(direction, itemType, 1);
 	}
@@ -82,7 +81,7 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 	public boolean isTraversable(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 
-		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
+		return (creature != null) && creature.isImmaterial();
 	}
 
 	@Override
@@ -104,7 +103,7 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 
 	/**
 	 * Tells whether the slot has been used / triggered.
-	 * 
+	 *
 	 * @return whether the slot has been used / triggered.
 	 */
 	public boolean isUsed() {
@@ -114,7 +113,7 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 	/**
 	 * Tries to use / trigger the slot by using the given item and returns
 	 * whether the operation succeeded.
-	 * 
+	 *
 	 * @param item
 	 *            an {@link Item} used to use / trigger the slot. Can't be null.
 	 * @return whether the slot was successfully used / triggered.
@@ -127,18 +126,18 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 			if (!isUsed()) {
 				// L'objet active la fente
 				final int backup = this.useCount;
-				
+
 				this.useCount++;
-				
+
 				if (log.isDebugEnabled()) {
 					log.debug(this + ".UseCount: " + backup + " -> " + useCount
 							+ " / " + maxUseCount + " [+1]");
 				}
-				
+
 				if (isUsed()) {
 					if (log.isDebugEnabled()) {
 						log.debug(this + ".Used = true");
-					}					
+					}
 				}
 
 				// Jouer le son
@@ -182,5 +181,10 @@ public final class WallSlot extends DirectedElement implements HasActuator {
 	@Override
 	public void clearActuator() {
 		this.actuator = null;
+	}
+
+	@Override
+	public boolean isFluxCageAllowed() {
+		return false;
 	}
 }

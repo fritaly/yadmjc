@@ -3,10 +3,10 @@ import java.util.List;
 
 public class Maze {
 
-	private final int rows;
-	private final int columns;
+	final int rows;
+	final int columns;
 	private final Square[][] elements;
-	
+
 	private static final String CLOSED_TOP = "+ - ";
 	private static final String OPEN_TOP = "+   ";
 	private static final String CLOSED_LEFT = "|   ";
@@ -22,19 +22,11 @@ public class Maze {
 		this.rows = rows;
 		this.columns = columns;
 		this.elements = new Square[rows][columns];
-		
+
 		createSquares();
 		generateAdjacenies();
 	}
 
-	public int getRows() {
-		return rows;
-	}
-
-	public int getColumns() {
-		return columns;
-	}
-	
 	private void generateAdjacenies() {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
@@ -55,7 +47,7 @@ public class Maze {
 		return elements[x][y];
 	}
 
-	public void draw(int startX, int startY, int endX, int endY, List<Square> path) {
+	void draw(int startX, int startY, int endX, int endY, List<Square> path) {
 		System.out.println("Drawing maze");
 		drawContents(startX, startY, endX, endY, path);
 		drawBorder();
@@ -76,8 +68,8 @@ public class Maze {
 	}
 
 	private void drawLeft(Square square, int startX, int startY, int endX, int endY, List<Square> path) {
-		final int x = square.getX();
-		final int y = square.getY();
+		final int x = square.x;
+		final int y = square.y;
 
 		if (y - 1 < 0) {
 			if ((square.x == startX) && (square.y == startY)) {
@@ -94,13 +86,13 @@ public class Maze {
 				System.out.print(CLOSED_LEFT_PATH);
 				return;
 			}
-			
+
 			System.out.print(CLOSED_LEFT);
 			return;
 		}
 
 		for (Square neighbor : square.getAdjacencies()) {
-			if (neighbor.getX() == x && neighbor.getY() == y - 1) {
+			if (neighbor.x == x && neighbor.y == y - 1) {
 				if ((square.x == endX) && (square.y == endY)) {
 					System.out.print(OPEN_LEFT_GOAL);
 					return;
@@ -113,7 +105,7 @@ public class Maze {
 					System.out.print(OPEN_LEFT_PATH);
 					return;
 				}
-				
+
 				System.out.print(OPEN_LEFT);
 				return;
 			}
@@ -131,13 +123,13 @@ public class Maze {
 			System.out.print(CLOSED_LEFT_PATH);
 			return;
 		}
-		
+
 		System.out.print(CLOSED_LEFT);
 	}
 
 	private void drawTop(Square square) {
-		final int x = square.getX();
-		final int y = square.getY();
+		final int x = square.x;
+		final int y = square.y;
 
 		if (x == 0) {
 			System.out.print(CLOSED_TOP);
@@ -145,7 +137,7 @@ public class Maze {
 		}
 
 		for (Square neighbor : square.getAdjacencies()) {
-			if (neighbor.getX() == x - 1 && neighbor.getY() == y) {
+			if (neighbor.x == x - 1 && neighbor.y == y) {
 				System.out.print(OPEN_TOP);
 				return;
 			}
@@ -158,7 +150,7 @@ public class Maze {
 		for (int i = 0; i < columns; i++) {
 			System.out.print(CLOSED_TOP);
 		}
-		
+
 		System.out.println("+");
 	}
 }

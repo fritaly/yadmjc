@@ -28,4 +28,9 @@ public abstract class FloorTile extends Element {
 	public FloorTile(Type type) {
 		super(type);
 	}
+
+	@Override
+	public boolean isFluxCageAllowed() {
+		return true;
+	}
 }

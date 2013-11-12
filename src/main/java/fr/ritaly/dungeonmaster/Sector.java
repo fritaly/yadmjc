@@ -210,7 +210,7 @@ public enum Sector implements Place {
 	 *
 	 * @return whether this sector is towards east.
 	 */
-	public boolean isTowardsEast() {
+	public boolean isEastern() {
 		return equals(NORTH_EAST) || equals(SOUTH_EAST);
 	}
 
@@ -219,7 +219,7 @@ public enum Sector implements Place {
 	 *
 	 * @return whether this sector is towards west.
 	 */
-	public boolean isTowardsWest() {
+	public boolean isWestern() {
 		return equals(NORTH_WEST) || equals(SOUTH_WEST);
 	}
 
@@ -228,7 +228,7 @@ public enum Sector implements Place {
 	 *
 	 * @return whether this sector is towards north.
 	 */
-	public boolean isTowardsNorth() {
+	public boolean isNorthern() {
 		return equals(NORTH_EAST) || equals(NORTH_WEST);
 	}
 
@@ -237,7 +237,7 @@ public enum Sector implements Place {
 	 *
 	 * @return whether this sector is towards south.
 	 */
-	public boolean isTowardsSouth() {
+	public boolean isSouthern() {
 		return equals(SOUTH_WEST) || equals(SOUTH_EAST);
 	}
 
@@ -258,13 +258,13 @@ public enum Sector implements Place {
 
 		switch (this) {
 		case NORTH_EAST:
-			return isTowardsNorth() || isTowardsEast();
+			return isNorthern() || isEastern();
 		case NORTH_WEST:
-			return isTowardsNorth() || isTowardsWest();
+			return isNorthern() || isWestern();
 		case SOUTH_EAST:
-			return isTowardsSouth() || isTowardsEast();
+			return isSouthern() || isEastern();
 		case SOUTH_WEST:
-			return isTowardsSouth() || isTowardsWest();
+			return isSouthern() || isWestern();
 		default:
 			throw new UnsupportedOperationException();
 		}

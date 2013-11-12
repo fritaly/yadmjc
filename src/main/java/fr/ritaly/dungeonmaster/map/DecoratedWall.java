@@ -23,7 +23,6 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 
 import fr.ritaly.dungeonmaster.Direction;
-import fr.ritaly.dungeonmaster.Materiality;
 import fr.ritaly.dungeonmaster.Sector;
 import fr.ritaly.dungeonmaster.ai.Creature;
 import fr.ritaly.dungeonmaster.champion.Party;
@@ -46,14 +45,14 @@ public final class DecoratedWall extends DirectedElement {
 		CHAOS_2,
 		DEMON;
 	}
-	
+
 	private final Style style;
 
 	public DecoratedWall(Direction direction, Style style) {
 		super(Element.Type.DECORATED_WALL, direction);
-		
+
 		Validate.notNull(style, "The given style is null");
-		
+
 		this.style = style;
 	}
 
@@ -71,7 +70,7 @@ public final class DecoratedWall extends DirectedElement {
 	public boolean isTraversable(Creature creature) {
 		Validate.notNull(creature, "The given creature is null");
 
-		return (creature != null) && Materiality.IMMATERIAL.equals(creature.getMateriality());
+		return (creature != null) && creature.isImmaterial();
 	}
 
 	@Override
@@ -80,13 +79,13 @@ public final class DecoratedWall extends DirectedElement {
 	}
 
 	@Override
-	public synchronized Item pickItem(Sector corner) {
+	public synchronized Item removeItem(Sector corner) {
 		// M�thode non support�e
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public synchronized void dropItem(Item item, Sector corner) {
+	public synchronized void addItem(Item item, Sector corner) {
 		// M�thode non support�e
 		throw new UnsupportedOperationException();
 	}
@@ -106,5 +105,10 @@ public final class DecoratedWall extends DirectedElement {
 
 	public Style getStyle() {
 		return style;
+	}
+
+	@Override
+	public boolean isFluxCageAllowed() {
+		return false;
 	}
 }
