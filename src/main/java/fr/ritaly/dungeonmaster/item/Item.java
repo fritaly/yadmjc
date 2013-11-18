@@ -383,8 +383,8 @@ public abstract class Item implements ChangeEventSource {
 			return getDefinition().getShootDamage();
 		}
 
-		public int getDeltaEnergy() {
-			return getDefinition().getDeltaEnergy();
+		public int getDecayRate() {
+			return getDefinition().getDecayRate();
 		}
 
 		/**

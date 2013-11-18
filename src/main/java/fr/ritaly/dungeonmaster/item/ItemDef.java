@@ -107,8 +107,8 @@ final class ItemDef {
 				if (attributes.getValue("anti-magic") != null) {
 					this.definition.antiMagic = Integer.parseInt(attributes.getValue("anti-magic"));
 				}
-				if (attributes.getValue("delta-energy") != null) {
-					this.definition.deltaEnergy = Integer.parseInt(attributes.getValue("delta-energy"));
+				if (attributes.getValue("decay-rate") != null) {
+					this.definition.decayRate = Integer.parseInt(attributes.getValue("decay-rate"));
 				}
 				if (attributes.getValue("distance") != null) {
 					this.definition.distance = Integer.parseInt(attributes.getValue("distance"));
@@ -434,7 +434,7 @@ final class ItemDef {
 	/**
 	 * The amount of energy lost by the projectile every time it moves.
 	 */
-	private int deltaEnergy = -1;
+	private int decayRate = -1;
 
 	/**
 	 * The amount of damage associated with fired projectiles. Value within
@@ -507,8 +507,8 @@ final class ItemDef {
 		return shootDamage;
 	}
 
-	public int getDeltaEnergy() {
-		return deltaEnergy;
+	public int getDecayRate() {
+		return decayRate;
 	}
 
 	/**
@@ -615,8 +615,8 @@ final class ItemDef {
 				writer.writeAttribute("anti-magic", Integer.toString(type.getAntiMagic()));
 			}
 
-			if (type.getDeltaEnergy() != -1) {
-				writer.writeAttribute("delta-energy", Integer.toString(type.getDeltaEnergy()));
+			if (type.getDecayRate() != -1) {
+				writer.writeAttribute("decay-rate", Integer.toString(type.getDecayRate()));
 			}
 
 			if (type.getDistance() != -1) {
