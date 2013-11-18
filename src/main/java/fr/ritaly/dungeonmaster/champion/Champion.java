@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -1577,5 +1578,39 @@ public class Champion implements ChangeEventSource, PropertyChangeListener, Cloc
 		new ItemProjectile(item, getParty().getDungeon(), getParty().getFacingPosition(), throwDirection, sector, 30);
 
 		// TODO The champion gained some experience
+	}
+
+	/**
+	 * Tells whether the character is lucky.
+	 *
+	 * @param luckNeeded
+	 *            an integer representing the luck needed to return true. The
+	 *            higher the value the less likely this method will return true.
+	 *            Value must be within range [0,100].
+	 * @return whether the character is lucky.
+	 */
+	public boolean isLucky(final int luckNeeded) {
+		Validate.isTrue((0 <= luckNeeded) && (luckNeeded <= 100),
+				String.format("The given luck %d must be within [0, 100]", luckNeeded));
+
+		// See Character.cpp for the source of this algorithm
+		if (RandomUtils.nextBoolean() && (RandomUtils.nextInt(100) > luckNeeded)) {
+			return true;
+		}
+
+		final int luck = getStats().getLuck().value();
+
+		final int randomLuck = (luck == 0) ? 0 : RandomUtils.nextInt(luck);
+
+		final boolean lucky = (randomLuck > luckNeeded);
+
+		// The result slightly alters the champion's luck for the next test
+		if (lucky) {
+			getStats().getLuck().dec(-2);
+		} else {
+			getStats().getLuck().dec(+2);
+		}
+
+		return lucky;
 	}
 }
