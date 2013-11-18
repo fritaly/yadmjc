@@ -23,10 +23,12 @@ import java.beans.PropertyChangeSupport;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.math.RandomUtils;
 
 import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.ClockListener;
 import fr.ritaly.dungeonmaster.Temporizer;
+import fr.ritaly.dungeonmaster.Utils;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.event.ChangeEvent;
 import fr.ritaly.dungeonmaster.event.ChangeListener;
@@ -469,5 +471,32 @@ public final class Stats implements ChangeListener, ClockListener {
 		}
 
 		throw new IllegalArgumentException("Unsupported stat " + name);
+	}
+
+	/**
+	 * Returns the champion's quickness as an integer within [1,100].
+	 *
+	 * @return an integer representing the champion's quickness. The higher the
+	 *         value the quicker the champion.
+	 */
+	public int getQuickness() {
+		// See Character.cpp (TAG016610)
+		float quickness = dexterity.value() + RandomUtils.nextInt(8);
+
+		final float d0l = (quickness / 2) * champion.getLoad();
+		final float d1l = champion.getMaxLoad();
+
+		quickness = quickness - (d0l / d1l);
+
+		if ((champion.getParty() != null) && champion.getParty().isSleeping()) {
+			quickness /= 2;
+		}
+
+		quickness /= 2;
+
+		final int min = 1 + RandomUtils.nextInt(8);
+		final int max = 100 - RandomUtils.nextInt(8);
+
+		return Utils.bind((int) quickness, min, max);
 	}
 }
