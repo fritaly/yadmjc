@@ -19,16 +19,26 @@
 package fr.ritaly.dungeonmaster.ai;
 
 /**
- * Enumerates the different types of attack.
+ * Enumerates the different types of attack.<br>
+ * <br>
+ * Note: See member Attack::ATTACKDATATYPE.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
 public enum AttackType {
+
+	// TODO Review all the attack types defined in Attack::ATTACKDATATYPE
+
 	/**
 	 * No damage: the creature does not attack champions. This value is set for
 	 * the Giggler. This value is used elsewhere for damages when stamina is 0.
 	 */
 	NONE,
+
+	/**
+	 * The war cry attack doesn't work with every creature.
+	 */
+	WAR_CRY,
 
 	/**
 	 * Fire damage: the attacked champion's 'Anti-Fire' characteristic is used
