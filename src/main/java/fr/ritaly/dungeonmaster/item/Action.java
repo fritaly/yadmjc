@@ -24,6 +24,7 @@ import fr.ritaly.dungeonmaster.Clock;
 import fr.ritaly.dungeonmaster.Constants;
 import fr.ritaly.dungeonmaster.Skill;
 import fr.ritaly.dungeonmaster.Utils;
+import fr.ritaly.dungeonmaster.ai.attack.Attack;
 import fr.ritaly.dungeonmaster.champion.Champion;
 import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.map.Dungeon;
@@ -407,5 +408,11 @@ public enum Action {
 		}
 
 		return success;
+	}
+
+	public Attack getAttack() {
+		// TODO Implement Action.getAttack()
+		// See Attack.cpp
+		throw new UnsupportedOperationException("Method not yet implemented");
 	}
 }
