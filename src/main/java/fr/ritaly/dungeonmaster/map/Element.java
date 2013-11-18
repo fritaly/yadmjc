@@ -248,6 +248,11 @@ public abstract class Element implements ChangeEventSource, HasPosition, HasPart
 		 * @return whether this type of element is "concrete".
 		 */
 		public boolean isConcrete() {
+			/*
+			 * According to Attack::IsCellFluxcage(..), the stairs can't have a
+			 * flux cage
+			 * TODO JUNIT: Unit test this behavior
+			 */
 			switch (this) {
 			case ALCOVE:
 			case FOUNTAIN:
@@ -263,6 +268,7 @@ public abstract class Element implements ChangeEventSource, HasPosition, HasPart
 			case TEXT_WALL:
 			case PORTRAIT:
 			case PROJECTILE_LAUNCHER:
+			case STAIRS:
 				return true;
 
 			case FAKE_WALL:
@@ -273,7 +279,6 @@ public abstract class Element implements ChangeEventSource, HasPosition, HasPart
 			case PILLAR:
 			case RETRACTABLE_WALL:
 			case PIT:
-			case STAIRS:
 			case TELEPORTER:
 			case DECORATED_FLOOR:
 			case GENERATOR:
