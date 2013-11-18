@@ -1119,4 +1119,13 @@ public abstract class Element implements ChangeEventSource, HasPosition, HasPart
 	 * @return whether a flux cage can be created on this element.
 	 */
 	public abstract boolean isFluxCageAllowed();
+
+	/**
+	 * Tells whether this element is occupied by at least a creature or a champion.
+	 *
+	 * @return whether this element is occupied by at least a creature or a champion.
+	 */
+	public final boolean isOccupied() {
+		return hasParty() || hasCreatures();
+	}
 }
