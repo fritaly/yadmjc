@@ -34,7 +34,7 @@ import fr.ritaly.dungeonmaster.map.Dungeon;
 import fr.ritaly.dungeonmaster.map.Element;
 
 /**
- * Un projectile cr�� � l'aide d'un {@link Spell}.
+ * A projectile created by casting a spell.
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
@@ -42,10 +42,13 @@ public final class SpellProjectile extends AbstractProjectile {
 
 	private final Log log = LogFactory.getLog(this.getClass());
 
+	/**
+	 * The spell which created this projectile.
+	 */
 	private final Spell spell;
 
 	public SpellProjectile(Spell spell, Champion champion) {
-		// TODO Distance � calculer
+		// TODO Compute the projectile range
 		super(champion.getParty().getDungeon(), champion.getParty()
 				.getPosition(), champion.getParty().getDirection(), champion
 				.getSector(), spell.getDuration());
@@ -62,7 +65,7 @@ public final class SpellProjectile extends AbstractProjectile {
 			final Position position, final Direction direction,
 			final Sector sector) {
 
-		// TODO Distance � calculer
+		// TODO Compute the projectile range
 		super(dungeon, position, direction, sector, spell.getDuration());
 
 		Validate.notNull(spell, "The given spell is null");
@@ -76,7 +79,8 @@ public final class SpellProjectile extends AbstractProjectile {
 
 	@Override
 	protected void projectileDied() {
-		// Jouer le son TODO Le son varie selon le type de projectile
+		// Play the projectile final sound
+		// TODO This sound depends on the projectile type. Create a property 'sound' on the projectile type
 		SoundSystem.getInstance().play(getPosition(), AudioClip.FIRE_BALL);
 
 		if (Spell.Type.OPEN_DOOR.equals(spell.getType())) {
@@ -86,38 +90,34 @@ public final class SpellProjectile extends AbstractProjectile {
 		} else if (Spell.Type.POISON_CLOUD.equals(spell.getType())) {
 			poisonCloudExplodes();
 		} else {
-			// TODO Impl�menter les autres types de SpellProjectile
+			// TODO Implement the other types of SpellProjectile
 		}
 
-		// FIXME Appliquer les d�g�ts aux cr�atures / champions
+		// FIXME Hit the creatures / champions
 	}
 
 	private void poisonCloudExplodes() {
-		// Cr�er un nuage de poison sur place
+		// Create a poison could where the projectile exploded
 		dungeon.getElement(getPosition()).createPoisonCloud();
 	}
 
 	private void fireballExplodes() {
-		// TODO D'autres sorts permettent-ils d'exploser une porte ?
-		// (Lightning par exemple)
+		// TODO Are there other spells able to destroy a door (lightning for instance) ?
 		final Element currentElement = dungeon.getElement(getPosition());
 
 		if (currentElement.getType().equals(Element.Type.DOOR)) {
-			// Exploser la porte si elle peut l'�tre
+			// Retrieve the door
 			final Door door = (Door) currentElement;
 
-			// On doit tester en amont si la porte n'est pas d�j�
-			// cass�e autrement �a l�ve une exception
+			// Is the door already broken ?
 			if (!door.isBroken()) {
+				// Try destroying the door
 				if (door.destroy()) {
-					// La porte a explos�
-					// TODO Conditionner le son jou� par le type
-					// d'attaque de la porte. Prendre en compte la
-					// force restante du sort
+					// The door has been destroyed
 				}
 			}
 		} else {
-			// TODO Faire des d�g�ts aux champions
+			// TODO Hit the champions (if any)
 		}
 	}
 
@@ -125,31 +125,29 @@ public final class SpellProjectile extends AbstractProjectile {
 		final Element currentElement = dungeon.getElement(getPosition());
 
 		if (currentElement.getType().equals(Element.Type.DOOR)) {
-			// Ouvrir ou fermer la porte
+			// Open or close the door
 			final Door door = (Door) currentElement;
 
 			if (Door.Motion.IDLE.equals(door.getMotion())) {
 				if (Door.State.OPEN.equals(door.getState())) {
-					// Fermer la porte
+					// Close the door
 					door.close();
 				} else if (Door.State.CLOSED.equals(door.getState())) {
-					// Ouvrir la porte
+					// Open the door
 					door.open();
 				} else {
-					// Pas g�r�
-					throw new IllegalStateException("Unexpected door state: "
-							+ door.getState());
+					// Not supposed to happen
+					throw new IllegalStateException("Unexpected door state: " + door.getState());
 				}
 			} else if (Door.Motion.CLOSING.equals(door.getMotion())) {
-				// Ouvrir la porte
+				// Open the door
 				door.open();
 			} else if (Door.Motion.OPENING.equals(door.getMotion())) {
-				// Fermer la porte
+				// Close the door
 				door.close();
 			} else {
-				// Pas g�r�
-				throw new IllegalStateException("Unexpected door motion: "
-						+ door.getMotion());
+				// Not supposed to happen
+				throw new IllegalStateException("Unexpected door motion: " + door.getMotion());
 			}
 		}
 	}

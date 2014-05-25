@@ -61,14 +61,14 @@ public abstract class Item implements ChangeEventSource {
 	private static final AtomicInteger SEQUENCE = new AtomicInteger();
 
 	/**
-	 * TODO Translate this javadoc comment to english
-	 *
-	 * Enum�ration des types d'objets. ATTENTION !! L'ordre des �num�rations est
-	 * importante car il d�termine la catégorie de chaque type d'objet.
-	 * Le nombre d'objets dans chaque catégorie n'est pas le m�me que
-	 * dans la sp�cification de dmweb.free.fr car certains objets partagent les
-	 * m�mes caract�ristiques mais pas les m�mes images, du coup il y a deux
-	 * valeurs distinctes d'enum�ration pour ces objets-l�.<br>
+	 * Enumerates the possible item types.<br>
+	 * <br>
+	 * Note: The order of constants here matters because it indirectly defines
+	 * the different item categories (defined as ranges of item types). Also the
+	 * number of items in each item category isn't the same as the one defined
+	 * in dmweb.free.fr's specification as some items share the same features
+	 * but don't use the same picture. For such items, there are 2 distinct item
+	 * types.
 	 * <br>
 	 * Source: <a href="http://dmweb.free.fr/?q=node/886">Technical
 	 * Documentation - Dungeon Master and Chaos Strikes Back Items

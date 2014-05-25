@@ -37,34 +37,34 @@ public class CurseTest extends TestCase {
 	}
 
 	public void testCurseDetection() {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
+		// Create a cursed torch
 		final Torch torch = new Torch();
 		torch.curse(PowerRune.EE);
 
-		// --- Torche envo�t�e mais non d�tect�e
+		// --- The torch is initially cursed but the curse is undetected
 		assertTrue(torch.isCursed());
 		assertFalse(torch.isCurseDetected());
 
-		// --- Prendre le torche en main
+		// --- Let Tiggy grab the torch
 		assertNull(tiggy.getBody().getWeaponHand().putOn(torch));
 
-		// --- Torche envo�t�e mais non d�tect�e
+		// --- The torch is cursed and still undetected
 		assertTrue(torch.isCursed());
 		assertFalse(torch.isCurseDetected());
 
-		// --- Tenter de retirer la torche -> envo�tement d�tect�
+		// --- Try dropping the torch -> the cursed is detected
 		assertNull(tiggy.getBody().getWeaponHand().takeOff());
 		assertEquals(torch, tiggy.getBody().getWeaponHand().getItem());
 
 		assertTrue(torch.isCursed());
 		assertTrue(torch.isCurseDetected());
 
-		// --- Conjurer l'envo�tement
+		// --- Conjure the curse
 		torch.conjure(PowerRune.MON);
 
-		// --- Tenter de retirer la torche -> doit marcher
+		// --- Dropping the torch must now succeed
 		final Item item = tiggy.getBody().getWeaponHand().takeOff();
 
 		assertEquals(torch, item);
@@ -74,48 +74,47 @@ public class CurseTest extends TestCase {
 	}
 
 	public void testInfluenceOfCurseOnLuck() {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
+		// Create a cursed torch
 		final Torch torch = new Torch();
 		torch.curse(PowerRune.EE);
 
 		final Stat luck = tiggy.getStats().getLuck();
 		luck.baseValue(10);
 
-		// --- La chance doit valoir initialement 10 points
+		// --- Check the initial luck
 		assertEquals(10, luck.value());
 
-		// --- Tiggy prend la torche, sa chance diminue de +3
+		// --- Grabbing a cursed item decreases the luck by 3 points
 		tiggy.getBody().getWeaponHand().putOn(torch);
 
 		assertEquals(7, luck.value());
 
-		// --- Tiggy l�che la torche, sa chance remonte de +3
+		// --- Dropping the cursed item increases the luck by 3 points
 		final Item item = tiggy.getBody().getWeaponHand().takeOff(true);
 
 		assertNotNull(item);
 		assertEquals(torch, item);
 
-		// --- Tiggy reprend la torche, sa chance diminue de +3
+		// --- Tiggy grabs the torch again, the luck decreases again
 		tiggy.getBody().getWeaponHand().putOn(torch);
 
 		assertEquals(7, luck.value());
 
-		// --- Conjurer la torche fait remonter la chance de +3
+		// --- Conjure the torch, while in hand, the luck increases
 		torch.conjure(PowerRune.EE);
 
 		assertEquals(10, luck.value());
 
-		// --- Ensorceler la torche diminue la chance de +3
+		// --- Cursing the torch, while in again, decreases the luck again
 		torch.curse(PowerRune.LO);
 
 		assertEquals(7, luck.value());
 	}
 
 	public void testRemovalOfCursedItem() {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		final Torch torch = new Torch();
 		torch.curse(PowerRune.EE);
@@ -123,19 +122,19 @@ public class CurseTest extends TestCase {
 		final WeaponHand hand = tiggy.getBody().getWeaponHand();
 		hand.putOn(torch);
 
-		// --- Tenter de retirer un objet envo�t� doit �chouer
+		// --- A cursed item can't be removed
 		assertNull(hand.takeOff());
 
-		// --- Le m�me test r�ussit si on force la chose
+		// --- The same test should succeed if the removal is forced
 		final Item item = hand.takeOff(true);
 
 		assertNotNull(item);
 		assertEquals(torch, item);
 
-		// --- Replacer la torche dans la main du champion
+		// --- Put the torch in the champion's hand again
 		hand.putOn(torch);
 
-		// --- Conjurer l'objet puis retenter (doit r�ussir)
+		// --- Conjure the item and drop it (should succeed now)
 		torch.conjure(PowerRune.EE);
 
 		final Item item2 = hand.takeOff();
@@ -146,7 +145,6 @@ public class CurseTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

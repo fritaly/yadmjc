@@ -36,6 +36,7 @@ public class RabbitFootTest extends TestCase {
 	}
 
 	public void testRabbitsFoot() {
+		// The rabbit's foot increases the champion's luck
 		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		Party party = new Party();
@@ -44,25 +45,24 @@ public class RabbitFootTest extends TestCase {
 		final Stat luck = tiggy.getStats().getLuck();
 		final int initialLuck = luck.value();
 
-		// Le pied de lapin marche quelque soit l'endroit o� il est port� !
+		// The rabbit's foot works no matter where it's worn
 		final Item rabbitsFoot = new MiscItem(Item.Type.RABBIT_FOOT);
 
-		// --- Pied de lapin (Main #1) -> Chance +10
+		// --- When in weapon hand, the luck increases by 10 points
 		assertNull(tiggy.getBody().getWeaponHand().putOn(rabbitsFoot));
 		assertEquals(initialLuck + 10, luck.value());
 
 		assertEquals(rabbitsFoot, tiggy.getBody().getWeaponHand().takeOff());
 		assertEquals(initialLuck, luck.value());
 
-		// --- Pied de lapin (Main #2) -> Chance +10
+		// --- When in shield hand, the luck increases by 10 points
 		assertNull(tiggy.getBody().getShieldHand().putOn(rabbitsFoot));
 		assertEquals(initialLuck + 10, luck.value());
 
 		assertEquals(rabbitsFoot, tiggy.getBody().getShieldHand().takeOff());
 		assertEquals(initialLuck, luck.value());
 
-		// --- Le pied de lapin ne peut �tre plac� sur les autres parties du
-		// corps
+		// --- The rabbit's foot can't be put on other body parts
 		assertEquals(initialLuck, luck.value());
 		assertEquals(rabbitsFoot, tiggy.getBody().getHead().putOn(rabbitsFoot));
 		assertEquals(initialLuck, luck.value());
@@ -75,30 +75,29 @@ public class RabbitFootTest extends TestCase {
 		assertEquals(rabbitsFoot, tiggy.getBody().getFeet().putOn(rabbitsFoot));
 		assertEquals(initialLuck, luck.value());
 
-		// --- Le pied de lapin marche m�me s'il est plac� dans l'inventaire
+		// --- The rabbit's foot works even when stored in the champion's inventory
 
-		// Sac � dos
+		// Check when inside the back pack
 		assertTrue(tiggy.getInventory().getBackPack().add(rabbitsFoot) != -1);
 		assertEquals(initialLuck + 10, luck.value());
 		assertTrue(tiggy.getInventory().getBackPack().remove(rabbitsFoot));
 		assertEquals(initialLuck, luck.value());
 
-		// Sac � dos
+		// Check when inside the pouch
 		assertTrue(tiggy.getInventory().getPouch().add(rabbitsFoot) != -1);
 		assertEquals(initialLuck + 10, luck.value());
 		assertTrue(tiggy.getInventory().getPouch().remove(rabbitsFoot));
 		assertEquals(initialLuck, luck.value());
 
-		// Carquois (la patte de lapin n'y tient pas)
+		// The rabbit's foot doesn't fit in the quiver / sheath
 		assertEquals(-1, tiggy.getInventory().getQuiver().add(rabbitsFoot));
 		assertEquals(initialLuck, luck.value());
 
-		// FIXME Si patte de lapin dans coffre port� par joueur ?
+		// FIXME Check the rabbit's foot when inside a chest inside a champion's inventory
 	}
 
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

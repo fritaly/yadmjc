@@ -182,6 +182,8 @@ public enum Action {
 	}
 
 	private int computeEarnedExperience(Dungeon dungeon) {
+		// See Magic.cpp
+
 		// How much experience was gained ?
 		int xp = experienceGain;
 
@@ -413,6 +415,13 @@ public enum Action {
 	public Attack getAttack() {
 		// TODO Implement Action.getAttack()
 		// See Attack.cpp
+		// The attack depends on:
+		// - the level.experienceMultiplier = level.difficulty
+		// - the weapon used
+		// - the creature materiality
+		// - the champion's quickness
+		// - the creature type
+		// -> decrement of stamina = 2 + random(1)
 		throw new UnsupportedOperationException("Method not yet implemented");
 	}
 }

@@ -42,37 +42,39 @@ public class WaterSkinTest extends TestCase {
 
 		final WaterSkin waterSkin = new WaterSkin();
 
-		// --- Outre initialement vide
+		// --- The water skin is initially empty
 		assertEquals(0.3f * 0 + 0.3f, waterSkin.getWeight(), 0.0001f);
 
-		// --- Remplir l'outre
+		// --- Fill the water skin
 		waterSkin.fill();
 
-		// --- Outre remplie
+		// --- Check the water skin is full
 		assertEquals(0.3f * 3 + 0.3f, waterSkin.getWeight(), 0.0001f);
 
-		// --- Tiggy boit une gorg�e
+		// --- Tiggy drinks once, the water skin's weight decreased
 		Item item1 = tiggy.consume(waterSkin);
 
 		assertEquals(waterSkin, item1);
 		assertEquals(0.3f * 2 + 0.3f, waterSkin.getWeight(), 0.0001f);
 
-		// --- Tiggy boit une seconde gorg�e
+		// --- Tiggy drinks again, the water skin's weight decreased
 		Item item2 = tiggy.consume(waterSkin);
 
 		assertEquals(waterSkin, item2);
 		assertEquals(0.3f * 1 + 0.3f, waterSkin.getWeight(), 0.0001f);
 
-		// --- Tiggy boit la derni�re gorg�e
+		// --- Tiggy drinks again, the water skin's weight decreased
 		Item item3 = tiggy.consume(waterSkin);
 
 		assertEquals(waterSkin, item3);
 		assertEquals(0.3f * 0 + 0.3f, waterSkin.getWeight(), 0.0001f);
+
+		// --- The water skin must be empty
+		assertTrue(waterSkin.isEmpty());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

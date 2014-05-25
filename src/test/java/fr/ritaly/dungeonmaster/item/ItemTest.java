@@ -54,12 +54,12 @@ public class ItemTest extends TestCase {
 	}
 
 //	public void testItemCategories() {
-//		// Tester que chaque type est bien cat�goris�
+//		// Ensure each item belongs to a category
 //		for (Item.Type type : Item.Type.values()) {
 //			assertNotNull(type.getCategory());
 //		}
 //
-//		// Tester le nombre de type dans chaque cat�gorie
+//		// Check the number of items in each category
 //		assertEquals(20, Item.Category.POTION.getTypes().size());
 //		assertEquals(56, Item.Category.WEAPON.getTypes().size());
 //		assertEquals(73, Item.Category.CLOTH.getTypes().size());
@@ -69,7 +69,7 @@ public class ItemTest extends TestCase {
 	public void testFoodItemsAreConsumable() {
 		final Set<Item.Type> foodTypes = Item.Type.getFoodTypes();
 
-		// Tous les objets de type nourriture doivent �tre consommables
+		// All food items can be consumed
 		for (Item.Type type : Item.Type.values()) {
 			if (foodTypes.contains(type)) {
 				final boolean consumable = type.getCarryLocations().contains(CarryLocation.CONSUMABLE);
@@ -85,54 +85,50 @@ public class ItemTest extends TestCase {
 		Party party = new Party();
 		party.addChampion(tiggy);
 
+		// The cloak of night increases the champion's dexterity
 		final Item cloak = ItemFactory.getFactory().newItem(Item.Type.CLOAK_OF_NIGHT);
 
-		final int initialDexterity = tiggy.getStats().getDexterity()
-				.value();
+		final int initialDexterity = tiggy.getStats().getDexterity().value();
 
-		// --- Mettre la cape en main -> pas d'effet constat�
+		// --- The cloak has no effect when grabbed
 		assertNull(tiggy.getBody().getWeaponHand().putOn(cloak));
-		assertEquals(initialDexterity, tiggy.getStats().getDexterity()
-				.value());
+		assertEquals(initialDexterity, tiggy.getStats().getDexterity().value());
 
-		// --- Retirer la cape -> pas d'effet constat�
+		// --- Removing the cloak has no effect
 		assertEquals(cloak, tiggy.getBody().getWeaponHand().takeOff());
 		assertEquals(initialDexterity, tiggy.getStats().getDexterity()
 				.value());
 
-		// --- Mettre la cape sur le dos -> effet constat�
+		// --- Putting on the cloak increases the dexterity
 		assertNull(tiggy.getBody().getNeck().putOn(cloak));
-		assertEquals(initialDexterity + 8, tiggy.getStats().getDexterity()
-				.value());
+		assertEquals(initialDexterity + 8, tiggy.getStats().getDexterity().value());
 
-		// --- Retirer la cape -> effet constat�
+		// --- Taking off the cloak cancels the effect
 		assertEquals(cloak, tiggy.getBody().getNeck().takeOff());
-		assertEquals(initialDexterity, tiggy.getStats().getDexterity()
-				.value());
+		assertEquals(initialDexterity, tiggy.getStats().getDexterity().value());
 	}
 
 	public void testInfluenceOfElvenBootsOnMaxLoad() {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
-		final Item elvenBoots = ItemFactory.getFactory().newItem(
-				Item.Type.ELVEN_BOOTS);
+		// Elven boots increases the champion's max load
+		final Item elvenBoots = ItemFactory.getFactory().newItem(Item.Type.ELVEN_BOOTS);
 
 		final Stat maxLoadBoost = tiggy.getStats().getMaxLoadBoost();
 		final float maxLoad1 = tiggy.getStats().getActualMaxLoad();
 		final float maxLoad2 = tiggy.getMaxLoad();
 
-		// --- Le boost doit valoir initialement 0
+		// --- The boost is initially zero
 		assertEquals(0, maxLoadBoost.value());
 
-		// --- Tiggy met les bottes, le boost augmente de +14
+		// --- When put on, the boots boost the max load by 14 points
 		tiggy.getBody().getFeet().putOn(elvenBoots);
 
 		assertEquals(+14, maxLoadBoost.value());
 		assertEquals(maxLoad1 + 14, tiggy.getStats().getActualMaxLoad(), 0.00001f);
 		assertEquals(maxLoad2 + 14, tiggy.getMaxLoad(), 0.00001f);
 
-		// --- Tiggy retire les bottes, le boost diminue de +14
+		// --- Taking off the boots cancel the boots' effect
 		final Item item = tiggy.getBody().getFeet().takeOff(true);
 
 		assertNotNull(item);
@@ -145,7 +141,6 @@ public class ItemTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

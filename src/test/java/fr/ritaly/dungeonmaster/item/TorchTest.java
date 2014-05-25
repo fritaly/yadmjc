@@ -40,24 +40,24 @@ public class TorchTest extends TestCase {
 
 		final Torch torch = new Torch();
 
-		// --- La torche est initialement �teinte et neuve
+		// --- The torch isn't initially burning
 		assertFalse(torch.isBurning());
 		assertEquals(Constants.MAX_LIGHT, torch.getLight());
 
-		// --- Le champion prend la torche en main, elle s'allume
-		// automatiquement
+		// --- Taking the torch automatically lights it
 		assertNull(tiggy.getBody().getWeaponHand().putOn(torch));
 		assertTrue(torch.isBurning());
 		assertEquals(Constants.MAX_LIGHT, torch.getLight());
 
-		// --- Laisser la torche se consumer (1 fois)
+		// --- Let the torch burn (wait at least 4 ticks)
 		Clock.getInstance().tick(4);
 
+		// Check that the torch actually burnt
 		assertTrue(torch.isBurning());
 		assertTrue(torch.getLight() < Constants.MAX_LIGHT);
 		assertEquals(Constants.MAX_LIGHT - 1, torch.getLight());
 
-		// --- Le champion l�che la torche, elle s'�teint automatiquement
+		// --- Releasing the torch automatically puts it off
 		final Item removed = tiggy.getBody().getWeaponHand().takeOff();
 
 		assertNotNull(removed);
@@ -67,49 +67,35 @@ public class TorchTest extends TestCase {
 	}
 
 	public void testTorchCanOnlyBeWornByRelevantBodyParts() {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		final Body body = tiggy.getBody();
 		final Torch torch = new Torch();
 
-		// --- Mettre la torche sur la t�te (doit �chouer)
+		// --- Can't put the torch on the head, neck, torso, legs or feets
 		assertEquals(torch, body.getHead().putOn(torch));
-
-		// --- Mettre la torche sur le cou (doit �chouer)
 		assertEquals(torch, body.getNeck().putOn(torch));
-
-		// --- Mettre la torche sur le torse (doit �chouer)
 		assertEquals(torch, body.getTorso().putOn(torch));
-
-		// --- Mettre la torche sur les jambes (doit �chouer)
 		assertEquals(torch, body.getLegs().putOn(torch));
-
-		// --- Mettre la torche sur les pieds (doit �chouer)
 		assertEquals(torch, body.getFeet().putOn(torch));
 
-		// --- Mettre la torche dans une main (doit r�ussir)
+		// --- Can take the torch in the both hands
 		assertNull(body.getShieldHand().putOn(torch));
-
-		// --- Retirer la torche de la main qui le tient (doit r�ussir)
 		assertEquals(torch, body.getShieldHand().takeOff());
 
-		// --- Mettre la torche dans l'autre main (doit r�ussir)
 		assertNull(body.getWeaponHand().putOn(torch));
 
-		// --- On ne peut mettre dans l'autre main la torche si elle est d�j�
-		// port�e
 		try {
+			// --- The same torch can't be held in both hands
 			body.getShieldHand().putOn(torch);
 			fail();
 		} catch (RuntimeException e) {
 			// OK
 		}
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

@@ -77,8 +77,7 @@ public class RopeTest extends TestCase {
 
 		final MiscItem rope = new MiscItem(Item.Type.ROPE);
 
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 		tiggy.getBody().getWeaponHand().putOn(rope);
 
 		final Party party = new Party();
@@ -86,10 +85,10 @@ public class RopeTest extends TestCase {
 
 		dungeon.setParty(new Position(2, 2, 1), party);
 
-		// --- Situation initiale
+		// --- Check the initial setup
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe ne peut descendre que s'il fait face � l'oubliette !
+		// --- The party can only use the rope if facing the pit
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 
@@ -101,7 +100,7 @@ public class RopeTest extends TestCase {
 		assertEquals(Direction.SOUTH, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 
-		// --- Le groupe descend � travers l'oubliette � l'aide de la corde
+		// --- The party uses the rope to go downstairs through the pit
 		final int health = tiggy.getStats().getHealth().value();
 
 		assertTrue(dungeon.moveParty(Move.TURN_LEFT, true, AudioClip.STEP));
@@ -110,8 +109,7 @@ public class RopeTest extends TestCase {
 
 		assertEquals(new Position(3, 2, 2), dungeon.getParty().getPosition());
 
-		// La sant� du champion ne doit pas avoir diminu� pour bien diff�rencier
-		// du cas de la chute !!
+		// Since the champion didn't fall, its health must be the same
 		assertEquals(health, tiggy.getStats().getHealth().value());
 	}
 
@@ -151,8 +149,7 @@ public class RopeTest extends TestCase {
 
 		final MiscItem rope = new MiscItem(Item.Type.ROPE);
 
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 		tiggy.getBody().getWeaponHand().putOn(rope);
 
 		final Party party = new Party();
@@ -160,10 +157,10 @@ public class RopeTest extends TestCase {
 
 		dungeon.setParty(new Position(2, 2, 1), party);
 
-		// --- Situation initiale
+		// --- Check the initial setup
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe ne peut pas descendre � travers une fausse oubliette !
+		// --- The party can't use the rope when facing a fake pit
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 
@@ -218,8 +215,7 @@ public class RopeTest extends TestCase {
 
 		final MiscItem rope = new MiscItem(Item.Type.ROPE);
 
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 		tiggy.getBody().getWeaponHand().putOn(rope);
 
 		final Party party = new Party();
@@ -227,10 +223,10 @@ public class RopeTest extends TestCase {
 
 		dungeon.setParty(new Position(2, 2, 1), party);
 
-		// --- Situation initiale
+		// --- Check the initial setup
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe ne peut pas descendre � travers une oubliette ferm�e !
+		// --- The party can't go downstairs through a closed pit
 		assertEquals(Direction.NORTH, party.getLookDirection());
 		assertFalse(rope.perform(Action.CLIMB_DOWN));
 
@@ -301,8 +297,7 @@ public class RopeTest extends TestCase {
 
 		final MiscItem rope = new MiscItem(Item.Type.ROPE);
 
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 		tiggy.getBody().getWeaponHand().putOn(rope);
 
 		final Party party = new Party();
@@ -310,10 +305,10 @@ public class RopeTest extends TestCase {
 
 		dungeon.setParty(new Position(2, 2, 1), party);
 
-		// --- Situation initiale
+		// --- Check the initial setup
 		assertEquals(new Position(2, 2, 1), dungeon.getParty().getPosition());
 
-		// --- Le groupe descend � travers l'oubliette � l'aide de la corde
+		// --- The party goes downstairs through the open pit
 		final int health = tiggy.getStats().getHealth().value();
 
 		assertEquals(Direction.NORTH, party.getLookDirection());
@@ -321,17 +316,15 @@ public class RopeTest extends TestCase {
 		assertEquals(Direction.EAST, party.getLookDirection());
 		assertTrue(rope.perform(Action.CLIMB_DOWN));
 
-		// Le groupe atterrit au troisi�me niveau
+		// The party ends on the third floor (since 2 pits were stacked)
 		assertEquals(new Position(3, 2, 3), dungeon.getParty().getPosition());
 
-		// La sant� du champion ne doit pas avoir diminu� pour bien diff�rencier
-		// du cas de la chute !!
+		// Since the champion didn't fall, its health must be the same
 		assertEquals(health, tiggy.getStats().getHealth().value());
 	}
 
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

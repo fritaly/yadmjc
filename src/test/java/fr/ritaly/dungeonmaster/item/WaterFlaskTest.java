@@ -34,25 +34,23 @@ public class WaterFlaskTest extends TestCase {
 	}
 
 	public void testChampionDrinksWaterFlask() {
-		final Champion tiggy = ChampionFactory.getFactory().newChampion(
-				Name.TIGGY);
+		final Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		final WaterFlask waterFlask = new WaterFlask();
 
-		// --- Flasque remplie
+		// --- The water flask is initially full
 		assertEquals(0.4f, waterFlask.getWeight(), 0.0001f);
 
-		// --- Tiggy boit la fiole
+		// --- Tiggy drinks once from the flask
 		final Item emptyFlask = tiggy.consume(waterFlask);
 
-		// --- On r�cup�re une fiole vide
+		// --- The flask turned into an empty flask
 		assertNotNull(emptyFlask);
 		assertEquals(0.1f, emptyFlask.getWeight(), 0.0001f);
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

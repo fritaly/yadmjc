@@ -34,35 +34,35 @@ public class IllumuletTest extends TestCase {
 		super(name);
 	}
 
+	// The illumlet is a special neck lace which generates light
+
 	public void testIllumulet() {
 		Champion tiggy = ChampionFactory.getFactory().newChampion(Name.TIGGY);
 
 		Party party = new Party();
 		party.addChampion(tiggy);
 
-		final Item illumulet = ItemFactory.getFactory().newItem(
-				Item.Type.ILLUMULET);
+		final Item illumulet = ItemFactory.getFactory().newItem(Item.Type.ILLUMULET);
 
-		// --- Pas de lumière initialement
+		// --- There's no light initially
 		assertEquals(0, tiggy.getLight());
 
-		// --- L'immumulet ne s'allume pas dans la main
+		// --- The illumlet doesn't work when grabbed
 		assertNull(tiggy.getBody().getWeaponHand().putOn(illumulet));
 		assertEquals(0, tiggy.getLight());
 
-		// --- L'immumulet s'allume uniquement quand on la porte au cou
+		// --- The illumlet only works when worn as a neck lace
 		assertEquals(illumulet, tiggy.getBody().getWeaponHand().takeOff());
 		assertNull(tiggy.getBody().getNeck().putOn(illumulet));
 		assertTrue(tiggy.getLight() > 0);
 
-		// --- L'immumulet s'allume uniquement quand on la porte au cou
+		// --- The illumlet stops working when no longer worn
 		assertEquals(illumulet, tiggy.getBody().getNeck().takeOff());
 		assertEquals(0, tiggy.getLight());
 	}
-	
+
 	@Override
 	protected void setUp() throws Exception {
-		// On nettoie l'horloge entre deux tests
 		Clock.getInstance().reset();
 	}
 }

@@ -28,8 +28,8 @@ import fr.ritaly.dungeonmaster.champion.Party;
 import fr.ritaly.dungeonmaster.map.Element;
 
 /**
- * A sector is similar to a {@link Location} except that a sector is an
- * absolute coordinate.
+ * A sector is similar to a {@link Location} except that a sector is an absolute
+ * coordinate (that is, it doesn't depend on the looking direction).
  *
  * @author <a href="mailto:francois.ritaly@gmail.com">Francois RITALY</a>
  */
