@@ -50,21 +50,20 @@ public class Utils {
 	}
 
 	/**
-	 * Borne la valeur donn�e dans l'intervalle d�fini par les valeurs min et
-	 * max donn�es.
+	 * Returns the given value within the range defined by the min and max
+	 * provided values.
 	 *
 	 * @param value
-	 *            la valeur � borner.
+	 *            the value to bind.
 	 * @param min
-	 *            la borne min de l'intervalle de valeur autoris�.
+	 *            the lower bound of the binding range.
 	 * @param max
-	 *            la borne max de l'intervalle de valeur autoris�.
-	 * @return la valeur born�e.
+	 *            the higher bound of the binding range.
+	 * @return the value inside the range.
 	 */
 	public static int bind(int value, int min, int max) {
 		if (min >= max) {
-			throw new IllegalArgumentException("The given min <" + min
-					+ "> must be greater than the max <" + max + ">");
+			throw new IllegalArgumentException(String.format("The given min %d must be greater than the max %d", min, max));
 		}
 
 		if (value < min) {
@@ -74,7 +73,7 @@ public class Utils {
 			return max;
 		}
 
-		// Valeur d�j� dans l'intervalle
+		// The value is already inside [min, max]
 		return value;
 	}
 
@@ -128,9 +127,7 @@ public class Utils {
 	}
 
 	// TODO
-	public static double angle(Direction direction, int x1, int y1, int x2,
-			int y2) {
-
+	public static double angle(Direction direction, int x1, int y1, int x2, int y2) {
 		final double angle = angle(x1, y1, x2, y2);
 
 		switch (direction) {
