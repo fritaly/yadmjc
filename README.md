@@ -1,6 +1,8 @@
 yadmjc
 ======
 
+[![Build Status](https://travis-ci.org/fritaly/yadmjc.svg?branch=master)](https://travis-ci.org/fritaly/yadmjc)
+
 "Yet Another Dungeon Master Java Clone" is  Java clone of the famous RPG game "Dungeon Master".
 
 Contrary to existing clones, I didn't write this project to fully reimplement the original game, Alan Berfield successfully did that (in Java) some years ago. I've always wanted to develop a video game (being myself a hard core gamer, an old fan of Dungeon Master and a J2EE developer in my professional career).
