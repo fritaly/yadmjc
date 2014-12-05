@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javanet.staxutils.IndentingXMLStreamWriter;
+
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
@@ -41,8 +43,6 @@ import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 
 import fr.ritaly.dungeonmaster.Skill;
 import fr.ritaly.dungeonmaster.champion.Champion;
