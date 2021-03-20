@@ -1,7 +1,7 @@
 yadmjc
 ======
 
-[![Build Status](https://travis-ci.org/fritaly/yadmjc.svg?branch=master)](https://travis-ci.org/fritaly/yadmjc)
+[![Java CI with Gradle](https://github.com/fritaly/yadmjc/actions/workflows/gradle.yml/badge.svg)](https://github.com/fritaly/yadmjc/actions/workflows/gradle.yml)
 
 "Yet Another Dungeon Master Java Clone" is  Java clone of the famous RPG game "Dungeon Master".
 
